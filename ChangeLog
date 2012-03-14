@@ -1,0 +1,59 @@
+* News in 1.0
+
+
+2012-01-08 Shaohui Hou <houshao55@gmail.com>
+	
+	* Add pixel to RGB
+	* Add drawMagnifier with cairo
+
+
+2012-01-06 Shaohui Hou <houshao55@gmail.com>
+
+	* Part of the code refactoring
+	* Fixes Several bug
+	* Add color select
+
+2011-12-29 Shaohui Hou <houshao55@gmail.com>
+	* Add delay taking the shot.
+	* Add command arguments
+	* repair a bug of locale 
+
+2011-12-27 Shaohui Hou <houshao55@gmail.com>
+	* Add logo
+	* Modify cursor
+
+2011-12-26 Shaohui Hou <houshao55@gmail.com>
+	* Fixed window recognition bugs
+	* Add multinaltional language
+	* Add tool tip
+	* Add complete tip
+
+2011-12-22 Shaohui Hou <houshao55@gmail.com>
+	* Temporarily remove the text function
+	* Add Double-click save function
+	* Repair `undo` function of the two bugs
+
+2011-12-18 Shaohui Hou <houshao55@gmail.com>
+	* Add window recognition feature
+	* Change deepinScrot.py to mainscrot.py of in order to add more features
+	* New a 'deepinScrot.py' file as the master
+
+2011-11-22 Yong Wang <lazycat.manatee@gmail.com>
+	* Adjust names, and apply Zhang Cheng's patch, thanks!
+	* Add keymap.py, use `getKeyEventName` to handle key event in `key-press-event' signal.
+	* Use option gtk.FILE_CHOOSER_ACTION_SAVE fix dialog path problem.
+	* Change gtk.STOCK_OPEN to gtk.STOCK_SAVE.
+	* Add comment and new function `getScreenSize`.
+
+2011-10-23 Yong Wang <lazycat.manatee@gmail.com>
+	* Add new action: rectangle, ellipse, arrow, line.
+	* Add text action.
+	* Finish undo function.
+	* Finish save features.
+
+2011-10-21 Yong Wang <lazycat.manatee@gmail.com>
+	* Finish basic select action.
+	* Refactory code.
+
+2011-10-21 Yong Wang <lazycat.manatee@gmail.com>
+	* Create

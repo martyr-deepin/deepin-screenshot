@@ -1,0 +1,40 @@
+Format: http://dep.debian.net/deps/dep5/
+Upstream-Name: deepin-scrot
+Upstream-Contact: Yong Wang <lazycat.manatee@gmail.com>
+                  Shaohui Hou <houshaohui@linuxdeepin.com>
+Source: http://github.com/lovesnow/deepin-scrot
+
+License: LGPL-3+
+ This is free software; you can redistribute it and/or modify it
+ under the terms of the GNU Lesser General Public License as published by the
+ Free Software Foundation; either version 3 of the License, or (at your
+ option) any later version.
+ .
+ This library is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License
+ for more details.
+ .
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the
+ Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ 02110-1301  USA.
+ .
+ See /usr/share/common-licenses/LGPL-3 on your debian system.
+
+Files: src/*
+Copyright: 2011 Deepin, Inc.
+	   2011 Yong Wang <lazycat.manatee@gmail.com>
+	   2011 Shaohui Hou <houshaohui@linuxdeepin.com>
+	   2011 Cheng Zhang <zhangcheng@linuxdeepin.com>
+License: LGPL-3+
+
+Files: theme/*
+Copyright: 2011 Deepin, Inc.
+	   2011 Can Yang <yangcan@linuxdeepin.com>
+License: LGPL-3+
+
+Files: debian/*
+Copyright: 2011 Deepin, Inc.
+           2011 Zhang Cheng <zhangcheng@linuxdeepin.com>
+License: LGPL-3+

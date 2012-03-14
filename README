@@ -1,0 +1,9 @@
+Snapshot tools for linux deepin.
+
+* First generate mo files.
+  Swith `deepin-scrot` directory to execute updateTranslate.sh like below:
+      ./updateTranslate.sh
+
+* Quick start:
+  Switch `src` directory to execute deepinScrot.py like below command:
+      cd ./src && ./deepinScrot.py

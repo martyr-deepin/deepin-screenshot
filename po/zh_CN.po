@@ -1,0 +1,51 @@
+# Deepin scrot tool.
+# Copyright (C) 2011 Deepin, Inc.
+# Hou Shaohui <houshao55@gmail.com>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: deepin-scrot\n"
+"POT-Creation-Date: 2011-12-26 17:17+CST\n"
+"PO-Revision-Date: 2011-12-26 17:18+CST\n"
+"Last-Translator: Hou Shaohui <houshao55@gmail.com>\n"
+"Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+msgid "Tip Drag"
+msgstr "拖动可自由选区"
+
+msgid "Tip save to clipboard"
+msgstr "图片已保存到剪辑板"
+
+msgid "Tip save to file"
+msgstr "图片已保存到文件"
+
+msgid "Tip draw rectangle"
+msgstr "矩形工具"
+
+msgid "Tip draw ellipse"
+msgstr "椭圆工具"
+
+msgid "Tip draw arrow"
+msgstr "箭头工具"
+
+msgid "Tip draw line"
+msgstr "线条工具"
+
+msgid "Tip draw Text"
+msgstr "文本工具"
+
+msgid "Tip undo"
+msgstr "撤销编辑"
+
+msgid "Tip save"
+msgstr "保存到文件"
+
+msgid "Tip cancel"
+msgstr "退出截图"
+
+msgid "Tip finish"
+msgstr "保存到剪辑板"

@@ -1,0 +1,42 @@
+deepin-scrot (1.0.2) oneiric; urgency=low
+
+  * Fix bug
+    - don't show window in taskbar for tool tip
+
+ -- Zhang Cheng <zhangcheng@linuxdeepin.com>  Fri, 30 Dec 2011 10:47:23 +0800
+
+deepin-scrot (1.0.1) oneiric; urgency=low
+
+  * Fix bug
+    - won't work when started with no window opened
+
+ -- Zhang Cheng <zhangcheng@linuxdeepin.com>  Fri, 30 Dec 2011 08:56:04 +0800
+
+deepin-scrot (1.0.0) oneiric; urgency=low
+
+  * Release 1.0
+
+ -- Zhang Cheng <zhangcheng@linuxdeepin.com>  Thu, 29 Dec 2011 16:35:41 +0800
+
+deepin-scrot (0.9) oneiric; urgency=low
+
+  * RC release
+
+ -- Zhang Cheng <zhangcheng@linuxdeepin.com>  Fri, 23 Dec 2011 20:31:11 +0800
+
+deepin-scrot (0.2-1) oneiric; urgency=low
+
+  * Add fullscreen screenshot mode
+  * Add some keybindings 
+    * q, esc   - cancle and quit
+    * s        - save to file
+    * Enter    - copy to clipboard
+    * ctrl-z   - undo
+
+ -- Zhang Cheng <zhangcheng@linuxdeepin.com>  Tue, 22 Nov 2011 18:14:34 +0800
+
+deepin-scrot (0.1-1) oneiric; urgency=low
+
+  * Initial release 
+
+ -- Zhang Cheng <zhangcheng@linuxdeepin.com>  Tue, 22 Nov 2011 11:27:14 +0800
