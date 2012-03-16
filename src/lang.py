@@ -29,10 +29,11 @@ DEFAULT_LANG = None
 #DEFAULT_LANG = "default"
 #DEFAULT_LANG = "zh_CN"
 #DEFAULT_LANG = "zh_TW"
+#DEFAULT_LANG = "ru_RU"
 
 if DEFAULT_LANG == None:
     (lang, _) = locale.getdefaultlocale()
-    if lang in ["zh_CN", "zh_TW"]:
+    if lang in ["zh_CN", "zh_TW", "ru_RU"]:
         __ = gettext.translation('deepin-scrot', '../locale', languages=[lang]).gettext
     else:
         __ = gettext.translation('deepin-scrot', '../locale', languages=["default"]).gettext
