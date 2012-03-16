@@ -45,7 +45,7 @@ import subprocess
 
 pygtk.require('2.0')
 
-class MainScrot:
+class DeepinScreenshot(object):
     '''Main scrot.'''
 	
     def __init__(self, save_file=""):

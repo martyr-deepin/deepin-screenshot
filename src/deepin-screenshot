@@ -30,4 +30,4 @@ while [[ -L "$REALNAME" ]]; do
 	|| REALNAME="$(dirname $REALNAME)/$LINKNAME"
 done
 
-cd $(dirname $REALNAME) && ./deepinScrot.py $@
+cd $(dirname $REALNAME) && ./screenshot.py $@

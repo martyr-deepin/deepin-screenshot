@@ -6,4 +6,4 @@ Snapshot tools for linux deepin.
 
 * Quick start:
   Switch `src` directory to execute deepinScrot.py like below command:
-      cd ./src && ./deepinScrot.py
+      cd ./src && ./screenshot.py

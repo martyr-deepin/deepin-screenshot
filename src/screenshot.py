@@ -21,7 +21,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import gtk, os, sys, time
-from mainscrot import MainScrot
+from main import DeepinScreenshot
 from window import getScrotPixbuf
 from optparse import OptionParser
 from tipswindow import countdownWindow
@@ -104,7 +104,7 @@ def processArguments():
         else:    
             if options.delay:
                 countdownWindow(options.delay)
-            MainScrot(options.save_file)
+            DeepinScreenshot(options.save_file)
     elif options.fullscreen:
         if options.delay:
             countdownWindow(options.delay)
@@ -119,9 +119,9 @@ def processArguments():
             openFileDialog(False)
     elif options.fullscreen and options.window or options.delay:
         countdownWindow(options.delay)
-        MainScrot()
+        DeepinScreenshot()
     else:
-         MainScrot()
+         DeepinScreenshot()
         
         
 
