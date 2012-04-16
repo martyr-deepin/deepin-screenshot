@@ -1,10 +1,10 @@
-# Deepin scrot tool.
+# Deepin screenshot tool.
 # Copyright (C) 2011 Deepin, Inc.
 # Hou Shaohui <houshao55@gmail.com>, 2011.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: deepin-scrot\n"
+"Project-Id-Version: deepin-screenshot\n"
 "POT-Creation-Date: 2011-12-26 17:17+CST\n"
 "PO-Revision-Date: 2011-12-26 17:18+CST\n"
 "Last-Translator: Hou Shaohui <houshao55@gmail.com>\n"

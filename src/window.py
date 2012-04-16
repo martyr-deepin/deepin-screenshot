@@ -158,17 +158,17 @@ def convertCoord(x, y, width, height):
         return (x, 0, width - (xWidth - screenWidth), yHeight) 
     return (x, y, width, height)
 
-def getScrotWindowInfo():
+def getScreenshotWindowInfo():
     ''' return (x, y, width, height) '''
     coordInfo = namedtuple('coord', 'x y width height')
-    scrotWindowInfo = []
-    scrotWindowInfo.append(coordInfo(0, 0, screenWidth, screenHeight))
+    screenshotWindowInfo = []
+    screenshotWindowInfo.append(coordInfo(0, 0, screenWidth, screenHeight))
     for eachWindow in filterWindow():
         (x, y, width, height) = getWindowCoord(eachWindow)
-        scrotWindowInfo.append(coordInfo(*convertCoord(x, y, width, height)))
-    return scrotWindowInfo
+        screenshotWindowInfo.append(coordInfo(*convertCoord(x, y, width, height)))
+    return screenshotWindowInfo
 
-def getScrotPixbuf(fullscreen=True):
+def getScreenshotPixbuf(fullscreen=True):
     ''' save snapshot to file with filetype. '''
     rootWindow = gtk.gdk.get_default_root_window() 
     if not fullscreen:

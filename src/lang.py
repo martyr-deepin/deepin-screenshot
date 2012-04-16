@@ -34,11 +34,11 @@ DEFAULT_LANG = None
 if DEFAULT_LANG == None:
     (lang, _) = locale.getdefaultlocale()
     if lang in ["zh_CN", "zh_TW", "ru_RU"]:
-        __ = gettext.translation('deepin-scrot', '../locale', languages=[lang]).gettext
+        __ = gettext.translation('deepin-screenshot', '../locale', languages=[lang]).gettext
     else:
-        __ = gettext.translation('deepin-scrot', '../locale', languages=["default"]).gettext
+        __ = gettext.translation('deepin-screenshot', '../locale', languages=["default"]).gettext
 
 else:
-    __ = gettext.translation('deepin-scrot', '../locale', languages=[DEFAULT_LANG]).gettext
+    __ = gettext.translation('deepin-screenshot', '../locale', languages=[DEFAULT_LANG]).gettext
 
 

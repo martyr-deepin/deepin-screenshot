@@ -46,10 +46,10 @@ import subprocess
 pygtk.require('2.0')
 
 class DeepinScreenshot(object):
-    '''Main scrot.'''
+    '''Main screenshot.'''
 	
     def __init__(self, save_file=""):
-        '''Init Main scrot.'''
+        '''Init Main screenshot.'''
 
         # Init.
         self.action = ACTION_WINDOW
@@ -80,7 +80,7 @@ class DeepinScreenshot(object):
         self.fontName = "Sans 10"
         
         # default window 
-        self.scrotWindowInfo = getScrotWindowInfo()
+        self.screenshotWindowInfo = getScreenshotWindowInfo()
         self.windowFlag = True
 
         # keybinding map
@@ -103,7 +103,7 @@ class DeepinScreenshot(object):
         # Init window.
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         self.window.fullscreen()
-        self.window.set_icon_from_file("../theme/logo/deepin-scrot.ico")
+        self.window.set_icon_from_file("../theme/logo/deepin-screenshot.ico")
         self.window.set_keep_above(True)
         
         # Init event handle.
@@ -809,7 +809,7 @@ class DeepinScreenshot(object):
             if self.windowFlag:
                 self.hideToolbar()
                 (wx, wy) = self.getEventCoord(event)
-                for eachCoord in self.scrotWindowInfo:
+                for eachCoord in self.screenshotWindowInfo:
                     if eachCoord.x < wx < (eachCoord.x + eachCoord.width) and eachCoord.y < wy < (eachCoord.y + eachCoord.height):
                         self.x = eachCoord.x
                         self.y = eachCoord.y
@@ -1335,4 +1335,4 @@ class DeepinScreenshot(object):
         (self.currentX, self.currentY) = widget.window.get_pointer()[:2] 
     
 if __name__ == "__main__":
-    MainScrot()
+    MainScreenshot()

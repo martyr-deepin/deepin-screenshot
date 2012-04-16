@@ -22,7 +22,7 @@
 
 import gtk, os, sys, time
 from main import DeepinScreenshot
-from window import getScrotPixbuf
+from window import getScreenshotPixbuf
 from optparse import OptionParser
 from tipswindow import countdownWindow
 from utils import makeMenuItem, getFormatTime, getPicturesDir, parserPath
@@ -32,7 +32,7 @@ saveFiletype = "png"
 
 def openFileDialog(fullscreen=True, filetype='png'):
     '''Save file to file.'''
-    pixbuf = getScrotPixbuf(fullscreen)
+    pixbuf = getScreenshotPixbuf(fullscreen)
     dialog = gtk.FileChooserDialog(
                                    "Save..",
                                    None,
@@ -79,7 +79,7 @@ def setSaveFiletype(widget, filetype):
 
 def processArguments():
     '''init processArguments '''
-    parser = OptionParser(usage="Usage: %prog [options] [arg]", version="%prog v1.0")
+    parser = OptionParser(usage="Usage: deepin-screenshot [options] [arg]", version="deepin-screenshot v2.1")
     parser.add_option("-f", "--full", action="store_true", dest="fullscreen", help="Taking the fullscreen shot")
     parser.add_option("-w", "--window", action="store_true", dest="window", help="Taking the currently focused window")
     parser.add_option("-d", "--delay", dest="delay", type="int", help="wait NUM seconds before taking a shot", metavar="NUM")
@@ -94,12 +94,12 @@ def processArguments():
         if options.fullscreen:
             if options.delay:
                 countdownWindow(options.delay)
-            pixbuf = getScrotPixbuf(True)
+            pixbuf = getScreenshotPixbuf(True)
             pixbuf.save(parserFile[0], parserFile[1])
         elif options.window:
             if options.delay:
                 countdownWindow(options.delay)
-            pixbuf = getScrotPixbuf(False)
+            pixbuf = getScreenshotPixbuf(False)
             pixbuf.save(parserFile[0], parserFile[1])
         else:    
             if options.delay:

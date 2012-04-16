@@ -11,8 +11,8 @@ for pofile in po/*.po; do
     lang=$(basename $pofile .po)
     dest="locale/$lang/LC_MESSAGES"
     [[ -e "$dest" ]] || mkdir -p "$dest"
-    echo "$pofile --> $dest/deepin-scrot.mo"
-    msgfmt $pofile -o "$dest/deepin-scrot.mo"
+    echo "$pofile --> $dest/deepin-screenshot.mo"
+    msgfmt $pofile -o "$dest/deepin-screenshot.mo"
 done
 
 ## locale hack
