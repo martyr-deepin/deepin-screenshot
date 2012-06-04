@@ -84,6 +84,15 @@ def processArguments():
     parser.add_option("-w", "--window", action="store_true", dest="window", help="Taking the currently focused window")
     parser.add_option("-d", "--delay", dest="delay", type="int", help="wait NUM seconds before taking a shot", metavar="NUM")
     parser.add_option("-s", "--save", dest="save_file", help="save screenshot to FILE", metavar="FILE")
+    parser.add_option("-a", "--area", help="Grab an area of the screen instead of the entire screen", action="store_true")
+    parser.add_option("-e", "--border-effect", action="store_true", dest="border_effect", help="Effect to add to the border")
+    parser.add_option("-i", "--interactive", action="store_true" ,help="Interactively set options")
+    parser.add_option("-b", "--include-border", action="store_true" ,help="Include the window border with the screenshot")
+    parser.add_option("-B", "--remove-border", action="store_true" ,help="Remove the window border from the screenshot")
+    parser.add_option("-c", "--clipboard", help="Send the grab directly to the clipboard",  action="store_true")
+    parser.add_option("--display",  action="store_true")    
+    
+    
     
     (options, args) = parser.parse_args()
 
