@@ -177,20 +177,8 @@ class DeepinScreenshot(threading.Thread):
         '''thread run'''
         modifiers = {'C': 0, 'M': 0, 'S': 0}
         while not self._done:
-            #if self._show_color_dialog or self._show_font_dialog or self._show_file_dialog:
-                #if self._grab_pointer_flag:
-                    #self.dis.ungrab_pointer(X.CurrentTime)
-                    #self._grab_pointer_flag = False
-                    #print "ungrab-------------------------------------------"
-            #else:
-                #if not self._grab_pointer_flag:
-                    #self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask|X.EnterWindowMask|X.LeaveWindowMask,
-                        #X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
-                    #sefl._grab_pointer_flag = True
-                    #print "grab---------------------------------------------"
             e = self.dis.next_event()
             if e.type == X.KeyPress:
-                #print e
                 if e.detail == 9:       # 按Esc退出
                     gtk.gdk.threads_enter()
                     self.window.destroy()
@@ -209,20 +197,10 @@ class DeepinScreenshot(threading.Thread):
                 ev.keyval = int(self.dis.keycode_to_keysym(e.detail, 0))
                 ev.send_event = True
                 ev.time = e.time
-                #if e.child:
-                    #win = gtk.gdk.window_foreign_new(e.child.id)
-                #else:
-                    #win = gtk.gdk.window_foreign_new(e.window.id)
-                #if self.showTextWindowFlag:         # 输入文本
-                    #ev.window = self.textView.window
-                #elif self._show_color_dialog:
-                    #ev.window = self.colorDialog.window
-                #elif self._show_font_dialog:
-                    #ev.window = self.fontDialog.window
-                ##elif self._show_file_dialog:
-                    ##ev.window = 
-                #else:
-                ev.window = self.window.window
+                if self.showTextWindowFlag:         # 输入文本
+                    ev.window = self.textView.window
+                else:
+                    ev.window = self.window.window
                 ev.hardware_keycode = e.detail
                 ev.state = 0 | modifiers['C'] | modifiers['M'] | modifiers['S']
                 ev.put()
@@ -237,44 +215,20 @@ class DeepinScreenshot(threading.Thread):
                     modifiers['S'] = 0
                     continue
             if e.type == X.MotionNotify:
-                #pointer = self.root.query_pointer()
-                #if self.showToolbarFlag:
-                    #if self.toolbarWindow.window == gtk.gdk.window_foreign_new(pointer.child.id) and self._grab_pointer_flag:
-                        #self.dis.ungrab_pointer(X.CurrentTime)
-                        #self._grab_pointer_flag = False
-                        #print "on toolbar window"
-                    #if self.toolbarWindow.window != gtk.gdk.window_foreign_new(pointer.child.id) and not self._grab_pointer_flag:
-                        #print "out toolbar window"
-                        #self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask,  
-                            #X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
-                        #self._grab_pointer_flag = True
-
-                #event = self.get_event_coord(e)
-                #for position in self._toolbar_button_position:      # 判断鼠标是否在按钮上
-                    #if position[0] < event[0] < position[0]+position[2] and position[1] < event[1] < position[3]:
-                        #print "on button", index, self._toolbar_button_list[index]
-                        #is_button = True
-                        ##ev.x = float(event[0])
-                        ##ev.y = float(event[1])
-                        ###print event[2].query_tree()
-                        ###ev.window = gtk.gdk.window_foreign_new(event[2].id)
-                        ##ev.window = self._toolbar_button_list[index].window
-                        #break
-                    #index += 1
-
-                #if self.showToolbarFlag:
-                    #event = self.get_event_coord(e)
-                    #if gtk.gdk.window_foreign_new(event[2].id) in self._toolbar_window_list:
-                        #index = 0
-                        #for position in self._toolbar_button_position:      # 判断鼠标是否在按钮上
-                            #if position[0] < event[0] < position[0]+position[2] and position[1] < event[1] < position[3]:
-                                ##print event
-                                ##print "on button", index, self._toolbar_button_list[index]
-                                #self._toolbar_button_list[index].set_state(gtk.STATE_PRELIGHT)
-                                ##print self._toolbar_button_list[index].state
-                            #elif self._toolbar_button_list[index].state != gtk.STATE_NORMAL:
-                                #self._toolbar_button_list[index].set_state(gtk.STATE_NORMAL)
-                            #index += 1
+                back = self._is_mouse_in_toolbar_window(e)
+                if back[0]:
+                    gtk.gdk.threads_enter()
+                    #self._toolbar_button_list[back[1]].emit("enter")
+                    self._toolbar_button_list[back[1]].set_state(gtk.STATE_PRELIGHT)
+                    gtk.gdk.threads_leave()
+                    #ev = gtk.gdk.Event(gtk.gdk.ENTER_NOTIFY)
+                    #ev.window = self._toolbar_button_list[back[1]].window
+                    #ev.time = e.time
+                    #ev.x = float(e.event_x)
+                    #ev.y = float(e.event_y)
+                    #ev.x_root = float(e.root_x)
+                    #ev.y_root = float(e.root_y)
+                    #self._toolbar_button_list[back[1]].event(ev)
 
                 ev = gtk.gdk.Event(gtk.gdk.MOTION_NOTIFY)
                 ev.window = self.window.window
@@ -296,11 +250,6 @@ class DeepinScreenshot(threading.Thread):
                 ev.send_event = True
                 ev.x_root = float(e.root_x)
                 ev.y_root = float(e.root_y)
-                #if self._show_color_dialog:
-                    #ev.window = self.colorDialog.window
-                #elif self._show_font_dialog:
-                    #ev.window = self.fontDialog.window
-                #else:
                 ev.window = self.window.window
                 #ev.window = gtk.gdk.window_foreign_new(e.window.id)
                 ev.x = float(e.event_x)
@@ -328,11 +277,6 @@ class DeepinScreenshot(threading.Thread):
                 ev.send_event = True
                 ev.x_root = float(e.root_x)
                 ev.y_root = float(e.root_y)
-                #if self._show_color_dialog:
-                    #ev.window = self.colorDialog.window
-                #elif self._show_font_dialog:
-                    #ev.window = self.fontDialog.window
-                #else:
                 ev.window = self.window.window
                 #ev.window = gtk.gdk.window_foreign_new(e.window.id)
                 ev.x = float(e.event_x)
@@ -1400,7 +1344,8 @@ class DeepinScreenshot(threading.Thread):
         #response = dialog.run()
         if response == gtk.RESPONSE_ACCEPT:
             filename = dialog.get_filename()
-            self.saveSnapshot(None, filename, self.saveFiletype)
+            dialog.hide()
+            self.saveSnapshot(dialog, filename, self.saveFiletype)
             print "Save snapshot to %s" % (filename)
         elif response == gtk.RESPONSE_REJECT:
             self.adjustToolbar()
@@ -1424,6 +1369,8 @@ class DeepinScreenshot(threading.Thread):
         # Init cairo.
         print "saveSap"
         print widget, filename, filetype
+        #while widget.window:
+            #time.sleep(0.001)
         cr = self.window.window.cairo_create()
         
         # Draw desktop background.
@@ -1437,24 +1384,41 @@ class DeepinScreenshot(threading.Thread):
             eachTextAction.expose(cr)
             
         # Get snapshot.
-        pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, int(self.rectWidth), int(self.rectHeight))
-        pixbuf.get_from_drawable(
-            self.window.get_window(), self.window.get_window().get_colormap(),
-            self.x, self.y,
-            0, 0,
-            int(self.rectWidth), int(self.rectHeight))
+        All_PLANE_MASK = 0xffffffff
+        win = self.dis.create_resource_object("window", self.window.window.xid)
+        x_image = win.get_image(self.x, self.y, self.rectWidth, self.rectHeight, X.ZPixmap, All_PLANE_MASK)
+        img = Image.fromstring("RGB", (int(self.rectWidth), int(self.rectHeight)), x_image.data, "raw", "BGRX")
+        print "get ximage"
+
+        f = StringIO.StringIO()
+        img.save(f, "ppm")
+        contents = f.getvalue()
+        f.close()
+        loader = gtk.gdk.PixbufLoader("pnm")
+        loader.write(contents, len(contents))
+        pixbuf = loader.get_pixbuf()
+        loader.close()
+        print "get pixbuf"
+
+        #pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, int(self.rectWidth), int(self.rectHeight))
+        #pixbuf.get_from_drawable(
+            #self.window.get_window(), self.window.get_window().get_colormap(),
+            #self.x, self.y,
+            #0, 0,
+            #int(self.rectWidth), int(self.rectHeight))
         
         # Save snapshot.
-        if filename == None:
-            # Save snapshot to clipboard if filename is None.
-            clipboard = gtk.clipboard_get()
-            clipboard.set_image(pixbuf)
-            clipboard.store()
-            tipContent = __("Tip save to clipboard")
-        else:
-            # Otherwise save to local file.
-            pixbuf.save(filename, filetype)
-            tipContent = __("Tip save to file")
+        #if filename == None:
+            ## Save snapshot to clipboard if filename is None.
+            #clipboard = gtk.clipboard_get()
+            #clipboard.set_image(pixbuf)
+            #clipboard.store()
+            #tipContent = __("Tip save to clipboard")
+        #else:
+            ## Otherwise save to local file.
+            #pixbuf.save(filename, filetype)
+            #tipContent = __("Tip save to file")
+        self.make_pic_file(self.desktopBackground.subpixbuf(self.x, self.y, self.rectWidth, self.rectHeight), filename)
             
         
 
@@ -1468,8 +1432,40 @@ class DeepinScreenshot(threading.Thread):
         self.window.destroy()
         
          # tipWindow
-        cmd = ('python', 'tipswindow.py', tipContent)
-        subprocess.Popen(cmd)
+        #cmd = ('python', 'tipswindow.py', tipContent)
+        #subprocess.Popen(cmd)
+
+    def make_pic_file(self, pixbuf, filename):
+        '''  '''
+        surface = cairo.ImageSurface(cairo.FORMAT_RGB24, pixbuf.get_width(), pixbuf.get_height())
+        cr = cairo.Context(surface)
+        gdkcr = gtk.gdk.CairoContext(cr)
+        gdkcr.set_source_pixbuf(pixbuf, 0, 0)
+        gdkcr.paint()
+
+        #surface = cairo.ImageSurface.create_from_png(pixbuf)
+        #cr = cairo.Context(surface)
+        # Draw action list.
+        for action in self.actionList:
+            if action is not None:
+                action.startX -= self.x
+                action.startY -= self.y
+                if not isinstance(action, (TextAction, EllipseAction)):
+                    action.endX -= self.x
+                    action.endY -= self.y
+                action.expose(cr)
+        
+        # Draw Text Action list.
+        for eachTextAction in self.textActionList:
+            if eachTextAction is not None:
+                eachTextAction.startX -= self.x
+                eachTextAction.startY -= self.y
+                if not isinstance(action, (TextAction, EllipseAction)):
+                    eachTextAction.endX -= self.x
+                    eachTextAction.endY -= self.y
+                eachTextAction.expose(cr)
+                self.textActionInfo[eachTextAction] = eachTextAction.getLayoutInfo()
+        surface.write_to_png(filename)
 
         
     def redraw(self, widget, event):
@@ -1620,11 +1616,11 @@ class DeepinScreenshot(threading.Thread):
     def getDesktopSnapshot(self):
         '''Get desktop snapshot.'''
         # 获取全屏截图
-        #rootWindow = gtk.gdk.get_default_root_window() 
-        #[self.width, self.height] = rootWindow.get_size() 
-        #pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, self.width, self.height)
-        #return pixbuf.get_from_drawable(rootWindow, rootWindow.get_colormap(), 0, 0, 0, 0, self.width, self.height) 
-        return getScreenshotPixbuf()
+        rootWindow = gtk.gdk.get_default_root_window() 
+        [self.width, self.height] = rootWindow.get_size() 
+        pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, self.width, self.height)
+        return pixbuf.get_from_drawable(rootWindow, rootWindow.get_colormap(), 0, 0, 0, 0, self.width, self.height) 
+        #return getScreenshotPixbuf()
         #geometry = self.root.get_geometry() 
         #(x, y, width, height, depth) = (geometry.x, geometry.y, geometry.width, geometry.height, geometry.depth)
     
