@@ -42,18 +42,52 @@ import pygtk
 import os
 import glib
 import subprocess
+import threading
 
 pygtk.require('2.0')
 
-class DeepinScreenshot(object):
+class DeepinScreenshot(threading.Thread):
     '''Main screenshot.'''
 	
     def __init__(self, save_file=""):
         '''Init Main screenshot.'''
+        # 创建一个全屏窗口并顶置，再创建工具条、颜色条、文本输入窗口
+        super(self.__class__, self).__init__()
 
         # Init.
+        self.dis = disp
+        self.root =rootWindow
+        #self.xwin = self.root.create_window(-1, -1, 1, 1, 0, disp.screen().root_depth,
+            #event_mask=(X.StructureNotifyMask | 
+                        #X.ButtonPressMask | 
+                        #X.ButtonReleaseMask | 
+                        #X.KeyPressMask | 
+                        #X.KeyReleaseMask
+                        #)
+            #)
+        #self.xwin.configure(stack_mode=X.Above)
+        #self.xwin.set_wm_name("Xlib test")
+        self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask|X.EnterWindowMask|X.LeaveWindowMask,
+            X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
+        self.root.grab_keyboard(1, X.GrabModeAsync, X.GrabModeAsync, X.CurrentTime) 
+        self.root.grab_key(X.AnyKey, X.AnyModifier, True, X.GrabModeAsync, X.GrabModeAsync)
+        self._last_button_press_time = 0        # 上次鼠标按下的时间
+        self._done = False                      
+        self._toolbar_button_position = []      # 工具条按钮坐标
+        self._toolbar_button_list = []
+        self._colorbar_button_position = []     # 颜色条按钮坐标
+        self._colorbar_button_list = []
+        self._grab_pointer_flag = True
+        self._show_file_dialog = False
+        self._show_font_dialog = False
+        self._show_color_dialog = False
+        self._colorbar_button_current = None
+        self._toolbar_button_current = None
+
         self.action = ACTION_WINDOW
-        self.width = self.height = 0
+        #self.width = self.height = 0
+        self.width = screenWidth
+        self.height = screenHeight
         self.x = self.y = self.rectWidth = self.rectHeight = 0
         self.buttonToggle = None
         
@@ -80,7 +114,7 @@ class DeepinScreenshot(object):
         self.fontName = "Sans 10"
         
         # default window 
-        self.screenshotWindowInfo = getScreenshotWindowInfo()
+        self.screenshotWindowInfo = getScreenshotWindowInfo()   # 获取窗口的x,y 长，宽
         self.windowFlag = True
 
         # keybinding map
@@ -98,9 +132,10 @@ class DeepinScreenshot(object):
 
         
         # Get desktop background.
-        self.desktopBackground = self.getDesktopSnapshot() 
+        self.desktopBackground = self.getDesktopSnapshot()      # 获取全屏截图
         
         # Init window.
+        # 创建一个全屏窗口并顶置
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         self.window.fullscreen()
         self.window.set_icon_from_file("../theme/logo/deepin-screenshot.ico")
@@ -112,7 +147,7 @@ class DeepinScreenshot(object):
         self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
         self.window.add_events(gtk.gdk.BUTTON_RELEASE_MASK)
         self.window.connect("destroy", self.destroy)
-        self.window.connect("expose-event", lambda w, e: self.getCurrentCoord(w))
+        self.window.connect("expose-event", lambda w, e: self.getCurrentCoord(w))   # 获取当前坐标
         self.window.connect("expose-event", self.redraw)
         self.window.connect("button-press-event", self.buttonPress)
         
@@ -138,12 +173,297 @@ class DeepinScreenshot(object):
        
         # Show.
         self.window.show_all()
+        #self.xwin.map()
         
-        gtk.main()
-        
+    def run(self):
+        '''thread run'''
+        modifiers = {'C': 0, 'M': 0, 'S': 0}
+        while not self._done:
+            e = self.dis.next_event()
+            if e.type == X.KeyPress:
+                if e.detail == 9:       # 按Esc退出
+                    gtk.gdk.threads_enter()
+                    self.window.destroy()
+                    gtk.gdk.threads_leave()
+                    break
+                if e.detail == 37 or e.detail == 105:   # Ctrl
+                    modifiers['C'] = gtk.gdk.CONTROL_MASK
+                    continue
+                if e.detail == 64 or e.detail == 108:   # Alt
+                    modifiers['M'] = gtk.gdk.MOD1_MASK
+                    continue
+                if e.detail == 50 or e.detail == 62:   # Shift
+                    modifiers['S'] = gtk.gdk.SHIFT_MASK
+                    continue
+                ev = gtk.gdk.Event(gtk.gdk.KEY_PRESS)
+                ev.keyval = int(self.dis.keycode_to_keysym(e.detail, 0))
+                ev.send_event = True
+                ev.time = e.time
+                if self.showTextWindowFlag:         # 输入文本
+                    ev.window = self.textView.window
+                else:
+                    ev.window = self.window.window
+                ev.hardware_keycode = e.detail
+                ev.state = 0 | modifiers['C'] | modifiers['M'] | modifiers['S']
+                ev.put()
+            if e.type == X.KeyRelease:
+                if e.detail == 37 or e.detail == 105:   # Ctrl
+                    modifiers['C'] = 0
+                    continue
+                if e.detail == 64 or e.detail == 108:   # Alt
+                    modifiers['M'] = 0
+                    continue
+                if e.detail == 50 or e.detail == 62:   # Shift
+                    modifiers['S'] = 0
+                    continue
+            if e.type == X.MotionNotify:
+                back = self._is_mouse_in_toolbar_window(e)
+                if back[0]:
+                    gtk.gdk.threads_enter()
+                    #self._toolbar_button_list[back[1]].enter()
+                    ##self._toolbar_button_list[back[1]].set_state(gtk.STATE_PRELIGHT)
+                    ev = gtk.gdk.Event(gtk.gdk.ENTER_NOTIFY)
+                    ev.window = self._toolbar_button_list[back[1]].window
+                    ev.time = e.time
+                    ev_x, ev_y, w = self.get_event_coord(e)
+                    ##ev.x = float(e.event_x)
+                    ##ev.y = float(e.event_y)
+                    ev.x = float(ev_x)
+                    ev.y = float(ev_y)
+                    ev.x_root = float(e.root_x)
+                    ev.y_root = float(e.root_y)
+                    ev.state = gtk.gdk.MOD2_MASK
+                    ev.send_event = True
+                    self._toolbar_button_list[back[1]].event(ev)
+                    self._toolbar_button_list[back[1]].queue_draw()
+                    gtk.gdk.threads_leave()
+                    continue
+
+                back = self._is_mouse_in_colorbar_window(e)
+                if back[0]:
+                    gtk.gdk.threads_enter()
+                    #self._colorbar_buttons_list[back[1]].emit("enter")
+                    if self._colorbar_button_current:
+                        self._colorbar_button_current.set_state(gtk.STATE_NORMAL)
+                    self._colorbar_button_current = self._colorbar_buttons_list[back[1]]
+                    self._colorbar_buttons_list[back[1]].set_state(gtk.STATE_PRELIGHT)
+                    ev = gtk.gdk.Event(gtk.gdk.ENTER_NOTIFY)
+                    ev.window = self._colorbar_buttons_list[back[1]].window
+                    ev.time = e.time
+                    ev_x, ev_y, w = self.get_event_coord(e)
+                    ev.x = float(ev_x)
+                    ev.y = float(ev_y)
+                    ev.x_root = float(e.root_x)
+                    ev.y_root = float(e.root_y)
+                    ev.state = gtk.gdk.MOD2_MASK
+                    ev.send_event = True
+                    self._colorbar_buttons_list[back[1]].event(ev)
+                    self._colorbar_buttons_list[back[1]].queue_draw()
+                    gtk.gdk.threads_leave()
+                    continue
+
+                ev = gtk.gdk.Event(gtk.gdk.MOTION_NOTIFY)
+                ev.window = self.window.window
+                ev.time = e.time
+                ev.send_event = True
+                ev.x_root = float(e.root_x)
+                ev.y_root = float(e.root_y)
+                ev.x = float(e.event_x)
+                ev.y = float(e.event_y)
+                ev.put()
+            if e.type == X.ButtonPress:
+                if self._check_toolbar_button_pressed(e):
+                    continue
+                if self._check_colorbar_button_pressed(e):
+                    continue
+                ev = gtk.gdk.Event(gtk.gdk.BUTTON_PRESS)
+                ev.button = e.detail
+                ev.time = e.time
+                ev.send_event = True
+                ev.x_root = float(e.root_x)
+                ev.y_root = float(e.root_y)
+                ev.window = self.window.window
+                #ev.window = gtk.gdk.window_foreign_new(e.window.id)
+                ev.x = float(e.event_x)
+                ev.y = float(e.event_y)
+                ev.put()
+                if e.time-self._last_button_press_time < 500:
+                    ev = gtk.gdk.Event(gtk.gdk._2BUTTON_PRESS)
+                    ev.window = self.window.window
+                    ev.button = e.detail
+                    ev.time = e.time
+                    ev.send_event = True
+                    ev.x_root = float(e.root_x)
+                    ev.y_root = float(e.root_y)
+                    ev.x = float(e.event_x)
+                    ev.y = float(e.event_y)
+                    #ev.state = gtk.gdk.MOD2_MASK
+                    ev.put()
+                self._last_button_press_time = e.time
+            if e.type == X.ButtonRelease:
+                if self._check_toolbar_button_release(e):
+                    continue
+                ev = gtk.gdk.Event(gtk.gdk.BUTTON_RELEASE)
+                ev.button = e.detail
+                ev.time = e.time
+                ev.send_event = True
+                ev.x_root = float(e.root_x)
+                ev.y_root = float(e.root_y)
+                ev.window = self.window.window
+                #ev.window = gtk.gdk.window_foreign_new(e.window.id)
+                ev.x = float(e.event_x)
+                ev.y = float(e.event_y)
+                #ev.state = gtk.gdk.MOD2_MASK
+                ev.put()
     
-    def initColorWindow(self):
+
+    def _is_mouse_in_colorbar_window(self, e):
+        ''' judge the mouse is in color window '''
+        is_in = False
+        index = 0
+        if self.showColorbarFlag:
+            if e.child:
+                win = gtk.gdk.window_foreign_new(e.child.id)
+            else:
+                win = gtk.gdk.window_foreign_new(e.window.id)
+            if win == self.colorbarWindow.window:
+                event = self.get_event_coord(e)
+                for position in self._colorbar_button_position:      # 判断鼠标是否在按钮上
+                    if position[0] < event[0] < position[0]+position[2] and position[1] < event[1] < position[1]+position[3]:
+                        is_in= True
+                        break
+                    index += 1
+        return (is_in, index)
+    def _check_colorbar_button_pressed(self, e):
+        ''' '''
+        judge = self._is_mouse_in_colorbar_window(e)
+        if judge[0]:
+            gtk.gdk.threads_enter()
+            ev = gtk.gdk.Event(gtk.gdk.BUTTON_PRESS)
+            ev.window = self._colorbar_buttons_list[judge[1]].window
+            ev.send_event = True
+            ev.time = e.time
+            x, y = self.get_event_coord(e)[0:2]
+            ev.x = float(x)
+            ev.y = float(y)
+            ev.button = e.detail
+            ev.x_root = float(e.root_x)
+            ev.y_root = float(e.root_y)
+            self._colorbar_buttons_list[judge[1]].event(ev)
+            #self._colorbar_buttons_list[judge[1]].emit("pressed")
+            gtk.gdk.threads_leave()
+        return judge[0]
+
+    def _is_mouse_in_toolbar_window(self, e):
+        ''' judge the mouse is in toolbar window '''
+        is_in = False
+        index = 0
+        if self.showToolbarFlag:
+            if e.child:
+                win = gtk.gdk.window_foreign_new(e.child.id)
+            else:
+                win = gtk.gdk.window_foreign_new(e.window.id)
+            if win == self.toolbarWindow.window:
+                event = self.get_event_coord(e)
+                for position in self._toolbar_button_position:      # 判断鼠标是否在按钮上
+                    if position[0] < event[0] < position[0]+position[2] and position[1] < event[1] < position[1]+position[3]:
+                        is_in= True
+                        break
+                    index += 1
+        return (is_in, index)
+    def _check_toolbar_button_pressed(self, e):
+        ''' '''
+        self._toolbar_button_press_index = None
+        judge = self._is_mouse_in_toolbar_window(e)
+        if judge[0]:
+            self._toolbar_button_press_index = judge[1]
+            gtk.gdk.threads_enter()
+            self._toolbar_button_list[judge[1]].emit("pressed")
+            gtk.gdk.threads_leave()
+        return judge[0]
+    def _check_toolbar_button_release(self, e):
+        ''' '''
+        if self._toolbar_button_press_index is None:
+            return False
+        judge = self._is_mouse_in_toolbar_window(e)
+        if judge[0]:
+            if self._toolbar_button_press_index != judge[1]:
+                return False
+            gtk.gdk.threads_enter()
+            self._toolbar_button_list[judge[1]].emit("released")
+            self._toolbar_button_list[judge[1]].emit("clicked")
+            if isinstance(self._toolbar_button_list[judge[1]], gtk.ToggleButton):
+                self._toolbar_button_list[judge[1]].emit("toggled")
+            gtk.gdk.threads_leave()
+
+    def ungrab(self):
+        ''' ungrab xlib pointer a<F3>nd keyboard '''
+        self.dis.ungrab_pointer(X.CurrentTime)
+        self.dis.ungrab_keyboard(X.CurrentTime)
+        self.root.ungrab_key(X.AnyKey, X.AnyModifier)
+    def grab(self):
+        '''docstring for grab'''
+        self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask|X.EnterWindowMask|X.LeaveWindowMask,
+            X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
+        self.root.grab_keyboard(1, X.GrabModeAsync, X.GrabModeAsync, X.CurrentTime) 
+        self.root.grab_key(X.AnyKey, X.AnyModifier, True, X.GrabModeAsync, X.GrabModeAsync)
+
+    def _size_button_enter(self, widget, event, data=None):
+        '''   '''
+        print "in size button enter:", widget.state
+        print '-'*20
+    def _action_button_enter(self, widget, event, data=None):
+        '''  '''
+        #print "in enter:", widget.state
+        #if widget.state != gtk.STATE_PRELIGHT.real:
+            #widget.set_state(gtk.STATE_PRELIGHT)
+            #print "set_state"
+        #print "in enter:", widget.state 
+        #print "x,y  root x,y:", event.x, event.y, event.x_root, event.y_root
+        #print "state:", event.state
+        #print "mode:", event.mode
+        #print "detail:", event.detail
+        #print "-"*20
+        pass
+    def _action_button_leave(self, widget, data=None):
+        '''  '''
+        print "in leave:", widget.state, "\n"
+
+    def get_event_coord(self, e):
+        ''' get event coord in window '''
+        window = self.root
+        if e.child:
+            window = e.child
+            tree = e.child.query_tree()
+            child = tree.children
+            e_geometry = e.child.get_geometry()
+            child_geometry = None
+            if child:
+                child_geometry = child[0].get_geometry()
+            if child_geometry:
+                event_x = e.root_x - (e_geometry.x + child_geometry.x)
+                event_y = e.root_y - (e_geometry.y + child_geometry.y)
+            else:
+                event_x = e.root_x - e_geometry.x
+                event_y = e.root_y - e_geometry.y
+        else:   # e.child = 0
+            window = e.window
+            p = e.window.query_tree().parent
+            e_geometry = e.child.get_geometry()
+            parent_geometry = None
+            if p and p != self.root:
+                parent_geometry = p.get_geometry()
+            if parent_geometry:
+                event_x = e.root_x - (e_geometry.x + parent_geometry.x)
+                event_y = e.root_y - (e_geometry.y + parent_geometry.y)
+            else:
+                event_x = e.root_x - e_geometry.x
+                event_y = e.root_y - e_geometry.y
+        return (event_x, event_y, window)
+
+    def initColorWindow(self):  # 创建颜色选择栏
         ''' init ColorWindow'''
+        # 创建颜色选择栏
         paddingX = 5
         paddingY = 4
         iconWidth = iconHeight = 28
@@ -177,15 +497,18 @@ class DeepinScreenshot(object):
         self.colorbarWindow.connect("size-allocate", lambda w, a: updateShape(w, a, 2))
         self.colorbarWindow.connect('expose-event', lambda w,e: exposeBackground(w, e, appTheme.getDynamicPixbuf("color_bg.png")))
         
-    
+        # 选择画笔大小
         self.smallSizeButton = self.createSizeButton('small', 2)
         self.smallSizeButton.connect('button-press-event', lambda w, e: self.setIconIndex(2))
+        self._colorbar_button_list.append(self.smallSizeButton)
 
         self.normalSizeButton = self.createSizeButton('normal', 3)
         self.normalSizeButton.connect('button-press-event', lambda w, e: self.setIconIndex(3))
+        self._colorbar_button_list.append(self.normalSizeButton)
 
         self.bigSizeButton = self.createSizeButton('big', 5)
         self.bigSizeButton.connect('button-press-event', lambda w, e: self.setIconIndex(5))
+        self._colorbar_button_list.append(self.bigSizeButton)
         
         self.sizeAlign = gtk.Alignment()
         self.sizeAlign.set(0.5,0.5,0,0)
@@ -194,6 +517,7 @@ class DeepinScreenshot(object):
         self.dynamicBox.pack_start(self.sizeAlign)
         self.colorbarBox.pack_start(self.dynamicBox)
         
+        # 选择字体
         self.fontLabel = gtk.Label("Sans 10")
         self.fontEvent = gtk.EventBox()
         self.fontEvent.add(self.fontLabel)
@@ -201,6 +525,7 @@ class DeepinScreenshot(object):
         self.fontEvent.connect("button-press-event", lambda w, e: self.openFontDialog()) 
         setClickableCursor(self.fontEvent)
         self.fontEvent.set_size_request(100, -1)
+        self._colorbar_button_list.append(self.fontLabel)
 
         separatorLabel = gtk.Label()
         drawSeparator(separatorLabel, 'sep')
@@ -216,6 +541,7 @@ class DeepinScreenshot(object):
         self.colorBox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#FF0000"))
         self.colorBox.connect('expose-event', lambda w, e:self.setColorboxBorder(w))
         self.colorBox.connect('button-press-event', self.colorSetEvent)
+        self._colorbar_button_list.append(self.colorBox)
 
         self.vbox = gtk.VBox(False, 2)
         self.aboveHbox = gtk.HBox(False, 2)
@@ -239,80 +565,114 @@ class DeepinScreenshot(object):
 
         blackButton = self.createColorButton('black')
         blackButton.connect('button-press-event', lambda w,e: self.setButtonColor('black'))
+        self._colorbar_button_list.append(blackButton)
 
         grayDarkButton = self.createColorButton('gray_dark')
         grayDarkButton.connect('button-press-event', lambda w,e: self.setButtonColor('gray_dark'))
+        self._colorbar_button_list.append(grayDarkButton)
 
         redDarkButton = self.createColorButton('red_dark')
         redDarkButton.connect('button-press-event', lambda w,e: self.setButtonColor('red_dark'))
+        self._colorbar_button_list.append(redDarkButton)
 
         yellowDarkButton = self.createColorButton('yellow_dark')
         yellowDarkButton.connect('button-press-event', lambda w,e: self.setButtonColor('yellow_dark'))
+        self._colorbar_button_list.append(yellowDarkButton)
 
         greenDarkButton = self.createColorButton('green_dark')
         greenDarkButton.connect('button-press-event', lambda w,e: self.setButtonColor('green_dark'))
+        self._colorbar_button_list.append(greenDarkButton)
 
         blueDarkButton = self.createColorButton('blue_dark')
         blueDarkButton.connect('button-press-event', lambda w,e: self.setButtonColor('blue_dark'))
+        self._colorbar_button_list.append(blueDarkButton)
 
         pinkDarkButton = self.createColorButton('pink_dark')
         pinkDarkButton.connect('button-press-event', lambda w,e: self.setButtonColor('pink_dark'))
+        self._colorbar_button_list.append(pinkDarkButton)
+
         wathetDarkButton = self.createColorButton('wathet_dark')
         wathetDarkButton.connect('button-press-event', lambda w,e: self.setButtonColor('wathet_dark'))
+        self._colorbar_button_list.append(wathetDarkButton)
 
 
         self.vbox.pack_start(self.aboveHbox)
 
         whiteButton  = self.createColorButton('white', False)
         whiteButton.connect('button-press-event', lambda w,e: self.setButtonColor('white'))
+        self._colorbar_button_list.append(whiteButton)
 
         grayButton =  self.createColorButton('gray', False)
         grayButton.connect('button-press-event', lambda w,e: self.setButtonColor('gray'))
+        self._colorbar_button_list.append(grayButton)
 
         redButton = self.createColorButton('red', False)
         redButton.connect('button-press-event', lambda w,e: self.setButtonColor('red'))
+        self._colorbar_button_list.append(redButton)
 
         yellowButton = self.createColorButton('yellow', False)
         yellowButton.connect('button-press-event', lambda w,e: self.setButtonColor('yellow'))
+        self._colorbar_button_list.append(yellowButton)
 
         greenButton = self.createColorButton('green', False)
         greenButton.connect('button-press-event', lambda w,e: self.setButtonColor('green'))
+        self._colorbar_button_list.append(greenButton)
 
         blueButton = self.createColorButton('blue', False)
         blueButton.connect('button-press-event', lambda w,e: self.setButtonColor('blue'))
+        self._colorbar_button_list.append(blueButton)
 
         pinkButton = self.createColorButton('pink', False)
         pinkButton.connect('button-press-event', lambda w,e: self.setButtonColor('pink'))
+        self._colorbar_button_list.append(pinkButton)
         
         wathetButton = self.createColorButton('wathet', False)
         wathetButton.connect('button-press-event', lambda w,e: self.setButtonColor('wathet'))
+        self._colorbar_button_list.append(wathetButton)
+        self._colorbar_buttons_list = list(tuple(self._colorbar_button_list))
+        self._colorbar_buttons_list[3] = self.fontEvent
 
         self.vbox.pack_start(self.belowHbox)
         self.colorbarBox.pack_start(self.vbox)
         
-    def openFontDialog(self):
+    def openFontDialog(self):   # 字体选择对话框
         '''open font dialog.'''
+        # 字体选择对话框
         self.fontDialog = gtk.FontSelectionDialog("font select")
         if self.showTextWindowFlag:
             self.fontDialog.set_transient_for(self.textWindow)
         else:
             self.fontDialog.set_transient_for(self.window)
+        self._show_font_dialog = True
+        self.dis.ungrab_pointer(X.CurrentTime)
+        self._grab_pointer_flag = False
         self.hideToolbar()
         self.hideColorbar()
         self.fontDialog.set_font_name(self.fontName)
-        response = self.fontDialog.run()
+        self.fontDialog.connect("response", self.font_dialog_response)
+        self.fontDialog.set_modal(True)
+        self.fontDialog.show_all()
+        #response = self.fontDialog.run()
+    def font_dialog_response(self, widget, response):
         if response == gtk.RESPONSE_OK:
             self.fontName = self.fontDialog.get_font_name()
             self.fontLabel.set_label(self.fontDialog.get_font_name())
-        
         self.adjustToolbar()
         self.showToolbar()
         self.showColorbar()
         self.fontDialog.destroy()
+        self._show_font_dialog = False
+        self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask|X.EnterWindowMask|X.LeaveWindowMask,
+            X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
+        self._grab_pointer_flag = True
        
-    def colorSetEvent(self, widget, event):
+    def colorSetEvent(self, widget, event): # 颜色选择对话框
         '''colorBox button_press event'''
+        # 颜色选择对话框
         self.colorDialog = gtk.ColorSelectionDialog('Select color')
+        self._show_color_dialog = True
+        self.dis.ungrab_pointer(X.CurrentTime)
+        self._grab_pointer_flag = False
         self.colorDialog.set_keep_above(True)
         if self.showTextWindowFlag:
             self.colorDialog.set_transient_for(self.textWindow)
@@ -320,21 +680,28 @@ class DeepinScreenshot(object):
             self.colorDialog.set_transient_for(self.window)
         colorsel = self.colorDialog.colorsel
         colorsel.set_has_palette(True)
-        #colorsel.connect("color_changed", self.colorChanged)
         self.hideToolbar()
         self.hideColorbar()
-        response = self.colorDialog.run()
+        self.colorDialog.connect("response", self.color_dialog_response)
+        self.colorDialog.set_modal(True)
+        self.colorDialog.show_all()
+        #response = self.colorDialog.run()
+    def color_dialog_response(self, widget, response, data=None):
         if response == gtk.RESPONSE_OK:
-            self.actionColor = gdkColorToString(colorsel.get_current_color())
+            self.actionColor = gdkColorToString(widget.colorsel.get_current_color())
             modifyBackground(self.colorBox, self.actionColor)
-
         self.adjustToolbar()
         self.showToolbar()
         self.showColorbar()
         self.colorDialog.destroy()
+        self._show_color_dialog = False
+        self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask|X.EnterWindowMask|X.LeaveWindowMask,
+            X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
+        self._grab_pointer_flag = True
     
-    def setColorboxBorder(self, widget):
+    def setColorboxBorder(self, widget):    # 设置colorBox的边框
         '''set colorBox border '''
+        # 设置colorBox的边框
         (x, y, width, height, depth) = widget.window.get_geometry() 
         cr = widget.window.cairo_create()
         cr.set_line_width(2)
@@ -346,11 +713,12 @@ class DeepinScreenshot(object):
         cr.set_source_rgb(*colorHexToCairo("#FFFFFF"))
         cr.stroke()
         
-    def initToolbar(self):
+    def initToolbar(self):      # 创建工具栏，包含各种工具按钮
         '''Init toolbar.'''
         # Init window.
         # Use WINDOW_POPUP to ignore Window Manager's policy,
         # otherwise toolbar window won't move to place you want, such as, desktop environment have global menu.
+        # 创建工具栏，包含各种工具按钮
         self.toolbarPaddingX = 5
         self.toolbarPaddingY = 2
         self.toolbarIconWidth = self.toolbarIconHeight = 28
@@ -377,52 +745,70 @@ class DeepinScreenshot(object):
         self.toolbarWindow.add(self.toolAlign)
         
         self.actionRectangleButton = self.createActionButton("rect", __("Tip draw rectangle"))
-        self.actionRectangleButton.connect("button-press-event", lambda w, e: self.setOtherInactive(w))
-        self.actionRectangleButton.connect('toggled', lambda w: self.buttonToggled(w))
-        self.actionRectangleButton.connect("button-release-event", lambda w, e: self.toggleReleaseEvent())
+        self.actionRectangleButton.connect("pressed", self.setOtherInactive)
+        self.actionRectangleButton.connect('toggled', self.buttonToggled)
+        self.actionRectangleButton.connect("released", self.toggleReleaseEvent)
+        #self.actionRectangleButton.connect("enter-notify-event", self._action_button_enter)
+        #self.actionRectangleButton.connect("enter-notify-event", lambda w, e: showHelpTooltip(w, __("Tip draw rectangle")))
+        #self.actionRectangleButton.connect("enter", self._action_button_enter)
+        #self.actionRectangleButton.connect("leave", self._action_button_leave)
+        self._toolbar_button_list.append(self.actionRectangleButton)
         
 
         
         self.actionEllipseButton = self.createActionButton("ellipse", __("Tip draw ellipse"))
-        self.actionEllipseButton.connect("button-press-event", lambda w, e: self.setOtherInactive(w))
-        self.actionEllipseButton.connect('toggled', lambda w: self.buttonToggled(w))
-        self.actionEllipseButton.connect("button-release-event", lambda w, e: self.toggleReleaseEvent())
+        self.actionEllipseButton.connect("pressed", self.setOtherInactive)
+        self.actionEllipseButton.connect('toggled', self.buttonToggled)
+        self.actionEllipseButton.connect("released", self.toggleReleaseEvent)
+        self._toolbar_button_list.append(self.actionEllipseButton)
         
         self.actionArrowButton = self.createActionButton("arrow", __("Tip draw arrow"))
-        self.actionArrowButton.connect("button-press-event", lambda w, e: self.setOtherInactive(w))
-        self.actionArrowButton.connect('toggled', lambda w: self.buttonToggled(w))
-        self.actionArrowButton.connect("button-release-event", lambda w, e: self.toggleReleaseEvent())
+        self.actionArrowButton.connect("pressed", self.setOtherInactive)
+        self.actionArrowButton.connect('toggled', self.buttonToggled)
+        self.actionArrowButton.connect("released", self.toggleReleaseEvent)
+        self._toolbar_button_list.append(self.actionArrowButton)
         
         self.actionLineButton = self.createActionButton("line", __("Tip draw line"))
-        self.actionLineButton.connect("button-press-event", lambda w, e: self.setOtherInactive(w))
-        self.actionLineButton.connect('toggled', lambda w: self.buttonToggled(w))
-        self.actionLineButton.connect("button-release-event", lambda w, e: self.toggleReleaseEvent())
+        self.actionLineButton.connect("pressed", self.setOtherInactive)
+        self.actionLineButton.connect('toggled', self.buttonToggled)
+        self.actionLineButton.connect("released", self.toggleReleaseEvent)
+        self._toolbar_button_list.append(self.actionLineButton)
 
-        self.actionTextButton = self.createActionButton("text", __("Tip draw text"))
-        self.actionTextButton.connect("button-press-event", lambda w, e: self.setOtherInactive(w))
-        self.actionTextButton.connect("toggled", lambda w: self.buttonToggled(w))
-        self.actionTextButton.connect("button-release-event", lambda w, e: self.toggleReleaseEvent())
+        self.actionTextButton = self.createActionButton("text", __("Tip draw Text"))
+        self.actionTextButton.connect("pressed", self.setOtherInactive)
+        self.actionTextButton.connect("toggled", self.buttonToggled)
+        self.actionTextButton.connect("released", self.toggleReleaseEvent)
+        self._toolbar_button_list.append(self.actionTextButton)
+
         separatorLabel = gtk.Button()
         drawSeparator(separatorLabel, 'sep')
         self.toolBox.pack_start(separatorLabel)
 
         self.actionUndoButton = self.createOtherButton("undo", __("Tip undo"))
-        self.actionUndoButton.connect("button-press-event", lambda w, e: self.undo())
+        self.actionUndoButton.connect("clicked", self.undo)
+        self._toolbar_button_list.append(self.actionUndoButton)
         
         self.actionSaveButton = self.createOtherButton("save", __("Tip save"))
-        self.actionSaveButton.connect("button-press-event", lambda w, e: self.saveSnapshotToFile())
+        self.actionSaveButton.connect("clicked", self.saveSnapshotToFile)
+        self._toolbar_button_list.append(self.actionSaveButton)
         
         separatorLabel = gtk.Button()
         drawSeparator(separatorLabel, 'sep')
         self.toolBox.pack_start(separatorLabel)
 
         self.actionCancelButton = self.createOtherButton("cancel", __("Tip cancel"))
-        self.actionCancelButton.connect("button-press-event", lambda w, e: self.destroy(self.window))
+        self.actionCancelButton.connect("clicked", self.destroy)
+        self._toolbar_button_list.append(self.actionCancelButton)
 
         self.actionFinishButton = self.createOtherButton("finish",__("Tip finish"))
-        self.actionFinishButton.connect("button-press-event", lambda w, e: self.saveSnapshot())
+        self.actionFinishButton.connect("clicked", self.saveSnapshot)
+        self._toolbar_button_list.append(self.actionFinishButton)
+
+        #print self.toolbarWindow.window.get_geometry()
+        #print self._toolbar_button_position
       
-    def setOtherInactive(self, button):
+    def setOtherInactive(self, button):     # 将其余工具按钮设为未按下状态
+        #print "setOtherInactive"
         buttonList = [self.actionRectangleButton, self.actionEllipseButton, self.actionArrowButton, self.actionLineButton,
                       self.actionTextButton]
         
@@ -431,14 +817,14 @@ class DeepinScreenshot(object):
                 continue
             eachButton.set_active(False)
     
-    def setAllInactive(self):
+    def setAllInactive(self):               # 将所有工具按钮设为未按下状态
         buttonList = [self.actionRectangleButton, self.actionEllipseButton, self.actionArrowButton, self.actionLineButton,
                       self.actionTextButton]
         
         for eachButton in buttonList:
             eachButton.set_active(False)
         
-    def isHaveOneToggled(self):
+    def isHaveOneToggled(self):             # 是否有工具按钮按下
         buttonList = [self.actionRectangleButton, self.actionEllipseButton, self.actionArrowButton, self.actionLineButton,
                       self.actionTextButton]
         
@@ -447,18 +833,18 @@ class DeepinScreenshot(object):
                 return True
         return False
     
-    def toggleReleaseEvent(self):
+    def toggleReleaseEvent(self, widget=None):           # 工具按钮鼠标释放回调函数
         buttonList = [self.actionRectangleButton, self.actionEllipseButton, self.actionArrowButton, self.actionLineButton,
                       self.actionTextButton]
         self.isToggled = False
         
         for eachButton in buttonList:
             if eachButton.get_active():
-                self.isToggled = True
+                self.isToggled = True       # 有按钮按下
     
-    def buttonToggled(self, widget):
+    def buttonToggled(self, widget):        # 工具按钮toggled回调函数，根据按钮类型设置动作类型
         '''the button toggled'''
-        if widget.get_active():
+        if widget.get_active():     # 按钮按下
             if widget == self.actionRectangleButton:
                 self.setActionType(ACTION_RECTANGLE)
             elif widget == self.actionEllipseButton:
@@ -479,17 +865,17 @@ class DeepinScreenshot(object):
             elif self.actionList and self.isToggled or self.textActionList:
                 self.setActionType(None)
         
-    def setIconIndex(self, index):
+    def setIconIndex(self, index):          # 画笔尺寸按钮按下回调函数
         '''Set icon index.'''
         self.iconIndex = index
         self.actionSize = index
         self.colorbarWindow.queue_draw()
         
-    def getIconIndex(self):
+    def getIconIndex(self):                 # 获取画笔尺寸
         '''Get icon index.'''
         return self.iconIndex
         
-    def initTextWindow(self):
+    def initTextWindow(self):               # 初始化文本输入窗口
         '''Init text window.'''
         # Init window.
         # Use WINDOW_POPUP to ignore Window Manager's policy,
@@ -532,7 +918,7 @@ class DeepinScreenshot(object):
         self.textWindow.add(self.textAlign)
         self.textWindow.set_focus(self.textView)
     
-    def exposeTextViewTag(self, widget, event):
+    def exposeTextViewTag(self, widget, event):     # 文本输入框显示的回调函数
         ''' expose of textView'''
         textBuffer = widget.get_buffer()
         startIter = textBuffer.get_start_iter()
@@ -542,30 +928,30 @@ class DeepinScreenshot(object):
         self.textTag.set_property("font", self.fontName)
         textBuffer.apply_tag_by_name("first", startIter, endIter)
 
-    def showTextWindow(self, (ex, ey)):
+    def showTextWindow(self, (ex, ey)):     # 显示文本输入窗口
         '''Show text window.'''
         offset = 5
         self.showTextWindowFlag = True
         self.textWindow.show_all()
         self.textWindow.move(ex, ey)
         
-    def hideTextWindow(self):
+    def hideTextWindow(self):               # 隐藏文本输入窗口
         '''Hide text window.'''
         self.showTextWindowFlag = False
         self.textView.get_buffer().set_text("")
         self.textWindow.hide_all()
     
-    def getInputText(self):
+    def getInputText(self):                 # 获取输入框文字
         '''Get input text.'''
         textBuffer = self.textView.get_buffer()
         return (textBuffer.get_text(textBuffer.get_start_iter(), textBuffer.get_end_iter())).rstrip(" ")
         
-    def setActionType(self, aType):
+    def setActionType(self, aType):         # 设置操作类型
         '''Set action. type'''
         self.action = aType    
         self.currentAction = None
         
-    def createActionButton(self, iconName, helpText):
+    def createActionButton(self, iconName, helpText):       # 创建工具按钮（画笔等）
         '''Create action button.'''
         actionButton = gtk.ToggleButton()
         drawSimpleButton(actionButton, iconName, helpText)
@@ -573,21 +959,21 @@ class DeepinScreenshot(object):
         
         return actionButton
     
-    def createOtherButton(self, iconName, helpText):
+    def createOtherButton(self, iconName, helpText):        # 创建其他功能按钮（撤消等）
         ''' no toggle button'''
         Button = gtk.Button()
         drawSimpleButton(Button, iconName, helpText)
         self.toolBox.pack_start(Button)
         return Button
     
-    def createSizeButton(self, iconName, index):
+    def createSizeButton(self, iconName, index):            # 创建画笔尺寸按钮
         ''' size button'''
         Button = gtk.Button()
         drawSizeButton(Button, iconName, index, self.getIconIndex)
         self.sizeBox.pack_start(Button)
         return Button
     
-    def createColorButton(self, iconName, above = True):
+    def createColorButton(self, iconName, above = True):    # 创建颜色按钮
         button = gtk.Button()
         drawColorButton(button, iconName)
         
@@ -597,21 +983,32 @@ class DeepinScreenshot(object):
             self.belowHbox.pack_start(button)
         return button
     
-    def setButtonColor(self, colorName):
+    def setButtonColor(self, colorName):                    # 颜色按钮回调函数
         modifyBackground(self.colorBox, self.colorMap[colorName])
         self.actionColor = self.colorMap[colorName]
         
-    def showToolbar(self):
+    def showToolbar(self):      # 显示工具栏
         '''Show toolbar.'''
         self.showToolbarFlag = True
         self.toolbarWindow.show_all()
+        self._toolbar_window_list = []
+        #print "show toolbar", self.toolbarWindow.get_allocation()
+        #print self.toolbarWindow.window.get_geometry()
+        for action in self._toolbar_button_list:
+            self._toolbar_button_position.append(action.get_allocation())
+            #self._toolbar_window_list.append(action.window)
+        #print self._toolbar_button_list, len(self._toolbar_button_list)
+        #print self._toolbar_window_list, len(self._toolbar_window_list)
+        #print self._toolbar_button_position, len(self._toolbar_button_position)
         
-    def hideToolbar(self):
+    def hideToolbar(self):      # 隐藏工具栏
         '''Hide toolbar.'''
         self.showToolbarFlag = False
         self.toolbarWindow.hide_all()
+        self._toolbar_button_position = []
+        self._toolbar_window_list = []
     
-    def showColorbar(self):
+    def showColorbar(self):     # 显示颜色栏
         '''show colorbar '''
         if self.action == ACTION_TEXT:
             containerRemoveAll(self.dynamicBox)
@@ -622,13 +1019,22 @@ class DeepinScreenshot(object):
         self.showColorbarFlag = True
         self.adjustColorbar()
         self.colorbarWindow.show_all()
+        self._colorbar_window_list = []
+        self._colorbar_button_position = []
+        for action in self._colorbar_button_list:
+            #self._colorbar_window_list.append(action.window)
+            self._colorbar_button_position.append(action.get_allocation())
+        #print "position", self._colorbar_button_position
+        #print "list", self._colorbar_button_list
     
-    def hideColorbar(self):
+    def hideColorbar(self):     # 隐藏颜色栏
         '''hide colorbar'''
         self.showColorbarFlag = False
         self.colorbarWindow.hide_all()
+        self._colorbar_window_list = []
+        self._colorbar_button_position = []
   
-    def adjustToolbar(self):
+    def adjustToolbar(self):    # 调整工具栏位置
         '''Adjust toolbar position.'''
         (x, y, self.toolbarWidth, self.toolbarHeight, depth) = self.toolbarWindow.window.get_geometry()
         colorbarHeight = 32
@@ -644,7 +1050,7 @@ class DeepinScreenshot(object):
             
         self.toolbarWindow.move(int(self.toolbarX), int(self.toolbarY))
     
-    def adjustColorbar(self):
+    def adjustColorbar(self):   # 调整颜色柆位置
         '''Adjust Colorbar position '''
         if self.toolbarY < self.y:
             colorbarY =  self.toolbarY - self.toolbarHeight - 8
@@ -653,7 +1059,7 @@ class DeepinScreenshot(object):
         colorbarX = self.toolbarX
         self.colorbarWindow.move(int(colorbarX), int(colorbarY))
         
-    def getEventCoord(self, event):
+    def getEventCoord(self, event):     # 获取事件的坐标
         '''Get event coord.'''
         (rx, ry) = event.get_root_coords()
         return (int(rx), int(ry))
@@ -661,6 +1067,7 @@ class DeepinScreenshot(object):
     def buttonPress(self, widget, event):
         '''Button press.'''
         self.dragFlag = True
+        print "in buttonPress", self.action
         if self.action == ACTION_WINDOW:
                 self.windowFlag = False
             
@@ -733,6 +1140,7 @@ class DeepinScreenshot(object):
     
     def motionNotify(self, widget, event):
         '''Motion notify.'''
+        print "in motionNotify", self.action, self.dragFlag
         if self.dragFlag:
             # print "motionNotify: %s" % (str(event.get_root_coords()))
             (ex, ey) = self.getEventCoord(event)
@@ -747,6 +1155,7 @@ class DeepinScreenshot(object):
                 (self.rectWidth, self.rectHeight) = (ex - self.x, ey - self.y)
                 self.window.queue_draw()
             elif self.action == ACTION_SELECT:
+                print "dragPosition", self.dragPosition
                 
                 if self.dragPosition == DRAG_INSIDE:
                     self.x = min(max(ex - self.dragStartOffsetX, 0), self.width - self.rectWidth)
@@ -940,12 +1349,15 @@ class DeepinScreenshot(object):
         if self.keyBindings.has_key(keyEventName):
             self.keyBindings[keyEventName]()
 
-    def saveSnapshotToFile(self):
+    def saveSnapshotToFile(self, widget=None):
         '''Save file to file.'''
         if self.saveFilename:
             result = parserPath(self.saveFilename)
-            self.saveSnapshot(*result)
+            self.saveSnapshot(None, *result)
         else:    
+            self.dis.ungrab_pointer(X.CurrentTime)
+            self._grab_pointer_flag = False
+            self._show_file_dialog = True
             dialog = gtk.FileChooserDialog(
                 "Save..",
                 self.window,
@@ -985,28 +1397,40 @@ class DeepinScreenshot(object):
             if self.showColorbarFlag:
                 self.hideColorbar()
                 
-            response = dialog.run()
-            if response == gtk.RESPONSE_ACCEPT:
-                filename = dialog.get_filename()
-                self.saveSnapshot(filename, self.saveFiletype)
-                print "Save snapshot to %s" % (filename)
-            elif response == gtk.RESPONSE_REJECT:
-                self.adjustToolbar()
-                self.showToolbar()
-                
-                if self.isHaveOneToggled():
-                    self.showColorbar()
-                print 'Closed, no files selected'
-            dialog.destroy()
+            dialog.set_modal(True)
+            dialog.connect("response", self.file_dialog_response)
+            dialog.show_all()
+    def file_dialog_response(self, dialog, response):
+        #response = dialog.run()
+        if response == gtk.RESPONSE_ACCEPT:
+            filename = dialog.get_filename()
+            dialog.hide()
+            self.saveSnapshot(dialog, filename, self.saveFiletype)
+            print "Save snapshot to %s" % (filename)
+        elif response == gtk.RESPONSE_REJECT:
+            self.adjustToolbar()
+            self.showToolbar()
+            if self.isHaveOneToggled():
+                self.showColorbar()
+            print 'Closed, no files selected'
+            self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask,  
+                X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
+            self._grab_pointer_flag = True
+            self._show_file_dialog = False
+        dialog.destroy()
         
     def setSaveFiletype(self, dialog, filetype):
         ''' save filetype '''
         dialog.set_current_name("%s%s.%s" % (DEFAULT_FILENAME, getFormatTime(), filetype))
         self.saveFiletype = filetype
        
-    def saveSnapshot(self, filename=None, filetype='png'):
+    def saveSnapshot(self, widget=None, filename=None, filetype='png'):
         '''Save snapshot.'''
         # Init cairo.
+        print "saveSap"
+        print widget, filename, filetype
+        #while widget.window:
+            #time.sleep(0.001)
         cr = self.window.window.cairo_create()
         
         # Draw desktop background.
@@ -1020,35 +1444,88 @@ class DeepinScreenshot(object):
             eachTextAction.expose(cr)
             
         # Get snapshot.
-        pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, int(self.rectWidth), int(self.rectHeight))
-        pixbuf.get_from_drawable(
-            self.window.get_window(), self.window.get_window().get_colormap(),
-            self.x, self.y,
-            0, 0,
-            int(self.rectWidth), int(self.rectHeight))
+        All_PLANE_MASK = 0xffffffff
+        win = self.dis.create_resource_object("window", self.window.window.xid)
+        x_image = win.get_image(self.x, self.y, self.rectWidth, self.rectHeight, X.ZPixmap, All_PLANE_MASK)
+        img = Image.fromstring("RGB", (int(self.rectWidth), int(self.rectHeight)), x_image.data, "raw", "BGRX")
+        print "get ximage"
+
+        f = StringIO.StringIO()
+        img.save(f, "ppm")
+        contents = f.getvalue()
+        f.close()
+        loader = gtk.gdk.PixbufLoader("pnm")
+        loader.write(contents, len(contents))
+        pixbuf = loader.get_pixbuf()
+        loader.close()
+        print "get pixbuf"
+
+        #pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, int(self.rectWidth), int(self.rectHeight))
+        #pixbuf.get_from_drawable(
+            #self.window.get_window(), self.window.get_window().get_colormap(),
+            #self.x, self.y,
+            #0, 0,
+            #int(self.rectWidth), int(self.rectHeight))
         
         # Save snapshot.
-        if filename == None:
-            # Save snapshot to clipboard if filename is None.
-            clipboard = gtk.clipboard_get()
-            clipboard.set_image(pixbuf)
-            clipboard.store()
-            tipContent = __("Tip save to clipboard")
-        else:
-            # Otherwise save to local file.
-            pixbuf.save(filename, filetype)
-            tipContent = __("Tip save to file")
+        #if filename == None:
+            ## Save snapshot to clipboard if filename is None.
+            #clipboard = gtk.clipboard_get()
+            #clipboard.set_image(pixbuf)
+            #clipboard.store()
+            #tipContent = __("Tip save to clipboard")
+        #else:
+            ## Otherwise save to local file.
+            #pixbuf.save(filename, filetype)
+            #tipContent = __("Tip save to file")
+        self.make_pic_file(self.desktopBackground.subpixbuf(self.x, self.y, self.rectWidth, self.rectHeight), filename)
             
         
 
         
         # Exit
         self.window.window.set_cursor(None)
-        self.destroy(self.window)
+        #self.destroy(self.window)
+        self._done = True
+        print "done", self._done
+        time.sleep(0.001)
+        self.window.destroy()
         
          # tipWindow
-        cmd = ('python', 'tipswindow.py', tipContent)
-        subprocess.Popen(cmd)
+        #cmd = ('python', 'tipswindow.py', tipContent)
+        #subprocess.Popen(cmd)
+
+    def make_pic_file(self, pixbuf, filename):
+        '''  '''
+        surface = cairo.ImageSurface(cairo.FORMAT_RGB24, pixbuf.get_width(), pixbuf.get_height())
+        cr = cairo.Context(surface)
+        gdkcr = gtk.gdk.CairoContext(cr)
+        gdkcr.set_source_pixbuf(pixbuf, 0, 0)
+        gdkcr.paint()
+
+        #surface = cairo.ImageSurface.create_from_png(pixbuf)
+        #cr = cairo.Context(surface)
+        # Draw action list.
+        for action in self.actionList:
+            if action is not None:
+                action.startX -= self.x
+                action.startY -= self.y
+                if not isinstance(action, (TextAction, EllipseAction)):
+                    action.endX -= self.x
+                    action.endY -= self.y
+                action.expose(cr)
+        
+        # Draw Text Action list.
+        for eachTextAction in self.textActionList:
+            if eachTextAction is not None:
+                eachTextAction.startX -= self.x
+                eachTextAction.startY -= self.y
+                if not isinstance(action, (TextAction, EllipseAction)):
+                    eachTextAction.endX -= self.x
+                    eachTextAction.endY -= self.y
+                eachTextAction.expose(cr)
+                self.textActionInfo[eachTextAction] = eachTextAction.getLayoutInfo()
+        surface.write_to_png(filename)
 
         
     def redraw(self, widget, event):
@@ -1198,14 +1675,21 @@ class DeepinScreenshot(object):
         
     def getDesktopSnapshot(self):
         '''Get desktop snapshot.'''
+        # 获取全屏截图
         rootWindow = gtk.gdk.get_default_root_window() 
         [self.width, self.height] = rootWindow.get_size() 
         pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, self.width, self.height)
         return pixbuf.get_from_drawable(rootWindow, rootWindow.get_colormap(), 0, 0, 0, 0, self.width, self.height) 
-        
+        #return getScreenshotPixbuf()
+        #geometry = self.root.get_geometry() 
+        #(x, y, width, height, depth) = (geometry.x, geometry.y, geometry.width, geometry.height, geometry.depth)
+    
     def destroy(self, widget, data=None):
         '''Destroy main window.'''
-        self.window.window.set_cursor(None)
+        #self.window.window.set_cursor(None)
+        self.ungrab()
+        self.dis.close()
+        self._done = True
         gtk.main_quit()
         
     def getDragPointCoords(self):
@@ -1262,12 +1746,15 @@ class DeepinScreenshot(object):
         
     def setCursor(self, position):
         '''Set cursor.'''
+        print "in cusor position:", position
         if position == DRAG_INSIDE:
             setCursor(self.window, gtk.gdk.FLEUR)
         elif position == DRAG_OUTSIDE:
             setCursor(self.window, gtk.gdk.TOP_LEFT_ARROW)
         elif position == DRAG_TOP_LEFT_CORNER:
-            setCursor(self.window, gtk.gdk.TOP_LEFT_CORNER)
+            #setCursor(self.window, gtk.gdk.TOP_LEFT_CORNER)
+            self.window.window.set_cursor(gtk.gdk.Cursor(gtk.gdk.TOP_LEFT_CORNER))
+            print "setcursor"
         elif position == DRAG_TOP_RIGHT_CORNER:
             setCursor(self.window, gtk.gdk.TOP_RIGHT_CORNER)
         elif position == DRAG_BOTTOM_LEFT_CORNER:
@@ -1303,8 +1790,9 @@ class DeepinScreenshot(object):
         '''Drag frame right.'''
         self.rectWidth = max(0, ex - self.x)
         
-    def undo(self):
+    def undo(self, widget=None):
         '''Undo'''
+        #print "undo"
         if self.textWindow.get_visible():
             self.hideTextWindow()
             
@@ -1335,4 +1823,8 @@ class DeepinScreenshot(object):
         (self.currentX, self.currentY) = widget.window.get_pointer()[:2] 
     
 if __name__ == "__main__":
-    MainScreenshot()
+    gtk.gdk.threads_init()
+    s = DeepinScreenshot()
+    s.setDaemon(True)
+    s.start()
+    gtk.main()

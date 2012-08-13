@@ -23,6 +23,7 @@
 from Xlib import X, display, Xutil, Xcursorfont
 import gtk
 from  collections import namedtuple
+import Image, StringIO
 
 (screenWidth, screenHeight) = gtk.gdk.get_default_root_window().get_size()
 disp = display.Display()
@@ -47,6 +48,7 @@ def findWindowByProperty(xlibWindow, atom=WM_STATE):
 
 def getClientWindow(target):
     ''' Enumerate clientWindow '''
+    # 枚举所有窗口
     status = target.get_property(WM_STATE, WM_HINTS, 0, 0)
     if status:
         return target
@@ -68,6 +70,7 @@ def filterWindow():
 
 def getXlibPointerWindow():
     ''' grab pointer window '''
+    # 获取鼠标指针当前的窗口
     return rootWindow.query_pointer().child
 
 def getXlibFocusWindow():
@@ -76,12 +79,16 @@ def getXlibFocusWindow():
 
 def getWindowCoord(xlibWindow):
     ''' covert xlibWindow's coord'''
+    # 获取窗口坐标
     clientWindow = getClientWindow(xlibWindow)
     if xlibWindow != clientWindow:
+        #print "xwindow:", xlibWindow.get_geometry()
+        #print "client window:", clientWindow.get_geometry()
+        #print ""
         x = xlibWindow.get_geometry().x + clientWindow.get_geometry().x
-        y = xlibWindow.get_geometry().y + clientWindow.get_geometry().y - 26
-        width =  clientWindow.get_geometry().width
-        height = clientWindow.get_geometry().height + 26
+        y = xlibWindow.get_geometry().y + clientWindow.get_geometry().y - 30
+        width = clientWindow.get_geometry().width
+        height = clientWindow.get_geometry().height + 30
     else:
         x = xlibWindow.get_geometry().x
         y = xlibWindow.get_geometry().y
@@ -130,6 +137,7 @@ def getWindowTitle(xlibWindow):
 
 def convertCoord(x, y, width, height):
     ''' cut out overlop the screen'''
+    # 获取在屏幕内的部分
     xWidth = x + width
     yHeight = y + height
        
@@ -160,6 +168,7 @@ def convertCoord(x, y, width, height):
 
 def getScreenshotWindowInfo():
     ''' return (x, y, width, height) '''
+    # 获取窗口的x,y 长，宽
     coordInfo = namedtuple('coord', 'x y width height')
     screenshotWindowInfo = []
     screenshotWindowInfo.append(coordInfo(0, 0, screenWidth, screenHeight))
@@ -170,12 +179,26 @@ def getScreenshotWindowInfo():
 
 def getScreenshotPixbuf(fullscreen=True):
     ''' save snapshot to file with filetype. '''
-    rootWindow = gtk.gdk.get_default_root_window() 
-    if not fullscreen:
-        (x, y, width, height) = convertCoord(*getWindowCoord(getXlibPointerWindow()))
-    else:
-        (x, y, width, height, depth) = rootWindow.get_geometry() 
+    #rootWindow = gtk.gdk.get_default_root_window() 
+    #if not fullscreen:
+        #(x, y, width, height) = convertCoord(*getWindowCoord(getXlibPointerWindow()))
+    #else:
+        #(x, y, width, height, depth) = rootWindow.get_geometry() 
     
-    pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, width, height)
-    pixbuf.get_from_drawable(rootWindow, rootWindow.get_colormap(), x, y, 0, 0, width, height)
+    #pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, width, height)
+    #pixbuf.get_from_drawable(rootWindow, rootWindow.get_colormap(), x, y, 0, 0, width, height)
+    #return pixbuf
+    All_PLANE_MASK = 0xffffffff
+    x_image=rootWindow.get_image(0, 0, screenWidth, screenHeight, X.ZPixmap, All_PLANE_MASK)
+    img = Image.fromstring("RGB", (screenWidth, screenHeight), x_image.data, "raw", "BGRX")
+
+    f = StringIO.StringIO()
+    img.save(f, "ppm")
+    contents = f.getvalue()
+    f.close()
+    loader = gtk.gdk.PixbufLoader("pnm")
+    loader.write(contents, len(contents))
+    pixbuf = loader.get_pixbuf()
+    loader.close()
     return pixbuf
+        
