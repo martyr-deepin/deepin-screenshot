@@ -29,7 +29,7 @@ import cairo
 import gtk
 import pygtk
 import glib
-from window import screenWidth, screenHeight
+from window import SCREEN_WIDTH, SCREEN_HEIGHT
 
 pygtk.require('2.0')
 
@@ -172,7 +172,7 @@ def SeparatorOnExpose(widget, event, img):
 
     return True
 
-def drawEllipse(cr, ex, ey, ew, eh, color, size):
+def draw_ellipse(cr, ex, ey, ew, eh, color, size):
     '''Draw ellipse'''
     cr.new_path()
     cr.save()
@@ -185,7 +185,7 @@ def drawEllipse(cr, ex, ey, ew, eh, color, size):
     cr.stroke()
     
 
-def drawArrow(cr, (sx, sy), (ex, ey), color, size):
+def draw_arrow(cr, (sx, sy), (ex, ey), color, size):
     '''Draw arrow.'''
     # Init.
     arrowSize = 10              # in pixel
@@ -326,11 +326,11 @@ def drawMagnifier(cr, widget, x, y, sizeContent, tipContent = "", rgbContent = "
     pixbufWidth = 30
     pixbufHeight = 20
     
-    if screenHeight - y < 168:
+    if SCREEN_HEIGHT - y < 168:
         offsetY = -34
     else:
         offsetY = 8
-    if screenWidth - x < 142:
+    if SCREEN_WIDTH - x < 142:
         offsetX = -33
     else:
         offsetX = 3

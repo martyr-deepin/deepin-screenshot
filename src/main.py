@@ -33,44 +33,31 @@ from constant import *
 from keymap import *
 from window import *
 from lang import __
+from Xlib import X
 
-import pango
-import sys
 import time
-import gtk
 import pygtk
-import os
-import glib
 import subprocess
 import threading
 
 pygtk.require('2.0')
+import gtk
 
 class DeepinScreenshot(threading.Thread):
     '''Main screenshot.'''
-	
     def __init__(self, save_file=""):
         '''Init Main screenshot.'''
         # 创建一个全屏窗口并顶置，再创建工具条、颜色条、文本输入窗口
         super(self.__class__, self).__init__()
 
         # Init.
-        self.dis = disp
-        self.root =rootWindow
-        #self.xwin = self.root.create_window(-1, -1, 1, 1, 0, disp.screen().root_depth,
-            #event_mask=(X.StructureNotifyMask | 
-                        #X.ButtonPressMask | 
-                        #X.ButtonReleaseMask | 
-                        #X.KeyPressMask | 
-                        #X.KeyReleaseMask
-                        #)
-            #)
-        #self.xwin.configure(stack_mode=X.Above)
-        #self.xwin.set_wm_name("Xlib test")
+        self.dis = DISPLAY
+        self.root =ROOT_WINDOW
         self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask|X.EnterWindowMask|X.LeaveWindowMask,
             X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
         self.root.grab_keyboard(1, X.GrabModeAsync, X.GrabModeAsync, X.CurrentTime) 
         self.root.grab_key(X.AnyKey, X.AnyModifier, True, X.GrabModeAsync, X.GrabModeAsync)
+
         self._last_button_press_time = 0        # 上次鼠标按下的时间
         self._done = False                      
         self._toolbar_button_position = []      # 工具条按钮坐标
@@ -86,8 +73,8 @@ class DeepinScreenshot(threading.Thread):
 
         self.action = ACTION_WINDOW
         #self.width = self.height = 0
-        self.width = screenWidth
-        self.height = screenHeight
+        self.width = SCREEN_WIDTH
+        self.height = SCREEN_HEIGHT
         self.x = self.y = self.rectWidth = self.rectHeight = 0
         self.buttonToggle = None
         
@@ -114,7 +101,7 @@ class DeepinScreenshot(threading.Thread):
         self.fontName = "Sans 10"
         
         # default window 
-        self.screenshotWindowInfo = getScreenshotWindowInfo()   # 获取窗口的x,y 长，宽
+        self.screenshotWindowInfo = get_screenshot_window_info()   # 获取窗口的x,y 长，宽
         self.windowFlag = True
 
         # keybinding map
@@ -130,7 +117,6 @@ class DeepinScreenshot(threading.Thread):
         self.textModifyFlag = False
         self.drawTextLayoutFlag = False
 
-        
         # Get desktop background.
         self.desktopBackground = self.getDesktopSnapshot()      # 获取全屏截图
         
@@ -157,7 +143,7 @@ class DeepinScreenshot(threading.Thread):
         self.window.connect("key-press-event", self.keyPress)
         
         # Register key binding.
-        self.registerKeyBinding("Escape", lambda : self.destroy(self.window))
+        self.registerKeyBinding("Escape", lambda: self.destroy(self.window))
         self.registerKeyBinding("C-s", self.saveSnapshotToFile)
         self.registerKeyBinding("Return", self.saveSnapshot)
         self.registerKeyBinding("C-z", self.undo)
@@ -173,7 +159,6 @@ class DeepinScreenshot(threading.Thread):
        
         # Show.
         self.window.show_all()
-        #self.xwin.map()
         
     def run(self):
         '''thread run'''
@@ -205,7 +190,9 @@ class DeepinScreenshot(threading.Thread):
                     ev.window = self.window.window
                 ev.hardware_keycode = e.detail
                 ev.state = 0 | modifiers['C'] | modifiers['M'] | modifiers['S']
+                gtk.gdk.threads_enter()
                 ev.put()
+                gtk.gdk.threads_leave()
             if e.type == X.KeyRelease:
                 if e.detail == 37 or e.detail == 105:   # Ctrl
                     modifiers['C'] = 0
@@ -270,7 +257,9 @@ class DeepinScreenshot(threading.Thread):
                 ev.y_root = float(e.root_y)
                 ev.x = float(e.event_x)
                 ev.y = float(e.event_y)
+                gtk.gdk.threads_enter()
                 ev.put()
+                gtk.gdk.threads_leave()
             if e.type == X.ButtonPress:
                 if self._check_toolbar_button_pressed(e):
                     continue
@@ -286,7 +275,9 @@ class DeepinScreenshot(threading.Thread):
                 #ev.window = gtk.gdk.window_foreign_new(e.window.id)
                 ev.x = float(e.event_x)
                 ev.y = float(e.event_y)
+                gtk.gdk.threads_enter()
                 ev.put()
+                gtk.gdk.threads_leave()
                 if e.time-self._last_button_press_time < 500:
                     ev = gtk.gdk.Event(gtk.gdk._2BUTTON_PRESS)
                     ev.window = self.window.window
@@ -298,7 +289,9 @@ class DeepinScreenshot(threading.Thread):
                     ev.x = float(e.event_x)
                     ev.y = float(e.event_y)
                     #ev.state = gtk.gdk.MOD2_MASK
+                    gtk.gdk.threads_enter()
                     ev.put()
+                    gtk.gdk.threads_leave()
                 self._last_button_press_time = e.time
             if e.type == X.ButtonRelease:
                 if self._check_toolbar_button_release(e):
@@ -314,9 +307,10 @@ class DeepinScreenshot(threading.Thread):
                 ev.x = float(e.event_x)
                 ev.y = float(e.event_y)
                 #ev.state = gtk.gdk.MOD2_MASK
+                gtk.gdk.threads_enter()
                 ev.put()
+                gtk.gdk.threads_leave()
     
-
     def _is_mouse_in_colorbar_window(self, e):
         ''' judge the mouse is in color window '''
         is_in = False
@@ -334,8 +328,9 @@ class DeepinScreenshot(threading.Thread):
                         break
                     index += 1
         return (is_in, index)
+
     def _check_colorbar_button_pressed(self, e):
-        ''' '''
+        ''' check the mouse is preesed on color button '''
         judge = self._is_mouse_in_colorbar_window(e)
         if judge[0]:
             gtk.gdk.threads_enter()
@@ -350,7 +345,6 @@ class DeepinScreenshot(threading.Thread):
             ev.x_root = float(e.root_x)
             ev.y_root = float(e.root_y)
             self._colorbar_buttons_list[judge[1]].event(ev)
-            #self._colorbar_buttons_list[judge[1]].emit("pressed")
             gtk.gdk.threads_leave()
         return judge[0]
 
@@ -371,8 +365,9 @@ class DeepinScreenshot(threading.Thread):
                         break
                     index += 1
         return (is_in, index)
+
     def _check_toolbar_button_pressed(self, e):
-        ''' '''
+        ''' check the mouse is pressed on toolbar button '''
         self._toolbar_button_press_index = None
         judge = self._is_mouse_in_toolbar_window(e)
         if judge[0]:
@@ -381,8 +376,9 @@ class DeepinScreenshot(threading.Thread):
             self._toolbar_button_list[judge[1]].emit("pressed")
             gtk.gdk.threads_leave()
         return judge[0]
+
     def _check_toolbar_button_release(self, e):
-        ''' '''
+        ''' check the mouse is release on toolbar button '''
         if self._toolbar_button_press_index is None:
             return False
         judge = self._is_mouse_in_toolbar_window(e)
@@ -401,6 +397,7 @@ class DeepinScreenshot(threading.Thread):
         self.dis.ungrab_pointer(X.CurrentTime)
         self.dis.ungrab_keyboard(X.CurrentTime)
         self.root.ungrab_key(X.AnyKey, X.AnyModifier)
+
     def grab(self):
         '''docstring for grab'''
         self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask|X.EnterWindowMask|X.LeaveWindowMask,
@@ -410,8 +407,9 @@ class DeepinScreenshot(threading.Thread):
 
     def _size_button_enter(self, widget, event, data=None):
         '''   '''
-        print "in size button enter:", widget.state
-        print '-'*20
+        #print "in size button enter:", widget.state
+        #print '-'*20
+        pass
     def _action_button_enter(self, widget, event, data=None):
         '''  '''
         #print "in enter:", widget.state
@@ -523,7 +521,7 @@ class DeepinScreenshot(threading.Thread):
         self.fontEvent.add(self.fontLabel)
         self.fontEvent.set_visible_window(False)
         self.fontEvent.connect("button-press-event", lambda w, e: self.openFontDialog()) 
-        setClickableCursor(self.fontEvent)
+        set_clickable_cursor(self.fontEvent)
         self.fontEvent.set_size_request(100, -1)
         self._colorbar_button_list.append(self.fontLabel)
 
@@ -537,7 +535,7 @@ class DeepinScreenshot(threading.Thread):
         self.colorBox.set_events(gtk.gdk.BUTTON_PRESS_MASK)
         self.colorBox.set_size_request(28,28)
         self.colorBox.set_app_paintable(True)
-        setClickableCursor(self.colorBox)
+        set_clickable_cursor(self.colorBox)
         self.colorBox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#FF0000"))
         self.colorBox.connect('expose-event', lambda w, e:self.setColorboxBorder(w))
         self.colorBox.connect('button-press-event', self.colorSetEvent)
@@ -595,7 +593,6 @@ class DeepinScreenshot(threading.Thread):
         wathetDarkButton.connect('button-press-event', lambda w,e: self.setButtonColor('wathet_dark'))
         self._colorbar_button_list.append(wathetDarkButton)
 
-
         self.vbox.pack_start(self.aboveHbox)
 
         whiteButton  = self.createColorButton('white', False)
@@ -652,7 +649,6 @@ class DeepinScreenshot(threading.Thread):
         self.fontDialog.connect("response", self.font_dialog_response)
         self.fontDialog.set_modal(True)
         self.fontDialog.show_all()
-        #response = self.fontDialog.run()
     def font_dialog_response(self, widget, response):
         if response == gtk.RESPONSE_OK:
             self.fontName = self.fontDialog.get_font_name()
@@ -685,7 +681,6 @@ class DeepinScreenshot(threading.Thread):
         self.colorDialog.connect("response", self.color_dialog_response)
         self.colorDialog.set_modal(True)
         self.colorDialog.show_all()
-        #response = self.colorDialog.run()
     def color_dialog_response(self, widget, response, data=None):
         if response == gtk.RESPONSE_OK:
             self.actionColor = gdkColorToString(widget.colorsel.get_current_color())
@@ -956,7 +951,6 @@ class DeepinScreenshot(threading.Thread):
         actionButton = gtk.ToggleButton()
         drawSimpleButton(actionButton, iconName, helpText)
         self.toolBox.pack_start(actionButton)
-        
         return actionButton
     
     def createOtherButton(self, iconName, helpText):        # 创建其他功能按钮（撤消等）
@@ -1067,7 +1061,7 @@ class DeepinScreenshot(threading.Thread):
     def buttonPress(self, widget, event):
         '''Button press.'''
         self.dragFlag = True
-        print "in buttonPress", self.action
+        #print "in buttonPress", self.action
         if self.action == ACTION_WINDOW:
                 self.windowFlag = False
             
@@ -1089,22 +1083,22 @@ class DeepinScreenshot(threading.Thread):
             # Just create new action when drag position at inside of select area.
             if self.getPosition(event) == DRAG_INSIDE:
                 self.currentAction = RectangleAction(ACTION_RECTANGLE, self.actionSize, self.actionColor)
-                self.currentAction.startDraw(self.getEventCoord(event))
+                self.currentAction.start_draw(self.getEventCoord(event))
         elif self.action == ACTION_ELLIPSE:
             # Just create new action when drag position at inside of select area.
             if self.getPosition(event) == DRAG_INSIDE:
                 self.currentAction = EllipseAction(ACTION_ELLIPSE, self.actionSize, self.actionColor)
-                self.currentAction.startDraw(self.getEventCoord(event))
+                self.currentAction.start_draw(self.getEventCoord(event))
         elif self.action == ACTION_ARROW:
             # Just create new action when drag position at inside of select area.
             if self.getPosition(event) == DRAG_INSIDE:
                 self.currentAction = ArrowAction(ACTION_ARROW, self.actionSize, self.actionColor)
-                self.currentAction.startDraw(self.getEventCoord(event))
+                self.currentAction.start_draw(self.getEventCoord(event))
         elif self.action == ACTION_LINE:
             # Just create new action when drag position at inside of select area.
             if self.getPosition(event) == DRAG_INSIDE:
                 self.currentAction = LineAction(ACTION_LINE, self.actionSize, self.actionColor)
-                self.currentAction.startDraw(self.getEventCoord(event))
+                self.currentAction.start_draw(self.getEventCoord(event))
         elif self.action == ACTION_TEXT:
             
             if self.textWindow.get_visible():
@@ -1115,7 +1109,7 @@ class DeepinScreenshot(threading.Thread):
                         self.textModifyFlag = False
                     else:
                         textAction = TextAction(ACTION_TEXT, 15, self.actionColor, self.fontName, content)
-                        textAction.startDraw(self.textWindow.get_window().get_origin())
+                        textAction.start_draw(self.textWindow.get_window().get_origin())
                         self.textActionList.append(textAction)
                         self.actionList.append(textAction)
                     self.hideTextWindow()
@@ -1133,15 +1127,15 @@ class DeepinScreenshot(threading.Thread):
 
         if self.currentTextAction and self.action == None:
             currentX, currentY = self.getEventCoord(event)
-            drawTextX,drawTextY = self.currentTextAction.getLayoutInfo()[:2]
+            drawTextX,drawTextY = self.currentTextAction.get_layout_info()[:2]
             self.textDragOffsetX = currentX - drawTextX
-            self.testDragOffsetY = currentY - drawTextY
+            self.textDragOffsetY = currentY - drawTextY
             self.textDragFlag = True 
     
     def motionNotify(self, widget, event):
         '''Motion notify.'''
-        print "in motionNotify", self.action, self.dragFlag
-        if self.dragFlag:
+        #print "in motionNotify", self.action, self.dragFlag
+        if self.dragFlag:   # 能拖动
             # print "motionNotify: %s" % (str(event.get_root_coords()))
             (ex, ey) = self.getEventCoord(event)
             
@@ -1155,7 +1149,7 @@ class DeepinScreenshot(threading.Thread):
                 (self.rectWidth, self.rectHeight) = (ex - self.x, ey - self.y)
                 self.window.queue_draw()
             elif self.action == ACTION_SELECT:
-                print "dragPosition", self.dragPosition
+                #print "dragPosition", self.dragPosition
                 
                 if self.dragPosition == DRAG_INSIDE:
                     self.x = min(max(ex - self.dragStartOffsetX, 0), self.width - self.rectWidth)
@@ -1198,7 +1192,7 @@ class DeepinScreenshot(threading.Thread):
                 self.currentAction.drawing((ex, ey), (self.x, self.y, self.rectWidth, self.rectHeight))
                 
                 self.window.queue_draw()
-        else:
+        else:               # 不能拖动
             if self.action == ACTION_SELECT:
                 self.setCursor(self.getPosition(event))
            
@@ -1218,19 +1212,21 @@ class DeepinScreenshot(threading.Thread):
             if self.windowFlag:
                 self.hideToolbar()
                 (wx, wy) = self.getEventCoord(event)
+                #print self.screenshotWindowInfo, wx, wy
                 for eachCoord in self.screenshotWindowInfo:
                     if eachCoord.x < wx < (eachCoord.x + eachCoord.width) and eachCoord.y < wy < (eachCoord.y + eachCoord.height):
+                        #print eachCoord
                         self.x = eachCoord.x
                         self.y = eachCoord.y
                         self.rectWidth = eachCoord.width
                         self.rectHeight = eachCoord.height
+                #print "-"*20
                 self.window.queue_draw()
                 
         if self.action == None:
-
             (tx, ty) = self.getEventCoord(event)       
             if self.textDragFlag:
-                self.currentTextAction.updateCoord(tx - self.textDragOffsetX, ty - self.textDragOffsetY - 10)
+                self.currentTextAction.update_coord(tx - self.textDragOffsetX, ty - self.textDragOffsetY)
                 self.drawTextLayoutFlag = True
                 self.window.queue_draw()
             else:
@@ -1239,8 +1235,8 @@ class DeepinScreenshot(threading.Thread):
                         self.currentTextAction = eachAction
                         
             if self.currentTextAction:
-                drawTextX, drawTextY, drawTextWidth, drawTextHeight = self.currentTextAction.getLayoutInfo()
-                if drawTextX < tx < drawTextX + drawTextWidth and drawTextY < ty < drawTextY + drawTextHeight:
+                drawTextX, drawTextY, drawTextWidth, drawTextHeight = self.currentTextAction.get_layout_info()
+                if drawTextX <= tx <= drawTextX + drawTextWidth and drawTextY <= ty <= drawTextY + drawTextHeight:
                     self.drawTextLayoutFlag = True
                     setCursor(self.window, gtk.gdk.FLEUR)
                     self.window.queue_draw()
@@ -1286,25 +1282,25 @@ class DeepinScreenshot(threading.Thread):
         elif self.action == ACTION_SELECT:
             pass
         elif self.action == ACTION_RECTANGLE:
-            self.currentAction.endDraw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
+            self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
             self.actionList.append(self.currentAction)
             self.currentAction = None
             
             self.window.queue_draw()
         elif self.action == ACTION_ELLIPSE:
-            self.currentAction.endDraw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
+            self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
             self.actionList.append(self.currentAction)
             self.currentAction = None
             
             self.window.queue_draw()
         elif self.action == ACTION_ARROW:
-            self.currentAction.endDraw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
+            self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
             self.actionList.append(self.currentAction)
             self.currentAction = None
             
             self.window.queue_draw()
         elif self.action == ACTION_LINE:
-            self.currentAction.endDraw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
+            self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
             self.actionList.append(self.currentAction)
             self.currentAction = None
             self.window.queue_draw()
@@ -1320,9 +1316,9 @@ class DeepinScreenshot(threading.Thread):
         (ex, ey) = self.getEventCoord(event)
         if isDoubleClick(event) and self.textDragFlag:
             textBuffer = self.textView.get_buffer()
-            textBuffer.set_text(self.currentTextAction.getContent())
-            self.actionColor = self.currentTextAction.getColor()
-            self.fontName = self.currentTextAction.getFontname()
+            textBuffer.set_text(self.currentTextAction.get_content())
+            self.actionColor = self.currentTextAction.get_color()
+            self.fontName = self.currentTextAction.get_fontname()
             modifyBackground(self.colorBox, self.actionColor)
             self.fontLabel.set_label(self.fontName)
             
@@ -1368,20 +1364,20 @@ class DeepinScreenshot(threading.Thread):
             dialog.set_default_response(gtk.RESPONSE_ACCEPT)
             dialog.set_position(gtk.WIN_POS_MOUSE)
             dialog.set_local_only(True)
-            dialog.set_current_folder(getPicturesDir())
-            dialog.set_current_name("%s%s.%s" % (DEFAULT_FILENAME, getFormatTime(), self.saveFiletype))
+            dialog.set_current_folder(get_pictures_dir())
+            dialog.set_current_name("%s%s.%s" % (DEFAULT_FILENAME, get_format_time(), self.saveFiletype))
             optionMenu = gtk.OptionMenu()
             optionMenu.set_size_request(155, -1)
             menu = gtk.Menu()
             menu.set_size_request(155, -1)
             
-            pngItem = makeMenuItem('PNG (*.png)',
+            pngItem = make_menu_item('PNG (*.png)',
                          lambda item, data: self.setSaveFiletype(dialog, 'png'))
             
-            jpgItem = makeMenuItem('JPEG (*.jpeg)',
+            jpgItem = make_menu_item('JPEG (*.jpeg)',
                          lambda item, data: self.setSaveFiletype(dialog, 'jpeg'))
             
-            bmpItem = makeMenuItem('BMP (*.bmp)',
+            bmpItem = make_menu_item('BMP (*.bmp)',
                          lambda item, data: self.setSaveFiletype(dialog, 'bmp'))
             
             menu.append(pngItem)
@@ -1421,110 +1417,83 @@ class DeepinScreenshot(threading.Thread):
         
     def setSaveFiletype(self, dialog, filetype):
         ''' save filetype '''
-        dialog.set_current_name("%s%s.%s" % (DEFAULT_FILENAME, getFormatTime(), filetype))
+        dialog.set_current_name("%s%s.%s" % (DEFAULT_FILENAME, get_format_time(), filetype))
         self.saveFiletype = filetype
        
     def saveSnapshot(self, widget=None, filename=None, filetype='png'):
         '''Save snapshot.'''
-        # Init cairo.
-        print "saveSap"
-        print widget, filename, filetype
-        #while widget.window:
-            #time.sleep(0.001)
-        cr = self.window.window.cairo_create()
+        ## Init cairo.
+        #cr = self.window.window.cairo_create()
         
-        # Draw desktop background.
-        self.drawDesktopBackground(cr)
+        ## Draw desktop background.
+        #self.drawDesktopBackground(cr)
         
-        # Draw action list.
-        for action in self.actionList:
-            action.expose(cr)
-        # Draw text Action list.
-        for eachTextAction in self.textActionList:
-            eachTextAction.expose(cr)
+        ## Draw action list.
+        #for action in self.actionList:
+            #action.expose(cr)
+        ## Draw text Action list.
+        #for eachTextAction in self.textActionList:
+            #eachTextAction.expose(cr)
             
         # Get snapshot.
-        All_PLANE_MASK = 0xffffffff
-        win = self.dis.create_resource_object("window", self.window.window.xid)
-        x_image = win.get_image(self.x, self.y, self.rectWidth, self.rectHeight, X.ZPixmap, All_PLANE_MASK)
-        img = Image.fromstring("RGB", (int(self.rectWidth), int(self.rectHeight)), x_image.data, "raw", "BGRX")
-        print "get ximage"
-
-        f = StringIO.StringIO()
-        img.save(f, "ppm")
-        contents = f.getvalue()
-        f.close()
-        loader = gtk.gdk.PixbufLoader("pnm")
-        loader.write(contents, len(contents))
-        pixbuf = loader.get_pixbuf()
-        loader.close()
-        print "get pixbuf"
-
-        #pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, int(self.rectWidth), int(self.rectHeight))
-        #pixbuf.get_from_drawable(
-            #self.window.get_window(), self.window.get_window().get_colormap(),
-            #self.x, self.y,
-            #0, 0,
-            #int(self.rectWidth), int(self.rectHeight))
         
+        self._done = True
         # Save snapshot.
-        #if filename == None:
-            ## Save snapshot to clipboard if filename is None.
-            #clipboard = gtk.clipboard_get()
-            #clipboard.set_image(pixbuf)
-            #clipboard.store()
-            #tipContent = __("Tip save to clipboard")
-        #else:
-            ## Otherwise save to local file.
-            #pixbuf.save(filename, filetype)
-            #tipContent = __("Tip save to file")
-        self.make_pic_file(self.desktopBackground.subpixbuf(self.x, self.y, self.rectWidth, self.rectHeight), filename)
+        if self.rectWidth == 0 or self.rectHeight == 0:
+            tipContent = __("Tip area width or heigth cannot be 0")
+        else:
+            if filename == None:
+                # Save snapshot to clipboard if filename is None.
+                pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, int(self.rectWidth), int(self.rectHeight))
+                pixbuf.get_from_drawable(self.window.get_window(), self.window.get_window().get_colormap(),
+                    int(self.x), int(self.y), 0, 0, int(self.rectWidth), int(self.rectHeight))
+                clipboard = gtk.clipboard_get()
+                clipboard.clear()
+                clipboard.set_image(pixbuf)
+                tipContent = __("Tip save to clipboard")
+            else:
+                # Otherwise save to local file.
+                tipContent = __("Tip save to file")
+                self.make_pic_file(self.desktopBackground.subpixbuf(int(self.x), int(self.y), int(self.rectWidth), int(self.rectHeight)), filename)
             
-        
-
-        
         # Exit
         self.window.window.set_cursor(None)
         #self.destroy(self.window)
-        self._done = True
-        print "done", self._done
         time.sleep(0.001)
         self.window.destroy()
         
-         # tipWindow
-        #cmd = ('python', 'tipswindow.py', tipContent)
-        #subprocess.Popen(cmd)
+        # tipWindow
+        cmd = ('python', 'tipswindow.py', tipContent)
+        subprocess.Popen(cmd)
 
     def make_pic_file(self, pixbuf, filename):
-        '''  '''
+        ''' use cairo make a picture file '''
         surface = cairo.ImageSurface(cairo.FORMAT_RGB24, pixbuf.get_width(), pixbuf.get_height())
         cr = cairo.Context(surface)
         gdkcr = gtk.gdk.CairoContext(cr)
         gdkcr.set_source_pixbuf(pixbuf, 0, 0)
         gdkcr.paint()
 
-        #surface = cairo.ImageSurface.create_from_png(pixbuf)
-        #cr = cairo.Context(surface)
-        # Draw action list.
         for action in self.actionList:
             if action is not None:
-                action.startX -= self.x
-                action.startY -= self.y
-                if not isinstance(action, (TextAction, EllipseAction)):
-                    action.endX -= self.x
-                    action.endY -= self.y
+                action.start_x -= self.x
+                action.start_y -= self.y
+                if not isinstance(action, (TextAction)):
+                    action.end_x -= self.x
+                    action.end_y -= self.y
+                if isinstance(action, (LineAction)):
+                    for track in action.track:
+                        track[0] -= self.x
+                        track[1] -= self.y
                 action.expose(cr)
         
         # Draw Text Action list.
         for eachTextAction in self.textActionList:
             if eachTextAction is not None:
-                eachTextAction.startX -= self.x
-                eachTextAction.startY -= self.y
-                if not isinstance(action, (TextAction, EllipseAction)):
-                    eachTextAction.endX -= self.x
-                    eachTextAction.endY -= self.y
+                eachTextAction.start_x -= self.x
+                eachTextAction.start_y -= self.y
                 eachTextAction.expose(cr)
-                self.textActionInfo[eachTextAction] = eachTextAction.getLayoutInfo()
+                self.textActionInfo[eachTextAction] = eachTextAction.get_layout_info()
         surface.write_to_png(filename)
 
         
@@ -1552,7 +1521,7 @@ class DeepinScreenshot(threading.Thread):
         # Draw Text Action list.
         for eachTextAction in self.textActionList:
             eachTextAction.expose(cr)
-            self.textActionInfo[eachTextAction] = eachTextAction.getLayoutInfo()
+            self.textActionInfo[eachTextAction] = eachTextAction.get_layout_info()
 
         # Draw current action.
         if self.currentAction != None:
@@ -1560,7 +1529,7 @@ class DeepinScreenshot(threading.Thread):
 
         # draw currentText layout
         if self.drawTextLayoutFlag:
-            drawAlphaRectangle(cr, *self.currentTextAction.getLayoutInfo())
+            drawAlphaRectangle(cr, *self.currentTextAction.get_layout_info())
     
         #draw magnifier
         if self.action == ACTION_WINDOW and self.rectWidth:
@@ -1675,14 +1644,7 @@ class DeepinScreenshot(threading.Thread):
         
     def getDesktopSnapshot(self):
         '''Get desktop snapshot.'''
-        # 获取全屏截图
-        rootWindow = gtk.gdk.get_default_root_window() 
-        [self.width, self.height] = rootWindow.get_size() 
-        pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, self.width, self.height)
-        return pixbuf.get_from_drawable(rootWindow, rootWindow.get_colormap(), 0, 0, 0, 0, self.width, self.height) 
-        #return getScreenshotPixbuf()
-        #geometry = self.root.get_geometry() 
-        #(x, y, width, height, depth) = (geometry.x, geometry.y, geometry.width, geometry.height, geometry.depth)
+        return get_screenshot_pixbuf()
     
     def destroy(self, widget, data=None):
         '''Destroy main window.'''
@@ -1723,30 +1685,30 @@ class DeepinScreenshot(threading.Thread):
         ((tlX, tlY), (trX, trY), (blX, blY), (brX, brY), (tX, tY), (bX, bY), (lX, lY), (rX, rY)) = self.getDragPointCoords()
         
         # Calcuate drag position.
-        if isInRect((ex, ey), (self.x, self.y, self.rectWidth, self.rectHeight)):
+        if is_in_rect((ex, ey), (self.x, self.y, self.rectWidth, self.rectHeight)):
             return DRAG_INSIDE
-        elif isCollideRect((ex, ey), (tlX, tlY, pWidth, pHeight)):
+        elif is_collide_rect((ex, ey), (tlX, tlY, pWidth, pHeight)):
             return DRAG_TOP_LEFT_CORNER
-        elif isCollideRect((ex, ey), (trX, trY, pWidth, pHeight)):
+        elif is_collide_rect((ex, ey), (trX, trY, pWidth, pHeight)):
             return DRAG_TOP_RIGHT_CORNER
-        elif isCollideRect((ex, ey), (blX, blY, pWidth, pHeight)):
+        elif is_collide_rect((ex, ey), (blX, blY, pWidth, pHeight)):
             return DRAG_BOTTOM_LEFT_CORNER
-        elif isCollideRect((ex, ey), (brX, brY, pWidth, pHeight)):
+        elif is_collide_rect((ex, ey), (brX, brY, pWidth, pHeight)):
             return DRAG_BOTTOM_RIGHT_CORNER
-        elif isCollideRect((ex, ey), (tX, tY, pWidth, pHeight)) or isCollideRect((ex, ey), (self.x, self.y, self.rectWidth, self.frameLineWidth)):
+        elif is_collide_rect((ex, ey), (tX, tY, pWidth, pHeight)) or is_collide_rect((ex, ey), (self.x, self.y, self.rectWidth, self.frameLineWidth)):
             return DRAG_TOP_SIDE
-        elif isCollideRect((ex, ey), (bX, bY, pWidth, pHeight)) or isCollideRect((ex, ey), (self.x, self.y + self.rectHeight, self.rectWidth, self.frameLineWidth)):
+        elif is_collide_rect((ex, ey), (bX, bY, pWidth, pHeight)) or is_collide_rect((ex, ey), (self.x, self.y + self.rectHeight, self.rectWidth, self.frameLineWidth)):
             return DRAG_BOTTOM_SIDE
-        elif isCollideRect((ex, ey), (lX, lY, pWidth, pHeight)) or isCollideRect((ex, ey), (self.x, self.y, self.frameLineWidth, self.rectHeight)):
+        elif is_collide_rect((ex, ey), (lX, lY, pWidth, pHeight)) or is_collide_rect((ex, ey), (self.x, self.y, self.frameLineWidth, self.rectHeight)):
             return DRAG_LEFT_SIDE
-        elif isCollideRect((ex, ey), (rX, rY, pWidth, pHeight)) or isCollideRect((ex, ey), (self.x + self.rectWidth, self.y, self.frameLineWidth, self.rectHeight)):
+        elif is_collide_rect((ex, ey), (rX, rY, pWidth, pHeight)) or is_collide_rect((ex, ey), (self.x + self.rectWidth, self.y, self.frameLineWidth, self.rectHeight)):
             return DRAG_RIGHT_SIDE
         else:
             return DRAG_OUTSIDE
         
     def setCursor(self, position):
         '''Set cursor.'''
-        print "in cusor position:", position
+        #print "in cusor position:", position
         if position == DRAG_INSIDE:
             setCursor(self.window, gtk.gdk.FLEUR)
         elif position == DRAG_OUTSIDE:
@@ -1754,7 +1716,7 @@ class DeepinScreenshot(threading.Thread):
         elif position == DRAG_TOP_LEFT_CORNER:
             #setCursor(self.window, gtk.gdk.TOP_LEFT_CORNER)
             self.window.window.set_cursor(gtk.gdk.Cursor(gtk.gdk.TOP_LEFT_CORNER))
-            print "setcursor"
+            #print "setcursor"
         elif position == DRAG_TOP_RIGHT_CORNER:
             setCursor(self.window, gtk.gdk.TOP_RIGHT_CORNER)
         elif position == DRAG_BOTTOM_LEFT_CORNER:
@@ -1792,13 +1754,12 @@ class DeepinScreenshot(threading.Thread):
         
     def undo(self, widget=None):
         '''Undo'''
-        #print "undo"
         if self.textWindow.get_visible():
             self.hideTextWindow()
             
         if self.actionList:
             tempAction = self.actionList.pop()
-            if tempAction.getActionType() == ACTION_TEXT:
+            if tempAction.get_action_type() == ACTION_TEXT:
                 self.textActionList.pop()
                 del self.textActionInfo[tempAction]
         else:
@@ -1818,13 +1779,18 @@ class DeepinScreenshot(threading.Thread):
         cr.rectangle(self.x + 1, self.y + 1, self.rectWidth - 2, self.rectHeight - 2)
         cr.set_source_rgb(*colorHexToCairo(self.frameColor))
         cr.stroke()
+
     def getCurrentCoord(self, widget):
         '''get Current Coord '''
         (self.currentX, self.currentY) = widget.window.get_pointer()[:2] 
     
-if __name__ == "__main__":
+def main(name=""):
+    ''' main function '''
     gtk.gdk.threads_init()
-    s = DeepinScreenshot()
+    s = DeepinScreenshot(name)
     s.setDaemon(True)
     s.start()
     gtk.main()
+
+if __name__ == '__main__':
+    main()

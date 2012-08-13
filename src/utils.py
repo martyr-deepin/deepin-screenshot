@@ -22,7 +22,6 @@
 
 import gtk
 import pygtk
-import gobject
 import pangocairo
 import os
 import sys
@@ -31,15 +30,15 @@ from subprocess import Popen,PIPE
 
 pygtk.require('2.0')
 
-def isCollideRect((cx, cy), (x, y, w, h)):
+def is_collide_rect((cx, cy), (x, y, w, h)):
     '''Whether coordinate collide with rectangle.'''
     return (x <= cx <= x + w and y <= cy <= y + h)
 
-def isInRect((cx, cy), (x, y, w, h)):
+def is_in_rect((cx, cy), (x, y, w, h)):
     '''Whether coordinate in rectangle.'''
     return (x < cx < x + w and y < cy < y + h)
 
-def setClickableCursor(widget):
+def set_clickable_cursor(widget):
     '''Set click-able cursor.'''
     # Use widget in lambda, and not widget pass in function.
     # Otherwise, if widget free before callback, you will got error:
@@ -101,7 +100,7 @@ def getCoordRGB(widget, x, y):
     colormap = widget.get_window().get_colormap()
     image = gtk.gdk.Image(gtk.gdk.IMAGE_NORMAL, widget.window.get_visual(), width, height)
     image.set_colormap(colormap)
-    gdkcolor =  colormap.query_color(image.get_pixel(x, y))
+    gdkcolor = colormap.query_color(image.get_pixel(x, y))
     return (gdkcolor.red / 256, gdkcolor.green / 256, gdkcolor.blue / 256)
 
 def containerRemoveAll(container):
@@ -109,13 +108,13 @@ def containerRemoveAll(container):
     container.foreach(lambda widget: container.remove(widget))
 
 
-def makeMenuItem(name, callback, data=None):
+def make_menu_item(name, callback, data=None):
     item = gtk.MenuItem(name)
     item.connect("activate", callback, data)
     item.show()
     return item
 
-def getFormatTime():
+def get_format_time():
     return time.strftime("%M%S", time.localtime())
 
 def moveWindow(widget, event, window):
@@ -126,7 +125,7 @@ def moveWindow(widget, event, window):
         int(event.y_root),
         event.time)
 
-def getPicturesDir():
+def get_pictures_dir():
     ''' get user pictures dir. '''
     picturesDir = os.path.expanduser("~/Pictures")
     try:
@@ -141,7 +140,7 @@ def getPicturesDir():
         else:
             return picturesDir
 
-def parserPath(filepath):
+def parser_path(filepath):
     filename, ext = os.path.splitext(filepath)
     if ext == ".bmp":
         return (filename + ".bmp", "bmp")
@@ -149,6 +148,3 @@ def parserPath(filepath):
         return (filename + ".jpeg", "jpeg")
     else:
         return (filename + ".png", "png")
-    
-    
-    
