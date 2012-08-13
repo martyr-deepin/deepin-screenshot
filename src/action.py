@@ -29,96 +29,84 @@ import pangocairo
 
 class Action:
     '''Action'''
-	
     def __init__(self, aType, size, color):
         '''Init action.'''
         self.type = aType
         self.size = size
         self.color = color
-        self.startX = self.endX = self.startY = self.endY = None
+        self.start_x = self.end_x = self.start_y = self.end_y = None
         self.track = []
         
-    def startDraw(self, (sx, sy)):
+    def start_draw(self, (sx, sy)):
         '''Start draw.'''
-        self.startX = sx
-        self.startY = sy
+        self.start_x = sx
+        self.start_y = sy
         
-    def endDraw(self, (ex, ey), (rx, ry, rw, rh)):
+    def end_draw(self, (ex, ey), (rx, ry, rw, rh)):
         '''End draw.'''
-        self.endX = min((max(ex, rx)), rx + rw)
-        self.endY = min((max(ey, ry)), ry + rh)
+        self.end_x = min((max(ex, rx)), rx + rw)
+        self.end_y = min((max(ey, ry)), ry + rh)
+
+    def get_action_type(self):
+        ''' get action type.'''
+        return self.type
     
 class RectangleAction(Action):
     '''Rectangle action.'''
-	
     def __init__(self, aType, size, color):
         '''Rectangle action.'''
         Action.__init__(self, aType, size, color)
         
     def drawing(self, (ex, ey), (rx, ry, rw, rh)):
         '''Drawing.'''
-        self.endX = min((max(ex, rx)), rx + rw)
-        self.endY = min((max(ey, ry)), ry + rh)
+        self.end_x = min((max(ex, rx)), rx + rw)
+        self.end_y = min((max(ey, ry)), ry + rh)
         
     def expose(self, cr):
         '''Expose.'''
         cr.set_source_rgb(*colorHexToCairo(self.color))
         cr.set_line_width(self.size)
-        cr.rectangle(self.startX, self.startY, (self.endX - self.startX), (self.endY - self.startY))
+        cr.rectangle(self.start_x, self.start_y, (self.end_x - self.start_x), (self.end_y - self.start_y))
         cr.stroke()
-   
-    def getActionType(self):
-        ''' get action type.'''
-        return ACTION_RECTANGLE
 
 class EllipseAction(Action):
     '''Ellipse action.'''
-	
     def __init__(self, aType, size, color):
         '''Ellipse action.'''
         Action.__init__(self, aType, size, color)
         
     def drawing(self, (ex, ey), (rx, ry, rw, rh)):
         '''Drawing.'''
-        self.endX = min((max(ex, rx)), rx + rw)
-        self.endY = min((max(ey, ry)), ry + rh)
+        self.end_x = min((max(ex, rx)), rx + rw)
+        self.end_y = min((max(ey, ry)), ry + rh)
         
     def expose(self, cr):
         '''Expose.'''
-        ew = self.endX - self.startX
-        eh = self.endY - self.startY
+        ew = self.end_x - self.start_x
+        eh = self.end_y - self.start_y
         if ew != 0 and eh != 0:
-            drawEllipse(cr, self.startX + ew / 2, self.startY + eh / 2, fabs(ew), fabs(eh), 
-                        self.color, self.size)
+            draw_ellipse(cr, self.start_x + ew / 2, self.start_y + eh / 2, fabs(ew), fabs(eh), 
+                self.color, self.size)
 
-    def getActionType(self):
-        ''' get action type.'''
-        return ACTION_ELLIPSE            
-   
 class ArrowAction(Action):
     '''Arrow action.'''
-	
     def __init__(self, aType, size, color):
         '''Arrow action.'''
         Action.__init__(self, aType, size, color)
         
     def drawing(self, (ex, ey), (rx, ry, rw, rh)):
         '''Drawing.'''
-        self.endX = min((max(ex, rx)), rx + rw)
-        self.endY = min((max(ey, ry)), ry + rh)
+        self.end_x = min((max(ex, rx)), rx + rw)
+        self.end_y = min((max(ey, ry)), ry + rh)
         
     def expose(self, cr):
         '''Expose.'''
-        #print self.endX, self.endY
-        drawArrow(cr, (self.startX, self.startY), (self.endX, self.endY),
-                  self.color, self.size)
-    def getActionType(self):
-        ''' get action type.'''
-        return ACTION_ARROW
+        #print self.end_x, self.end_y
+        draw_arrow(cr, (self.start_x, self.start_y), (self.end_x, self.end_y),
+            self.color, self.size)
 
 class LineAction(Action):
     '''Line action.'''
-	
     def __init__(self, aType, size, color):
         '''Line action.'''
         Action.__init__(self, aType, size, color)
@@ -127,12 +115,12 @@ class LineAction(Action):
         '''Drawing.'''
         newX = min((max(ex, rx)), rx + rw)
         newY = min((max(ey, ry)), ry + rh)
-        self.endX = newX
-        self.endY = newY
+        self.end_x = newX
+        self.end_y = newY
         if self.track == []:        
-            self.track.append((newX, newY))
-        elif self.track[-1] != (newX, newY):
-            self.track.append((newX, newY))
+            self.track.append([newX, newY])
+        elif self.track[-1] != [newX, newY]:
+            self.track.append([newX, newY])
         
     def expose(self, cr):
         '''Expose.'''
@@ -145,13 +133,8 @@ class LineAction(Action):
             cr.set_source_rgb(*colorHexToCairo(self.color))
             cr.stroke()
             
-    def getActionType(self):
-        ''' get action type.'''
-        return ACTION_LINE            
-
 class TextAction(Action):
     '''Text action.'''
-	
     def __init__(self, aType, size, color, fontname, content):
         '''Text action.'''
         Action.__init__(self, aType, size, color)
@@ -160,8 +143,7 @@ class TextAction(Action):
         
     def expose(self, cr):
         '''Expose.'''
-
-        cr.move_to(self.startX, self.startY)
+        cr.move_to(self.start_x, self.start_y)
         context = pangocairo.CairoContext(cr)
         self.layout = context.create_layout()
         self.layout.set_font_description(pango.FontDescription(self.fontname))
@@ -170,35 +152,30 @@ class TextAction(Action):
         context.update_layout(self.layout)
         context.show_layout(self.layout)
  
-        
-    def updateCoord(self, x, y):
+    def update_coord(self, x, y):
         "update arguments"
-        self.startX = x
-        self.startY = y
-        
+        self.start_x = x
+        self.start_y = y
         
     def update(self, color, fontname, content):
         self.color = color
         self.fontname = fontname 
         self.content = content
 
-    def getLayoutInfo(self):
+    def get_layout_info(self):
         ''' get layout (x, y, width, height) '''
-        return (self.startX, self.startY, 
+        return (self.start_x, self.start_y, 
                 self.layout.get_size()[0] / pango.SCALE,
                 self.layout.get_size()[1] / pango.SCALE)
 
-    def getContent(self):
+    def get_content(self):
         '''get Content '''
         return self.content
 
-    def getColor(self):
+    def get_color(self):
         ''' get color '''
         return self.color
 
-    def getFontname(self):
+    def get_fontname(self):
         return self.fontname
     
-    def getActionType(self):
-        ''' get action type.'''
-        return ACTION_TEXT    

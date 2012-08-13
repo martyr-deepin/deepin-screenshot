@@ -5,7 +5,9 @@
 #               2011 Hou Shaohui
 #
 # Author:     Hou Shaohui <houshao55@gmail.com>
+#             Long Changjin <admin@longchangjin.cn>
 # Maintainer: Hou ShaoHui <houshao55@gmail.com>
+#             Long Changjin <admin@longchangjin.cn>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,41 +22,42 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import gtk, os, sys, time
-from main import DeepinScreenshot
-from window import getScreenshotPixbuf
+import gtk
+from main import main
+from window import get_screenshot_pixbuf
 from optparse import OptionParser
-from tipswindow import countdownWindow
-from utils import makeMenuItem, getFormatTime, getPicturesDir, parserPath
+from tipswindow import CountdownWindow
+from utils import make_menu_item, get_format_time, get_pictures_dir, parser_path
 from constant import DEFAULT_FILENAME
 
-saveFiletype = "png"
+save_filetype = "png"
 
-def openFileDialog(fullscreen=True, filetype='png'):
+
+def open_file_dialog(fullscreen=True, filetype='png'):
     '''Save file to file.'''
-    pixbuf = getScreenshotPixbuf(fullscreen)
+    pixbuf = get_screenshot_pixbuf(fullscreen)
     dialog = gtk.FileChooserDialog(
-                                   "Save..",
-                                   None,
-                                   gtk.FILE_CHOOSER_ACTION_SAVE,
-                                   (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
-                                    gtk.STOCK_SAVE, gtk.RESPONSE_ACCEPT))
+        "Save..",
+        None,
+        gtk.FILE_CHOOSER_ACTION_SAVE,
+        (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
+        gtk.STOCK_SAVE, gtk.RESPONSE_ACCEPT))
     dialog.set_default_response(gtk.RESPONSE_ACCEPT)
     dialog.set_position(gtk.WIN_POS_CENTER)
     dialog.set_local_only(True)
-    dialog.set_current_folder(getPicturesDir())
-    dialog.set_current_name("%s%s.%s" % (DEFAULT_FILENAME, getFormatTime(), saveFiletype))
+    dialog.set_current_folder(get_pictures_dir())
+    dialog.set_current_name("%s%s.%s" % (DEFAULT_FILENAME, get_format_time(), save_filetype))
 
     optionMenu = gtk.OptionMenu()
     optionMenu.set_size_request(155, -1)
     menu = gtk.Menu()
     menu.set_size_request(155, -1)
-    pngItem = makeMenuItem('PNG (*.png)',
-                 lambda item, data: setSaveFiletype(dialog, 'png'))
-    jpgItem = makeMenuItem('JPEG (*.jpeg)',
-                 lambda item, data: setSaveFiletype(dialog, 'jpeg'))
-    bmpItem = makeMenuItem('BMP (*.bmp)',
-                 lambda item, data: setSaveFiletype(dialog, 'bmp'))
+    pngItem = make_menu_item('PNG (*.png)',
+        lambda item, data: set_save_filetype(dialog, 'png'))
+    jpgItem = make_menu_item('JPEG (*.jpeg)',
+        lambda item, data: set_save_filetype(dialog, 'jpeg'))
+    bmpItem = make_menu_item('BMP (*.bmp)',
+        lambda item, data: set_save_filetype(dialog, 'bmp'))
     menu.append(pngItem)
     menu.append(jpgItem)
     menu.append(bmpItem)
@@ -62,19 +65,20 @@ def openFileDialog(fullscreen=True, filetype='png'):
     hbox = gtk.HBox()
     hbox.pack_end(optionMenu, False, False)
     dialog.vbox.pack_start(hbox, False, False)
-    hbox.show_all()                          
+    hbox.show_all()
     response = dialog.run()
     if response == gtk.RESPONSE_ACCEPT:
         filename = dialog.get_filename()
-        pixbuf.save(filename, filetype)
+        pixbuf.save(filename, save_filetype)
         print "Save snapshot to %s" % (filename)
     elif response == gtk.RESPONSE_REJECT:
         print 'Closed, no files selected'
     dialog.destroy()
 
-def setSaveFiletype(widget, filetype):
-    widget.set_current_name("%s%s.%s" % (DEFAULT_FILENAME, getFormatTime(), filetype))
-    saveFiletype =filetype
+def set_save_filetype(widget, filetype):
+    global save_filetype
+    widget.set_current_name("%s%s.%s" % (DEFAULT_FILENAME, get_format_time(), filetype))
+    save_filetype =filetype
        
 
 def processArguments():
@@ -86,59 +90,49 @@ def processArguments():
     parser.add_option("-s", "--save", dest="save_file", help="save screenshot to FILE", metavar="FILE")
     parser.add_option("-a", "--area", help="Grab an area of the screen instead of the entire screen", action="store_true")
     parser.add_option("-e", "--border-effect", action="store_true", dest="border_effect", help="Effect to add to the border")
-    parser.add_option("-i", "--interactive", action="store_true" ,help="Interactively set options")
-    parser.add_option("-b", "--include-border", action="store_true" ,help="Include the window border with the screenshot")
-    parser.add_option("-B", "--remove-border", action="store_true" ,help="Remove the window border from the screenshot")
-    parser.add_option("-c", "--clipboard", help="Send the grab directly to the clipboard",  action="store_true")
-    parser.add_option("--display",  action="store_true")    
-    
-    
+    parser.add_option("-i", "--interactive", action="store_true", help="Interactively set options")
+    parser.add_option("-b", "--include-border", action="store_true", help="Include the window border with the screenshot")
+    parser.add_option("-B", "--remove-border", action="store_true", help="Remove the window border from the screenshot")
+    parser.add_option("-c", "--clipboard", help="Send the grab directly to the clipboard", action="store_true")
+    parser.add_option("--display", action="store_true")    
     
     (options, args) = parser.parse_args()
 
     if options.fullscreen and options.window:
         parser.error("options -f and -w are mutually exclusive")
     elif options.save_file:
-        parserFile = parserPath(str(options.save_file))
+        parserFile = parser_path(str(options.save_file))
         if options.fullscreen:
             if options.delay:
-                countdownWindow(options.delay)
-            pixbuf = getScreenshotPixbuf(True)
+                CountdownWindow(options.delay)
+            pixbuf = get_screenshot_pixbuf(True)
             pixbuf.save(parserFile[0], parserFile[1])
         elif options.window:
             if options.delay:
-                countdownWindow(options.delay)
-            pixbuf = getScreenshotPixbuf(False)
+                CountdownWindow(options.delay)
+            pixbuf = get_screenshot_pixbuf(False)
             pixbuf.save(parserFile[0], parserFile[1])
         else:    
             if options.delay:
-                countdownWindow(options.delay)
-            DeepinScreenshot(options.save_file)
+                CountdownWindow(options.delay)
+            main(options.save_file)
     elif options.fullscreen:
         if options.delay:
-            countdownWindow(options.delay)
-            openFileDialog()
+            CountdownWindow(options.delay)
+            open_file_dialog()
         else:
-            openFileDialog()
+            open_file_dialog()
     elif options.window:
         if options.delay:
-            countdownWindow(options.delay)
-            openFileDialog(False)
+            CountdownWindow(options.delay)
+            open_file_dialog(False)
         else:
-            openFileDialog(False)
+            open_file_dialog(False)
     elif options.fullscreen and options.window or options.delay:
-        countdownWindow(options.delay)
-        DeepinScreenshot()
+        CountdownWindow(options.delay)
+        main()
     else:
-         DeepinScreenshot()
-        
-        
+        main()
 
 if __name__ == '__main__':
     processArguments()
-    
-        
-        
-    
-
-

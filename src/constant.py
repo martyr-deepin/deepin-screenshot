@@ -20,6 +20,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from Xlib import display
+import ewmh
+
 ACTION_INIT = 0
 ACTION_SELECT = 1
 ACTION_RECTANGLE = 2
@@ -48,3 +51,13 @@ SCREENSHOT_MODE_WINDOW = 2
 
 DEFAULT_FILENAME = "DeepinScreenshot-"
 DEFAULT_FONT = "文泉驿微米黑"
+
+DISPLAY = display.Display()
+SCREEN = DISPLAY.screen()
+ROOT_WINDOW = SCREEN.root
+SCREEN_WIDTH = SCREEN.width_in_pixels
+SCREEN_HEIGHT = SCREEN.height_in_pixels
+WM_HINTS = DISPLAY.intern_atom("WM_HINTS", True)
+WM_STATE = DISPLAY.intern_atom("WM_STATE", True)
+WM_DESKTOP = DISPLAY.intern_atom("_NET_WM_DESKTOP", True)
+EWMH = ewmh.EWMH(DISPLAY, ROOT_WINDOW)

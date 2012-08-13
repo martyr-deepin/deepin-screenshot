@@ -26,12 +26,12 @@
 import gtk
 from draw import *
 import sys
+from constant import SCREEN_WIDTH
 
-class tipWindow():
+class TipWindow():
     ''' tip window'''
     def __init__(self, content):
         ''' Init tip Window'''
-        screenWidth, screenHeight = gtk.gdk.get_default_root_window().get_size()
         self.delta = 0.01
         self.alpha = 1
         self.paddingX = 10
@@ -47,8 +47,8 @@ class tipWindow():
         self.tipWindow.set_opacity(1)
         self.tipWindow.set_skip_taskbar_hint(True)
         self.tipWindow.set_skip_pager_hint(True)
-        self.tipWindow.move(screenWidth - 250 , 34)
-        self.tipWindow.connect('expose-event', self.tipExpose)
+        self.tipWindow.move(SCREEN_WIDTH - 250, 34)
+        self.tipWindow.connect('expose-event', self.tip_expose)
         self.tipWindow.connect("size-allocate", lambda w, a: updateShape(w, a, 4))
         
         # Create tooltips label.
@@ -60,12 +60,12 @@ class tipWindow():
         self.align.set_padding(5, 5, self.paddingX, self.paddingX)
         self.align.add(self.label)
         self.tipWindow.add(self.align)
-        glib.timeout_add(50, lambda : self.timeoutHandler(self.tipWindow))
+        glib.timeout_add(50, lambda: self.timeout_handler(self.tipWindow))
         self.tipWindow.show_all()
         
         gtk.main()
     
-    def tipExpose(self, widget, event, data=None):
+    def tip_expose(self, widget, event, data=None):
         self.alpha -= self.delta
         widget.set_opacity(self.alpha)
         cr = widget.window.cairo_create()
@@ -75,27 +75,26 @@ class tipWindow():
         cr.fill_preserve()
         cr.stroke()
 
-        if widget.get_child() != None:
+        if widget.get_child() is not None:
             widget.propagate_expose(widget.get_child(), event)
             
         return True
     
-    def getAlpha(self):
+    def get_alpha(self):
         return self.alpha
         
-    def timeoutHandler(self, widget):
-        if self.getAlpha() <= 0:
+    def timeout_handler(self, widget):
+        if self.get_alpha() <= 0:
             gtk.main_quit()
             return False
         widget.queue_draw()
         return True
 
 
-class countdownWindow():
+class CountdownWindow():
     '''  show a countdown before taking the shot'''
     def __init__(self, count):
         ''' Init tip Window'''
-        screenWidth, screenHeight = gtk.gdk.get_default_root_window().get_size()
         self.count = count
         self.paddingX = 10
         
@@ -109,8 +108,8 @@ class countdownWindow():
         self.tipWindow.set_accept_focus(False)
         self.tipWindow.set_icon_from_file("../theme/logo/deepin-screenshot.ico")
         self.tipWindow.set_opacity(0.8)
-        self.tipWindow.move(screenWidth - 200 , 34)
-        self.tipWindow.connect('expose-event', self.tipExpose)
+        self.tipWindow.move(SCREEN_WIDTH - 200, 34)
+        self.tipWindow.connect('expose-event', self.tip_expose)
         self.tipWindow.connect("size-allocate", lambda w, a: updateShape(w, a, 4))
         
         # Create tooltips label.
@@ -122,12 +121,12 @@ class countdownWindow():
         self.align.set_padding(0, 28, self.paddingX, self.paddingX)
         self.align.add(self.label)
         self.tipWindow.add(self.align)
-        glib.timeout_add(1000, lambda : self.timeoutHandler(self.tipWindow))
+        glib.timeout_add(1000, lambda: self.timeout_handler(self.tipWindow))
         self.tipWindow.show_all()
         
         gtk.main()
     
-    def tipExpose(self, widget, event, data=None):
+    def tip_expose(self, widget, event, data=None):
         self.label.set_markup("<span foreground='#00AEFF' size='36000'>%d</span>" % (self.count))
         cr = widget.window.cairo_create()
         width, height = widget.window.get_size()
@@ -136,12 +135,12 @@ class countdownWindow():
         cr.fill_preserve()
         cr.stroke()
 
-        if widget.get_child() != None:
+        if widget.get_child() is not None:
             widget.propagate_expose(widget.get_child(), event)
             
         return True
         
-    def timeoutHandler(self, widget):
+    def timeout_handler(self, widget):
         if self.count == 1:
             self.tipWindow.hide_all()
         elif self.count <= 0:
@@ -156,7 +155,4 @@ class countdownWindow():
 if __name__ == '__main__':
     ''' '''
     if len(sys.argv) >= 2:
-        tipWindow(sys.argv[1])
-    
-
-    
+        TipWindow(sys.argv[1])
