@@ -27,8 +27,6 @@ import os
 import sys
 import time
 from subprocess import Popen,PIPE
-import PIL.Image
-import PIL.ImageStat
 from Xlib import X
 
 pygtk.require('2.0')
@@ -110,10 +108,12 @@ def getCoordRGB(widget, x, y):
     #pos = x * width + y
     #pix_color = (ord(pix[pos]), ord(pix[pos+1]), ord(pix[pos+2]))
     #return pix_color
-    o_x_image = widget.get_image(x, y, 1, 1, X.ZPixmap, 0xffffffff)
-    o_pil_image_rgb = PIL.Image.fromstring("RGB", (1, 1), o_x_image.data, "raw", "BGRX")
-    lf_colour = PIL.ImageStat.Stat(o_pil_image_rgb).mean
-    return tuple(map(int, lf_colour))
+    img = widget.get_image(x, y, 1, 1, X.ZPixmap, 0xffffffff)
+    data = []
+    data.append(img.data[2])
+    data.append(img.data[1])
+    data.append(img.data[0])
+    return (tuple(map(ord, data[0:3])))
 
 def containerRemoveAll(container):
     ''' Removee all child widgets for container. '''
