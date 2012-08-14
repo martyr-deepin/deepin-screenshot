@@ -27,6 +27,9 @@ import os
 import sys
 import time
 from subprocess import Popen,PIPE
+import PIL.Image
+import PIL.ImageStat
+from Xlib import X
 
 pygtk.require('2.0')
 
@@ -95,13 +98,22 @@ def encode(text):
     return unicode(text, sys.getfilesystemencoding())
 
 def getCoordRGB(widget, x, y):
+#def getCoordRGB(pixbuf, width, x, y):
     '''get coordinate's pixel. '''
-    width, height = widget.get_size()
-    colormap = widget.get_window().get_colormap()
-    image = gtk.gdk.Image(gtk.gdk.IMAGE_NORMAL, widget.window.get_visual(), width, height)
-    image.set_colormap(colormap)
-    gdkcolor = colormap.query_color(image.get_pixel(x, y))
-    return (gdkcolor.red / 256, gdkcolor.green / 256, gdkcolor.blue / 256)
+    #width, height = widget.get_size()
+    #colormap = widget.get_window().get_colormap()
+    #image = gtk.gdk.Image(gtk.gdk.IMAGE_NORMAL, widget.window.get_visual(), width, height)
+    #image.set_colormap(colormap)
+    #gdkcolor = colormap.query_color(image.get_pixel(x, y))
+    #return (gdkcolor.red / 256, gdkcolor.green / 256, gdkcolor.blue / 256)
+    #pix = pixbuf.get_pixels()
+    #pos = x * width + y
+    #pix_color = (ord(pix[pos]), ord(pix[pos+1]), ord(pix[pos+2]))
+    #return pix_color
+    o_x_image = widget.get_image(x, y, 1, 1, X.ZPixmap, 0xffffffff)
+    o_pil_image_rgb = PIL.Image.fromstring("RGB", (1, 1), o_x_image.data, "raw", "BGRX")
+    lf_colour = PIL.ImageStat.Stat(o_pil_image_rgb).mean
+    return tuple(map(int, lf_colour))
 
 def containerRemoveAll(container):
     ''' Removee all child widgets for container. '''

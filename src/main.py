@@ -53,10 +53,10 @@ class DeepinScreenshot(threading.Thread):
         # Init.
         self.dis = DISPLAY
         self.root =ROOT_WINDOW
-        self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask|X.EnterWindowMask|X.LeaveWindowMask,
-            X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
-        self.root.grab_keyboard(1, X.GrabModeAsync, X.GrabModeAsync, X.CurrentTime) 
-        self.root.grab_key(X.AnyKey, X.AnyModifier, True, X.GrabModeAsync, X.GrabModeAsync)
+        #self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask|X.EnterWindowMask|X.LeaveWindowMask,
+            #X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
+        #self.root.grab_keyboard(1, X.GrabModeAsync, X.GrabModeAsync, X.CurrentTime) 
+        #self.root.grab_key(X.AnyKey, X.AnyModifier, True, X.GrabModeAsync, X.GrabModeAsync)
 
         self._last_button_press_time = 0        # 上次鼠标按下的时间
         self._done = False                      
@@ -180,6 +180,7 @@ class DeepinScreenshot(threading.Thread):
                 if e.detail == 50 or e.detail == 62:   # Shift
                     modifiers['S'] = gtk.gdk.SHIFT_MASK
                     continue
+                gtk.gdk.threads_enter()
                 ev = gtk.gdk.Event(gtk.gdk.KEY_PRESS)
                 ev.keyval = int(self.dis.keycode_to_keysym(e.detail, 0))
                 ev.send_event = True
@@ -190,7 +191,6 @@ class DeepinScreenshot(threading.Thread):
                     ev.window = self.window.window
                 ev.hardware_keycode = e.detail
                 ev.state = 0 | modifiers['C'] | modifiers['M'] | modifiers['S']
-                gtk.gdk.threads_enter()
                 ev.put()
                 gtk.gdk.threads_leave()
             if e.type == X.KeyRelease:
@@ -206,24 +206,21 @@ class DeepinScreenshot(threading.Thread):
             if e.type == X.MotionNotify:
                 back = self._is_mouse_in_toolbar_window(e)
                 if back[0]:
-                    gtk.gdk.threads_enter()
-                    #self._toolbar_button_list[back[1]].enter()
-                    ##self._toolbar_button_list[back[1]].set_state(gtk.STATE_PRELIGHT)
-                    ev = gtk.gdk.Event(gtk.gdk.ENTER_NOTIFY)
-                    ev.window = self._toolbar_button_list[back[1]].window
-                    ev.time = e.time
-                    ev_x, ev_y, w = self.get_event_coord(e)
-                    ##ev.x = float(e.event_x)
-                    ##ev.y = float(e.event_y)
-                    ev.x = float(ev_x)
-                    ev.y = float(ev_y)
-                    ev.x_root = float(e.root_x)
-                    ev.y_root = float(e.root_y)
-                    ev.state = gtk.gdk.MOD2_MASK
-                    ev.send_event = True
-                    self._toolbar_button_list[back[1]].event(ev)
-                    self._toolbar_button_list[back[1]].queue_draw()
-                    gtk.gdk.threads_leave()
+                    #gtk.gdk.threads_enter()
+                    ###self._toolbar_button_list[back[1]].set_state(gtk.STATE_PRELIGHT)
+                    #ev.window = self._toolbar_button_list[back[1]].window
+                    #ev = gtk.gdk.Event(gtk.gdk.ENTER_NOTIFY)
+                    #ev.time = e.time
+                    #ev_x, ev_y, w = self.get_event_coord(e)
+                    #ev.x = float(ev_x)
+                    #ev.y = float(ev_y)
+                    #ev.x_root = float(e.root_x)
+                    #ev.y_root = float(e.root_y)
+                    #ev.state = gtk.gdk.MOD2_MASK
+                    #ev.send_event = True
+                    #self._toolbar_button_list[back[1]].event(ev)
+                    #self._toolbar_button_list[back[1]].queue_draw()
+                    #gtk.gdk.threads_leave()
                     continue
 
                 back = self._is_mouse_in_colorbar_window(e)
@@ -234,21 +231,22 @@ class DeepinScreenshot(threading.Thread):
                         self._colorbar_button_current.set_state(gtk.STATE_NORMAL)
                     self._colorbar_button_current = self._colorbar_buttons_list[back[1]]
                     self._colorbar_buttons_list[back[1]].set_state(gtk.STATE_PRELIGHT)
-                    ev = gtk.gdk.Event(gtk.gdk.ENTER_NOTIFY)
-                    ev.window = self._colorbar_buttons_list[back[1]].window
-                    ev.time = e.time
-                    ev_x, ev_y, w = self.get_event_coord(e)
-                    ev.x = float(ev_x)
-                    ev.y = float(ev_y)
-                    ev.x_root = float(e.root_x)
-                    ev.y_root = float(e.root_y)
-                    ev.state = gtk.gdk.MOD2_MASK
-                    ev.send_event = True
-                    self._colorbar_buttons_list[back[1]].event(ev)
+                    #ev = gtk.gdk.Event(gtk.gdk.ENTER_NOTIFY)
+                    #ev.window = self._colorbar_buttons_list[back[1]].window
+                    #ev.time = e.time
+                    #ev_x, ev_y, w = self.get_event_coord(e)
+                    #ev.x = float(ev_x)
+                    #ev.y = float(ev_y)
+                    #ev.x_root = float(e.root_x)
+                    #ev.y_root = float(e.root_y)
+                    #ev.state = gtk.gdk.MOD2_MASK
+                    #ev.send_event = True
+                    #self._colorbar_buttons_list[back[1]].event(ev)
                     self._colorbar_buttons_list[back[1]].queue_draw()
                     gtk.gdk.threads_leave()
                     continue
 
+                gtk.gdk.threads_enter()
                 ev = gtk.gdk.Event(gtk.gdk.MOTION_NOTIFY)
                 ev.window = self.window.window
                 ev.time = e.time
@@ -257,7 +255,6 @@ class DeepinScreenshot(threading.Thread):
                 ev.y_root = float(e.root_y)
                 ev.x = float(e.event_x)
                 ev.y = float(e.event_y)
-                gtk.gdk.threads_enter()
                 ev.put()
                 gtk.gdk.threads_leave()
             if e.type == X.ButtonPress:
@@ -265,6 +262,7 @@ class DeepinScreenshot(threading.Thread):
                     continue
                 if self._check_colorbar_button_pressed(e):
                     continue
+                gtk.gdk.threads_enter()
                 ev = gtk.gdk.Event(gtk.gdk.BUTTON_PRESS)
                 ev.button = e.detail
                 ev.time = e.time
@@ -272,13 +270,12 @@ class DeepinScreenshot(threading.Thread):
                 ev.x_root = float(e.root_x)
                 ev.y_root = float(e.root_y)
                 ev.window = self.window.window
-                #ev.window = gtk.gdk.window_foreign_new(e.window.id)
                 ev.x = float(e.event_x)
                 ev.y = float(e.event_y)
-                gtk.gdk.threads_enter()
                 ev.put()
                 gtk.gdk.threads_leave()
                 if e.time-self._last_button_press_time < 500:
+                    gtk.gdk.threads_enter()
                     ev = gtk.gdk.Event(gtk.gdk._2BUTTON_PRESS)
                     ev.window = self.window.window
                     ev.button = e.detail
@@ -289,13 +286,13 @@ class DeepinScreenshot(threading.Thread):
                     ev.x = float(e.event_x)
                     ev.y = float(e.event_y)
                     #ev.state = gtk.gdk.MOD2_MASK
-                    gtk.gdk.threads_enter()
                     ev.put()
                     gtk.gdk.threads_leave()
                 self._last_button_press_time = e.time
             if e.type == X.ButtonRelease:
                 if self._check_toolbar_button_release(e):
                     continue
+                gtk.gdk.threads_enter()
                 ev = gtk.gdk.Event(gtk.gdk.BUTTON_RELEASE)
                 ev.button = e.detail
                 ev.time = e.time
@@ -307,7 +304,6 @@ class DeepinScreenshot(threading.Thread):
                 ev.x = float(e.event_x)
                 ev.y = float(e.event_y)
                 #ev.state = gtk.gdk.MOD2_MASK
-                gtk.gdk.threads_enter()
                 ev.put()
                 gtk.gdk.threads_leave()
     
@@ -392,8 +388,21 @@ class DeepinScreenshot(threading.Thread):
                 self._toolbar_button_list[judge[1]].emit("toggled")
             gtk.gdk.threads_leave()
 
+    def _grab_pointer(self):
+        ''' grab pointer'''
+        if not self._grab_pointer_flag:
+            self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask|X.EnterWindowMask|X.LeaveWindowMask,
+                X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
+            self._grab_pointer_flag = True
+
+    def _ungrab_pointer(self):
+        ''' ungrab pointer'''
+        if self._grab_pointer_flag:
+            self.dis.ungrab_pointer(X.CurrentTime)
+            self._grab_pointer_flag = False
+
     def ungrab(self):
-        ''' ungrab xlib pointer a<F3>nd keyboard '''
+        ''' ungrab xlib pointer and keyboard '''
         self.dis.ungrab_pointer(X.CurrentTime)
         self.dis.ungrab_keyboard(X.CurrentTime)
         self.root.ungrab_key(X.AnyKey, X.AnyModifier)
@@ -1134,7 +1143,6 @@ class DeepinScreenshot(threading.Thread):
     
     def motionNotify(self, widget, event):
         '''Motion notify.'''
-        #print "in motionNotify", self.action, self.dragFlag
         if self.dragFlag:   # 能拖动
             # print "motionNotify: %s" % (str(event.get_root_coords()))
             (ex, ey) = self.getEventCoord(event)
@@ -1282,28 +1290,32 @@ class DeepinScreenshot(threading.Thread):
         elif self.action == ACTION_SELECT:
             pass
         elif self.action == ACTION_RECTANGLE:
-            self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
-            self.actionList.append(self.currentAction)
-            self.currentAction = None
-            
-            self.window.queue_draw()
+            if self.currentAction:
+                self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
+                self.actionList.append(self.currentAction)
+                self.currentAction = None
+                
+                self.window.queue_draw()
         elif self.action == ACTION_ELLIPSE:
-            self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
-            self.actionList.append(self.currentAction)
-            self.currentAction = None
-            
-            self.window.queue_draw()
+            if self.currentAction:
+                self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
+                self.actionList.append(self.currentAction)
+                self.currentAction = None
+                
+                self.window.queue_draw()
         elif self.action == ACTION_ARROW:
-            self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
-            self.actionList.append(self.currentAction)
-            self.currentAction = None
-            
-            self.window.queue_draw()
+            if self.currentAction:
+                self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
+                self.actionList.append(self.currentAction)
+                self.currentAction = None
+                
+                self.window.queue_draw()
         elif self.action == ACTION_LINE:
-            self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
-            self.actionList.append(self.currentAction)
-            self.currentAction = None
-            self.window.queue_draw()
+            if self.currentAction:
+                self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
+                self.actionList.append(self.currentAction)
+                self.currentAction = None
+                self.window.queue_draw()
         
         if self.action in [ACTION_RECTANGLE, ACTION_ELLIPSE, ACTION_ARROW, ACTION_LINE, ACTION_TEXT] and not self.showToolbarFlag and self.y < self.toolbarY < self.y + self.rectHeight:
             self.adjustToolbar()
@@ -1535,7 +1547,8 @@ class DeepinScreenshot(threading.Thread):
         if self.action == ACTION_WINDOW and self.rectWidth:
             drawMagnifier(cr, self.window, self.currentX, self.currentY,
                            '%d x %d' % (self.rectWidth, self.rectHeight),
-                            '%s' % (__("Tip Drag")), "RGB: %s" % str(getCoordRGB(self.window, self.currentX, self.currentY)))
+                            #'%s' % (__("Tip Drag")), "RGB: %s" % str(getCoordRGB(self.window, self.currentX, self.currentY)))
+                            '%s' % (__("Tip Drag")), "RGB: %s" % str(getCoordRGB(self.root, self.currentX, self.currentY)))
             self.drawWindowRectangle(cr)
         elif self.rectWidth:
             #Draw frame
@@ -1714,9 +1727,7 @@ class DeepinScreenshot(threading.Thread):
         elif position == DRAG_OUTSIDE:
             setCursor(self.window, gtk.gdk.TOP_LEFT_ARROW)
         elif position == DRAG_TOP_LEFT_CORNER:
-            #setCursor(self.window, gtk.gdk.TOP_LEFT_CORNER)
             self.window.window.set_cursor(gtk.gdk.Cursor(gtk.gdk.TOP_LEFT_CORNER))
-            #print "setcursor"
         elif position == DRAG_TOP_RIGHT_CORNER:
             setCursor(self.window, gtk.gdk.TOP_RIGHT_CORNER)
         elif position == DRAG_BOTTOM_LEFT_CORNER:
@@ -1789,6 +1800,7 @@ def main(name=""):
     gtk.gdk.threads_init()
     s = DeepinScreenshot(name)
     s.setDaemon(True)
+    time.sleep(0.001)
     s.start()
     gtk.main()
 

@@ -24,7 +24,7 @@ from math import *
 from theme import *
 from utils import *
 import sys
-from constant import DEFAULT_FONT
+from constant import DEFAULT_FONT, ROOT_WINDOW
 import cairo
 import gtk
 import pygtk
@@ -32,6 +32,11 @@ import glib
 from window import SCREEN_WIDTH, SCREEN_HEIGHT
 
 pygtk.require('2.0')
+
+ROOT_WINDOW.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask|X.EnterWindowMask|X.LeaveWindowMask,
+    X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
+ROOT_WINDOW.grab_keyboard(1, X.GrabModeAsync, X.GrabModeAsync, X.CurrentTime) 
+ROOT_WINDOW.grab_key(X.AnyKey, X.AnyModifier, True, X.GrabModeAsync, X.GrabModeAsync)
 
 def drawPixbuf(cr, pixbuf, x=0, y=0):
     '''Draw pixbuf.'''
