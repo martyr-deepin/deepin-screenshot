@@ -115,7 +115,7 @@ def getCoordRGB(widget, x, y):
     data.append(img.data[0])
     return (tuple(map(ord, data[0:3])))
 
-def containerRemoveAll(container):
+def container_remove_all(container):
     ''' Removee all child widgets for container. '''
     container.foreach(lambda widget: container.remove(widget))
 

@@ -1014,10 +1014,10 @@ class DeepinScreenshot(threading.Thread):
     def showColorbar(self):     # 显示颜色栏
         '''show colorbar '''
         if self.action == ACTION_TEXT:
-            containerRemoveAll(self.dynamicBox)
+            container_remove_all(self.dynamicBox)
             self.dynamicBox.add(self.fontEvent)
         else:
-            containerRemoveAll(self.dynamicBox)
+            container_remove_all(self.dynamicBox)
             self.dynamicBox.add(self.sizeAlign)
         self.showColorbarFlag = True
         self.adjustColorbar()
