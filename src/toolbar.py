@@ -20,18 +20,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from dtk.ui.init_skin import init_skin
-from dtk.ui.utils import get_parent_dir
-import os
-import gtk
-
-app_theme = init_skin(
-    "deepin-screenshot",
-    "2.1",
-    "01",
-    os.path.join(get_parent_dir(__file__, 2), "skin"),
-    os.path.join(get_parent_dir(__file__, 2), "theme"))
-
+from theme import app_theme
 from dtk.ui.button import ImageButton, ToggleButton
 from dtk.ui.window import Window
 #from dtk.ui.line import VSeparator
@@ -42,6 +31,7 @@ from dtk.ui.dialog import SaveFileDialog
 import dtk.ui.constant
 from lang import __
 import utils
+import gtk
 from constant import *
 
 
@@ -100,7 +90,7 @@ class ToolBar():
         self.create_button("finish", __("Tip finish"))
 
         if self.screenshot:
-            self._button_clicked_cb = {
+            self._button_clicked_cb = {         # TODO 要修改
                 'undo': self.screenshot.undo,
                 #'save': self.screenshot.saveSnapshotToFile,
                 'save': self._save_to_file,
@@ -243,6 +233,7 @@ class Colorbar():
         #self.color_select = ColorButton()
 
         self.box.pack_start(self.color_select)
+        #self.color_select.set_border_width(2)
         self.color_select.set_events(gtk.gdk.BUTTON_PRESS_MASK)
         self.color_select.set_size_request(28,28)
         self.color_select.set_app_paintable(True)
@@ -383,6 +374,6 @@ class Colorbar():
         self.window.hide_all()
 
 if __name__ == '__main__':
-    ToolBar().show()
-    #Colorbar().show()
+    #ToolBar().show()
+    Colorbar().show()
     gtk.main()

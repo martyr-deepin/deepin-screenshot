@@ -34,12 +34,11 @@ from keymap import *
 from window import *
 from lang import __
 from Xlib import X
+from widget import RootWindow, TextWindow
 
 import time
 import pygtk
 import subprocess
-import threading
-from Xlib import threaded
 
 pygtk.require('2.0')
 import gtk
@@ -54,21 +53,18 @@ def post_gui(func):
         return ret
     return wrap
 
-class DeepinScreenshot(threading.Thread):
+class DeepinScreenshot():
     '''Main screenshot.'''
     def __init__(self, save_file=""):
         '''Init Main screenshot.'''
-        # 创建一个全屏窗口并顶置，再创建工具条、颜色条、文本输入窗口
-        super(self.__class__, self).__init__()
-
         # Init.
         self.dis = DISPLAY
         self.root =ROOT_WINDOW
-        self.dis.sync()
-        self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask|X.EnterWindowMask|X.LeaveWindowMask,
-            X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
-        self.root.grab_keyboard(1, X.GrabModeAsync, X.GrabModeAsync, X.CurrentTime) 
-        self.root.grab_key(X.AnyKey, X.AnyModifier, True, X.GrabModeAsync, X.GrabModeAsync)
+        #self.dis.sync()
+        #self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask|X.EnterWindowMask|X.LeaveWindowMask,
+            #X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
+        #self.root.grab_keyboard(1, X.GrabModeAsync, X.GrabModeAsync, X.CurrentTime) 
+        #self.root.grab_key(X.AnyKey, X.AnyModifier, True, X.GrabModeAsync, X.GrabModeAsync)
 
         self._last_button_press_time = 0        # 上次鼠标按下的时间
         self._done = False                      
@@ -84,16 +80,15 @@ class DeepinScreenshot(threading.Thread):
         self._toolbar_button_current = None
 
         self.action = ACTION_WINDOW
-        #self.width = self.height = 0
         self.width = SCREEN_WIDTH
         self.height = SCREEN_HEIGHT
-        self.x = self.y = self.rectWidth = self.rectHeight = 0
+        self.x = self.y = self.rect_width = self.rect_height = 0
         self.buttonToggle = None
         
         self.frameColor = "#00AEFF"# "#FFFF0" 
         self.frameLineWidth = 2
         self.dragPosition = None
-        self.dragStartX = self.dragStartY = self.dragStartOffsetX = self.drawStartOffsetY = 0
+        self.dragStartX = self.dragStartY = self.dragStartOffsetX = self.dragStartOffsetY = 0
         self.dragPointRadius = 4
         
         self.dragFlag = False
@@ -113,11 +108,11 @@ class DeepinScreenshot(threading.Thread):
         self.fontName = "Sans 10"
         
         # default window 
-        self.screenshotWindowInfo = get_screenshot_window_info()   # 获取窗口的x,y 长，宽
-        self.windowFlag = True
+        self.screenshot_window_info = get_screenshot_window_info()   # 获取窗口的x,y 长，宽
+        self.window_flag = True
 
         # keybinding map
-        self.keyBindings = {}
+        #self.keyBindings = {}
         
         # Init action list.
         self.currentAction = None
@@ -130,344 +125,49 @@ class DeepinScreenshot(threading.Thread):
         self.drawTextLayoutFlag = False
 
         # Get desktop background.
-        self.desktopBackground = self.getDesktopSnapshot()      # 获取全屏截图
+        self.desktop_background = self.getDesktopSnapshot()      # 获取全屏截图
         
         # Init window.
-        # 创建一个全屏窗口并顶置
-        self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-        self.window.fullscreen()
-        self.window.set_icon_from_file("../theme/logo/deepin-screenshot.ico")
-        self.window.set_keep_above(True)
+        ## 创建一个全屏窗口并顶置
+        self.window = RootWindow(self)
+        #self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+        #self.window.fullscreen()
+        #self.window.set_icon_from_file("../theme/logo/deepin-screenshot.ico")
+        #self.window.set_keep_above(True)
         
-        # Init event handle.
-        self.window.add_events(gtk.gdk.KEY_RELEASE_MASK)
-        self.window.add_events(gtk.gdk.POINTER_MOTION_MASK)
-        self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
-        self.window.add_events(gtk.gdk.BUTTON_RELEASE_MASK)
-        self.window.connect("destroy", self.destroy)
-        self.window.connect("expose-event", lambda w, e: self.getCurrentCoord(w))   # 获取当前坐标
-        self.window.connect("expose-event", self.redraw)
-        self.window.connect("button-press-event", self.buttonPress)
+        ## Init event handle.
+        #self.window.add_events(gtk.gdk.KEY_RELEASE_MASK)
+        #self.window.add_events(gtk.gdk.POINTER_MOTION_MASK)
+        #self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+        #self.window.add_events(gtk.gdk.BUTTON_RELEASE_MASK)
+        #self.window.connect("destroy", self.destroy)
+        #self.window.connect("expose-event", lambda w, e: self.getCurrentCoord(w))   # 获取当前坐标
+        #self.window.connect("expose-event", self.redraw)
+        #self.window.connect("button-press-event", self.buttonPress)
         
-        self.window.connect("button-press-event", self.doubleClickRect)
-        self.window.connect("button-release-event", self.buttonRelease)
-        self.window.connect("motion-notify-event", self.motionNotify)
-        self.window.connect("key-press-event", self.keyPress)
+        #self.window.connect("button-press-event", self.doubleClickRect)
+        #self.window.connect("button-release-event", self.buttonRelease)
+        #self.window.connect("motion-notify-event", self.motionNotify)
+        #self.window.connect("key-press-event", self.keyPress)
         
-        # Register key binding.
-        self.registerKeyBinding("Escape", lambda: self.destroy(self.window))
-        self.registerKeyBinding("C-s", self.saveSnapshotToFile)
-        self.registerKeyBinding("Return", self.saveSnapshot)
-        self.registerKeyBinding("C-z", self.undo)
+        ## Register key binding.
+        #self.registerKeyBinding("Escape", lambda: self.destroy(self.window))
+        #self.registerKeyBinding("C-s", self.saveSnapshotToFile)
+        #self.registerKeyBinding("Return", self.saveSnapshot)
+        #self.registerKeyBinding("C-z", self.undo)
         
         # Init toolbar window.
-        self.initToolbar()
+        #self.initToolbar()
         
         # Init text window.
-        self.initTextWindow()
+        #self.initTextWindow()
         
         # Init color window.
-        self.initColorWindow()
+        #self.initColorWindow()
        
         # Show.
-        self.window.show_all()
+        self.window.show()
         
-    def run(self):
-        '''thread run'''
-        modifiers = {'C': 0, 'M': 0, 'S': 0}
-        while not self._done:
-            # Flush the queue and wait until the server has processed all the queued requests.
-            self.dis.sync()
-            e = self.dis.next_event()
-            if e.type == X.KeyPress:
-                if e.detail == 9:       # 按Esc退出
-                    gtk.gdk.threads_enter()
-                    self.window.destroy()
-                    gtk.gdk.threads_leave()
-                    break
-                if e.detail == 37 or e.detail == 105:   # Ctrl
-                    modifiers['C'] = gtk.gdk.CONTROL_MASK
-                    continue
-                if e.detail == 64 or e.detail == 108:   # Alt
-                    modifiers['M'] = gtk.gdk.MOD1_MASK
-                    continue
-                if e.detail == 50 or e.detail == 62:   # Shift
-                    modifiers['S'] = gtk.gdk.SHIFT_MASK
-                    continue
-                if self.showTextWindowFlag:         # 输入文本
-                    win = self.textView.window
-                else:
-                    win = self.window.window
-                self._send_key_press(win, e, modifiers)
-            if e.type == X.KeyRelease:
-                if e.detail == 37 or e.detail == 105:   # Ctrl
-                    modifiers['C'] = 0
-                    continue
-                if e.detail == 64 or e.detail == 108:   # Alt
-                    modifiers['M'] = 0
-                    continue
-                if e.detail == 50 or e.detail == 62:   # Shift
-                    modifiers['S'] = 0
-                    continue
-            if e.type == X.MotionNotify:
-                back = self._is_mouse_in_toolbar_window(e)
-                if back[0]:
-                    #gtk.gdk.threads_enter()
-                    ###self._toolbar_button_list[back[1]].set_state(gtk.STATE_PRELIGHT)
-                    #gtk.gdk.threads_leave()
-                    continue
-
-                back = self._is_mouse_in_colorbar_window(e)
-                if back[0]:
-                    gtk.gdk.threads_enter()
-                    #self._colorbar_buttons_list[back[1]].emit("enter")
-                    if self._colorbar_button_current:
-                        self._colorbar_button_current.set_state(gtk.STATE_NORMAL)
-                    self._colorbar_button_current = self._colorbar_buttons_list[back[1]]
-                    self._colorbar_buttons_list[back[1]].set_state(gtk.STATE_PRELIGHT)
-                    #self._colorbar_buttons_list[back[1]].queue_draw()
-                    gtk.gdk.threads_leave()
-                    continue
-
-                self._send_motion_notify(self.window.window, e)
-            if e.type == X.ButtonPress:
-                if self._check_toolbar_button_pressed(e):
-                    continue
-                if self._check_colorbar_button_pressed(e):
-                    continue
-                self._send_button_press(self.window.window, e)
-                if e.time-self._last_button_press_time < 500:
-                    self._send_2button_press(self.window.window, e)
-                self._last_button_press_time = e.time
-            if e.type == X.ButtonRelease:
-                if self._check_toolbar_button_release(e):
-                    continue
-                self._send_button_release(self.window.window, e)
-    
-    
-    @post_gui
-    def _send_key_press(self, win, e, modifiers):
-        ev = gtk.gdk.Event(gtk.gdk.KEY_PRESS)
-        ev.keyval = int(self.dis.keycode_to_keysym(e.detail, 0))
-        ev.send_event = True
-        ev.time = e.time
-        ev.window = win
-        ev.hardware_keycode = e.detail
-        ev.state = 0 | modifiers['C'] | modifiers['M'] | modifiers['S']
-        ev.put()
-
-    @post_gui
-    def _send_motion_notify(self, win, e):
-        ev = gtk.gdk.Event(gtk.gdk.MOTION_NOTIFY)
-        ev.window = win
-        ev.time = e.time
-        ev.send_event = True
-        ev.x_root = float(e.root_x)
-        ev.y_root = float(e.root_y)
-        ev.x = float(e.event_x)
-        ev.y = float(e.event_y)
-        ev.put()
-
-    @post_gui
-    def _send_2button_press(self, win, e):
-        ev = gtk.gdk.Event(gtk.gdk._2BUTTON_PRESS)
-        ev.button = e.detail
-        ev.time = e.time
-        ev.send_event = True
-        ev.x_root = float(e.root_x)
-        ev.y_root = float(e.root_y)
-        ev.window = win
-        ev.x = float(e.event_x)
-        ev.y = float(e.event_y)
-        #ev.state = gtk.gdk.MOD2_MASK
-        ev.put()
-    
-    @post_gui
-    def _send_button_press(self, win, e):
-        ev = gtk.gdk.Event(gtk.gdk.BUTTON_PRESS)
-        ev.button = e.detail
-        ev.time = e.time
-        ev.send_event = True
-        ev.x_root = float(e.root_x)
-        ev.y_root = float(e.root_y)
-        ev.window = self.window.window
-        ev.x = float(e.event_x)
-        ev.y = float(e.event_y)
-        ev.put()
-
-    @post_gui
-    def _send_button_release(self, win, e):
-        ev = gtk.gdk.Event(gtk.gdk.BUTTON_RELEASE)
-        ev.button = e.detail
-        ev.time = e.time
-        ev.send_event = True
-        ev.x_root = float(e.root_x)
-        ev.y_root = float(e.root_y)
-        ev.window = win
-        ev.x = float(e.event_x)
-        ev.y = float(e.event_y)
-        #ev.state = gtk.gdk.MOD2_MASK
-        ev.put()
-
-    def _is_mouse_in_colorbar_window(self, e):
-        ''' judge the mouse is in color window '''
-        is_in = False
-        index = 0
-        if self.showColorbarFlag:
-            if e.child:
-                win = gtk.gdk.window_foreign_new(e.child.id)
-            else:
-                win = gtk.gdk.window_foreign_new(e.window.id)
-            if win == self.colorbarWindow.window:
-                event = self.get_event_coord(e)
-                for position in self._colorbar_button_position:      # 判断鼠标是否在按钮上
-                    if position[0] < event[0] < position[0]+position[2] and position[1] < event[1] < position[1]+position[3]:
-                        is_in= True
-                        break
-                    index += 1
-        return (is_in, index)
-
-    @post_gui
-    def _check_colorbar_button_pressed(self, e):
-        ''' check the mouse is preesed on color button '''
-        judge = self._is_mouse_in_colorbar_window(e)
-        if judge[0]:
-            ev = gtk.gdk.Event(gtk.gdk.BUTTON_PRESS)
-            ev.window = self._colorbar_buttons_list[judge[1]].window
-            ev.send_event = True
-            ev.time = e.time
-            x, y = self.get_event_coord(e)[0:2]
-            ev.x = float(x)
-            ev.y = float(y)
-            ev.button = e.detail
-            ev.x_root = float(e.root_x)
-            ev.y_root = float(e.root_y)
-            self._colorbar_buttons_list[judge[1]].event(ev)
-        return judge[0]
-
-    def _is_mouse_in_toolbar_window(self, e):
-        ''' judge the mouse is in toolbar window '''
-        is_in = False
-        index = 0
-        if self.showToolbarFlag:
-            if e.child:
-                win = gtk.gdk.window_foreign_new(e.child.id)
-            else:
-                win = gtk.gdk.window_foreign_new(e.window.id)
-            if win == self.toolbarWindow.window:
-                event = self.get_event_coord(e)
-                for position in self._toolbar_button_position:      # 判断鼠标是否在按钮上
-                    if position[0] < event[0] < position[0]+position[2] and position[1] < event[1] < position[1]+position[3]:
-                        is_in= True
-                        break
-                    index += 1
-        return (is_in, index)
-
-    @post_gui
-    def _check_toolbar_button_pressed(self, e):
-        ''' check the mouse is pressed on toolbar button '''
-        self._toolbar_button_press_index = None
-        judge = self._is_mouse_in_toolbar_window(e)
-        if judge[0]:
-            self._toolbar_button_press_index = judge[1]
-            self._toolbar_button_list[judge[1]].emit("pressed")
-        return judge[0]
-
-    @post_gui
-    def _check_toolbar_button_release(self, e):
-        ''' check the mouse is release on toolbar button '''
-        if self._toolbar_button_press_index is None:
-            return False
-        judge = self._is_mouse_in_toolbar_window(e)
-        if judge[0]:
-            if self._toolbar_button_press_index != judge[1]:
-                return False
-            self._toolbar_button_list[judge[1]].emit("released")
-            self._toolbar_button_list[judge[1]].emit("clicked")
-            if isinstance(self._toolbar_button_list[judge[1]], gtk.ToggleButton):
-                self._toolbar_button_list[judge[1]].emit("toggled")
-        return judge[0]
-
-    def _grab_pointer(self):
-        ''' grab pointer'''
-        if not self._grab_pointer_flag:
-            self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask|X.EnterWindowMask|X.LeaveWindowMask,
-                X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
-            self._grab_pointer_flag = True
-
-    def _ungrab_pointer(self):
-        ''' ungrab pointer'''
-        if self._grab_pointer_flag:
-            self.dis.ungrab_pointer(X.CurrentTime)
-            self._grab_pointer_flag = False
-
-    def ungrab(self):
-        ''' ungrab xlib pointer and keyboard '''
-        self.dis.ungrab_pointer(X.CurrentTime)
-        self.dis.ungrab_keyboard(X.CurrentTime)
-        self.root.ungrab_key(X.AnyKey, X.AnyModifier)
-
-    def grab(self):
-        '''docstring for grab'''
-        self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask|X.EnterWindowMask|X.LeaveWindowMask,
-            X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
-        self.root.grab_keyboard(1, X.GrabModeAsync, X.GrabModeAsync, X.CurrentTime) 
-        self.root.grab_key(X.AnyKey, X.AnyModifier, True, X.GrabModeAsync, X.GrabModeAsync)
-
-    def _size_button_enter(self, widget, event, data=None):
-        '''   '''
-        #print "in size button enter:", widget.state
-        #print '-'*20
-        pass
-    def _action_button_enter(self, widget, event, data=None):
-        '''  '''
-        #print "in enter:", widget.state
-        #if widget.state != gtk.STATE_PRELIGHT.real:
-            #widget.set_state(gtk.STATE_PRELIGHT)
-            #print "set_state"
-        #print "in enter:", widget.state 
-        #print "x,y  root x,y:", event.x, event.y, event.x_root, event.y_root
-        #print "state:", event.state
-        #print "mode:", event.mode
-        #print "detail:", event.detail
-        #print "-"*20
-        pass
-    def _action_button_leave(self, widget, data=None):
-        '''  '''
-        print "in leave:", widget.state, "\n"
-
-    def get_event_coord(self, e):
-        ''' get event coord in window '''
-        window = self.root
-        if e.child:
-            window = e.child
-            tree = e.child.query_tree()
-            child = tree.children
-            e_geometry = e.child.get_geometry()
-            child_geometry = None
-            if child:
-                child_geometry = child[0].get_geometry()
-            if child_geometry:
-                event_x = e.root_x - (e_geometry.x + child_geometry.x)
-                event_y = e.root_y - (e_geometry.y + child_geometry.y)
-            else:
-                event_x = e.root_x - e_geometry.x
-                event_y = e.root_y - e_geometry.y
-        else:   # e.child = 0
-            window = e.window
-            p = e.window.query_tree().parent
-            e_geometry = e.child.get_geometry()
-            parent_geometry = None
-            if p and p != self.root:
-                parent_geometry = p.get_geometry()
-            if parent_geometry:
-                event_x = e.root_x - (e_geometry.x + parent_geometry.x)
-                event_y = e.root_y - (e_geometry.y + parent_geometry.y)
-            else:
-                event_x = e.root_x - e_geometry.x
-                event_y = e.root_y - e_geometry.y
-        return (event_x, event_y, window)
-
     def initColorWindow(self):  # 创建颜色选择栏
         ''' init ColorWindow'''
         # 创建颜色选择栏
@@ -808,11 +508,7 @@ class DeepinScreenshot(threading.Thread):
         self.actionFinishButton.connect("clicked", self.saveSnapshot)
         self._toolbar_button_list.append(self.actionFinishButton)
 
-        #print self.toolbarWindow.window.get_geometry()
-        #print self._toolbar_button_position
-      
     def setOtherInactive(self, button):     # 将其余工具按钮设为未按下状态
-        #print "setOtherInactive"
         buttonList = [self.actionRectangleButton, self.actionEllipseButton, self.actionArrowButton, self.actionLineButton,
                       self.actionTextButton]
         
@@ -864,7 +560,7 @@ class DeepinScreenshot(threading.Thread):
 
         else:
             self.hideColorbar()
-            if not self.actionList and not self.textActionList and self.showToolbarFlag and not self.windowFlag:
+            if not self.actionList and not self.textActionList and self.showToolbarFlag and not self.window_flag:
                 self.setActionType(ACTION_SELECT)
             elif self.actionList and self.isToggled or self.textActionList:
                 self.setActionType(None)
@@ -1042,10 +738,10 @@ class DeepinScreenshot(threading.Thread):
         (x, y, self.toolbarWidth, self.toolbarHeight, depth) = self.toolbarWindow.window.get_geometry()
         colorbarHeight = 32
         
-        self.toolbarX = (self.x + self.rectWidth - self.toolbarWidth, self.toolbarOffsetX)[self.x + self.rectWidth - self.toolbarWidth < self.toolbarOffsetX]
+        self.toolbarX = (self.x + self.rect_width - self.toolbarWidth, self.toolbarOffsetX)[self.x + self.rect_width - self.toolbarWidth < self.toolbarOffsetX]
         
-        if self.y + self.rectHeight + self.toolbarOffsetY + self.toolbarHeight + colorbarHeight + 5 < self.height:
-            self.toolbarY = self.y + self.rectHeight + self.toolbarOffsetY
+        if self.y + self.rect_height + self.toolbarOffsetY + self.toolbarHeight + colorbarHeight + 5 < self.height:
+            self.toolbarY = self.y + self.rect_height + self.toolbarOffsetY
         elif self.y - self.toolbarOffsetY - self.toolbarHeight -colorbarHeight - 5 > 0:
             self.toolbarY = self.y - self.toolbarOffsetY - self.toolbarHeight
         else:
@@ -1072,7 +768,7 @@ class DeepinScreenshot(threading.Thread):
         self.dragFlag = True
         #print "in buttonPress", self.action
         if self.action == ACTION_WINDOW:
-                self.windowFlag = False
+                self.window_flag = False
             
         elif self.action == ACTION_INIT:
             (self.x, self.y) = self.getEventCoord(event)
@@ -1130,7 +826,7 @@ class DeepinScreenshot(threading.Thread):
                     self.setAllInactive()
             else:
                 self.showTextWindow(self.getEventCoord(event))
-        if self.action in [ACTION_RECTANGLE, ACTION_ELLIPSE, ACTION_ARROW, ACTION_LINE] and self.showToolbarFlag and self.y < self.toolbarY < self.y + self.rectHeight:
+        if self.action in [ACTION_RECTANGLE, ACTION_ELLIPSE, ACTION_ARROW, ACTION_LINE] and self.showToolbarFlag and self.y < self.toolbarY < self.y + self.rect_height:
             self.hideToolbar()
             self.hideColorbar()
 
@@ -1147,21 +843,21 @@ class DeepinScreenshot(threading.Thread):
             # print "motionNotify: %s" % (str(event.get_root_coords()))
             (ex, ey) = self.getEventCoord(event)
             
-            if self.action == ACTION_WINDOW and not self.windowFlag: 
+            if self.action == ACTION_WINDOW and not self.window_flag: 
                 
                 self.action = ACTION_INIT
                 (self.x, self.y) = self.getEventCoord(event)
                 self.window.queue_draw()
                 
             elif self.action == ACTION_INIT:
-                (self.rectWidth, self.rectHeight) = (ex - self.x, ey - self.y)
+                (self.rect_width, self.rect_height) = (ex - self.x, ey - self.y)
                 self.window.queue_draw()
             elif self.action == ACTION_SELECT:
                 #print "dragPosition", self.dragPosition
                 
                 if self.dragPosition == DRAG_INSIDE:
-                    self.x = min(max(ex - self.dragStartOffsetX, 0), self.width - self.rectWidth)
-                    self.y = min(max(ey - self.dragStartOffsetY, 0), self.height - self.rectHeight)
+                    self.x = min(max(ex - self.dragStartOffsetX, 0), self.width - self.rect_width)
+                    self.y = min(max(ey - self.dragStartOffsetY, 0), self.height - self.rect_height)
                 elif self.dragPosition == DRAG_TOP_SIDE:
                     self.dragFrameTop(ex, ey)
                 elif self.dragPosition == DRAG_BOTTOM_SIDE:
@@ -1185,19 +881,19 @@ class DeepinScreenshot(threading.Thread):
                 self.window.queue_draw()
                 
             elif self.action == ACTION_RECTANGLE and self.currentAction:
-                self.currentAction.drawing((ex, ey), (self.x, self.y, self.rectWidth, self.rectHeight))
+                self.currentAction.drawing((ex, ey), (self.x, self.y, self.rect_width, self.rect_height))
                 
                 self.window.queue_draw()
             elif self.action == ACTION_ELLIPSE and self.currentAction:
-                self.currentAction.drawing((ex, ey), (self.x, self.y, self.rectWidth, self.rectHeight))
+                self.currentAction.drawing((ex, ey), (self.x, self.y, self.rect_width, self.rect_height))
                 
                 self.window.queue_draw()
             elif self.action == ACTION_ARROW and self.currentAction:
-                self.currentAction.drawing((ex, ey), (self.x, self.y, self.rectWidth, self.rectHeight))
+                self.currentAction.drawing((ex, ey), (self.x, self.y, self.rect_width, self.rect_height))
                 
                 self.window.queue_draw()
             elif self.action == ACTION_LINE and self.currentAction:
-                self.currentAction.drawing((ex, ey), (self.x, self.y, self.rectWidth, self.rectHeight))
+                self.currentAction.drawing((ex, ey), (self.x, self.y, self.rect_width, self.rect_height))
                 
                 self.window.queue_draw()
         else:               # 不能拖动
@@ -1217,17 +913,17 @@ class DeepinScreenshot(threading.Thread):
             else:
                 self.window.window.set_cursor(None)
                 
-            if self.windowFlag:
+            if self.window_flag:
                 self.hideToolbar()
                 (wx, wy) = self.getEventCoord(event)
-                #print self.screenshotWindowInfo, wx, wy
-                for eachCoord in self.screenshotWindowInfo:
+                #print self.screenshot_window_info, wx, wy
+                for eachCoord in self.screenshot_window_info:
                     if eachCoord.x < wx < (eachCoord.x + eachCoord.width) and eachCoord.y < wy < (eachCoord.y + eachCoord.height):
                         #print eachCoord
                         self.x = eachCoord.x
                         self.y = eachCoord.y
-                        self.rectWidth = eachCoord.width
-                        self.rectHeight = eachCoord.height
+                        self.rect_width = eachCoord.width
+                        self.rect_height = eachCoord.height
                 #print "-"*20
                 self.window.queue_draw()
                 
@@ -1260,12 +956,12 @@ class DeepinScreenshot(threading.Thread):
         self.dragFlag = False
         # print "buttonRelease: %s" % (str(event.get_root_coords()))
         if self.action == ACTION_WINDOW:
-            if self.rectWidth > 5 and self.rectHeight > 5:
+            if self.rect_width > 5 and self.rect_height > 5:
                 self.showToolbar()
                 self.action = ACTION_SELECT
                 self.window.queue_draw()
             else:
-                self.windowFlag = True
+                self.window_flag = True
             
         elif self.action == ACTION_INIT:
             self.action = ACTION_SELECT
@@ -1273,15 +969,15 @@ class DeepinScreenshot(threading.Thread):
             
             # Adjust value when button release.
             if ex > self.x:
-                self.rectWidth = ex - self.x
+                self.rect_width = ex - self.x
             else:
-                self.rectWidth = fabs(ex - self.x)
+                self.rect_width = fabs(ex - self.x)
                 self.x = ex
                 
             if ey > self.y:
-                self.rectHeight = ey - self.y
+                self.rect_height = ey - self.y
             else:
-                self.rectHeight = fabs(ey - self.y)
+                self.rect_height = fabs(ey - self.y)
                 self.y = ey
                 
             self.window.queue_draw()
@@ -1291,33 +987,33 @@ class DeepinScreenshot(threading.Thread):
             pass
         elif self.action == ACTION_RECTANGLE:
             if self.currentAction:
-                self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
+                self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rect_width, self.rect_height))
                 self.actionList.append(self.currentAction)
                 self.currentAction = None
                 
                 self.window.queue_draw()
         elif self.action == ACTION_ELLIPSE:
             if self.currentAction:
-                self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
+                self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rect_width, self.rect_height))
                 self.actionList.append(self.currentAction)
                 self.currentAction = None
                 
                 self.window.queue_draw()
         elif self.action == ACTION_ARROW:
             if self.currentAction:
-                self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
+                self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rect_width, self.rect_height))
                 self.actionList.append(self.currentAction)
                 self.currentAction = None
                 
                 self.window.queue_draw()
         elif self.action == ACTION_LINE:
             if self.currentAction:
-                self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rectWidth, self.rectHeight))
+                self.currentAction.end_draw(self.getEventCoord(event), (self.x, self.y, self.rect_width, self.rect_height))
                 self.actionList.append(self.currentAction)
                 self.currentAction = None
                 self.window.queue_draw()
         
-        if self.action in [ACTION_RECTANGLE, ACTION_ELLIPSE, ACTION_ARROW, ACTION_LINE, ACTION_TEXT] and not self.showToolbarFlag and self.y < self.toolbarY < self.y + self.rectHeight:
+        if self.action in [ACTION_RECTANGLE, ACTION_ELLIPSE, ACTION_ARROW, ACTION_LINE, ACTION_TEXT] and not self.showToolbarFlag and self.y < self.toolbarY < self.y + self.rect_height:
             self.adjustToolbar()
             self.showToolbar()
             self.adjustColorbar()
@@ -1338,7 +1034,7 @@ class DeepinScreenshot(threading.Thread):
             self.showTextWindow(self.getEventCoord(event))
             self.textModifyFlag = True
        
-        if isDoubleClick(event) and self.action == ACTION_SELECT and self.x < ex < self.x + self.rectWidth and self.y < ey < self.y + self.rectHeight:
+        if isDoubleClick(event) and self.action == ACTION_SELECT and self.x < ex < self.x + self.rect_width and self.y < ey < self.y + self.rect_height:
             self.saveSnapshot()
             self.buttonRelease(widget, event)
 
@@ -1451,14 +1147,14 @@ class DeepinScreenshot(threading.Thread):
         
         self._done = True
         # Save snapshot.
-        if self.rectWidth == 0 or self.rectHeight == 0:
+        if self.rect_width == 0 or self.rect_height == 0:
             tipContent = __("Tip area width or heigth cannot be 0")
         else:
             if filename == None:
                 # Save snapshot to clipboard if filename is None.
-                pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, int(self.rectWidth), int(self.rectHeight))
+                pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, int(self.rect_width), int(self.rect_height))
                 pixbuf.get_from_drawable(self.window.get_window(), self.window.get_window().get_colormap(),
-                    int(self.x), int(self.y), 0, 0, int(self.rectWidth), int(self.rectHeight))
+                    int(self.x), int(self.y), 0, 0, int(self.rect_width), int(self.rect_height))
                 clipboard = gtk.clipboard_get()
                 clipboard.clear()
                 clipboard.set_image(pixbuf)
@@ -1466,7 +1162,7 @@ class DeepinScreenshot(threading.Thread):
             else:
                 # Otherwise save to local file.
                 tipContent = __("Tip save to file")
-                self.make_pic_file(self.desktopBackground.subpixbuf(int(self.x), int(self.y), int(self.rectWidth), int(self.rectHeight)), filename)
+                self.make_pic_file(self.desktop_background.subpixbuf(int(self.x), int(self.y), int(self.rect_width), int(self.rect_height)), filename)
             
         # Exit
         self.window.window.set_cursor(None)
@@ -1544,21 +1240,21 @@ class DeepinScreenshot(threading.Thread):
             drawAlphaRectangle(cr, *self.currentTextAction.get_layout_info())
     
         #draw magnifier
-        if self.action == ACTION_WINDOW and self.rectWidth:
+        if self.action == ACTION_WINDOW and self.rect_width:
             drawMagnifier(cr, self.window, self.currentX, self.currentY,
-                           '%d x %d' % (self.rectWidth, self.rectHeight),
-                            #'%s' % (__("Tip Drag")), "RGB: %s" % str(getCoordRGB(self.window, self.currentX, self.currentY)))
-                            '%s' % (__("Tip Drag")), "RGB: %s" % str(getCoordRGB(self.root, self.currentX, self.currentY)))
+                           '%d x %d' % (self.rect_width, self.rect_height),
+                            #'%s' % (__("Tip Drag")), "RGB: %s" % str(get_coord_rgb(self.window, self.currentX, self.currentY)))
+                            '%s' % (__("Tip Drag")), "RGB: %s" % str(get_coord_rgb(self.root, self.currentX, self.currentY)))
             self.drawWindowRectangle(cr)
-        elif self.rectWidth:
+        elif self.rect_width:
             #Draw frame
             self.drawFrame(cr)
             # Draw drag point.
             self.drawDragPoint(cr)
             if self.y - 35 > 0:
-                drawRoundTextRectangle(cr, self.x + 5, self.y - 35, 85, 30, 7,'%d x %d' % (fabs(self.rectWidth), fabs(self.rectHeight)), 0.7)
+                drawRoundTextRectangle(cr, self.x + 5, self.y - 35, 85, 30, 7,'%d x %d' % (fabs(self.rect_width), fabs(self.rect_height)), 0.7)
             elif self.action in [None, ACTION_SELECT, ACTION_WINDOW, ACTION_INIT]:
-                drawRoundTextRectangle(cr, self.x + 5 , self.y + 5 , 85, 30, 7,'%d x %d' % (fabs(self.rectWidth), fabs(self.rectHeight)), 0.7)
+                drawRoundTextRectangle(cr, self.x + 5 , self.y + 5 , 85, 30, 7,'%d x %d' % (fabs(self.rect_width), fabs(self.rect_height)), 0.7)
         
         if widget.get_child() != None:
             widget.propagate_expose(widget.get_child(), event)
@@ -1567,24 +1263,24 @@ class DeepinScreenshot(threading.Thread):
     
     def drawDesktopBackground(self, cr):
         '''Draw desktop.'''
-        drawPixbuf(cr, self.desktopBackground)    
+        drawPixbuf(cr, self.desktop_background)    
         
     def drawMask(self, cr):
         '''Draw mask.'''
         # Adjust value when create selection area.
-        if self.rectWidth > 0:
+        if self.rect_width > 0:
             x = self.x
-            rectWidth = self.rectWidth
+            rectWidth = self.rect_width
         else:
-            x = self.x + self.rectWidth
-            rectWidth = fabs(self.rectWidth)
+            x = self.x + self.rect_width
+            rectWidth = fabs(self.rect_width)
 
-        if self.rectHeight > 0:
+        if self.rect_height > 0:
             y = self.y
-            rectHeight = self.rectHeight
+            rectHeight = self.rect_height
         else:
-            y = self.y + self.rectHeight
-            rectHeight = fabs(self.rectHeight)
+            y = self.y + self.rect_height
+            rectHeight = fabs(self.rect_height)
         
         # Draw top.
         cr.set_source_rgba(0, 0, 0, 0.5)
@@ -1610,7 +1306,7 @@ class DeepinScreenshot(threading.Thread):
         '''Draw frame.'''
         cr.set_source_rgb(*colorHexToCairo(self.frameColor))
         cr.set_line_width(self.frameLineWidth)
-        cr.rectangle(self.x, self.y, self.rectWidth, self.rectHeight)
+        cr.rectangle(self.x, self.y, self.rect_width, self.rect_height)
         cr.stroke()
         
     def drawDragPoint(self, cr):
@@ -1622,37 +1318,37 @@ class DeepinScreenshot(threading.Thread):
         
         # Draw right top corner.
         cr.set_source_rgb(*colorHexToCairo(self.frameColor))
-        cr.arc(self.x + self.rectWidth, self.y, self.dragPointRadius, 0, 2 * pi)
+        cr.arc(self.x + self.rect_width, self.y, self.dragPointRadius, 0, 2 * pi)
         cr.fill()
         
         # Draw left bottom corner.
         cr.set_source_rgb(*colorHexToCairo(self.frameColor))
-        cr.arc(self.x, self.y + self.rectHeight, self.dragPointRadius, 0, 2 * pi)
+        cr.arc(self.x, self.y + self.rect_height, self.dragPointRadius, 0, 2 * pi)
         cr.fill()
         
         # Draw right bottom corner.
         cr.set_source_rgb(*colorHexToCairo(self.frameColor))
-        cr.arc(self.x + self.rectWidth, self.y + self.rectHeight, self.dragPointRadius, 0, 2 * pi)
+        cr.arc(self.x + self.rect_width, self.y + self.rect_height, self.dragPointRadius, 0, 2 * pi)
         cr.fill()
         
         # Draw top side.
         cr.set_source_rgb(*colorHexToCairo(self.frameColor))
-        cr.arc(self.x + self.rectWidth / 2, self.y, self.dragPointRadius, 0, 2 * pi)
+        cr.arc(self.x + self.rect_width / 2, self.y, self.dragPointRadius, 0, 2 * pi)
         cr.fill()
         
         # Draw bottom side.
         cr.set_source_rgb(*colorHexToCairo(self.frameColor))
-        cr.arc(self.x + self.rectWidth / 2, self.y + self.rectHeight, self.dragPointRadius, 0, 2 * pi)
+        cr.arc(self.x + self.rect_width / 2, self.y + self.rect_height, self.dragPointRadius, 0, 2 * pi)
         cr.fill()
         
         # Draw left side.
         cr.set_source_rgb(*colorHexToCairo(self.frameColor))
-        cr.arc(self.x, self.y + self.rectHeight / 2, self.dragPointRadius, 0, 2 * pi)
+        cr.arc(self.x, self.y + self.rect_height / 2, self.dragPointRadius, 0, 2 * pi)
         cr.fill()
         
         # Draw right side.
         cr.set_source_rgb(*colorHexToCairo(self.frameColor))
-        cr.arc(self.x + self.rectWidth, self.y + self.rectHeight / 2, self.dragPointRadius, 0, 2 * pi)
+        cr.arc(self.x + self.rect_width, self.y + self.rect_height / 2, self.dragPointRadius, 0, 2 * pi)
         cr.fill()
         
     def getDesktopSnapshot(self):
@@ -1673,19 +1369,19 @@ class DeepinScreenshot(threading.Thread):
             # Top left.
             (self.x - self.dragPointRadius, self.y - self.dragPointRadius),
             # Top right.
-            (self.x + self.rectWidth - self.dragPointRadius, self.y - self.dragPointRadius),
+            (self.x + self.rect_width - self.dragPointRadius, self.y - self.dragPointRadius),
             # Bottom left.
-            (self.x - self.dragPointRadius, self.y + self.rectHeight - self.dragPointRadius),
+            (self.x - self.dragPointRadius, self.y + self.rect_height - self.dragPointRadius),
             # Bottom right.
-            (self.x + self.rectWidth - self.dragPointRadius, self.y + self.rectHeight - self.dragPointRadius),
+            (self.x + self.rect_width - self.dragPointRadius, self.y + self.rect_height - self.dragPointRadius),
             # Top side.
-            (self.x + self.rectWidth / 2 - self.dragPointRadius, self.y - self.dragPointRadius),
+            (self.x + self.rect_width / 2 - self.dragPointRadius, self.y - self.dragPointRadius),
             # Bottom side.
-            (self.x + self.rectWidth / 2 - self.dragPointRadius, self.y + self.rectHeight - self.dragPointRadius),
+            (self.x + self.rect_width / 2 - self.dragPointRadius, self.y + self.rect_height - self.dragPointRadius),
             # Left side.
-            (self.x - self.dragPointRadius, self.y + self.rectHeight / 2 - self.dragPointRadius),
+            (self.x - self.dragPointRadius, self.y + self.rect_height / 2 - self.dragPointRadius),
             # Right side.
-            (self.x + self.rectWidth - self.dragPointRadius, self.y + self.rectHeight / 2 - self.dragPointRadius),
+            (self.x + self.rect_width - self.dragPointRadius, self.y + self.rect_height / 2 - self.dragPointRadius),
             )
         
     def getPosition(self, event):
@@ -1698,7 +1394,7 @@ class DeepinScreenshot(threading.Thread):
         ((tlX, tlY), (trX, trY), (blX, blY), (brX, brY), (tX, tY), (bX, bY), (lX, lY), (rX, rY)) = self.getDragPointCoords()
         
         # Calcuate drag position.
-        if is_in_rect((ex, ey), (self.x, self.y, self.rectWidth, self.rectHeight)):
+        if is_in_rect((ex, ey), (self.x, self.y, self.rect_width, self.rect_height)):
             return DRAG_INSIDE
         elif is_collide_rect((ex, ey), (tlX, tlY, pWidth, pHeight)):
             return DRAG_TOP_LEFT_CORNER
@@ -1708,13 +1404,13 @@ class DeepinScreenshot(threading.Thread):
             return DRAG_BOTTOM_LEFT_CORNER
         elif is_collide_rect((ex, ey), (brX, brY, pWidth, pHeight)):
             return DRAG_BOTTOM_RIGHT_CORNER
-        elif is_collide_rect((ex, ey), (tX, tY, pWidth, pHeight)) or is_collide_rect((ex, ey), (self.x, self.y, self.rectWidth, self.frameLineWidth)):
+        elif is_collide_rect((ex, ey), (tX, tY, pWidth, pHeight)) or is_collide_rect((ex, ey), (self.x, self.y, self.rect_width, self.frameLineWidth)):
             return DRAG_TOP_SIDE
-        elif is_collide_rect((ex, ey), (bX, bY, pWidth, pHeight)) or is_collide_rect((ex, ey), (self.x, self.y + self.rectHeight, self.rectWidth, self.frameLineWidth)):
+        elif is_collide_rect((ex, ey), (bX, bY, pWidth, pHeight)) or is_collide_rect((ex, ey), (self.x, self.y + self.rect_height, self.rect_width, self.frameLineWidth)):
             return DRAG_BOTTOM_SIDE
-        elif is_collide_rect((ex, ey), (lX, lY, pWidth, pHeight)) or is_collide_rect((ex, ey), (self.x, self.y, self.frameLineWidth, self.rectHeight)):
+        elif is_collide_rect((ex, ey), (lX, lY, pWidth, pHeight)) or is_collide_rect((ex, ey), (self.x, self.y, self.frameLineWidth, self.rect_height)):
             return DRAG_LEFT_SIDE
-        elif is_collide_rect((ex, ey), (rX, rY, pWidth, pHeight)) or is_collide_rect((ex, ey), (self.x + self.rectWidth, self.y, self.frameLineWidth, self.rectHeight)):
+        elif is_collide_rect((ex, ey), (rX, rY, pWidth, pHeight)) or is_collide_rect((ex, ey), (self.x + self.rect_width, self.y, self.frameLineWidth, self.rect_height)):
             return DRAG_RIGHT_SIDE
         else:
             return DRAG_OUTSIDE
@@ -1722,7 +1418,7 @@ class DeepinScreenshot(threading.Thread):
     def setCursor(self, position):
         '''Set cursor.'''
         #print "in cusor position:", position
-        if position == DRAG_INSIDE:
+        if position == DRAG_INSIDE:         # TODO 
             setCursor(self.window, gtk.gdk.FLEUR)
         elif position == DRAG_OUTSIDE:
             setCursor(self.window, gtk.gdk.TOP_LEFT_ARROW)
@@ -1745,23 +1441,23 @@ class DeepinScreenshot(threading.Thread):
             
     def dragFrameTop(self, ex, ey):
         '''Drag frame top.'''
-        maxY = self.y + self.rectHeight
-        self.rectHeight = self.rectHeight - min(self.rectHeight, (ey - self.y))
+        maxY = self.y + self.rect_height
+        self.rect_height = self.rect_height - min(self.rect_height, (ey - self.y))
         self.y = min(ey, maxY) 
     
     def dragFrameBottom(self, ex, ey):
         '''Drag frame bottom.'''
-        self.rectHeight = max(0, ey - self.y)
+        self.rect_height = max(0, ey - self.y)
     
     def dragFrameLeft(self, ex, ey):
         '''Drag frame left.'''
-        maxX = self.x + self.rectWidth
-        self.rectWidth = self.rectWidth - min(self.rectWidth, (ex - self.x))
+        maxX = self.x + self.rect_width
+        self.rect_width = self.rect_width - min(self.rect_width, (ex - self.x))
         self.x = min(ex, maxX)
     
     def dragFrameRight(self, ex, ey):
         '''Drag frame right.'''
-        self.rectWidth = max(0, ex - self.x)
+        self.rect_width = max(0, ex - self.x)
         
     def undo(self, widget=None):
         '''Undo'''
@@ -1776,8 +1472,8 @@ class DeepinScreenshot(threading.Thread):
         else:
             self.window.window.set_cursor(None)
             self.action = ACTION_WINDOW
-            self.x = self.y = self.rectWidth = self.rectHeight = 0
-            self.windowFlag = True
+            self.x = self.y = self.rect_width = self.rect_height = 0
+            self.window_flag = True
             self.dragFlag = False
             self.hideToolbar()
             if self.showColorbarFlag:
@@ -1787,7 +1483,7 @@ class DeepinScreenshot(threading.Thread):
     def drawWindowRectangle(self, cr):
         '''Draw frame.'''
         cr.set_line_width(4.5)
-        cr.rectangle(self.x + 1, self.y + 1, self.rectWidth - 2, self.rectHeight - 2)
+        cr.rectangle(self.x + 1, self.y + 1, self.rect_width - 2, self.rect_height - 2)
         cr.set_source_rgb(*colorHexToCairo(self.frameColor))
         cr.stroke()
 
@@ -1799,9 +1495,6 @@ def main(name=""):
     ''' main function '''
     gtk.gdk.threads_init()
     s = DeepinScreenshot(name)
-    s.setDaemon(True)
-    time.sleep(0.001)
-    s.start()
     gtk.main()
 
 if __name__ == '__main__':

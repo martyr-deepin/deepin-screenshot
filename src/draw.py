@@ -24,12 +24,12 @@ from math import *
 from theme import *
 from utils import *
 import sys
-from constant import DEFAULT_FONT, ROOT_WINDOW
+from constant import DEFAULT_FONT
 import cairo
 import gtk
 import pygtk
 import glib
-from window import SCREEN_WIDTH, SCREEN_HEIGHT
+from window import SCREEN_WIDTH, SCREEN_HEIGHT, ROOT_WINDOW
 
 pygtk.require('2.0')
 

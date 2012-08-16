@@ -95,8 +95,8 @@ def gdkColorToString(gdkcolor):
 def encode(text):
     return unicode(text, sys.getfilesystemencoding())
 
-def getCoordRGB(widget, x, y):
-#def getCoordRGB(pixbuf, width, x, y):
+def get_coord_rgb(widget, x, y):
+#def get_coord_rgb(pixbuf, width, x, y):
     '''get coordinate's pixel. '''
     #width, height = widget.get_size()
     #colormap = widget.get_window().get_colormap()

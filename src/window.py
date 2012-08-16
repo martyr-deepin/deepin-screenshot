@@ -21,11 +21,23 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from collections import namedtuple
+from Xlib import display
 
 from constant import *
 import pygtk
 pygtk.require("2.0")
 import gtk
+import ewmh
+
+DISPLAY = display.Display()
+SCREEN = DISPLAY.screen()
+ROOT_WINDOW = SCREEN.root
+SCREEN_WIDTH = SCREEN.width_in_pixels
+SCREEN_HEIGHT = SCREEN.height_in_pixels
+WM_HINTS = DISPLAY.intern_atom("WM_HINTS", True)
+WM_STATE = DISPLAY.intern_atom("WM_STATE", True)
+WM_DESKTOP = DISPLAY.intern_atom("_NET_WM_DESKTOP", True)
+EWMH = ewmh.EWMH(DISPLAY, ROOT_WINDOW)
 
 def find_window_by_property(xlibWindow, atom=WM_STATE):
     ''' find Window by property '''
