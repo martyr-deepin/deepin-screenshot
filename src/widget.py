@@ -29,9 +29,8 @@ from collections import namedtuple
 from draw import *
 from constant import *
 from lang import __
+import status
 import gtk
-import cairo
-import utils
 
 
 Magnifier = namedtuple('Magnifier', 'x y size_content tip rgb')
@@ -40,8 +39,8 @@ class RootWindow():
     ''' background window'''
     def __init__(self, screenshot=None):
         self.screenshot = screenshot
-        self.__frame_border = 2
-        self.__drag_point_radius = 4
+        self.frame_border = 2
+        self.drag_point_radius = 4
         self.__frame_color = (0.0, 0.68, 1.0)
 
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
@@ -64,12 +63,15 @@ class RootWindow():
         self.window.connect("button-release-event", self._button_release_event)
         self.window.connect("motion-notify-event", self._motion_notify_event)
         self.window.connect("key-press-event", self._key_press_event)
-        #self.window.connect("event", self._window_event)
         
         self.draw_area = gtk.DrawingArea()
         self.draw_area.connect("expose-event", self._draw_expose)
         self.window.add(self.draw_area)
         self.magnifier = None
+        
+        self._button_pressed_process = status.ButtonPressProcess(screenshot, self)
+        self._button_released_process = status.ButtonReleaseProcess(screenshot, self)
+        self._button_motion_process = status.MotionProcess(screenshot, self)
 
         # key binding.
         self.hotkey_map = { "Escape": self.window.destroy}
@@ -79,10 +81,6 @@ class RootWindow():
             self.hotkey_map["KP_Enter"] = self.screenshot.saveSnapshot
             self.hotkey_map["Ctrl + z"] = self.screenshot.undo
 
-    def _window_event(self, widget, event):
-        ''' window event '''
-        print event
-
     def _draw_expose(self, widget, event):
         ''' draw area expose'''
         cr = widget.window.cairo_create()
@@ -90,8 +88,8 @@ class RootWindow():
         if self.screenshot:
             cr.set_source_pixbuf(self.screenshot.desktop_background, 0, 0)
             cr.paint()
-        # draw magnifier
-        if self.magnifier:
+        # ACTION_WINDOW draw magnifier
+        if self.magnifier and self.screenshot.action == ACTION_WINDOW:
             self._draw_magnifier(cr)
         # draw mask
         self._draw_mask(cr)
@@ -110,75 +108,8 @@ class RootWindow():
         ''' button press '''
         if self.screenshot is None:
             return
-        screen = self.screenshot
-        screen.dragFlag = True
-        if screen.action == ACTION_WINDOW:
-            screen.window_flag = False
-        elif screen.action == ACTION_INIT:
-            (screen.x, screen.y) = self.get_event_coord(event)
-        elif screen.action == ACTION_SELECT:
-            # Init drag position.
-            screen.dragPosition = screen.getPosition(event)
-            
-            # Set cursor.
-            #screen.setCursor(screen.dragPosition)
-            
-            # Get drag coord and offset.
-            (screen.dragStartX, screen.dragStartY) = self.get_event_coord(event)
-            screen.dragStartOffsetX = screen.dragStartX - screen.x
-            screen.dragStartOffsetY = screen.dragStartY - screen.y
-        elif screen.action == ACTION_RECTANGLE:
-            # Just create new action when drag position at inside of select area.
-            if screen.getPosition(event) == DRAG_INSIDE:
-                screen.currentAction = RectangleAction(ACTION_RECTANGLE, screen.actionSize, screen.actionColor)
-                screen.currentAction.start_draw(screen.get_event_coord(event))
-        elif screen.action == ACTION_ELLIPSE:
-            # Just create new action when drag position at inside of select area.
-            if screen.getPosition(event) == DRAG_INSIDE:
-                screen.currentAction = EllipseAction(ACTION_ELLIPSE, screen.actionSize, screen.actionColor)
-                screen.currentAction.start_draw(self.get_event_coord(event))
-        elif screen.action == ACTION_ARROW:
-            # Just create new action when drag position at inside of select area.
-            if screen.getPosition(event) == DRAG_INSIDE:
-                screen.currentAction = ArrowAction(ACTION_ARROW, screen.actionSize, screen.actionColor)
-                screen.currentAction.start_draw(self.get_event_coord(event))
-        elif screen.action == ACTION_LINE:
-            # Just create new action when drag position at inside of select area.
-            if screen.getPosition(event) == DRAG_INSIDE:
-                screen.currentAction = LineAction(ACTION_LINE, screen.actionSize, screen.actionColor)
-                screen.currentAction.start_draw(self.get_event_coord(event))
-        elif screen.action == ACTION_TEXT:
-            
-            if screen.textWindow.get_visible():
-                content = screen.getInputText()
-                if content != "":
-                    if screen.textModifyFlag:
-                        screen.currentTextAction.update(screen.actionColor, screen.fontName, content)
-                        screen.textModifyFlag = False
-                    else:
-                        textAction = TextAction(ACTION_TEXT, 15, screen.actionColor, screen.fontName, content)
-                        textAction.start_draw(screen.textWindow.get_window().get_origin())
-                        screen.textActionList.append(textAction)
-                        screen.actionList.append(textAction)
-                    screen.hideTextWindow()
-                    screen.setAllInactive()
-                    
-                    self.window.queue_draw()
-                else:
-                    screen.hideTextWindow()
-                    screen.setAllInactive()
-            else:
-                screen.showTextWindow(self.get_event_coord(event))
-        if screen.action in [ACTION_RECTANGLE, ACTION_ELLIPSE, ACTION_ARROW, ACTION_LINE] and screen.showToolbarFlag and screen.y < screen.toolbarY < screen.y + screen.rect_height:
-            screen.hideToolbar()
-            screen.hideColorbar()
-
-        if screen.currentTextAction and screen.action == None:
-            currentX, currentY = screen.get_event_coord(event)
-            drawTextX,drawTextY = screen.currentTextAction.get_layout_info()[:2]
-            screen.textDragOffsetX = currentX - drawTextX
-            screen.textDragOffsetY = currentY - drawTextY
-            screen.textDragFlag = True 
+        self._button_pressed_process.update(event)
+        self._button_pressed_process.process()
     
     def _button_double_clicked(self, widget, event):
         ''' double clicked '''
@@ -190,193 +121,16 @@ class RootWindow():
         ''' button release '''
         if self.screenshot is None:
             return
-        screen = self.screenshot
-        screen.textDragFlag = False
-        screen.dragFlag = False
-        # print "buttonRelease: %s" % (str(event.get_root_coords()))
-        if screen.action == ACTION_WINDOW:
-            if screen.rect_width > 5 and screen.rect_height > 5:
-                #screen.showToolbar()
-                screen.action = ACTION_SELECT
-                self.window.queue_draw()
-            else:
-                screen.window_flag = True
-            
-        elif screen.action == ACTION_INIT:
-            screen.action = ACTION_SELECT
-            (ex, ey) = self.get_event_coord(event)
-            
-            # Adjust value when button release.
-            if ex > screen.x:
-                screen.rect_width = ex - screen.x
-            else:
-                screen.rect_width = fabs(ex - screen.x)
-                screen.x = ex
-                
-            if ey > screen.y:
-                screen.rect_height = ey - screen.y
-            else:
-                screen.rect_height = fabs(ey - screen.y)
-                screen.y = ey
-                
-            self.window.queue_draw()
-            
-            #self.showToolbar()
-        elif screen.action == ACTION_SELECT:
-            pass
-        elif screen.action == ACTION_RECTANGLE:
-            if screen.currentAction:
-                screen.currentAction.end_draw(screen.getEventCoord(event), (screen.x, screen.y, screen.rect_width, screen.rect_height))
-                screen.actionList.append(screen.currentAction)
-                screen.currentAction = None
-                
-                self.window.queue_draw()
-        elif screen.action == ACTION_ELLIPSE:
-            if screen.currentAction:
-                screen.currentAction.end_draw(screen.getEventCoord(event), (screen.x, screen.y, screen.rect_width, screen.rect_height))
-                screen.actionList.append(screen.currentAction)
-                screen.currentAction = None
-                
-                self.window.queue_draw()
-        elif screen.action == ACTION_ARROW:
-            if screen.currentAction:
-                screen.currentAction.end_draw(screen.getEventCoord(event), (screen.x, screen.y, screen.rect_width, screen.rect_height))
-                screen.actionList.append(screen.currentAction)
-                screen.currentAction = None
-                
-                self.window.queue_draw()
-        elif screen.action == ACTION_LINE:
-            if screen.currentAction:
-                screen.currentAction.end_draw(screen.getEventCoord(event), (screen.x, screen.y, screen.rect_width, screen.rect_height))
-                screen.actionList.append(screen.currentAction)
-                screen.currentAction = None
-                self.window.queue_draw()
-        
-        if screen.action in [ACTION_RECTANGLE, ACTION_ELLIPSE, ACTION_ARROW, ACTION_LINE, ACTION_TEXT] and not screen.showToolbarFlag and screen.y < screen.toolbarY < screen.y + screen.rect_height:
-            screen.adjustToolbar()
-            screen.showToolbar()
-            screen.adjustColorbar()
-            #self.showColorbar()
+        self._button_released_process.update(event)
+        self._button_released_process.process()
     
     def _motion_notify_event(self, widget, event):
         ''' motion notify '''
         #self.update_magnifier(event.x, event.y)
         if self.screenshot is None:
             return
-        # update magnifier
-        screen = self.screenshot
-        size = "%d x %d " % (screen.rect_width, screen.rect_height)
-        rgb = utils.get_coord_rgb(screen.root, event.x, event.y)
-        self.update_magnifier(event.x, event.y, size=size, rgb=str(rgb))
-
-        if screen.dragFlag:   # 能拖动
-            # print "motionNotify: %s" % (str(event.get_root_coords()))
-            (ex, ey) = self.get_event_coord(event)
-            
-            if screen.action == ACTION_WINDOW and not screen.window_flag: 
-                
-                screen.action = ACTION_INIT
-                (screen.x, screen.y) = self.get_event_coord(event)
-                self.window.queue_draw()
-                
-            elif screen.action == ACTION_INIT:
-                (screen.rect_width, screen.rect_height) = (ex - screen.x, ey - screen.y)
-                self.window.queue_draw()
-            elif screen.action == ACTION_SELECT:
-                if screen.dragPosition == DRAG_INSIDE:
-                    screen.x = min(max(ex - screen.dragStartOffsetX, 0), screen.width - screen.rect_width)
-                    screen.y = min(max(ey - screen.dragStartOffsetY, 0), screen.height - screen.rect_height)
-                elif screen.dragPosition == DRAG_TOP_SIDE:
-                    screen.dragFrameTop(ex, ey)
-                elif screen.dragPosition == DRAG_BOTTOM_SIDE:
-                    screen.dragFrameBottom(ex, ey)
-                elif screen.dragPosition == DRAG_LEFT_SIDE:
-                    screen.dragFrameLeft(ex, ey)
-                elif screen.dragPosition == DRAG_RIGHT_SIDE:
-                    screen.dragFrameRight(ex, ey)
-                elif screen.dragPosition == DRAG_TOP_LEFT_CORNER:
-                    screen.dragFrameTop(ex, ey)
-                    screen.dragFrameLeft(ex, ey)
-                elif screen.dragPosition == DRAG_TOP_RIGHT_CORNER:
-                    screen.dragFrameTop(ex, ey)
-                    screen.dragFrameRight(ex, ey)
-                elif screen.dragPosition == DRAG_BOTTOM_LEFT_CORNER:
-                    screen.dragFrameBottom(ex, ey)
-                    screen.dragFrameLeft(ex, ey)
-                elif screen.dragPosition == DRAG_BOTTOM_RIGHT_CORNER:
-                    screen.dragFrameBottom(ex, ey)
-                    screen.dragFrameRight(ex, ey)                      
-                self.window.queue_draw()
-                
-            elif screen.action == ACTION_RECTANGLE and screen.currentAction:
-                screen.currentAction.drawing((ex, ey), (screen.x, screen.y, screen.rect_width, screen.rect_height))
-                
-                self.window.queue_draw()
-            elif screen.action == ACTION_ELLIPSE and screen.currentAction:
-                screen.currentAction.drawing((ex, ey), (screen.x, screen.y, screen.rect_width, screen.rect_height))
-                
-                self.window.queue_draw()
-            elif screen.action == ACTION_ARROW and screen.currentAction:
-                screen.currentAction.drawing((ex, ey), (screen.x, screen.y, screen.rect_width, screen.rect_height))
-                
-                self.window.queue_draw()
-            elif screen.action == ACTION_LINE and screen.currentAction:
-                screen.currentAction.drawing((ex, ey), (screen.x, screen.y, screen.rect_width, screen.rect_height))
-                
-                self.window.queue_draw()
-        else:               # 不能拖动
-            #if screen.action == ACTION_SELECT:
-                #screen.setCursor(screen.getPosition(event))
-           
-            #elif screen.action == ACTION_WINDOW:
-                #setPixbufCursor(screen.window, "start_cursor.png")
-            
-            #elif screen.action in (ACTION_RECTANGLE, ACTION_ELLIPSE):
-                #setCursor(screen.window, gtk.gdk.TCROSS)
-            
-            #elif screen.action == ACTION_LINE:
-                #setCursor(screen.window, gtk.gdk.PENCIL)
-            #elif screen.action == ACTION_TEXT:
-                #setCursor(screen.window, gtk.gdk.XTERM)
-            #else:
-                #screen.window.window.set_cursor(None)
-                
-            if screen.window_flag:
-                #screen.hideToolbar()
-                (wx, wy) = self.get_event_coord(event)
-                #print screen.screenshot_window_info, wx, wy
-                for eachCoord in screen.screenshot_window_info:
-                    if eachCoord.x < wx < (eachCoord.x + eachCoord.width) and eachCoord.y < wy < (eachCoord.y + eachCoord.height):
-                        #print eachCoord
-                        screen.x = eachCoord.x
-                        screen.y = eachCoord.y
-                        screen.rect_width = eachCoord.width
-                        screen.rect_height = eachCoord.height
-                #print "-"*20
-                self.window.queue_draw()
-                
-        if screen.action == None:
-            (tx, ty) = self.get_event_coord(event)       
-            if screen.textDragFlag:
-                screen.currentTextAction.update_coord(tx - screen.textDragOffsetX, ty - screen.textDragOffsetY)
-                screen.drawTextLayoutFlag = True
-                self.window.queue_draw()
-            else:
-                for eachAction, info in screen.textActionInfo.items():
-                    if info[0] < tx < info[0]+info[2] and info[1] < ty < info[1]+info[3]:
-                        screen.currentTextAction = eachAction
-                        
-            if screen.currentTextAction:
-                drawTextX, drawTextY, drawTextWidth, drawTextHeight = screen.currentTextAction.get_layout_info()
-                if drawTextX <= tx <= drawTextX + drawTextWidth and drawTextY <= ty <= drawTextY + drawTextHeight:
-                    screen.drawTextLayoutFlag = True
-                    #setCursor(self.window, gtk.gdk.FLEUR)
-                    self.window.queue_draw()
-                else:
-                    screen.drawTextLayoutFlag = False    
-                    screen.currentTextAction = None
-                    self.window.window.set_cursor(None)
-                    self.window.queue_draw()
+        self._button_motion_process.update(event)
+        self._button_motion_process.process()
     
     def _key_press_event(self, widget, event):
         ''' key press '''
@@ -465,31 +219,31 @@ class RootWindow():
         '''draw mask'''
         if self.screenshot is None:
             return
-        screen = self.screenshot
+        screenshot = self.screenshot
         #cr = self._cr
         # Adjust value when create selection area.
-        if screen.rect_width > 0:
-            x = screen.x
-            rect_width = screen.rect_width
+        if screenshot.rect_width > 0:
+            x = screenshot.x
+            rect_width = screenshot.rect_width
         else:
-            x = screen.x + screen.rect_width
-            rect_width = fabs(screen.rect_width)
+            x = screenshot.x + screenshot.rect_width
+            rect_width = fabs(screenshot.rect_width)
 
-        if screen.rect_height > 0:
-            y = screen.y
-            rect_height = screen.rect_height
+        if screenshot.rect_height > 0:
+            y = screenshot.y
+            rect_height = screenshot.rect_height
         else:
-            y = screen.y + screen.rect_height
-            rect_height = fabs(screen.rect_height)
+            y = screenshot.y + screenshot.rect_height
+            rect_height = fabs(screenshot.rect_height)
         
         # Draw top.
         cr.set_source_rgba(0, 0, 0, 0.5)
-        cr.rectangle(0, 0, screen.width, y)
+        cr.rectangle(0, 0, screenshot.width, y)
         cr.fill()
 
         # Draw bottom.
         cr.set_source_rgba(0, 0, 0, 0.5)
-        cr.rectangle(0, y + rect_height, screen.width, screen.height - y - rect_height)
+        cr.rectangle(0, y + rect_height, screenshot.width, screenshot.height - y - rect_height)
         cr.fill()
 
         # Draw left.
@@ -499,44 +253,44 @@ class RootWindow():
 
         # Draw right.
         cr.set_source_rgba(0, 0, 0, 0.5)
-        cr.rectangle(x + rect_width, y, screen.width - x - rect_width, rect_height)
+        cr.rectangle(x + rect_width, y, screenshot.width - x - rect_width, rect_height)
         cr.fill()
 
     def _draw_drag_point(self, cr):
         '''Draw drag point.'''
-        screen = self.screenshot
+        screenshot = self.screenshot
         cr.set_source_rgb(*self.__frame_color)
         # Draw left top corner.
-        cr.arc(screen.x, screen.y, self.__drag_point_radius, 0, 2 * pi)
+        cr.arc(screenshot.x, screenshot.y, self.drag_point_radius, 0, 2 * pi)
         cr.fill()
         # Draw right top corner.
-        cr.arc(screen.x + screen.rect_width, screen.y, self.__drag_point_radius, 0, 2 * pi)
+        cr.arc(screenshot.x + screenshot.rect_width, screenshot.y, self.drag_point_radius, 0, 2 * pi)
         cr.fill()
         # Draw left bottom corner.
-        cr.arc(screen.x, screen.y + screen.rect_height, self.__drag_point_radius, 0, 2 * pi)
+        cr.arc(screenshot.x, screenshot.y + screenshot.rect_height, self.drag_point_radius, 0, 2 * pi)
         cr.fill()
         # Draw right bottom corner.
-        cr.arc(screen.x + screen.rect_width, screen.y + screen.rect_height, self.__drag_point_radius, 0, 2 * pi)
+        cr.arc(screenshot.x + screenshot.rect_width, screenshot.y + screenshot.rect_height, self.drag_point_radius, 0, 2 * pi)
         cr.fill()
         # Draw top side.
-        cr.arc(screen.x + screen.rect_width / 2, screen.y, self.__drag_point_radius, 0, 2 * pi)
+        cr.arc(screenshot.x + screenshot.rect_width / 2, screenshot.y, self.drag_point_radius, 0, 2 * pi)
         cr.fill()
         # Draw bottom side.
-        cr.arc(screen.x + screen.rect_width / 2, screen.y + screen.rect_height, self.__drag_point_radius, 0, 2 * pi)
+        cr.arc(screenshot.x + screenshot.rect_width / 2, screenshot.y + screenshot.rect_height, self.drag_point_radius, 0, 2 * pi)
         cr.fill()
         # Draw left side.
-        cr.arc(screen.x, screen.y + screen.rect_height / 2, self.__drag_point_radius, 0, 2 * pi)
+        cr.arc(screenshot.x, screenshot.y + screenshot.rect_height / 2, self.drag_point_radius, 0, 2 * pi)
         cr.fill()
         # Draw right side.
-        cr.arc(screen.x + screen.rect_width, screen.y + screen.rect_height / 2, self.__drag_point_radius, 0, 2 * pi)
+        cr.arc(screenshot.x + screenshot.rect_width, screenshot.y + screenshot.rect_height / 2, self.drag_point_radius, 0, 2 * pi)
         cr.fill()
 
     def _draw_frame(self, cr):
         '''Draw frame.'''
-        screen = self.screenshot
+        screenshot = self.screenshot
         cr.set_source_rgb(*self.__frame_color)
-        cr.set_line_width(self.__frame_border)
-        cr.rectangle(screen.x, screen.y, screen.rect_width, screen.rect_height)
+        cr.set_line_width(self.frame_border)
+        cr.rectangle(screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height)
         cr.stroke()
 
     def get_event_coord(self, event):     # 获取事件的坐标
@@ -544,6 +298,128 @@ class RootWindow():
         (rx, ry) = event.get_root_coords()
         return (int(rx), int(ry))
         
+    def drag_frame_top(self, ex, ey):
+        '''Drag frame top.'''
+        screenshot = self.screenshot
+        maxY = screenshot.y + screenshot.rect_height
+        screenshot.rect_height = screenshot.rect_height - min(screenshot.rect_height, (ey - screenshot.y))
+        screenshot.y = min(ey, maxY) 
+    
+    def drag_frame_bottom(self, ex, ey):
+        '''Drag frame bottom.'''
+        screenshot = self.screenshot
+        screenshot.rect_height = max(0, ey - screenshot.y)
+    
+    def drag_frame_left(self, ex, ey):
+        '''Drag frame left.'''
+        screenshot = self.screenshot
+        maxX = screenshot.x + screenshot.rect_width
+        screenshot.rect_width = screenshot.rect_width - min(screenshot.rect_width, (ex - screenshot.x))
+        screenshot.x = min(ex, maxX)
+    
+    def drag_frame_right(self, ex, ey):
+        '''Drag frame right.'''
+        screenshot = self.screenshot
+        screenshot.rect_width = max(0, ex - screenshot.x)
+
+    def get_drag_point_coords(self):
+        '''Get drag point coords.'''
+        screenshot = self.screenshot
+        return (
+            # Top left.
+            (screenshot.x - self.drag_point_radius, screenshot.y - self.drag_point_radius),
+            # Top right.
+            (screenshot.x + screenshot.rect_width - self.drag_point_radius, screenshot.y - self.drag_point_radius),
+            # Bottom left.
+            (screenshot.x - self.drag_point_radius, screenshot.y + screenshot.rect_height - self.drag_point_radius),
+            # Bottom right.
+            (screenshot.x + screenshot.rect_width - self.drag_point_radius, screenshot.y + screenshot.rect_height - self.drag_point_radius),
+            # Top side.
+            (screenshot.x + screenshot.rect_width / 2 - self.drag_point_radius, screenshot.y - self.drag_point_radius),
+            # Bottom side.
+            (screenshot.x + screenshot.rect_width / 2 - self.drag_point_radius, screenshot.y + screenshot.rect_height - self.drag_point_radius),
+            # Left side.
+            (screenshot.x - self.drag_point_radius, screenshot.y + screenshot.rect_height / 2 - self.drag_point_radius),
+            # Right side.
+            (screenshot.x + screenshot.rect_width - self.drag_point_radius, screenshot.y + screenshot.rect_height / 2 - self.drag_point_radius))
+
+    def get_position(self, event):
+        '''Get drag position.'''
+        screenshot = self.screenshot
+        # Get event position.
+        (ex, ey) = self.get_event_coord(event)
+        # Get drag point coords.
+        pWidth = pHeight = self.drag_point_radius* 2
+        ((tlX, tlY), (trX, trY), (blX, blY), (brX, brY), (tX, tY), (bX, bY), (lX, lY), (rX, rY)) = self.get_drag_point_coords()
+        
+        # Calcuate drag position.
+        if is_in_rect((ex, ey), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height)):
+            return DRAG_INSIDE
+        elif is_collide_rect((ex, ey), (tlX, tlY, pWidth, pHeight)):
+            return DRAG_TOP_LEFT_CORNER
+        elif is_collide_rect((ex, ey), (trX, trY, pWidth, pHeight)):
+            return DRAG_TOP_RIGHT_CORNER
+        elif is_collide_rect((ex, ey), (blX, blY, pWidth, pHeight)):
+            return DRAG_BOTTOM_LEFT_CORNER
+        elif is_collide_rect((ex, ey), (brX, brY, pWidth, pHeight)):
+            return DRAG_BOTTOM_RIGHT_CORNER
+        elif is_collide_rect((ex, ey), (tX, tY, pWidth, pHeight)) or is_collide_rect((ex, ey), (screenshot.x, screenshot.y, screenshot.rect_width, self.frame_border)):
+            return DRAG_TOP_SIDE
+        elif is_collide_rect((ex, ey), (bX, bY, pWidth, pHeight)) or is_collide_rect((ex, ey), (screenshot.x, screenshot.y + screenshot.rect_height, screenshot.rect_width, self.frame_border)):
+            return DRAG_BOTTOM_SIDE
+        elif is_collide_rect((ex, ey), (lX, lY, pWidth, pHeight)) or is_collide_rect((ex, ey), (screenshot.x, screenshot.y, self.frame_border, screenshot.rect_height)):
+            return DRAG_LEFT_SIDE
+        elif is_collide_rect((ex, ey), (rX, rY, pWidth, pHeight)) or is_collide_rect((ex, ey), (screenshot.x + screenshot.rect_width, screenshot.y, self.frame_border, screenshot.rect_height)):
+            return DRAG_RIGHT_SIDE
+        else:
+            return DRAG_OUTSIDE
+        
+    def adjust_toolbar(self):
+        '''Adjust toolbar position.'''
+        screenshot = self.screenshot
+        (x, y, screenshot.toolbar_width, screenshot.toolbar_height, depth) = screenshot.toolbar.window.window.get_geometry()
+        colorbarHeight = 32
+        
+        screenshot.toolbarX = (screenshot.x + screenshot.rect_width - screenshot.toolbar_width, screenshot.toolbarOffsetX)[screenshot.x + screenshot.rect_width - screenshot.toolbar_width < screenshot.toolbarOffsetX]
+        
+        if screenshot.y + screenshot.rect_height + screenshot.toolbarOffsetY + screenshot.toolbar_height + colorbarHeight + 5 < screenshot.height:
+            screenshot.toolbarY = screenshot.y + screenshot.rect_height + screenshot.toolbarOffsetY
+        elif screenshot.y - screenshot.toolbarOffsetY - screenshot.toolbar_height -colorbarHeight - 5 > 0:
+            screenshot.toolbarY = screenshot.y - screenshot.toolbarOffsetY - screenshot.toolbar_height
+        else:
+            screenshot.toolbarY = screenshot.y + screenshot.toolbarOffsetY
+        screenshot.toolbar.window.move(int(screenshot.toolbarX), int(screenshot.toolbarY))
+        
+    def show_toolbar(self):
+        '''Show toolbar.'''
+        self.screenshot.show_toolbar_flag = True
+        self.screenshot.toolbar.show()
+        
+    def hide_toolbar(self):
+        '''Hide toolbar.'''
+        self.screenshot.show_toolbar_flag = False
+        self.screenshot.toolbar.hide()
+
+    def show_colorbar(self):
+        '''show colorbar '''
+        self.screenshot.show_colorbar_flag = True
+        self.screenshot.colorbar.show()
+    
+    def hide_colorbar(self):
+        '''hide colorbar'''
+        self.screenshot.show_colorbar_flag = False
+        self.screenshot.colorbar.hide()
+    
+    def adjust_colorbar(self):
+        '''Adjust Colorbar position '''
+        screenshot = self.screenshot
+        if screenshot.toolbarY < screenshot.y:
+            colorbarY = screenshot.toolbarY - screenshot.toolbar_height - 8
+        else:
+            colorbarY = screenshot.toolbarY + screenshot.toolbar_height + 5
+        colorbarX = screenshot.toolbarX
+        screenshot.colorbar.window.move(int(colorbarX), int(colorbarY))
+
     def show(self):
         '''show'''
         self.window.show_all()

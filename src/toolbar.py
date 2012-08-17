@@ -35,7 +35,7 @@ import gtk
 from constant import *
 
 
-class ToolBar():
+class Toolbar():
     ''' Toolbar window'''
     def __init__(self, parent=None, screenshot=None):
         self.screenshot = screenshot
@@ -50,7 +50,7 @@ class ToolBar():
         self.window.set_resizable(False)
         self.window.set_transient_for(parent)
         #self.window.set_default_size(284, 32)
-        self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
+        #self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         #self.window.connect("size-allocate", lambda w, a: updateShape(w, a, 2))
         #self.window.connect("expose-event", lambda w, e: exposeBackground(w, e, appTheme.getDynamicPixbuf("bg.png")))
         self.window.set_size_request(
@@ -94,7 +94,8 @@ class ToolBar():
                 'undo': self.screenshot.undo,
                 #'save': self.screenshot.saveSnapshotToFile,
                 'save': self._save_to_file,
-                'cancel': self.screenshot.destroy,
+                #'cancel': self.screenshot.destroy,
+                'cancel': None,
                 'finish': self.screenshot.saveSnapshot}
 
     def create_toggle_button(self, name, action, text=''):
@@ -153,14 +154,14 @@ class ToolBar():
         if self.screenshot is None:
             return
         if widget.get_active():
-            self.screenshot.setActionType(action)
+            self.screenshot.set_action_type(action)
             self.screenshot.showColorbar()
         else:
             self.screenshot.hideColorbar()
             if not self.screenshot.actionList and not self.screenshot.textActionList and self.screenshot.showToolbarFlag and not self.screenshot.windowFlag:
-                self.screenshot.setActionType(ACTION_SELECT)
+                self.screenshot.set_action_type(ACTION_SELECT)
             elif self.screenshot.actionList and self.screenshot.isToggled or self.screenshot.textActionList:
-                self.screenshot.setActionType(None)
+                self.screenshot.set_action_type(None)
 
     def _save_to_file(self, widget):
         ''' save to file '''
@@ -168,11 +169,13 @@ class ToolBar():
 
     def show(self):
         ''' show the toolbar '''
-        self.window.show_window()
+        if not self.window.get_visible():
+            self.window.show_window()
 
     def hide(self):
         '''hide the toolbar'''
-        self.window.hide_all()
+        if self.window.get_visible():
+            self.window.hide_all()
 
 class Colorbar():
     ''' Colorbar window '''
@@ -192,7 +195,7 @@ class Colorbar():
         self.window.set_decorated(False)
         self.window.set_resizable(False)
         self.window.set_default_size(100, 24)
-        self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
+        #self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         self.window.set_size_request(-1, icon_height + padding_y * 2)
 
         self.box = gtk.HBox(False, 4)
@@ -211,7 +214,7 @@ class Colorbar():
         self.size_align.set(0.5,0.5,0,0)
         self.size_align.set_padding(2, 1, 0, 0)
         self.size_align.add(self.size_box)
-        self.dynamic_box.pack_start(self.size_align)
+        #self.dynamic_box.pack_start(self.size_align)
         self.box.pack_start(self.dynamic_box)
         
         # font select
@@ -220,7 +223,7 @@ class Colorbar():
         self.font_label.connect("enter-notify-event", lambda w, e: utils.setCursor(w, gtk.gdk.HAND2))
         self.font_label.connect("leave-notify-event", lambda w, e: utils.setDefaultCursor(w))
         self.font_label.set_size_request(100, -1)
-        self.dynamic_box.pack_start(self.font_label)
+        #self.dynamic_box.pack_start(self.font_label)
 
         button = ImageButton(
             app_theme.get_pixbuf("action/color_sep.png"),
@@ -247,22 +250,23 @@ class Colorbar():
         self.vbox = gtk.VBox(False, 2)
         self.above_hbox = gtk.HBox(False, 2)
         self.below_hbox = gtk.HBox(False, 2)
-        self.color_map = {'black'       : "#000000",
-                         'gray_dark'   : "#808080",
-                         'red_dark'    : "#800000",
-                         'yellow_dark' : "#808000",
-                         'green_dark'  : "#008000",
-                         'blue_dark'   : "#000080",
-                         'pink_dark'   : "#800080",
-                         'wathet_dark' : "#008080",
-                         'white'       : "#FFFFFF",
-                         'gray'        : "#C0C0C0",
-                         'red'         : "#FF0000",
-                         'yellow'      : "#FFFF00",
-                         'green'       : "#00FF00",
-                         'blue'        : "#0000FF",
-                         'pink'        : "#FF00FF",
-                         'wathet'      : "#00FFFF"}
+        self.color_map = {
+            'black'       : "#000000",
+            'gray_dark'   : "#808080",
+            'red_dark'    : "#800000",
+            'yellow_dark' : "#808000",
+            'green_dark'  : "#008000",
+            'blue_dark'   : "#000080",
+            'pink_dark'   : "#800080",
+            'wathet_dark' : "#008080",
+            'white'       : "#FFFFFF",
+            'gray'        : "#C0C0C0",
+            'red'         : "#FF0000",
+            'yellow'      : "#FFFF00",
+            'green'       : "#00FF00",
+            'blue'        : "#0000FF",
+            'pink'        : "#FF00FF",
+            'wathet'      : "#00FFFF"}
         i = 0
         keys = self.color_map.keys()
         for name in keys:
@@ -361,19 +365,25 @@ class Colorbar():
 
     def show(self):
         ''' show the colorbar'''
-        #if self.action == ACTION_TEXT:
-            #utils.container_remove_all(self.dynamic_box)
-            #self.dynamicBox.add(self.fontEvent)
-        #else:
-            #utils.container_remove_all(self.dynamic_box)
-            #self.dynamicBox.add(self.sizeAlign)
-        self.window.show_window()
+        if self.screenshot.action == ACTION_TEXT:
+            if self.size_align in self.dynamic_box.get_children():
+                self.dynamic_box.remove(self.size_align)
+            if self.font_label not in self.dynamic_box.get_children():
+                self.dynamic_box.add(self.font_label)
+        else:
+            if self.font_label in self.dynamic_box.get_children():
+                self.dynamic_box.remove(self.font_label)
+            if self.size_align not in self.dynamic_box.get_children():
+                self.dynamic_box.add(self.size_align)
+        if not self.window.get_visible():
+            self.window.show_window()
 
     def hide(self):
         '''hide the toolbar'''
-        self.window.hide_all()
+        if self.window.get_visible():
+            self.window.hide_all()
 
 if __name__ == '__main__':
-    #ToolBar().show()
+    #Toolbar().show()
     Colorbar().show()
     gtk.main()
