@@ -54,7 +54,7 @@ class RootWindow():
         self.window.add_events(gtk.gdk.POINTER_MOTION_MASK)
         self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
         self.window.add_events(gtk.gdk.BUTTON_RELEASE_MASK)
-        self.window.connect("destroy", self._destroy)
+        self.window.connect("destroy", self.quit)
         #self.window.connect("expose-event", lambda w, e: self.getCurrentCoord(w))   # 获取当前坐标
         #self.window.connect("expose-event", self._expose_event)
         self.window.connect("button-press-event", self._button_press_event)
@@ -88,19 +88,33 @@ class RootWindow():
         if self.screenshot:
             cr.set_source_pixbuf(self.screenshot.desktop_background, 0, 0)
             cr.paint()
+        # draw mask
+        self._draw_mask(cr)
         # ACTION_WINDOW draw magnifier
         if self.magnifier and self.screenshot.action == ACTION_WINDOW:
             self._draw_magnifier(cr)
-        # draw mask
-        self._draw_mask(cr)
+        # toolbar
+        if self.screenshot.show_toolbar_flag:
+            self.adjust_toolbar()
+            self.adjust_colorbar()
+        # Draw action list.
+        for action in self.screenshot.action_list:
+            if action != None:
+                action.expose(cr)
         # draw frame
         if self.screenshot.rect_width:
             self._draw_frame(cr)
             self._draw_drag_point(cr)
+        # update text action info
+        for each_text_action in self.screenshot.text_action_list:
+            self.screenshot.text_action_info[each_text_action] = each_text_action.get_layout_info()
+        # draw current text layout
+        if self.screenshot.draw_text_layout_flag:
+            drawAlphaRectangle(cr, *self.screenshot.current_text_action.get_layout_info())
+    
 
     def _expose_event(self, widget, event):
         ''' expose '''
-        print "expose"
         if self.screenshot is None:
             return False
     
@@ -115,7 +129,28 @@ class RootWindow():
         ''' double clicked '''
         if self.screenshot is None:
             return
-        pass
+        # double click
+        (ex, ey) = self.get_event_coord(event)
+        if event.button == 1 and event.type == gtk.gdk._2BUTTON_PRESS:
+            # edit text
+            if self.screenshot.text_drag_flag:
+                text_buffer = self.screenshot.text_window.entry.get_buffer()
+                text_buffer.set_text(self.screenshot.current_text_action.get_content())
+                self.screenshot.action_color = self.screenshot.current_text_action.get_color()
+                self.screenshot.font_name = self.screenshot.current_text_action.get_fontname()
+                #modifyBackground(self.colorBox, self.actionColor)
+                self.screenshot.colorbar.color_select.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.screenshot.action_color))
+                self.screenshot.colorbar.font_label.set_text(self.screenshot.font_name)
+                
+                # set action ACTION_TEXT
+                self.screenshot.toolbar.set_button_active("text", True)
+                self.show_text_window((ex, ey))
+                self.screenshot.text_modify_flag = True
+            # save snapshot
+            if self.screenshot.action == ACTION_SELECT and self.screenshot.x < ex < self.screenshot.x + self.screenshot.rect_width and self.screenshot.y < ey < self.screenshot.y + self.screenshot.rect_height:
+                #self.saveSnapshot()
+                #self.buttonRelease(widget, event)
+                print "test"
     
     def _button_release_event(self, widget, event):
         ''' button release '''
@@ -140,7 +175,7 @@ class RootWindow():
         if key in self.hotkey_map:
             self.hotkey_map[key]()
     
-    def _destroy(self, widget):
+    def quit(self, widget=None):
         ''' window destroy'''
         gtk.main_quit()
         pass
@@ -208,7 +243,8 @@ class RootWindow():
     
     def refresh(self):
         ''' refresh this window'''
-        self.window.queue_draw()
+        #self.window.queue_draw()
+        self.draw_area.queue_draw()
 
     def _draw_background(self, cr):
         ''' draw background '''
@@ -420,6 +456,21 @@ class RootWindow():
         colorbarX = screenshot.toolbarX
         screenshot.colorbar.window.move(int(colorbarX), int(colorbarY))
 
+    def show_text_window(self, (ex, ey)):
+        '''Show text window.'''
+        offset = 5
+        screenshot = self.screenshot
+        screenshot.show_text_window_flag = True
+        screenshot.text_window.window.move(ex, ey)
+        screenshot.text_window.show()
+        
+    def hide_text_window(self):
+        '''Hide text window.'''
+        screenshot = self.screenshot
+        screenshot.show_text_window_flag = False
+        screenshot.text_window.set_text("")
+        screenshot.text_window.hide()
+
     def show(self):
         '''show'''
         self.window.show_all()
@@ -446,16 +497,26 @@ class TextWindow():
         self.window.window_shadow.set_padding(10, 10, 10, 10)
 
         scroll_window = ScrolledWindow()
-        #entry = Entry()
-        entry= gtk.TextView()           # TODO 输入框控件
-        scroll_window.add_with_viewport(entry)
-        #scroll_window.add(entry)
-        #scroll_window.add_child(entry)
+        #self.entry = Entry()
+        self.entry= gtk.TextView()           # TODO 输入框控件
+        scroll_window.add_with_viewport(self.entry)
+        #scroll_window.add(self.entry)
+        #scroll_window.add_child(self.entry)
         #scrollWindow.set_shadow_type(gtk.SHADOW_ETCHED_IN)
         #scrollWindow.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC) 
-        entry.set_size_request(300, 60)
+        self.entry.set_size_request(300, 60)
 
         self.window.window_frame.add(scroll_window)
+    
+    def get_text(self):                 # 获取输入框文字
+        '''Get input text.'''
+        text_buffer = self.entry.get_buffer()
+        return (text_buffer.get_text(text_buffer.get_start_iter(), text_buffer.get_end_iter())).rstrip(" ")
+        
+    def set_text(self, text):
+        '''Set text'''
+        text_buffer = self.entry.get_buffer()
+        text_buffer.set_text(text)
     
     def show(self):
         ''' show window '''

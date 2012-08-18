@@ -39,6 +39,7 @@ class Toolbar():
     ''' Toolbar window'''
     def __init__(self, parent=None, screenshot=None):
         self.screenshot = screenshot
+        self.win = screenshot.window
 
         toolbar_padding_x = 5
         toolbar_padding_y = 2
@@ -94,8 +95,7 @@ class Toolbar():
                 'undo': self.screenshot.undo,
                 #'save': self.screenshot.saveSnapshotToFile,
                 'save': self._save_to_file,
-                #'cancel': self.screenshot.destroy,
-                'cancel': None,
+                'cancel': self.win.quit,
                 'finish': self.screenshot.saveSnapshot}
 
     def create_toggle_button(self, name, action, text=''):
@@ -108,6 +108,7 @@ class Toolbar():
         button.connect("toggled", self._toggle_button_toggled, action)
         button.connect("released", self._toggle_button_released)
         button.connect("enter-notify-event", self._show_tooltip, text)
+        button.set_name(name)
         self.toolbox.pack_start(button)
         self._toggle_buton_list.append(button)
 
@@ -155,18 +156,35 @@ class Toolbar():
             return
         if widget.get_active():
             self.screenshot.set_action_type(action)
-            self.screenshot.showColorbar()
+            self.win.show_colorbar()
+            self.win.adjust_colorbar()
         else:
-            self.screenshot.hideColorbar()
-            if not self.screenshot.actionList and not self.screenshot.textActionList and self.screenshot.showToolbarFlag and not self.screenshot.windowFlag:
+            self.win.hide_colorbar()
+            if not self.screenshot.action_list and not self.screenshot.text_action_list and self.screenshot.show_toolbar_flag and not self.screenshot.window_flag:
                 self.screenshot.set_action_type(ACTION_SELECT)
-            elif self.screenshot.actionList and self.screenshot.isToggled or self.screenshot.textActionList:
+            elif self.screenshot.action_list and self.screenshot.isToggled or self.screenshot.text_action_list:
                 self.screenshot.set_action_type(None)
-
+    
+    def set_button_active(self, name, state):
+        '''set button active'''
+        for each in self._toggle_buton_list:
+            if name == each.get_name():
+                each.set_active(state)
+                break
+    
     def _save_to_file(self, widget):
         ''' save to file '''
-        SaveFileDialog('', None, ok_callback=None)
+        SaveFileDialog('', self.screenshot.window.window, ok_callback=self._save_to_file_cb)
 
+    def _save_to_file_cb(self, filename):
+        ''' save file dialog ok_callback'''
+        print "save", filename
+    
+    def set_all_inactive(self):
+        '''set all button inactive'''
+        for each in self._toggle_buton_list:
+            each.set_active(False)
+    
     def show(self):
         ''' show the toolbar '''
         if not self.window.get_visible():
@@ -181,6 +199,7 @@ class Colorbar():
     ''' Colorbar window '''
     def __init__(self, parent=None, screenshot=None):
         self.screenshot = screenshot
+        self.win = self.screenshot.window
         
         padding_x = 5
         padding_y = 4
@@ -304,11 +323,16 @@ class Colorbar():
 
     def _select_font_event(self, widget, event, data=None):
         ''' select font '''
+        if self.screenshot is None:
+            return
+        self.win.hide_toolbar()
+        self.win.hide_colorbar()
         font_dialog = gtk.FontSelectionDialog("font select")
+        #font_dialog.set_skip_taskbar_hint(True)
         #if self.showTextWindowFlag:
             #self.fontDialog.set_transient_for(self.textWindow)
         #else:
-            #self.fontDialog.set_transient_for(self.window)
+        font_dialog.set_transient_for(self.win.window)
         font_dialog.set_font_name(widget.text)
         font_dialog.connect("response", self._font_dialog_response)
         font_dialog.set_modal(True)
@@ -316,12 +340,12 @@ class Colorbar():
 
     def _font_dialog_response(self, widget, response):
         if response == gtk.RESPONSE_OK:
-            #self.fontName = self.fontDialog.get_font_name()
-            self.font_label.set_text(widget.get_font_name())
-        #self.adjustToolbar()
-        #self.showToolbar()
-        #self.showColorbar()
+            self.screenshot.font_name = widget.get_font_name()
+            self.font_label.set_text(self.screenshot.font_name)
+        self.win.show_toolbar()
+        self.win.show_colorbar()
         widget.destroy()
+        #self.win.window.queue_draw()
 
     def _color_select_expose(self, widget, event, data=None):
         '''set colorBox border '''
@@ -338,8 +362,11 @@ class Colorbar():
 
     def _select_color_event(self, widget, event, data=None):
         ''' select color '''
+        self.win.hide_toolbar()
+        self.win.hide_colorbar()
         color = ColorSelectDialog(confirm_callback=self._select_color)
-        color.set_keep_above(True)
+        color.set_transient_for(self.win.window)
+        #color.set_keep_above(True)
         color.show_all()
 
     def _select_color(self, color_hex):
@@ -347,14 +374,16 @@ class Colorbar():
         self.color_select.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(color_hex))
         if self.screenshot is None:
             return
-        self.screenshot.actionColor = color_hex
+        self.screenshot.action_color = color_hex
+        self.win.show_toolbar()
+        self.win.show_colorbar()
 
     def _color_button_pressed(self, widget, name):
         ''' color button pressed'''
         self.color_select.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.color_map[name]))
         if self.screenshot is None:
             return
-        self.screenshot.actionColor = self.color_map[name]
+        self.screenshot.action_color = self.color_map[name]
 
     def _size_button_pressed(self, widget, index):
         ''' size button pressed'''
