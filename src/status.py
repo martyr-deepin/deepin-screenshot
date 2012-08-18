@@ -157,7 +157,7 @@ class ButtonPressProcess(BaseProcess):
     def adjust(self, screenshot, event):
         '''Press adjust '''
         if screenshot.action in [ACTION_RECTANGLE, ACTION_ELLIPSE, ACTION_ARROW, ACTION_LINE] and screenshot.show_toolbar_flag and screenshot.y < screenshot.toolbarY < screenshot.y + screenshot.rect_height:
-            sefl.win.hide_toolbar()
+            self.win.hide_toolbar()
             self.win.hide_colorbar()
 
         # drag text 

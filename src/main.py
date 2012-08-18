@@ -40,6 +40,7 @@ from toolbar import Colorbar, Toolbar
 import time
 import pygtk
 import subprocess
+import StringIO
 #import Image
 
 pygtk.require('2.0')
@@ -85,7 +86,7 @@ class DeepinScreenshot():
         # default window 
         #self.screenshot_window_info = get_screenshot_window_info()
         self.screenshot_window_info = SCREENSHOT_WINDOW_INFO
-        print self.screenshot_window_info
+        #print self.screenshot_window_info
         self.window_flag = True
         
         # Init action list.
@@ -133,12 +134,20 @@ class DeepinScreenshot():
             tipContent = __("Tip area width or heigth cannot be 0")
         else:
             self.window.finish_flag = True
-            self.window.refresh()
+            surface = self.make_pic_file(self.desktop_background.subpixbuf(int(self.x), int(self.y), int(self.rect_width), int(self.rect_height)), filename)
             if filename == None:
                 # Save snapshot to clipboard if filename is None.
-                pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, int(self.rect_width), int(self.rect_height))
-                pixbuf.get_from_drawable(self.window.draw_area.get_window(), self.window.draw_area.get_window().get_colormap(),
-                    int(self.x), int(self.y), 0, 0, int(self.rect_width), int(self.rect_height))
+                fp = StringIO.StringIO()
+                surface.write_to_png(fp)
+                contents = fp.getvalue()
+                fp.close()
+                loader = gtk.gdk.PixbufLoader()
+                loader.write(contents, len(contents))
+                pixbuf = loader.get_pixbuf()
+                loader.close()
+                #pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, int(self.rect_width), int(self.rect_height))
+                #pixbuf.get_from_drawable(self.window.draw_area.get_window(), self.window.draw_area.get_window().get_colormap(),
+                    #int(self.x), int(self.y), 0, 0, int(self.rect_width), int(self.rect_height))
                 clipboard = gtk.clipboard_get()
                 clipboard.clear()
                 clipboard.set_image(pixbuf)
@@ -147,6 +156,7 @@ class DeepinScreenshot():
                 # Otherwise save to local file.
                 tipContent = __("Tip save to file")
                 self.make_pic_file(self.desktop_background.subpixbuf(int(self.x), int(self.y), int(self.rect_width), int(self.rect_height)), filename)
+                surface.write_to_png(filename)
             
         # Exit
         self.window.quit()
@@ -180,7 +190,8 @@ class DeepinScreenshot():
         for each in self.text_action_list:
             if each is not None:
                 each.expose(cr)
-        surface.write_to_png(filename)
+        return surface
+        #surface.write_to_png(filename)
 
         
     def get_desktop_snapshot(self):

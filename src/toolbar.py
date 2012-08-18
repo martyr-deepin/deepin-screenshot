@@ -181,7 +181,7 @@ class Toolbar():
             #ok_callback=self._save_to_file_cb, cancel_callback=self._save_to_file_cancel)
         dialog = gtk.FileChooserDialog(
             "Save..",
-            self.window,
+            self.win.window,
             gtk.FILE_CHOOSER_ACTION_SAVE,
             (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
              gtk.STOCK_SAVE, gtk.RESPONSE_ACCEPT))
@@ -202,7 +202,7 @@ class Toolbar():
     def _save_to_file_cancel(self, filename):
         ''' save file dialog cancel_callback'''
         self.win.show_toolbar()
-        self.win.show_colorbar()
+        #self.win.show_colorbar()
         
     def _save_to_file_cb(self, filename):
         ''' save file dialog ok_callback'''
@@ -406,7 +406,7 @@ class Colorbar():
         ''' select color '''
         self.win.hide_toolbar()
         self.win.hide_colorbar()
-        color = ColorSelectDialog(confirm_callback=self._select_color)
+        color = ColorSelectDialog(confirm_callback=self._select_color, cancel_callback=self._select_color_cancel)
         color.set_transient_for(self.win.window)
         #color.set_keep_above(True)
         color.show_all()
@@ -417,6 +417,11 @@ class Colorbar():
         if self.screenshot is None:
             return
         self.screenshot.action_color = color_hex
+        self.win.show_toolbar()
+        self.win.show_colorbar()
+
+    def _select_color_cancel(self):
+        ''' cancel slect color'''
         self.win.show_toolbar()
         self.win.show_colorbar()
 

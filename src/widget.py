@@ -97,7 +97,7 @@ class RootWindow():
         if self.screenshot.current_action is not None:
             self.screenshot.current_action.expose(cr)
         if self.finish_flag:
-            return
+            return True
         # draw mask
         self._draw_mask(cr)
         # toolbar
