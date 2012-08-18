@@ -21,10 +21,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import gtk.gdk as gdk
-import gtk.keysyms as keys
-import gtk
 import pygtk
-import gobject
 pygtk.require('2.0')
 
 def getKeyName(keyval):

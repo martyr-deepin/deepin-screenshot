@@ -1,0 +1,134 @@
+{"colors" : {
+ "recommend" : "#FF0000",
+ "windowMask" : "#FFFFFF",
+ "menuFont" : "#000000",
+ "menuSelectFont" : "#FFFFFF",
+ "navigateItem" : "#FFFFFF",
+ "categoryItem" : "#333333",
+ "categorySelectItem" : "#FFFFFF",
+ "buttonDefaultFont" : "#000000",
+ "tooltipText" : "#FFFFFF",
+ "listItemText" : "#000000",
+ "title" : "#000000",
+ "buttonBorderNormal" : "#bc99da",
+ "buttonBorderPrelight" : "#b18ecf",
+ "buttonBorderActive" : "#9372c9",
+ "buttonFont" : "#000000",
+ },	
+ "alpha_colors" : {
+     "frame" : ("#000000", 0.5),
+     "frameDot" : ("#000000", 0.2),
+     "frameLight" : ("#FFFFFF", 0.2),
+     "frameLightDot" : ("#FFFFFF", 0.1),
+	 "scrollbarBackground" : ("#FFFFFF", 0.5),
+	 "menuMask" : ("#FFFFFF", 0.9),
+	 "progressbarFrame" : ("#EF12AB", 1.0),
+ },
+ "shadow_colors" : {
+     "linearBackground" : [
+	    (0,		("#EFEFEF", 0.6)),
+		(0.05,	("#EFEFEF", 0.75)),
+		(0.95,	("#EFEFEF", 0.75)),
+		(1,		("#EFEFEF", 0.6)),
+	 ],
+	 "categoryItemPress" : [
+		(0, ("#53ABDE", 0.8)),
+		(1, ("#53ABDE", 0.5)),
+	 ],
+	 "categoryItemHover" : [
+	    (0, ("#A3D4F3", 0.8)),
+		(1, ("#A3D4F3", 0.5)),
+	 ],
+	 "categorybarBackground" : [
+	    (0,		("#FFFFFF", 0.6)),
+		(0.05,	("#FFFFFF", 0.95)),
+		(0.95,	("#FFFFFF", 0.95)),
+		(1,		("#FFFFFF", 0.6)),
+	 ],
+	 "menuItemSelect" : [
+		(0, ("#1FA6BA", 0.5)),
+		(1, ("#25D1DD", 0.5)),
+	 ],
+	 "tooltipBackground" : [
+		(0, ("#333333", 0.9)),
+		(1, ("#333333", 0.8)),
+	 ],
+	 "listviewHeader" : [
+		(0,		("#E8E8E8", 0.9)),
+		(1,		("#E8E8E8", 0.7)),
+	 ],
+	 "listviewHeaderSelect" : [
+		(0,		("#FFFFFF", 0.9)),
+		(1,		("#FFFFFF", 0.7)),
+	 ],
+	 "listviewHeaderPress" : [
+		(0,		("#DDDDDD", 0.9)),
+		(1,		("#DDDDDD", 0.7)),
+	 ],
+	 "listviewHeaderSplit" : [
+		(0,		("#999999", 0.0)),
+		(0.5,	("#999999", 0.9)),
+		(1,		("#999999", 0.0)),
+	 ],
+	 "hSeparator" : [
+		(0,		("#777777", 0)),
+		(0.5,	("#000000", 0.5)),
+		(1,		("#777777", 0))
+	 ],
+	 "progressbarForeground" : [
+		(0, ("#EF12AB", 0.7)),
+		(0.5, ("#EF12AB", 0.9)),
+		(1, ("#EF12AB", 0.7)),
+	 ],
+	 "progressbarBackground" : [
+		(0, ("#E3A4D0", 0.7)),
+		(0.5, ("#E3A4D0", 0.9)),
+		(1, ("#E3A4D0", 0.7)),
+	 ],
+	 "progressbarLight" : [
+		(0, ("#FFFFFF", 0)),
+		(0.5, ("#FFFFFF", 0.5)),
+		(1, ("#FFFFFF", 1)),
+	 ],
+	 "windowShadow" : [
+		(0, ("#000000", 0)),
+		(0.66, ("#000000", 0.2)),
+		(1, ("#000000", 0.33)),
+	 ],
+	 "listviewHover" : [
+		(0, ("#6FDFDF", 0.5)),
+		(1, ("#9FDFDF", 0.5)),
+	 ],
+	 "listviewClick" : [
+		(0, ("#25D1DD", 0.5)),
+		(1, ("#87D9DF", 0.5)),
+	 ],
+     "viewportBackground" : [
+	    (0,		("#EF0000", 0.0)),
+		(0.05,	("#EF0000", 0.5)),
+		(0.95,	("#EF0000", 0.5)),
+		(1,		("#EF0000", 0.0)),
+	 ],
+	 "buttonAngle":[
+	    (1,("#b18ecf",0.4)),
+	 ],
+	 "buttonBorder":[
+	    (1, ("#b18ecf", 1)),
+	 ],
+	 "buttonBackgroundNormal":[ 
+		(0, ("#e0c1f0",1)),
+        (1, ("#d7b7ed",1)),
+     ],
+     "buttonBackgroundPrelight":[
+        (0, ("#e9dbf5",1)),
+        (1, ("#decdf0",1)),
+     ],
+     "buttonBackgroundActive":[
+        (0, ("#cfa2e4",1)),
+        (1, ("#c797e0",1)),
+     ],
+ },
+ "text_styles" : {
+     "default" : ("#FFFFFF", "#000000", "#000000", 11, 14, 1),
+ },
+}

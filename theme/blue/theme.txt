@@ -1,0 +1,9 @@
+{"colors" : {
+ },	
+ "alpha_colors" : {
+ },
+ "shadow_colors" : {
+ },
+ "text_styles" : {
+ },
+}
