@@ -39,50 +39,24 @@ def is_in_rect((cx, cy), (x, y, w, h)):
     '''Whether coordinate in rectangle.'''
     return (x < cx < x + w and y < cy < y + h)
 
-def set_clickable_cursor(widget):
-    '''Set click-able cursor.'''
-    # Use widget in lambda, and not widget pass in function.
-    # Otherwise, if widget free before callback, you will got error:
-    # free variable referenced before assignment in enclosing scope, 
-    widget.connect("enter-notify-event", lambda w, e: setCursor(w, gtk.gdk.HAND2))
-    widget.connect("leave-notify-event", lambda w, e: setDefaultCursor(w))
-
-def setDefaultCursor(widget):
+def set_default_cursor(widget):
     '''Set default cursor.'''
     widget.window.set_cursor(None)
-    
     return False
 
-def setCursor(widget, cursorType):
+def set_cursor(widget, cursor):
     '''Set cursor.'''
-    widget.window.set_cursor(gtk.gdk.Cursor(cursorType))
-    
+    widget.window.set_cursor(cursor)
     return False
 
-def getScreenSize():
+def get_screen_size():
     '''Get screen size.'''
     return gtk.gdk.get_default_root_window().get_size()
 
-def isDoubleClick(event):
-    '''Whether an event is double click?'''
-    return event.button == 1 and event.type == gtk.gdk._2BUTTON_PRESS
-
-def getFontFamilies():
+def get_font_families():
     '''Get all font families in system.'''
     fontmap = pangocairo.cairo_font_map_get_default()
     return map(lambda f: f.get_name(), fontmap.list_families())
-
-def setHelpTooltip(widget, helpText):
-    '''Set help tooltip.'''
-    widget.connect("enter-notify-event", lambda w, e: showHelpTooltip(w, helpText))
-
-def showHelpTooltip(widget, helpText):
-    '''Create help tooltip.'''
-    widget.set_has_tooltip(True)
-    widget.set_tooltip_text(helpText)
-    widget.trigger_tooltip_query()
-    
-    return False
 
 def modifyBackground(widget, color):
     ''' modify widget background'''
@@ -114,11 +88,6 @@ def get_coord_rgb(widget, x, y):
     data.append(img.data[1])
     data.append(img.data[0])
     return (tuple(map(ord, data[0:3])))
-
-def container_remove_all(container):
-    ''' Removee all child widgets for container. '''
-    container.foreach(lambda widget: container.remove(widget))
-
 
 def make_menu_item(name, callback, data=None):
     item = gtk.MenuItem(name)

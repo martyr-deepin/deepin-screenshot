@@ -59,9 +59,9 @@ class DeepinScreenshot():
         self.x = self.y = self.rect_width = self.rect_height = 0
         self.buttonToggle = None
         
-        self.dragPosition = None
+        self.drag_position = None
+        self.last_drag_position = None
         self.dragStartX = self.dragStartY = self.dragStartOffsetX = self.dragStartOffsetY = 0
-        self.dragPointRadius = 4
         
         self.drag_flag = False
         self.show_toolbar_flag = False
@@ -83,11 +83,8 @@ class DeepinScreenshot():
         self.font_name = "Sans 10"
         
         # default window 
-        self.screenshot_window_info = get_screenshot_window_info()   # 获取窗口的x,y 长，宽
+        self.screenshot_window_info = get_screenshot_window_info()
         self.window_flag = True
-
-        # keybinding map
-        #self.keyBindings = {}
         
         # Init action list.
         self.current_action = None
@@ -97,10 +94,9 @@ class DeepinScreenshot():
         self.text_action_info = {}
 
         # Get desktop background.
-        self.desktop_background = self.getDesktopSnapshot()      # 获取全屏截图
+        self.desktop_background = self.get_desktop_snapshot()
         
         # Init window.
-        ## 创建一个全屏窗口并顶置
         self.window = RootWindow(self)
         
         # Init toolbar window.
@@ -116,155 +112,15 @@ class DeepinScreenshot():
         self.text_window = TextWindow(self.window.window, self)
         # Show.
         self.window.show()
-
-        #self.toolbar.show()
-        #self.colorbar.show()
-        
-    def isHaveOneToggled(self):             # 是否有工具按钮按下
-        buttonList = [self.actionRectangleButton, self.actionEllipseButton, self.actionArrowButton, self.actionLineButton,
-                      self.actionTextButton]
-        
-        for eachButton in buttonList:
-            if eachButton.get_active():
-                return True
-        return False
-    
-    def getIconIndex(self):                 # 获取画笔尺寸
-        '''Get icon index.'''
-        return self.iconIndex
-        
-    def exposeTextViewTag(self, widget, event):     # 文本输入框显示的回调函数
-        ''' expose of textView'''
-        textBuffer = widget.get_buffer()
-        startIter = textBuffer.get_start_iter()
-        endIter = textBuffer.get_end_iter()
-
-        self.textTag.set_property("foreground_gdk", gtk.gdk.color_parse(self.action_color))
-        self.textTag.set_property("font", self.font_name)
-        textBuffer.apply_tag_by_name("first", startIter, endIter)
+        self.window.set_cursor(ACTION_WINDOW)
 
     def set_action_type(self, aType):         # 设置操作类型
         '''Set action. type'''
         self.action = aType    
         self.current_action = None
     
-        
-    def getEventCoord(self, event):     # 获取事件的坐标
-        '''Get event coord.'''
-        (rx, ry) = event.get_root_coords()
-        return (int(rx), int(ry))
-
-    def doubleClickRect(self, widget, event):
-        '''Handle double click on window.'''
-        (ex, ey) = self.getEventCoord(event)
-        if isDoubleClick(event) and self.text_drag_flag:
-            textBuffer = self.textView.get_buffer()
-            textBuffer.set_text(self.current_text_action.get_content())
-            self.action_color = self.current_text_action.get_color()
-            self.font_name = self.current_text_action.get_fontname()
-            modifyBackground(self.colorBox, self.action_color)
-            self.fontLabel.set_label(self.font_name)
-            
-            self.actionTextButton.set_active(True)
-            self.showTextWindow(self.getEventCoord(event))
-            self.text_modify_flag = True
-       
-        if isDoubleClick(event) and self.action == ACTION_SELECT and self.x < ex < self.x + self.rect_width and self.y < ey < self.y + self.rect_height:
-            self.saveSnapshot()
-            self.buttonRelease(widget, event)
-
-    def saveSnapshotToFile(self, widget=None):
-        '''Save file to file.'''
-        if self.saveFilename:
-            result = parserPath(self.saveFilename)
-            self.saveSnapshot(None, *result)
-        else:    
-            self.dis.ungrab_pointer(X.CurrentTime)
-            self._grab_pointer_flag = False
-            self._show_file_dialog = True
-            dialog = gtk.FileChooserDialog(
-                "Save..",
-                self.window,
-                gtk.FILE_CHOOSER_ACTION_SAVE,
-                (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
-                 gtk.STOCK_SAVE, gtk.RESPONSE_ACCEPT))
-            dialog.set_action(gtk.FILE_CHOOSER_ACTION_SAVE)
-            dialog.set_default_response(gtk.RESPONSE_ACCEPT)
-            dialog.set_position(gtk.WIN_POS_MOUSE)
-            dialog.set_local_only(True)
-            dialog.set_current_folder(get_pictures_dir())
-            dialog.set_current_name("%s%s.%s" % (DEFAULT_FILENAME, get_format_time(), self.saveFiletype))
-            optionMenu = gtk.OptionMenu()
-            optionMenu.set_size_request(155, -1)
-            menu = gtk.Menu()
-            menu.set_size_request(155, -1)
-            
-            pngItem = make_menu_item('PNG (*.png)',
-                         lambda item, data: self.setSaveFiletype(dialog, 'png'))
-            
-            jpgItem = make_menu_item('JPEG (*.jpeg)',
-                         lambda item, data: self.setSaveFiletype(dialog, 'jpeg'))
-            
-            bmpItem = make_menu_item('BMP (*.bmp)',
-                         lambda item, data: self.setSaveFiletype(dialog, 'bmp'))
-            
-            menu.append(pngItem)
-            menu.append(jpgItem)
-            menu.append(bmpItem)
-            optionMenu.set_menu(menu)
-            hbox = gtk.HBox()
-            hbox.pack_end(optionMenu, False, False)
-            dialog.vbox.pack_start(hbox, False, False)
-            hbox.show_all()                          
-            
-            self.hideToolbar()
-            if self.show_colorbar_flag:
-                self.hideColorbar()
-                
-            dialog.set_modal(True)
-            dialog.connect("response", self.file_dialog_response)
-            dialog.show_all()
-
-    def file_dialog_response(self, dialog, response):
-        if response == gtk.RESPONSE_ACCEPT:
-            filename = dialog.get_filename()
-            dialog.hide()
-            self.saveSnapshot(dialog, filename, self.saveFiletype)
-            print "Save snapshot to %s" % (filename)
-        elif response == gtk.RESPONSE_REJECT:
-            self.adjust_toolbar()
-            self.show_toolbar()
-            if self.isHaveOneToggled():
-                self.showColorbar()
-            print 'Closed, no files selected'
-            self.root.grab_pointer(1, X.PointerMotionMask|X.ButtonReleaseMask|X.ButtonPressMask,  
-                X.GrabModeAsync, X.GrabModeAsync, X.NONE, X.NONE, X.CurrentTime)
-            self._grab_pointer_flag = True
-            self._show_file_dialog = False
-        dialog.destroy()
-        
-    def setSaveFiletype(self, dialog, filetype):
-        ''' save filetype '''
-        dialog.set_current_name("%s%s.%s" % (DEFAULT_FILENAME, get_format_time(), filetype))
-        self.saveFiletype = filetype
-       
-    def saveSnapshot(self, widget=None, filename=None, filetype='png'):
+    def save_snapshot(self, widget=None, filename=None, filetype='png'):
         '''Save snapshot.'''
-        ## Init cairo.
-        #cr = self.window.window.cairo_create()
-        
-        ## Draw desktop background.
-        #self.drawDesktopBackground(cr)
-        
-        ## Draw action list.
-        #for action in self.action_list:
-            #action.expose(cr)
-        ## Draw text Action list.
-        #for eachTextAction in self.text_action_list:
-            #eachTextAction.expose(cr)
-            
-        # Get snapshot.
-        
         # Save snapshot.
         if self.rect_width == 0 or self.rect_height == 0:
             tipContent = __("Tip area width or heigth cannot be 0")
@@ -284,9 +140,6 @@ class DeepinScreenshot():
                 self.make_pic_file(self.desktop_background.subpixbuf(int(self.x), int(self.y), int(self.rect_width), int(self.rect_height)), filename)
             
         # Exit
-        #self.window.window.set_cursor(None)
-        #self.destroy(self.window)
-        time.sleep(0.001)
         self.window.quit()
         
         # tipWindow
@@ -315,72 +168,13 @@ class DeepinScreenshot():
                 action.expose(cr)
         
         # Draw Text Action list.
-        for eachTextAction in self.text_action_list:
-            if eachTextAction is not None:
-                eachTextAction.start_x -= self.x
-                eachTextAction.start_y -= self.y
-                eachTextAction.expose(cr)
-                self.text_action_info[eachTextAction] = eachTextAction.get_layout_info()
+        for each in self.text_action_list:
+            if each is not None:
+                each.expose(cr)
         surface.write_to_png(filename)
 
         
-    def redraw(self, widget, event):
-        '''Redraw.'''
-        # Init cairo.
-        cr = widget.window.cairo_create()
-        
-        # Draw desktop background.
-        self.drawDesktopBackground(cr)
-        
-        # Draw mask.
-        self.drawMask(cr)
-        
-        # Draw toolbar.
-        if self.show_toolbar_flag:
-            self.adjust_toolbar()
-            self.adjustColorbar()
-            
-        # Draw action list.
-        for action in self.action_list:
-            if action != None:
-                action.expose(cr)
-        
-        # Draw Text Action list.
-        for eachTextAction in self.text_action_list:
-            eachTextAction.expose(cr)
-            self.text_action_info[eachTextAction] = eachTextAction.get_layout_info()
-
-        # Draw current action.
-        if self.current_action != None:
-            self.current_action.expose(cr)
-
-        # draw currentText layout
-        if self.draw_text_layout_flag:
-            drawAlphaRectangle(cr, *self.current_text_action.get_layout_info())
-    
-        #draw magnifier
-        if self.action == ACTION_WINDOW and self.rect_width:
-            drawMagnifier(cr, self.window, self.currentX, self.currentY,
-                           '%d x %d' % (self.rect_width, self.rect_height),
-                            #'%s' % (__("Tip Drag")), "RGB: %s" % str(get_coord_rgb(self.window, self.currentX, self.currentY)))
-                            '%s' % (__("Tip Drag")), "RGB: %s" % str(get_coord_rgb(self.root, self.currentX, self.currentY)))
-            self.drawWindowRectangle(cr)
-        elif self.rect_width:
-            #Draw frame
-            self.drawFrame(cr)
-            # Draw drag point.
-            self.drawDragPoint(cr)
-            if self.y - 35 > 0:
-                drawRoundTextRectangle(cr, self.x + 5, self.y - 35, 85, 30, 7,'%d x %d' % (fabs(self.rect_width), fabs(self.rect_height)), 0.7)
-            elif self.action in [None, ACTION_SELECT, ACTION_WINDOW, ACTION_INIT]:
-                drawRoundTextRectangle(cr, self.x + 5 , self.y + 5 , 85, 30, 7,'%d x %d' % (fabs(self.rect_width), fabs(self.rect_height)), 0.7)
-        
-        if widget.get_child() != None:
-            widget.propagate_expose(widget.get_child(), event)
-    
-        return True
-    
-    def getDesktopSnapshot(self):
+    def get_desktop_snapshot(self):
         '''Get desktop snapshot.'''
         return get_screenshot_pixbuf()
         
@@ -410,35 +204,28 @@ class DeepinScreenshot():
         
     def undo(self, widget=None):
         '''Undo'''
-        #if self.textWindow.get_visible():
-            #self.hideTextWindow()
-            
-        # undo the last action
-        if self.action_list:
+        if self.show_text_window_flag:
+           self.window.hide_text_window()
+        if self.current_text_action:
+            self.current_text_action = None
+
+        if self.action_list:        # undo the last action
             tempAction = self.action_list.pop()
             if tempAction.get_action_type() == ACTION_TEXT:
                 self.text_action_list.pop()
-                #del self.text_action_info[tempAction]
+                del self.text_action_info[tempAction]
         else:       # back to select area
-            #self.window.window.set_cursor(None)
+            self.window.set_cursor(ACTION_WINDOW)
             self.action = ACTION_WINDOW
             self.x = self.y = self.rect_width = self.rect_height = 0
             self.window_flag = True
             self.drag_flag = False
+            if self.show_colorbar_flag:
+                self.toolbar.set_all_inactive()
             self.window.hide_toolbar()
             self.window.hide_colorbar()
-            # set all toolbar action button inactive
-            #if self.show_colorbar_flag:
-                #self.setAllInactive()
-        self.window.window.queue_draw()
+        self.window.refresh()
         
-    def drawWindowRectangle(self, cr):
-        '''Draw frame.'''
-        cr.set_line_width(4.5)
-        cr.rectangle(self.x + 1, self.y + 1, self.rect_width - 2, self.rect_height - 2)
-        cr.set_source_rgb(*colorHexToCairo(self.frameColor))
-        cr.stroke()
-
     def getCurrentCoord(self, widget):
         '''get Current Coord '''
         (self.currentX, self.currentY) = widget.window.get_pointer()[:2] 
@@ -446,7 +233,7 @@ class DeepinScreenshot():
 def main(name=""):
     ''' main function '''
     gtk.gdk.threads_init()
-    s = DeepinScreenshot(name)
+    DeepinScreenshot(name)
     gtk.main()
 
 if __name__ == '__main__':

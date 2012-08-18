@@ -96,9 +96,9 @@ class ButtonPressProcess(BaseProcess):
     def action_select(self, screenshot, event):
         '''Press ACTION_SELECT '''
         # Init drag position.
-        screenshot.dragPosition = self.win.get_position(event)
+        screenshot.drag_position = self.win.get_position(event)
         # Set cursor.
-        #screenshot.setCursor(screenshot.dragPosition)
+        self.win.set_cursor(screenshot.drag_position)
         # Get drag coord and offset.
         (screenshot.dragStartX, screenshot.dragStartY) = self.win.get_event_coord(event)
         screenshot.dragStartOffsetX = screenshot.dragStartX - screenshot.x
@@ -134,13 +134,13 @@ class ButtonPressProcess(BaseProcess):
 
     def action_text(self, screenshot, event):
         '''Press ACTION_TEXT '''
-        if screenshot.text_window.window.get_visible():
+        if screenshot.text_window.window.get_visible(): # complete input text
             content = screenshot.text_window.get_text()
             if content != "":
-                if screenshot.text_modify_flag:
+                if screenshot.text_modify_flag: # modify a text
                     screenshot.current_text_action.update(screenshot.action_color, screenshot.font_name, content)
                     screenshot.text_modify_flag = False
-                else:
+                else:                           # new a text
                     textAction = TextAction(ACTION_TEXT, 15, screenshot.action_color, screenshot.font_name, content)
                     textAction.start_draw(screenshot.text_window.window.get_window().get_origin())
                     screenshot.text_action_list.append(textAction)
@@ -151,7 +151,7 @@ class ButtonPressProcess(BaseProcess):
             else:
                 self.win.hide_text_window()
                 screenshot.toolbar.set_all_inactive()
-        else:
+        else:   # create a new text
             self.win.show_text_window(self.win.get_event_coord(event))
 
     def adjust(self, screenshot, event):
@@ -196,7 +196,7 @@ class ButtonReleaseProcess(BaseProcess):
         '''Release ACTION_INIT'''
         screenshot.action = ACTION_SELECT
         (ex, ey) = self.win.get_event_coord(event)
-        # Adjust value when button release.
+        # Adjust rectangle when button release.
         if ex > screenshot.x:
             screenshot.rect_width = ex - screenshot.x
         else:
@@ -219,7 +219,7 @@ class ButtonReleaseProcess(BaseProcess):
     def action_rectangle(self, screenshot, event):
         '''Release ACTION_RECTANGLE '''
         if screenshot.current_action:
-            screenshot.current_action.end_draw(screenshot.getEventCoord(event), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height))
+            screenshot.current_action.end_draw(self.win.get_event_coord(event), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height))
             screenshot.action_list.append(screenshot.current_action)
             screenshot.current_action = None
             self.win.refresh()
@@ -227,7 +227,7 @@ class ButtonReleaseProcess(BaseProcess):
     def action_ellipse(self, screenshot, event):
         '''Release ACTION_ELLIPSE '''
         if screenshot.current_action:
-            screenshot.current_action.end_draw(screenshot.getEventCoord(event), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height))
+            screenshot.current_action.end_draw(self.win.get_event_coord(event), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height))
             screenshot.action_list.append(screenshot.current_action)
             screenshot.current_action = None
             self.win.refresh()
@@ -235,7 +235,7 @@ class ButtonReleaseProcess(BaseProcess):
     def action_arrow(self, screenshot, event):
         '''Release ACTION_ARROW '''
         if screenshot.current_action:
-            screenshot.current_action.end_draw(screenshot.getEventCoord(event), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height))
+            screenshot.current_action.end_draw(self.win.get_event_coord(event), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height))
             screenshot.action_list.append(screenshot.current_action)
             screenshot.current_action = None
             self.win.refresh()
@@ -243,7 +243,7 @@ class ButtonReleaseProcess(BaseProcess):
     def action_line(self, screenshot, event):
         '''Release ACTION_LINE '''
         if screenshot.current_action:
-            screenshot.current_action.end_draw(screenshot.getEventCoord(event), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height))
+            screenshot.current_action.end_draw(self.win.get_event_coord(event), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height))
             screenshot.action_list.append(screenshot.current_action)
             screenshot.current_action = None
             self.win.refresh()
@@ -280,7 +280,6 @@ class MotionProcess(BaseProcess):
             size = "%d x %d " % (screenshot.rect_width, screenshot.rect_height)
             rgb = utils.get_coord_rgb(screenshot.root, event.x, event.y)
             self.win.update_magnifier(event.x, event.y, size=size, rgb=str(rgb))
-            #setCursor(screenshot.window, gtk.gdk.PENCIL)
             pass
                 
     def action_init(self, screenshot, event):
@@ -290,7 +289,6 @@ class MotionProcess(BaseProcess):
             (screenshot.rect_width, screenshot.rect_height) = (ex - screenshot.x, ey - screenshot.y)
             self.win.refresh()
         else:
-            #setCursor(screenshot.window, gtk.gdk.PENCIL)
             pass
 
     def action_select(self, screenshot, event):
@@ -298,27 +296,27 @@ class MotionProcess(BaseProcess):
         # drag the selected area
         if screenshot.drag_flag:
             (ex, ey) = self.win.get_event_coord(event)
-            if screenshot.dragPosition == DRAG_INSIDE:
+            if screenshot.drag_position == DRAG_INSIDE:
                 screenshot.x = min(max(ex - screenshot.dragStartOffsetX, 0), screenshot.width - screenshot.rect_width)
                 screenshot.y = min(max(ey - screenshot.dragStartOffsetY, 0), screenshot.height - screenshot.rect_height)
-            elif screenshot.dragPosition == DRAG_TOP_SIDE:
+            elif screenshot.drag_position == DRAG_TOP_SIDE:
                 self.win.drag_frame_top(ex, ey)
-            elif screenshot.dragPosition == DRAG_BOTTOM_SIDE:
+            elif screenshot.drag_position == DRAG_BOTTOM_SIDE:
                 self.win.drag_frame_bottom(ex, ey)
-            elif screenshot.dragPosition == DRAG_LEFT_SIDE:
+            elif screenshot.drag_position == DRAG_LEFT_SIDE:
                 self.win.drag_frame_left(ex, ey)
-            elif screenshot.dragPosition == DRAG_RIGHT_SIDE:
+            elif screenshot.drag_position == DRAG_RIGHT_SIDE:
                 self.win.drag_frame_right(ex, ey)
-            elif screenshot.dragPosition == DRAG_TOP_LEFT_CORNER:
+            elif screenshot.drag_position == DRAG_TOP_LEFT_CORNER:
                 self.win.drag_frame_top(ex, ey)
                 self.win.drag_frame_left(ex, ey)
-            elif screenshot.dragPosition == DRAG_TOP_RIGHT_CORNER:
+            elif screenshot.drag_position == DRAG_TOP_RIGHT_CORNER:
                 self.win.drag_frame_top(ex, ey)
                 self.win.drag_frame_right(ex, ey)
-            elif screenshot.dragPosition == DRAG_BOTTOM_LEFT_CORNER:
+            elif screenshot.drag_position == DRAG_BOTTOM_LEFT_CORNER:
                 self.win.drag_frame_bottom(ex, ey)
                 self.win.drag_frame_left(ex, ey)
-            elif screenshot.dragPosition == DRAG_BOTTOM_RIGHT_CORNER:
+            elif screenshot.drag_position == DRAG_BOTTOM_RIGHT_CORNER:
                 self.win.drag_frame_bottom(ex, ey)
                 self.win.drag_frame_right(ex, ey)                      
 
@@ -326,8 +324,10 @@ class MotionProcess(BaseProcess):
             self.win.show_toolbar()
             self.win.adjust_toolbar()
         else:
-            #setCursor(screenshot.window, gtk.gdk.PENCIL)
-            pass
+            screenshot.drag_position = self.win.get_position(event)
+            if screenshot.last_drag_position != screenshot.drag_position:
+                screenshot.last_drag_position = screenshot.drag_position
+                self.win.set_cursor(screenshot.drag_position)
                 
     def action_rectangle(self, screenshot, event):
         '''Motion ACTION_RECTANGLE '''
@@ -336,7 +336,6 @@ class MotionProcess(BaseProcess):
             screenshot.current_action.drawing((ex, ey), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height))
             self.win.refresh()
         else:
-            #setCursor(screenshot.window, gtk.gdk.PENCIL)
             pass
 
     def action_ellipse(self, screenshot, event):
@@ -346,7 +345,6 @@ class MotionProcess(BaseProcess):
             screenshot.current_action.drawing((ex, ey), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height))
             self.win.refresh()
         else:
-            #setCursor(screenshot.window, gtk.gdk.PENCIL)
             pass
 
     def action_arrow(self, screenshot, event):
@@ -356,7 +354,6 @@ class MotionProcess(BaseProcess):
             screenshot.current_action.drawing((ex, ey), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height))
             self.win.refresh()
         else:
-            #setCursor(screenshot.window, gtk.gdk.PENCIL)
             pass
 
     def action_line(self, screenshot, event):
@@ -366,7 +363,6 @@ class MotionProcess(BaseProcess):
             screenshot.current_action.drawing((ex, ey), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height))
             self.win.refresh()
         else:
-            #setCursor(screenshot.window, gtk.gdk.PENCIL)
             pass
 
     def adjust(self, screenshot, event):
@@ -399,10 +395,10 @@ class MotionProcess(BaseProcess):
                 drawTextX, drawTextY, drawTextWidth, drawTextHeight = screenshot.current_text_action.get_layout_info()
                 if drawTextX <= tx <= drawTextX + drawTextWidth and drawTextY <= ty <= drawTextY + drawTextHeight:
                     screenshot.draw_text_layout_flag = True
-                    #setCursor(self.window, gtk.gdk.FLEUR)
+                    self.win.set_cursor('drag')
                     self.win.refresh()
                 else:
                     screenshot.draw_text_layout_flag = False    
                     screenshot.current_text_action = None
-                    #self.win.window.window.set_cursor(None)
+                    self.win.set_cursor(screenshot.action)
                     self.win.refresh()

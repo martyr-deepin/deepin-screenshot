@@ -20,13 +20,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from theme import app_theme
+from theme import app_theme, theme_cursor
 from dtk.ui.button import ImageButton, ToggleButton
 from dtk.ui.window import Window
 #from dtk.ui.line import VSeparator
 from dtk.ui.label import Label
-from dtk.ui.box import EventBox
-from dtk.ui.color_selection import ColorSelectDialog, ColorButton
+#from dtk.ui.box import EventBox
+from dtk.ui.color_selection import ColorSelectDialog#, ColorButton
 from dtk.ui.dialog import SaveFileDialog
 import dtk.ui.constant
 from lang import __
@@ -91,12 +91,11 @@ class Toolbar():
         self.create_button("finish", __("Tip finish"))
 
         if self.screenshot:
-            self._button_clicked_cb = {         # TODO 要修改
+            self._button_clicked_cb = {
                 'undo': self.screenshot.undo,
-                #'save': self.screenshot.saveSnapshotToFile,
-                'save': self._save_to_file,
+                'save': self.save_to_file,
                 'cancel': self.win.quit,
-                'finish': self.screenshot.saveSnapshot}
+                'finish': self.screenshot.save_snapshot}
 
     def create_toggle_button(self, name, action, text=''):
         ''' make a togglebutton '''
@@ -156,9 +155,11 @@ class Toolbar():
             return
         if widget.get_active():
             self.screenshot.set_action_type(action)
+            self.win.set_cursor(action)
             self.win.show_colorbar()
             self.win.adjust_colorbar()
         else:
+            self.win.set_cursor(None)
             self.win.hide_colorbar()
             if not self.screenshot.action_list and not self.screenshot.text_action_list and self.screenshot.show_toolbar_flag and not self.screenshot.window_flag:
                 self.screenshot.set_action_type(ACTION_SELECT)
@@ -172,13 +173,22 @@ class Toolbar():
                 each.set_active(state)
                 break
     
-    def _save_to_file(self, widget):
+    def save_to_file(self, widget=None):
         ''' save to file '''
-        SaveFileDialog('', self.screenshot.window.window, ok_callback=self._save_to_file_cb)
+        self.win.hide_colorbar()
+        self.win.hide_toolbar()
+        SaveFileDialog('', self.screenshot.window.window,
+            ok_callback=self._save_to_file_cb, cancel_callback=self._save_to_file_cancel)
 
+    def _save_to_file_cancel(self, filename):
+        ''' save file dialog cancel_callback'''
+        self.win.show_toolbar()
+        self.win.show_colorbar()
+        
     def _save_to_file_cb(self, filename):
         ''' save file dialog ok_callback'''
         print "save", filename
+        self.screenshot.save_snapshot(filename=filename)
     
     def set_all_inactive(self):
         '''set all button inactive'''
@@ -228,6 +238,7 @@ class Colorbar():
         self.create_size_button("small", 2)
         self.create_size_button("normal", 3)
         self.create_size_button("big", 5)
+        self._set_size_button_state("small", True)
 
         self.size_align = gtk.Alignment()
         self.size_align.set(0.5,0.5,0,0)
@@ -239,8 +250,8 @@ class Colorbar():
         # font select
         self.font_label = Label("Sans 10",enable_select=False, text_x_align=dtk.ui.constant.ALIGN_MIDDLE)
         self.font_label.connect("button-press-event", self._select_font_event) 
-        self.font_label.connect("enter-notify-event", lambda w, e: utils.setCursor(w, gtk.gdk.HAND2))
-        self.font_label.connect("leave-notify-event", lambda w, e: utils.setDefaultCursor(w))
+        self.font_label.connect("enter-notify-event", lambda w, e: utils.set_cursor(w, gtk.gdk.Cursor(gtk.gdk.HAND2)))
+        self.font_label.connect("leave-notify-event", lambda w, e: utils.set_default_cursor(w))
         self.font_label.set_size_request(100, -1)
         #self.dynamic_box.pack_start(self.font_label)
 
@@ -262,8 +273,8 @@ class Colorbar():
         self.color_select.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#FF0000"))
         self.color_select.connect('expose-event', self._color_select_expose)
         self.color_select.connect('button-press-event', self._select_color_event)
-        self.color_select.connect("enter-notify-event", lambda w, e: utils.setCursor(w, gtk.gdk.HAND2))
-        self.color_select.connect("leave-notify-event", lambda w, e: utils.setDefaultCursor(w))
+        self.color_select.connect("enter-notify-event", lambda w, e: utils.set_cursor(w, gtk.gdk.Cursor(gtk.gdk.HAND2)))
+        self.color_select.connect("leave-notify-event", lambda w, e: utils.set_default_cursor(w))
         
         # color button
         self.vbox = gtk.VBox(False, 2)
@@ -307,18 +318,31 @@ class Colorbar():
         button.connect('pressed', self._color_button_pressed, name) 
         box.pack_start(button)
 
+    def create_toggle_button(self, name):
+        ''' make a togglebutton '''
+        button = ToggleButton(
+            app_theme.get_pixbuf("action/" + name + ".png"),
+            app_theme.get_pixbuf("action/" + name + "_hover.png"),
+            app_theme.get_pixbuf("action/" + name + "_press.png"))
+        button.set_name(name)
+        return button
+
     def create_image_button(self, name):
         '''create ImageButton'''
         button = ImageButton(
             app_theme.get_pixbuf("action/" + name + ".png"),
             app_theme.get_pixbuf("action/" + name + "_hover.png"),
             app_theme.get_pixbuf("action/" + name + "_press.png"))
+        button.set_name(name)
         return button
 
     def create_size_button(self, name, index):
         ''' create size button '''
-        button = self.create_image_button(name)
+        #button = self.create_image_button(name)
+        button = self.create_toggle_button(name)
         button.connect("pressed", self._size_button_pressed, index)
+        #button.connect("toggled", self._size_button_toggled, name)
+        button.connect("released", self._size_button_released)
         self.size_box.pack_start(button)
 
     def _select_font_event(self, widget, event, data=None):
@@ -329,23 +353,22 @@ class Colorbar():
         self.win.hide_colorbar()
         font_dialog = gtk.FontSelectionDialog("font select")
         #font_dialog.set_skip_taskbar_hint(True)
-        #if self.showTextWindowFlag:
-            #self.fontDialog.set_transient_for(self.textWindow)
-        #else:
-        font_dialog.set_transient_for(self.win.window)
+        if self.screenshot.show_text_window_flag:
+            font_dialog.set_transient_for(self.screenshot.text_window.window)
+        else:
+            font_dialog.set_transient_for(self.win.window)
         font_dialog.set_font_name(widget.text)
         font_dialog.connect("response", self._font_dialog_response)
         font_dialog.set_modal(True)
         font_dialog.show_all()
 
     def _font_dialog_response(self, widget, response):
-        if response == gtk.RESPONSE_OK:
+        if response == gtk.RESPONSE_OK or response == gtk.RESPONSE_APPLY:
             self.screenshot.font_name = widget.get_font_name()
             self.font_label.set_text(self.screenshot.font_name)
         self.win.show_toolbar()
         self.win.show_colorbar()
         widget.destroy()
-        #self.win.window.queue_draw()
 
     def _color_select_expose(self, widget, event, data=None):
         '''set colorBox border '''
@@ -389,9 +412,26 @@ class Colorbar():
         ''' size button pressed'''
         if self.screenshot is None:
             return
-        self.screenshot.iconIndex = index
-        self.screenshot.actionSize = index
+        #self.screenshot.iconIndex = index
+        self.screenshot.action_size = index
+        for each in self.size_box.get_children():
+            if each == widget:
+                continue
+            else:
+                each.set_active(False)
 
+    def _size_button_released(self, widget):
+        ''' size button release '''
+        if not widget.get_active():
+            widget.set_active(True)
+
+    def _set_size_button_state(self, name, state):
+        '''set size button state'''
+        for each in self.size_box.get_children():
+            if each.get_name() == name:
+                each.set_active(state)
+        
+    
     def show(self):
         ''' show the colorbar'''
         if self.screenshot.action == ACTION_TEXT:

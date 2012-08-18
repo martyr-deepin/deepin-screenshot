@@ -20,7 +20,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from theme import app_theme
+from theme import app_theme, theme_cursor
 from dtk.ui.window import Window
 from dtk.ui.entry import Entry 
 from dtk.ui.scrolled_window import ScrolledWindow 
@@ -76,9 +76,9 @@ class RootWindow():
         # key binding.
         self.hotkey_map = { "Escape": self.window.destroy}
         if self.screenshot:
-            self.hotkey_map["Ctrl + s"] = self.screenshot.saveSnapshotToFile
-            self.hotkey_map["Return"] = self.screenshot.saveSnapshot
-            self.hotkey_map["KP_Enter"] = self.screenshot.saveSnapshot
+            self.hotkey_map["Ctrl + s"] = self._save_to_file
+            self.hotkey_map["Return"] = self.screenshot.save_snapshot
+            self.hotkey_map["KP_Enter"] = self.screenshot.save_snapshot
             self.hotkey_map["Ctrl + z"] = self.screenshot.undo
 
     def _draw_expose(self, widget, event):
@@ -90,9 +90,6 @@ class RootWindow():
             cr.paint()
         # draw mask
         self._draw_mask(cr)
-        # ACTION_WINDOW draw magnifier
-        if self.magnifier and self.screenshot.action == ACTION_WINDOW:
-            self._draw_magnifier(cr)
         # toolbar
         if self.screenshot.show_toolbar_flag:
             self.adjust_toolbar()
@@ -101,17 +98,33 @@ class RootWindow():
         for action in self.screenshot.action_list:
             if action != None:
                 action.expose(cr)
-        # draw frame
-        if self.screenshot.rect_width:
+        # Draw current action.
+        if self.screenshot.current_action is not None:
+            self.screenshot.current_action.expose(cr)
+
+        # ACTION_WINDOW draw magnifier and window frame
+        if self.magnifier and self.screenshot.action == ACTION_WINDOW:
+            self._draw_magnifier(cr)
+            self._draw_window_rectangle(cr)
+        # action is not ACTION_WINDOW draw frame
+        if self.screenshot.action != ACTION_WINDOW and self.screenshot.rect_width:
             self._draw_frame(cr)
             self._draw_drag_point(cr)
+            # draw size tip
+            if self.screenshot.y - 35 > 0:
+                draw_round_text_rectangle(cr, self.screenshot.x + 5, self.screenshot.y - 35,
+                    85, 30, 7,
+                    '%d x %d' % (fabs(self.screenshot.rect_width), fabs(self.screenshot.rect_height)), 0.7)
+            elif self.screenshot.action in [None, ACTION_SELECT, ACTION_WINDOW, ACTION_INIT]:
+                draw_round_text_rectangle(cr, self.screenshot.x + 5 , self.screenshot.y + 5 ,
+                    85, 30, 7,
+                    '%d x %d' % (fabs(self.screenshot.rect_width), fabs(self.screenshot.rect_height)), 0.7)
         # update text action info
         for each_text_action in self.screenshot.text_action_list:
             self.screenshot.text_action_info[each_text_action] = each_text_action.get_layout_info()
         # draw current text layout
-        if self.screenshot.draw_text_layout_flag:
-            drawAlphaRectangle(cr, *self.screenshot.current_text_action.get_layout_info())
-    
+        if self.screenshot.draw_text_layout_flag and self.screenshot.current_text_action:
+            draw_alpha_rectangle(cr, *self.screenshot.current_text_action.get_layout_info())
 
     def _expose_event(self, widget, event):
         ''' expose '''
@@ -148,9 +161,7 @@ class RootWindow():
                 self.screenshot.text_modify_flag = True
             # save snapshot
             if self.screenshot.action == ACTION_SELECT and self.screenshot.x < ex < self.screenshot.x + self.screenshot.rect_width and self.screenshot.y < ey < self.screenshot.y + self.screenshot.rect_height:
-                #self.saveSnapshot()
-                #self.buttonRelease(widget, event)
-                print "test"
+                self.screenshot.save_snapshot()
     
     def _button_release_event(self, widget, event):
         ''' button release '''
@@ -236,9 +247,9 @@ class RootWindow():
         cr.line_to(x + offset_x + pixbuf_width / 2, y + pixbuf_heigth + offset_y)
         cr.stroke()
         
-        drawFont(cr, self.magnifier.size_content, 3.0, "#FFFFFF", x + offset_x, y + offset_y + pixbuf_heigth + 4)
-        drawFont(cr, self.magnifier.rgb, 3.0, "#FFFFFF", x + offset_x, y + offset_y + pixbuf_heigth + 7.5)
-        drawFont(cr, self.magnifier.tip, 3.0, "#FFFFFF", x + offset_x, y + offset_y + pixbuf_heigth + 11)
+        draw_font(cr, self.magnifier.size_content, 3.0, "#FFFFFF", x + offset_x, y + offset_y + pixbuf_heigth + 4)
+        draw_font(cr, self.magnifier.rgb, 3.0, "#FFFFFF", x + offset_x, y + offset_y + pixbuf_heigth + 7.5)
+        draw_font(cr, self.magnifier.tip, 3.0, "#FFFFFF", x + offset_x, y + offset_y + pixbuf_heigth + 11)
         cr.restore()
     
     def refresh(self):
@@ -329,6 +340,13 @@ class RootWindow():
         cr.rectangle(screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height)
         cr.stroke()
 
+    def _draw_window_rectangle(self, cr):
+        '''Draw window frame.'''
+        screenshot = self.screenshot
+        cr.set_line_width(4.5)
+        cr.set_source_rgb(*(self.__frame_color))
+        cr.rectangle(screenshot.x + 1, screenshot.y + 1, screenshot.rect_width - 2, screenshot.rect_height - 2)
+        cr.stroke()
     def get_event_coord(self, event):     # 获取事件的坐标
         '''Get event coord.'''
         (rx, ry) = event.get_root_coords()
@@ -470,6 +488,17 @@ class RootWindow():
         screenshot.show_text_window_flag = False
         screenshot.text_window.set_text("")
         screenshot.text_window.hide()
+
+    def set_cursor(self, cursor_type):
+        ''' set cursor'''
+        if cursor_type in theme_cursor:
+            set_cursor(self.window, theme_cursor[cursor_type])
+        else:
+            set_cursor(self.window, None)
+
+    def _save_to_file(self):
+        ''' Ctrl + s has been pressed'''
+        self.screenshot.toolbar.save_to_file()
 
     def show(self):
         '''show'''
