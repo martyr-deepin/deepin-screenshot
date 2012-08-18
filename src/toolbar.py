@@ -177,8 +177,27 @@ class Toolbar():
         ''' save to file '''
         self.win.hide_colorbar()
         self.win.hide_toolbar()
-        SaveFileDialog('', self.screenshot.window.window,
-            ok_callback=self._save_to_file_cb, cancel_callback=self._save_to_file_cancel)
+        #dialog = SaveFileDialog('', self.screenshot.window.window,
+            #ok_callback=self._save_to_file_cb, cancel_callback=self._save_to_file_cancel)
+        dialog = gtk.FileChooserDialog(
+            "Save..",
+            self.window,
+            gtk.FILE_CHOOSER_ACTION_SAVE,
+            (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
+             gtk.STOCK_SAVE, gtk.RESPONSE_ACCEPT))
+        dialog.set_action(gtk.FILE_CHOOSER_ACTION_SAVE)
+        dialog.set_default_response(gtk.RESPONSE_ACCEPT)
+        dialog.set_position(gtk.WIN_POS_MOUSE)
+        dialog.set_local_only(True)
+        dialog.set_current_folder(utils.get_pictures_dir())
+        dialog.set_current_name("%s%s.%s" % (DEFAULT_FILENAME, utils.get_format_time(), "png"))
+        response = dialog.run()
+        filename = dialog.get_filename()
+        if response == gtk.RESPONSE_ACCEPT:
+            self._save_to_file_cb(filename)
+        else:
+            self._save_to_file_cancel(filename)
+        dialog.destroy()
 
     def _save_to_file_cancel(self, filename):
         ''' save file dialog cancel_callback'''

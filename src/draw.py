@@ -29,7 +29,7 @@ import cairo
 import gtk
 import pygtk
 import glib
-from window import SCREEN_WIDTH, SCREEN_HEIGHT, ROOT_WINDOW
+from window import SCREEN_WIDTH, SCREEN_HEIGHT
 
 pygtk.require('2.0')
 

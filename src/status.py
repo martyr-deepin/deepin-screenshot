@@ -278,7 +278,7 @@ class MotionProcess(BaseProcess):
             self.win.refresh()
         else:
             size = "%d x %d " % (screenshot.rect_width, screenshot.rect_height)
-            rgb = utils.get_coord_rgb(screenshot.root, event.x, event.y)
+            rgb = utils.get_coord_rgb(screenshot, event.x, event.y)
             self.win.update_magnifier(event.x, event.y, size=size, rgb=str(rgb))
             pass
                 
@@ -372,23 +372,24 @@ class MotionProcess(BaseProcess):
             self.win.hide_toolbar()
             (wx, wy) = self.win.get_event_coord(event)
             for each in screenshot.screenshot_window_info:
-                if each.x < wx < (each.x + each.width) and each.y < wy < (each.y + each.height):
+                if each.x <= wx <= (each.x + each.width) and each.y <= wy <= (each.y + each.height):
                     screenshot.x = each.x
                     screenshot.y = each.y
                     screenshot.rect_width = each.width
                     screenshot.rect_height = each.height
+                    break
             self.win.refresh()
                 
         # input text over
         if screenshot.action is None:
             (tx, ty) = self.win.get_event_coord(event)       
-            if screenshot.text_drag_flag:
+            if screenshot.text_drag_flag and screenshot.current_text_action:
                 screenshot.current_text_action.update_coord(tx - screenshot.textDragOffsetX, ty - screenshot.textDragOffsetY)
                 screenshot.draw_text_layout_flag = True
                 self.win.refresh()
             else:
                 for each, info in screenshot.text_action_info.items():
-                    if info[0] < tx < info[0]+info[2] and info[1] < ty < info[1]+info[3]:
+                    if info[0] <= tx <= info[0]+info[2] and info[1] <= ty <= info[1]+info[3]:
                         screenshot.current_text_action = each
                         
             if screenshot.current_text_action:
