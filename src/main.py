@@ -40,7 +40,6 @@ from toolbar import Colorbar, Toolbar
 import time
 import pygtk
 import subprocess
-import StringIO
 #import Image
 
 pygtk.require('2.0')
@@ -134,9 +133,16 @@ class DeepinScreenshot():
             tipContent = __("Tip area width or heigth cannot be 0")
         else:
             self.window.finish_flag = True
+            #self.window.refresh()
+            #pixmap = self.window.draw_area.get_snapshot(gtk.gdk.Rectangle(int(self.x), int(self.y), int(self.rect_width), int(self.rect_height)))
+            #print self.x, self.y, self.rect_width, self.rect_height, pixmap.get_size()
+            #pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, int(self.rect_width), int(self.rect_height))
+            #pixbuf.get_from_drawable(pixmap, pixmap.get_colormap(), 0, 0, 0, 0, int(self.rect_width), int(self.rect_height))
+
             surface = self.make_pic_file(self.desktop_background.subpixbuf(int(self.x), int(self.y), int(self.rect_width), int(self.rect_height)), filename)
             if filename == None:
                 # Save snapshot to clipboard if filename is None.
+                import StringIO
                 fp = StringIO.StringIO()
                 surface.write_to_png(fp)
                 contents = fp.getvalue()
@@ -145,6 +151,7 @@ class DeepinScreenshot():
                 loader.write(contents, len(contents))
                 pixbuf = loader.get_pixbuf()
                 loader.close()
+
                 #pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, int(self.rect_width), int(self.rect_height))
                 #pixbuf.get_from_drawable(self.window.draw_area.get_window(), self.window.draw_area.get_window().get_colormap(),
                     #int(self.x), int(self.y), 0, 0, int(self.rect_width), int(self.rect_height))
@@ -155,8 +162,9 @@ class DeepinScreenshot():
             else:
                 # Otherwise save to local file.
                 tipContent = __("Tip save to file")
-                self.make_pic_file(self.desktop_background.subpixbuf(int(self.x), int(self.y), int(self.rect_width), int(self.rect_height)), filename)
+                #self.make_pic_file(self.desktop_background.subpixbuf(int(self.x), int(self.y), int(self.rect_width), int(self.rect_height)), filename)
                 surface.write_to_png(filename)
+                #pixbuf.save(filename, 'png')
             
         # Exit
         self.window.quit()

@@ -33,6 +33,8 @@ DISPLAY_NUM = len(gtk.gdk.display_manager_get().list_displays())
 DISPLAY = gtk.gdk.display_get_default()
 SCREEN_NUM = DISPLAY.get_n_screens()
 GDK_SCREEN = DISPLAY.get_default_screen()
+MONITOR_NUM = GDK_SCREEN.get_n_monitors()
+CURRENT_MONITOR = 0
 
 WNCK_SCREEN = wnck.screen_get_default()
 WNCK_SCREEN.force_update()
@@ -126,6 +128,13 @@ def get_wnck_screen(index):
         return
     global GDK_SCREEN
     GDK_SCREEN = DISPLAY.get_screen(index)
+
+def get_current_monitor():
+    '''get current monitor'''
+    global CURRENT_MONITOR
+    CURRENT_MONITOR = GDK_SCREEN.get_monitor_at_point(
+            DISPLAY.get_pointer()[1:3])
+    return CURRENT_MONITOR
 
 #def find_window_by_property(xlibWindow, atom=WM_STATE):
     #''' find Window by property '''
