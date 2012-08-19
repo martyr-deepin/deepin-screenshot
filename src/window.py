@@ -32,6 +32,7 @@ import wnck
 DISPLAY_NUM = len(gtk.gdk.display_manager_get().list_displays())
 DISPLAY = gtk.gdk.display_get_default()
 SCREEN_NUM = DISPLAY.get_n_screens()
+GDK_SCREEN = DISPLAY.get_default_screen()
 
 WNCK_SCREEN = wnck.screen_get_default()
 WNCK_SCREEN.force_update()
@@ -85,7 +86,8 @@ def get_window_info_at_pointer():
 
 def get_screenshot_pixbuf(fullscreen=True):
     ''' save snapshot to file with filetype. '''
-    root_window = gtk.gdk.get_default_root_window() 
+    #root_window = gtk.gdk.get_default_root_window() 
+    root_window = GDK_SCREEN.get_root_window()
     if not fullscreen:
         info = get_window_info_at_pointer()
         (x, y, width, height) = (info.x, info.y, info.width, info.height)
@@ -95,6 +97,35 @@ def get_screenshot_pixbuf(fullscreen=True):
     pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, width, height)
     pixbuf.get_from_drawable(root_window, root_window.get_colormap(), x, y, 0, 0, width, height)
     return pixbuf
+
+# 多屏幕
+def get_display(index):
+    ''' get the index display '''
+    if index >= DISPLAY_NUM:
+        return
+    global DISPLAY
+    global SCREEN_NUM
+    DISPLAY = gtk.gdk.display_manager_get().list_displays()[index]
+    SCREEN_NUM = DISPLAY.get_n_screens()
+
+def get_wnck_screen(index):
+    '''get the index screen'''
+    global WNCK_SCREEN
+    screen = wnck.screen_get(index)
+    if screen:
+        WNCK_SCREEN = screen
+        WNCK_SCREEN.force_update()
+        
+        global WNCK_WORKSPACE
+        global SCREEN_WIDTH
+        global SCREEN_HEIGHT
+        WNCK_WORKSPACE = WNCK_SCREEN.get_active_workspace()
+        SCREEN_WIDTH = WNCK_SCREEN.get_width()
+        SCREEN_HEIGHT = WNCK_SCREEN.get_height()
+    if index >= SCREEN_NUM:
+        return
+    global GDK_SCREEN
+    GDK_SCREEN = DISPLAY.get_screen(index)
 
 #def find_window_by_property(xlibWindow, atom=WM_STATE):
     #''' find Window by property '''
