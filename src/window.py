@@ -67,12 +67,12 @@ def get_screenshot_window_info():
             continue
         if w.get_state() & wnck.WINDOW_STATE_MINIMIZED:
             continue
-        if w.is_shaded():
-            w.unshade()
-            (x, y, width, height) = w.get_geometry()                # with frame
-            w.shade()
-        else:
-            (x, y, width, height) = w.get_geometry()                # with frame
+        #if w.is_shaded():
+            #w.unshade()
+            #(x, y, width, height) = w.get_geometry()                # with frame
+            #w.shade()
+        #else:
+        (x, y, width, height) = w.get_geometry()                # with frame
         #(x, y, width, height) = w.get_client_window_geometry()  # without frame
         screenshot_window_info.insert(0, coordInfo(*convert_coord(x, y, width, height)))
     return screenshot_window_info

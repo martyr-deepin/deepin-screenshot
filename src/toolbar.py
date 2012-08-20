@@ -41,10 +41,12 @@ class Toolbar():
         self.screenshot = screenshot
         self.win = screenshot.window
 
-        toolbar_padding_x = 5
+        toolbar_padding_x = 10
         toolbar_padding_y = 2
         toolbar_icon_width = toolbar_icon_height = 28
         toolbar_icon_num = 10
+        #self.widht = 290
+        self.height = 40
         self.window = Window(window_type=gtk.WINDOW_POPUP)
         self.window.set_keep_above(True)
         self.window.set_decorated(False)
@@ -56,7 +58,11 @@ class Toolbar():
         #self.window.connect("expose-event", lambda w, e: exposeBackground(w, e, appTheme.getDynamicPixbuf("bg.png")))
         self.window.set_size_request(
             toolbar_icon_width * toolbar_icon_num + toolbar_padding_x * 2,
-            toolbar_icon_height + toolbar_padding_y * 2)
+            #toolbar_icon_height + toolbar_padding_y * 2)
+            self.height)
+        #self.window.window_frame.set_size_request(
+            #toolbar_icon_width * toolbar_icon_num + toolbar_padding_x * 2,
+            #self.height)
 
         self.toolbox = gtk.HBox(False, 2)
         self.window.window_shadow.set(0.5, 0.5, 0, 0)
@@ -201,6 +207,7 @@ class Toolbar():
 
     def _save_to_file_cancel(self, filename):
         ''' save file dialog cancel_callback'''
+        self.win.adjust_toolbar()
         self.win.show_toolbar()
         #self.win.show_colorbar()
         
@@ -230,9 +237,11 @@ class Colorbar():
         self.screenshot = screenshot
         self.win = self.screenshot.window
         
-        padding_x = 5
+        padding_x = 10
         padding_y = 4
         icon_width = icon_height = 28
+        self.width = 280
+        self.height = 32
         #color_num = 9
         
         self.window = Window(window_type=gtk.WINDOW_POPUP)
@@ -244,7 +253,9 @@ class Colorbar():
         self.window.set_resizable(False)
         self.window.set_default_size(100, 24)
         #self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
-        self.window.set_size_request(-1, icon_height + padding_y * 2)
+        #self.window.set_size_request(-1, icon_height + padding_y * 2)
+        self.window.window_frame.set_size_request(-1, self.height)
+        #self.window.set_size_request(self.width, self.height)
 
         self.box = gtk.HBox(False, 4)
         self.size_box = gtk.HBox()
@@ -385,6 +396,7 @@ class Colorbar():
         if response == gtk.RESPONSE_OK or response == gtk.RESPONSE_APPLY:
             self.screenshot.font_name = widget.get_font_name()
             self.font_label.set_text(self.screenshot.font_name)
+        self.win.adjust_toolbar()
         self.win.show_toolbar()
         self.win.show_colorbar()
         widget.destroy()
@@ -417,11 +429,13 @@ class Colorbar():
         if self.screenshot is None:
             return
         self.screenshot.action_color = color_hex
+        self.win.adjust_toolbar()
         self.win.show_toolbar()
         self.win.show_colorbar()
 
     def _select_color_cancel(self):
         ''' cancel slect color'''
+        self.win.adjust_toolbar()
         self.win.show_toolbar()
         self.win.show_colorbar()
 

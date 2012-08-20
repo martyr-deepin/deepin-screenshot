@@ -23,13 +23,13 @@
 from math import *
 from theme import *
 from utils import *
-import sys
 from constant import DEFAULT_FONT
 import cairo
 import gtk
 import pygtk
-import glib
 from window import SCREEN_WIDTH, SCREEN_HEIGHT
+from dtk.ui.draw import render_text as dtk_render_text
+from pango import ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT
 
 pygtk.require('2.0')
 
@@ -188,8 +188,9 @@ def draw_round_text_rectangle(cr, x, y, width, height, r, Text, alpha=0.8):
     cr.arc(x+width-r, y+height-r, r, 2*pi, pi / 2)
     cr.arc(x+r, y+height-r, r, pi / 2, pi)    
     cr.fill()
-        
-    draw_font(cr, Text, 14.0, "#FFFFFF", x + width / 12.0, y + height / 1.5)
+    
+    #draw_font(cr, Text, 14.0, "#FFFFFF", x + width / 12.0, y + height / 1.5)
+    dtk_render_text(cr, Text, x, y, width, height, 9, "#FFFFFF", DEFAULT_FONT, ALIGN_CENTER)
 
 def draw_font(cr, content, fontSize, fontColor, x, y):
     '''Draw font.'''
