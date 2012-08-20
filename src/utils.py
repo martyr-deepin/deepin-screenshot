@@ -27,7 +27,6 @@ import os
 import sys
 import time
 from subprocess import Popen,PIPE
-from Xlib import X
 
 pygtk.require('2.0')
 
@@ -69,25 +68,21 @@ def gdkColorToString(gdkcolor):
 def encode(text):
     return unicode(text, sys.getfilesystemencoding())
 
-def get_coord_rgb(widget, x, y):
-#def get_coord_rgb(pixbuf, width, x, y):
+def get_coord_rgb(screenshot, x, y):
     '''get coordinate's pixel. '''
-    #width, height = widget.get_size()
-    #colormap = widget.get_window().get_colormap()
-    #image = gtk.gdk.Image(gtk.gdk.IMAGE_NORMAL, widget.window.get_visual(), width, height)
-    #image.set_colormap(colormap)
-    #gdkcolor = colormap.query_color(image.get_pixel(x, y))
-    #return (gdkcolor.red / 256, gdkcolor.green / 256, gdkcolor.blue / 256)
-    #pix = pixbuf.get_pixels()
-    #pos = x * width + y
-    #pix_color = (ord(pix[pos]), ord(pix[pos+1]), ord(pix[pos+2]))
-    #return pix_color
-    img = widget.get_image(x, y, 1, 1, X.ZPixmap, 0xffffffff)
-    data = []
-    data.append(img.data[2])
-    data.append(img.data[1])
-    data.append(img.data[0])
-    return (tuple(map(ord, data[0:3])))
+    rowstride = screenshot.desktop_background_rowstride
+    n_channels = screenshot.desktop_background_n_channels
+    pixels = screenshot.desktop_background_pixels
+    pos = int(y * rowstride + x * n_channels)
+    i = 0
+    pix_color = []
+    while i < n_channels:
+        pix_color.append(ord(pixels[pos+i]))
+        i += 1
+    pix_color = map(ord, (pixels[pos], pixels[pos+1], pixels[pos+2]))
+    #img = screenshot.desktop_background_img
+    #pix_color = img.getpixel((x, y))
+    return pix_color[0:3]
 
 def make_menu_item(name, callback, data=None):
     item = gtk.MenuItem(name)

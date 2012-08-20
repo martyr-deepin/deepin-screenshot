@@ -44,7 +44,7 @@ class RootWindow():
         self.__frame_color = (0.0, 0.68, 1.0)
 
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-        self.window.set_size_request(SCREEN_WIDTH, SCREEN_HEIGHT)
+        #self.window.set_size_request(SCREEN_WIDTH, SCREEN_HEIGHT)
         self.window.fullscreen()
         self.window.set_icon_from_file("../theme/logo/deepin-screenshot.ico")
         self.window.set_keep_above(True)
@@ -68,6 +68,7 @@ class RootWindow():
         self.draw_area.connect("expose-event", self._draw_expose)
         self.window.add(self.draw_area)
         self.magnifier = None
+        self.finish_flag = False
         
         self._button_pressed_process = status.ButtonPressProcess(screenshot, self)
         self._button_released_process = status.ButtonReleaseProcess(screenshot, self)
@@ -83,17 +84,11 @@ class RootWindow():
 
     def _draw_expose(self, widget, event):
         ''' draw area expose'''
-        cr = widget.window.cairo_create()
+        cr = self._cr = widget.window.cairo_create()
         # draw background
         if self.screenshot:
             cr.set_source_pixbuf(self.screenshot.desktop_background, 0, 0)
             cr.paint()
-        # draw mask
-        self._draw_mask(cr)
-        # toolbar
-        if self.screenshot.show_toolbar_flag:
-            self.adjust_toolbar()
-            self.adjust_colorbar()
         # Draw action list.
         for action in self.screenshot.action_list:
             if action != None:
@@ -101,6 +96,14 @@ class RootWindow():
         # Draw current action.
         if self.screenshot.current_action is not None:
             self.screenshot.current_action.expose(cr)
+        if self.finish_flag:
+            return True
+        # draw mask
+        self._draw_mask(cr)
+        # toolbar
+        if self.screenshot.show_toolbar_flag:
+            self.adjust_toolbar()
+            self.adjust_colorbar()
 
         # ACTION_WINDOW draw magnifier and window frame
         if self.magnifier and self.screenshot.action == ACTION_WINDOW:
@@ -212,10 +215,22 @@ class RootWindow():
         else:
             offset_x = 3
 
-        pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, pixbuf_width, pixbuf_heigth)
-        pixbuf.get_from_drawable(self.window.window, self.window.window.get_colormap(),
-            int(fabs(x - pixbuf_width / 2)), int(fabs(y - pixbuf_heigth / 2)),
-            0, 0, pixbuf_width, pixbuf_heigth)
+        src_x = x - pixbuf_width / 2
+        src_y = y - pixbuf_heigth / 2
+        if src_x < 0:
+            src_x = 0
+        elif src_x > SCREEN_WIDTH - pixbuf_width:
+            src_x = SCREEN_WIDTH - pixbuf_width
+        else:
+            src_x = fabs(src_x)
+        if src_y < 0:
+            src_y = 0
+        elif src_y > SCREEN_HEIGHT- pixbuf_heigth:
+            src_y = SCREEN_HEIGHT- pixbuf_heigth
+        else:
+            src_y = fabs(src_y)
+        pixbuf = self.screenshot.desktop_background.subpixbuf(
+            int(src_x), int(src_y) , pixbuf_width, pixbuf_heigth)
         
         #set zoom scale and translate
         cr.save()
@@ -256,11 +271,6 @@ class RootWindow():
         ''' refresh this window'''
         #self.window.queue_draw()
         self.draw_area.queue_draw()
-
-    def _draw_background(self, cr):
-        ''' draw background '''
-        cr.set_source_pixbuf(self.pix, 0, 0)
-        cr.paint()
 
     def _draw_mask(self, cr):
         '''draw mask'''
@@ -347,6 +357,7 @@ class RootWindow():
         cr.set_source_rgb(*(self.__frame_color))
         cr.rectangle(screenshot.x + 1, screenshot.y + 1, screenshot.rect_width - 2, screenshot.rect_height - 2)
         cr.stroke()
+    
     def get_event_coord(self, event):     # 获取事件的坐标
         '''Get event coord.'''
         (rx, ry) = event.get_root_coords()
@@ -505,7 +516,8 @@ class RootWindow():
         self.window.show_all()
         #self._cr = self.window.window.cairo_create()
         self._cr = self.draw_area.window.cairo_create()
-        time.sleep(0.01)
+        self.window.window.raise_()
+        #time.sleep(0.01)
 
 class TextWindow():
     ''' Text Window '''
@@ -537,7 +549,7 @@ class TextWindow():
 
         self.window.window_frame.add(scroll_window)
     
-    def get_text(self):                 # 获取输入框文字
+    def get_text(self):
         '''Get input text.'''
         text_buffer = self.entry.get_buffer()
         return (text_buffer.get_text(text_buffer.get_start_iter(), text_buffer.get_end_iter())).rstrip(" ")
@@ -550,6 +562,7 @@ class TextWindow():
     def show(self):
         ''' show window '''
         self.window.show_all()
+        self.entry.grab_focus()
     
     def hide(self):
         '''hide window'''

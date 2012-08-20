@@ -5,7 +5,6 @@
 #               2011 Hou Shaohui
 #
 # Author:     Hou Shaohui <houshao55@gmail.com>
-#             Long Changjin <admin@longchangjin.cn>
 # Maintainer: Hou ShaoHui <houshao55@gmail.com>
 #             Long Changjin <admin@longchangjin.cn>
 #

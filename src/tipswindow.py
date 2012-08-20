@@ -26,7 +26,7 @@
 import gtk
 from draw import *
 import sys
-from constant import SCREEN_WIDTH
+from window import SCREEN_WIDTH
 
 class TipWindow():
     ''' tip window'''
@@ -71,7 +71,7 @@ class TipWindow():
         cr = widget.window.cairo_create()
         width, height = widget.window.get_size()
         cr.set_source_rgb(0.14, 0.13, 0.15)
-        drawRoundRectangle(cr, 0, 0, width, height, 4)
+        draw_round_rectangle(cr, 0, 0, width, height, 4)
         cr.fill_preserve()
         cr.stroke()
 
@@ -131,7 +131,7 @@ class CountdownWindow():
         cr = widget.window.cairo_create()
         width, height = widget.window.get_size()
         cr.set_source_rgb(0.14, 0.13, 0.15)
-        drawRoundRectangle(cr, 0, 0, width, height, 4)
+        draw_round_rectangle(cr, 0, 0, width, height, 4)
         cr.fill_preserve()
         cr.stroke()
 

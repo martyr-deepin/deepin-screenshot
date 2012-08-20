@@ -39,8 +39,8 @@ class Action:
         
     def start_draw(self, (sx, sy)):
         '''Start draw.'''
-        self.start_x = sx
-        self.start_y = sy
+        self.end_x = self.start_x = sx
+        self.end_y = self.start_y = sy
         
     def end_draw(self, (ex, ey), (rx, ry, rw, rh)):
         '''End draw.'''
