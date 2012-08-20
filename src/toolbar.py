@@ -42,30 +42,30 @@ class Toolbar():
         self.win = screenshot.window
 
         toolbar_padding_x = 10
-        toolbar_padding_y = 2
+        toolbar_padding_y = 3
         toolbar_icon_width = toolbar_icon_height = 28
         toolbar_icon_num = 10
         #self.widht = 290
-        self.height = 36
+        self.height = 34
         self.window = Window(window_type=gtk.WINDOW_POPUP)
         self.window.set_keep_above(True)
         self.window.set_decorated(False)
-        self.window.set_resizable(False)
+        #self.window.set_resizable(False)
         self.window.set_transient_for(parent)
         #self.window.set_default_size(284, 32)
         #self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         #self.window.connect("size-allocate", lambda w, a: updateShape(w, a, 2))
         #self.window.connect("expose-event", lambda w, e: exposeBackground(w, e, appTheme.getDynamicPixbuf("bg.png")))
-        self.window.set_size_request(
-            toolbar_icon_width * toolbar_icon_num + toolbar_padding_x * 2,
-            #toolbar_icon_height + toolbar_padding_y * 2)
-            self.height)
+        #self.window.set_size_request(
+            #toolbar_icon_width * toolbar_icon_num + toolbar_padding_x * 2,
+            ##toolbar_icon_height + toolbar_padding_y * 2)
+            #self.height)
+        self.window.set_size_request(-1, self.height)
 
         self.toolbox = gtk.HBox(False, 2)
         self.window.window_shadow.set(0.5, 0.5, 0, 0)
         self.window.window_shadow.set_padding(toolbar_padding_y, toolbar_padding_y, toolbar_padding_x, toolbar_padding_x)
-        self.window.window_frame.add(self.toolbox)
-        #self.window.window_frame.set_size_request(-1, -1)
+        self.window.window_frame.pack_start(self.toolbox)
 
         self._toggle_buton_list = []
         self.create_toggle_button("rect", ACTION_RECTANGLE, __("Tip draw rectangle"))
@@ -112,6 +112,7 @@ class Toolbar():
         button.connect("released", self._toggle_button_released)
         button.connect("enter-notify-event", self._show_tooltip, text)
         button.set_name(name)
+        button.set_size_request(28, 28)
         self.toolbox.pack_start(button)
         self._toggle_buton_list.append(button)
 
@@ -123,6 +124,7 @@ class Toolbar():
             app_theme.get_pixbuf("action/" + name + "_press.png"))
         button.connect("enter-notify-event", self._show_tooltip, text)
         button.connect("clicked", self._button_clicked, name)
+        button.set_size_request(28, 28)
         self.toolbox.pack_start(button)
 
     def _show_tooltip(self, widget, event, text):
@@ -235,11 +237,11 @@ class Colorbar():
         self.screenshot = screenshot
         self.win = self.screenshot.window
         
-        padding_x = 10
-        padding_y = 4
+        padding_x = 5
+        padding_y = 3
         icon_width = icon_height = 28
         self.width = 280
-        self.height = 40
+        self.height = 38
         #color_num = 9
         
         self.window = Window(window_type=gtk.WINDOW_POPUP)
@@ -248,14 +250,13 @@ class Colorbar():
         self.window.set_transient_for(parent)
         
         self.window.set_decorated(False)
-        self.window.set_resizable(False)
-        self.window.set_default_size(100, 24)
+        #self.window.set_resizable(False)
+        #self.window.set_default_size(100, 24)
         #self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         #self.window.set_size_request(-1, icon_height + padding_y * 2)
-        self.window.window_frame.set_size_request(-1, self.height)
-        #self.window.set_size_request(self.width, self.height)
+        #self.window.set_size_request(270, self.height)
 
-        self.box = gtk.HBox(False, 4)
+        self.box = gtk.HBox(False, 1)
         self.size_box = gtk.HBox()
         self.dynamic_box = gtk.HBox()
 
@@ -276,11 +277,11 @@ class Colorbar():
         self.box.pack_start(self.dynamic_box)
         
         # font select
-        self.font_label = Label("Sans 10",enable_select=False, text_x_align=dtk.ui.constant.ALIGN_MIDDLE)
+        self.font_label = Label("Sans 10",enable_select=False, text_x_align=dtk.ui.constant.ALIGN_MIDDLE, label_width=80)
+        self.font_label.set_size_request(80, 28)
         self.font_label.connect("button-press-event", self._select_font_event) 
         self.font_label.connect("enter-notify-event", lambda w, e: utils.set_cursor(w, gtk.gdk.Cursor(gtk.gdk.HAND2)))
         self.font_label.connect("leave-notify-event", lambda w, e: utils.set_default_cursor(w))
-        self.font_label.set_size_request(100, -1)
         #self.dynamic_box.pack_start(self.font_label)
 
         button = ImageButton(
@@ -305,7 +306,7 @@ class Colorbar():
         self.color_select.connect("leave-notify-event", lambda w, e: utils.set_default_cursor(w))
         
         # color button
-        self.vbox = gtk.VBox(False, 2)
+        self.vbox = gtk.VBox(False, 0)
         self.above_hbox = gtk.HBox(False, 2)
         self.below_hbox = gtk.HBox(False, 2)
         self.color_map = {
@@ -344,6 +345,7 @@ class Colorbar():
             app_theme.get_pixbuf("color/" + name + "_hover.png"),
             app_theme.get_pixbuf("color/" + name + "_hover.png"))
         button.connect('pressed', self._color_button_pressed, name) 
+        button.set_size_request(14, 14)
         box.pack_start(button)
 
     def create_toggle_button(self, name):
@@ -368,6 +370,7 @@ class Colorbar():
         ''' create size button '''
         #button = self.create_image_button(name)
         button = self.create_toggle_button(name)
+        button.set_size_request(28, 28)
         button.connect("pressed", self._size_button_pressed, index)
         #button.connect("toggled", self._size_button_toggled, name)
         button.connect("released", self._size_button_released)

@@ -482,10 +482,10 @@ class RootWindow():
         '''Adjust Colorbar position '''
         screenshot = self.screenshot
         if screenshot.toolbarY < screenshot.y:
-            colorbarY = screenshot.toolbarY - screenshot.toolbar.height - 5
+            colorbarY = screenshot.toolbarY - screenshot.colorbar.height - 3
             #colorbarY = screenshot.toolbarY - screenshot.toolbar.height
         else:
-            colorbarY = screenshot.toolbarY + screenshot.toolbar.height + 2
+            colorbarY = screenshot.toolbarY + screenshot.toolbar.height + 3
             #colorbarY = screenshot.toolbarY + screenshot.toolbar.height
         colorbarX = screenshot.toolbarX
         #print "colorbar", colorbarX, colorbarY
