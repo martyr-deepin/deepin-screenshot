@@ -20,14 +20,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from theme import app_theme, theme_cursor
+from theme import app_theme
 from dtk.ui.button import ImageButton, ToggleButton
 from dtk.ui.window import Window
 #from dtk.ui.line import VSeparator
 from dtk.ui.label import Label
 #from dtk.ui.box import EventBox
-from dtk.ui.color_selection import ColorSelectDialog#, ColorButton
-from dtk.ui.dialog import SaveFileDialog
+from dtk.ui.color_selection import ColorSelectDialog
+#from dtk.ui.dialog import SaveFileDialog
 import dtk.ui.constant
 from lang import __
 import utils
@@ -46,7 +46,7 @@ class Toolbar():
         toolbar_icon_width = toolbar_icon_height = 28
         toolbar_icon_num = 10
         #self.widht = 290
-        self.height = 40
+        self.height = 36
         self.window = Window(window_type=gtk.WINDOW_POPUP)
         self.window.set_keep_above(True)
         self.window.set_decorated(False)
@@ -60,14 +60,12 @@ class Toolbar():
             toolbar_icon_width * toolbar_icon_num + toolbar_padding_x * 2,
             #toolbar_icon_height + toolbar_padding_y * 2)
             self.height)
-        #self.window.window_frame.set_size_request(
-            #toolbar_icon_width * toolbar_icon_num + toolbar_padding_x * 2,
-            #self.height)
 
         self.toolbox = gtk.HBox(False, 2)
         self.window.window_shadow.set(0.5, 0.5, 0, 0)
-        self.window.window_shadow.set_padding(toolbar_padding_y + 2, toolbar_padding_y, toolbar_padding_x, toolbar_padding_x)
+        self.window.window_shadow.set_padding(toolbar_padding_y, toolbar_padding_y, toolbar_padding_x, toolbar_padding_x)
         self.window.window_frame.add(self.toolbox)
+        #self.window.window_frame.set_size_request(-1, -1)
 
         self._toggle_buton_list = []
         self.create_toggle_button("rect", ACTION_RECTANGLE, __("Tip draw rectangle"))
@@ -241,7 +239,7 @@ class Colorbar():
         padding_y = 4
         icon_width = icon_height = 28
         self.width = 280
-        self.height = 32
+        self.height = 40
         #color_num = 9
         
         self.window = Window(window_type=gtk.WINDOW_POPUP)

@@ -20,9 +20,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from theme import app_theme, theme_cursor
+from theme import theme_cursor
 from dtk.ui.window import Window
-from dtk.ui.entry import Entry 
+#from dtk.ui.entry import Entry 
 from dtk.ui.scrolled_window import ScrolledWindow 
 from dtk.ui.keymap import get_keyevent_name
 from collections import namedtuple
@@ -91,7 +91,7 @@ class RootWindow():
             cr.paint()
         # Draw action list.
         for action in self.screenshot.action_list:
-            if action != None:
+            if action is not None:
                 action.expose(cr)
         # Draw current action.
         if self.screenshot.current_action is not None:
@@ -230,7 +230,7 @@ class RootWindow():
         else:
             src_y = fabs(src_y)
         pixbuf = self.screenshot.desktop_background.subpixbuf(
-            int(src_x), int(src_y) , pixbuf_width, pixbuf_heigth)
+            int(src_x), int(src_y), pixbuf_width, pixbuf_heigth)
         
         #set zoom scale and translate
         cr.save()
@@ -482,11 +482,11 @@ class RootWindow():
         '''Adjust Colorbar position '''
         screenshot = self.screenshot
         if screenshot.toolbarY < screenshot.y:
-            #colorbarY = screenshot.toolbarY - screenshot.toolbar_height - 8
-            colorbarY = screenshot.toolbarY - 35
+            colorbarY = screenshot.toolbarY - screenshot.toolbar.height - 5
+            #colorbarY = screenshot.toolbarY - screenshot.toolbar.height
         else:
-            #colorbarY = screenshot.toolbarY + screenshot.toolbar_height + 5
-            colorbarY = screenshot.toolbarY + 35
+            colorbarY = screenshot.toolbarY + screenshot.toolbar.height + 2
+            #colorbarY = screenshot.toolbarY + screenshot.toolbar.height
         colorbarX = screenshot.toolbarX
         #print "colorbar", colorbarX, colorbarY
         screenshot.colorbar.window.move(int(colorbarX), int(colorbarY))
@@ -538,12 +538,13 @@ class TextWindow():
         self.window.set_keep_above(True)
         self.window.set_resizable(False)
         self.window.set_transient_for(parent)
-        self.window.set_size_request(300, 60)
+        #self.window.set_size_request(250, 90)
         
         self.window.window_shadow.set(0.5, 0.5, 0, 0)
         self.window.window_shadow.set_padding(10, 10, 10, 10)
 
         scroll_window = ScrolledWindow()
+        scroll_window.set_size_request(250, 90)
         #self.entry = Entry()
         self.entry= gtk.TextView()           # TODO 输入框控件
         scroll_window.add_with_viewport(self.entry)
@@ -551,7 +552,7 @@ class TextWindow():
         #scroll_window.add_child(self.entry)
         #scrollWindow.set_shadow_type(gtk.SHADOW_ETCHED_IN)
         #scrollWindow.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC) 
-        self.entry.set_size_request(300, 60)
+        self.entry.set_size_request(250, 90)
 
         self.window.window_frame.add(scroll_window)
     

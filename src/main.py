@@ -7,10 +7,12 @@
 # Author:     Wang Yong <lazycat.manatee@gmail.com>
 #             Zhang Cheng <zhangcheng@linuxdeepin.com>
 #             Hou ShaoHui <houshaohui@linuxdeepin.com>
+#             Long Changjin <admin@longchangjin.cn>
 
 # Maintainer: Wang Yong <lazycat.manatee@gmail.com>
 #             Zhang Cheng <zhangcheng@linuxdeepin.com>
 #             Hou Shaohui <houshaohui@linuxdeepin.com>
+#             Long Changjin <admin@longchangjin.cn>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +32,6 @@ from action import *
 #from math import *
 from draw import *
 from constant import *
-#from keymap import *
 from window import *
 from lang import __
 #from Xlib import X
@@ -83,8 +84,8 @@ class DeepinScreenshot():
         self.font_name = "Sans 10"
         
         # default window 
-        #self.screenshot_window_info = get_screenshot_window_info()
-        self.screenshot_window_info = SCREENSHOT_WINDOW_INFO
+        self.screenshot_window_info = get_screenshot_window_info()
+        #self.screenshot_window_info = SCREENSHOT_WINDOW_INFO
         #print self.screenshot_window_info
         self.window_flag = True
         

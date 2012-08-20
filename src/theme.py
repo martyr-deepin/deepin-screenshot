@@ -6,6 +6,7 @@
 # 
 # Author:     Wang Yong <lazycat.manatee@gmail.com>
 # Maintainer: Wang Yong <lazycat.manatee@gmail.com>
+#             Long Changjin <admin@longchangjin.cn>
 # 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -57,60 +58,3 @@ theme_cursor['drag'] = theme_cursor[DRAG_INSIDE]
 def app_theme_get_pixbuf(filename):
     ''' from file get theme pixbuf '''
     return app_theme.get_pixbuf(filename).get_pixbuf()
-
-#from utils import *
-
-#class DynamicPixbuf:
-    #'''Dynamic pixbuf.'''
-    
-    #def __init__(self, filepath):
-        #'''Init.'''
-        #self.updatePath(filepath)
-        
-    #def updatePath(self, filepath):
-        #'''Update path.'''
-        #self.pixbuf = gtk.gdk.pixbuf_new_from_file(filepath)
-
-    #def getPixbuf(self):
-        #'''Get pixbuf.'''
-        #return self.pixbuf
-
-#class Theme:
-    #'''Theme.'''
-    
-    #def __init__(self):
-        #'''Init theme.'''
-        ## Init.
-        #self.themeName = "blue/image"
-        #self.pixbufDict = {}
-        
-        ## Scan theme files.
-        #themeDir = self.getThemeDir()
-        #for root, dirs, files in os.walk(themeDir):
-            #for filepath in files:
-                #path = (os.path.join(root, filepath)).split(themeDir)[1]
-                #self.pixbufDict[filepath] = DynamicPixbuf(self.getThemePath(path))
-    
-    #def getThemeDir(self):
-        #'''Get theme directory.'''
-        #return "../theme/%s/" % (self.themeName)
-                
-    #def getThemePath(self, path):
-        #'''Get pixbuf path.'''
-        #return os.path.join(self.getThemeDir(), path)
-            
-    #def getDynamicPixbuf(self, path):
-        #'''Get dynamic pixbuf.'''
-        #return self.pixbufDict[path]
-    
-    #def changeTheme(self, newThemeName):
-        #'''Change theme.'''
-        ## Change theme name.
-        #self.themeName = newThemeName
-
-        ## Update dynmaic pixbuf.
-        #for (path, pixbuf) in self.pixbufDict.items():
-            #pixbuf.updatePath(self.getThemePath(path))
-    
-## Init.
-#appTheme = Theme()            

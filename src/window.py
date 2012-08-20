@@ -77,12 +77,13 @@ def get_screenshot_window_info():
         screenshot_window_info.insert(0, coordInfo(*convert_coord(x, y, width, height)))
     return screenshot_window_info
 
-SCREENSHOT_WINDOW_INFO = get_screenshot_window_info()
+#SCREENSHOT_WINDOW_INFO = get_screenshot_window_info()
 
 def get_window_info_at_pointer():
     ''' get the window at pointer '''
     (x, y) = DISPLAY.get_pointer()[1:3]
-    for info in SCREENSHOT_WINDOW_INFO:
+    win_info = get_screenshot_window_info()
+    for info in win_info:
         if info.x <= x <= info.x + info.width and info.y <= y <= info.y + info.height:
             return info
 
@@ -132,8 +133,7 @@ def get_wnck_screen(index):
 def get_current_monitor():
     '''get current monitor'''
     global CURRENT_MONITOR
-    CURRENT_MONITOR = GDK_SCREEN.get_monitor_at_point(
-            DISPLAY.get_pointer()[1:3])
+    CURRENT_MONITOR = GDK_SCREEN.get_monitor_at_point(DISPLAY.get_pointer()[1:3])
     return CURRENT_MONITOR
 
 #def find_window_by_property(xlibWindow, atom=WM_STATE):
