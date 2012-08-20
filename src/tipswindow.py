@@ -26,6 +26,7 @@
 import gtk
 from draw import *
 import sys
+import glib
 from window import SCREEN_WIDTH
 
 class TipWindow():

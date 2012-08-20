@@ -443,7 +443,7 @@ class RootWindow():
         '''Adjust toolbar position.'''
         screenshot = self.screenshot
         (x, y, screenshot.toolbar_width, screenshot.toolbar_height, depth) = screenshot.toolbar.window.window.get_geometry()
-        colorbarHeight = 32
+        colorbarHeight = screenshot.colorbar.height
         
         screenshot.toolbarX = (screenshot.x + screenshot.rect_width - screenshot.toolbar_width, screenshot.toolbarOffsetX)[screenshot.x + screenshot.rect_width - screenshot.toolbar_width < screenshot.toolbarOffsetX]
         
@@ -453,12 +453,14 @@ class RootWindow():
             screenshot.toolbarY = screenshot.y - screenshot.toolbarOffsetY - screenshot.toolbar_height
         else:
             screenshot.toolbarY = screenshot.y + screenshot.toolbarOffsetY
+        #print "toolbar",screenshot.toolbarX, screenshot.toolbarY
         screenshot.toolbar.window.move(int(screenshot.toolbarX), int(screenshot.toolbarY))
         
     def show_toolbar(self):
         '''Show toolbar.'''
         self.screenshot.show_toolbar_flag = True
         self.screenshot.toolbar.show()
+        #print "toolbar--:", self.screenshot.toolbar.window.window.get_geometry()
         
     def hide_toolbar(self):
         '''Hide toolbar.'''
@@ -469,6 +471,7 @@ class RootWindow():
         '''show colorbar '''
         self.screenshot.show_colorbar_flag = True
         self.screenshot.colorbar.show()
+        #print "colorbar--:", self.screenshot.colorbar.window.window.get_geometry()
     
     def hide_colorbar(self):
         '''hide colorbar'''
@@ -479,10 +482,13 @@ class RootWindow():
         '''Adjust Colorbar position '''
         screenshot = self.screenshot
         if screenshot.toolbarY < screenshot.y:
-            colorbarY = screenshot.toolbarY - screenshot.toolbar_height - 8
+            #colorbarY = screenshot.toolbarY - screenshot.toolbar_height - 8
+            colorbarY = screenshot.toolbarY - 35
         else:
-            colorbarY = screenshot.toolbarY + screenshot.toolbar_height + 5
+            #colorbarY = screenshot.toolbarY + screenshot.toolbar_height + 5
+            colorbarY = screenshot.toolbarY + 35
         colorbarX = screenshot.toolbarX
+        #print "colorbar", colorbarX, colorbarY
         screenshot.colorbar.window.move(int(colorbarX), int(colorbarY))
 
     def show_text_window(self, (ex, ey)):
