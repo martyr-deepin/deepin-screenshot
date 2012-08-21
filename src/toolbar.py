@@ -41,13 +41,13 @@ class Toolbar():
         self.screenshot = screenshot
         self.win = screenshot.window
 
-        toolbar_padding_x = 20
-        toolbar_padding_y = 10
+        toolbar_padding_x = 15
+        toolbar_padding_y = 5
         toolbar_icon_width = toolbar_icon_height = 28
         toolbar_icon_num = 10
         #self.widht = 290
         self.height = toolbar_icon_height + toolbar_padding_y * 2
-        self.window = Window(window_type=gtk.WINDOW_POPUP)
+        self.window = Window(window_type=gtk.WINDOW_POPUP, shadow_visible=False)
         self.window.set_keep_above(True)
         self.window.set_decorated(False)
         self.window.set_transient_for(parent)
@@ -229,14 +229,14 @@ class Colorbar():
         self.screenshot = screenshot
         self.win = self.screenshot.window
         
-        padding_x = 10
-        padding_y = 8
+        padding_x = 5
+        padding_y = 3
         icon_width = icon_height = 28
         self.width = 280
         self.height = icon_height + padding_y * 2
         #color_num = 9
         
-        self.window = Window(window_type=gtk.WINDOW_POPUP)
+        self.window = Window(window_type=gtk.WINDOW_POPUP, shadow_visible=False)
         self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DIALOG)
         self.window.set_keep_above(True)
         self.window.set_transient_for(parent)
