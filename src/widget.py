@@ -486,7 +486,7 @@ class RootWindow():
         color_height = screenshot.colorbar.window.size_request()[1]
         tool_height = screenshot.toolbar.window.size_request()[1]
         if screenshot.toolbarY < screenshot.y:
-            colorbarY = screenshot.toolbarY - screenshot.colorbar.height - 5
+            colorbarY = screenshot.toolbarY - screenshot.colorbar.height - 9
             #colorbarY = screenshot.toolbarY - color_height
             #colorbarY = screenshot.toolbarY - 52 -1
         else:
