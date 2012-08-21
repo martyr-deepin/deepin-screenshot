@@ -41,31 +41,23 @@ class Toolbar():
         self.screenshot = screenshot
         self.win = screenshot.window
 
-        toolbar_padding_x = 10
-        toolbar_padding_y = 3
+        toolbar_padding_x = 20
+        toolbar_padding_y = 10
         toolbar_icon_width = toolbar_icon_height = 28
         toolbar_icon_num = 10
         #self.widht = 290
-        self.height = 34
+        self.height = toolbar_icon_height + toolbar_padding_y * 2
         self.window = Window(window_type=gtk.WINDOW_POPUP)
         self.window.set_keep_above(True)
         self.window.set_decorated(False)
-        #self.window.set_resizable(False)
         self.window.set_transient_for(parent)
-        #self.window.set_default_size(284, 32)
-        #self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         #self.window.connect("size-allocate", lambda w, a: updateShape(w, a, 2))
         #self.window.connect("expose-event", lambda w, e: exposeBackground(w, e, appTheme.getDynamicPixbuf("bg.png")))
-        #self.window.set_size_request(
-            #toolbar_icon_width * toolbar_icon_num + toolbar_padding_x * 2,
-            ##toolbar_icon_height + toolbar_padding_y * 2)
-            #self.height)
-        self.window.set_size_request(-1, self.height)
 
         self.toolbox = gtk.HBox(False, 2)
+        self.window.window_frame.pack_start(self.toolbox)
         self.window.window_shadow.set(0.5, 0.5, 0, 0)
         self.window.window_shadow.set_padding(toolbar_padding_y, toolbar_padding_y, toolbar_padding_x, toolbar_padding_x)
-        self.window.window_frame.pack_start(self.toolbox)
 
         self._toggle_buton_list = []
         self.create_toggle_button("rect", ACTION_RECTANGLE, __("Tip draw rectangle"))
@@ -237,24 +229,19 @@ class Colorbar():
         self.screenshot = screenshot
         self.win = self.screenshot.window
         
-        padding_x = 5
-        padding_y = 3
+        padding_x = 10
+        padding_y = 8
         icon_width = icon_height = 28
         self.width = 280
-        self.height = 38
+        self.height = icon_height + padding_y * 2
         #color_num = 9
         
         self.window = Window(window_type=gtk.WINDOW_POPUP)
         self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DIALOG)
         self.window.set_keep_above(True)
         self.window.set_transient_for(parent)
-        
         self.window.set_decorated(False)
-        #self.window.set_resizable(False)
-        #self.window.set_default_size(100, 24)
-        #self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
-        #self.window.set_size_request(-1, icon_height + padding_y * 2)
-        #self.window.set_size_request(270, self.height)
+        #self.window.set_size_request(-1, self.height)
 
         self.box = gtk.HBox(False, 1)
         self.size_box = gtk.HBox()

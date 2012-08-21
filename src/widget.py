@@ -443,6 +443,7 @@ class RootWindow():
         '''Adjust toolbar position.'''
         screenshot = self.screenshot
         (x, y, screenshot.toolbar_width, screenshot.toolbar_height, depth) = screenshot.toolbar.window.window.get_geometry()
+        #print "toolbar:", self.screenshot.toolbar.window.size_request()
         colorbarHeight = screenshot.colorbar.height
         
         screenshot.toolbarX = (screenshot.x + screenshot.rect_width - screenshot.toolbar_width, screenshot.toolbarOffsetX)[screenshot.x + screenshot.rect_width - screenshot.toolbar_width < screenshot.toolbarOffsetX]
@@ -472,6 +473,7 @@ class RootWindow():
         self.screenshot.show_colorbar_flag = True
         self.screenshot.colorbar.show()
         #print "colorbar--:", self.screenshot.colorbar.window.window.get_geometry()
+        #print "colorbar:", self.screenshot.colorbar.window.size_request()
     
     def hide_colorbar(self):
         '''hide colorbar'''
@@ -481,12 +483,15 @@ class RootWindow():
     def adjust_colorbar(self):
         '''Adjust Colorbar position '''
         screenshot = self.screenshot
+        color_height = screenshot.colorbar.window.size_request()[1]
+        tool_height = screenshot.toolbar.window.size_request()[1]
         if screenshot.toolbarY < screenshot.y:
-            colorbarY = screenshot.toolbarY - screenshot.colorbar.height - 3
-            #colorbarY = screenshot.toolbarY - screenshot.toolbar.height
+            colorbarY = screenshot.toolbarY - screenshot.colorbar.height - 5
+            #colorbarY = screenshot.toolbarY - color_height
+            #colorbarY = screenshot.toolbarY - 52 -1
         else:
-            colorbarY = screenshot.toolbarY + screenshot.toolbar.height + 3
-            #colorbarY = screenshot.toolbarY + screenshot.toolbar.height
+            colorbarY = screenshot.toolbarY + screenshot.toolbar.height + 1
+            #colorbarY = screenshot.toolbarY + tool_height
         colorbarX = screenshot.toolbarX
         #print "colorbar", colorbarX, colorbarY
         screenshot.colorbar.window.move(int(colorbarX), int(colorbarY))
