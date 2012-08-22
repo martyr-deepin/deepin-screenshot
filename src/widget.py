@@ -22,7 +22,6 @@
 
 from theme import theme_cursor
 from dtk.ui.window import Window
-#from dtk.ui.entry import Entry 
 from dtk.ui.scrolled_window import ScrolledWindow 
 from dtk.ui.keymap import get_keyevent_name
 from collections import namedtuple
@@ -582,6 +581,7 @@ class TextWindow():
 
 
 if __name__ == '__main__':
-    RootWindow().show()
+    #RootWindow().show()
     #TextWindow().show()
+    FontDialog().show()
     gtk.main()

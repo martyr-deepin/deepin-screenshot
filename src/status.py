@@ -81,9 +81,21 @@ class ButtonPressProcess(BaseProcess):
         '''Press process button press event'''
         if self.event is None:
             return
-        self.screenshot.drag_flag = True
-        self.func_map[self.screenshot.action](self.screenshot, self.event)
-        self.adjust(self.screenshot, self.event)
+        if self.event.button == BUTTON_EVENT_LEFT:
+            self.screenshot.drag_flag = True
+            self.func_map[self.screenshot.action](self.screenshot, self.event)
+            self.adjust(self.screenshot, self.event)
+        elif self.event.button == BUTTON_EVENT_RIGHT:
+            ev = self.event
+            screenshot = self.screenshot
+            if is_in_rect((ev.x, ev.y), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height)):
+                pass    # popup menu
+            else:
+                while screenshot.action_list:
+                    screenshot.action_list.pop()
+                while screenshot.text_action_list:
+                    screenshot.text_action_list.pop()
+                screenshot.undo()
     
     def action_window(self, screenshot, event):
         '''Press ACTION_WINDOW '''

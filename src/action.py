@@ -56,6 +56,7 @@ class RectangleAction(Action):
     def __init__(self, aType, size, color):
         '''Rectangle action.'''
         Action.__init__(self, aType, size, color)
+        self.fill_flag = False
         
     def drawing(self, (ex, ey), (rx, ry, rw, rh)):
         '''Drawing.'''
@@ -67,13 +68,15 @@ class RectangleAction(Action):
         cr.set_source_rgb(*colorHexToCairo(self.color))
         cr.set_line_width(self.size)
         cr.rectangle(self.start_x, self.start_y, (self.end_x - self.start_x), (self.end_y - self.start_y))
-        cr.stroke()
+        if self.fill_flag: cr.fill()
+        else: cr.stroke()
 
 class EllipseAction(Action):
     '''Ellipse action.'''
     def __init__(self, aType, size, color):
         '''Ellipse action.'''
         Action.__init__(self, aType, size, color)
+        self.fill_flag = False
         
     def drawing(self, (ex, ey), (rx, ry, rw, rh)):
         '''Drawing.'''
@@ -85,8 +88,8 @@ class EllipseAction(Action):
         ew = self.end_x - self.start_x
         eh = self.end_y - self.start_y
         if ew != 0 and eh != 0:
-            draw_ellipse(cr, self.start_x + ew / 2, self.start_y + eh / 2, fabs(ew), fabs(eh), 
-                self.color, self.size)
+            draw_ellipse(cr, self.start_x + ew / 2, self.start_y + eh / 2,
+                fabs(ew), fabs(eh), self.color, self.size, self.fill_flag)
 
 class ArrowAction(Action):
     '''Arrow action.'''
@@ -146,6 +149,7 @@ class TextAction(Action):
         cr.move_to(self.start_x, self.start_y)
         context = pangocairo.CairoContext(cr)
         self.layout = context.create_layout()
+        print "fontname:", self.fontname
         self.layout.set_font_description(pango.FontDescription(self.fontname))
         self.layout.set_text(self.content)
         cr.set_source_rgb(*colorHexToCairo(self.color))

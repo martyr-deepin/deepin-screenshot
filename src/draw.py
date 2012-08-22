@@ -64,7 +64,7 @@ def colorRGBToCairo(color):
     """ 
     return (color[0] / 255.0, color[1] / 255.0, color[2] / 255.0) 
 
-def draw_ellipse(cr, ex, ey, ew, eh, color, size):
+def draw_ellipse(cr, ex, ey, ew, eh, color, size, fill):
     '''Draw ellipse'''
     cr.new_path()
     cr.save()
@@ -74,7 +74,8 @@ def draw_ellipse(cr, ex, ey, ew, eh, color, size):
     cr.restore()
     cr.set_source_rgb(*colorHexToCairo(color))
     cr.set_line_width(size)
-    cr.stroke()
+    if fill: cr.fill()
+    else: cr.stroke()
     
 def draw_arrow(cr, (sx, sy), (ex, ey), color, size):
     '''Draw arrow.'''

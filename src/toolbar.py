@@ -54,8 +54,14 @@ class Toolbar():
         #self.window.connect("size-allocate", lambda w, a: updateShape(w, a, 2))
         #self.window.connect("expose-event", lambda w, e: exposeBackground(w, e, appTheme.getDynamicPixbuf("bg.png")))
 
+        vbox = gtk.VBox(False, 0)
         self.toolbox = gtk.HBox(False, 2)
-        self.window.window_frame.pack_start(self.toolbox)
+        #self.window.window_frame.pack_start(self.toolbox)
+        self.window.window_shadow.remove(self.window.window_frame)
+        self.window.window_shadow.add(self.toolbox)
+        self.window.remove(self.window.window_shadow)
+        vbox.pack_start(self.window.window_shadow)
+        self.window.add(vbox)
         self.window.window_shadow.set(0.5, 0.5, 0, 0)
         self.window.window_shadow.set_padding(toolbar_padding_y, toolbar_padding_y, toolbar_padding_x, toolbar_padding_x)
 
@@ -243,13 +249,19 @@ class Colorbar():
         self.window.set_decorated(False)
         #self.window.set_size_request(-1, self.height)
 
+        vbox = gtk.VBox(False, 0)
         self.box = gtk.HBox(False, 1)
         self.size_box = gtk.HBox()
         self.dynamic_box = gtk.HBox()
 
         self.window.window_shadow.set(0.5, 0.5, 0, 0)
         self.window.window_shadow.set_padding(padding_y, padding_y, padding_x, padding_x)
-        self.window.window_frame.add(self.box)
+        self.window.remove(self.window.window_shadow)
+        self.window.add(vbox)
+        self.window.window_shadow.remove(self.window.window_frame)
+        self.window.window_shadow.add(self.box)
+        vbox.pack_start(self.window.window_shadow)
+        #self.window.window_frame.add(self.box)
 
         self.create_size_button("small", 2)
         self.create_size_button("normal", 3)
@@ -266,9 +278,9 @@ class Colorbar():
         # font select
         self.font_label = Label("Sans 10",enable_select=False, text_x_align=dtk.ui.constant.ALIGN_MIDDLE, label_width=80)
         self.font_label.set_size_request(80, 28)
-        self.font_label.connect("button-press-event", self._select_font_event) 
-        self.font_label.connect("enter-notify-event", lambda w, e: utils.set_cursor(w, gtk.gdk.Cursor(gtk.gdk.HAND2)))
-        self.font_label.connect("leave-notify-event", lambda w, e: utils.set_default_cursor(w))
+        #self.font_label.connect("button-press-event", self._select_font_event) 
+        #self.font_label.connect("enter-notify-event", lambda w, e: utils.set_cursor(w, gtk.gdk.Cursor(gtk.gdk.HAND2)))
+        #self.font_label.connect("leave-notify-event", lambda w, e: utils.set_default_cursor(w))
         #self.dynamic_box.pack_start(self.font_label)
 
         button = ImageButton(
@@ -281,16 +293,16 @@ class Colorbar():
         self.color_select = gtk.EventBox()
         #self.color_select = ColorButton()
 
-        self.box.pack_start(self.color_select)
+        self.box.pack_start(self.color_select, False, False)
         #self.color_select.set_border_width(2)
         self.color_select.set_events(gtk.gdk.BUTTON_PRESS_MASK)
         self.color_select.set_size_request(28,28)
         self.color_select.set_app_paintable(True)
         self.color_select.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#FF0000"))
         self.color_select.connect('expose-event', self._color_select_expose)
-        self.color_select.connect('button-press-event', self._select_color_event)
-        self.color_select.connect("enter-notify-event", lambda w, e: utils.set_cursor(w, gtk.gdk.Cursor(gtk.gdk.HAND2)))
-        self.color_select.connect("leave-notify-event", lambda w, e: utils.set_default_cursor(w))
+        #self.color_select.connect('button-press-event', self._select_color_event)
+        #self.color_select.connect("enter-notify-event", lambda w, e: utils.set_cursor(w, gtk.gdk.Cursor(gtk.gdk.HAND2)))
+        #self.color_select.connect("leave-notify-event", lambda w, e: utils.set_default_cursor(w))
         
         # color button
         self.vbox = gtk.VBox(False, 0)
