@@ -23,6 +23,7 @@
 
 from dtk.ui.init_skin import init_skin
 from dtk.ui.utils import get_parent_dir
+from dtk.ui.theme import DynamicPixbuf
 from constant import *
 import os
 import gtk
@@ -58,3 +59,7 @@ theme_cursor['drag'] = theme_cursor[DRAG_INSIDE]
 def app_theme_get_pixbuf(filename):
     ''' from file get theme pixbuf '''
     return app_theme.get_pixbuf(filename).get_pixbuf()
+
+def app_theme_get_dynamic_pixbuf(filename):
+    ''' from file get dynamic pixbuf '''
+    return DynamicPixbuf(app_theme.get_theme_file_path(filename))

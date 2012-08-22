@@ -88,8 +88,10 @@ class ButtonPressProcess(BaseProcess):
         elif self.event.button == BUTTON_EVENT_RIGHT:
             ev = self.event
             screenshot = self.screenshot
+            if screenshot.window_flag:  # has not select area, press right button quit
+                self.win.quit()
             if is_in_rect((ev.x, ev.y), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height)):
-                pass    # popup menu
+                self.win.make_menu((int(ev.x), int(ev.y)))      # popup menu
             else:
                 while screenshot.action_list:
                     screenshot.action_list.pop()
@@ -282,13 +284,13 @@ class MotionProcess(BaseProcess):
 
     def action_window(self, screenshot, event):
         '''Motion ACTION_WINDOW'''
-        # can drag and has not selected area
+        # can drag and has selected area
         if screenshot.drag_flag and not screenshot.window_flag:
             (ex, ey) = self.win.get_event_coord(event)
             screenshot.action = ACTION_INIT
             (screenshot.x, screenshot.y) = self.win.get_event_coord(event)
             self.win.refresh()
-        else:
+        else:   # update magnifier
             size = "%d x %d " % (screenshot.rect_width, screenshot.rect_height)
             rgb = utils.get_coord_rgb(screenshot, event.x, event.y)
             self.win.update_magnifier(event.x, event.y, size=size, rgb=str(rgb))

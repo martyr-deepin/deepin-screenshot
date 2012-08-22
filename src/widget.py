@@ -20,10 +20,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from theme import theme_cursor
+from theme import theme_cursor, app_theme_get_dynamic_pixbuf
 from dtk.ui.window import Window
 from dtk.ui.scrolled_window import ScrolledWindow 
 from dtk.ui.keymap import get_keyevent_name
+from dtk.ui.menu import Menu
 from collections import namedtuple
 from draw import *
 from constant import *
@@ -200,10 +201,11 @@ class RootWindow():
     def _draw_magnifier(self, cr):
         ''' draw the magnifier'''
         #cr = self._cr
-        pixbuf_width = 30
-        pixbuf_heigth = 20
+        mag_width = pixbuf_width = 30
+        mag_height = pixbuf_height = 20
         x = self.magnifier.x
         y = self.magnifier.y
+        position = 0
 
         if SCREEN_HEIGHT - y < 168:
             offset_y = -34
@@ -214,56 +216,67 @@ class RootWindow():
         else:
             offset_x = 3
 
-        src_x = x - pixbuf_width / 2
-        src_y = y - pixbuf_heigth / 2
-        if src_x < 0:
+        src_x = x - mag_width / 2
+        src_y = y - mag_height / 2
+        if src_x < 0:                               # position LEFT
+            position |= MAGNIFIER_POS_LEFT
+            pixbuf_width += src_x
             src_x = 0
-        elif src_x > SCREEN_WIDTH - pixbuf_width:
-            src_x = SCREEN_WIDTH - pixbuf_width
+        elif src_x > SCREEN_WIDTH - pixbuf_width:   # position RIGHT
+            position |= MAGNIFIER_POS_RIGHT
+            pixbuf_width = SCREEN_WIDTH - src_x
         else:
-            src_x = fabs(src_x)
-        if src_y < 0:
+            src_x = fabs(src_x)                     # position middle
+        if src_y < 0:                               # position TOP
+            position |= MAGNIFIER_POS_TOP
+            pixbuf_height += src_y
             src_y = 0
-        elif src_y > SCREEN_HEIGHT- pixbuf_heigth:
-            src_y = SCREEN_HEIGHT- pixbuf_heigth
+        elif src_y > SCREEN_HEIGHT- pixbuf_height:  # position BOTTOM
+            position |= MAGNIFIER_POS_BOTTOM
+            pixbuf_height = SCREEN_HEIGHT - src_y
         else:
-            src_y = fabs(src_y)
+            src_y = fabs(src_y)                     # position middle
         pixbuf = self.screenshot.desktop_background.subpixbuf(
-            int(src_x), int(src_y), pixbuf_width, pixbuf_heigth)
+            int(src_x), int(src_y), int(pixbuf_width), int(pixbuf_height))
         
+        origin_x = offset_x + x
+        origin_y = offset_y + y
+        if position & MAGNIFIER_POS_LEFT: origin_x += (mag_width - pixbuf_width)
+        if position & MAGNIFIER_POS_TOP: origin_y += (mag_height - pixbuf_height)
         #set zoom scale and translate
         cr.save()
         cr.translate(0 - 3 * x, 0 - 3 * y)
         cr.scale(4.0, 4.0)
         
         cr.set_source_rgba(0.0, 0.0, 0.0, 0.8)
-        cr.rectangle(x + offset_x - 1, y + offset_y - 1, pixbuf_width + 2, pixbuf_heigth + 14)
+        cr.rectangle(x + offset_x - 1, y + offset_y - 1, mag_width + 2, mag_height + 14)
         cr.fill()
         
         #draw magnifier
         cr.set_line_width(1)
         cr.set_source_rgb(1, 1, 1)
         #cr.transform(matrix)
-        cr.rectangle(x + offset_x, y + offset_y, pixbuf_width, pixbuf_heigth)
+        cr.rectangle(x + offset_x, y + offset_y, mag_width, mag_height)
         cr.stroke_preserve()
-        cr.set_source_pixbuf(pixbuf, x + offset_x, y + offset_y)
+        #cr.set_source_pixbuf(pixbuf, x + offset_x, y + offset_y)
+        cr.set_source_pixbuf(pixbuf, origin_x, origin_y)
         cr.fill()
         
         #draw Hline
         cr.set_line_width(1.2)
         cr.set_source_rgba(0, 0.7, 1.0, 0.5)
-        cr.move_to(x + offset_x, y + offset_y + pixbuf_heigth / 2)
-        cr.line_to(x + offset_x + pixbuf_width, y + offset_y + pixbuf_heigth / 2)
+        cr.move_to(x + offset_x, y + offset_y + mag_height / 2)
+        cr.line_to(x + offset_x + mag_width, y + offset_y + mag_height / 2)
         cr.stroke()
         
         #draw Vline
-        cr.move_to(x + offset_x + pixbuf_width / 2, y + offset_y)
-        cr.line_to(x + offset_x + pixbuf_width / 2, y + pixbuf_heigth + offset_y)
+        cr.move_to(x + offset_x + mag_width / 2, y + offset_y)
+        cr.line_to(x + offset_x + mag_width / 2, y + mag_height + offset_y)
         cr.stroke()
         
-        draw_font(cr, self.magnifier.size_content, 3.0, "#FFFFFF", x + offset_x, y + offset_y + pixbuf_heigth + 4)
-        draw_font(cr, self.magnifier.rgb, 3.0, "#FFFFFF", x + offset_x, y + offset_y + pixbuf_heigth + 7.5)
-        draw_font(cr, self.magnifier.tip, 3.0, "#FFFFFF", x + offset_x, y + offset_y + pixbuf_heigth + 11)
+        draw_font(cr, self.magnifier.size_content, 3.0, "#FFFFFF", x + offset_x, y + offset_y + mag_height + 4)
+        draw_font(cr, self.magnifier.rgb, 3.0, "#FFFFFF", x + offset_x, y + offset_y + mag_height + 7.5)
+        draw_font(cr, self.magnifier.tip, 3.0, "#FFFFFF", x + offset_x, y + offset_y + mag_height + 11)
         cr.restore()
     
     def refresh(self):
@@ -456,6 +469,10 @@ class RootWindow():
         #print "toolbar",screenshot.toolbarX, screenshot.toolbarY
         screenshot.toolbar.window.move(int(screenshot.toolbarX), int(screenshot.toolbarY))
         
+    def make_menu(self, coord):
+        ''' make menu'''
+        RightMenu().show(coord)
+    
     def show_toolbar(self):
         '''Show toolbar.'''
         self.screenshot.show_toolbar_flag = True
@@ -579,9 +596,21 @@ class TextWindow():
         '''hide window'''
         self.window.hide_all()
 
+class RightMenu():
+    ''' Right Button Menu'''
+    def __init__(self):
+        self.window = Menu([
+            ((app_theme_get_dynamic_pixbuf('image/action/rect_normal.png'), app_theme_get_dynamic_pixbuf('image/action/rect_hover.png')), __("Tip draw rectangle"), None),
+            ((app_theme_get_dynamic_pixbuf('image/action/ellipse_normal.png'), app_theme_get_dynamic_pixbuf('image/action/ellipse_hover.png')), __("Tip draw ellipse"), None),
+            ((app_theme_get_dynamic_pixbuf('image/action/arrow_normal.png'), app_theme_get_dynamic_pixbuf('image/action/arrow_hover.png')), __("Tip draw arrow"), None),
+            ], True)
+        
+    def show(self, coord=(0, 0)):
+        ''' show menu '''
+        self.window.show(coord)
 
 if __name__ == '__main__':
     #RootWindow().show()
     #TextWindow().show()
-    FontDialog().show()
+    RightMenu().show((100, 100))
     gtk.main()

@@ -56,7 +56,8 @@ class RectangleAction(Action):
     def __init__(self, aType, size, color):
         '''Rectangle action.'''
         Action.__init__(self, aType, size, color)
-        self.fill_flag = False
+        if size == RECTANGLE_ELLIPSE_FILL_SIZE: self.fill_flag = True
+        else: self.fill_flag = False
         
     def drawing(self, (ex, ey), (rx, ry, rw, rh)):
         '''Drawing.'''
@@ -76,7 +77,8 @@ class EllipseAction(Action):
     def __init__(self, aType, size, color):
         '''Ellipse action.'''
         Action.__init__(self, aType, size, color)
-        self.fill_flag = False
+        if size == RECTANGLE_ELLIPSE_FILL_SIZE: self.fill_flag = True
+        else: self.fill_flag = False
         
     def drawing(self, (ex, ey), (rx, ry, rw, rh)):
         '''Drawing.'''
