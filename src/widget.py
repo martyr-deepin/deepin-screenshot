@@ -153,7 +153,8 @@ class RootWindow():
                 text_buffer = self.screenshot.text_window.entry.get_buffer()
                 text_buffer.set_text(self.screenshot.current_text_action.get_content())
                 self.screenshot.action_color = self.screenshot.current_text_action.get_color()
-                self.screenshot.font_name = self.screenshot.current_text_action.get_fontname()
+                tmp_font_name = self.screenshot.current_text_action.get_fontname()
+                self.screenshot.font_size = tmp_font_name.split(' ')[1]
                 #modifyBackground(self.colorBox, self.actionColor)
                 self.screenshot.colorbar.color_select.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.screenshot.action_color))
                 self.screenshot.colorbar.font_label.set_text(self.screenshot.font_name)
@@ -471,7 +472,8 @@ class RootWindow():
         
     def make_menu(self, coord):
         ''' make menu'''
-        RightMenu().show(coord)
+        #RightMenu().show(coord)
+        self.screenshot.right_menu.show(coord)
     
     def show_toolbar(self):
         '''Show toolbar.'''
@@ -603,6 +605,13 @@ class RightMenu():
             ((app_theme_get_dynamic_pixbuf('image/action/rect_normal.png'), app_theme_get_dynamic_pixbuf('image/action/rect_hover.png')), __("Tip draw rectangle"), None),
             ((app_theme_get_dynamic_pixbuf('image/action/ellipse_normal.png'), app_theme_get_dynamic_pixbuf('image/action/ellipse_hover.png')), __("Tip draw ellipse"), None),
             ((app_theme_get_dynamic_pixbuf('image/action/arrow_normal.png'), app_theme_get_dynamic_pixbuf('image/action/arrow_hover.png')), __("Tip draw arrow"), None),
+            ((app_theme_get_dynamic_pixbuf('image/action/line_normal.png'), app_theme_get_dynamic_pixbuf('image/action/line_hover.png')), __("Tip draw line"), None),
+            ((app_theme_get_dynamic_pixbuf('image/action/text_normal.png'), app_theme_get_dynamic_pixbuf('image/action/text_hover.png')), __("Tip draw Text"), None),
+            None,
+            ((app_theme_get_dynamic_pixbuf('image/action/undo_normal.png'), app_theme_get_dynamic_pixbuf('image/action/undo_hover.png')), __("Tip undo"), None),
+            ((app_theme_get_dynamic_pixbuf('image/action/save_normal.png'), app_theme_get_dynamic_pixbuf('image/action/save_hover.png')), __("Tip save"), None),
+            ((app_theme_get_dynamic_pixbuf('image/action/cancel_normal.png'), app_theme_get_dynamic_pixbuf('image/action/cancel_hover.png')), __("Tip cancel"), None),
+            ((app_theme_get_dynamic_pixbuf('image/action/finish_normal.png'), app_theme_get_dynamic_pixbuf('image/action/finish_hover.png')), __("Tip finish"), None),
             ], True)
         
     def show(self, coord=(0, 0)):

@@ -28,6 +28,7 @@ from dtk.ui.label import Label
 #from dtk.ui.box import EventBox
 from dtk.ui.color_selection import ColorSelectDialog
 #from dtk.ui.dialog import SaveFileDialog
+from dtk.ui.spin import SpinBox
 import dtk.ui.constant
 from lang import __
 import utils
@@ -276,8 +277,13 @@ class Colorbar():
         self.box.pack_start(self.dynamic_box)
         
         # font select
-        self.font_label = Label("Sans 10",enable_select=False, text_x_align=dtk.ui.constant.ALIGN_MIDDLE, label_width=80)
-        self.font_label.set_size_request(80, 28)
+        self.font_box = gtk.HBox()
+        self.font_label = Label("Sans",enable_select=False, text_x_align=dtk.ui.constant.ALIGN_MIDDLE, label_width=20)
+        self.font_label.set_size_request(20, 28)
+        self.font_spin = SpinBox(10, 8, 72, 1)
+        self.font_spin.connect("value-changed", self._font_size_changed)
+        self.font_box.pack_start(self.font_label)
+        self.font_box.pack_start(self.font_spin)
         #self.font_label.connect("button-press-event", self._select_font_event) 
         #self.font_label.connect("enter-notify-event", lambda w, e: utils.set_cursor(w, gtk.gdk.Cursor(gtk.gdk.HAND2)))
         #self.font_label.connect("leave-notify-event", lambda w, e: utils.set_default_cursor(w))
@@ -395,11 +401,18 @@ class Colorbar():
     def _font_dialog_response(self, widget, response):
         if response == gtk.RESPONSE_OK or response == gtk.RESPONSE_APPLY:
             self.screenshot.font_name = widget.get_font_name()
+            print self.screenshot.font_name
             self.font_label.set_text(self.screenshot.font_name)
         self.win.adjust_toolbar()
         self.win.show_toolbar()
         self.win.show_colorbar()
         widget.destroy()
+
+    def _font_size_changed(self, widget, value):
+        '''font size changed'''
+        self.screenshot.font_size = value
+        if self.screenshot.text_modify_flag: # modify a text
+            self.screenshot.current_text_action.set_fontname("%s %d" % (self.screenshot.font_name, self.screenshot.font_size))
 
     def _color_select_expose(self, widget, event, data=None):
         '''set colorBox border '''
@@ -475,11 +488,11 @@ class Colorbar():
         if self.screenshot.action == ACTION_TEXT:
             if self.size_align in self.dynamic_box.get_children():
                 self.dynamic_box.remove(self.size_align)
-            if self.font_label not in self.dynamic_box.get_children():
-                self.dynamic_box.add(self.font_label)
+            if self.font_box not in self.dynamic_box.get_children():
+                self.dynamic_box.add(self.font_box)
         else:
-            if self.font_label in self.dynamic_box.get_children():
-                self.dynamic_box.remove(self.font_label)
+            if self.font_box in self.dynamic_box.get_children():
+                self.dynamic_box.remove(self.font_box)
             if self.size_align not in self.dynamic_box.get_children():
                 self.dynamic_box.add(self.size_align)
         if not self.window.get_visible():

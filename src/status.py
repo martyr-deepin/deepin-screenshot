@@ -152,10 +152,11 @@ class ButtonPressProcess(BaseProcess):
             content = screenshot.text_window.get_text()
             if content != "":
                 if screenshot.text_modify_flag: # modify a text
-                    screenshot.current_text_action.update(screenshot.action_color, screenshot.font_name, content)
+                    screenshot.current_text_action.update(screenshot.action_color, "%s %d" % (screenshot.font_name, screenshot.font_size), content)
                     screenshot.text_modify_flag = False
                 else:                           # new a text
-                    textAction = TextAction(ACTION_TEXT, 15, screenshot.action_color, screenshot.font_name, content)
+                    textAction = TextAction(ACTION_TEXT, 15, screenshot.action_color,
+                        "%s %d" % (screenshot.font_name, screenshot.font_size), content)
                     textAction.start_draw(screenshot.text_window.window.get_window().get_origin())
                     screenshot.text_action_list.append(textAction)
                     screenshot.action_list.append(textAction)

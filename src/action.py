@@ -151,7 +151,6 @@ class TextAction(Action):
         cr.move_to(self.start_x, self.start_y)
         context = pangocairo.CairoContext(cr)
         self.layout = context.create_layout()
-        print "fontname:", self.fontname
         self.layout.set_font_description(pango.FontDescription(self.fontname))
         self.layout.set_text(self.content)
         cr.set_source_rgb(*colorHexToCairo(self.color))
@@ -162,11 +161,23 @@ class TextAction(Action):
         "update arguments"
         self.start_x = x
         self.start_y = y
-        
-    def update(self, color, fontname, content):
+    
+    def set_color(self, color):
+        '''set color'''
         self.color = color
-        self.fontname = fontname 
+
+    def set_fontname(self, fontname):
+        '''set fontname'''
+        self.fontname = fontname
+
+    def set_content(self, content):
+        '''set content'''
         self.content = content
+    
+    def update(self, color, fontname, content):
+        self.set_color(color)
+        self.set_fontname(fontname)
+        self.set_content(content)
 
     def get_layout_info(self):
         ''' get layout (x, y, width, height) '''
