@@ -64,7 +64,8 @@ class RootWindow():
         self.window.connect("motion-notify-event", self._motion_notify_event)
         self.window.connect("key-press-event", self._key_press_event)
         
-        self.draw_area = gtk.DrawingArea()
+        #self.draw_area = gtk.DrawingArea()
+        self.draw_area = gtk.Fixed()
         self.draw_area.connect("expose-event", self._draw_expose)
         self.window.add(self.draw_area)
         self.magnifier = None
