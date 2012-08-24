@@ -121,7 +121,7 @@ class DeepinScreenshot():
         self.text_window = TextWindow(self.window.window, self)
 
         # right button press menu
-        self.right_menu = RightMenu()
+        self.right_menu = RightMenu(self)
         # Show.
         self.window.show()
         self.window.set_cursor(ACTION_WINDOW)

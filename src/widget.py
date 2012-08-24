@@ -600,20 +600,31 @@ class TextWindow():
 
 class RightMenu():
     ''' Right Button Menu'''
-    def __init__(self):
+    def __init__(self, screenshot):
+        self.screenshot = screenshot
         self.window = Menu([
-            ((app_theme_get_dynamic_pixbuf('image/action/rect_normal.png'), app_theme_get_dynamic_pixbuf('image/action/rect_hover.png')), __("Tip draw rectangle"), None),
-            ((app_theme_get_dynamic_pixbuf('image/action/ellipse_normal.png'), app_theme_get_dynamic_pixbuf('image/action/ellipse_hover.png')), __("Tip draw ellipse"), None),
-            ((app_theme_get_dynamic_pixbuf('image/action/arrow_normal.png'), app_theme_get_dynamic_pixbuf('image/action/arrow_hover.png')), __("Tip draw arrow"), None),
-            ((app_theme_get_dynamic_pixbuf('image/action/line_normal.png'), app_theme_get_dynamic_pixbuf('image/action/line_hover.png')), __("Tip draw line"), None),
-            ((app_theme_get_dynamic_pixbuf('image/action/text_normal.png'), app_theme_get_dynamic_pixbuf('image/action/text_hover.png')), __("Tip draw Text"), None),
+            ((app_theme_get_dynamic_pixbuf('image/action/rect_normal.png'), app_theme_get_dynamic_pixbuf('image/action/rect_hover.png'), app_theme_get_dynamic_pixbuf('image/action/rect_press.png')),
+                __("Tip draw rectangle"), self._menu_click, "rect"),
+            ((app_theme_get_dynamic_pixbuf('image/action/ellipse_normal.png'), app_theme_get_dynamic_pixbuf('image/action/ellipse_hover.png'), app_theme_get_dynamic_pixbuf('image/action/ellipse_press.png')), __("Tip draw ellipse"), self._menu_click, "ellipse"),
+            ((app_theme_get_dynamic_pixbuf('image/action/arrow_normal.png'), app_theme_get_dynamic_pixbuf('image/action/arrow_hover.png'), app_theme_get_dynamic_pixbuf('image/action/arrow_press.png')), __("Tip draw arrow"), self._menu_click, "arrow"),
+            ((app_theme_get_dynamic_pixbuf('image/action/line_normal.png'), app_theme_get_dynamic_pixbuf('image/action/line_hover.png'), app_theme_get_dynamic_pixbuf('image/action/line_press.png')), __("Tip draw line"), self._menu_click, "line"),
+            ((app_theme_get_dynamic_pixbuf('image/action/text_normal.png'), app_theme_get_dynamic_pixbuf('image/action/text_hover.png'), app_theme_get_dynamic_pixbuf('image/action/text_press.png')), __("Tip draw Text"), self._menu_click, "text"),
             None,
-            ((app_theme_get_dynamic_pixbuf('image/action/undo_normal.png'), app_theme_get_dynamic_pixbuf('image/action/undo_hover.png')), __("Tip undo"), None),
-            ((app_theme_get_dynamic_pixbuf('image/action/save_normal.png'), app_theme_get_dynamic_pixbuf('image/action/save_hover.png')), __("Tip save"), None),
-            ((app_theme_get_dynamic_pixbuf('image/action/cancel_normal.png'), app_theme_get_dynamic_pixbuf('image/action/cancel_hover.png')), __("Tip cancel"), None),
-            ((app_theme_get_dynamic_pixbuf('image/action/finish_normal.png'), app_theme_get_dynamic_pixbuf('image/action/finish_hover.png')), __("Tip finish"), None),
+            ((app_theme_get_dynamic_pixbuf('image/action/undo_normal.png'), app_theme_get_dynamic_pixbuf('image/action/undo_hover.png'), app_theme_get_dynamic_pixbuf('image/action/undo_press.png')), __("Tip undo"), self._menu_click, "undo"),
+            ((app_theme_get_dynamic_pixbuf('image/action/save_normal.png'), app_theme_get_dynamic_pixbuf('image/action/save_hover.png'), app_theme_get_dynamic_pixbuf('image/action/save_press.png')), __("Tip save"), self._menu_click, "save"),
+            ((app_theme_get_dynamic_pixbuf('image/action/cancel_normal.png'), app_theme_get_dynamic_pixbuf('image/action/cancel_hover.png'), app_theme_get_dynamic_pixbuf('image/action/cancel_press.png')), __("Tip cancel"), self._menu_click, "cancel"),
+            ((app_theme_get_dynamic_pixbuf('image/action/finish_normal.png'), app_theme_get_dynamic_pixbuf('image/action/finish_hover.png'), app_theme_get_dynamic_pixbuf('image/action/finish_press.png')), __("Tip finish"), self._menu_click, "finish"),
             ], True)
         
+    def _menu_click(self, name):
+        '''docstring for _menu_click'''
+        buttons = self.screenshot.toolbar.toolbox.get_children()
+        for each in buttons:
+            if each.name == name:
+                each.clicked()
+                each.released()
+                break
+
     def show(self, coord=(0, 0)):
         ''' show menu '''
         self.window.show(coord)

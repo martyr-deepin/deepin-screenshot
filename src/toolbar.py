@@ -123,6 +123,7 @@ class Toolbar():
             app_theme.get_pixbuf("action/" + name + "_press.png"))
         button.connect("enter-notify-event", self._show_tooltip, text)
         button.connect("clicked", self._button_clicked, name)
+        button.set_name(name)
         button.set_size_request(28, 28)
         self.toolbox.pack_start(button)
 
