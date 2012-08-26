@@ -35,7 +35,7 @@ from constant import *
 from window import *
 from lang import __
 #from Xlib import X
-from widget import RootWindow, TextWindow, RightMenu
+from widget import RootWindow, RightMenu, TextView
 from toolbar import Colorbar, Toolbar
 
 import time
@@ -111,14 +111,11 @@ class DeepinScreenshot():
         # Init toolbar window.
         self.toolbar = Toolbar(self.window.window, self)
         
-        # Init text window.
-        self.text_window = TextWindow(self.window.window, self)
-        
         # Init color window.
         self.colorbar = Colorbar(self.window.window, self)
 
         # Init text window
-        self.text_window = TextWindow(self.window.window, self)
+        #self.text_window = TextWindow(self.window.window, self)
 
         # right button press menu
         self.right_menu = RightMenu(self)

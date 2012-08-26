@@ -148,16 +148,20 @@ class ButtonPressProcess(BaseProcess):
 
     def action_text(self, screenshot, event):
         '''Press ACTION_TEXT '''
-        if screenshot.text_window.window.get_visible(): # complete input text
+        if screenshot.show_text_window_flag:    # complete input text
             content = screenshot.text_window.get_text()
             if content != "":
                 if screenshot.text_modify_flag: # modify a text
                     screenshot.current_text_action.update(screenshot.action_color, "%s %d" % (screenshot.font_name, screenshot.font_size), content)
                     screenshot.text_modify_flag = False
+                    screenshot.text_action_list.append(screenshot.current_text_action)
+                    screenshot.action_list.append(screenshot.current_text_action)
                 else:                           # new a text
                     textAction = TextAction(ACTION_TEXT, 15, screenshot.action_color,
                         "%s %d" % (screenshot.font_name, screenshot.font_size), content)
-                    textAction.start_draw(screenshot.text_window.window.get_window().get_origin())
+                    #textAction.start_draw(screenshot.text_window.window.get_window().get_origin())
+                    allocation = screenshot.text_window.allocation
+                    textAction.start_draw((allocation[0], allocation[1]))
                     screenshot.text_action_list.append(textAction)
                     screenshot.action_list.append(textAction)
                 self.win.hide_text_window()

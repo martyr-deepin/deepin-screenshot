@@ -29,8 +29,18 @@ from collections import namedtuple
 from draw import *
 from constant import *
 from lang import __
+from dtk.ui.entry import Entry
+from dtk.ui.utils import (cairo_state, color_hex_to_cairo,
+                          is_left_button, is_right_button,
+                          is_double_click, get_content_size)
+import dtk.ui.constant as dtk_constant
 import status
 import gtk
+import pango
+import gobject
+
+DEFAULT_FONT = dtk_constant.DEFAULT_FONT
+DEFAULT_FONT_SIZE = dtk_constant.DEFAULT_FONT_SIZE
 
 
 Magnifier = namedtuple('Magnifier', 'x y size_content tip rgb')
@@ -151,18 +161,26 @@ class RootWindow():
         if event.button == 1 and event.type == gtk.gdk._2BUTTON_PRESS:
             # edit text
             if self.screenshot.text_drag_flag:
-                text_buffer = self.screenshot.text_window.entry.get_buffer()
-                text_buffer.set_text(self.screenshot.current_text_action.get_content())
-                self.screenshot.action_color = self.screenshot.current_text_action.get_color()
-                tmp_font_name = self.screenshot.current_text_action.get_fontname()
-                self.screenshot.font_size = tmp_font_name.split(' ')[1]
-                #modifyBackground(self.colorBox, self.actionColor)
+                #text_buffer = self.screenshot.text_window.entry.get_buffer()
+                #text_buffer.set_text(self.screenshot.current_text_action.get_content())
+                #self.screenshot.action_color = self.screenshot.current_text_action.get_color()
+                #tmp_font_name = self.screenshot.current_text_action.get_fontname()
+                #self.screenshot.font_size = tmp_font_name.split(' ')[1]
+                ##modifyBackground(self.colorBox, self.actionColor)
+                current_action = self.screenshot.current_text_action
+                if current_action in self.screenshot.text_action_list:
+                    self.screenshot.text_action_list.remove(current_action)
+                if current_action in self.screenshot.action_list:
+                    self.screenshot.action_list.remove(current_action)
+                self.show_text_window((current_action.start_x, current_action.start_y))
+                self.screenshot.text_window.set_text(current_action.get_content())
+                self.refresh()
+                self.screenshot.text_window.queue_draw()
                 self.screenshot.colorbar.color_select.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.screenshot.action_color))
                 self.screenshot.colorbar.font_label.set_text(self.screenshot.font_name)
                 
                 # set action ACTION_TEXT
                 self.screenshot.toolbar.set_button_active("text", True)
-                self.show_text_window((ex, ey))
                 self.screenshot.text_modify_flag = True
             # save snapshot
             if self.screenshot.action == ACTION_SELECT and self.screenshot.x < ex < self.screenshot.x + self.screenshot.rect_width and self.screenshot.y < ey < self.screenshot.y + self.screenshot.rect_height:
@@ -185,7 +203,7 @@ class RootWindow():
     
     def _key_press_event(self, widget, event):
         ''' key press '''
-        if event.is_modifier:
+        if event.is_modifier or self.screenshot.show_text_window_flag:
             return
         key = get_keyevent_name(event)
         if key in self.hotkey_map:
@@ -517,18 +535,22 @@ class RootWindow():
 
     def show_text_window(self, (ex, ey)):
         '''Show text window.'''
-        offset = 5
         screenshot = self.screenshot
         screenshot.show_text_window_flag = True
-        screenshot.text_window.window.move(ex, ey)
-        screenshot.text_window.show()
+        #screenshot.text_window.window.move(ex, ey)
+        #screenshot.text_window.show()
+        screenshot.text_window = TextView("", text_color=screenshot.action_color, font_size=screenshot.font_size)
+        self.draw_area.put(screenshot.text_window, ex, ey)
+        screenshot.text_window.show_all()
+        screenshot.text_window.grab_focus()
         
     def hide_text_window(self):
         '''Hide text window.'''
         screenshot = self.screenshot
         screenshot.show_text_window_flag = False
-        screenshot.text_window.set_text("")
-        screenshot.text_window.hide()
+        #screenshot.text_window.set_text("")
+        #screenshot.text_window.hide()
+        screenshot.text_window.destroy()
 
     def set_cursor(self, cursor_type):
         ''' set cursor'''
@@ -547,57 +569,6 @@ class RootWindow():
         #self._cr = self.window.window.cairo_create()
         self._cr = self.draw_area.window.cairo_create()
         self.window.window.raise_()
-        #time.sleep(0.01)
-
-class TextWindow():
-    ''' Text Window '''
-    def __init__(self, parent=None, screenshot=None):
-        self.screenshot = screenshot
-        
-        self.window = Window(window_type=gtk.WINDOW_TOPLEVEL)
-        self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DIALOG)
-        #self.window.connect("size-allocate", lambda w, a: updateShape(w, a, 3))
-        self.window.set_decorated(False)
-        #self.window.connect("expose-event", lambda w, e: exposeBackground(w, e, appTheme.getDynamicPixbuf("bg.png")))
-        self.window.set_keep_above(True)
-        self.window.set_resizable(False)
-        self.window.set_transient_for(parent)
-        #self.window.set_size_request(250, 90)
-        
-        self.window.window_shadow.set(0.5, 0.5, 0, 0)
-        self.window.window_shadow.set_padding(10, 10, 10, 10)
-
-        scroll_window = ScrolledWindow()
-        scroll_window.set_size_request(250, 90)
-        #self.entry = Entry()
-        self.entry= gtk.TextView()           # TODO 输入框控件
-        scroll_window.add_with_viewport(self.entry)
-        #scroll_window.add(self.entry)
-        #scroll_window.add_child(self.entry)
-        #scrollWindow.set_shadow_type(gtk.SHADOW_ETCHED_IN)
-        #scrollWindow.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC) 
-        self.entry.set_size_request(250, 90)
-
-        self.window.window_frame.add(scroll_window)
-    
-    def get_text(self):
-        '''Get input text.'''
-        text_buffer = self.entry.get_buffer()
-        return (text_buffer.get_text(text_buffer.get_start_iter(), text_buffer.get_end_iter())).rstrip(" ")
-        
-    def set_text(self, text):
-        '''Set text'''
-        text_buffer = self.entry.get_buffer()
-        text_buffer.set_text(text)
-    
-    def show(self):
-        ''' show window '''
-        self.window.show_all()
-        self.entry.grab_focus()
-    
-    def hide(self):
-        '''hide window'''
-        self.window.hide_all()
 
 class RightMenu():
     ''' Right Button Menu'''
@@ -630,6 +601,520 @@ class RightMenu():
         ''' show menu '''
         self.window.show(coord)
 
+class TextView(Entry):
+    '''TextView'''
+    def __init__(self, content="", text_color="#000000",
+                 text_select_color="#FFFFFF",background_select_color="#0000F0",
+                 font=DEFAULT_FONT, font_size=DEFAULT_FONT_SIZE):
+        super(TextView, self).__init__(content, 0, 0, "#000000", "#FFFFFF", "#0000F0")
+        self.text_color = text_color
+        self.text_select_color = text_select_color
+        self.background_select_color = background_select_color
+        self.font_type = font
+        self.font_size = font_size
+        self.font = pango.FontDescription("%s %d" % (font, font_size))
+        # press Return | KP_Enter
+        self.keymap["KP_Enter"] = self.press_return
+        self.keymap["Up"] = self.move_to_up
+        self.keymap["Down"] = self.move_to_down
+        self.keymap["Shift + Up"] = self.select_to_up
+        self.keymap["Shift + Down"] = self.select_to_down
+        self.connect("press-return", self.entry_press_return)
+        self.buffer = gtk.TextBuffer()
+        self.buffer.connect("paste-done", self.__paste_done)
+        
+        surface = cairo.ImageSurface(cairo.FORMAT_RGB24, 1, 1) 
+        cr = cairo.Context(surface)
+        self.__cr = pangocairo.CairoContext(cr)
+        self.__layout = self.__cr.create_layout()
+        self.__layout.set_font_description(self.font)
+        self.__layout.set_alignment(pango.ALIGN_LEFT)
+        self.__layout.set_wrap(pango.WRAP_WORD_CHAR)
+
+        self.__width = self.__height = 0    # widget width and height
+        self.__layout_width = -1
+
+        self.set_text(content)
+        self.adjust_size()
+
+    def get_text(self):
+        '''get text'''
+        s = self.buffer.get_start_iter()
+        e = self.buffer.get_end_iter()
+        self.content = self.buffer.get_text(s, e)
+        return self.content
+
+    def set_text(self, text):
+        '''set text'''
+        self.buffer.set_text(text)
+        e = self.buffer.get_end_iter()
+        insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+        self.cusor_index = insert.get_offset()
+        self.select_start_index = self.select_end_index = e.get_offset()
+
+        self.__layout.set_text(text)
+        self.__count_size()
+
+    def set_width(self, width):
+        '''set layout width'''
+        if width > 0:
+            self.__layout_width = width * pango.SCALE
+        else:
+            self.__layout_width = -1
+        self.__layout.set_width(self.__layout_width)
+
+    def get_width(self):
+        '''get layout width '''
+        return self.__layout_width
+
+    def get_size(self):
+        '''get text size'''
+        self.__count_size()
+        return (self.__width, self.__height)
+
+    def get_layout(self):
+        '''get layout'''
+        return self.__layout
+
+    def get_buffer(self):
+        '''get buffer'''
+        return self.buffer
+
+    def set_buffer(self, buf):
+        '''set buffer'''
+        self.buffer = buf
+
+    def set_font_size(self, size):
+        '''set font size'''
+        self.font_size = size
+        self.font = pango.FontDescription("%s %d" % (self.font_type, self.font_size))
+        self.__layout.set_font_description(self.font)
+
+    def __count_size(self):
+        '''count widget size'''
+        self.__layout.set_text(self.get_text())
+        (self.__width, self.__height) = self.__layout.get_pixel_size()
+
+    def adjust_size(self):
+        '''set widget size'''
+        self.__count_size()
+        if self.__width < 10: self.__width = 10
+        self.set_size_request(self.__width, self.__height)
+
+    def entry_press_return(self, widget):
+        '''press return'''
+        self.commit_entry('\n')
+
+    def draw_entry_background(self, cr, rect):
+        '''draw background '''
+        #print self.buffer.get_selection_bounds()
+        #print self.buffer.get_iter_at_mark(self.buffer.get_selection_bound()).get_offset()
+        x, y, w, h = rect.x, rect.y, rect.width, rect.height
+        cr.set_source_rgba(1.0, 1.0, 1.0, 0.3)
+        cr.rectangle(x, y, w, h)
+        cr.fill()
+        cr.set_source_rgba(1.0, 0.0, 0.0, 1.0)
+        cr.set_dash((3.0, 1.0))
+        cr.set_line_width(0.5)
+        cr.rectangle(x, y, w, h)
+        cr.stroke()
+        # draw selection
+        if not self.buffer.get_has_selection():
+            return
+        bounds = self.buffer.get_selection_bounds()
+        self.draw_selection_lines(bounds[0], bounds[1], cr, x, y)
+    
+    def draw_entry_text(self, cr, rect):
+        ''' draw text '''
+        x, y, w, h = rect.x, rect.y, rect.width, rect.height
+        with cairo_state(cr):
+            # Clip text area first.
+            draw_x = x + self.padding_x
+            draw_y = y + self.padding_y
+            draw_width = w - self.padding_x * 2
+            draw_height = h - self.padding_y * 2
+            cr.rectangle(draw_x, draw_y, draw_width, draw_height)
+            cr.clip()
+            
+            # Create pangocairo context.
+            context = pangocairo.CairoContext(cr)
+            
+            # Set layout.
+            #layout = context.create_layout()
+            #layout.set_font_description(self.font)
+            #layout.set_width(self.__layout_width)
+            ##layout.set_wrap(pango.WRAP_WORD_CHAR)
+            
+            ## TODO draw selection text
+            ## Set text.
+            #layout.set_text(self.get_text())
+            #print "layout:", layout.get_text()
+            # Move text.
+            cr.move_to(draw_x, draw_y)
+            # Draw text.
+            cr.set_source_rgb(*color_hex_to_cairo(self.text_color))
+            #context.update_layout(layout)
+            #context.show_layout(layout)
+            #print "get_width", self.__layout.get_width()
+            context.update_layout(self.__layout)
+            context.show_layout(self.__layout)
+
+    def draw_entry_cursor(self, cr, rect):
+        '''
+        Internal function to draw entry cursor.
+        '''
+        if self.grab_focus_flag and self.select_start_index == self.select_end_index:
+            # Init.
+            x, y, w, h = rect.x, rect.y, rect.width, rect.height
+            # Draw cursor.
+            cr.set_source_rgb(*color_hex_to_cairo("#000000"))
+            pos = self.iter_to_pos(self.buffer.get_iter_at_mark(self.buffer.get_insert()))
+            cr.rectangle(pos[0]+x, pos[1]+y, 1, pos[3])
+            cr.fill()
+    
+    def draw_selection_lines(self, start, end, cr, x, y):
+        '''draw selection line background'''
+        draw_iter = start.copy()
+        while draw_iter.in_range(start, end):
+            self.draw_selection_iter(draw_iter, cr, x, y)
+            if draw_iter.ends_line():   # at line end
+                draw_iter.set_line(draw_iter.get_line()+1)
+            else:
+                draw_iter.set_line_index(draw_iter.get_line_index()+1)
+                
+    def draw_selection_iter(self, iter, cr, x, y):
+        '''draw selection iter background '''
+        pos = self.iter_to_pos(iter)
+        cr.set_source_rgb(*color_hex_to_cairo(self.background_select_color))
+        cr.rectangle(pos[0]+x, pos[1]+y, pos[2], pos[3])
+        cr.fill()
+
+    def iter_to_pos(self, start):
+        ''' textiter to pos '''
+        line = start.get_line()
+        line_index = start.get_line_index()
+        layout_line = self.__layout.get_line(line)
+        index = layout_line.start_index + line_index
+        pos = self.__layout.index_to_pos(index)
+        pos = list(pos)
+        pos[0] /= pango.SCALE
+        pos[1] /= pango.SCALE
+        pos[2] /= pango.SCALE
+        pos[3] /= pango.SCALE
+        return pos
+    
+    def commit_entry(self, input_text):
+        ''' commit entry '''
+        if self.is_editable():
+            if self.buffer.get_has_selection():     # if has select, delete it
+                #bounds = self.buffer.get_selection_bounds()
+                #bound = self.buffer.get_selection_bound()
+                #print bound.get_name()
+                #print "delete select:", self.buffer.get_iter_at_mark(bound).get_offset(), bounds[0].get_offset(), bounds[1].get_offset()
+                self.buffer.delete_selection(True, self.is_editable())
+            self.buffer.insert_at_cursor(input_text)
+            self.adjust_size()
+            self.queue_draw()
+
+    def backspace(self):
+        '''
+        Do backspace action.
+        '''        
+        if self.buffer.get_has_selection():
+            self.buffer.delete_selection(True, self.is_editable())
+        else:
+            self.buffer.backspace(self.buffer.get_iter_at_mark(self.buffer.get_insert()),
+                True, self.is_editable())
+        self.adjust_size()
+        self.queue_draw()
+
+    def delete(self):
+        '''
+        Delete selected text.
+        '''
+        insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+        if insert.is_end():
+            return
+        if self.buffer.get_has_selection():
+            self.buffer.delete_selection(True, self.is_editable())
+            self.adjust_size()
+            self.queue_draw()
+        else:
+            self.move_to_right()
+            self.backspace()
+
+    def select_all(self):
+        '''
+        Select all text of entry.
+        '''
+        self.select_start_index = 0
+        self.select_end_index = len(self.content)
+        self.buffer.select_range(*self.buffer.get_bounds())
+        self.adjust_size()
+        self.queue_draw()
+
+    def cut_to_clipboard(self):
+        '''
+        Cut selected text to clipboard.
+        '''
+        self.buffer.cut_clipboard(gtk.Clipboard(), self.is_editable())
+        self.adjust_size()
+        self.queue_draw()
+
+    def copy_to_clipboard(self):
+        '''
+        Copy selected text to clipboard.
+        '''
+        self.buffer.copy_clipboard(gtk.Clipboard())
+    
+    def paste_from_clipboard(self):
+        '''
+        Paste text to entry from clipboard.
+        '''
+        self.buffer.paste_clipboard(gtk.Clipboard(), None, self.is_editable())
+    
+    def __paste_done(self, widget, clipboard):
+        ''' buffer paste done'''
+        self.adjust_size()
+        self.queue_draw()
+
+    def move_to_start(self):
+        '''
+        Move cursor to start position of entry.
+        '''
+        #self.offset_x = 0
+        #self.cursor_index = 0
+        self.clear_select_status()
+        insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+        insert.set_line_offset(0)
+        self.buffer.move_mark_by_name("insert", insert)
+        self.buffer.move_mark_by_name("selection_bound", insert)
+        self.queue_draw()
+        
+    def move_to_end(self):
+        '''
+        Move cursor to end position of entry.
+        '''
+        #text_width = self.get_content_width(self.content)
+        #rect = self.get_allocation()
+        #if text_width > rect.width - self.padding_x * 2 > 0:
+            #self.offset_x = text_width - (rect.width - self.padding_x * 2)
+        #self.cursor_index = len(self.content)
+        
+        self.clear_select_status()
+        insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+        insert.forward_to_line_end()
+        self.buffer.move_mark_by_name("insert", insert)
+        self.buffer.move_mark_by_name("selection_bound", insert)
+        self.queue_draw()
+        
+    def move_to_left(self):
+        '''
+        Backward cursor one char.
+        '''
+        # Avoid change focus to other widget in parent.
+        if self.keynav_failed(gtk.DIR_LEFT):
+            self.get_toplevel().set_focus_child(self)
+            
+        if self.select_start_index != self.select_end_index:
+            self.clear_select_status()
+        insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+        insert.backward_char()
+        self.buffer.move_mark_by_name("insert", insert)
+        self.buffer.move_mark_by_name("selection_bound", insert)
+        self.queue_draw()
+            
+    def move_to_right(self):
+        '''
+        Forward cursor one char.
+        '''
+        # Avoid change focus to other widget in parent.
+        if self.keynav_failed(gtk.DIR_RIGHT):
+            self.get_toplevel().set_focus_child(self)
+                        
+        if self.select_start_index != self.select_end_index:
+            self.clear_select_status()
+        insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+        insert.forward_char()
+        self.buffer.move_mark_by_name("insert", insert)
+        self.buffer.move_mark_by_name("selection_bound", insert)
+        self.queue_draw()
+
+    def move_to_up(self):
+        '''
+        Backward cursor one line.
+        '''
+        # Avoid change focus to other widget in parent.
+        if self.keynav_failed(gtk.DIR_LEFT):
+            self.get_toplevel().set_focus_child(self)
+            
+        if self.select_start_index != self.select_end_index:
+            self.clear_select_status()
+        insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+        offset = insert.get_line_offset()
+        insert.backward_line()
+        line_len = insert.get_chars_in_line()
+        if offset < line_len:
+            insert.set_line_offset(offset)
+        else:
+            insert.set_line_offset(line_len-1)
+        self.buffer.move_mark_by_name("insert", insert)
+        self.buffer.move_mark_by_name("selection_bound", insert)
+        self.queue_draw()
+
+    def move_to_down(self):
+        '''
+        Forward cursor one line.
+        '''
+        # Avoid change focus to other widget in parent.
+        if self.keynav_failed(gtk.DIR_LEFT):
+            self.get_toplevel().set_focus_child(self)
+            
+        if self.select_start_index != self.select_end_index:
+            self.clear_select_status()
+        insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+        offset = insert.get_line_offset()
+        insert.forward_line()
+        line_len = insert.get_chars_in_line()
+        if offset < line_len:
+            insert.set_line_offset(offset)
+        else:
+            insert.set_line_offset(line_len-1)
+        self.buffer.move_mark_by_name("insert", insert)
+        self.buffer.move_mark_by_name("selection_bound", insert)
+        self.queue_draw()
+            
+    def select_to_left(self):
+        '''
+        Select text to left char.
+        '''
+        insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+        insert.backward_char()
+        self.buffer.move_mark_by_name("insert", insert)
+        self.queue_draw()
+        
+    def select_to_right(self):
+        '''
+        Select text to right char.
+        '''
+        insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+        insert.forward_char()
+        self.buffer.move_mark_by_name("insert", insert)
+        self.queue_draw()
+        
+    def select_to_up(self):
+        '''
+        select text to up line
+        '''
+        # Avoid change focus to other widget in parent.
+        if self.keynav_failed(gtk.DIR_LEFT):
+            self.get_toplevel().set_focus_child(self)
+            
+        if self.select_start_index != self.select_end_index:
+            self.clear_select_status()
+        insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+        offset = insert.get_line_offset()
+        insert.backward_line()
+        line_len = insert.get_chars_in_line()
+        if offset < line_len:
+            insert.set_line_offset(offset)
+        else:
+            insert.set_line_offset(line_len-1)
+        self.buffer.move_mark_by_name("insert", insert)
+        self.queue_draw()
+
+    def select_to_down(self):
+        '''
+        select text to down line
+        '''
+        # Avoid change focus to other widget in parent.
+        if self.keynav_failed(gtk.DIR_LEFT):
+            self.get_toplevel().set_focus_child(self)
+            
+        if self.select_start_index != self.select_end_index:
+            self.clear_select_status()
+        insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+        offset = insert.get_line_offset()
+        insert.forward_line()
+        line_len = insert.get_chars_in_line()
+        if offset < line_len:
+            insert.set_line_offset(offset)
+        else:
+            insert.set_line_offset(line_len-1)
+        self.buffer.move_mark_by_name("insert", insert)
+        self.queue_draw()
+    
+    def select_to_start(self):
+        '''
+        Select text to start position.
+        '''
+        insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+        insert.set_line_offset(0)
+        self.buffer.move_mark_by_name("insert", insert)
+        self.queue_draw()
+        
+    def select_to_end(self):
+        '''
+        Select text to end position.
+        '''
+        insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+        insert.forward_to_line_end()
+        self.buffer.move_mark_by_name("insert", insert)
+        self.queue_draw()
+
+    def xy_to_iter(self, x, y):
+        '''from xy get iter'''
+        index = self.__layout.xy_to_index(x*pango.SCALE, y*pango.SCALE)
+        pos = self.__layout.index_to_pos(index[0])
+        current_line = pos[1] / pos[3]
+        line = self.__layout.get_line(current_line)
+        insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+        insert.set_line(current_line)
+        insert.set_line_index(index[0] - line.start_index)
+        return insert
+
+    def handle_button_press(self, widget, event):
+        '''
+        Internal function to handle button press.
+        '''
+        # Get input focus.
+        self.grab_focus()
+        # Hide right menu immediately.
+        self.right_menu.hide()
+        # Select all when double click left button.
+        if is_double_click(event):
+            self.double_click_flag = True
+            self.select_all()
+        # Show right menu when click right button.
+        elif is_right_button(event):
+            if self.right_menu_visible_flag:
+                (wx, wy) = self.window.get_root_origin()
+                (cx, cy, modifier) = self.window.get_pointer()
+                self.right_menu.show((cx + wx, cy + wy))
+        # Change cursor when click left button.
+        elif is_left_button(event):
+            #print "clicked"
+            self.left_click_flag = True
+            self.left_click_coordindate = (event.x, event.y)
+            #print "coord", self.left_click_coordindate
+            xy = map(int, self.left_click_coordindate)
+            insert = self.xy_to_iter(*xy)
+            self.buffer.move_mark_by_name("insert", insert)
+            self.buffer.move_mark_by_name("selection_bound", insert)
+            self.drag_start_index = self.get_index_at_event(widget, event)
+            self.queue_draw()
+
+    def motion_notify_entry(self, widget, event):
+        '''
+        Internal callback for `motion-notify-event` signal.
+        '''
+        if not self.double_click_flag and self.left_click_flag:
+            xy = map(int, [event.x, event.y])
+            insert = self.xy_to_iter(*xy)
+            self.buffer.move_mark_by_name("selection_bound", insert)
+            self.queue_draw()    
+
+gobject.type_register(TextView)
 if __name__ == '__main__':
     #RootWindow().show()
     #TextWindow().show()
