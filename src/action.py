@@ -140,19 +140,22 @@ class LineAction(Action):
             
 class TextAction(Action):
     '''Text action.'''
-    def __init__(self, aType, size, color, fontname, content):
+    def __init__(self, aType, size, color, layout):
         '''Text action.'''
         Action.__init__(self, aType, size, color)
-        self.content = content
-        self.fontname = fontname
+        self.layout = layout
+        #self.content = self.layout.get_text()
+        #self.fontname = fontname
         
     def expose(self, cr):
         '''Expose.'''
         cr.move_to(self.start_x, self.start_y)
         context = pangocairo.CairoContext(cr)
-        self.layout = context.create_layout()
-        self.layout.set_font_description(pango.FontDescription(self.fontname))
-        self.layout.set_text(self.content)
+
+        #self.layout = context.create_layout()
+        #self.layout.set_font_description(pango.FontDescription(self.fontname))
+        #self.layout.set_text(self.content)
+
         cr.set_source_rgb(*colorHexToCairo(self.color))
         context.update_layout(self.layout)
         context.show_layout(self.layout)
@@ -166,18 +169,18 @@ class TextAction(Action):
         '''set color'''
         self.color = color
 
-    def set_fontname(self, fontname):
-        '''set fontname'''
-        self.fontname = fontname
+    #def set_fontname(self, fontname):
+        #'''set fontname'''
+        #self.fontname = fontname
 
     def set_content(self, content):
         '''set content'''
-        self.content = content
+        #self.content = content
+        self.layout.set_text(content)
     
-    def update(self, color, fontname, content):
+    def update(self, color, layout):
         self.set_color(color)
-        self.set_fontname(fontname)
-        self.set_content(content)
+        self.layout = layout
 
     def get_layout_info(self):
         ''' get layout (x, y, width, height) '''
@@ -187,12 +190,12 @@ class TextAction(Action):
 
     def get_content(self):
         '''get Content '''
-        return self.content
+        return self.layout.get_text()
 
     def get_color(self):
         ''' get color '''
         return self.color
 
-    def get_fontname(self):
-        return self.fontname
+    #def get_fontname(self):
+        #return self.fontname
     

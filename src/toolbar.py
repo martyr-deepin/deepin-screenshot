@@ -413,7 +413,10 @@ class Colorbar():
         '''font size changed'''
         self.screenshot.font_size = value
         if self.screenshot.show_text_window_flag:
-            self.screenshot.text_window.set_font_size(value)
+            if not self.screenshot.text_window.set_font_size(value):
+                #print value, self.screenshot.text_window.get_font_size()
+                widget.set_value(self.screenshot.text_window.get_font_size())
+            self.win.refresh()
 
     def _color_select_expose(self, widget, event, data=None):
         '''set colorBox border '''
@@ -459,6 +462,9 @@ class Colorbar():
         if self.screenshot is None:
             return
         self.screenshot.action_color = self.color_map[name]
+        if self.screenshot.show_text_window_flag:
+            self.screenshot.text_window.set_text_color(self.screenshot.action_color)
+            self.win.refresh()
 
     def _size_button_pressed(self, widget, index):
         ''' size button pressed'''

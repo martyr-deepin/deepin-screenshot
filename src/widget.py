@@ -161,12 +161,6 @@ class RootWindow():
         if event.button == 1 and event.type == gtk.gdk._2BUTTON_PRESS:
             # edit text
             if self.screenshot.text_drag_flag:
-                #text_buffer = self.screenshot.text_window.entry.get_buffer()
-                #text_buffer.set_text(self.screenshot.current_text_action.get_content())
-                #self.screenshot.action_color = self.screenshot.current_text_action.get_color()
-                #tmp_font_name = self.screenshot.current_text_action.get_fontname()
-                #self.screenshot.font_size = tmp_font_name.split(' ')[1]
-                ##modifyBackground(self.colorBox, self.actionColor)
                 current_action = self.screenshot.current_text_action
                 if current_action in self.screenshot.text_action_list:
                     self.screenshot.text_action_list.remove(current_action)
@@ -301,7 +295,10 @@ class RootWindow():
     
     def refresh(self):
         ''' refresh this window'''
-        #self.window.queue_draw()
+        #if self.screenshot.current_action or self.screenshot.current_text_action:
+            #self.draw_area.queue_draw_area(int(self.screenshot.x), int(self.screenshot.y),
+                #int(self.screenshot.rect_width), int(self.screenshot.rect_height))
+        #else:
         self.draw_area.queue_draw()
 
     def _draw_mask(self, cr):
@@ -537,21 +534,69 @@ class RootWindow():
         '''Show text window.'''
         screenshot = self.screenshot
         screenshot.show_text_window_flag = True
-        #screenshot.text_window.window.move(ex, ey)
-        #screenshot.text_window.show()
-        screenshot.text_window = TextView("", text_color=screenshot.action_color, font_size=screenshot.font_size)
+        screenshot.text_window = TextView(screenshot, "", text_color=screenshot.action_color, font_size=screenshot.font_size)
+        screenshot.text_window.connect("button-press-event", self.__text_window_button_press)
+        screenshot.text_window.connect("button-release-event", self.__text_window_button_release)
+        screenshot.text_window.connect("motion-notify-event", self.__text_window__motion)
         self.draw_area.put(screenshot.text_window, ex, ey)
         screenshot.text_window.show_all()
+        self.refresh()
+        screenshot.text_window.set_width(int(screenshot.rect_width + screenshot.x - ex))
         screenshot.text_window.grab_focus()
         
     def hide_text_window(self):
         '''Hide text window.'''
         screenshot = self.screenshot
         screenshot.show_text_window_flag = False
-        #screenshot.text_window.set_text("")
-        #screenshot.text_window.hide()
         screenshot.text_window.destroy()
 
+    def __text_window_button_press(self, widget, event):
+        ''' '''
+        if event.button == 1:
+            widget.drag_flag = True
+            widget.drag_position = (event.x_root, event.y_root)
+            #self._drag_text_flag = True
+            #self._drop_position = (event.x, event.y)
+
+    def __text_window_button_release(self, widget, event):
+        '''button release'''
+        if event.button == 1:
+            widget.drag_flag = False
+            widget.drag_offset = (0, 0)
+            widget.drag_position = (0, 0)
+
+            #self._drag_text_flag = False
+            #self._offset_x = self._ofset_y = 0
+            #self._drop_position = None
+
+    def __text_window__motion(self, widget, event):
+        '''motion notify'''
+        coord = widget.allocation
+        rect_x = self.screenshot.x + self.screenshot.width
+        rect_y = self.screenshot.y + self.screenshot.height
+        if widget.drag_flag and widget.drag_position:
+            offset_x = int(event.x_root - widget.drag_position[0])
+            offset_y = int(event.y_root - widget.drag_position[1])
+            widget.drag_offset = (offset_x, offset_y)
+            des_x = coord[0] + offset_x
+            des_y = coord[1] + offset_y
+            print "event:", event.x_root, event.y_root
+            print "position:", widget.drag_position
+            print "offset:", widget.drag_offset
+            print "des:", des_x, des_y
+            print "allocation:", coord
+            print "screen rect:", self.screenshot.x, self.screenshot.y
+            print '-' * 20
+            if des_x + coord[2] > rect_x:
+                des_x = rect_x - coord[2]
+            elif des_x < self.screenshot.x:
+                des_x = self.screenshot.x
+            if des_y + coord[3] > rect_y:
+                des_y = rect_y - coord[3]
+            elif des_y < self.screenshot.y:
+                des_y = self.screenshot.y
+            self.draw_area.move(widget, des_x, des_y)
+    
     def set_cursor(self, cursor_type):
         ''' set cursor'''
         if cursor_type in theme_cursor:
@@ -603,10 +648,11 @@ class RightMenu():
 
 class TextView(Entry):
     '''TextView'''
-    def __init__(self, content="", text_color="#000000",
+    def __init__(self, screenshot, content="", text_color="#000000",
                  text_select_color="#FFFFFF",background_select_color="#0000F0",
                  font=DEFAULT_FONT, font_size=DEFAULT_FONT_SIZE):
         super(TextView, self).__init__(content, 0, 0, "#000000", "#FFFFFF", "#0000F0")
+        self.screenshot = screenshot
         self.text_color = text_color
         self.text_select_color = text_select_color
         self.background_select_color = background_select_color
@@ -623,7 +669,7 @@ class TextView(Entry):
         self.buffer = gtk.TextBuffer()
         self.buffer.connect("paste-done", self.__paste_done)
         
-        surface = cairo.ImageSurface(cairo.FORMAT_RGB24, 1, 1) 
+        surface = cairo.ImageSurface(cairo.FORMAT_RGB24, 0, 0) 
         cr = cairo.Context(surface)
         self.__cr = pangocairo.CairoContext(cr)
         self.__layout = self.__cr.create_layout()
@@ -633,6 +679,10 @@ class TextView(Entry):
 
         self.__width = self.__height = 0    # widget width and height
         self.__layout_width = -1
+
+        self.drag_flag = False              # drag this
+        self.drag_position = (0, 0)
+        self.drag_offset = (0, 0)
 
         self.set_text(content)
         self.adjust_size()
@@ -646,6 +696,8 @@ class TextView(Entry):
 
     def set_text(self, text):
         '''set text'''
+        if not isinstance(text, unicode):
+            text = text.decode('utf-8')
         self.buffer.set_text(text)
         e = self.buffer.get_end_iter()
         insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
@@ -686,9 +738,30 @@ class TextView(Entry):
 
     def set_font_size(self, size):
         '''set font size'''
+        # if font size too large ,ignore
+        layout = self.__layout.copy()
+        layout.set_font_description(pango.FontDescription("%s %d" % (self.font_type, size)))
+        text_size = layout.get_pixel_size()
+        if text_size[0] + self.allocation.x > self.screenshot.x + self.screenshot.rect_width \
+            or text_size[1] + self.allocation.y > self.screenshot.y + self.screenshot.rect_height:
+            return False
         self.font_size = size
         self.font = pango.FontDescription("%s %d" % (self.font_type, self.font_size))
         self.__layout.set_font_description(self.font)
+        self.adjust_size()
+        return True
+
+    def get_font_size(self):
+        '''get font size'''
+        return self.font_size
+
+    def set_text_color(self, color):
+        '''set text color'''
+        self.text_color = color
+
+    def get_text_color(self):
+        '''get text color'''
+        return self.text_color
 
     def __count_size(self):
         '''count widget size'''
@@ -710,6 +783,7 @@ class TextView(Entry):
         #print self.buffer.get_selection_bounds()
         #print self.buffer.get_iter_at_mark(self.buffer.get_selection_bound()).get_offset()
         x, y, w, h = rect.x, rect.y, rect.width, rect.height
+        #print self.allocation, self.__layout.get_pixel_size()
         cr.set_source_rgba(1.0, 1.0, 1.0, 0.3)
         cr.rectangle(x, y, w, h)
         cr.fill()
@@ -735,20 +809,14 @@ class TextView(Entry):
             draw_height = h - self.padding_y * 2
             cr.rectangle(draw_x, draw_y, draw_width, draw_height)
             cr.clip()
-            
             # Create pangocairo context.
             context = pangocairo.CairoContext(cr)
-            
             # Set layout.
             #layout = context.create_layout()
             #layout.set_font_description(self.font)
             #layout.set_width(self.__layout_width)
             ##layout.set_wrap(pango.WRAP_WORD_CHAR)
             
-            ## TODO draw selection text
-            ## Set text.
-            #layout.set_text(self.get_text())
-            #print "layout:", layout.get_text()
             # Move text.
             cr.move_to(draw_x, draw_y)
             # Draw text.
@@ -768,33 +836,34 @@ class TextView(Entry):
             x, y, w, h = rect.x, rect.y, rect.width, rect.height
             # Draw cursor.
             cr.set_source_rgb(*color_hex_to_cairo("#000000"))
-            pos = self.iter_to_pos(self.buffer.get_iter_at_mark(self.buffer.get_insert()))
+            index = self.iter_to_index(self.buffer.get_iter_at_mark(self.buffer.get_insert()))
+            pos = self.index_to_pos(index)
             cr.rectangle(pos[0]+x, pos[1]+y, 1, pos[3])
             cr.fill()
     
     def draw_selection_lines(self, start, end, cr, x, y):
         '''draw selection line background'''
-        draw_iter = start.copy()
-        while draw_iter.in_range(start, end):
-            self.draw_selection_iter(draw_iter, cr, x, y)
-            if draw_iter.ends_line():   # at line end
-                draw_iter.set_line(draw_iter.get_line()+1)
-            else:
-                draw_iter.set_line_index(draw_iter.get_line_index()+1)
+        start_index = self.iter_to_index(start)
+        end_index = self.iter_to_index(end)
+        cursor = start_index
+        while start_index <= cursor <= end_index:
+            self.draw_selection_index(cursor, cr, x, y)
+            cursor += 1
                 
-    def draw_selection_iter(self, iter, cr, x, y):
+    def draw_selection_index(self, index, cr, x, y):
         '''draw selection iter background '''
-        pos = self.iter_to_pos(iter)
+        pos = self.index_to_pos(index)
         cr.set_source_rgb(*color_hex_to_cairo(self.background_select_color))
         cr.rectangle(pos[0]+x, pos[1]+y, pos[2], pos[3])
         cr.fill()
 
-    def iter_to_pos(self, start):
-        ''' textiter to pos '''
-        line = start.get_line()
-        line_index = start.get_line_index()
-        layout_line = self.__layout.get_line(line)
-        index = layout_line.start_index + line_index
+    def iter_to_index(self, iter):
+        ''' textiter to index'''
+        index = self.buffer.get_text(self.buffer.get_start_iter(), iter).__len__()
+        return index
+
+    def index_to_pos(self, index):
+        '''index to pos'''
         pos = self.__layout.index_to_pos(index)
         pos = list(pos)
         pos[0] /= pango.SCALE
@@ -805,16 +874,23 @@ class TextView(Entry):
     
     def commit_entry(self, input_text):
         ''' commit entry '''
-        if self.is_editable():
-            if self.buffer.get_has_selection():     # if has select, delete it
-                #bounds = self.buffer.get_selection_bounds()
-                #bound = self.buffer.get_selection_bound()
-                #print bound.get_name()
-                #print "delete select:", self.buffer.get_iter_at_mark(bound).get_offset(), bounds[0].get_offset(), bounds[1].get_offset()
-                self.buffer.delete_selection(True, self.is_editable())
-            self.buffer.insert_at_cursor(input_text)
-            self.adjust_size()
-            self.queue_draw()
+        if not self.is_editable():
+            return
+        layout = self.__layout.copy()
+        layout.set_text(input_text)
+        text_size = layout.get_pixel_size()
+        end_index = self.iter_to_index(self.buffer.get_end_iter())
+        pos = self.index_to_pos(end_index)
+        if self.allocation.x + pos[0] + pos[2] + text_size[0] >= self.screenshot.x + self.screenshot.rect_width:   # right
+            if self.allocation.y + pos[1] + pos[3] + text_size[1] >= self.screenshot.y + self.screenshot.rect_height:  # bottom
+                return                          # to right_bottom ,can't input
+        if not isinstance(input_text, unicode):
+            input_text = input_text.decode('utf-8')
+        if self.buffer.get_has_selection():     # if has select, delete it
+            self.buffer.delete_selection(True, self.is_editable())
+        self.buffer.insert_at_cursor(input_text)
+        self.adjust_size()
+        self.queue_draw()
 
     def backspace(self):
         '''

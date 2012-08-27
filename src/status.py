@@ -81,6 +81,12 @@ class ButtonPressProcess(BaseProcess):
         '''Press process button press event'''
         if self.event is None:
             return
+        if self.screenshot.show_text_window_flag:
+            allocation = self.screenshot.text_window.allocation
+            # in text view area, ignore
+            if allocation.x <= self.event.x_root <= allocation.x + allocation.width \
+               and allocation.y <= self.event.y_root <= allocation.y + allocation.height:
+                   return
         if self.event.button == BUTTON_EVENT_LEFT:
             self.screenshot.drag_flag = True
             self.func_map[self.screenshot.action](self.screenshot, self.event)
@@ -152,24 +158,22 @@ class ButtonPressProcess(BaseProcess):
             content = screenshot.text_window.get_text()
             if content != "":
                 if screenshot.text_modify_flag: # modify a text
-                    screenshot.current_text_action.update(screenshot.action_color, "%s %d" % (screenshot.font_name, screenshot.font_size), content)
+                    screenshot.current_text_action.update(screenshot.action_color, screenshot.text_window.get_layout())
                     screenshot.text_modify_flag = False
                     screenshot.text_action_list.append(screenshot.current_text_action)
                     screenshot.action_list.append(screenshot.current_text_action)
                 else:                           # new a text
-                    textAction = TextAction(ACTION_TEXT, 15, screenshot.action_color,
-                        "%s %d" % (screenshot.font_name, screenshot.font_size), content)
-                    #textAction.start_draw(screenshot.text_window.window.get_window().get_origin())
+                    textAction = TextAction(ACTION_TEXT, 15, screenshot.action_color, screenshot.text_window.get_layout())
                     allocation = screenshot.text_window.allocation
                     textAction.start_draw((allocation[0], allocation[1]))
                     screenshot.text_action_list.append(textAction)
                     screenshot.action_list.append(textAction)
                 self.win.hide_text_window()
-                screenshot.toolbar.set_all_inactive()
+                #screenshot.toolbar.set_all_inactive()
                 self.win.refresh()
             else:
                 self.win.hide_text_window()
-                screenshot.toolbar.set_all_inactive()
+                #screenshot.toolbar.set_all_inactive()
         else:   # create a new text
             self.win.show_text_window(self.win.get_event_coord(event))
 
@@ -403,11 +407,24 @@ class MotionProcess(BaseProcess):
         if screenshot.action is None:
             (tx, ty) = self.win.get_event_coord(event)       
             if screenshot.text_drag_flag and screenshot.current_text_action:
-                screenshot.current_text_action.update_coord(tx - screenshot.textDragOffsetX, ty - screenshot.textDragOffsetY)
+                layout_info = screenshot.current_text_action.get_layout_info()
+                des_x = tx - screenshot.textDragOffsetX
+                des_y = ty - screenshot.textDragOffsetY
+                if des_x < screenshot.x:    # left
+                    des_x = screenshot.x
+                elif des_x + layout_info[2] > screenshot.x + screenshot.rect_width:     # right
+                    des_x = screenshot.x + screenshot.rect_width - layout_info[2]
+                if des_y < screenshot.y:    # top
+                    des_y = screenshot.y
+                elif des_y + layout_info[3] > screenshot.y + screenshot.rect_height:    # bottom
+                    des_y = screenshot.y + screenshot.rect_height - layout_info[3]
+                screenshot.current_text_action.update_coord(des_x, des_y)
                 screenshot.draw_text_layout_flag = True
                 self.win.refresh()
             else:
                 for each, info in screenshot.text_action_info.items():
+                    if screenshot.text_drag_flag:   # has draged a text already
+                        break
                     if info[0] <= tx <= info[0]+info[2] and info[1] <= ty <= info[1]+info[3]:
                         screenshot.current_text_action = each
                         
@@ -417,7 +434,7 @@ class MotionProcess(BaseProcess):
                     screenshot.draw_text_layout_flag = True
                     self.win.set_cursor('drag')
                     self.win.refresh()
-                else:
+                elif not screenshot.text_drag_flag:     # drag text over, and not in text rectangle
                     screenshot.draw_text_layout_flag = False    
                     screenshot.current_text_action = None
                     self.win.set_cursor(screenshot.action)
