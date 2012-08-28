@@ -196,6 +196,10 @@ class TextAction(Action):
         ''' get color '''
         return self.color
 
+    def get_font_size(self):
+        '''get font size'''
+        return self.layout.get_font_description().get_size() / pango.SCALE
+
     #def get_fontname(self):
         #return self.fontname
     

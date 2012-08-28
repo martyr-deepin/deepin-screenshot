@@ -28,6 +28,7 @@ from dtk.ui.menu import Menu
 from collections import namedtuple
 from draw import *
 from constant import *
+from action import TextAction
 from lang import __
 from dtk.ui.entry import Entry
 from dtk.ui.utils import (cairo_state, color_hex_to_cairo,
@@ -121,7 +122,7 @@ class RootWindow():
             self._draw_magnifier(cr)
             self._draw_window_rectangle(cr)
         # action is not ACTION_WINDOW draw frame
-        if self.screenshot.action != ACTION_WINDOW and self.screenshot.rect_width:
+        if self.screenshot.action != ACTION_WINDOW:
             self._draw_frame(cr)
             self._draw_drag_point(cr)
             # draw size tip
@@ -159,15 +160,19 @@ class RootWindow():
         # double click
         (ex, ey) = self.get_event_coord(event)
         if event.button == 1 and event.type == gtk.gdk._2BUTTON_PRESS:
-            # edit text
+            # edit text, create a new TextView and don't draw text layout
             if self.screenshot.text_drag_flag:
                 current_action = self.screenshot.current_text_action
                 if current_action in self.screenshot.text_action_list:
                     self.screenshot.text_action_list.remove(current_action)
                 if current_action in self.screenshot.action_list:
                     self.screenshot.action_list.remove(current_action)
+                self.screenshot.draw_text_layout_flag = False   # don't draw text layout
                 self.show_text_window((current_action.start_x, current_action.start_y))
                 self.screenshot.text_window.set_text(current_action.get_content())
+                self.screenshot.text_window.set_font_size(current_action.get_font_size())
+                self.screenshot.text_window.adjust_size()
+                self.screenshot.colorbar.font_spin.set_value(self.screenshot.text_window.get_font_size())
                 self.refresh()
                 self.screenshot.text_window.queue_draw()
                 self.screenshot.colorbar.color_select.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.screenshot.action_color))
@@ -295,11 +300,11 @@ class RootWindow():
     
     def refresh(self):
         ''' refresh this window'''
-        #if self.screenshot.current_action or self.screenshot.current_text_action:
-            #self.draw_area.queue_draw_area(int(self.screenshot.x), int(self.screenshot.y),
-                #int(self.screenshot.rect_width), int(self.screenshot.rect_height))
-        #else:
-        self.draw_area.queue_draw()
+        if self.screenshot.action_list:
+            self.draw_area.queue_draw_area(int(self.screenshot.x), int(self.screenshot.y),
+                int(self.screenshot.rect_width), int(self.screenshot.rect_height))
+        else:
+            self.draw_area.queue_draw()
 
     def _draw_mask(self, cr):
         '''draw mask'''
@@ -550,13 +555,37 @@ class RootWindow():
         screenshot.show_text_window_flag = False
         screenshot.text_window.destroy()
 
+    def save_text_window(self):
+        '''save TextView text'''
+        screenshot = self.screenshot
+        content = screenshot.text_window.get_text()
+        if content != "":
+            if screenshot.text_modify_flag: # modify a text
+                screenshot.current_text_action.update(screenshot.action_color, screenshot.text_window.get_layout())
+                text_x = int(screenshot.text_window.allocation.x)
+                text_y = int(screenshot.text_window.allocation.y)
+                screenshot.current_text_action.update_coord(text_x, text_y)
+                screenshot.text_modify_flag = False
+                screenshot.text_action_list.append(screenshot.current_text_action)
+                screenshot.action_list.append(screenshot.current_text_action)
+            else:                           # new a text
+                textAction = TextAction(ACTION_TEXT, 15, screenshot.action_color, screenshot.text_window.get_layout())
+                allocation = screenshot.text_window.allocation
+                textAction.start_draw((allocation[0], allocation[1]))
+                screenshot.text_action_list.append(textAction)
+                screenshot.action_list.append(textAction)
+            self.hide_text_window()
+            self.refresh()
+        else:
+            self.hide_text_window()
+
     def __text_window_button_press(self, widget, event):
         ''' '''
         if event.button == 1:
             widget.drag_flag = True
             widget.drag_position = (event.x_root, event.y_root)
-            #self._drag_text_flag = True
-            #self._drop_position = (event.x, event.y)
+            widget.drag_origin = (widget.allocation.x, widget.allocation.y)
+            self.set_cursor(DRAG_INSIDE)
 
     def __text_window_button_release(self, widget, event):
         '''button release'''
@@ -564,29 +593,20 @@ class RootWindow():
             widget.drag_flag = False
             widget.drag_offset = (0, 0)
             widget.drag_position = (0, 0)
-
-            #self._drag_text_flag = False
-            #self._offset_x = self._ofset_y = 0
-            #self._drop_position = None
+            widget.drag_origin = (0, 0)
+            self.set_cursor(None)
 
     def __text_window__motion(self, widget, event):
         '''motion notify'''
         coord = widget.allocation
-        rect_x = self.screenshot.x + self.screenshot.width
-        rect_y = self.screenshot.y + self.screenshot.height
-        if widget.drag_flag and widget.drag_position:
+        rect_x = self.screenshot.x + self.screenshot.rect_width
+        rect_y = self.screenshot.y + self.screenshot.rect_height
+        if widget.drag_flag:
             offset_x = int(event.x_root - widget.drag_position[0])
             offset_y = int(event.y_root - widget.drag_position[1])
             widget.drag_offset = (offset_x, offset_y)
-            des_x = coord[0] + offset_x
-            des_y = coord[1] + offset_y
-            print "event:", event.x_root, event.y_root
-            print "position:", widget.drag_position
-            print "offset:", widget.drag_offset
-            print "des:", des_x, des_y
-            print "allocation:", coord
-            print "screen rect:", self.screenshot.x, self.screenshot.y
-            print '-' * 20
+            des_x = widget.drag_origin[0] + offset_x
+            des_y = widget.drag_origin[1] + offset_y
             if des_x + coord[2] > rect_x:
                 des_x = rect_x - coord[2]
             elif des_x < self.screenshot.x:
@@ -683,6 +703,7 @@ class TextView(Entry):
         self.drag_flag = False              # drag this
         self.drag_position = (0, 0)
         self.drag_offset = (0, 0)
+        self.drag_origin = (0, 0)
 
         self.set_text(content)
         self.adjust_size()
@@ -697,7 +718,11 @@ class TextView(Entry):
     def set_text(self, text):
         '''set text'''
         if not isinstance(text, unicode):
-            text = text.decode('utf-8')
+            try:
+                text = text.decode('utf-8')
+            except Exception, e:
+                pass
+        text = text.encode('utf-8')
         self.buffer.set_text(text)
         e = self.buffer.get_end_iter()
         insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
@@ -811,12 +836,6 @@ class TextView(Entry):
             cr.clip()
             # Create pangocairo context.
             context = pangocairo.CairoContext(cr)
-            # Set layout.
-            #layout = context.create_layout()
-            #layout.set_font_description(self.font)
-            #layout.set_width(self.__layout_width)
-            ##layout.set_wrap(pango.WRAP_WORD_CHAR)
-            
             # Move text.
             cr.move_to(draw_x, draw_y)
             # Draw text.
@@ -876,20 +895,32 @@ class TextView(Entry):
         ''' commit entry '''
         if not self.is_editable():
             return
-        layout = self.__layout.copy()
-        layout.set_text(input_text)
-        text_size = layout.get_pixel_size()
-        end_index = self.iter_to_index(self.buffer.get_end_iter())
-        pos = self.index_to_pos(end_index)
-        if self.allocation.x + pos[0] + pos[2] + text_size[0] >= self.screenshot.x + self.screenshot.rect_width:   # right
-            if self.allocation.y + pos[1] + pos[3] + text_size[1] >= self.screenshot.y + self.screenshot.rect_height:  # bottom
-                return                          # to right_bottom ,can't input
         if not isinstance(input_text, unicode):
-            input_text = input_text.decode('utf-8')
+            try:
+                input_text = input_text.decode('utf-8')
+            except Exception, e:
+                pass
+        input_text = input_text.encode('utf-8')
+        layout = self.__layout.copy()
+        if self.buffer.get_has_selection():
+            bounds = self.buffer.get_bounds()
+            left = self.buffer.get_text(self.buffer.get_start_iter(), bounds[0]).__len__()
+            right = self.buffer.get_text(self.buffer.get_start_iter(), bounds[1]).__len__()
+            content = layout.get_text()
+            layout.set_text(content[0:left] + input_text + content[right:])
+        else:
+            layout.set_text(layout.get_text() + input_text)
+        text_size = layout.get_pixel_size()
+        # out of the area, can't insert
+        #if self.allocation.x + text_size[0] > self.screenshot.x + self.screenshot.rect_width \
+        if self.allocation.y + text_size[1] >self.screenshot.y + self.screenshot.rect_height:
+            return
         if self.buffer.get_has_selection():     # if has select, delete it
             self.buffer.delete_selection(True, self.is_editable())
         self.buffer.insert_at_cursor(input_text)
+        self.set_width(int(self.screenshot.rect_width + self.screenshot.x - self.allocation.x))
         self.adjust_size()
+        self.screenshot.window.refresh()
         self.queue_draw()
 
     def backspace(self):
@@ -947,7 +978,12 @@ class TextView(Entry):
         '''
         Paste text to entry from clipboard.
         '''
-        self.buffer.paste_clipboard(gtk.Clipboard(), None, self.is_editable())
+        clipboard = gtk.Clipboard()
+        input_text = clipboard.wait_for_text()
+        if input_text is None:
+            return
+        self.commit_entry(input_text)
+        #self.buffer.paste_clipboard(gtk.Clipboard(), None, self.is_editable())
     
     def __paste_done(self, widget, clipboard):
         ''' buffer paste done'''
@@ -1141,12 +1177,13 @@ class TextView(Entry):
     def xy_to_iter(self, x, y):
         '''from xy get iter'''
         index = self.__layout.xy_to_index(x*pango.SCALE, y*pango.SCALE)
-        pos = self.__layout.index_to_pos(index[0])
-        current_line = pos[1] / pos[3]
-        line = self.__layout.get_line(current_line)
+        layout_iter = self.__layout.get_iter()
+        offset = 0
+        while layout_iter.get_index() != index[0]:
+            layout_iter.next_char()
+            offset += 1
         insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
-        insert.set_line(current_line)
-        insert.set_line_index(index[0] - line.start_index)
+        insert.set_offset(offset)
         return insert
 
     def handle_button_press(self, widget, event):

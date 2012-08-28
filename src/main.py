@@ -208,30 +208,6 @@ class DeepinScreenshot():
         '''Get desktop snapshot.'''
         return get_screenshot_pixbuf()
         
-    def setCursor(self, position):
-        '''Set cursor.'''
-        #print "in cusor position:", position
-        if position == DRAG_INSIDE:         # TODO 
-            setCursor(self.window, gtk.gdk.FLEUR)
-        elif position == DRAG_OUTSIDE:
-            setCursor(self.window, gtk.gdk.TOP_LEFT_ARROW)
-        elif position == DRAG_TOP_LEFT_CORNER:
-            self.window.window.set_cursor(gtk.gdk.Cursor(gtk.gdk.TOP_LEFT_CORNER))
-        elif position == DRAG_TOP_RIGHT_CORNER:
-            setCursor(self.window, gtk.gdk.TOP_RIGHT_CORNER)
-        elif position == DRAG_BOTTOM_LEFT_CORNER:
-            setCursor(self.window, gtk.gdk.BOTTOM_LEFT_CORNER)
-        elif position == DRAG_BOTTOM_RIGHT_CORNER:
-            setCursor(self.window, gtk.gdk.BOTTOM_RIGHT_CORNER)
-        elif position == DRAG_TOP_SIDE:
-            setCursor(self.window, gtk.gdk.TOP_SIDE)
-        elif position == DRAG_BOTTOM_SIDE:
-            setCursor(self.window, gtk.gdk.BOTTOM_SIDE)
-        elif position == DRAG_LEFT_SIDE:
-            setCursor(self.window, gtk.gdk.LEFT_SIDE)
-        elif position == DRAG_RIGHT_SIDE:
-            setCursor(self.window, gtk.gdk.RIGHT_SIDE)
-        
     def undo(self, widget=None):
         '''Undo'''
         if self.show_text_window_flag:
@@ -256,9 +232,13 @@ class DeepinScreenshot():
             self.window.hide_colorbar()
         self.window.refresh()
         
-    def getCurrentCoord(self, widget):
-        '''get Current Coord '''
-        (self.currentX, self.currentY) = widget.window.get_pointer()[:2] 
+    #def getCurrentCoord(self, widget):
+        #'''get Current Coord '''
+        #(self.currentX, self.currentY) = widget.window.get_pointer()[:2] 
+
+    def get_rectangel(self):
+        '''get selecr rectangle'''
+        return (self.x, self.y, self.rect_width, self.rect_height)
     
 def main(name=""):
     ''' main function '''

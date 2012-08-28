@@ -155,25 +155,7 @@ class ButtonPressProcess(BaseProcess):
     def action_text(self, screenshot, event):
         '''Press ACTION_TEXT '''
         if screenshot.show_text_window_flag:    # complete input text
-            content = screenshot.text_window.get_text()
-            if content != "":
-                if screenshot.text_modify_flag: # modify a text
-                    screenshot.current_text_action.update(screenshot.action_color, screenshot.text_window.get_layout())
-                    screenshot.text_modify_flag = False
-                    screenshot.text_action_list.append(screenshot.current_text_action)
-                    screenshot.action_list.append(screenshot.current_text_action)
-                else:                           # new a text
-                    textAction = TextAction(ACTION_TEXT, 15, screenshot.action_color, screenshot.text_window.get_layout())
-                    allocation = screenshot.text_window.allocation
-                    textAction.start_draw((allocation[0], allocation[1]))
-                    screenshot.text_action_list.append(textAction)
-                    screenshot.action_list.append(textAction)
-                self.win.hide_text_window()
-                #screenshot.toolbar.set_all_inactive()
-                self.win.refresh()
-            else:
-                self.win.hide_text_window()
-                #screenshot.toolbar.set_all_inactive()
+            self.win.save_text_window()
         else:   # create a new text
             self.win.show_text_window(self.win.get_event_coord(event))
 
@@ -200,10 +182,11 @@ class ButtonReleaseProcess(BaseProcess):
         '''Release process button release event'''
         if self.event is None:
             return
-        self.screenshot.text_drag_flag = False
-        self.screenshot.drag_flag = False
-        self.func_map[self.screenshot.action](self.screenshot, self.event)
-        self.adjust(self.screenshot, self.event)
+        if self.event.button == BUTTON_EVENT_LEFT:
+            self.screenshot.text_drag_flag = False
+            self.screenshot.drag_flag = False
+            self.func_map[self.screenshot.action](self.screenshot, self.event)
+            self.adjust(self.screenshot, self.event)
 
     def action_window(self, screenshot, event):
         '''Release ACTION_WINDOW'''
@@ -230,6 +213,10 @@ class ButtonReleaseProcess(BaseProcess):
         else:
             screenshot.rect_height = fabs(ey - screenshot.y)
             screenshot.y = ey
+        if screenshot.rect_width < 2:
+            screenshot.rect_width = 2
+        if screenshot.rect_height < 2:
+            screenshot.rect_height = 2
 
         self.win.refresh()
         self.win.show_toolbar()
@@ -237,7 +224,11 @@ class ButtonReleaseProcess(BaseProcess):
 
     def action_select(self, screenshot, event):
         '''Release ACTION_SELECT '''
-        pass
+        if screenshot.rect_width < 2:
+            screenshot.rect_width = 2
+        if screenshot.rect_height < 2:
+            screenshot.rect_height = 2
+        self.win.refresh()
     
     def action_rectangle(self, screenshot, event):
         '''Release ACTION_RECTANGLE '''

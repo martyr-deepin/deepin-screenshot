@@ -154,6 +154,9 @@ class Toolbar():
             if each == widget:
                 continue
             each.set_active(False)
+        # save current input text
+        if self.screenshot.show_text_window_flag:
+            self.win.save_text_window()
 
     def _toggle_button_toggled(self, widget, action):
         ''' toggle button toggled'''
