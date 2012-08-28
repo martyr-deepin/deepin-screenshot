@@ -137,6 +137,9 @@ class Toolbar():
         ''' button clicked '''
         if self.screenshot is None:
             return
+        # save current input text
+        if self.screenshot.show_text_window_flag:
+            self.win.save_text_window()
         self._button_clicked_cb[name](widget)
 
     def _toggle_button_released(self, widget):
@@ -268,9 +271,11 @@ class Colorbar():
         vbox.pack_start(self.window.window_shadow)
         #self.window.window_frame.add(self.box)
 
+        self.__size_button_dict = {}
         self.create_size_button("small", 2)
         self.create_size_button("normal", 3)
         self.create_size_button("big", 5)
+        self.create_size_button("fill", RECTANGLE_ELLIPSE_FILL_SIZE)
         self._set_size_button_state("small", True)
 
         self.size_align = gtk.Alignment()
@@ -384,6 +389,7 @@ class Colorbar():
         #button.connect("toggled", self._size_button_toggled, name)
         button.connect("released", self._size_button_released)
         self.size_box.pack_start(button)
+        self.__size_button_dict[name] = button
 
     def _select_font_event(self, widget, event, data=None):
         ''' select font '''
@@ -488,23 +494,35 @@ class Colorbar():
 
     def _set_size_button_state(self, name, state):
         '''set size button state'''
-        for each in self.size_box.get_children():
-            if each.get_name() == name:
-                each.set_active(state)
+        for each in self.__size_button_dict.keys():
+            if each == name:
+                #each.set_active(state)
+                self.__size_button_dict[name].set_active(state)
         
-    
     def show(self):
         ''' show the colorbar'''
+        # action is text, show font size set
         if self.screenshot.action == ACTION_TEXT:
             if self.size_align in self.dynamic_box.get_children():
                 self.dynamic_box.remove(self.size_align)
             if self.font_box not in self.dynamic_box.get_children():
                 self.dynamic_box.add(self.font_box)
+        # show draw size
         else:
             if self.font_box in self.dynamic_box.get_children():
                 self.dynamic_box.remove(self.font_box)
             if self.size_align not in self.dynamic_box.get_children():
                 self.dynamic_box.add(self.size_align)
+            # actin is rectangle or ellispe, show fill button
+            if self.screenshot.action in [ACTION_RECTANGLE, ACTION_ELLIPSE]:
+                if self.__size_button_dict['fill'] not in self.size_box.get_children():
+                    self.size_box.pack_start(self.__size_button_dict['fill'])
+            else:
+                if self.__size_button_dict['fill'] in self.size_box.get_children():
+                    if self.__size_button_dict['fill'].get_active():
+                        self.__size_button_dict['small'].pressed()
+                        self.__size_button_dict['small'].released()
+                    self.size_box.remove(self.__size_button_dict['fill'])
         if not self.window.get_visible():
             self.window.show_window()
 

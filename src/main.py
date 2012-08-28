@@ -219,7 +219,8 @@ class DeepinScreenshot():
             tempAction = self.action_list.pop()
             if tempAction.get_action_type() == ACTION_TEXT:
                 self.text_action_list.pop()
-                del self.text_action_info[tempAction]
+                if tempAction in self.text_action_info:
+                    del self.text_action_info[tempAction]
         else:       # back to select area
             self.window.set_cursor(ACTION_WINDOW)
             self.action = ACTION_WINDOW

@@ -933,6 +933,7 @@ class TextView(Entry):
             self.buffer.backspace(self.buffer.get_iter_at_mark(self.buffer.get_insert()),
                 True, self.is_editable())
         self.adjust_size()
+        self.screenshot.window.refresh()
         self.queue_draw()
 
     def delete(self):
@@ -945,6 +946,7 @@ class TextView(Entry):
         if self.buffer.get_has_selection():
             self.buffer.delete_selection(True, self.is_editable())
             self.adjust_size()
+            self.screenshot.window.refresh()
             self.queue_draw()
         else:
             self.move_to_right()
