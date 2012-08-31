@@ -968,6 +968,7 @@ class TextView(Entry):
         '''
         self.buffer.cut_clipboard(gtk.Clipboard(), self.is_editable())
         self.adjust_size()
+        self.screenshot.window.refresh()
         self.queue_draw()
 
     def copy_to_clipboard(self):

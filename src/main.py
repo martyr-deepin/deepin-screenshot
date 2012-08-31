@@ -157,16 +157,21 @@ class DeepinScreenshot():
                 #pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, int(self.rect_width), int(self.rect_height))
                 #pixbuf.get_from_drawable(self.window.draw_area.get_window(), self.window.draw_area.get_window().get_colormap(),
                     #int(self.x), int(self.y), 0, 0, int(self.rect_width), int(self.rect_height))
-                clipboard = gtk.clipboard_get()
-                clipboard.clear()
+                #clipboard = gtk.clipboard_get(selection="CLIPBOARD")
+                clipboard = gtk.Clipboard(selection="CLIPBOARD")
+                #clipboard.clear()
                 clipboard.set_image(pixbuf)
+                clipboard.store()
                 tipContent = __("Tip save to clipboard")
             else:
                 # Otherwise save to local file.
                 tipContent = __("Tip save to file")
-                #self.make_pic_file(self.desktop_background.subpixbuf(int(self.x), int(self.y), int(self.rect_width), int(self.rect_height)), filename)
-                surface.write_to_png(filename)
-                #pixbuf.save(filename, 'png')
+                try:
+                    #self.make_pic_file(self.desktop_background.subpixbuf(int(self.x), int(self.y), int(self.rect_width), int(self.rect_height)), filename)
+                    surface.write_to_png(filename)
+                    #pixbuf.save(filename, 'png')
+                except Exception, e:
+                    tipContent = __(str(e))
             
         # Exit
         self.window.quit()
