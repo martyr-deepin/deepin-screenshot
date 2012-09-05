@@ -210,7 +210,8 @@ class RootWindow():
     
     def quit(self, widget=None):
         ''' window destroy'''
-        gtk.main_quit()
+        if not self.screenshot.share_to_flag:
+            gtk.main_quit()
         pass
     
     def update_magnifier(self, x, y, size='', tip=__("Tip Drag"), rgb="RGB:(255,255,255)"):

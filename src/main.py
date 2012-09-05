@@ -71,6 +71,7 @@ class DeepinScreenshot():
         self.text_drag_flag = False
         self.text_modify_flag = False
         self.draw_text_layout_flag = False
+        self.share_to_flag = False
         self.textDragOffsetX = self.textDragOffsetY = 0
         self.saveFiletype = 'png'
         self.saveFilename = save_file
@@ -172,9 +173,14 @@ class DeepinScreenshot():
                     #pixbuf.save(filename, 'png')
                 except Exception, e:
                     tipContent = __(str(e))
-            
-        # Exit
-        self.window.quit()
+
+        if self.share_to_flag:
+            self.window.window.destroy()
+            import share
+            share.ShareToWeibo(filename).show()
+        else:
+            # Exit
+            self.window.quit()
         
         # tipWindow
         cmd = ('python', 'tipswindow.py', tipContent)
@@ -238,10 +244,6 @@ class DeepinScreenshot():
             self.window.hide_colorbar()
         self.window.refresh()
         
-    #def getCurrentCoord(self, widget):
-        #'''get Current Coord '''
-        #(self.currentX, self.currentY) = widget.window.get_pointer()[:2] 
-
     def get_rectangel(self):
         '''get selecr rectangle'''
         return (self.x, self.y, self.rect_width, self.rect_height)

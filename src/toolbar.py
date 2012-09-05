@@ -92,13 +92,15 @@ class Toolbar():
 
         self.create_button("cancel", __("Tip cancel"))
         self.create_button("finish", __("Tip finish"))
+        self.create_button("share", __("Tip share"))
 
         if self.screenshot:
             self._button_clicked_cb = {
                 'undo': self.screenshot.undo,
                 'save': self.save_to_file,
                 'cancel': self.win.quit,
-                'finish': self.screenshot.save_snapshot}
+                'finish': self.screenshot.save_snapshot,
+                'share': self.share_picture}
 
     def create_toggle_button(self, name, action, text=''):
         ''' make a togglebutton '''
@@ -185,6 +187,11 @@ class Toolbar():
                 each.set_active(state)
                 break
     
+    def share_picture(self, widget):
+        '''share picture'''
+        self.screenshot.share_to_flag = True
+        self.save_to_file()
+
     def save_to_file(self, widget=None):
         ''' save to file '''
         self.win.hide_colorbar()
