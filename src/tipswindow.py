@@ -27,8 +27,10 @@ import gtk
 from draw import *
 import sys
 import glib
-from window import SCREEN_WIDTH
+import window
 
+window.get_current_monitor_info()
+SCREEN_WIDTH = window.SCREEN_WIDTH
 class TipWindow():
     ''' tip window'''
     def __init__(self, content):

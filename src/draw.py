@@ -27,7 +27,6 @@ from constant import DEFAULT_FONT
 import cairo
 import gtk
 import pygtk
-from window import SCREEN_WIDTH, SCREEN_HEIGHT
 from dtk.ui.draw import render_text as dtk_render_text
 from pango import ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT
 
@@ -212,44 +211,3 @@ def draw_alpha_rectangle(cr, x, y, width, height):
     #cr.stroke()
     cr.set_source_rgba(0, 0.7, 1.0, 0.4)
     cr.fill()
-    
-#def drawTitlebar(widget, name):
-    #''' draw title bar '''
-    #widget.set_size_request(-1,
-                             #appTheme.getDynamicPixbuf('%s_bg_middle.png' % name).getPixbuf().get_height())
-    #widget.connect('expose-event', 
-                   #lambda w, e: drawTitlebarOnExpose(
-                       #w, e,
-                       #appTheme.getDynamicPixbuf('%s_bg_left.png' % name),
-                       #appTheme.getDynamicPixbuf('%s_bg_middle.png' % name),
-                       #appTheme.getDynamicPixbuf('%s_bg_right.png' % name)))
-
-#def drawTitlebarOnExpose(widget, event, bgLeftDPixbuf,
-                         #bgMiddleDPixbuf, bgRightDPixbuf):
-    #''' draw titlebar'''
-    #bgLeftPixbuf = bgLeftDPixbuf.getPixbuf()
-    #bgMiddlePixbuf = bgMiddleDPixbuf.getPixbuf()
-    #bgRightPixbuf = bgRightDPixbuf.getPixbuf()
-    
-    #rect = widget.allocation
-    
-    ## Get cairo object
-    #cr = widget.window.cairo_create()
-    
-    ## Draw background
-    #mOffsetX = rect.x + bgLeftPixbuf.get_width()
-    #mWidth =  rect.width - bgLeftPixbuf.get_width() - bgRightPixbuf.get_width()
-    #rOffsetX = mOffsetX + mWidth
-    #bgLeftPixbuf = bgLeftPixbuf.scale_simple(bgLeftPixbuf.get_width(), rect.height, gtk.gdk.INTERP_BILINEAR)
-    #bgRightPixbuf = bgRightPixbuf.scale_simple(bgRightPixbuf.get_width(), rect.height, gtk.gdk.INTERP_BILINEAR)
-    #drawPixbuf(cr, bgLeftPixbuf, rect.x, rect.y)
-    #bmPixbuf = bgMiddlePixbuf.scale_simple(mWidth, rect.height, gtk.gdk.INTERP_BILINEAR)
-    #drawPixbuf(cr, bmPixbuf, mOffsetX, rect.y)
-    #drawPixbuf(cr, bgRightPixbuf, rOffsetX, rect.y)
-
-    #if widget.get_child() != None:
-        #widget.propagate_expose(widget.get_child(), event)
-    
-    #return True
-
-

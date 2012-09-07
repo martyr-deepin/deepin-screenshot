@@ -34,14 +34,11 @@ from draw import *
 from constant import *
 from window import *
 from lang import __
-#from Xlib import X
-from widget import RootWindow, RightMenu, TextView
+from widget import RootWindow, RightMenu 
 from toolbar import Colorbar, Toolbar
 
-import time
 import pygtk
 import subprocess
-#import Image
 
 pygtk.require('2.0')
 import gtk
@@ -52,17 +49,19 @@ class DeepinScreenshot():
     def __init__(self, save_file=""):
         '''Init Main screenshot.'''
         # Init.
-        self.dis = DISPLAY
-
         self.action = ACTION_WINDOW
+        self.screenshot_window_info = get_screenshot_window_info()
         self.width = SCREEN_WIDTH
         self.height = SCREEN_HEIGHT
+        self.monitor_x = SCREEN_X
+        self.monitor_y = SCREEN_Y
         self.x = self.y = self.rect_width = self.rect_height = 0
-        self.buttonToggle = None
-        
+
+        #self.buttonToggle = None
         self.drag_position = None
         self.last_drag_position = None
         self.dragStartX = self.dragStartY = self.dragStartOffsetX = self.dragStartOffsetY = 0
+        self.textDragOffsetX = self.textDragOffsetY = 0
         
         self.drag_flag = False
         self.show_toolbar_flag = False
@@ -72,24 +71,24 @@ class DeepinScreenshot():
         self.text_modify_flag = False
         self.draw_text_layout_flag = False
         self.share_to_flag = False
-        self.textDragOffsetX = self.textDragOffsetY = 0
+
         self.saveFiletype = 'png'
         self.saveFilename = save_file
         
-        self.toolbarOffsetX = 10
-        self.toolbarOffsetY = 10
+        # make sure the toolbar in this monitor
+        self.toolbarOffsetX = self.monitor_x + 10
+        self.toolbarOffsetY = self.monitor_y + 10
+        #self.toolbarOffsetX = 10
+        #self.toolbarOffsetY = 10
         #self.toolbar_height = 50
         
-        self.action_size = 2
+        self.action_size = ACTION_SIZE_SMALL
         self.action_color = "#FF0000"
         self.font_name = "Sans"
         self.font_size = 10
         
         # default window 
-        self.screenshot_window_info = get_screenshot_window_info()
-        #self.screenshot_window_info = SCREENSHOT_WINDOW_INFO
-        #print self.screenshot_window_info
-        self.window_flag = True
+        self.window_flag = True         # has not selected area or window
         
         # Init action list.
         self.current_action = None
@@ -103,8 +102,6 @@ class DeepinScreenshot():
         self.desktop_background_pixels= self.desktop_background.get_pixels()
         self.desktop_background_n_channels = self.desktop_background.get_n_channels()
         self.desktop_background_rowstride = self.desktop_background.get_rowstride()
-        #self.desktop_background_img = Image.fromstring("RGB", (self.width, self.height),
-            #self.desktop_background_pixels, "raw", "RGB")
         
         # Init window.
         self.window = RootWindow(self)
@@ -142,8 +139,9 @@ class DeepinScreenshot():
             #pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, int(self.rect_width), int(self.rect_height))
             #pixbuf.get_from_drawable(pixmap, pixmap.get_colormap(), 0, 0, 0, 0, int(self.rect_width), int(self.rect_height))
 
-            surface = self.make_pic_file(self.desktop_background.subpixbuf(int(self.x), int(self.y), int(self.rect_width), int(self.rect_height)), filename)
-            if filename == None:
+            surface = self.make_pic_file(
+                self.desktop_background.subpixbuf(*self.get_rectangel_in_monitor()))
+            if filename is None:
                 # Save snapshot to clipboard if filename is None.
                 import StringIO
                 fp = StringIO.StringIO()
@@ -155,12 +153,7 @@ class DeepinScreenshot():
                 pixbuf = loader.get_pixbuf()
                 loader.close()
 
-                #pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, int(self.rect_width), int(self.rect_height))
-                #pixbuf.get_from_drawable(self.window.draw_area.get_window(), self.window.draw_area.get_window().get_colormap(),
-                    #int(self.x), int(self.y), 0, 0, int(self.rect_width), int(self.rect_height))
-                #clipboard = gtk.clipboard_get(selection="CLIPBOARD")
                 clipboard = gtk.Clipboard(selection="CLIPBOARD")
-                #clipboard.clear()
                 clipboard.set_image(pixbuf)
                 clipboard.store()
                 tipContent = __("Tip save to clipboard")
@@ -168,11 +161,9 @@ class DeepinScreenshot():
                 # Otherwise save to local file.
                 tipContent = __("Tip save to file")
                 try:
-                    #self.make_pic_file(self.desktop_background.subpixbuf(int(self.x), int(self.y), int(self.rect_width), int(self.rect_height)), filename)
                     surface.write_to_png(filename)
-                    #pixbuf.save(filename, 'png')
                 except Exception, e:
-                    tipContent = __(str(e))
+                    tipContent = ("failed:"+str(e))
 
         if self.share_to_flag:
             self.window.window.destroy()
@@ -183,10 +174,14 @@ class DeepinScreenshot():
             self.window.quit()
         
         # tipWindow
-        cmd = ('python', 'tipswindow.py', tipContent)
-        subprocess.Popen(cmd)
+        try:
+            cmd = ('python2', 'tipswindow.py', tipContent)
+            subprocess.Popen(cmd)
+        except OSError:    
+            cmd = ('python', 'tipswindow.py', tipContent)
+            subprocess.Popen(cmd)
 
-    def make_pic_file(self, pixbuf, filename):
+    def make_pic_file(self, pixbuf):
         ''' use cairo make a picture file '''
         surface = cairo.ImageSurface(cairo.FORMAT_RGB24, pixbuf.get_width(), pixbuf.get_height())
         cr = cairo.Context(surface)
@@ -212,9 +207,7 @@ class DeepinScreenshot():
             if each is not None:
                 each.expose(cr)
         return surface
-        #surface.write_to_png(filename)
 
-        
     def get_desktop_snapshot(self):
         '''Get desktop snapshot.'''
         return get_screenshot_pixbuf()
@@ -222,11 +215,11 @@ class DeepinScreenshot():
     def undo(self, widget=None):
         '''Undo'''
         if self.show_text_window_flag:
-           self.window.hide_text_window()
+            self.window.hide_text_window()
         if self.current_text_action:
             self.current_text_action = None
 
-        if self.action_list:        # undo the last action
+        if self.action_list:        # undo the previous action
             tempAction = self.action_list.pop()
             if tempAction.get_action_type() == ACTION_TEXT:
                 self.text_action_list.pop()
@@ -245,8 +238,17 @@ class DeepinScreenshot():
         self.window.refresh()
         
     def get_rectangel(self):
-        '''get selecr rectangle'''
-        return (self.x, self.y, self.rect_width, self.rect_height)
+        '''get select rectangle'''
+        return (int(self.x), int(self.y), int(self.rect_width), int(self.rect_height))
+    
+    def get_rectangel_in_monitor(self):
+        '''get select rectangle in the monitor'''
+        return (int(self.x-self.monitor_x), int(self.y-self.monitor_y),
+                int(self.rect_width), int(self.rect_height))
+    
+    def get_monitor_info(self):
+        '''get monitor info'''
+        return (self.monitor_x, self.monitor_y, self.width, self.height)
     
 def main(name=""):
     ''' main function '''

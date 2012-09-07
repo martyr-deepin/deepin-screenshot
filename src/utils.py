@@ -91,7 +91,8 @@ def make_menu_item(name, callback, data=None):
     return item
 
 def get_format_time():
-    return time.strftime("%M%S", time.localtime())
+    #return time.strftime("%M%S", time.localtime())
+    return time.strftime("%Y%m%d%H%M%S", time.localtime())
 
 def moveWindow(widget, event, window):
     ''' Move Window.'''

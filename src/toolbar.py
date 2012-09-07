@@ -34,6 +34,7 @@ from lang import __
 import utils
 import gtk
 from constant import *
+from _share.config import OperateConfig
 
 
 class Toolbar():
@@ -41,6 +42,7 @@ class Toolbar():
     def __init__(self, parent=None, screenshot=None):
         self.screenshot = screenshot
         self.win = screenshot.window
+        self.__config = OperateConfig()
 
         toolbar_padding_x = 15
         toolbar_padding_y = 5
@@ -208,11 +210,16 @@ class Toolbar():
         dialog.set_default_response(gtk.RESPONSE_ACCEPT)
         dialog.set_position(gtk.WIN_POS_MOUSE)
         dialog.set_local_only(True)
-        dialog.set_current_folder(utils.get_pictures_dir())
-        dialog.set_current_name("%s%s.%s" % (DEFAULT_FILENAME, utils.get_format_time(), "png"))
+        last_folder = self.__config.get("save", "folder")
+        if last_folder:
+            dialog.set_current_folder(last_folder)
+        else:
+            dialog.set_current_folder(utils.get_pictures_dir())
+        dialog.set_current_name("%s%s.%s" % (__(DEFAULT_FILENAME), utils.get_format_time(), "png"))
         response = dialog.run()
         filename = dialog.get_filename()
         if response == gtk.RESPONSE_ACCEPT:
+            self.__config.set("save", folder=dialog.get_current_folder())
             self._save_to_file_cb(filename)
         else:
             self._save_to_file_cancel(filename)
@@ -279,10 +286,10 @@ class Colorbar():
         #self.window.window_frame.add(self.box)
 
         self.__size_button_dict = {}
-        self.create_size_button("small", 2)
-        self.create_size_button("normal", 3)
-        self.create_size_button("big", 5)
-        self.create_size_button("fill", RECTANGLE_ELLIPSE_FILL_SIZE)
+        self.create_size_button("small", ACTION_SIZE_SMALL)
+        self.create_size_button("normal", ACTION_SIZE_NORMAL)
+        self.create_size_button("big", ACTION_SIZE_BIG)
+        self.create_size_button("fill", ACTION_SIZE_RECTANGLE_ELLIPSE_FILL)
         self._set_size_button_state("small", True)
 
         self.size_align = gtk.Alignment()

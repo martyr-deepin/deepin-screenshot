@@ -21,8 +21,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from theme import theme_cursor, app_theme_get_dynamic_pixbuf
-from dtk.ui.window import Window
-from dtk.ui.scrolled_window import ScrolledWindow 
 from dtk.ui.keymap import get_keyevent_name
 from dtk.ui.menu import Menu
 from collections import namedtuple
@@ -43,19 +41,19 @@ import gobject
 DEFAULT_FONT = dtk_constant.DEFAULT_FONT
 DEFAULT_FONT_SIZE = dtk_constant.DEFAULT_FONT_SIZE
 
-
 Magnifier = namedtuple('Magnifier', 'x y size_content tip rgb')
 
 class RootWindow():
     ''' background window'''
-    def __init__(self, screenshot=None):
+    def __init__(self, screenshot):
         self.screenshot = screenshot
         self.frame_border = 2
         self.drag_point_radius = 4
         self.__frame_color = (0.0, 0.68, 1.0)
 
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-        #self.window.set_size_request(SCREEN_WIDTH, SCREEN_HEIGHT)
+        # move window to current monitor
+        self.window.move(self.screenshot.monitor_x, self.screenshot.monitor_y)
         self.window.fullscreen()
         self.window.set_icon_from_file("../theme/logo/deepin-screenshot.ico")
         self.window.set_keep_above(True)
@@ -66,8 +64,6 @@ class RootWindow():
         self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
         self.window.add_events(gtk.gdk.BUTTON_RELEASE_MASK)
         self.window.connect("destroy", self.quit)
-        #self.window.connect("expose-event", lambda w, e: self.getCurrentCoord(w))   # 获取当前坐标
-        #self.window.connect("expose-event", self._expose_event)
         self.window.connect("button-press-event", self._button_press_event)
         
         self.window.connect("button-press-event", self._button_double_clicked)
@@ -126,13 +122,13 @@ class RootWindow():
             self._draw_frame(cr)
             self._draw_drag_point(cr)
             # draw size tip
-            if self.screenshot.y - 35 > 0:
+            if self.screenshot.y - 35 > self.screenshot.monitor_y:  # convert coord
                 draw_round_text_rectangle(cr, self.screenshot.x + 5, self.screenshot.y - 35,
-                    85, 30, 7,
+                    90, 30, 7,
                     '%d x %d' % (fabs(self.screenshot.rect_width), fabs(self.screenshot.rect_height)), 0.7)
             elif self.screenshot.action in [None, ACTION_SELECT, ACTION_WINDOW, ACTION_INIT]:
                 draw_round_text_rectangle(cr, self.screenshot.x + 5 , self.screenshot.y + 5 ,
-                    85, 30, 7,
+                    90, 30, 7,
                     '%d x %d' % (fabs(self.screenshot.rect_width), fabs(self.screenshot.rect_height)), 0.7)
         # update text action info
         for each_text_action in self.screenshot.text_action_list:
@@ -141,11 +137,6 @@ class RootWindow():
         if self.screenshot.draw_text_layout_flag and self.screenshot.current_text_action:
             draw_alpha_rectangle(cr, *self.screenshot.current_text_action.get_layout_info())
 
-    def _expose_event(self, widget, event):
-        ''' expose '''
-        if self.screenshot is None:
-            return False
-    
     def _button_press_event(self, widget, event):
         ''' button press '''
         if self.screenshot is None:
@@ -160,9 +151,10 @@ class RootWindow():
         # double click
         (ex, ey) = self.get_event_coord(event)
         if event.button == 1 and event.type == gtk.gdk._2BUTTON_PRESS:
-            # edit text, create a new TextView and don't draw text layout
+            # edit text, create a new TextView
             if self.screenshot.text_drag_flag:
                 current_action = self.screenshot.current_text_action
+                # don't draw this  text action
                 if current_action in self.screenshot.text_action_list:
                     self.screenshot.text_action_list.remove(current_action)
                 if current_action in self.screenshot.action_list:
@@ -210,8 +202,7 @@ class RootWindow():
     
     def quit(self, widget=None):
         ''' window destroy'''
-        if not self.screenshot.share_to_flag:
-            gtk.main_quit()
+        gtk.main_quit()
         pass
     
     def update_magnifier(self, x, y, size='', tip=__("Tip Drag"), rgb="RGB:(255,255,255)"):
@@ -220,6 +211,8 @@ class RootWindow():
 
     def _draw_magnifier(self, cr):
         ''' draw the magnifier'''
+        screen_width = self.screenshot.width
+        screen_height = self.screenshot.height
         #cr = self._cr
         mag_width = pixbuf_width = 30
         mag_height = pixbuf_height = 20
@@ -227,11 +220,12 @@ class RootWindow():
         y = self.magnifier.y
         position = 0
 
-        if SCREEN_HEIGHT - y < 168:
+        # the magnifier offset pos for pointor
+        if screen_height - y < 168:
             offset_y = -34
         else:
             offset_y = 8
-        if SCREEN_WIDTH - x < 142:
+        if screen_width - x < 142:
             offset_x = -33
         else:
             offset_x = 3
@@ -242,18 +236,18 @@ class RootWindow():
             position |= MAGNIFIER_POS_LEFT
             pixbuf_width += src_x
             src_x = 0
-        elif src_x > SCREEN_WIDTH - pixbuf_width:   # position RIGHT
+        elif src_x > screen_width - pixbuf_width:   # position RIGHT
             position |= MAGNIFIER_POS_RIGHT
-            pixbuf_width = SCREEN_WIDTH - src_x
+            pixbuf_width = screen_width - src_x
         else:
             src_x = fabs(src_x)                     # position middle
         if src_y < 0:                               # position TOP
             position |= MAGNIFIER_POS_TOP
             pixbuf_height += src_y
             src_y = 0
-        elif src_y > SCREEN_HEIGHT- pixbuf_height:  # position BOTTOM
+        elif src_y > screen_height - pixbuf_height:  # position BOTTOM
             position |= MAGNIFIER_POS_BOTTOM
-            pixbuf_height = SCREEN_HEIGHT - src_y
+            pixbuf_height = screen_height - src_y
         else:
             src_y = fabs(src_y)                     # position middle
         pixbuf = self.screenshot.desktop_background.subpixbuf(
@@ -261,8 +255,10 @@ class RootWindow():
         
         origin_x = offset_x + x
         origin_y = offset_y + y
-        if position & MAGNIFIER_POS_LEFT: origin_x += (mag_width - pixbuf_width)
-        if position & MAGNIFIER_POS_TOP: origin_y += (mag_height - pixbuf_height)
+        if position & MAGNIFIER_POS_LEFT:
+            origin_x += (mag_width - pixbuf_width)
+        if position & MAGNIFIER_POS_TOP:
+            origin_y += (mag_height - pixbuf_height)
         #set zoom scale and translate
         cr.save()
         cr.translate(0 - 3 * x, 0 - 3 * y)
@@ -302,8 +298,7 @@ class RootWindow():
     def refresh(self):
         ''' refresh this window'''
         if self.screenshot.action_list:
-            self.draw_area.queue_draw_area(int(self.screenshot.x), int(self.screenshot.y),
-                int(self.screenshot.rect_width), int(self.screenshot.rect_height))
+            self.draw_area.queue_draw_area(*self.screenshot.get_rectangel_in_monitor())
         else:
             self.draw_area.queue_draw()
 
@@ -314,19 +309,20 @@ class RootWindow():
         screenshot = self.screenshot
         #cr = self._cr
         # Adjust value when create selection area.
+        # convert value in the monitor
         if screenshot.rect_width > 0:
-            x = screenshot.x
+            x = screenshot.x - screenshot.monitor_x
             rect_width = screenshot.rect_width
         else:
-            x = screenshot.x + screenshot.rect_width
-            rect_width = fabs(screenshot.rect_width)
+            x = screenshot.x - screenshot.monitor_x + screenshot.rect_width
+            rect_width = abs(screenshot.rect_width)
 
         if screenshot.rect_height > 0:
-            y = screenshot.y
+            y = screenshot.y - screenshot.monitor_y
             rect_height = screenshot.rect_height
         else:
-            y = screenshot.y + screenshot.rect_height
-            rect_height = fabs(screenshot.rect_height)
+            y = screenshot.y - screenshot.monitor_y + screenshot.rect_height
+            rect_height = abs(screenshot.rect_height)
         
         # Draw top.
         cr.set_source_rgba(0, 0, 0, 0.5)
@@ -352,29 +348,31 @@ class RootWindow():
         '''Draw drag point.'''
         screenshot = self.screenshot
         cr.set_source_rgb(*self.__frame_color)
+        # convert to coord in this monitor
+        (x, y, width, height) = screenshot.get_rectangel_in_monitor()
         # Draw left top corner.
-        cr.arc(screenshot.x, screenshot.y, self.drag_point_radius, 0, 2 * pi)
+        cr.arc(x, y, self.drag_point_radius, 0, 2 * pi)
         cr.fill()
         # Draw right top corner.
-        cr.arc(screenshot.x + screenshot.rect_width, screenshot.y, self.drag_point_radius, 0, 2 * pi)
+        cr.arc(x + width, y, self.drag_point_radius, 0, 2 * pi)
         cr.fill()
         # Draw left bottom corner.
-        cr.arc(screenshot.x, screenshot.y + screenshot.rect_height, self.drag_point_radius, 0, 2 * pi)
+        cr.arc(x, y + height, self.drag_point_radius, 0, 2 * pi)
         cr.fill()
         # Draw right bottom corner.
-        cr.arc(screenshot.x + screenshot.rect_width, screenshot.y + screenshot.rect_height, self.drag_point_radius, 0, 2 * pi)
+        cr.arc(x + width, y + height, self.drag_point_radius, 0, 2 * pi)
         cr.fill()
         # Draw top side.
-        cr.arc(screenshot.x + screenshot.rect_width / 2, screenshot.y, self.drag_point_radius, 0, 2 * pi)
+        cr.arc(x + width / 2, y, self.drag_point_radius, 0, 2 * pi)
         cr.fill()
         # Draw bottom side.
-        cr.arc(screenshot.x + screenshot.rect_width / 2, screenshot.y + screenshot.rect_height, self.drag_point_radius, 0, 2 * pi)
+        cr.arc(x + width / 2, y + height, self.drag_point_radius, 0, 2 * pi)
         cr.fill()
         # Draw left side.
-        cr.arc(screenshot.x, screenshot.y + screenshot.rect_height / 2, self.drag_point_radius, 0, 2 * pi)
+        cr.arc(x, y + height / 2, self.drag_point_radius, 0, 2 * pi)
         cr.fill()
         # Draw right side.
-        cr.arc(screenshot.x + screenshot.rect_width, screenshot.y + screenshot.rect_height / 2, self.drag_point_radius, 0, 2 * pi)
+        cr.arc(x + width, y + height / 2, self.drag_point_radius, 0, 2 * pi)
         cr.fill()
 
     def _draw_frame(self, cr):
@@ -382,7 +380,8 @@ class RootWindow():
         screenshot = self.screenshot
         cr.set_source_rgb(*self.__frame_color)
         cr.set_line_width(self.frame_border)
-        cr.rectangle(screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height)
+        #cr.rectangle(screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height)
+        cr.rectangle(*screenshot.get_rectangel_in_monitor())
         cr.stroke()
 
     def _draw_window_rectangle(self, cr):
@@ -397,6 +396,11 @@ class RootWindow():
         '''Get event coord.'''
         (rx, ry) = event.get_root_coords()
         return (int(rx), int(ry))
+    
+    def get_event_coord_in_monitor(self, event):
+        '''Get event coord in current monitor'''
+        (ex, ey) = self.get_event_coord(event)
+        return (ex-self.screenshot.monitor_x, ey-self.screenshot.monitor_y)
         
     def drag_frame_top(self, ex, ey):
         '''Drag frame top.'''
@@ -452,10 +456,8 @@ class RootWindow():
         pWidth = pHeight = self.drag_point_radius* 2
         ((tlX, tlY), (trX, trY), (blX, blY), (brX, brY), (tX, tY), (bX, bY), (lX, lY), (rX, rY)) = self.get_drag_point_coords()
         
-        # Calcuate drag position.
-        if is_in_rect((ex, ey), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height)):
-            return DRAG_INSIDE
-        elif is_collide_rect((ex, ey), (tlX, tlY, pWidth, pHeight)):
+        # Calculate drag position.
+        if is_collide_rect((ex, ey), (tlX, tlY, pWidth, pHeight)):
             return DRAG_TOP_LEFT_CORNER
         elif is_collide_rect((ex, ey), (trX, trY, pWidth, pHeight)):
             return DRAG_TOP_RIGHT_CORNER
@@ -471,6 +473,8 @@ class RootWindow():
             return DRAG_LEFT_SIDE
         elif is_collide_rect((ex, ey), (rX, rY, pWidth, pHeight)) or is_collide_rect((ex, ey), (screenshot.x + screenshot.rect_width, screenshot.y, self.frame_border, screenshot.rect_height)):
             return DRAG_RIGHT_SIDE
+        elif is_in_rect((ex, ey), (screenshot.x, screenshot.y, screenshot.rect_width, screenshot.rect_height)):
+            return DRAG_INSIDE
         else:
             return DRAG_OUTSIDE
         
@@ -581,10 +585,11 @@ class RootWindow():
             self.hide_text_window()
 
     def __text_window_button_press(self, widget, event):
-        ''' '''
+        '''button press in textview, begin to drag '''
         if event.button == 1:
             widget.drag_flag = True
-            widget.drag_position = (event.x_root, event.y_root)
+            #widget.drag_position = (event.x_root, event.y_root)
+            widget.drag_position = self.get_event_coord(event)
             widget.drag_origin = (widget.allocation.x, widget.allocation.y)
             self.set_cursor(DRAG_INSIDE)
 
@@ -600,14 +605,21 @@ class RootWindow():
     def __text_window__motion(self, widget, event):
         '''motion notify'''
         coord = widget.allocation
-        rect_x = self.screenshot.x + self.screenshot.rect_width
-        rect_y = self.screenshot.y + self.screenshot.rect_height
+        monitor_rect = self.screenshot.get_rectangel_in_monitor()
+        rect_x = monitor_rect[0] + monitor_rect[2]
+        rect_y = monitor_rect[1] + monitor_rect[3]
+        (x_root, y_root) = self.get_event_coord(event)
+        #rect_x = self.screenshot.x + self.screenshot.rect_width
+        #rect_y = self.screenshot.y + self.screenshot.rect_height
         if widget.drag_flag:
-            offset_x = int(event.x_root - widget.drag_position[0])
-            offset_y = int(event.y_root - widget.drag_position[1])
+            #offset_x = int(event.x_root - widget.drag_position[0])
+            #offset_y = int(event.y_root - widget.drag_position[1])
+            offset_x = x_root - widget.drag_position[0]
+            offset_y = y_root - widget.drag_position[1]
             widget.drag_offset = (offset_x, offset_y)
             des_x = widget.drag_origin[0] + offset_x
             des_y = widget.drag_origin[1] + offset_y
+            # make sure the textview in the area
             if des_x + coord[2] > rect_x:
                 des_x = rect_x - coord[2]
             elif des_x < self.screenshot.x:
@@ -641,17 +653,43 @@ class RightMenu():
     def __init__(self, screenshot):
         self.screenshot = screenshot
         self.window = Menu([
-            ((app_theme_get_dynamic_pixbuf('image/action/rect_normal.png'), app_theme_get_dynamic_pixbuf('image/action/rect_hover.png'), app_theme_get_dynamic_pixbuf('image/action/rect_press.png')),
-                __("Tip draw rectangle"), self._menu_click, "rect"),
-            ((app_theme_get_dynamic_pixbuf('image/action/ellipse_normal.png'), app_theme_get_dynamic_pixbuf('image/action/ellipse_hover.png'), app_theme_get_dynamic_pixbuf('image/action/ellipse_press.png')), __("Tip draw ellipse"), self._menu_click, "ellipse"),
-            ((app_theme_get_dynamic_pixbuf('image/action/arrow_normal.png'), app_theme_get_dynamic_pixbuf('image/action/arrow_hover.png'), app_theme_get_dynamic_pixbuf('image/action/arrow_press.png')), __("Tip draw arrow"), self._menu_click, "arrow"),
-            ((app_theme_get_dynamic_pixbuf('image/action/line_normal.png'), app_theme_get_dynamic_pixbuf('image/action/line_hover.png'), app_theme_get_dynamic_pixbuf('image/action/line_press.png')), __("Tip draw line"), self._menu_click, "line"),
-            ((app_theme_get_dynamic_pixbuf('image/action/text_normal.png'), app_theme_get_dynamic_pixbuf('image/action/text_hover.png'), app_theme_get_dynamic_pixbuf('image/action/text_press.png')), __("Tip draw Text"), self._menu_click, "text"),
+            ((app_theme_get_dynamic_pixbuf('image/action/rect_normal.png'),
+              app_theme_get_dynamic_pixbuf('image/action/rect_hover.png'),
+              app_theme_get_dynamic_pixbuf('image/action/rect_press.png')),
+              __("Tip draw rectangle"), self._menu_click, "rect"),
+            ((app_theme_get_dynamic_pixbuf('image/action/ellipse_normal.png'),
+              app_theme_get_dynamic_pixbuf('image/action/ellipse_hover.png'),
+              app_theme_get_dynamic_pixbuf('image/action/ellipse_press.png')),
+              __("Tip draw ellipse"), self._menu_click, "ellipse"),
+            ((app_theme_get_dynamic_pixbuf('image/action/arrow_normal.png'), 
+              app_theme_get_dynamic_pixbuf('image/action/arrow_hover.png'), 
+              app_theme_get_dynamic_pixbuf('image/action/arrow_press.png')), 
+              __("Tip draw arrow"), self._menu_click, "arrow"),
+            ((app_theme_get_dynamic_pixbuf('image/action/line_normal.png'), 
+              app_theme_get_dynamic_pixbuf('image/action/line_hover.png'), 
+              app_theme_get_dynamic_pixbuf('image/action/line_press.png')), 
+              __("Tip draw line"), self._menu_click, "line"),
+            ((app_theme_get_dynamic_pixbuf('image/action/text_normal.png'), 
+              app_theme_get_dynamic_pixbuf('image/action/text_hover.png'), 
+              app_theme_get_dynamic_pixbuf('image/action/text_press.png')), 
+              __("Tip draw Text"), self._menu_click, "text"),
             None,
-            ((app_theme_get_dynamic_pixbuf('image/action/undo_normal.png'), app_theme_get_dynamic_pixbuf('image/action/undo_hover.png'), app_theme_get_dynamic_pixbuf('image/action/undo_press.png')), __("Tip undo"), self._menu_click, "undo"),
-            ((app_theme_get_dynamic_pixbuf('image/action/save_normal.png'), app_theme_get_dynamic_pixbuf('image/action/save_hover.png'), app_theme_get_dynamic_pixbuf('image/action/save_press.png')), __("Tip save"), self._menu_click, "save"),
-            ((app_theme_get_dynamic_pixbuf('image/action/cancel_normal.png'), app_theme_get_dynamic_pixbuf('image/action/cancel_hover.png'), app_theme_get_dynamic_pixbuf('image/action/cancel_press.png')), __("Tip cancel"), self._menu_click, "cancel"),
-            ((app_theme_get_dynamic_pixbuf('image/action/finish_normal.png'), app_theme_get_dynamic_pixbuf('image/action/finish_hover.png'), app_theme_get_dynamic_pixbuf('image/action/finish_press.png')), __("Tip finish"), self._menu_click, "finish"),
+            ((app_theme_get_dynamic_pixbuf('image/action/undo_normal.png'), 
+              app_theme_get_dynamic_pixbuf('image/action/undo_hover.png'), 
+              app_theme_get_dynamic_pixbuf('image/action/undo_press.png')), 
+              __("Tip undo"), self._menu_click, "undo"),
+            ((app_theme_get_dynamic_pixbuf('image/action/save_normal.png'), 
+              app_theme_get_dynamic_pixbuf('image/action/save_hover.png'), 
+              app_theme_get_dynamic_pixbuf('image/action/save_press.png')), 
+              __("Tip save"), self._menu_click, "save"),
+            ((app_theme_get_dynamic_pixbuf('image/action/cancel_normal.png'), 
+              app_theme_get_dynamic_pixbuf('image/action/cancel_hover.png'), 
+              app_theme_get_dynamic_pixbuf('image/action/cancel_press.png')), 
+              __("Tip cancel"), self._menu_click, "cancel"),
+            ((app_theme_get_dynamic_pixbuf('image/action/finish_normal.png'), 
+              app_theme_get_dynamic_pixbuf('image/action/finish_hover.png'), 
+              app_theme_get_dynamic_pixbuf('image/action/finish_press.png')), 
+              __("Tip finish"), self._menu_click, "finish"),
             ], True)
         
     def _menu_click(self, name):
@@ -659,8 +697,9 @@ class RightMenu():
         buttons = self.screenshot.toolbar.toolbox.get_children()
         for each in buttons:
             if each.name == name:
-                each.clicked()
+                each.pressed()
                 each.released()
+                each.clicked()
                 break
 
     def show(self, coord=(0, 0)):

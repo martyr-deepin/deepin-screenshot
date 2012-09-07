@@ -3,7 +3,6 @@
 
 from theme import app_theme
 from dtk.ui.scrolled_window import ScrolledWindow
-import os
 from dtk.ui.window import Window
 from dtk.ui.dialog import DialogBox
 from dtk.ui.browser import WebView
@@ -14,6 +13,7 @@ from dtk.ui.label import Label
 from _share import weibo
 import gtk
 import webkit
+import sys
 
 class ShareToWeibo():
     '''share picture to weibo'''
@@ -59,10 +59,13 @@ class ShareToWeibo():
         self.window.body_box.pack_start(self.slider)
         self.init_share_box()
 
-    def web_view_load_status(self, web, frame):
+    def web_view_load_status(self, web, status):
         '''web_view notify load-status'''
         state = web.get_property("load-status")
         if state == webkit.LOAD_FAILED: # load failed
+            print "load failed\n"
+            #frame = web.get_main_frame()
+            #web.load_string("<html><body><b>load failed!</b></body></html>", "text/html", "UTF-8", "")
             pass
         else:
             if self.__current_weibo:
@@ -87,6 +90,7 @@ class ShareToWeibo():
 
     def weibo_login(self, widget, weibo):
         '''weibo login'''
+        self.web_view.load_uri("about:blank")
         weibo.request_oauth()
         self.set_slide_index(1)
         self.__current_weibo = weibo
@@ -222,5 +226,8 @@ class ShareToWeibo():
         gtk.main_quit()
 
 if __name__ == '__main__':
-    ShareToWeibo().show()
+    filename = ""
+    if len(sys.argv) > 1:
+        filename = sys.argv[1]
+    ShareToWeibo(filename).show()
     gtk.main()

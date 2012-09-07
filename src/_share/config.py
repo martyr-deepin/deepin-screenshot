@@ -22,11 +22,17 @@
 
 import ConfigParser
 from xdg import BaseDirectory
+from os.path import exists
 
 config_dir = BaseDirectory.xdg_config_home
 APP_NAME = 'deepin-screenshot'
 WEIBO_CONFIG = "%s/%s/%s" % (config_dir, APP_NAME, 'weibo.ini')
 OPERATE_CONFIG = "%s/%s/%s" % (config_dir, APP_NAME, 'config.ini')
+
+if not exists(WEIBO_CONFIG):
+    open(WEIBO_CONFIG, 'wb').close()
+if not exists(OPERATE_CONFIG):
+    open(OPERATE_CONFIG, 'wb').close()
 
 class WeiboConfig():
     '''Weibo config'''
@@ -39,21 +45,9 @@ class WeiboConfig():
         '''get sina info'''
         return self.get('Sina')
 
-    def netease_get(self):
-        '''get 163 info'''
-        return self.get('NetEase')
-
     def tencent_get(self):
         '''get tencent info'''
         return self.get('Tencent')
-
-    def sohu_get(self):
-        '''get sohu info'''
-        return self.get('Sohu')
-
-    def facebook_get(self):
-        '''get facebook info'''
-        return self.get('Facebook')
 
     def twitter_get(self):
         '''get twitter info'''
@@ -77,18 +71,6 @@ class WeiboConfig():
     def sina_set(self, **kw):
         '''set sina info'''
         self.set('Sina', **kw)
-
-    def netease_set(self, **kw):
-        '''set 163 info'''
-        self.set('NetEase', **kw)
-
-    def sohu_set(self, **kw):
-        '''set sohu info'''
-        self.set('Sohu', **kw)
-
-    def facebook_set(self, **kw):
-        '''set facebook info'''
-        self.set('Facebook', **kw)
 
     def twitter_set(self, **kw):
         '''set twitter info'''
@@ -114,8 +96,37 @@ class WeiboConfig():
 class OperateConfig():
     '''operate config'''
     def __init__(self, config_file=OPERATE_CONFIG):
+        self.config = ConfigParser.ConfigParser()
         self.config_file = config_file
+        self.config.read(config_file)
+
+    def get(self, section, opt=None):
+        '''get section info'''
+        if not self.config.has_section(section):
+            return None
+        if opt:
+            return self.config.get(section, opt) if self.config.has_option(section, opt) else None
+        back = {}
+        for option in self.config.options(section):
+            back[option] = self.config.get(section, option)
+        return back
+
+    def set(self, section, **kw):
+        ''' set section info'''
+        if not self.config.has_section(section):
+            self.config.add_section(section)
+        for option in kw:
+            self.config.set(section, option, kw[option])
+        self.config.write(open(self.config_file, 'wb'))
         
+    def __getattr__(self, kw):
+        ''' __getattr__'''
+        try:
+            section, opt = kw.split('_')[0:2]
+            return self.get(section, opt)
+        except:
+            return None
+    
 if __name__ == '__main__':
     c = WeiboConfig()
     print c.sina_get()
