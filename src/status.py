@@ -330,8 +330,8 @@ class ButtonReleaseProcess(BaseProcess):
             and screenshot.y < screenshot.toolbarY < screenshot.y + screenshot.rect_height:
                 self.win.show_toolbar()
                 self.win.adjust_toolbar()
-                #self.win.show_colorbar()
-                #self.win.adjust_colorbar()
+                self.win.show_colorbar()
+                self.win.adjust_colorbar()
 
 class MotionProcess(BaseProcess):
     ''' Motion process'''

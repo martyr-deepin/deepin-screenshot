@@ -23,12 +23,15 @@
 import ConfigParser
 from xdg import BaseDirectory
 from os.path import exists
+from os import mkdir
 
 config_dir = BaseDirectory.xdg_config_home
 APP_NAME = 'deepin-screenshot'
 WEIBO_CONFIG = "%s/%s/%s" % (config_dir, APP_NAME, 'weibo.ini')
 OPERATE_CONFIG = "%s/%s/%s" % (config_dir, APP_NAME, 'config.ini')
 
+if not exists("%s/%s" % (config_dir, APP_NAME)):
+    mkdir("%s/%s" % (config_dir, APP_NAME))
 if not exists(WEIBO_CONFIG):
     open(WEIBO_CONFIG, 'wb').close()
 if not exists(OPERATE_CONFIG):

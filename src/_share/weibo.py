@@ -29,10 +29,8 @@ import json
 import time
 import hashlib
 import hmac
-import commands
 import subprocess
 from mimetypes import guess_type
-import tencent
 
 CONFIG = config.WeiboConfig()
 
@@ -42,32 +40,6 @@ def get_file_type(filename):
     if file_type is None or file_type[0] is None:
         return None
     return file_type[0]
-
-def _encode_multipart(**kw):
-    '''
-    Build a multipart/form-data body with generated random boundary.
-    '''
-    boundary = '----------%s' % hex(int(time.time() * 1000))
-    data = []
-    for k, v in kw.iteritems():
-        data.append('--%s' % boundary)
-        if hasattr(v, 'read'):
-            # file-like object:
-            ext = ''
-            filename = getattr(v, 'name', '')
-            n = filename.rfind('.')
-            if n != (-1):
-                ext = filename[n:].lower()
-            content = v.read()
-            data.append('Content-Disposition: form-data; name="%s"; filename="%s"' % (k, filename))
-            data.append('Content-Length: %d' % len(content))
-            data.append('Content-Type: %s\r\n' % get_file_type(filename))
-            data.append(content)
-        else:
-            data.append('Content-Disposition: form-data; name="%s"\r\n' % k)
-            data.append(v.encode('utf-8') if isinstance(v, unicode) else v)
-    data.append('--%s--\r\n' % boundary)
-    return '\r\n'.join(data), boundary
 
 class OAuth(object):
     '''Weibo OAuth'''
@@ -89,15 +61,16 @@ class OAuth(object):
 
 class Curl(object):
     '''Curl Class'''
-    def twitter_get(self, url, header=None):
+    def twitter_get(self, url, header=None, proxy_host=None, proxy_port=None):
         '''get url for twitter'''
         crl = pycurl.Curl()
         #crl.setopt(pycurl.VERBOSE,1)
 
         # set proxy
-        crl.setopt(pycurl.URL, 'http://facebook.com')
-        crl.setopt(pycurl.PROXY, '127.0.0.1')
-        crl.setopt(pycurl.PROXYPORT, 8087)
+        if proxy_host:
+            crl.setopt(pycurl.PROXY, proxy_host)
+        if proxy_port:
+            crl.setopt(pycurl.PROXYPORT, proxy_port)
         # set ssl
         crl.setopt(pycurl.SSL_VERIFYPEER, 0)
         crl.setopt(pycurl.SSL_VERIFYHOST, 0)
@@ -124,15 +97,16 @@ class Curl(object):
         crl.fp.close()
         return con
 
-    def get(self, url, header=None):
+    def get(self, url, header=None, proxy_host=None, proxy_port=None):
         '''get to url'''
         crl = pycurl.Curl()
         #crl.setopt(pycurl.VERBOSE,1)
 
         # set proxy
-        crl.setopt(pycurl.URL, 'http://facebook.com')
-        crl.setopt(pycurl.PROXY, '127.0.0.1')
-        crl.setopt(pycurl.PROXYPORT, 8087)
+        if proxy_host:
+            crl.setopt(pycurl.PROXY, proxy_host)
+        if proxy_port:
+            crl.setopt(pycurl.PROXYPORT, proxy_port)
         # set ssl
         crl.setopt(pycurl.SSL_VERIFYPEER, 0)
         crl.setopt(pycurl.SSL_VERIFYHOST, 0)
@@ -162,15 +136,16 @@ class Curl(object):
         except:
             return None
     
-    def post(self, url, data, header=None):
+    def post(self, url, data, header=None, proxy_host=None, proxy_port=None):
         '''post to url'''
         crl = pycurl.Curl()
         #crl.setopt(pycurl.VERBOSE,1)
 
         # set proxy
-        crl.setopt(pycurl.URL, 'http://facebook.com')
-        crl.setopt(pycurl.PROXY, '127.0.0.1')
-        crl.setopt(pycurl.PROXYPORT, 8087)
+        if proxy_host:
+            crl.setopt(pycurl.PROXY, proxy_host)
+        if proxy_port:
+            crl.setopt(pycurl.PROXYPORT, proxy_port)
         # set ssl
         crl.setopt(pycurl.SSL_VERIFYPEER, 0)
         crl.setopt(pycurl.SSL_VERIFYHOST, 0)
@@ -202,25 +177,25 @@ class Curl(object):
         except:
             return None
     
-    def upload(self, url, data, header=None):
+    def upload(self, url, data, header=None, proxy_host=None, proxy_port=None):
         '''upload to url'''
-        print "upload:", url, data, header
+        #print "upload:", url, data, header
         crl = pycurl.Curl()
         #crl.setopt(pycurl.VERBOSE,1)
 
         # set proxy
-        crl.setopt(pycurl.URL, 'http://facebook.com')
-        crl.setopt(pycurl.PROXY, '127.0.0.1')
-        crl.setopt(pycurl.PROXYPORT, 8087)
+        if proxy_host:
+            crl.setopt(pycurl.PROXY, proxy_host)
+        if proxy_port:
+            crl.setopt(pycurl.PROXYPORT, proxy_port)
         # set ssl
         crl.setopt(pycurl.SSL_VERIFYPEER, 0)
         crl.setopt(pycurl.SSL_VERIFYHOST, 0)
          
-        crl.setopt(pycurl.CONNECTTIMEOUT, 60)
+        crl.setopt(pycurl.CONNECTTIMEOUT, 10)
         crl.setopt(pycurl.TIMEOUT, 300)
         crl.setopt(pycurl.HTTPPROXYTUNNEL,1)
         
-        #crl.setopt(pycurl.HTTPHEADER, ["Expect: "])
         if header:
             crl.setopt(pycurl.HTTPHEADER, header)
 
@@ -233,11 +208,11 @@ class Curl(object):
         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
         crl.perform()
         crl.close()
-        conn = crl.fp.getvalue()
-        print "upload------------------------\n", conn
+        #conn = crl.fp.getvalue()
+        #print conn
         try:
-            #back = json.loads(crl.fp.getvalue())
-            back = json.loads(conn)
+            back = json.loads(crl.fp.getvalue())
+            #back = json.loads(conn)
             crl.fp.close()
             return back
         except:
@@ -250,6 +225,9 @@ class Weibo():
         self.t_type = t_type
         self.oauth = OAuth(t_type)
         self.curl = Curl()
+        # TODO add error_code 
+        self.error_code = None
+        self.errors = {}
 
     def set_box(self, box):
         '''set a gtk.Box'''
@@ -303,7 +281,9 @@ class Sina(Weibo):
         self.USER_ID_URL = 'https://api.weibo.com/%d/%s' % (version, 'account/get_uid.json')
         self.UPLOAD_URL = 'https://upload.api.weibo.com/%d/%s' % (version, 'statuses/upload.json')
         self.code = None
+        self.__user_id = ""
 
+    # first get code, then use this code to access token
     def get_code(self):
         '''get oauth code'''
         self.code = None
@@ -319,6 +299,7 @@ class Sina(Weibo):
             self.code = None
         return self.code
 
+    # second access token
     def access_token(self):
         '''access token'''
         if self.get_code() is None:
@@ -334,9 +315,9 @@ class Sina(Weibo):
         else:
             return False
     
-    # get user name
-    def get_user_name(self):
-        ''' get user name'''
+    # get user id
+    def get_user_id(self):
+        '''get user id'''
         url = '%s?access_token=%s' % (self.USER_ID_URL, self.oauth.get('access_token'))
         back = self.curl.get(url)
         #print "uid:", back
@@ -344,6 +325,13 @@ class Sina(Weibo):
             return None
         if 'error_code' in back:
             return None
+        self.__user_id = str(back['uid'])
+        return back
+    
+    # get user name
+    def get_user_name(self):
+        ''' get user name'''
+        back = self.get_user_id()
         url = '%s?access_token=%s&uid=%d' % (self.USERS_URL, self.oauth.get('access_token'), back['uid'])
         back = self.curl.get(url)
         #print "user:", back
@@ -362,11 +350,14 @@ class Sina(Weibo):
         if annotations:
             data.append(('annotations', annotations))
         back = self.upload(data)
+        print back
         if back is None:
-            return False
+            return (False, None)
         if 'error_code' in back:
-            return False
-        return True
+            self.error_code = back["error_code"]
+            return (False, None)
+        url = "http://api.t.sina.com.cn/%s/statuses/%s" % (self.__user_id, back['idstr'])
+        return (True, url)
 
 class Tencent(Weibo):
     '''Tencent Weibo'''
@@ -381,21 +372,10 @@ class Tencent(Weibo):
         self.ACCESS_URL = 'https://open.t.qq.com/cgi-bin/oauth2/authorize?client_id=%s&response_type=token&redirect_uri=%s&wap=2' % (self.APP_KEY,self.CALLBACK_URL)
         self.USERS_URL = 'https://open.t.qq.com/api/user/info'
         self.UPLOAD_URL = 'https://open.t.qq.com/api/t/add_pic'
-        self.api = tencent.APIClient(self.APP_KEY, self.APP_SECRET, self.CALLBACK_URL)
-        self.set_api_access_token()
-    
-    def set_api_access_token(self):
-        '''set api access_token'''
-        try:
-            self.api.set_access_token(self.oauth.get('access_token'),
-                self.oauth.get('openid'), self.oauth.get('expires_in'))
-            return True
-        except:
-            return False
 
-    def access_token(self):
+    def access_token(self, url):
         '''access token'''
-        url = self.webkit.get_property('uri')
+        #url = self.webkit.get_property('uri')
         if not url.startswith(self.CALLBACK_URL):
             return False
         back = self.parse_url(url)
@@ -404,18 +384,16 @@ class Tencent(Weibo):
             self.oauth.set(access_token=parse['access_token'][0],
                 expires_in=int(parse['expires_in'][0])+int(time.time()),
                 openid=parse['openid'][0], openkey=parse['openkey'][0])
-
-            self.api.set_access_token(parse['access_token'][0],
-                parse['openid'][0], expires_in=int(parse['expires_in'][0])+int(time.time()))
             return True
         return False
     
     def get_user_name(self):
         '''get user info'''
-        try:
-            back = self.api.get.user__info()
-        except Exeption, e:
-            print e
+        url = '%s?format=json&oauth_consumer_key=%s&access_token=%s&openid=%s&clientip=%s&oauth_version=2.a&scope=all' \
+            % (self.USERS_URL, self.APP_KEY, self.oauth.get("access_token"), self.oauth.get("openid"), self.client_ip)
+        back = self.curl.get(url)
+        #print "user:", back
+        if back is None:
             return None
         if back['errcode'] != 0:
             return None
@@ -423,14 +401,25 @@ class Tencent(Weibo):
     
     def upload_image(self, img, mesg=''):
         '''upload image'''
-        try:
-            back = self.api.upload.t__add_pic(content=mesg, clientip=self.client_ip, pic=open(img,'rb'))
-        except:
-            return False
+        data = [
+            ('oauth_consumer_key', self.APP_KEY),
+            ('access_token', self.oauth.get('access_token')),
+            ('clientip', self.client_ip),
+            ('openid', self.oauth.get('openid')),
+            ('scope', 'all'),
+            ('oauth_version', '2.a'),
+            ('format', 'json'),
+            ('pic', (pycurl.FORM_FILE, img)),
+            ('content', mesg)]
+        back = self.upload(data)
         print back
+        if back is None:
+            return (False, None)
         if back['errcode'] != 0:
-            return False
-        return True
+            self.error_code = back['errcode']
+            return (False, None)
+        url = "http://t.qq.com/p/t/%s" % back['data']['id']
+        return (True, url)
 
 class Twitter(Weibo):
     '''Twitter Weibo'''
@@ -447,7 +436,7 @@ class Twitter(Weibo):
         self._access_token = ''
 
         self.REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token'
-        self.AUTHORIZE_UTL = 'https://api.twitter.com/oauth/authorize'
+        self.AUTHORIZE_URL = 'https://api.twitter.com/oauth/authorize'
         self.ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token'
         self.USERS_URL = 'https://api.twitter.com/1/users/show.json'
         self.UPLOAD_URL = 'https://upload.twitter.com/1/statuses/update_with_media.json'
@@ -474,6 +463,8 @@ class Twitter(Weibo):
         
         return (signature_base_string, request_url, headers)
 
+    # first request token, get oauth_token and oauth_token_secret.
+    # now get the request token url
     def get_request_token_url(self):
         '''get request_token url'''
         timestamp = str(int(time.time()))
@@ -485,12 +476,17 @@ class Twitter(Weibo):
             ('oauth_version', '1.0'),
             ('oauth_callback', self.CALLBACK_URL)]
         request_token = self.signature_base_string("GET", params, self.REQUEST_TOKEN_URL)
-        print request_token
+        #print request_token
         return request_token[1]
 
+    # now request token get authorize url, and open it in webbrowser.
     def request_token(self):
         '''request token and return authorize url'''
-        back = self.curl.twitter_get(self.get_request_token_url())
+        #back = self.curl.twitter_get(self.get_request_token_url())
+        back = self.curl.twitter_get(self.get_request_token_url(), proxy_host="127.0.0.1", proxy_port=8087)
+        print back
+        if back is None:
+            return None
         url = urlparse.urlparse(back)
         parse = urlparse.parse_qs(url.path, True)
         try:
@@ -498,9 +494,11 @@ class Twitter(Weibo):
             self.oauth_token = parse['oauth_token'][0]
         except KeyError: # request token failed
             return None
-        authorize_url = "%s?oauth_token=%s" % (self.AUTHORIZE_UTL, self.oauth_token)
+        authorize_url = "%s?oauth_token=%s" % (self.AUTHORIZE_URL, self.oauth_token)
         return authorize_url
 
+    # second authorize the oauth_token which is got at the first step.
+    # at previous step open the authorize url, then goto callback with oauth_token and oauth_verifier parameter.
     def authorize(self, url):
         '''authorize and get oauth_token, oauth_verifier'''
         back = self.parse_url(url)
@@ -511,6 +509,8 @@ class Twitter(Weibo):
             return True
         return False
 
+    # at last access the oauth_token
+    # now use oauth_token and oauth_verifier get the access_token url
     def get_access_token_url(self):
         '''get access_token url'''
         timestamp = str(int(time.time()))
@@ -526,9 +526,11 @@ class Twitter(Weibo):
         print access_token
         return access_token[1]
 
+    # now access the oauth_token
     def access_token(self):
         '''access token'''
-        back = self.curl.twitter_get(self.get_access_token_url())
+        #back = self.curl.twitter_get(self.get_access_token_url())
+        back = self.curl.twitter_get(self.get_access_token_url(), proxy_host="127.0.0.1", proxy_port=8087)
         if back is None:
             return False
         url = urlparse.urlparse(back)
@@ -549,7 +551,7 @@ class Twitter(Weibo):
     # use webkit open authorize page
     def request_oauth(self):
         '''request oauth access token'''
-        self.webkit.load_uri(self.get_access_token_url())
+        self.webkit.load_uri(self.request_token())
     
     def get_user_name(self):
         '''get user name'''
@@ -557,8 +559,6 @@ class Twitter(Weibo):
         params = [
             ('oauth_consumer_key', self.APP_KEY), # App Key
             ('oauth_signature_method', 'HMAC-SHA1'), 
-            #('oauth_timestamp', "1346817848"),
-            #('oauth_nonce', "f2630d5bcc1bf3debaba8b03d766645f"),
             ('oauth_timestamp', timestamp),
             ('oauth_nonce', hashlib.md5(timestamp).hexdigest()),
             ('oauth_version', '1.0'),
@@ -566,7 +566,8 @@ class Twitter(Weibo):
             ('oauth_token', self.oauth.get('access_token'))]
         user_name = self.signature_base_string("GET", params, self.USERS_URL, self.oauth.get('access_token_secret'))
         user_url = "%s?user_id=%s" % (self.USERS_URL, self.oauth.get('user_id'))
-        back = self.curl.get(user_url, [user_name[2]])
+        #back = self.curl.get(user_url, [user_name[2]])
+        back = self.curl.get(user_url, [user_name[2]], proxy_host="127.0.0.1", proxy_port=8087)
         #user_url = "%s&user_id=%s" % (user_name[1], self.oauth.get('user_id'))
         #back = self.curl.get(user_url)
         if back is None:
@@ -591,30 +592,35 @@ class Twitter(Weibo):
         upload = self.signature_base_string("POST", params, self.UPLOAD_URL, self.oauth.get('access_token_secret'))
         header = upload[2]
         url = self.UPLOAD_URL
-        #data = [('meida[]', (pycurl.FORM_FILE, img)), ("status", (pycurl.FORM_CONTENTS, mesg))]
         #data = [('meida[]', (pycurl.FORM_FILE, img)), ("status", mesg)]
-        #url = "%s?%s" % (self.UPLOAD_URL, urllib.urlencode([("status", mesg)]))
-        #data = [('meida[]', (pycurl.FORM_FILE, img))]
-        #data = _encode_multipart(media=open(img,'rb'), status=mesg)
+        #back = self.curl.upload(url, data, [header, 'Expect: '], "127.0.0.1", 8087)
         #back = self.curl.upload(url, data, header)
-        #back = self.curl.post(url, data, header)
+
+        #curl_cmd = """curl -k -F media[]="@%s" -F 'status=%s' --request 'POST' '%s' --header '%s' --header '%s'""" %(img, mesg, url, header, "Expect: ")
         curl_cmd = """curl -k %s -F media[]="@%s" -F 'status=%s' --request 'POST' '%s' --header '%s' --header '%s'""" %("-x 127.0.0.1:8087", img, mesg, url, header, "Expect: ")
         print curl_cmd
-        cmd = subprocess.Popen(curl_cmd, shell=True, stdout=subprocess.PIPE)
-        if cmd.wait() != 0:
-            return False
+        try:
+            cmd = subprocess.Popen(curl_cmd, shell=True, stdout=subprocess.PIPE)
+            if cmd.wait() != 0:
+                return (False, None)
+        except OSError:    
+            return (False, None)
         back = json.loads(cmd.stdout.read())
         print back
         if back is False:
-            return False
+            return (False, None)
         if 'errors' in back or 'error' in back:
-            return False
+            return (False, None)
+        url = "http://twitter.com/%s/status/%s" % (back['user']['screen_name'], back['id_str'])
         return True
 
 if __name__ == '__main__':
+    #s = Sina(None)
+    #print s.get_user_name()
+
     #t = Tencent(None)
     #print t.get_user_name()
-    #print t.upload_image('cairo_text.png', '微博api上传图片测试')
+    #print t.upload_image('gtk.png', 'curl微博api上传图片测试')
 
     t = Twitter(None)
     #print t.request_token()
