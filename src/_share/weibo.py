@@ -30,16 +30,8 @@ import time
 import hashlib
 import hmac
 import subprocess
-from mimetypes import guess_type
 
 CONFIG = config.WeiboConfig()
-
-def get_file_type(filename):
-    '''get image file type'''
-    file_type = guess_type(filename)
-    if file_type is None or file_type[0] is None:
-        return None
-    return file_type[0]
 
 class OAuth(object):
     '''Weibo OAuth'''
@@ -129,8 +121,11 @@ class Curl(object):
         except:
             return None
         crl.close()
+        #conn = crl.fp.getvalue()
+        #print conn
         try:
             back = json.loads(crl.fp.getvalue())
+            #back = json.loads(conn)
             crl.fp.close()
             return back
         except:
@@ -225,9 +220,7 @@ class Weibo():
         self.t_type = t_type
         self.oauth = OAuth(t_type)
         self.curl = Curl()
-        # TODO add error_code 
         self.error_code = None
-        self.errors = {}
 
     def set_box(self, box):
         '''set a gtk.Box'''
@@ -244,6 +237,12 @@ class Weibo():
     def set(self, **kw):
         '''set config value'''
         self.oauth.set(**kw)
+
+    def get_error_msg(self):
+        '''get error message'''
+        if self.error_code in self.errors:
+            return self.errors[self.error_code]
+        return None
     
     # use webkit open authorize page
     def request_oauth(self):
@@ -282,6 +281,42 @@ class Sina(Weibo):
         self.UPLOAD_URL = 'https://upload.api.weibo.com/%d/%s' % (version, 'statuses/upload.json')
         self.code = None
         self.__user_id = ""
+        self.errors = {
+            # system error code
+            '10001': 'System error',                                # 系统错误
+            '10002': 'Service unavailable',                         # 服务暂停
+            '10003': 'Remote service error',                        # 远程服务错误
+            '10004': 'IP limit',                                    # IP限制不能请求该资源
+            '10007': 'Unsupport mediatype',                         # 不支持的MediaType
+            '10009': 'Too many pending tasks, system is busy',      # 任务过多，系统繁忙
+            '10010': 'Job expired',                                 # 任务超时
+            '10011': 'RPC error',                                   # RPC错误
+            '10012': 'Illegal request',                             # 非法请求
+            '10013': 'Invalid weibo user',                          # 不合法的微博用户
+            '10016': 'miss required parameter',                     # 缺失必选参数
+            '10018': 'Request body length over limit',              # 请求长度超过限制
+            '10022': 'IP requests out of rate limit',               # IP请求频次超过上限
+            '10023': 'User requests out of rate limit',             # 用户请求频次超过上限
+            # service error code
+            '20003': 'User does not exists',                        # 用户不存在
+            '20005': 'Unsupported image type, only suport JPG, GIF, PNG',  # 不支持的图片类型，仅仅支持JPG、GIF、PNG
+            '20006': 'Image size too large',                        # 图片太大
+            '20008': 'Content is null',                             # 内容为空
+            '20012': 'Text too long, please input text less than 140 characters',  # 输入文字太长，请确认不超过140个字符
+            '20013': 'Text too long, please input text less than 300 characters',  # 输入文字太长，请确认不超过300个字符
+            '20015': 'Account or ip or app is illgal, can not continue',           # 账号、IP或应用非法，暂时无法完成此操作
+            '20016': 'Out of limit',                                # 发布内容过于频繁
+            '20017': 'Repeat content',                              # 提交相似的信息
+            '20018': 'Contain illegal website',                     # 包含非法网址
+            '20019': 'Repeat conetnt',                              # 提交相同的信息
+            '20020': 'Contain advertising',                         # 包含广告信息
+            '20021': 'Content is illegal',                          # 包含非法内容
+            '20022': "Your ip's behave in a comic boisterous or unruly manner",    # 此IP地址上的行为异常
+            '20032': 'Update success, while server slow now, please wait 1-2 minutes',  # 发布成功，目前服务器可能会有延迟，请耐心等待1-2分钟
+            '20104': 'Illegal weibo',                               # 不合法的微博
+            '20111': 'Repeated weibo text',                         # 不能发布相同的微博
+            '21602': 'Contains forbid world',                       # 含有敏感词
+            }
 
     # first get code, then use this code to access token
     def get_code(self):
@@ -350,11 +385,11 @@ class Sina(Weibo):
         if annotations:
             data.append(('annotations', annotations))
         back = self.upload(data)
-        print back
+        #print back
         if back is None:
             return (False, None)
         if 'error_code' in back:
-            self.error_code = back["error_code"]
+            self.error_code = str(back["error_code"])
             return (False, None)
         url = "http://api.t.sina.com.cn/%s/statuses/%s" % (self.__user_id, back['idstr'])
         return (True, url)
@@ -372,10 +407,32 @@ class Tencent(Weibo):
         self.ACCESS_URL = 'https://open.t.qq.com/cgi-bin/oauth2/authorize?client_id=%s&response_type=token&redirect_uri=%s&wap=2' % (self.APP_KEY,self.CALLBACK_URL)
         self.USERS_URL = 'https://open.t.qq.com/api/user/info'
         self.UPLOAD_URL = 'https://open.t.qq.com/api/t/add_pic'
+        
+        self.errors = {
+            #'11'   : 'error clientip',             # clientip错误，必须为用户侧真实ip 
+            '12'   : 'error content len',          # 微博内容超出长度限制或为空
+            '19'   : 'error pic size ',            # 图片大小超出限制或为0
+            '110'  : 'pic format error',           # 图片格式错误
+            '43'   : 'post format error',          # 格式错误、用户无效（非微博用户）
+            '44'   : 'forbidden content',          # 有过多脏话
+            '45'   : 'forbidden access',           # 禁止访问，如城市，uin黑名单限制等
+            '49'   : 'post invliad content',       # 包含垃圾信息：广告，恶意链接、黑名单号码等
+            '410'  : 'post content too fast',      # 发表太快，被频率限制
+            '412'  : 'content is verifying ',      # 源消息审核中
+            '413'  : 'post content repeated',      # 重复发表，请不要连续发表重复内容
+            '414'  : 'not verify real name',       # 用户未进行实名认证
+            '416'  : 'add fail',                   # 服务器内部错误导致发表失败
+            '467'  : 'post content repeated',      # 重复发表，请不要连续发表重复内容
+            '470'  : 'pic upload error',           # 上传图片失败
+            '41001': 'common uin blacklist limit', # 公共uin黑名单限制
+            '41002': 'common ip blacklist limit',  # 公共IP黑名单限制 
+            '41003': 'weibo blacklist limit',      # 微博黑名单限制
+            '41004': 'access too fast',            # 单UIN访问微博过快
+            '41472': 'add fail '}                  # 服务器内部错误导致发表失败
 
-    def access_token(self, url):
+    def access_token(self):
         '''access token'''
-        #url = self.webkit.get_property('uri')
+        url = self.webkit.get_property('uri')
         if not url.startswith(self.CALLBACK_URL):
             return False
         back = self.parse_url(url)
@@ -412,11 +469,11 @@ class Tencent(Weibo):
             ('pic', (pycurl.FORM_FILE, img)),
             ('content', mesg)]
         back = self.upload(data)
-        print back
+        #print back
         if back is None:
             return (False, None)
         if back['errcode'] != 0:
-            self.error_code = back['errcode']
+            self.error_code = str(back['ret']) + str(back['errcode'])
             return (False, None)
         url = "http://t.qq.com/p/t/%s" % back['data']['id']
         return (True, url)
@@ -435,11 +492,16 @@ class Twitter(Weibo):
         self._access_token_secret = ''
         self._access_token = ''
 
+        version = '1.1'
         self.REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token'
         self.AUTHORIZE_URL = 'https://api.twitter.com/oauth/authorize'
         self.ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token'
-        self.USERS_URL = 'https://api.twitter.com/1/users/show.json'
-        self.UPLOAD_URL = 'https://upload.twitter.com/1/statuses/update_with_media.json'
+        self.USERS_URL = 'https://api.twitter.com/%s/users/show.json' % version
+        self.UPLOAD_URL = 'https://api.twitter.com/%s/statuses/update_with_media.json' % version
+        #self.USERS_URL = 'https://api.twitter.com/1/users/show.json'
+        #self.UPLOAD_URL = 'https://upload.twitter.com/1/statuses/update_with_media.json'
+        
+        self.errors = {}
     
     def signature_base_string(self, method, params, url, secret_key=''):
         http_method = method
@@ -484,7 +546,7 @@ class Twitter(Weibo):
         '''request token and return authorize url'''
         #back = self.curl.twitter_get(self.get_request_token_url())
         back = self.curl.twitter_get(self.get_request_token_url(), proxy_host="127.0.0.1", proxy_port=8087)
-        print back
+        #print back
         if back is None:
             return None
         url = urlparse.urlparse(back)
@@ -523,7 +585,7 @@ class Twitter(Weibo):
             ('oauth_verifier', self.oauth_verifier),
             ('oauth_token', self.oauth_token)]
         access_token = self.signature_base_string("GET", params, self.ACCESS_TOKEN_URL)
-        print access_token
+        #print access_token
         return access_token[1]
 
     # now access the oauth_token
@@ -578,9 +640,6 @@ class Twitter(Weibo):
 
     def upload_image(self, img, mesg=""):
         '''upload image'''
-        file_type = get_file_type(img)
-        if file_type not in ['image/gif', 'image/jpeg', 'image/png']:
-            return False
         timestamp = str(int(time.time()))
         params = [
             ('oauth_consumer_key', self.APP_KEY), # App Key
@@ -596,27 +655,33 @@ class Twitter(Weibo):
         #back = self.curl.upload(url, data, [header, 'Expect: '], "127.0.0.1", 8087)
         #back = self.curl.upload(url, data, header)
 
-        #curl_cmd = """curl -k -F media[]="@%s" -F 'status=%s' --request 'POST' '%s' --header '%s' --header '%s'""" %(img, mesg, url, header, "Expect: ")
-        curl_cmd = """curl -k %s -F media[]="@%s" -F 'status=%s' --request 'POST' '%s' --header '%s' --header '%s'""" %("-x 127.0.0.1:8087", img, mesg, url, header, "Expect: ")
-        print curl_cmd
+        #curl_cmd = """curl --connect-timeout 10 -k -F media[]="@%s" -F 'status=%s' --request 'POST' '%s' --header '%s' --header '%s'""" %(img, mesg, url, header, "Expect: ")
+        curl_cmd = """curl --connect-timeout 10 -k %s -F media[]="@%s" -F 'status=%s' --request 'POST' '%s' --header '%s' --header '%s'""" %("-x 127.0.0.1:8087", img, mesg, url, header, "Expect: ")
+        #print curl_cmd
         try:
             cmd = subprocess.Popen(curl_cmd, shell=True, stdout=subprocess.PIPE)
             if cmd.wait() != 0:
                 return (False, None)
         except OSError:    
             return (False, None)
-        back = json.loads(cmd.stdout.read())
-        print back
-        if back is False:
+        try:
+            back = json.loads(cmd.stdout.read())
+        except:
+            back = None
+        #print back
+        if back is None:
             return (False, None)
-        if 'errors' in back or 'error' in back:
+        if 'errors' in back:
+            self.error_code = back["errors"][0]["code"]
+            self.errors[self.error_code] = back["errors"][0]["message"]
             return (False, None)
         url = "http://twitter.com/%s/status/%s" % (back['user']['screen_name'], back['id_str'])
-        return True
+        return (True, url)
 
 if __name__ == '__main__':
     #s = Sina(None)
     #print s.get_user_name()
+    #print s.upload_image('logo.ppm', '')
 
     #t = Tencent(None)
     #print t.get_user_name()
@@ -628,5 +693,5 @@ if __name__ == '__main__':
     #url = raw_input("authorize url:")
     #if t.authorize(url):
         #print t.access_token()
-    #print t.get_user_name()
-    print t.upload_image('image.png', "上传图片api")
+    print t.get_user_name()
+    print t.upload_image('logo.ppm', "上传图片api")
