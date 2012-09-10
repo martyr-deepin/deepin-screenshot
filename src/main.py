@@ -33,7 +33,7 @@ from action import *
 from draw import *
 from constant import *
 from window import *
-from lang import __
+from lang import _
 from widget import RootWindow, RightMenu 
 from toolbar import Colorbar, Toolbar
 
@@ -130,7 +130,7 @@ class DeepinScreenshot():
         '''Save snapshot.'''
         # Save snapshot.
         if self.rect_width == 0 or self.rect_height == 0:
-            tipContent = __("Tip area width or heigth cannot be 0")
+            tipContent = _("Tip area width or heigth cannot be 0")
         else:
             self.window.finish_flag = True
             #self.window.refresh()
@@ -156,22 +156,25 @@ class DeepinScreenshot():
                 clipboard = gtk.Clipboard(selection="CLIPBOARD")
                 clipboard.set_image(pixbuf)
                 clipboard.store()
-                tipContent = __("Tip save to clipboard")
+                tipContent = _("Tip save to clipboard")
             else:
                 # Otherwise save to local file.
-                tipContent = __("Tip save to file")
+                tipContent = _("Tip save to file")
                 try:
                     surface.write_to_png(filename)
                 except Exception, e:
-                    tipContent = ("failed:"+str(e))
+                    tipContent = "%s:%s" % (_("Tip save failed"), str(e))
 
+        # Exit
+        self.window.quit()
         if self.share_to_flag:
-            self.window.window.destroy()
-            import share
-            share.ShareToWeibo(filename).show()
-        else:
-            # Exit
-            self.window.quit()
+            # share window
+            try:
+                cmd = ('python2', 'share.py', filename)
+                subprocess.Popen(cmd)
+            except OSError:    
+                cmd = ('python', 'share.py', filename)
+                subprocess.Popen(cmd)
         
         # tipWindow
         try:

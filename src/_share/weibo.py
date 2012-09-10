@@ -367,6 +367,8 @@ class Sina(Weibo):
     def get_user_name(self):
         ''' get user name'''
         back = self.get_user_id()
+        if back is None:
+            return None
         url = '%s?access_token=%s&uid=%d' % (self.USERS_URL, self.oauth.get('access_token'), back['uid'])
         back = self.curl.get(url)
         #print "user:", back
@@ -411,14 +413,14 @@ class Tencent(Weibo):
         self.errors = {
             #'11'   : 'error clientip',             # clientip错误，必须为用户侧真实ip 
             '12'   : 'error content len',          # 微博内容超出长度限制或为空
-            '19'   : 'error pic size ',            # 图片大小超出限制或为0
+            '19'   : 'error pic size',            # 图片大小超出限制或为0
             '110'  : 'pic format error',           # 图片格式错误
             '43'   : 'post format error',          # 格式错误、用户无效（非微博用户）
             '44'   : 'forbidden content',          # 有过多脏话
             '45'   : 'forbidden access',           # 禁止访问，如城市，uin黑名单限制等
             '49'   : 'post invliad content',       # 包含垃圾信息：广告，恶意链接、黑名单号码等
             '410'  : 'post content too fast',      # 发表太快，被频率限制
-            '412'  : 'content is verifying ',      # 源消息审核中
+            '412'  : 'content is verifying',      # 源消息审核中
             '413'  : 'post content repeated',      # 重复发表，请不要连续发表重复内容
             '414'  : 'not verify real name',       # 用户未进行实名认证
             '416'  : 'add fail',                   # 服务器内部错误导致发表失败
@@ -428,7 +430,7 @@ class Tencent(Weibo):
             '41002': 'common ip blacklist limit',  # 公共IP黑名单限制 
             '41003': 'weibo blacklist limit',      # 微博黑名单限制
             '41004': 'access too fast',            # 单UIN访问微博过快
-            '41472': 'add fail '}                  # 服务器内部错误导致发表失败
+            '41472': 'add fail'}                  # 服务器内部错误导致发表失败
 
     def access_token(self):
         '''access token'''
@@ -544,8 +546,8 @@ class Twitter(Weibo):
     # now request token get authorize url, and open it in webbrowser.
     def request_token(self):
         '''request token and return authorize url'''
-        #back = self.curl.twitter_get(self.get_request_token_url())
-        back = self.curl.twitter_get(self.get_request_token_url(), proxy_host="127.0.0.1", proxy_port=8087)
+        back = self.curl.twitter_get(self.get_request_token_url())
+        #back = self.curl.twitter_get(self.get_request_token_url(), proxy_host="127.0.0.1", proxy_port=8087)
         #print back
         if back is None:
             return None
@@ -561,11 +563,14 @@ class Twitter(Weibo):
 
     # second authorize the oauth_token which is got at the first step.
     # at previous step open the authorize url, then goto callback with oauth_token and oauth_verifier parameter.
-    def authorize(self, url):
+    def authorize(self):
         '''authorize and get oauth_token, oauth_verifier'''
+        url = self.webkit.get_property('uri')
         back = self.parse_url(url)
+        if back is None:
+            return False
         parse = back[1]
-        if 'oauth_token' in parse:
+        if 'oauth_token' in parse and 'oauth_verifier' in parse:
             self.oauth_token = parse['oauth_token'][0]
             self.oauth_verifier = parse['oauth_verifier'][0]
             return True
@@ -591,8 +596,10 @@ class Twitter(Weibo):
     # now access the oauth_token
     def access_token(self):
         '''access token'''
-        #back = self.curl.twitter_get(self.get_access_token_url())
-        back = self.curl.twitter_get(self.get_access_token_url(), proxy_host="127.0.0.1", proxy_port=8087)
+        if not self.authorize():
+            return False
+        back = self.curl.twitter_get(self.get_access_token_url())
+        #back = self.curl.twitter_get(self.get_access_token_url(), proxy_host="127.0.0.1", proxy_port=8087)
         if back is None:
             return False
         url = urlparse.urlparse(back)
@@ -613,23 +620,31 @@ class Twitter(Weibo):
     # use webkit open authorize page
     def request_oauth(self):
         '''request oauth access token'''
-        self.webkit.load_uri(self.request_token())
+        url = self.request_token()
+        if url is None:
+            self.webkit.load_string("<html><body><h1>load failed!</h1></body></html>", "text/html", "UTF-8", "")
+        else:
+            self.webkit.load_uri(url)
     
     def get_user_name(self):
         '''get user name'''
         timestamp = str(int(time.time()))
+        try:
+            user_id = self.oauth.get('access_token').split('-')[0]
+        except:
+            user_id = self.oauth.get('user_id')
         params = [
             ('oauth_consumer_key', self.APP_KEY), # App Key
             ('oauth_signature_method', 'HMAC-SHA1'), 
             ('oauth_timestamp', timestamp),
             ('oauth_nonce', hashlib.md5(timestamp).hexdigest()),
             ('oauth_version', '1.0'),
-            ('user_id', self.oauth.get('user_id')),
+            ('user_id', user_id),
             ('oauth_token', self.oauth.get('access_token'))]
         user_name = self.signature_base_string("GET", params, self.USERS_URL, self.oauth.get('access_token_secret'))
         user_url = "%s?user_id=%s" % (self.USERS_URL, self.oauth.get('user_id'))
-        #back = self.curl.get(user_url, [user_name[2]])
-        back = self.curl.get(user_url, [user_name[2]], proxy_host="127.0.0.1", proxy_port=8087)
+        back = self.curl.get(user_url, [user_name[2]])
+        #back = self.curl.get(user_url, [user_name[2]], proxy_host="127.0.0.1", proxy_port=8087)
         #user_url = "%s&user_id=%s" % (user_name[1], self.oauth.get('user_id'))
         #back = self.curl.get(user_url)
         if back is None:
@@ -655,8 +670,8 @@ class Twitter(Weibo):
         #back = self.curl.upload(url, data, [header, 'Expect: '], "127.0.0.1", 8087)
         #back = self.curl.upload(url, data, header)
 
-        #curl_cmd = """curl --connect-timeout 10 -k -F media[]="@%s" -F 'status=%s' --request 'POST' '%s' --header '%s' --header '%s'""" %(img, mesg, url, header, "Expect: ")
-        curl_cmd = """curl --connect-timeout 10 -k %s -F media[]="@%s" -F 'status=%s' --request 'POST' '%s' --header '%s' --header '%s'""" %("-x 127.0.0.1:8087", img, mesg, url, header, "Expect: ")
+        curl_cmd = """curl --connect-timeout 10 -k -F media[]="@%s" -F 'status=%s' --request 'POST' '%s' --header '%s' --header '%s'""" %(img, mesg, url, header, "Expect: ")
+        #curl_cmd = """curl --connect-timeout 10 -k %s -F media[]="@%s" -F 'status=%s' --request 'POST' '%s' --header '%s' --header '%s'""" %("-x 127.0.0.1:8087", img, mesg, url, header, "Expect: ")
         #print curl_cmd
         try:
             cmd = subprocess.Popen(curl_cmd, shell=True, stdout=subprocess.PIPE)

@@ -14,15 +14,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 
-msgid "Tip Drag"
-msgstr "拖動可自由選區"
-
 msgid "Tip save to clipboard"
 msgstr "圖片已保存到剪輯板"
 
 msgid "Tip save to file"
 msgstr "圖片已保存到文件"
 
+msgid "Tip save failed"
+msgstr "图片保存失败"
+
+msgid "Tip area width or heigth cannot be 0"
+msgstr "选区的宽或高不能为0"
+
+# toolbar button tooltip
 msgid "Tip draw rectangle"
 msgstr "矩形工具"
 
@@ -49,3 +53,179 @@ msgstr "退出截圖"
 
 msgid "Tip finish"
 msgstr "保存到剪輯板"
+
+msgid "Tip share"
+msgstr "分享到微博"
+
+# in widget.py
+msgid "Tip Drag"
+msgstr "拖動可自由選區"
+
+msgid "Cut"
+msgstr "剪切"
+
+msgid "Copy"
+msgstr "复制"
+
+msgid "Paste"
+msgstr "粘贴"
+
+msgid "Select all"
+msgstr "选择全部"
+
+# in weibo.py
+msgid "Sina"
+msgstr "新浪微博"
+
+msgid "Tencent"
+msgstr "腾讯微博"
+
+# Sina error message
+msgid "System error"
+msgstr "系统错误"
+
+msgid "Service unavailable"
+msgstr "服务暂停"
+
+msgid "Remote service error"
+msgstr "远程服务错误"
+
+msgid "IP limit"
+msgstr "IP限制不能请求该资源"
+
+msgid "Unsupport mediatype"
+msgstr "不支持的MediaType"
+
+msgid "Too many pending tasks, system is busy"
+msgstr "任务过多，系统繁忙"
+
+msgid "Job expired"
+msgstr "任务超时"
+
+msgid "RPC error"
+msgstr "RPC错误"
+
+msgid "Illegal request"
+msgstr "非法请求"
+
+msgid "Invalid weibo user"
+msgstr "不合法的微博用户"
+
+msgid "miss required parameter"
+msgstr "缺失必选参数"
+
+msgid "Request body length over limit"
+msgstr "请求长度超过限制"
+
+msgid "IP requests out of rate limit"
+msgstr "IP请求频次超过上限"
+
+msgid "User requests out of rate limit"
+msgstr "用户请求频次超过上限"
+
+msgid "User does not exists"
+msgstr "用户不存在"
+
+msgid "Unsupported image type, only suport JPG, GIF, PNG"
+msgstr "不支持的图片类型，仅仅支持JPG、GIF、PNG"
+
+msgid "Image size too large"
+msgstr "图片太大"
+
+msgid "Content is null"
+msgstr "内容为空"
+
+msgid "Text too long, please input text less than 140 characters"
+msgstr "输入文字太长，请确认不超过140个字符"
+
+msgid "Text too long, please input text less than 300 characters"
+msgstr "输入文字太长，请确认不超过300个字符"
+
+msgid "Account or ip or app is illgal, can not continue"
+msgstr "账号、IP或应用非法，暂时无法完成此操作"
+
+msgid "Out of limit"
+msgstr "发布内容过于频繁"
+
+msgid "Repeat content"
+msgstr "提交相似的信息"
+
+msgid "Contain illegal website"
+msgstr "包含非法网址"
+
+msgid "Contain advertising"
+msgstr "包含广告信息"
+
+msgid "Content is illegal"
+msgstr "包含非法内容"
+
+msgid "Your ip's behave in a comic boisterous or unruly manner"
+msgstr "此IP地址上的行为异常"
+
+msgid "Update success, while server slow now, please wait 1-2 minutes"
+msgstr "发布成功，目前服务器可能会有延迟，请耐心等待1-2分钟"
+
+msgid "Illegal weibo"
+msgstr "不合法的微博"
+
+msgid "Repeated weibo text"
+msgstr "不能发布相同的微博"
+
+msgid "Contains forbid world"
+msgstr "含有敏感词"
+
+# Tencent error message
+msgid "error content len"
+msgstr "微博内容超出长度限制或为空"
+
+msgid "error pic size"
+msgstr "图片大小超出限制或为0"
+
+msgid "pic format error"
+msgstr "图片格式错误"
+
+msgid "post format error"
+msgstr "格式错误、用户无效（非微博用户）"
+
+msgid "forbidden content"
+msgstr "有过多脏话"
+
+msgid "forbidden access"
+msgstr "禁止访问，如城市，uin黑名单限制等"
+
+msgid "post invliad content"
+msgstr "包含垃圾信息：广告，恶意链接、黑名单号码等"
+
+msgid "post content too fast"
+msgstr "发表太快，被频率限制"
+
+msgid "content is verifying"
+msgstr "源消息审核中"
+
+msgid "post content repeated"
+msgstr "重复发表，请不要连续发表重复内容"
+
+msgid "not verify real name"
+msgstr "用户未进行实名认证"
+
+msgid "add fail"
+msgstr "服务器内部错误导致发表失败"
+
+msgid "pic upload error"
+msgstr "上传图片失败"
+
+msgid "common uin blacklist limit"
+msgstr "公共uin黑名单限制"
+
+msgid "common ip blacklist limit"
+msgstr "公共IP黑名单限制 "
+
+msgid "weibo blacklist limit"
+msgstr "微博黑名单限制"
+
+msgid "access too fast"
+msgstr "单UIN访问微博过快"
+
+# in share.py
+msgid "is not existing"
+msgstr "不存在"

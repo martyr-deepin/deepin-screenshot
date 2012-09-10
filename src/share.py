@@ -23,14 +23,14 @@
 from theme import app_theme
 from dtk.ui.scrolled_window import ScrolledWindow
 from dtk.ui.window import Window
-from dtk.ui.dialog import DialogBox
+from dtk.ui.dialog import ConfirmDialog
 from dtk.ui.browser import WebView
 from dtk.ui.slider import Slider
 from dtk.ui.titlebar import Titlebar
 from dtk.ui.button import Button, CheckButton
 from dtk.ui.label import Label
 from _share import weibo
-from lang import __
+from lang import _
 from os.path import exists
 import gtk
 import webkit
@@ -54,11 +54,17 @@ class ShareToWeibo():
         self.upload_image = filename
         #print "share file:", self.upload_image
 
-        #self.window = Window()
-        self.window = DialogBox("分享到")
+        self.window = Window()
         self.window.set_size_request(600, 480)
         self.window.connect("destroy", self.close_callback)
+        self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         self.window.set_resizable(False)
+
+        titlebar = Titlebar(["close"], title="分享到")
+        titlebar.close_button.connect("clicked", self.close_callback) 
+        self.window.add_move_event(titlebar)
+        self.window.window_frame.pack_start(titlebar)
+
         self.slider = Slider()
         self.slider_list = []
 
@@ -89,13 +95,14 @@ class ShareToWeibo():
         self.twitter = weibo.Twitter(self.web_view)
         self.__current_weibo = None
 
-        self.window.body_box.pack_start(self.slider)
+        self.window.window_frame.pack_start(self.slider)
         self.init_share_box()
 
     def web_view_load_status(self, web, status):
         '''web_view notify load-status'''
         state = web.get_property("load-status")
         if state == webkit.LOAD_FAILED: # load failed
+            print web.get_property('uri')
             print "load failed\n"
             #frame = web.get_main_frame()
             #web.load_string("<html><body><b>load failed!</b></body></html>", "text/html", "UTF-8", "")
@@ -239,11 +246,11 @@ class ShareToWeibo():
 
         button = Button("分享")
         button.connect("clicked", self.share_button_clicked, text_view)
-        self.window.button_box.remove(self.window.left_button_box)
-        self.window.button_box.remove(self.window.right_button_box)
-        self.share_box.pack_start(self.window.left_button_box, False, False)
-        self.share_box.pack_start(self.window.right_button_box, False, False)
-        self.window.right_button_box.pack_start(button, False, False)
+        align = gtk.Alignment() 
+        align.set(0.5, 0.5, 1, 1)
+        align.set_padding(0, 0, 10, 10)
+        align.add(button)
+        self.share_box.pack_start(align, False, False)
 
         # at first, set widget insensitive
         self.share_box.set_sensitive(False)
@@ -262,6 +269,7 @@ class ShareToWeibo():
         '''share_button_clicked'''
         if not exists(self.upload_image):
             # file is not exist.
+            ConfirmDialog("错误", "'%s' %s." % (self.upload_image, _("is not existing"))).show_all()
             return False
         # at first, set widget insensitive
         self.share_box.set_sensitive(False)
@@ -293,7 +301,7 @@ class ShareToWeibo():
                 self.result_box.pack_start(label)
                 print text
             else:
-                error = __(weibo.get_error_msg()) if weibo.get_error_msg() else ""
+                error = _(weibo.get_error_msg()) if weibo.get_error_msg() else ""
                 text = weibo.t_type + "上传失败" + error
                 label = gtk.Label(text)
                 label.show()

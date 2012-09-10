@@ -27,7 +27,7 @@ from collections import namedtuple
 from draw import *
 from constant import *
 from action import TextAction
-from lang import __
+from lang import _
 from dtk.ui.entry import Entry
 from dtk.ui.utils import (cairo_state, color_hex_to_cairo,
                           is_left_button, is_right_button,
@@ -123,12 +123,18 @@ class RootWindow():
             self._draw_drag_point(cr)
             # draw size tip
             if self.screenshot.y - 35 > self.screenshot.monitor_y:  # convert coord
-                draw_round_text_rectangle(cr, self.screenshot.x + 5, self.screenshot.y - 35,
-                    90, 30, 7,
+                size_tip_x = self.screenshot.x - self.screenshot.monitor_x + 5
+                if size_tip_x + 90 > self.screenshot.width:
+                    size_tip_x = self.screenshot.width - 90
+                size_tip_y = self.screenshot.y - self.screenshot.monitor_y - 35
+                draw_round_text_rectangle(cr, size_tip_x, size_tip_y, 90, 30, 7,
                     '%d x %d' % (fabs(self.screenshot.rect_width), fabs(self.screenshot.rect_height)), 0.7)
             elif self.screenshot.action in [None, ACTION_SELECT, ACTION_WINDOW, ACTION_INIT]:
-                draw_round_text_rectangle(cr, self.screenshot.x + 5 , self.screenshot.y + 5 ,
-                    90, 30, 7,
+                size_tip_x = self.screenshot.x - self.screenshot.monitor_x + 5
+                if size_tip_x + 90 > self.screenshot.width:
+                    size_tip_x = self.screenshot.width - 90
+                size_tip_y = self.screenshot.y - self.screenshot.monitor_y + 5
+                draw_round_text_rectangle(cr, size_tip_x, size_tip_y, 90, 30, 7,
                     '%d x %d' % (fabs(self.screenshot.rect_width), fabs(self.screenshot.rect_height)), 0.7)
         # update text action info
         for each_text_action in self.screenshot.text_action_list:
@@ -205,7 +211,7 @@ class RootWindow():
         gtk.main_quit()
         pass
     
-    def update_magnifier(self, x, y, size='', tip=__("Tip Drag"), rgb="RGB:(255,255,255)"):
+    def update_magnifier(self, x, y, size='', tip=_("Tip Drag"), rgb="RGB:(255,255,255)"):
         ''' update magnifier '''
         self.magnifier = Magnifier(x, y, size, tip, rgb)
 
@@ -656,40 +662,40 @@ class RightMenu():
             ((app_theme_get_dynamic_pixbuf('image/action/rect_normal.png'),
               app_theme_get_dynamic_pixbuf('image/action/rect_hover.png'),
               app_theme_get_dynamic_pixbuf('image/action/rect_press.png')),
-              __("Tip draw rectangle"), self._menu_click, "rect"),
+              _("Tip draw rectangle"), self._menu_click, "rect"),
             ((app_theme_get_dynamic_pixbuf('image/action/ellipse_normal.png'),
               app_theme_get_dynamic_pixbuf('image/action/ellipse_hover.png'),
               app_theme_get_dynamic_pixbuf('image/action/ellipse_press.png')),
-              __("Tip draw ellipse"), self._menu_click, "ellipse"),
+              _("Tip draw ellipse"), self._menu_click, "ellipse"),
             ((app_theme_get_dynamic_pixbuf('image/action/arrow_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action/arrow_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/arrow_press.png')), 
-              __("Tip draw arrow"), self._menu_click, "arrow"),
+              _("Tip draw arrow"), self._menu_click, "arrow"),
             ((app_theme_get_dynamic_pixbuf('image/action/line_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action/line_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/line_press.png')), 
-              __("Tip draw line"), self._menu_click, "line"),
+              _("Tip draw line"), self._menu_click, "line"),
             ((app_theme_get_dynamic_pixbuf('image/action/text_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action/text_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/text_press.png')), 
-              __("Tip draw Text"), self._menu_click, "text"),
+              _("Tip draw Text"), self._menu_click, "text"),
             None,
             ((app_theme_get_dynamic_pixbuf('image/action/undo_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action/undo_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/undo_press.png')), 
-              __("Tip undo"), self._menu_click, "undo"),
+              _("Tip undo"), self._menu_click, "undo"),
             ((app_theme_get_dynamic_pixbuf('image/action/save_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action/save_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/save_press.png')), 
-              __("Tip save"), self._menu_click, "save"),
+              _("Tip save"), self._menu_click, "save"),
             ((app_theme_get_dynamic_pixbuf('image/action/cancel_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action/cancel_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/cancel_press.png')), 
-              __("Tip cancel"), self._menu_click, "cancel"),
+              _("Tip cancel"), self._menu_click, "cancel"),
             ((app_theme_get_dynamic_pixbuf('image/action/finish_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action/finish_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/finish_press.png')), 
-              __("Tip finish"), self._menu_click, "finish"),
+              _("Tip finish"), self._menu_click, "finish"),
             ], True)
         
     def _menu_click(self, name):

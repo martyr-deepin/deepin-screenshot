@@ -30,7 +30,7 @@ from dtk.ui.color_selection import ColorSelectDialog
 #from dtk.ui.dialog import SaveFileDialog
 from dtk.ui.spin import SpinBox
 import dtk.ui.constant
-from lang import __
+from lang import _
 import utils
 import gtk
 from constant import *
@@ -69,11 +69,11 @@ class Toolbar():
         self.window.window_shadow.set_padding(toolbar_padding_y, toolbar_padding_y, toolbar_padding_x, toolbar_padding_x)
 
         self._toggle_buton_list = []
-        self.create_toggle_button("rect", ACTION_RECTANGLE, __("Tip draw rectangle"))
-        self.create_toggle_button("ellipse", ACTION_ELLIPSE, __("Tip draw ellipse"))
-        self.create_toggle_button("arrow",ACTION_ARROW, __("Tip draw arrow"))
-        self.create_toggle_button("line",ACTION_LINE, __("Tip draw line"))
-        self.create_toggle_button("text",ACTION_TEXT, __("Tip draw Text"))
+        self.create_toggle_button("rect", ACTION_RECTANGLE, _("Tip draw rectangle"))
+        self.create_toggle_button("ellipse", ACTION_ELLIPSE, _("Tip draw ellipse"))
+        self.create_toggle_button("arrow",ACTION_ARROW, _("Tip draw arrow"))
+        self.create_toggle_button("line",ACTION_LINE, _("Tip draw line"))
+        self.create_toggle_button("text",ACTION_TEXT, _("Tip draw Text"))
 
         button = ImageButton(
             app_theme.get_pixbuf("action/sep.png"),
@@ -82,8 +82,8 @@ class Toolbar():
         self.toolbox.pack_start(button)
         #self.toolbox.pack_start(VSeparator())
 
-        self.create_button("undo", __("Tip undo"))
-        self.create_button("save", __("Tip save"))
+        self.create_button("undo", _("Tip undo"))
+        self.create_button("save", _("Tip save"))
         
         button = ImageButton(
             app_theme.get_pixbuf("action/sep.png"),
@@ -92,9 +92,9 @@ class Toolbar():
         self.toolbox.pack_start(button)
         #self.toolbox.pack_start(VSeparator())
 
-        self.create_button("cancel", __("Tip cancel"))
-        self.create_button("finish", __("Tip finish"))
-        self.create_button("share", __("Tip share"))
+        self.create_button("cancel", _("Tip cancel"))
+        self.create_button("finish", _("Tip finish"))
+        self.create_button("share", _("Tip share"))
 
         if self.screenshot:
             self._button_clicked_cb = {
@@ -227,6 +227,7 @@ class Toolbar():
 
     def _save_to_file_cancel(self, filename):
         ''' save file dialog cancel_callback'''
+        self.screenshot.share_to_flag = False
         self.win.adjust_toolbar()
         self.win.show_toolbar()
         #self.win.show_colorbar()
