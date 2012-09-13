@@ -14,14 +14,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 
-msgid "Tip Drag"
-msgstr "Drag to select"
-
 msgid "Tip save to clipboard"
 msgstr "Save snapshot to clipboard"
 
 msgid "Tip save to file"
 msgstr "Save snapshot to file"
+
+msgid "Tip save failed"
+msgstr "图片保存失败"
+
+msgid "Tip area width or height cannot be 0"
+msgstr "选区的宽或高不能为0"
 
 msgid "Tip draw rectangle"
 msgstr "Rectangle Tool"
@@ -49,3 +52,11 @@ msgstr "Quit Tool"
 
 msgid "Tip finish"
 msgstr "Save to Clipboard"
+
+msgid "Tip share"
+msgstr "分享到微博"
+
+# in widget.py
+msgid "Tip Drag"
+msgstr "Drag to select"
+

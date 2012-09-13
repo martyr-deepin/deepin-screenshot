@@ -692,10 +692,10 @@ class RightMenu():
               app_theme_get_dynamic_pixbuf('image/action/cancel_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/cancel_press.png')), 
               _("Tip cancel"), self._menu_click, "cancel"),
-            ((app_theme_get_dynamic_pixbuf('image/action/finish_normal.png'), 
-              app_theme_get_dynamic_pixbuf('image/action/finish_hover.png'), 
-              app_theme_get_dynamic_pixbuf('image/action/finish_press.png')), 
-              _("Tip finish"), self._menu_click, "finish"),
+            #((app_theme_get_dynamic_pixbuf('image/action/finish_normal.png'), 
+              #app_theme_get_dynamic_pixbuf('image/action/finish_hover.png'), 
+              #app_theme_get_dynamic_pixbuf('image/action/finish_press.png')), 
+              #_("Tip finish"), self._menu_click, "finish"),
             ], True)
         
     def _menu_click(self, name):

@@ -23,8 +23,11 @@ msgstr "图片已保存到文件"
 msgid "Tip save failed"
 msgstr "图片保存失败"
 
-msgid "Tip area width or heigth cannot be 0"
+msgid "Tip area width or height cannot be 0"
 msgstr "选区的宽或高不能为0"
+
+msgid "DeepinScreenshot"
+msgstr "深度截图"
 
 # toolbar button tooltip
 msgid "Tip draw rectangle"
@@ -229,3 +232,12 @@ msgstr "单UIN访问微博过快"
 # in share.py
 msgid "is not existing"
 msgstr "不存在"
+
+msgid "upload successfully"
+msgstr "上传成功"
+
+msgid "upload failed"
+msgstr "上传失败"
+
+msgid "at least choose one web"
+msgstr "请至少选择一个平台进行分享"

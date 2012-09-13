@@ -130,50 +130,45 @@ class DeepinScreenshot():
         '''Save snapshot.'''
         # Save snapshot.
         if self.rect_width == 0 or self.rect_height == 0:
-            tipContent = _("Tip area width or heigth cannot be 0")
+            tipContent = _("Tip area width or height cannot be 0")
         else:
             self.window.finish_flag = True
-            #self.window.refresh()
-            #pixmap = self.window.draw_area.get_snapshot(gtk.gdk.Rectangle(int(self.x), int(self.y), int(self.rect_width), int(self.rect_height)))
-            #print self.x, self.y, self.rect_width, self.rect_height, pixmap.get_size()
-            #pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, int(self.rect_width), int(self.rect_height))
-            #pixbuf.get_from_drawable(pixmap, pixmap.get_colormap(), 0, 0, 0, 0, int(self.rect_width), int(self.rect_height))
-
             surface = self.make_pic_file(
                 self.desktop_background.subpixbuf(*self.get_rectangel_in_monitor()))
-            if filename is None:
-                # Save snapshot to clipboard if filename is None.
-                import StringIO
-                fp = StringIO.StringIO()
-                surface.write_to_png(fp)
-                contents = fp.getvalue()
-                fp.close()
-                loader = gtk.gdk.PixbufLoader()
-                loader.write(contents, len(contents))
-                pixbuf = loader.get_pixbuf()
-                loader.close()
-
-                clipboard = gtk.Clipboard(selection="CLIPBOARD")
-                clipboard.set_image(pixbuf)
-                clipboard.store()
-                tipContent = _("Tip save to clipboard")
-            else:
-                # Otherwise save to local file.
+            if filename:
+                # Save to file
                 tipContent = _("Tip save to file")
                 try:
                     surface.write_to_png(filename)
                 except Exception, e:
                     tipContent = "%s:%s" % (_("Tip save failed"), str(e))
+            # Save snapshot to clipboard
+            import StringIO
+            fp = StringIO.StringIO()
+            surface.write_to_png(fp)
+            contents = fp.getvalue()
+            fp.close()
+            loader = gtk.gdk.PixbufLoader()
+            loader.write(contents, len(contents))
+            pixbuf = loader.get_pixbuf()
+            loader.close()
+
+            clipboard = gtk.Clipboard(selection="CLIPBOARD")
+            clipboard.set_image(pixbuf)
+            clipboard.store()
+            tipContent = _("Tip save to clipboard")
 
         # Exit
         self.window.quit()
         if self.share_to_flag:
             # share window
+            win_x = self.monitor_x + (self.width / 2) - 300
+            win_y = self.monitor_y + (self.height/ 2) - 200
             try:
-                cmd = ('python2', 'share.py', filename)
+                cmd = ('python2', 'share.py', filename, str(win_x), str(win_y))
                 subprocess.Popen(cmd)
             except OSError:    
-                cmd = ('python', 'share.py', filename)
+                cmd = ('python', 'share.py', filename, str(win_x), str(win_y))
                 subprocess.Popen(cmd)
         
         # tipWindow

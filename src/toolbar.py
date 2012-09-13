@@ -29,6 +29,7 @@ from dtk.ui.label import Label
 from dtk.ui.color_selection import ColorSelectDialog
 #from dtk.ui.dialog import SaveFileDialog
 from dtk.ui.spin import SpinBox
+import dtk.ui.tooltip as Tooltip
 import dtk.ui.constant
 from lang import _
 import utils
@@ -48,25 +49,29 @@ class Toolbar():
         toolbar_padding_y = 5
         toolbar_icon_width = toolbar_icon_height = 28
         toolbar_icon_num = 10
-        #self.widht = 290
         self.height = toolbar_icon_height + toolbar_padding_y * 2
+
         self.window = Window(window_type=gtk.WINDOW_POPUP, shadow_visible=False)
         self.window.set_keep_above(True)
         self.window.set_decorated(False)
         self.window.set_transient_for(parent)
-        #self.window.connect("size-allocate", lambda w, a: updateShape(w, a, 2))
-        #self.window.connect("expose-event", lambda w, e: exposeBackground(w, e, appTheme.getDynamicPixbuf("bg.png")))
 
-        vbox = gtk.VBox(False, 0)
-        self.toolbox = gtk.HBox(False, 2)
-        #self.window.window_frame.pack_start(self.toolbox)
-        self.window.window_shadow.remove(self.window.window_frame)
-        self.window.window_shadow.add(self.toolbox)
-        self.window.remove(self.window.window_shadow)
-        vbox.pack_start(self.window.window_shadow)
-        self.window.add(vbox)
-        self.window.window_shadow.set(0.5, 0.5, 0, 0)
-        self.window.window_shadow.set_padding(toolbar_padding_y, toolbar_padding_y, toolbar_padding_x, toolbar_padding_x)
+        vbox = gtk.VBox()
+        self.toolbox = gtk.HBox()
+        vbox.pack_start(self.toolbox, True, True)
+        toolbox_align = gtk.Alignment()
+        toolbox_align.set(0.5, 0.5, 0, 0)
+        toolbox_align.add(vbox)
+        self.window.window_frame.pack_start(toolbox_align, True, True)
+
+        #self.window.window_shadow.remove(self.window.window_frame)
+        #self.window.window_shadow.add(self.toolbox)
+        #self.window.remove(self.window.window_shadow)
+        #vbox.pack_start(self.window.window_shadow)
+        #self.window.add(vbox)
+
+        self.window.window_shadow.set(0.5, 0.5, 1, 1)
+        #self.window.window_shadow.set_padding(toolbar_padding_y, toolbar_padding_y, toolbar_padding_x, toolbar_padding_x)
 
         self._toggle_buton_list = []
         self.create_toggle_button("rect", ACTION_RECTANGLE, _("Tip draw rectangle"))
@@ -75,25 +80,27 @@ class Toolbar():
         self.create_toggle_button("line",ACTION_LINE, _("Tip draw line"))
         self.create_toggle_button("text",ACTION_TEXT, _("Tip draw Text"))
 
-        button = ImageButton(
-            app_theme.get_pixbuf("action/sep.png"),
-            app_theme.get_pixbuf("action/sep.png"),
-            app_theme.get_pixbuf("action/sep.png"))
-        self.toolbox.pack_start(button)
+        #button = ImageButton(
+            #app_theme.get_pixbuf("action/sep.png"),
+            #app_theme.get_pixbuf("action/sep.png"),
+            #app_theme.get_pixbuf("action/sep.png"))
+        #self.toolbox.pack_start(button)
         #self.toolbox.pack_start(VSeparator())
 
         self.create_button("undo", _("Tip undo"))
         self.create_button("save", _("Tip save"))
+        list_button = self.create_button("list", _(" "))
+        list_button.set_size_request(11, 21)
         
-        button = ImageButton(
-            app_theme.get_pixbuf("action/sep.png"),
-            app_theme.get_pixbuf("action/sep.png"),
-            app_theme.get_pixbuf("action/sep.png"))
-        self.toolbox.pack_start(button)
+        #button = ImageButton(
+            #app_theme.get_pixbuf("action/sep.png"),
+            #app_theme.get_pixbuf("action/sep.png"),
+            #app_theme.get_pixbuf("action/sep.png"))
+        #self.toolbox.pack_start(button)
         #self.toolbox.pack_start(VSeparator())
 
         self.create_button("cancel", _("Tip cancel"))
-        self.create_button("finish", _("Tip finish"))
+        #self.create_button("finish", _("Tip finish"))
         self.create_button("share", _("Tip share"))
 
         if self.screenshot:
@@ -130,12 +137,14 @@ class Toolbar():
         button.set_name(name)
         button.set_size_request(28, 28)
         self.toolbox.pack_start(button)
+        return button
 
     def _show_tooltip(self, widget, event, text):
         '''Create help tooltip.'''
-        widget.set_has_tooltip(True)
-        widget.set_tooltip_text(text)
-        widget.trigger_tooltip_query()
+        #widget.set_has_tooltip(True)
+        #widget.set_tooltip_text(text)
+        #widget.trigger_tooltip_query()
+        Tooltip.text(widget, text)
 
     def _button_clicked(self, widget, name):
         ''' button clicked '''
@@ -144,7 +153,8 @@ class Toolbar():
         # save current input text
         if self.screenshot.show_text_window_flag:
             self.win.save_text_window()
-        self._button_clicked_cb[name](widget)
+        if name in self._button_clicked_cb:
+            self._button_clicked_cb[name](widget)
 
     def _toggle_button_released(self, widget):
         ''' toggle button pressed '''
@@ -215,7 +225,7 @@ class Toolbar():
             dialog.set_current_folder(last_folder)
         else:
             dialog.set_current_folder(utils.get_pictures_dir())
-        dialog.set_current_name("%s%s.%s" % (__(DEFAULT_FILENAME), utils.get_format_time(), "png"))
+        dialog.set_current_name("%s%s.%s" % (_(DEFAULT_FILENAME), utils.get_format_time(), "png"))
         response = dialog.run()
         filename = dialog.get_filename()
         if response == gtk.RESPONSE_ACCEPT:
@@ -290,46 +300,51 @@ class Colorbar():
         self.create_size_button("small", ACTION_SIZE_SMALL)
         self.create_size_button("normal", ACTION_SIZE_NORMAL)
         self.create_size_button("big", ACTION_SIZE_BIG)
-        self.create_size_button("fill", ACTION_SIZE_RECTANGLE_ELLIPSE_FILL)
+        self.create_size_button("ellipse_fill", ACTION_SIZE_RECTANGLE_ELLIPSE_FILL)
+        self.create_size_button("rect_fill", ACTION_SIZE_RECTANGLE_ELLIPSE_FILL)
         self._set_size_button_state("small", True)
 
         self.size_align = gtk.Alignment()
         self.size_align.set(0.5,0.5,0,0)
-        self.size_align.set_padding(2, 1, 0, 0)
+        #self.size_align.set_padding(2, 1, 0, 0)
         self.size_align.add(self.size_box)
         #self.dynamic_box.pack_start(self.size_align)
         self.box.pack_start(self.dynamic_box)
         
         # font select
         self.font_box = gtk.HBox()
-        self.font_label = Label("Sans",enable_select=False, text_x_align=dtk.ui.constant.ALIGN_MIDDLE, label_width=20)
-        self.font_label.set_size_request(20, 28)
+        #self.font_label = Label("A",enable_select=False, text_x_align=dtk.ui.constant.ALIGN_MIDDLE, label_width=20)
+        #self.font_label.set_size_request(20, 28)
         self.font_spin = SpinBox(10, 8, 72, 1)
         self.font_spin.connect("value-changed", self._font_size_changed)
-        self.font_box.pack_start(self.font_label)
+        #self.font_box.pack_start(self.font_label)
         self.font_box.pack_start(self.font_spin)
         #self.font_label.connect("button-press-event", self._select_font_event) 
         #self.font_label.connect("enter-notify-event", lambda w, e: utils.set_cursor(w, gtk.gdk.Cursor(gtk.gdk.HAND2)))
         #self.font_label.connect("leave-notify-event", lambda w, e: utils.set_default_cursor(w))
         #self.dynamic_box.pack_start(self.font_label)
 
-        button = ImageButton(
-            app_theme.get_pixbuf("action/color_sep.png"),
-            app_theme.get_pixbuf("action/color_sep.png"),
-            app_theme.get_pixbuf("action/color_sep.png"))
-        self.box.pack_start(button)
+        #button = ImageButton(
+            #app_theme.get_pixbuf("action/color_sep.png"),
+            #app_theme.get_pixbuf("action/color_sep.png"),
+            #app_theme.get_pixbuf("action/color_sep.png"))
+        #self.box.pack_start(button)
 
         # color select
-        self.color_select = gtk.EventBox()
+        #self.color_select = gtk.EventBox()
         #self.color_select = ColorButton()
+        self.color_select = gtk.Image()
+        self.color_select.set_size_request(28, 28)
+        pix = app_theme.get_pixbuf("color_big/red.png").get_pixbuf()
+        self.color_select.set_from_pixbuf(pix)
 
         self.box.pack_start(self.color_select, False, False)
         #self.color_select.set_border_width(2)
-        self.color_select.set_events(gtk.gdk.BUTTON_PRESS_MASK)
-        self.color_select.set_size_request(28,28)
-        self.color_select.set_app_paintable(True)
-        self.color_select.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#FF0000"))
-        self.color_select.connect('expose-event', self._color_select_expose)
+        #self.color_select.set_events(gtk.gdk.BUTTON_PRESS_MASK)
+        #self.color_select.set_size_request(28,28)
+        #self.color_select.set_app_paintable(True)
+        #self.color_select.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("#FF0000"))
+        #self.color_select.connect('expose-event', self._color_select_expose)
         #self.color_select.connect('button-press-event', self._select_color_event)
         #self.color_select.connect("enter-notify-event", lambda w, e: utils.set_cursor(w, gtk.gdk.Cursor(gtk.gdk.HAND2)))
         #self.color_select.connect("leave-notify-event", lambda w, e: utils.set_default_cursor(w))
@@ -380,24 +395,14 @@ class Colorbar():
     def create_toggle_button(self, name):
         ''' make a togglebutton '''
         button = ToggleButton(
-            app_theme.get_pixbuf("action/" + name + ".png"),
-            app_theme.get_pixbuf("action/" + name + "_hover.png"),
-            app_theme.get_pixbuf("action/" + name + "_press.png"))
-        button.set_name(name)
-        return button
-
-    def create_image_button(self, name):
-        '''create ImageButton'''
-        button = ImageButton(
-            app_theme.get_pixbuf("action/" + name + ".png"),
-            app_theme.get_pixbuf("action/" + name + "_hover.png"),
-            app_theme.get_pixbuf("action/" + name + "_press.png"))
+            app_theme.get_pixbuf("size/" + name + ".png"),
+            app_theme.get_pixbuf("size/" + name + "_hover.png"),
+            app_theme.get_pixbuf("size/" + name + "_press.png"))
         button.set_name(name)
         return button
 
     def create_size_button(self, name, index):
         ''' create size button '''
-        #button = self.create_image_button(name)
         button = self.create_toggle_button(name)
         button.set_size_request(28, 28)
         button.connect("pressed", self._size_button_pressed, index)
@@ -405,6 +410,7 @@ class Colorbar():
         button.connect("released", self._size_button_released)
         self.size_box.pack_start(button)
         self.__size_button_dict[name] = button
+        return button
 
     def _select_font_event(self, widget, event, data=None):
         ''' select font '''
@@ -482,7 +488,9 @@ class Colorbar():
 
     def _color_button_pressed(self, widget, name):
         ''' color button pressed'''
-        self.color_select.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.color_map[name]))
+        #self.color_select.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.color_map[name]))
+        pix = app_theme.get_pixbuf("color_big/" + name + ".png").get_pixbuf()
+        self.color_select.set_from_pixbuf(pix)
         if self.screenshot is None:
             return
         self.screenshot.action_color = self.color_map[name]
@@ -496,11 +504,11 @@ class Colorbar():
             return
         #self.screenshot.iconIndex = index
         self.screenshot.action_size = index
-        for each in self.size_box.get_children():
-            if each == widget:
+        for each in self.__size_button_dict:
+            if self.__size_button_dict[each] == widget:
                 continue
             else:
-                each.set_active(False)
+                self.__size_button_dict[each].set_active(False)
 
     def _size_button_released(self, widget):
         ''' size button release '''
@@ -529,15 +537,35 @@ class Colorbar():
             if self.size_align not in self.dynamic_box.get_children():
                 self.dynamic_box.add(self.size_align)
             # actin is rectangle or ellispe, show fill button
-            if self.screenshot.action in [ACTION_RECTANGLE, ACTION_ELLIPSE]:
-                if self.__size_button_dict['fill'] not in self.size_box.get_children():
-                    self.size_box.pack_start(self.__size_button_dict['fill'])
+            if self.screenshot.action == ACTION_RECTANGLE:
+                if self.__size_button_dict['rect_fill'] not in self.size_box.get_children():
+                    self.size_box.pack_start(self.__size_button_dict['rect_fill'])
+                if self.__size_button_dict['ellipse_fill'] in self.size_box.get_children():
+                    self.size_box.remove(self.__size_button_dict['ellipse_fill'])
+                if self.__size_button_dict['ellipse_fill'].get_active():
+                    self.__size_button_dict['rect_fill'].pressed()
+                    self.__size_button_dict['rect_fill'].released()
+
+            elif self.screenshot.action == ACTION_ELLIPSE:
+                if self.__size_button_dict['ellipse_fill'] not in self.size_box.get_children():
+                    self.size_box.pack_start(self.__size_button_dict['ellipse_fill'])
+                if self.__size_button_dict['rect_fill'] in self.size_box.get_children():
+                    self.size_box.remove(self.__size_button_dict['rect_fill'])
+                if self.__size_button_dict['rect_fill'].get_active():
+                    self.__size_button_dict['ellipse_fill'].pressed()
+                    self.__size_button_dict['ellipse_fill'].released()
+
             else:
-                if self.__size_button_dict['fill'] in self.size_box.get_children():
-                    if self.__size_button_dict['fill'].get_active():
+                if self.__size_button_dict['rect_fill'] in self.size_box.get_children():
+                    if self.__size_button_dict['rect_fill'].get_active():
                         self.__size_button_dict['small'].pressed()
                         self.__size_button_dict['small'].released()
-                    self.size_box.remove(self.__size_button_dict['fill'])
+                    self.size_box.remove(self.__size_button_dict['rect_fill'])
+                if self.__size_button_dict['ellipse_fill'] in self.size_box.get_children():
+                    if self.__size_button_dict['ellipse_fill'].get_active():
+                        self.__size_button_dict['small'].pressed()
+                        self.__size_button_dict['small'].released()
+                    self.size_box.remove(self.__size_button_dict['ellipse_fill'])
         if not self.window.get_visible():
             self.window.show_window()
 
