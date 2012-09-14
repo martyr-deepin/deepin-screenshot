@@ -49,13 +49,22 @@ msgid "Tip undo"
 msgstr "撤销编辑"
 
 msgid "Tip save"
-msgstr "保存到文件"
+msgstr "保存"
+
+msgid "save auto"
+msgstr "自动保存"
+
+msgid "save as"
+msgstr "保存到指定目录"
+
+msgid "save clip"
+msgstr "复制到剪切板"
+
+msgid "save auto and clip"
+msgstr "自动保存并复制到剪切板"
 
 msgid "Tip cancel"
 msgstr "退出截图"
-
-msgid "Tip finish"
-msgstr "保存到剪辑板"
 
 msgid "Tip share"
 msgstr "分享到微博"

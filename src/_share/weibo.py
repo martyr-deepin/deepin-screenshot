@@ -412,7 +412,7 @@ class Sina(Weibo):
             return None
         if 'error_code' in back:
             return None
-        return (back['name'], back['location'], back['description'])
+        return (back['name'], back['location'], back['description'], back['following'])
 
     def friendships_create(self):
         '''add deepin to friend'''
@@ -538,7 +538,8 @@ class Tencent(Weibo):
             return None
         if back['errcode'] != 0:
             return None
-        return (back['data']['nick'], back['data']['location'], back['data']['introduction'])
+        return (back['data']['nick'], back['data']['location'], \
+                back['data']['introduction'], back['data']['ismyfans'])
     
     def friendships_create(self):
         '''add deepin to friend'''
@@ -794,12 +795,12 @@ class Twitter(Weibo):
         user_url = "%s?user_id=%s" % (self.USERS_URL, self.DEEPIN_ID)
         #back = self.curl.get(user_url, [user_name[2]])
         back = self.curl.get(user_url, [user_name[2]], proxy_host="127.0.0.1", proxy_port=8087)
-        print back
+        #print back
         if back is None:
             return None
         if 'errors' in back or 'error' in back:
             return None
-        return (back['screen_name'], back['location'], back['description'])
+        return (back['screen_name'], back['location'], back['description'], back['following'])
     
     def friendships_create(self):
         '''add deepin to friend'''

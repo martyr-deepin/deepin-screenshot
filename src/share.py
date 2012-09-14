@@ -31,6 +31,7 @@ from dtk.ui.button import Button, CheckButton, LinkButton
 from dtk.ui.label import Label
 from _share import weibo
 from lang import _
+from lang import lang as sys_lang
 from os.path import exists
 import gtk
 import webkit
@@ -56,16 +57,18 @@ class ShareToWeibo():
         self.upload_image = filename
         self.thumb_width = 50
         self.thumb_height = 50
+        self.MAX_CHAR = 140
         #print "share file:", self.upload_image
 
         self.window = Window()
+        self.window.set_keep_above(True)
         self.window.set_size_request(600, 480)
-        self.window.connect("destroy", self.close_callback)
+        self.window.connect("destroy", self.quit)
         #self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         self.window.set_resizable(False)
 
-        titlebar = Titlebar(["close"], title="分享到")
-        titlebar.close_button.connect("clicked", self.close_callback) 
+        titlebar = Titlebar(["close"], title=_("share to web"))
+        titlebar.close_button.connect("clicked", self.quit) 
         self.window.add_move_event(titlebar)
         self.window.window_frame.pack_start(titlebar)
 
@@ -94,9 +97,14 @@ class ShareToWeibo():
         self.slider_list.append(self.web_box)
         self.slider_list.append(self.result_box)
 
+        self.__weibo_list = []
         self.sina = weibo.Sina(self.web_view)
         self.qq = weibo.Tencent(self.web_view)
-        self.twitter = weibo.Twitter(self.web_view)
+        self.__weibo_list.append(self.sina)
+        self.__weibo_list.append(self.qq)
+        if sys_lang != 'zh_CN':
+            self.twitter = weibo.Twitter(self.web_view)
+            self.__weibo_list.append(self.twitter)
         self.__current_weibo = None
 
         self.window.window_frame.pack_start(self.slider)
@@ -115,7 +123,7 @@ class ShareToWeibo():
                 # access token
                 #print web.get_property('uri')
                 if self.__current_weibo.access_token():
-                    self.recreate_label()
+                    self.get_user_info_again()
                     self.set_slide_index(0)
 
     def set_slide_index(self, index):
@@ -146,17 +154,17 @@ class ShareToWeibo():
         name = app_theme.get_theme_file_path(filename)
         return gtk.image_new_from_file(name)
     
-    def recreate_label(self):
+    def get_user_info_again(self):
         '''recreate label info'''
         box = self.__current_weibo.get_box()
         #print "cuurent weibo:", self.__current_weibo.t_type
         children = box.get_children()
         for child in children:
             child.destroy()
-        self.create_label(self.__current_weibo)
+        self.get_user_info(self.__current_weibo)
         box.show_all()
 
-    def create_label(self, weibo):
+    def get_user_info(self, weibo):
         '''create label info'''
         hbox = weibo.get_box()
         info = weibo.get_user_name()
@@ -183,20 +191,17 @@ class ShareToWeibo():
         widget.set_tooltip_text(text)
         widget.trigger_tooltip_query()
 
-    def __get_user_info_thread(self):
+    def get_user_info_thread(self):
         '''get user name thread'''
         time.sleep(0.1)
 
-        self.create_label(self.sina)
-        self.create_label(self.qq)
-        self.create_label(self.twitter)
+        for weibo in self.__weibo_list:
+            self.get_user_info(weibo)
 
         gtk.gdk.threads_enter()
-        self.sina.get_box().show_all()
-        self.qq.get_box().show_all()
-        self.twitter.get_box().show_all()
+        for weibo in self.__weibo_list:
+            weibo.get_box().show_all()
         self.share_box.set_sensitive(True)
-        #self.share_box.queue_draw()
         gtk.gdk.threads_leave()
     
     # init share box, create share button, input
@@ -205,37 +210,19 @@ class ShareToWeibo():
         weibo_box = gtk.HBox(False, 8)
         self.to_share_weibo = {}
         self.to_share_weibo_res = {}
+        self.deepin_info = {}
 
-        vbox = gtk.VBox(False, 2)
-        sina_ico = self.create_ico_image("image/weibo/Sina.png")
-        sina_ico.add_events(gtk.gdk.ENTER_NOTIFY_MASK)
-        sina_ico.connect("enter-notify-event", self.show_tooltip, "新浪微博")
-        #sina_box = self.create_label(self.sina)
-        sina_box = gtk.HBox(False, 2)
-        self.sina.set_box(sina_box)
-        vbox.pack_start(sina_ico, False, False)
-        vbox.pack_start(sina_box, False, False)
-        weibo_box.pack_start(vbox, False, False)
+        for weibo in self.__weibo_list:
+            vbox = gtk.VBox(False, 2)
+            ico = self.create_ico_image("image/weibo/%s.png" % weibo.t_type)
+            ico.add_events(gtk.gdk.ENTER_NOTIFY_MASK)
+            ico.connect("enter-notify-event", self.show_tooltip, _(weibo.t_type))
+            box = gtk.HBox(False, 2)
+            weibo.set_box(box)
+            vbox.pack_start(ico, False, False)
+            vbox.pack_start(box, False, False)
+            weibo_box.pack_start(vbox, False, False)
 
-        vbox = gtk.VBox(False, 2)
-        qq_ico = self.create_ico_image("image/weibo/Tencent.png")
-        qq_ico.connect("enter-notify-event", self.show_tooltip, "腾讯微博")
-        #qq_box = self.create_label(self.qq)
-        qq_box = gtk.HBox(False, 2)
-        self.qq.set_box(qq_box)
-        vbox.pack_start(qq_ico, False, False)
-        vbox.pack_start(qq_box, False, False)
-        weibo_box.pack_start(vbox, False, False)
-
-        vbox = gtk.VBox(False, 2)
-        twitter_ico = self.create_ico_image("image/weibo/Twitter.png")
-        twitter_ico.connect("enter-notify-event", self.show_tooltip, "Twitter")
-        #twitter_box = self.create_label(self.twitter)
-        twitter_box = gtk.HBox(False, 2)
-        self.twitter.set_box(twitter_box)
-        vbox.pack_start(twitter_ico, False, False)
-        vbox.pack_start(twitter_box, False, False)
-        weibo_box.pack_start(vbox, False, False)
         self.share_box.pack_start(weibo_box, False, False)
 
         # create Thumbnail
@@ -250,10 +237,16 @@ class ShareToWeibo():
         text_scrolled_win = ScrolledWindow()
         text_view = gtk.TextView()
         text_view.connect("expose-event", self.text_view_expose)
+        buf = text_view.get_buffer()
+        buf.connect("changed", self.text_view_changed)
         text_scrolled_win.add(text_view)
         self.share_box.pack_start(text_scrolled_win)
 
-        button = Button("分享")
+        self.input_tip_label = Label(_("还可以输入"))
+        self.input_num_label = Label("%d" % self.MAX_CHAR, text_size=18)
+        label0 = Label(_("字"))
+
+        button = Button(_("发布"))
         button.connect("clicked", self.share_button_clicked, text_view)
         align = gtk.Alignment() 
         align.set(0.5, 0.5, 1, 1)
@@ -261,16 +254,13 @@ class ShareToWeibo():
         align.add(button)
         self.share_box.pack_start(align, False, False)
 
-        # check text view content
-        buf = text_view.get_buffer()
-        #buf.connect("changed", self.text_view_check, button)
-
         # at first, set widget insensitive
         self.share_box.set_sensitive(False)
-        t = threading.Thread(target=self.__get_user_info_thread)
+        t = threading.Thread(target=self.get_user_info_thread)
         t.setDaemon(True)
         t.start()
 
+    # if text is empty, show tip info
     def text_view_expose(self, text_view, event):
         '''text_view expose'''
         buf = text_view.get_buffer()
@@ -287,29 +277,42 @@ class ShareToWeibo():
         cr.set_source_rgb(0.66, 0.66, 0.66)
         context.update_layout(layout)
         context.show_layout(layout)
+    
+    # show input char num
+    def text_view_changed(self, buf):
+        '''text_view changed'''
+        count = buf.get_char_count()
+        if count <= self.MAX_CHAR:
+            self.input_num_label.set_text("%d" % (self.MAX_CHAR - count))
+            self.input_num_label.text_color = "#000000"
+        else:
+            self.input_tip_label = Label(_("已经超过"))
+            self.input_num_label.set_text("%d" % (count - self.MAX_CHAR))
+            self.input_num_label.text_color = "#FF0000"
 
     def share_button_clicked(self, button, text_view):
         '''share_button_clicked'''
+        # file is not exist.
         if not exists(self.upload_image):
-            # file is not exist.
-            ConfirmDialog("错误", "'%s' %s." % (self.upload_image, _("is not existing"))).show_all()
+            ConfirmDialog(_("error"), "'%s' %s." % (self.upload_image, _("is not existing"))).show_all()
             return False
         has_share_web = False
         for weibo in self.to_share_weibo:
             if self.to_share_weibo[weibo]:
                 has_share_web = True
                 break
+        # have no web selected
         if not has_share_web:
-            ConfirmDialog("错误", _("at least choose one web")).show_all()
+            ConfirmDialog(_("error"), _("at least choose one web")).show_all()
             return False
         # at first, set widget insensitive
         self.share_box.set_sensitive(False)
-        t = threading.Thread(target=self.__share_to_weibo_thread, args=(text_view, ))
+        t = threading.Thread(target=self.share_to_weibo_thread, args=(text_view, ))
         t.setDaemon(True)
         t.start()
     
     # upload image thread
-    def __share_to_weibo_thread(self, text_view):
+    def share_to_weibo_thread(self, text_view):
         '''share in thread'''
         buf = text_view.get_buffer()
         text = buf.get_text(*buf.get_bounds())
@@ -318,11 +321,12 @@ class ShareToWeibo():
         for weibo in self.to_share_weibo:
             if self.to_share_weibo[weibo]:
                 self.to_share_weibo_res[weibo] = weibo.upload_image(self.upload_image, text)
-        self.__share_to_weibo_result()
+                self.deepin_info[weibo] = weibo.get_deepin_info()
+        self.share_to_weibo_result()
     
     # show upload result
     @post_gui
-    def __share_to_weibo_result(self):
+    def share_to_weibo_result(self):
         '''result of share to weibo'''
         for weibo in self.to_share_weibo_res:
             if self.to_share_weibo_res[weibo][0]:
@@ -341,26 +345,34 @@ class ShareToWeibo():
                 label.show()
                 self.result_box.pack_start(label)
                 #print text
+            # followed
+            if self.deepin_info[weibo][3]:
+                label = Label(_("followed"))
+            else:   # to follow
+                button = gtk.Button(_("following"))
+                button.connect("clicked", self.friendships_add_button_clicked, weibo)
+        button = Button(_("Close"))
+        button.connect("clicked", self.quit)
         self.set_slide_index(2)
         # after get user info, set widget sensitive
         #self.share_box.set_sensitive(True)
 
-    def friendships_add_button_clicked(self, widget):
+    def friendships_add_button_clicked(self, widget, weibo):
         '''add friendships'''
-        self.result_box.set_sensitive(False)
-        t = threading.Thread(target=self.__friendships_add_thread)
+        #self.result_box.set_sensitive(False)
+        widget.set_sensitive(False)
+        t = threading.Thread(target=self.friendships_add_thread, args=(widget, weibo))
         t.setDaemon(True)
         t.start()
     
-    def __friendships_add_thread(self):
+    def friendships_add_thread(self, button, weibo):
         '''add friendships'''
-        for weibo in self.to_share_weibo:
-            if self.to_share_weibo[weibo]:
-                weibo.friendships_create()
+        weibo.friendships_create()
         # after, set widget sensitive
-        gtk.gdk.threads_enter()
-        self.result_box.set_sensitive(True)
-        gtk.gdk.threads_leave()
+        #gtk.gdk.threads_enter()
+        ##self.result_box.set_sensitive(True)
+        #button.set_sensitive(True)
+        #gtk.gdk.threads_leave()
     
     # show window
     def show(self):
@@ -368,7 +380,7 @@ class ShareToWeibo():
         self.window.show_window()
 
     # close widnow
-    def close_callback(self, widget):
+    def quit(self, widget):
         ''' close '''
         gtk.main_quit()
 

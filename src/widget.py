@@ -165,6 +165,7 @@ class RootWindow():
                     self.screenshot.text_action_list.remove(current_action)
                 if current_action in self.screenshot.action_list:
                     self.screenshot.action_list.remove(current_action)
+                del self.screenshot.text_action_info[current_action]
                 self.screenshot.draw_text_layout_flag = False   # don't draw text layout
                 self.show_text_window((current_action.start_x, current_action.start_y))
                 self.screenshot.text_window.set_text(current_action.get_content())
@@ -174,13 +175,16 @@ class RootWindow():
                 self.refresh()
                 self.screenshot.text_window.queue_draw()
                 self.screenshot.colorbar.color_select.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.screenshot.action_color))
-                self.screenshot.colorbar.font_label.set_text(self.screenshot.font_name)
+                #self.screenshot.colorbar.font_label.set_text(self.screenshot.font_name)
                 
                 # set action ACTION_TEXT
                 self.screenshot.toolbar.set_button_active("text", True)
                 self.screenshot.text_modify_flag = True
             # save snapshot
-            if self.screenshot.action == ACTION_SELECT and self.screenshot.x < ex < self.screenshot.x + self.screenshot.rect_width and self.screenshot.y < ey < self.screenshot.y + self.screenshot.rect_height:
+            if self.screenshot.action == ACTION_SELECT \
+               or self.screenshot.action == None \
+               and self.screenshot.x < ex < self.screenshot.x + self.screenshot.rect_width \
+               and self.screenshot.y < ey < self.screenshot.y + self.screenshot.rect_height:
                 self.screenshot.save_snapshot()
     
     def _button_release_event(self, widget, event):
@@ -536,7 +540,7 @@ class RootWindow():
         #color_height = screenshot.colorbar.window.size_request()[1]
         #tool_height = screenshot.toolbar.window.size_request()[1]
         if screenshot.toolbarY < screenshot.y:
-            colorbarY = screenshot.toolbarY - screenshot.colorbar.height - 9
+            colorbarY = screenshot.toolbarY - screenshot.colorbar.height - 1
             #colorbarY = screenshot.toolbarY - color_height
             #colorbarY = screenshot.toolbarY - 52 -1
         else:
@@ -658,6 +662,20 @@ class RightMenu():
     ''' Right Button Menu'''
     def __init__(self, screenshot):
         self.screenshot = screenshot
+        menu_item = [
+            (None, _("save auto"), self.save_sub_menu_clicked, SAVE_OP_AUTO),
+            (None, _("save as"), self.save_sub_menu_clicked, SAVE_OP_AS),
+            (None, _("save clip"), self.save_sub_menu_clicked, SAVE_OP_CLIP),
+            (None, _("save auto and clip"), self.save_sub_menu_clicked, SAVE_OP_AUTO_AND_CLIP)]
+        ## set current operate icon
+        #current_item = menu_item[self.screenshot.save_op_index] 
+        #menu_pixbuf = (
+            #app_theme.get_pixbuf("action/selected.png"),
+            #app_theme.get_pixbuf("action/selected_hover.png"),
+            #app_theme.get_pixbuf("action/selected.png"))
+        #menu_item[self.screenshot.save_op_index] = (menu_pixbuf,
+            #current_item[1], current_item[2], current_item[3])
+        self.save_sub_menu = save_sub_menu = Menu(menu_item)
         self.window = Menu([
             ((app_theme_get_dynamic_pixbuf('image/action/rect_normal.png'),
               app_theme_get_dynamic_pixbuf('image/action/rect_hover.png'),
@@ -687,15 +705,15 @@ class RightMenu():
             ((app_theme_get_dynamic_pixbuf('image/action/save_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action/save_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/save_press.png')), 
-              _("Tip save"), self._menu_click, "save"),
+              _("Tip save"), save_sub_menu),
             ((app_theme_get_dynamic_pixbuf('image/action/cancel_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action/cancel_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/cancel_press.png')), 
               _("Tip cancel"), self._menu_click, "cancel"),
-            #((app_theme_get_dynamic_pixbuf('image/action/finish_normal.png'), 
-              #app_theme_get_dynamic_pixbuf('image/action/finish_hover.png'), 
-              #app_theme_get_dynamic_pixbuf('image/action/finish_press.png')), 
-              #_("Tip finish"), self._menu_click, "finish"),
+            ((app_theme_get_dynamic_pixbuf('image/action/share_normal.png'), 
+              app_theme_get_dynamic_pixbuf('image/action/share_hover.png'), 
+              app_theme_get_dynamic_pixbuf('image/action/share_press.png')), 
+              _("Tip share"), self._menu_click, "share"),
             ], True)
         
     def _menu_click(self, name):
@@ -708,8 +726,27 @@ class RightMenu():
                 each.clicked()
                 break
 
+    def save_sub_menu_clicked(self, save_op_index):
+        '''save sub menu clicked'''
+        self.screenshot.toolbar._list_menu_click(save_op_index)
+        self.screenshot.toolbar.save_operate()
+
     def show(self, coord=(0, 0)):
         ''' show menu '''
+        # set current operate icon
+        items = self.save_sub_menu.get_menu_items()
+        i = 0
+        for menu_item in items:
+            item = list(menu_item.item)
+            if i == self.screenshot.save_op_index:
+                item[0] = (
+                    app_theme.get_pixbuf("action/selected.png"),
+                    app_theme.get_pixbuf("action/selected_hover.png"),
+                    app_theme.get_pixbuf("action/selected.png"))
+            else:
+                item[0] = None
+            i += 1
+            menu_item.item = tuple(item)
         self.window.show(coord)
 
 class TextView(Entry):
@@ -855,7 +892,7 @@ class TextView(Entry):
         #print self.buffer.get_iter_at_mark(self.buffer.get_selection_bound()).get_offset()
         x, y, w, h = rect.x, rect.y, rect.width, rect.height
         #print self.allocation, self.__layout.get_pixel_size()
-        cr.set_source_rgba(1.0, 1.0, 1.0, 0.3)
+        cr.set_source_rgba(1.0, 1.0, 1.0, 0.5)
         cr.rectangle(x, y, w, h)
         cr.fill()
         cr.set_source_rgba(1.0, 0.0, 0.0, 1.0)
