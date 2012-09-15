@@ -336,6 +336,8 @@ class Colorbar():
         #self.height = icon_height + padding_y * 2
         self.height = 36
         self.width = 279
+        self.width_text = self.width - 22 - 5
+        self.width_no_fill = self.width - 22
         
         self.window = Window(window_type=gtk.WINDOW_POPUP, shadow_visible=False)
         self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DIALOG)
@@ -364,7 +366,8 @@ class Colorbar():
         self._set_size_button_state("small", True)
 
         self.size_align = gtk.Alignment()
-        self.size_align.set(0.5,0.5,0,0)
+        #self.size_align.set(0.5,0.5,0,0)
+        self.size_align.set(0, 0.5, 1, 1)
         self.size_align.add(self.size_box)
         #self.dynamic_box.pack_start(self.size_align)
         self.box.pack_start(self.dynamic_box)
@@ -437,6 +440,7 @@ class Colorbar():
         self.box.pack_start(self.vbox)
 
         tmp_align = gtk.Alignment()
+        tmp_align.set(0, 0, 1, 1)
         self.box.pack_start(tmp_align)
 
     def create_color_button(self, box, name):
@@ -518,6 +522,8 @@ class Colorbar():
         ''' show the colorbar'''
         # action is text, show font size set
         if self.screenshot.action == ACTION_TEXT:
+            self.window.set_size_request(self.width_text, self.height)
+            self.window.resize(self.width_text, self.height)
             if self.size_align in self.dynamic_box.get_children():
                 self.dynamic_box.remove(self.size_align)
             if self.font_align not in self.dynamic_box.get_children():
@@ -531,6 +537,8 @@ class Colorbar():
             # actin is rectangle or ellispe, show fill button
             # show rect fill button
             if self.screenshot.action == ACTION_RECTANGLE:
+                self.window.set_size_request(self.width, self.height)
+                self.window.resize(self.width, self.height)
                 if self.__size_button_dict['rect_fill'] not in self.size_box.get_children():
                     self.size_box.pack_start(self.__size_button_dict['rect_fill'])
                 if self.__size_button_dict['ellipse_fill'] in self.size_box.get_children():
@@ -541,6 +549,8 @@ class Colorbar():
             
             # show ellipse fill button
             elif self.screenshot.action == ACTION_ELLIPSE:
+                self.window.set_size_request(self.width, self.height)
+                self.window.resize(self.width, self.height)
                 if self.__size_button_dict['ellipse_fill'] not in self.size_box.get_children():
                     self.size_box.pack_start(self.__size_button_dict['ellipse_fill'])
                 if self.__size_button_dict['rect_fill'] in self.size_box.get_children():
@@ -551,6 +561,8 @@ class Colorbar():
 
             # don't show fill button
             else:
+                self.window.set_size_request(self.width_no_fill, self.height)
+                self.window.resize(self.width_no_fill, self.height)
                 if self.__size_button_dict['rect_fill'] in self.size_box.get_children():
                     if self.__size_button_dict['rect_fill'].get_active():
                         self.__size_button_dict['small'].pressed()

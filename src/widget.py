@@ -1143,16 +1143,16 @@ class TextView(Entry):
         Backward cursor one line.
         '''
         # Avoid change focus to other widget in parent.
-        if self.keynav_failed(gtk.DIR_LEFT):
+        if self.keynav_failed(gtk.DIR_UP):
             self.get_toplevel().set_focus_child(self)
             
         if self.select_start_index != self.select_end_index:
             self.clear_select_status()
         insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
-        offset = insert.get_line_offset()
+        offset = insert.get_line_offset()   # get current line offset character
         insert.backward_line()
         line_len = insert.get_chars_in_line()
-        if offset < line_len:
+        if offset <= line_len:
             insert.set_line_offset(offset)
         else:
             insert.set_line_offset(line_len-1)
@@ -1165,7 +1165,7 @@ class TextView(Entry):
         Forward cursor one line.
         '''
         # Avoid change focus to other widget in parent.
-        if self.keynav_failed(gtk.DIR_LEFT):
+        if self.keynav_failed(gtk.DIR_DOWN):
             self.get_toplevel().set_focus_child(self)
             
         if self.select_start_index != self.select_end_index:
@@ -1174,10 +1174,10 @@ class TextView(Entry):
         offset = insert.get_line_offset()
         insert.forward_line()
         line_len = insert.get_chars_in_line()
-        if offset < line_len:
+        if offset <= line_len:
             insert.set_line_offset(offset)
         else:
-            insert.set_line_offset(line_len-1)
+            insert.set_line_offset(line_len-1) 
         self.buffer.move_mark_by_name("insert", insert)
         self.buffer.move_mark_by_name("selection_bound", insert)
         self.queue_draw()
@@ -1205,7 +1205,7 @@ class TextView(Entry):
         select text to up line
         '''
         # Avoid change focus to other widget in parent.
-        if self.keynav_failed(gtk.DIR_LEFT):
+        if self.keynav_failed(gtk.DIR_UP):
             self.get_toplevel().set_focus_child(self)
             
         if self.select_start_index != self.select_end_index:
@@ -1214,7 +1214,7 @@ class TextView(Entry):
         offset = insert.get_line_offset()
         insert.backward_line()
         line_len = insert.get_chars_in_line()
-        if offset < line_len:
+        if offset <= line_len:
             insert.set_line_offset(offset)
         else:
             insert.set_line_offset(line_len-1)
@@ -1226,7 +1226,7 @@ class TextView(Entry):
         select text to down line
         '''
         # Avoid change focus to other widget in parent.
-        if self.keynav_failed(gtk.DIR_LEFT):
+        if self.keynav_failed(gtk.DIR_DOWN):
             self.get_toplevel().set_focus_child(self)
             
         if self.select_start_index != self.select_end_index:
@@ -1235,7 +1235,7 @@ class TextView(Entry):
         offset = insert.get_line_offset()
         insert.forward_line()
         line_len = insert.get_chars_in_line()
-        if offset < line_len:
+        if offset <= line_len:
             insert.set_line_offset(offset)
         else:
             insert.set_line_offset(line_len-1)
