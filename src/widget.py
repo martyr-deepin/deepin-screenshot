@@ -752,7 +752,7 @@ class RightMenu():
 class TextView(Entry):
     '''TextView'''
     def __init__(self, screenshot, content="", text_color="#000000",
-                 text_select_color="#FFFFFF",background_select_color="#0000F0",
+                 text_select_color="#FFFFFF",background_select_color="#3399FF",
                  font=DEFAULT_FONT, font_size=DEFAULT_FONT_SIZE):
         super(TextView, self).__init__(content, 0, 0, "#000000", "#FFFFFF", "#0000F0")
         self.screenshot = screenshot
@@ -892,12 +892,12 @@ class TextView(Entry):
         #print self.buffer.get_iter_at_mark(self.buffer.get_selection_bound()).get_offset()
         x, y, w, h = rect.x, rect.y, rect.width, rect.height
         #print self.allocation, self.__layout.get_pixel_size()
-        cr.set_source_rgba(1.0, 1.0, 1.0, 0.5)
+        cr.set_source_rgba(1.0, 1.0, 1.0, 0.8)
         cr.rectangle(x, y, w, h)
         cr.fill()
-        cr.set_source_rgba(1.0, 0.0, 0.0, 1.0)
-        cr.set_dash((3.0, 1.0))
-        cr.set_line_width(0.5)
+        cr.set_source_rgba(0.0, 0.0, 0.0, 1.0)
+        cr.set_dash((9.0, 3.0))
+        cr.set_line_width(1)
         cr.rectangle(x, y, w, h)
         cr.stroke()
         # draw selection
@@ -928,6 +928,8 @@ class TextView(Entry):
             #print "get_width", self.__layout.get_width()
             context.update_layout(self.__layout)
             context.show_layout(self.__layout)
+            #self.__layout.set_spacing(2)
+            #print "text spacing:", self.__layout.get_spacing()
 
     def draw_entry_cursor(self, cr, rect):
         '''

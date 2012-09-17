@@ -239,6 +239,9 @@ msgid "access too fast"
 msgstr "单UIN访问微博过快"
 
 # in share.py
+msgid "share to web"
+msgstr "分享至微博"
+
 msgid "is not existing"
 msgstr "不存在"
 

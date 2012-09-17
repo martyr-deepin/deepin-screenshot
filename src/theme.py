@@ -23,7 +23,7 @@
 
 from dtk.ui.init_skin import init_skin
 from dtk.ui.utils import get_parent_dir
-from dtk.ui.theme import DynamicPixbuf
+from dtk.ui.theme import DynamicPixbuf, DynamicColor
 from constant import *
 import os
 import gtk
@@ -63,3 +63,7 @@ def app_theme_get_pixbuf(filename):
 def app_theme_get_dynamic_pixbuf(filename):
     ''' from file get dynamic pixbuf '''
     return DynamicPixbuf(app_theme.get_theme_file_path(filename))
+
+def app_theme_get_dynamic_color(color):
+    '''get them coloe'''
+    return DynamicColor(color)

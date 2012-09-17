@@ -56,19 +56,21 @@ class Toolbar():
         #self.height = toolbar_icon_height + toolbar_padding_y * 2
         self.height = 30
         self.width = 279
+        #self.width = 240
 
         self.window = Window(window_type=gtk.WINDOW_POPUP, shadow_visible=False)
         self.window.set_keep_above(True)
         self.window.set_decorated(False)
         self.window.set_transient_for(parent)
 
-        self.toolbox = gtk.HBox(False, 5)
+        self.toolbox = gtk.HBox(False, 6)
         toolbox_align = gtk.Alignment()
-        toolbox_align.set(0.5, 0.5, 0, 0)
+        toolbox_align.set(0, 0.5, 0, 0)
         toolbox_align.set_padding(2, 2, 11, 11)
         toolbox_align.add(self.toolbox)
         self.window.window_frame.pack_start(toolbox_align, True, True)
-        self.window.set_size_request(self.width, self.height)
+        #self.window.set_size_request(self.width, self.height)
+        self.window.set_size_request(-1, self.height)
 
         self._toggle_buton_list = []
         self.create_toggle_button("rect", ACTION_RECTANGLE, _("Tip draw rectangle"))
@@ -99,9 +101,9 @@ class Toolbar():
         self.create_button("cancel", _("Tip cancel"))
         self.create_button("share", _("Tip share"))
 
-        tmp_align = gtk.Alignment()
-        tmp_align.set(0, 0, 1, 1)
-        self.toolbox.pack_start(tmp_align)
+        #tmp_align = gtk.Alignment()
+        #tmp_align.set(0, 0, 1, 1)
+        #self.toolbox.pack_start(tmp_align)
 
         if self.screenshot:
             self._button_clicked_cb = {
@@ -164,6 +166,7 @@ class Toolbar():
         menu_item[self.screenshot.save_op_index] = (menu_pixbuf, 
             current_item[1], current_item[2], current_item[3])
         self.combo_menu = Menu(menu_item, is_root_menu=True)
+        self.set_all_inactive()
         self.combo_menu.show((x, y), (offset_x, offset_y))
     
     def _list_menu_click(self, save_op_index, button=None):
@@ -240,7 +243,7 @@ class Toolbar():
     def save_operate(self, widget=None):
         '''save operate'''
         screenshot = self.screenshot
-        print "operate:", screenshot.save_op_index
+        #print "operate:", screenshot.save_op_index
         # auto save
         if screenshot.save_op_index == SAVE_OP_AUTO:
             folder = utils.get_pictures_dir()
@@ -261,7 +264,8 @@ class Toolbar():
     def share_picture(self, widget):
         '''share picture'''
         self.screenshot.share_to_flag = True
-        self.save_to_file()
+        self.screenshot.save_op_index = SAVE_OP_AUTO
+        self.save_operate()
 
     def save_to_file(self):
         ''' save to file '''
@@ -316,6 +320,7 @@ class Toolbar():
         ''' show the toolbar '''
         if not self.window.get_visible():
             self.window.show_window()
+        #print "toolbox:", self.toolbox.allocation, self.window.allocation
 
     def hide(self):
         '''hide the toolbar'''
@@ -336,8 +341,8 @@ class Colorbar():
         #self.height = icon_height + padding_y * 2
         self.height = 36
         self.width = 279
-        self.width_text = self.width - 22 - 5
-        self.width_no_fill = self.width - 22
+        self.width_no_fill = 254
+        self.width_text = 259
         
         self.window = Window(window_type=gtk.WINDOW_POPUP, shadow_visible=False)
         self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DIALOG)
@@ -351,11 +356,13 @@ class Colorbar():
         self.dynamic_box = gtk.HBox()
         
         colorbox_align = gtk.Alignment()
-        colorbox_align.set(0.5, 0.5, 0, 0)
+        #colorbox_align.set(0.5, 0.5, 0, 0)
+        colorbox_align.set(0, 0.5, 1, 0)
         colorbox_align.set_padding(2, 2, 11, 11)
         colorbox_align.add(self.box)
         self.window.window_frame.pack_start(colorbox_align, True, True)
         self.window.set_size_request(self.width, self.height)
+        #self.window.set_size_request(-1, self.height)
 
         self.__size_button_dict = {}
         self.create_size_button("small", ACTION_SIZE_SMALL)
@@ -367,16 +374,15 @@ class Colorbar():
 
         self.size_align = gtk.Alignment()
         #self.size_align.set(0.5,0.5,0,0)
-        self.size_align.set(0, 0.5, 1, 1)
+        self.size_align.set(0, 0.5, 1, 0)
         self.size_align.add(self.size_box)
         #self.dynamic_box.pack_start(self.size_align)
         self.box.pack_start(self.dynamic_box)
         
         # font select
         self.font_box = gtk.HBox(False, 5)
-        #self.font_label = Label("A",enable_select=False, text_x_align=dtk.ui.constant.ALIGN_MIDDLE, label_width=20)
         font_img = gtk.image_new_from_pixbuf(app_theme.get_pixbuf("action/text_normal.png").get_pixbuf())
-        self.font_spin = SpinBox(10, 8, 72, 1)
+        self.font_spin = SpinBox(self.screenshot.font_size, 8, 72, 1)
         self.font_spin.connect("value-changed", self._font_size_changed)
         self.font_box.pack_start(font_img)
         self.font_box.pack_start(self.font_spin)
@@ -439,10 +445,6 @@ class Colorbar():
         self.vbox.pack_start(self.below_hbox)
         self.box.pack_start(self.vbox)
 
-        tmp_align = gtk.Alignment()
-        tmp_align.set(0, 0, 1, 1)
-        self.box.pack_start(tmp_align)
-
     def create_color_button(self, box, name):
         ''' create color button'''
         button = ImageButton(
@@ -450,7 +452,6 @@ class Colorbar():
             app_theme.get_pixbuf("color/" + name + "_hover.png"),
             app_theme.get_pixbuf("color/" + name + "_hover.png"))
         button.connect('pressed', self._color_button_pressed, name) 
-        #button.set_size_request(14, 14)
         box.pack_start(button)
 
     def create_toggle_button(self, name):
@@ -575,6 +576,7 @@ class Colorbar():
                     self.size_box.remove(self.__size_button_dict['ellipse_fill'])
         if not self.window.get_visible():
             self.window.show_window()
+        #print "colorbox:", self.box.allocation, self.window.allocation
 
     def hide(self):
         '''hide the toolbar'''

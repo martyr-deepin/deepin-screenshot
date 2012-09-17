@@ -273,6 +273,12 @@ class Weibo():
             query = urlparse.parse_qs(url.query, True)
         return (url.hostname, query)
     
+    def is_callback_url(self, url):
+        '''check is in callback url now'''
+        if url:
+            return url.startswith(self.CALLBACK_URL)
+        return False
+    
     # upload image
     def upload(self, upload_data):
         '''upload image'''
@@ -323,7 +329,7 @@ class Sina(Weibo):
             '20016': 'Out of limit',                                # 发布内容过于频繁
             '20017': 'Repeat content',                              # 提交相似的信息
             '20018': 'Contain illegal website',                     # 包含非法网址
-            '20019': 'Repeat conetnt',                              # 提交相同的信息
+            '20019': 'Repeat content',                              # 提交相同的信息
             '20020': 'Contain advertising',                         # 包含广告信息
             '20021': 'Content is illegal',                          # 包含非法内容
             '20022': "Your ip's behave in a comic boisterous or unruly manner",    # 此IP地址上的行为异常
@@ -361,7 +367,11 @@ class Sina(Weibo):
         if back is None:
             return False
         if 'access_token' in back:
-            self.oauth.set(access_token=back['access_token'], expires_in=back['expires_in']+int(time.time()))
+            if isinstance(back['access_token'], unicode):
+                access_token = str(back['access_token'])
+            else:
+                access_token = back['access_token']
+            self.oauth.set(access_token=access_token, expires_in=back['expires_in']+int(time.time()))
             return True
         else:
             return False
@@ -460,7 +470,7 @@ class Tencent(Weibo):
         self.APP_KEY = '801236993'
         self.APP_SECRET = '39083ce577596d739bbabb6f6bd0dba0'
         self.CALLBACK_URL = 'http://www.linuxdeepin.com'
-        self.DEEPIN_ID = "B5650F118607961CD14A1A6BABB493C5"
+        self.DEEPIN_ID = "A1311E21F862EE280851CB4244E05120"
 
         self.oauth_version = '2.a'
         self.client_ip = '127.0.0.1'    # TODO clientip
@@ -502,9 +512,21 @@ class Tencent(Weibo):
         back = self.parse_url(url)
         parse = back[1]
         if 'access_token' in parse:
-            self.oauth.set(access_token=parse['access_token'][0],
+            if isinstance(parse['access_token'][0], unicode):
+                access_token = str(parse['access_token'][0])
+            else:
+                access_token = parse['access_token'][0]
+            if isinstance(parse['openid'][0], unicode):
+                openid = str(parse['openid'][0])
+            else:
+                openid = parse['openid'][0]
+            if isinstance(parse['openkey'][0], unicode):
+                openkey= str(parse['openkey'][0])
+            else:
+                openkey= parse['openkey'][0]
+            self.oauth.set(access_token=access_token,
                 expires_in=int(parse['expires_in'][0])+int(time.time()),
-                openid=parse['openid'][0], openkey=parse['openkey'][0])
+                openid=openid, openkey=openkey)
             return True
         return False
     
@@ -539,7 +561,7 @@ class Tencent(Weibo):
         if back['errcode'] != 0:
             return None
         return (back['data']['nick'], back['data']['location'], \
-                back['data']['introduction'], back['data']['ismyfans'])
+                back['data']['introduction'], back['data']['ismyidol'])
     
     def friendships_create(self):
         '''add deepin to friend'''
@@ -558,10 +580,11 @@ class Tencent(Weibo):
             ('scope', 'all'),
             ('fopenids', self.DEEPIN_ID)]
         back = self.curl.post(url, data)
-        if back is None:
+        if back is None or back == '':
             return None
         if back['errcode'] != 0:
             return None
+        #print back
         return back
     
     def upload_image(self, img, mesg=''):
@@ -659,8 +682,8 @@ class Twitter(Weibo):
     # now request token get authorize url, and open it in webbrowser.
     def request_token(self):
         '''request token and return authorize url'''
-        #back = self.curl.twitter_get(self.get_request_token_url())
-        back = self.curl.twitter_get(self.get_request_token_url(), proxy_host="127.0.0.1", proxy_port=8087)
+        back = self.curl.twitter_get(self.get_request_token_url())
+        #back = self.curl.twitter_get(self.get_request_token_url(), proxy_host="127.0.0.1", proxy_port=8087)
         #print back
         if back is None:
             return None
@@ -713,21 +736,21 @@ class Twitter(Weibo):
         '''access token'''
         if not self.authorize():
             return False
-        #back = self.curl.twitter_get(self.get_access_token_url())
-        back = self.curl.twitter_get(self.get_access_token_url(), proxy_host="127.0.0.1", proxy_port=8087)
+        back = self.curl.twitter_get(self.get_access_token_url())
+        #back = self.curl.twitter_get(self.get_access_token_url(), proxy_host="127.0.0.1", proxy_port=8087)
         if back is None:
             return False
         url = urlparse.urlparse(back)
         parse = urlparse.parse_qs(url.path, True)
         try:
-            self._access_token_secret = parse['oauth_token_secret'][0]
-            self._access_token = parse['oauth_token'][0]
-            self._user_id = parse['user_id'][0]
-            self._name = parse['screen_name'][0]
+            self._access_token_secret = parse['oauth_token_secret'][0] if not isinstance(parse['oauth_token_secret'][0], unicode) else str(parse['oauth_token_secret'][0])
+            self._access_token = parse['oauth_token'][0] if not isinstance(parse['oauth_token'][0], unicode) else str(parse['oauth_token'][0])
+            self._user_id = parse['user_id'][0] if not isinstance(parse['user_id'][0], unicode) else str(parse['user_id'][0])
+            self._name = parse['screen_name'][0] if not isinstance(parse['screen_name'][0], unicode) else str(parse['screen_name'][0])
             self.oauth.set(
-                access_token_secret=parse['oauth_token_secret'][0],
-                access_token=parse['oauth_token'][0],
-                user_id=parse['user_id'][0])
+                access_token_secret=self._access_token_secret,
+                access_token=self._access_token,
+                user_id=self._user_id)
         except KeyError: # access token failed
             return False
         return True
@@ -768,8 +791,8 @@ class Twitter(Weibo):
             ('oauth_token', access_token)]
         user_name = self.signature_base_string("GET", params, self.USERS_URL, access_token_secret)
         user_url = "%s?user_id=%s" % (self.USERS_URL, user_id)
-        #back = self.curl.get(user_url, [user_name[2]])
-        back = self.curl.get(user_url, [user_name[2]], proxy_host="127.0.0.1", proxy_port=8087)
+        back = self.curl.get(user_url, [user_name[2]])
+        #back = self.curl.get(user_url, [user_name[2]], proxy_host="127.0.0.1", proxy_port=8087)
         if back is None:
             return None
         if 'errors' in back or 'error' in back:
@@ -793,8 +816,8 @@ class Twitter(Weibo):
             ('oauth_token', access_token)]
         user_name = self.signature_base_string("GET", params, self.USERS_URL, access_token_secret)
         user_url = "%s?user_id=%s" % (self.USERS_URL, self.DEEPIN_ID)
-        #back = self.curl.get(user_url, [user_name[2]])
-        back = self.curl.get(user_url, [user_name[2]], proxy_host="127.0.0.1", proxy_port=8087)
+        back = self.curl.get(user_url, [user_name[2]])
+        #back = self.curl.get(user_url, [user_name[2]], proxy_host="127.0.0.1", proxy_port=8087)
         #print back
         if back is None:
             return None
@@ -819,9 +842,9 @@ class Twitter(Weibo):
             ('oauth_token', access_token)]
         friend = self.signature_base_string("POST", params, self.FRIEND_URL, access_token_secret)
         url = self.FRIEND_URL
-        #back = self.curl.post(url, [('user_id', self.DEEPIN_ID)], [friend[2]])
-        back = self.curl.post(url, [('user_id', self.DEEPIN_ID)], [friend[2]], proxy_host="127.0.0.1", proxy_port=8087)
-        print back
+        back = self.curl.post(url, [('user_id', self.DEEPIN_ID)], [friend[2]])
+        #back = self.curl.post(url, [('user_id', self.DEEPIN_ID)], [friend[2]], proxy_host="127.0.0.1", proxy_port=8087)
+        #print back
         if back is None:
             return None
         if 'errors' in back or 'error' in back:
