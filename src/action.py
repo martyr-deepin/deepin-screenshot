@@ -69,16 +69,20 @@ class RectangleAction(Action):
         cr.set_source_rgb(*colorHexToCairo(self.color))
         cr.set_line_width(self.size)
         cr.rectangle(self.start_x, self.start_y, (self.end_x - self.start_x), (self.end_y - self.start_y))
-        if self.fill_flag: cr.fill()
-        else: cr.stroke()
+        if self.fill_flag:
+            cr.fill()
+        else:
+            cr.stroke()
 
 class EllipseAction(Action):
     '''Ellipse action.'''
     def __init__(self, aType, size, color):
         '''Ellipse action.'''
         Action.__init__(self, aType, size, color)
-        if size == ACTION_SIZE_RECTANGLE_ELLIPSE_FILL: self.fill_flag = True
-        else: self.fill_flag = False
+        if size == ACTION_SIZE_RECTANGLE_ELLIPSE_FILL:
+            self.fill_flag = True
+        else: 
+            self.fill_flag = False
         
     def drawing(self, (ex, ey), (rx, ry, rw, rh)):
         '''Drawing.'''

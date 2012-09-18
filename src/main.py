@@ -87,7 +87,7 @@ class DeepinScreenshot():
         self.action_size = ACTION_SIZE_SMALL
         self.action_color = "#FF0000"
         self.font_name = "Sans"
-        self.font_size = 13
+        self.font_size = 12
         
         # default window 
         self.window_flag = True         # has not selected area or window

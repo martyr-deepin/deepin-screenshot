@@ -14,6 +14,7 @@
  "buttonBorderPrelight" : "#b18ecf",
  "buttonBorderActive" : "#9372c9",
  "buttonFont" : "#000000",
+ "link_text"  : "#2030CE"
  },	
  "alpha_colors" : {
      "frame" : ("#000000", 0.5),
@@ -25,33 +26,9 @@
 	 "progressbarFrame" : ("#EF12AB", 1.0),
  },
  "shadow_colors" : {
-     "linearBackground" : [
-	    (0,		("#EFEFEF", 0.6)),
-		(0.05,	("#EFEFEF", 0.75)),
-		(0.95,	("#EFEFEF", 0.75)),
-		(1,		("#EFEFEF", 0.6)),
-	 ],
-	 "categoryItemPress" : [
-		(0, ("#53ABDE", 0.8)),
-		(1, ("#53ABDE", 0.5)),
-	 ],
-	 "categoryItemHover" : [
-	    (0, ("#A3D4F3", 0.8)),
-		(1, ("#A3D4F3", 0.5)),
-	 ],
-	 "categorybarBackground" : [
-	    (0,		("#FFFFFF", 0.6)),
-		(0.05,	("#FFFFFF", 0.95)),
-		(0.95,	("#FFFFFF", 0.95)),
-		(1,		("#FFFFFF", 0.6)),
-	 ],
-	 "menuItemSelect" : [
+	 "menu_item_select" : [
 		(0, ("#1FA6BA", 0.5)),
 		(1, ("#25D1DD", 0.5)),
-	 ],
-	 "tooltipBackground" : [
-		(0, ("#333333", 0.9)),
-		(1, ("#333333", 0.8)),
 	 ],
 	 "vSeparator" : [
 		(0,		("#777777", 0)),
@@ -62,21 +39,6 @@
 		(0,		("#777777", 0)),
 		(0.5,	("#000000", 0.5)),
 		(1,		("#777777", 0))
-	 ],
-	 "progressbarForeground" : [
-		(0, ("#EF12AB", 0.7)),
-		(0.5, ("#EF12AB", 0.9)),
-		(1, ("#EF12AB", 0.7)),
-	 ],
-	 "progressbarBackground" : [
-		(0, ("#E3A4D0", 0.7)),
-		(0.5, ("#E3A4D0", 0.9)),
-		(1, ("#E3A4D0", 0.7)),
-	 ],
-	 "progressbarLight" : [
-		(0, ("#FFFFFF", 0)),
-		(0.5, ("#FFFFFF", 0.5)),
-		(1, ("#FFFFFF", 1)),
 	 ],
 	 "windowShadow" : [
 		(0, ("#000000", 0)),
@@ -89,24 +51,6 @@
 		(0.95,	("#EF0000", 0.5)),
 		(1,		("#EF0000", 0.0)),
 	 ],
-	 "buttonAngle":[
-	    (1,("#b18ecf",0.4)),
-	 ],
-	 "buttonBorder":[
-	    (1, ("#b18ecf", 1)),
-	 ],
-	 "buttonBackgroundNormal":[ 
-		(0, ("#e0c1f0",1)),
-        (1, ("#d7b7ed",1)),
-     ],
-     "buttonBackgroundPrelight":[
-        (0, ("#e9dbf5",1)),
-        (1, ("#decdf0",1)),
-     ],
-     "buttonBackgroundActive":[
-        (0, ("#cfa2e4",1)),
-        (1, ("#c797e0",1)),
-     ],
  },
  "text_styles" : {
      "default" : ("#FFFFFF", "#000000", "#000000", 11, 14, 1),

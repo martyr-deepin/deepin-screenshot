@@ -55,7 +55,6 @@ class RootWindow():
         # move window to current monitor
         self.window.move(self.screenshot.monitor_x, self.screenshot.monitor_y)
         self.window.fullscreen()
-        self.window.set_icon_from_file("../theme/logo/deepin-screenshot.ico")
         self.window.set_keep_above(True)
         #self.window.set_app_paintable(True)
 
@@ -286,6 +285,8 @@ class RootWindow():
         cr.stroke_preserve()
         #cr.set_source_pixbuf(pixbuf, x + offset_x, y + offset_y)
         cr.set_source_pixbuf(pixbuf, origin_x, origin_y)
+        #cr.set_source_pixbuf(pixbuf.scale_simple(int(pixbuf_width)*4,
+            #int(pixbuf_height)*4, gtk.gdk.INTERP_BILINEAR), origin_x, origin_y)
         cr.fill()
         
         #draw Hline
@@ -675,7 +676,8 @@ class RightMenu():
             #app_theme.get_pixbuf("action/selected.png"))
         #menu_item[self.screenshot.save_op_index] = (menu_pixbuf,
             #current_item[1], current_item[2], current_item[3])
-        self.save_sub_menu = save_sub_menu = Menu(menu_item)
+        self.save_sub_menu = save_sub_menu = Menu(menu_item, 
+            menu_item_select_color=app_theme.get_shadow_color("menu_item_select").get_color_info())
         self.window = Menu([
             ((app_theme_get_dynamic_pixbuf('image/action/rect_normal.png'),
               app_theme_get_dynamic_pixbuf('image/action/rect_hover.png'),
@@ -714,7 +716,8 @@ class RightMenu():
               app_theme_get_dynamic_pixbuf('image/action/share_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/share_press.png')), 
               _("Tip share"), self._menu_click, "share"),
-            ], True)
+            ], True,
+            menu_item_select_color=app_theme.get_shadow_color("menu_item_select").get_color_info())
         
     def _menu_click(self, name):
         '''docstring for _menu_click'''

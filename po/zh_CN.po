@@ -245,11 +245,26 @@ msgstr "分享至微博"
 msgid "is not existing"
 msgstr "不存在"
 
+msgid "come from"
+msgstr "来自"
+
 msgid "upload successfully"
 msgstr "上传成功"
 
+msgid "upload to"
+msgstr "分享至"
+
+msgid "succeed"
+msgstr "成功"
+
+msgid "failed"
+msgstr "失败"
+
 msgid "upload failed"
 msgstr "上传失败"
+
+msgid "Close"
+msgstr "关闭"
 
 msgid "at least choose one web"
 msgstr "请至少选择一个平台进行分享"

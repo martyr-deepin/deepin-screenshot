@@ -165,7 +165,8 @@ class Toolbar():
             app_theme.get_pixbuf("action/selected.png"))
         menu_item[self.screenshot.save_op_index] = (menu_pixbuf, 
             current_item[1], current_item[2], current_item[3])
-        self.combo_menu = Menu(menu_item, is_root_menu=True)
+        self.combo_menu = Menu(menu_item, is_root_menu=True, 
+            menu_item_select_color=app_theme.get_shadow_color("menu_item_select").get_color_info())
         self.set_all_inactive()
         self.combo_menu.show((x, y), (offset_x, offset_y))
     
