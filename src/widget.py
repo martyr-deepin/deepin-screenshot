@@ -214,7 +214,7 @@ class RootWindow():
         gtk.main_quit()
         pass
     
-    def update_magnifier(self, x, y, size='', tip=_("Tip Drag"), rgb="RGB:(255,255,255)"):
+    def update_magnifier(self, x, y, size='', tip=_("Drag to select area"), rgb="RGB:(255,255,255)"):
         ''' update magnifier '''
         self.magnifier = Magnifier(x, y, size, tip, rgb)
 
@@ -682,40 +682,40 @@ class RightMenu():
             ((app_theme_get_dynamic_pixbuf('image/action/rect_normal.png'),
               app_theme_get_dynamic_pixbuf('image/action/rect_hover.png'),
               app_theme_get_dynamic_pixbuf('image/action/rect_press.png')),
-              _("Tip draw rectangle"), self._menu_click, "rect"),
+              _("draw rectangle"), self._menu_click, "rect"),
             ((app_theme_get_dynamic_pixbuf('image/action/ellipse_normal.png'),
               app_theme_get_dynamic_pixbuf('image/action/ellipse_hover.png'),
               app_theme_get_dynamic_pixbuf('image/action/ellipse_press.png')),
-              _("Tip draw ellipse"), self._menu_click, "ellipse"),
+              _("draw ellipse"), self._menu_click, "ellipse"),
             ((app_theme_get_dynamic_pixbuf('image/action/arrow_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action/arrow_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/arrow_press.png')), 
-              _("Tip draw arrow"), self._menu_click, "arrow"),
+              _("draw arrow"), self._menu_click, "arrow"),
             ((app_theme_get_dynamic_pixbuf('image/action/line_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action/line_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/line_press.png')), 
-              _("Tip draw line"), self._menu_click, "line"),
+              _("draw line"), self._menu_click, "line"),
             ((app_theme_get_dynamic_pixbuf('image/action/text_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action/text_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/text_press.png')), 
-              _("Tip draw Text"), self._menu_click, "text"),
+              _("draw Text"), self._menu_click, "text"),
             None,
             ((app_theme_get_dynamic_pixbuf('image/action/undo_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action/undo_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/undo_press.png')), 
-              _("Tip undo"), self._menu_click, "undo"),
+              _("undo"), self._menu_click, "undo"),
             ((app_theme_get_dynamic_pixbuf('image/action/save_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action/save_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/save_press.png')), 
-              _("Tip save"), save_sub_menu),
+              _("save"), save_sub_menu),
             ((app_theme_get_dynamic_pixbuf('image/action/cancel_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action/cancel_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/cancel_press.png')), 
-              _("Tip cancel"), self._menu_click, "cancel"),
+              _("cancel"), self._menu_click, "cancel"),
             ((app_theme_get_dynamic_pixbuf('image/action/share_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action/share_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action/share_press.png')), 
-              _("Tip share"), self._menu_click, "share"),
+              _("share"), self._menu_click, "share"),
             ], True,
             menu_item_select_color=app_theme.get_shadow_color("menu_item_select").get_color_info())
         

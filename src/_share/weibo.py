@@ -55,6 +55,7 @@ class Curl(object):
     '''Curl Class'''
     def twitter_get(self, url, header=None, proxy_host=None, proxy_port=None):
         '''get url for twitter'''
+        self.error = None
         crl = pycurl.Curl()
         #crl.setopt(pycurl.VERBOSE,1)
         # this will tell libcurl not to use any signal related code that causes in a multithreaded python script this kind of error.
@@ -84,7 +85,8 @@ class Curl(object):
         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
         try:
             crl.perform()
-        except:
+        except Exception, e:
+            self.error = "connect timed out"
             return None
         crl.close()
         con = crl.fp.getvalue()
@@ -93,6 +95,7 @@ class Curl(object):
 
     def get(self, url, header=None, proxy_host=None, proxy_port=None):
         '''get to url'''
+        self.error = None
         crl = pycurl.Curl()
         #crl.setopt(pycurl.VERBOSE,1)
         crl.setopt(pycurl.NOSIGNAL, 1)
@@ -121,7 +124,8 @@ class Curl(object):
         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
         try:
             crl.perform()
-        except:
+        except Exception, e:
+            self.error = "connect timed out"
             return None
         crl.close()
         #conn = crl.fp.getvalue()
@@ -136,6 +140,7 @@ class Curl(object):
     
     def post(self, url, data, header=None, proxy_host=None, proxy_port=None):
         '''post to url'''
+        self.error = None
         crl = pycurl.Curl()
         #crl.setopt(pycurl.VERBOSE,1)
         crl.setopt(pycurl.NOSIGNAL, 1)
@@ -166,7 +171,8 @@ class Curl(object):
         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
         try:
             crl.perform()
-        except:
+        except Exception, e:
+            self.error = "connect timed out"
             return None
         crl.close()
         #conn = crl.fp.getvalue()
@@ -181,6 +187,7 @@ class Curl(object):
     
     def upload(self, url, data, header=None, proxy_host=None, proxy_port=None):
         '''upload to url'''
+        self.error = None
         #print "upload:", url, data, header
         crl = pycurl.Curl()
         #crl.setopt(pycurl.VERBOSE,1)
@@ -218,7 +225,8 @@ class Curl(object):
             #back = json.loads(conn)
             crl.fp.close()
             return back
-        except:
+        except Exception, e:
+            self.error = "connect timed out"
             return None
         
 class Weibo():
@@ -228,6 +236,7 @@ class Weibo():
         self.t_type = t_type
         self.oauth = OAuth(t_type)
         self.curl = Curl()
+        self.curl.error = None
         self.error_code = None
         self.error_msg = ""
 
@@ -246,6 +255,10 @@ class Weibo():
     def set(self, **kw):
         '''set config value'''
         self.oauth.set(**kw)
+
+    def get_curl_error(self):
+        '''get curl error msg'''
+        return self.curl.error
 
     def get_error_msg(self):
         '''get error message'''

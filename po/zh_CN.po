@@ -6,84 +6,29 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deepin-screenshot\n"
 "POT-Creation-Date: 2011-12-26 17:17+CST\n"
-"PO-Revision-Date: 2012-09-10 10:51+0800\n"
-"Last-Translator: Long Changjin <admin@longchangjin.cn>\n"
+"PO-Revision-Date: 2012-09-18 22:41+0800\n"
+"Last-Translator: Long Changjin <wosuopu@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 
-msgid "Tip save to clipboard"
-msgstr "图片已保存到剪辑板"
-
-msgid "Tip save to file"
-msgstr "图片已保存到文件"
-
-msgid "Tip save failed"
-msgstr "图片保存失败"
-
-msgid "Tip area width or height cannot be 0"
+#: main.py:137
+msgid "area width or height cannot be 0"
 msgstr "选区的宽或高不能为0"
 
-msgid "DeepinScreenshot"
-msgstr "深度截图"
+#: main.py:145
+msgid "save to file"
+msgstr "图片已保存到文件"
 
-# toolbar button tooltip
-msgid "Tip draw rectangle"
-msgstr "矩形工具"
+#: main.py:154 main.py:173
+msgid "save to clipboard"
+msgstr "图片已保存到剪辑板"
 
-msgid "Tip draw ellipse"
-msgstr "椭圆工具"
-
-msgid "Tip draw arrow"
-msgstr "箭头工具"
-
-msgid "Tip draw line"
-msgstr "线条工具"
-
-msgid "Tip draw Text"
-msgstr "文本工具"
-
-msgid "Tip undo"
-msgstr "撤销编辑"
-
-msgid "Tip save"
-msgstr "保存"
-
-msgid "save auto"
-msgstr "自动保存"
-
-msgid "save as"
-msgstr "保存到指定目录"
-
-msgid "save clip"
-msgstr "复制到剪切板"
-
-msgid "save auto and clip"
-msgstr "自动保存并复制到剪切板"
-
-msgid "Tip cancel"
-msgstr "退出截图"
-
-msgid "Tip share"
-msgstr "分享到微博"
-
-# in widget.py
-msgid "Tip Drag"
-msgstr "拖动可自由选区"
-
-msgid "Cut"
-msgstr "剪切"
-
-msgid "Copy"
-msgstr "复制"
-
-msgid "Paste"
-msgstr "粘贴"
-
-msgid "Select all"
-msgstr "选择全部"
+#: main.py:156
+msgid "save failed"
+msgstr "图片保存失败"
 
 # in weibo.py
 msgid "Sina"
@@ -92,6 +37,10 @@ msgstr "新浪微博"
 msgid "Tencent"
 msgstr "腾讯微博"
 
+msgid "connect timed out"
+msgstr "连接超时"
+
+#
 # Sina error message
 msgid "System error"
 msgstr "系统错误"
@@ -186,6 +135,7 @@ msgstr "不能发布相同的微博"
 msgid "Contains forbid world"
 msgstr "含有敏感词"
 
+#
 # Tencent error message
 msgid "error content len"
 msgstr "微博内容超出长度限制或为空"
@@ -238,33 +188,139 @@ msgstr "微博黑名单限制"
 msgid "access too fast"
 msgstr "单UIN访问微博过快"
 
-# in share.py
+#: share.py:75
 msgid "share to web"
 msgstr "分享至微博"
 
+#: share.py:235
+msgid "clicked to switch user"
+msgstr "点击图标切换帐号"
+
+#: share.py:252
+msgid "clicked to logi"
+msgstr "点击图标设置帐号"
+
+#: share.py:346 share.py:424
+msgid "left"
+msgstr "还可以输入"
+
+#: share.py:430
+msgid "more than"
+msgstr "已经超过"
+
+#: share.py:279 share.py:440 share.py:449
+msgid "error"
+msgstr "错误"
+
+#: share.py:349
+msgid "chars"
+msgstr "字"
+
+#: share.py:365
+msgid "Tweet"
+msgstr "立即分享"
+
+#: share.py:407
+msgid "please input content"
+msgstr "请输入内容"
+
+#: share.py:440
 msgid "is not existing"
 msgstr "不存在"
 
+#: share.py:449
+msgid "at least choose one web"
+msgstr "请至少选择一个平台进行分享"
+
+#: share.py:464
+msgid "DeepinScreenshot"
+msgstr "深度截图"
+
+#: share.py:464
 msgid "come from"
 msgstr "来自"
 
-msgid "upload successfully"
-msgstr "上传成功"
-
+#: share.py:531 share.py:545
 msgid "upload to"
 msgstr "分享至"
 
+#: share.py:534
 msgid "succeed"
 msgstr "成功"
 
+#: share.py:550
 msgid "failed"
 msgstr "失败"
 
-msgid "upload failed"
-msgstr "上传失败"
-
+#: share.py:587
 msgid "Close"
 msgstr "关闭"
 
-msgid "at least choose one web"
-msgstr "请至少选择一个平台进行分享"
+#: toolbar.py:76 widget.py:685
+msgid "draw rectangle"
+msgstr "矩形工具"
+
+#: toolbar.py:77 widget.py:689
+msgid "draw ellipse"
+msgstr "椭圆工具"
+
+#: toolbar.py:78 widget.py:693
+msgid "draw arrow"
+msgstr "箭头工具"
+
+#: toolbar.py:79 widget.py:697
+msgid "draw line"
+msgstr "线条工具"
+
+#: toolbar.py:80 widget.py:701
+msgid "draw Text"
+msgstr "文本工具"
+
+#: toolbar.py:82 widget.py:706
+msgid "undo"
+msgstr "撤销编辑"
+
+#: toolbar.py:101 widget.py:714
+msgid "cancel"
+msgstr "退出截图"
+
+#: toolbar.py:102 widget.py:718
+msgid "share"
+msgstr "分享到微博"
+
+#: toolbar.py:156 widget.py:667
+msgid "save auto"
+msgstr "自动保存"
+
+#: toolbar.py:157 widget.py:668
+msgid "save as"
+msgstr "保存到指定目录"
+
+#: toolbar.py:158 widget.py:669
+msgid "save clip"
+msgstr "复制到剪切板"
+
+#: toolbar.py:159 widget.py:670
+msgid "save auto and clip"
+msgstr "自动保存并复制到剪切板"
+
+#: widget.py:217
+msgid "Drag to select area"
+msgstr "拖动可自由选区"
+
+#: widget.py:710
+msgid "save"
+msgstr "保存"
+
+msgid "Cut"
+msgstr "剪切"
+
+msgid "Copy"
+msgstr "复制"
+
+msgid "Paste"
+msgstr "粘贴"
+
+msgid "Select all"
+msgstr "选择全部"
+

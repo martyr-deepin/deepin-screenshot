@@ -208,6 +208,7 @@ class ShareToWeibo():
 
     def get_user_info(self, weibo):
         '''create label info'''
+        self.get_user_error_text = ""
         weibo_hbox = weibo.get_box()
         hbox = gtk.HBox(False)
         align = gtk.Alignment()
@@ -221,8 +222,8 @@ class ShareToWeibo():
         gtk.gdk.threads_enter()
         if info:
             label = Label(text=info, label_width=70, enable_select=False)
-            #check = CheckButton()
-            check = gtk.CheckButton()
+            check = CheckButton()
+            #check = gtk.CheckButton()
             check.connect("toggled", self.weibo_check_toggle, weibo)
             check.set_active(True)
             button = ImageButton(
@@ -230,20 +231,25 @@ class ShareToWeibo():
                 app_theme.get_pixbuf("share/" + weibo.t_type + ".png"),
                 app_theme.get_pixbuf("share/" + weibo.t_type + ".png"))
             utils.set_clickable_cursor(button)
-            button.connect("enter-notify-event", self.show_tooltip, "点击图标切换帐号")
+            #button.connect("enter-notify-event", self.show_tooltip, "点击图标切换帐号")
+            button.connect("enter-notify-event", self.show_tooltip, _("clicked to switch user"))
             hbox.pack_start(check, False, False)
             hbox.pack_start(button, False, False, 5)
             hbox.pack_start(label, False, False)
         else:
-            #check = CheckButton()
-            check = gtk.CheckButton()
+            info_error = weibo.get_curl_error()
+            if info_error:
+                self.get_user_error_text += "%s:%s." % (weibo.t_type, info_error)
+            check = CheckButton()
+            #check = gtk.CheckButton()
             check.set_sensitive(False)
             button = ImageButton(
                 app_theme.get_pixbuf("share/" + weibo.t_type + "_no.png"),
                 app_theme.get_pixbuf("share/" + weibo.t_type + "_no.png"),
                 app_theme.get_pixbuf("share/" + weibo.t_type + "_no.png"))
             utils.set_clickable_cursor(button)
-            button.connect("enter-notify-event", self.show_tooltip, "点击图标设置帐号")
+            #button.connect("enter-notify-event", self.show_tooltip, "点击图标设置帐号")
+            button.connect("enter-notify-event", self.show_tooltip, _("clicked to login"))
             hbox.pack_start(check, False, False)
             hbox.pack_start(button, False, False)
         button.connect("clicked", self.weibo_login, weibo)
@@ -257,7 +263,7 @@ class ShareToWeibo():
         #widget.trigger_tooltip_query()
         Tooltip.text(widget, text)
 
-    def get_user_info_thread(self):
+    def get_user_info_thread(self, button, text_view):
         '''get user name thread'''
         time.sleep(0.1)
 
@@ -265,10 +271,14 @@ class ShareToWeibo():
             self.get_user_info(weibo)
 
         gtk.gdk.threads_enter()
-        self.share_box.set_sensitive(True)
+        #self.share_box.set_sensitive(True)
+        button.set_sensitive(True)
+        text_view.set_editable(True)
         for weibo in self.__weibo_list:
             weibo.get_box().show_all()
             weibo.get_box().queue_draw()
+        if self.get_user_error_text:
+            ConfirmDialog(_("error"), self.get_user_error_text).show_all()
         gtk.gdk.threads_leave()
     
     # init share box, create share button, input
@@ -285,10 +295,10 @@ class ShareToWeibo():
             pix_h = pixbuf.get_height()
             if pix_w > pix_h:
                 pix_s_w = self.thumb_width
-                pix_s_h = int(pix_h / (pix_w / self.thumb_width))
+                pix_s_h = int(pix_h / (float(pix_w) / self.thumb_width))
             else:
                 pix_s_h = self.thumb_height
-                pix_s_w = int(pix_w / (pix_h / self.thumb_height))
+                pix_s_w = int(pix_w / (float(pix_h) / self.thumb_height))
             pixbuf = pixbuf.scale_simple(pix_s_w, pix_s_h, gtk.gdk.INTERP_TILES)
             thumb = gtk.image_new_from_pixbuf(pixbuf)
         else:
@@ -308,10 +318,7 @@ class ShareToWeibo():
         text_view.set_right_margin(10)
         text_view.set_pixels_above_lines(5)
         text_view.set_pixels_below_lines(5)
-        text_view.set_border_window_size(gtk.TEXT_WINDOW_LEFT, 16)
-        text_view.set_border_window_size(gtk.TEXT_WINDOW_TOP, 2)
-        text_view.set_border_window_size(gtk.TEXT_WINDOW_RIGHT, 2)
-        text_view.set_border_window_size(gtk.TEXT_WINDOW_BOTTOM, 2)
+        text_view.set_border_window_size(gtk.TEXT_WINDOW_LEFT, 14)
         text_view.set_wrap_mode(gtk.WRAP_WORD| gtk.WRAP_CHAR)
         text_view.connect("expose-event", self.text_view_expose)
         buf = text_view.get_buffer()
@@ -334,11 +341,14 @@ class ShareToWeibo():
 
         left_box = DialogLeftButtonBox()
         right_box = DialogRightButtonBox()
+
+        left_box.button_align.set(0.0, 0.0, 0, 1)
+        right_box.button_align.set(1.0, 0.0, 0, 1)
         # input tip label
-        self.input_tip_label = Label(_("还可以输入"), text_size=12, enable_select=False)
+        self.input_tip_label = Label(_("left"), text_size=12, enable_select=False)
         self.input_num_label = Label("%d" % self.MAX_CHAR,
-            text_size=18, text_x_align=pango.ALIGN_CENTER, label_width=45, enable_select=False)
-        label0 = Label(_("字"), text_size=12, enable_select=False)
+            text_size=18, text_x_align=pango.ALIGN_CENTER, label_width=40, enable_select=False)
+        label0 = Label(_("chars"), text_size=12, enable_select=False)
         self.input_tip_label.text_color = app_theme_get_dynamic_color("#828282")
         label0.text_color = app_theme_get_dynamic_color("#828282")
 
@@ -354,25 +364,28 @@ class ShareToWeibo():
         left_box.set_buttons(weibo_box_list)
 
         # share button
-        button = Button(_("立即分享"))  # TODO set button size
+        button = Button(_("Tweet"))
         button.set_size_request(75, 25)
         button.connect("clicked", self.share_button_clicked, text_view)
         buf.connect("changed", self.text_view_changed, button)  # check char num
 
         tmp_vbox = gtk.VBox(False)
         tmp_align = gtk.Alignment()
-        tmp_align.set(0.5, 0, 0, 0)
+        tmp_align.set(0.5, 0.5, 0, 0)
         tmp_vbox.pack_start(button, False, False)
-        tmp_vbox.pack_start(tmp_align)
-        right_box.set_buttons([self.input_tip_label, self.input_num_label, label0, tmp_vbox])
+        #tmp_vbox.pack_start(tmp_align)
+        tmp_align.add(tmp_vbox)
+        right_box.set_buttons([self.input_tip_label, self.input_num_label, label0, tmp_align])
         weibo_box.pack_start(left_box, True, True)
         weibo_box.pack_start(right_box, True, True)
 
         self.share_box.pack_start(weibo_box, False, False)
 
         # at first, set widget insensitive
-        self.share_box.set_sensitive(False)
-        t = threading.Thread(target=self.get_user_info_thread)
+        #self.share_box.set_sensitive(False)
+        button.set_sensitive(False)
+        text_view.set_editable(False)
+        t = threading.Thread(target=self.get_user_info_thread, args=(button, text_view))
         t.setDaemon(True)
         t.start()
 
@@ -382,9 +395,12 @@ class ShareToWeibo():
         buf = text_view.get_buffer()
         text = buf.get_text(*buf.get_bounds())
 
-        if text == "":
-            win = text_view.get_window(gtk.TEXT_WINDOW_TEXT)
-            cr = win.cairo_create()
+        win = text_view.get_window(gtk.TEXT_WINDOW_TEXT)
+        cr = win.cairo_create()
+        cr.set_source_pixbuf(self.text_pixbuf.subpixbuf(14, 0, 346, 167), 0, 0)
+        cr.paint()
+        
+        if text == "" and text_view.get_editable():
             cr.move_to(10, 5)
             context = pangocairo.CairoContext(cr)
             layout = context.create_layout()
@@ -394,30 +410,12 @@ class ShareToWeibo():
             cr.set_source_rgb(0.66, 0.66, 0.66)
             context.update_layout(layout)
             context.show_layout(layout)
-
+        
         # left
         win = text_view.get_window(gtk.TEXT_WINDOW_LEFT)
         if win:
             cr = win.cairo_create()
-            cr.set_source_pixbuf(self.text_pixbuf.subpixbuf(0, 0, 16, 167), 0, 0)
-            cr.paint()
-        # top
-        win = text_view.get_window(gtk.TEXT_WINDOW_TOP)
-        if win:
-            cr = win.cairo_create()
-            cr.set_source_pixbuf(self.text_pixbuf.subpixbuf(16, 0, 344, 2), 0, 0)
-            cr.paint()
-        # right
-        win = text_view.get_window(gtk.TEXT_WINDOW_RIGHT)
-        if win:
-            cr = win.cairo_create()
-            cr.set_source_pixbuf(self.text_pixbuf.subpixbuf(358, 0, 2, 167), 0, 0)
-            cr.paint()
-        # bottom
-        win = text_view.get_window(gtk.TEXT_WINDOW_BOTTOM)
-        if win:
-            cr = win.cairo_create()
-            cr.set_source_pixbuf(self.text_pixbuf.subpixbuf(16, 165, 344, 2), 0, 0)
+            cr.set_source_pixbuf(self.text_pixbuf.subpixbuf(0, 0, 14, 167), 0, 0)
             cr.paint()
     
     # show input char num
@@ -425,13 +423,13 @@ class ShareToWeibo():
         '''text_view changed'''
         count = buf.get_char_count()
         if count <= self.MAX_CHAR:
-            self.input_tip_label.set_text(_("还可以输入"))
+            self.input_tip_label.set_text(_("left"))
             self.input_num_label.set_text("%d" % (self.MAX_CHAR - count))
             self.input_num_label.text_color = app_theme_get_dynamic_color("#000000")
             if not button.is_sensitive():
                 button.set_sensitive(True)
         else:
-            self.input_tip_label.set_text(_("已经超过"))
+            self.input_tip_label.set_text(_("more than"))
             self.input_num_label.set_text("%d" % (count - self.MAX_CHAR))
             self.input_num_label.text_color = app_theme_get_dynamic_color("#FF0000")
             if button.is_sensitive():
@@ -526,8 +524,8 @@ class ShareToWeibo():
                 img = gtk.image_new_from_file(app_theme.get_theme_file_path("image/share/share_succeed.png"))
                 #link = LinkButton(_(weibo.t_type), text_size=13, self.to_share_weibo_res[weibo][1])
                 link = Label(_(weibo.t_type), text_size=13, 
-                    text_color=app_theme.get_color("link_text"), enable_gaussian=True,
-                    gaussian_radious=1, border_radious=0)
+                    text_color=app_theme.get_color("link_text"))
+                #, enable_gaussian=True, gaussian_radious=1, border_radious=0)
                 link.add_events(gtk.gdk.BUTTON_PRESS_MASK)
                 link.connect("button-press-event", 
                     lambda w, e: utils.run_command("xdg-open %s" % self.to_share_weibo_res[weibo][1]))

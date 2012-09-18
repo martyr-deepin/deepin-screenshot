@@ -73,13 +73,13 @@ class Toolbar():
         self.window.set_size_request(-1, self.height)
 
         self._toggle_buton_list = []
-        self.create_toggle_button("rect", ACTION_RECTANGLE, _("Tip draw rectangle"))
-        self.create_toggle_button("ellipse", ACTION_ELLIPSE, _("Tip draw ellipse"))
-        self.create_toggle_button("arrow",ACTION_ARROW, _("Tip draw arrow"))
-        self.create_toggle_button("line",ACTION_LINE, _("Tip draw line"))
-        self.create_toggle_button("text",ACTION_TEXT, _("Tip draw Text"))
+        self.create_toggle_button("rect", ACTION_RECTANGLE, _("draw rectangle"))
+        self.create_toggle_button("ellipse", ACTION_ELLIPSE, _("draw ellipse"))
+        self.create_toggle_button("arrow",ACTION_ARROW, _("draw arrow"))
+        self.create_toggle_button("line",ACTION_LINE, _("draw line"))
+        self.create_toggle_button("text",ACTION_TEXT, _("draw Text"))
 
-        self.create_button("undo", _("Tip undo"))
+        self.create_button("undo", _("undo"))
         # pack save and list button
         save_combo_button = ComboButton(
             app_theme.get_pixbuf("action/save_normal.png"),
@@ -98,8 +98,8 @@ class Toolbar():
         save_combo_button.connect("enter-notify-event", self._show_tooltip, _(tip_text))
         self.toolbox.pack_start(save_combo_button)
 
-        self.create_button("cancel", _("Tip cancel"))
-        self.create_button("share", _("Tip share"))
+        self.create_button("cancel", _("cancel"))
+        self.create_button("share", _("share"))
 
         #tmp_align = gtk.Alignment()
         #tmp_align.set(0, 0, 1, 1)
