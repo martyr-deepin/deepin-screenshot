@@ -93,7 +93,7 @@ class Toolbar():
         save_combo_button.set_name("save")
         save_combo_button.connect("button-clicked", self._button_clicked, "save")
         save_combo_button.connect("arrow-clicked", self._list_menu_show)
-        save_tip_text_list = ["save auto", "save as", "save clip", "save auto and clip"]
+        save_tip_text_list = ["save automatically", "save as", "save to clipboard", "save automatically to file and clipboard"]
         tip_text = save_tip_text_list[self.screenshot.save_op_index]
         save_combo_button.connect("enter-notify-event", self._show_tooltip, _(tip_text))
         self.toolbox.pack_start(save_combo_button)

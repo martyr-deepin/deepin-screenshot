@@ -31,6 +31,7 @@ from dtk.ui.button import Button, CheckButton, LinkButton, ImageButton
 from dtk.ui.line import HSeparator, VSeparator
 from dtk.ui.label import Label
 from dtk.ui.entry import InputEntry
+import dtk.ui.draw as draw
 import dtk.ui.tooltip as Tooltip
 import dtk.ui.utils as utils
 from _share import weibo
@@ -89,6 +90,7 @@ class ShareToWeibo():
 
         self.slider = Slider()
         self.slider.set_size_request(self.__win_width, -1)
+        #self.slider.connect("expose-event", self.__slider_expose)
         #self.slider.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color(1.0, 0.0, 0.0))
         self.slider_list = []
         #slider_vbox.pack_start(self.slider, False, False)
@@ -104,6 +106,7 @@ class ShareToWeibo():
         share_align = gtk.Alignment()
         share_align.set(0.5, 0.5, 0, 0)
         share_align.add(self.share_box)
+        share_align.connect("expose-event", self.__slider_expose)
 
         # go back button
         web_left_button = ImageButton(
@@ -198,8 +201,9 @@ class ShareToWeibo():
         '''set slide to index'''
         if index >= len(self.slider_list):
             return
+        # TODO set slider heigth
         if index == 1 and self.window.button_box in self.window.window_frame.get_children():
-            self.slider.set_size_request(self.__win_width, 240)
+            self.slider.set_size_request(self.__win_width, 262)
             self.window.window_frame.remove(self.window.button_box)
         elif index == 0:
             self.slider.set_size_request(self.__win_width, 228)
@@ -348,29 +352,35 @@ class ShareToWeibo():
         thumb.set_size_request(self.thumb_width, self.thumb_height)
 
         # weibo context input
-        self.text_pixbuf = app_theme_get_dynamic_pixbuf('image/share/text_view.png').get_pixbuf()
         text_box = gtk.HBox(False, 2)
         text_vbox = gtk.VBox(False, 2)
+        text_bg_vbox = gtk.VBox(False)
+        text_bg_align = gtk.Alignment()
+        text_bg_align.set(0.5, 0.5, 0, 0)
+        text_bg_align.set_padding(5, 5, 16, 5)
+        text_bg_align.connect("expose-event", self.text_view_bg_expose)
         text_scrolled_win = ScrolledWindow()
-        text_scrolled_win.set_size_request(360, 167)
+        text_scrolled_win.set_size_request(340, 157)
 
         text_view = gtk.TextView()
         text_view.set_left_margin(10)
         text_view.set_right_margin(10)
         text_view.set_pixels_above_lines(5)
         text_view.set_pixels_below_lines(5)
-        text_view.set_border_window_size(gtk.TEXT_WINDOW_LEFT, 14)
+        #text_view.set_border_window_size(gtk.TEXT_WINDOW_LEFT, 14)
         text_view.set_wrap_mode(gtk.WRAP_WORD| gtk.WRAP_CHAR)
         text_view.connect("expose-event", self.text_view_expose)
         buf = text_view.get_buffer()
         text_scrolled_win.add(text_view)
+        text_bg_vbox.pack_start(text_scrolled_win)
+        text_bg_align.add(text_bg_vbox)
 
         text_align = gtk.Alignment() 
         text_align.set(0.5, 0.5, 0, 0)
         text_align.set_padding(0, 0, 10, 10)
 
         text_box.pack_start(thumb, False, False, 10)
-        text_box.pack_start(text_scrolled_win)
+        text_box.pack_start(text_bg_align)
         text_vbox.pack_start(text_box, False, False, 10)
         ##text_vbox.pack_start(
             ##HSeparator(app_theme.get_shadow_color("hSeparator").get_color_info(), 0, 0), False, False, 5)
@@ -433,18 +443,23 @@ class ShareToWeibo():
         t.setDaemon(True)
         t.start()
 
+    # draw text view background
+    def text_view_bg_expose(self, widget, event):
+        '''draw text view bg'''
+        cr = widget.window.cairo_create()
+        rect = widget.allocation
+        text_pixbuf = app_theme_get_dynamic_pixbuf('image/share/text_view.png').get_pixbuf()
+        draw.draw_pixbuf(cr, text_pixbuf, rect.x, rect.y)
+
     # if text is empty, show tip info
     def text_view_expose(self, text_view, event):
         '''text_view expose'''
         buf = text_view.get_buffer()
         text = buf.get_text(*buf.get_bounds())
 
-        win = text_view.get_window(gtk.TEXT_WINDOW_TEXT)
-        cr = win.cairo_create()
-        cr.set_source_pixbuf(self.text_pixbuf.subpixbuf(14, 0, 346, 167), 0, 0)
-        cr.paint()
-        
         if text == "" and text_view.get_editable() and not text_view.is_focus():
+            win = text_view.get_window(gtk.TEXT_WINDOW_TEXT)
+            cr = win.cairo_create()
             cr.move_to(10, 5)
             context = pangocairo.CairoContext(cr)
             layout = context.create_layout()
@@ -454,13 +469,6 @@ class ShareToWeibo():
             cr.set_source_rgb(0.66, 0.66, 0.66)
             context.update_layout(layout)
             context.show_layout(layout)
-        
-        # left
-        win = text_view.get_window(gtk.TEXT_WINDOW_LEFT)
-        if win:
-            cr = win.cairo_create()
-            cr.set_source_pixbuf(self.text_pixbuf.subpixbuf(0, 0, 14, 167), 0, 0)
-            cr.paint()
     
     # show input char num
     def text_view_changed(self, buf, button):
@@ -692,6 +700,16 @@ class ShareToWeibo():
     def quit(self, widget):
         ''' close '''
         gtk.main_quit()
+
+    def __slider_expose(self, widget, event):
+        ''' slider expose redraw'''
+        cr = widget.window.cairo_create()
+        rect = widget.allocation
+        draw.draw_pixbuf(cr, gtk.gdk.pixbuf_new_from_file("../skin/01/bg.png"), rect.x, rect.y)
+        cr.set_source_rgba(1.0, 1.0, 1.0, 0.8)
+        cr.rectangle(rect.x, rect.y, rect.width, rect.height)
+        cr.fill()
+
 
 if __name__ == '__main__':
     filename = ""

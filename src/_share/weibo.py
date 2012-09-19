@@ -216,7 +216,11 @@ class Curl(object):
         crl.setopt(pycurl.URL, url)
         crl.setopt(pycurl.HTTPPOST, data)   # upload file
         crl.setopt(crl.WRITEFUNCTION, crl.fp.write)
-        crl.perform()
+        try:
+            crl.perform()
+        except Exception, e:
+            self.error = "Connection timed out"
+            return None
         crl.close()
         #conn = crl.fp.getvalue()
         #print conn
@@ -225,8 +229,7 @@ class Curl(object):
             #back = json.loads(conn)
             crl.fp.close()
             return back
-        except Exception, e:
-            self.error = "Connection timed out"
+        except:
             return None
         
 class Weibo():
