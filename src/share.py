@@ -30,6 +30,7 @@ from dtk.ui.titlebar import Titlebar
 from dtk.ui.button import Button, CheckButton, LinkButton, ImageButton
 from dtk.ui.line import HSeparator, VSeparator
 from dtk.ui.label import Label
+from dtk.ui.entry import InputEntry
 import dtk.ui.tooltip as Tooltip
 import dtk.ui.utils as utils
 from _share import weibo
@@ -68,7 +69,7 @@ class ShareToWeibo():
         #self.window = Window()
         self.window = DialogBox(_("share to web"), close_callback=gtk.main_quit)
         self.window.set_keep_above(True)
-        self.window.set_size_request(self.__win_width, 288)
+        #self.window.set_size_request(self.__win_width, 288)
         #self.window.connect("destroy", self.quit)
         #self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         self.window.set_resizable(False)
@@ -93,7 +94,7 @@ class ShareToWeibo():
         #slider_vbox.pack_start(self.slider, False, False)
 
         self.share_box = gtk.VBox(False, 2)
-        self.web_box = gtk.VBox(False, 10)
+        self.web_box = gtk.VBox(False, 2)
         self.result_box = gtk.VBox(False, 10)
 
         self.share_box.set_size_request(self.__win_width, -1)
@@ -104,27 +105,41 @@ class ShareToWeibo():
         share_align.set(0.5, 0.5, 0, 0)
         share_align.add(self.share_box)
 
-        #web_left_button = gtk.Button("<--")
+        # go back button
         web_left_button = ImageButton(
-            app_theme.get_pixbuf("share/go_back.png"),
-            app_theme.get_pixbuf("share/go_back.png"),
-            app_theme.get_pixbuf("share/go_back.png"))
+            app_theme.get_pixbuf("share/back_normal.png"),
+            app_theme.get_pixbuf("share/back_hover.png"),
+            app_theme.get_pixbuf("share/back_press.png"))
         web_left_button.connect("clicked", lambda w: self.set_slide_index(0))
         web_left_button.set_can_focus(False)
         utils.set_clickable_cursor(web_left_button)
-        self.web_url_entry = gtk.Entry()
+        # show url entry
+        self.web_url_entry = InputEntry()
         self.web_url_entry.set_editable(False)
-        self.web_url_entry.set_size_request(-1, 22)
-        web_navigate_box = gtk.HBox(False,2)
+        self.web_url_entry.set_size(555, 20)
+        # alig url entry
+        web_navigate_vbox = gtk.VBox(False)
+        web_navigate_vbox.pack_start(self.web_url_entry)
+        web_navigate_t_align = gtk.Alignment()
+        web_navigate_t_align.set(0.0, 0.5, 0, 0)
+        web_navigate_t_align.add(web_navigate_vbox)
+        # pack back button and url entry
+        web_navigate_box = gtk.HBox(False, 7)
         web_navigate_box.pack_start(web_left_button, False, False)
-        web_navigate_box.pack_start(self.web_url_entry)
+        web_navigate_box.pack_start(web_navigate_t_align)
+
+        web_navigate_align = gtk.Alignment()
+        web_navigate_align.set(0.5, 0.5, 0, 0)
+        web_navigate_align.set_padding(4, 0, 11, 13)
+        web_navigate_align.add(web_navigate_box)
+
         self.web_view = WebView()
         self.web_view.connect("notify::load-status", self.web_view_load_status)
         self.web_scrolled_window = ScrolledWindow()
         self.web_scrolled_window.add(self.web_view)
         self.web_scrolled_window.set_size_request(590, 218)
 
-        self.web_box.pack_start(web_navigate_box, False, False)
+        self.web_box.pack_start(web_navigate_align, False, False)
         self.web_box.pack_start(self.web_scrolled_window)
         web_align = gtk.Alignment()
         web_align.set(0.5, 0.5, 0, 0)
@@ -162,7 +177,10 @@ class ShareToWeibo():
         state = web.get_property("load-status")
         url = web.get_property('uri')
         if url:
+            self.web_url_entry.set_editable(True)
             self.web_url_entry.set_text(url)
+            self.web_url_entry.entry.move_to_start()
+            self.web_url_entry.set_editable(False)
         if state == webkit.LOAD_FAILED: # load failed
             print web.get_property('uri')
             print "load failed\n"
