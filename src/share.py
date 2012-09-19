@@ -122,7 +122,7 @@ class ShareToWeibo():
         self.web_view.connect("notify::load-status", self.web_view_load_status)
         self.web_scrolled_window = ScrolledWindow()
         self.web_scrolled_window.add(self.web_view)
-        self.web_scrolled_window.set_size_request(590, 240)
+        self.web_scrolled_window.set_size_request(590, 218)
 
         self.web_box.pack_start(web_navigate_box, False, False)
         self.web_box.pack_start(self.web_scrolled_window)
@@ -181,14 +181,14 @@ class ShareToWeibo():
         if index >= len(self.slider_list):
             return
         if index == 1 and self.window.button_box in self.window.window_frame.get_children():
-            self.slider.set_size_request(self.__win_width, 245)
+            self.slider.set_size_request(self.__win_width, 240)
             self.window.window_frame.remove(self.window.button_box)
         elif index == 0:
             self.slider.set_size_request(self.__win_width, 228)
             if self.window.button_box not in self.window.window_frame.get_children():
                 self.window.window_frame.pack_start(self.window.button_box, False, False)
         elif index == 2:
-            self.slider.set_size_request(self.__win_width, 228)
+            #self.slider.set_size_request(self.__win_width, 228)
             self.window.left_button_box.set_buttons([Label("  ")])
             self.window.right_button_box.set_buttons([Label("  ")])
         self.slider.slide_to(self.slider_list[index])
@@ -262,7 +262,7 @@ class ShareToWeibo():
             self.is_get_user_info[weibo] = 0
             info_error = weibo.get_curl_error()
             if info_error:
-                self.get_user_error_text += "%s:%s." % (weibo.t_type, info_error)
+                self.get_user_error_text += "%s:%s." % (weibo.t_type, _(info_error))
             #check = CheckButton()
             check = gtk.CheckButton()
             check.set_sensitive(False)
@@ -515,7 +515,7 @@ class ShareToWeibo():
         right_box.button_align.set(0.5, 0.0, 0, 1)
         right_box.button_align.set_padding(30, 0, 0, 0)
 
-        left_box.set_size_request(408, -1)
+        left_box.set_size_request(405, -1)
         right_box.set_size_request(195, -1)
         
         res_hbox.pack_start(left_box)
@@ -619,7 +619,7 @@ class ShareToWeibo():
             align.add(box)
             follow_vbox.pack_start(align, False, False, 10)
         # close button
-        button = Label(_("Close"), text_size=12, text_color=app_theme.get_color("link_text"))
+        button = Label(_("Close"), text_size=15, text_color=app_theme.get_color("link_text"))
         button.add_events(gtk.gdk.BUTTON_PRESS_MASK)
         button.connect("button-press-event", lambda w, e: self.quit(w))
         utils.set_clickable_cursor(button)
@@ -627,12 +627,17 @@ class ShareToWeibo():
         #button.connect("clicked", self.quit)
         button_box = gtk.HBox(False, 15)
         button_align = gtk.Alignment()
-        button_align.set(0.0, 0.5, 0, 0)
-        button_align.set_padding(0, 0, 55, 0)
+        button_align.set(0.5, 0.5, 0, 0)
+        #button_align.set_padding(0, 0, 55, 0)
         button_box.pack_start(button, False, False)
-        #button_align.add(button_box)
-        #res_vbox.pack_start(button_align, False, False)
-        res_vbox.pack_start(button_box, False, False)
+        button_align.add(button_box)
+        #tmp_box = gtk.HBox(False)
+        #img = gtk.Image()
+        #img.set_size_request(20, 20)
+        #tmp_box.pack_start(img)
+        #tmp_box.pack_start(button_align)
+        res_vbox.pack_start(button_align, False, False)
+        #res_vbox.pack_start(tmp_box, False, False)
 
         left_box.set_buttons([res_vbox])
         right_box.set_buttons([follow_vbox])
