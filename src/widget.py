@@ -947,6 +947,8 @@ class TextView(Entry):
             pos = self.index_to_pos(index)
             cr.rectangle(pos[0]+x, pos[1]+y, 1, pos[3])
             cr.fill()
+            # Tell input method follow cursor position
+            self.im.set_cursor_location(gtk.gdk.Rectangle(pos[0]+x, pos[1]+y, 1, pos[3]))
     
     def draw_selection_lines(self, start, end, cr, x, y):
         '''draw selection line background'''

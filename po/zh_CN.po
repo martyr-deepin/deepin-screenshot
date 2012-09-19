@@ -225,8 +225,8 @@ msgid "Please input text here"
 msgstr "请输入内容"
 
 #: share.py:440
-msgid "does not exist"
-msgstr "不存在"
+msgid "picture does not exist"
+msgstr "图片不存在"
 
 #: share.py:449
 msgid "Please choose at least one platform to share on"

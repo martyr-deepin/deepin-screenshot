@@ -404,26 +404,22 @@ class Colorbar():
         self.above_hbox = gtk.HBox(False, 2)
         self.below_hbox = gtk.HBox(False, 2)
         self.color_map = {
-            'black'       : "#000000",  #1
-            'gray_dark'   : "#808080",  #2
-            'red_dark'    : "#800000",  #3
-            #'yellow_dark' : "#808000",
-            'yellow_dark' : "#FF9B00",  #4
-            'green_dark'  : "#008000",  #7
-            'blue_dark'   : "#000080",  #
-            'pink_dark'   : "#800080",
-            'wathet_dark' : "#008080",  #8
-            'white'       : "#FFFFFF",  #9
-            'gray'        : "#C0C0C0",  #10
-            'red'         : "#FF0000",  #11
-            'yellow'      : "#FFFF00",  #5
-            #'green'       : "#00FF00",
-            'green'       : "#B2E700",  #6
-            #'blue'        : "#0000FF",
-            'blue'        : "#0085E1",  #15
-            'pink'        : "#FF00FF",
-            #'wathet'      : "#00FFFF"}
-            'wathet'      : "#009DE0"}  #16
+            'black'       : "#000000",  # 1-1
+            'gray_dark'   : "#808080",  # 1-2
+            'red'         : "#FF0000",  # 1-3
+            'yellow_dark' : "#FF9B00",  # 1-4
+            'yellow'      : "#FFFF00",  # 1-5
+            'green'       : "#B2E700",  # 1-6
+            'green_dark'  : "#008000",  # 1-7
+            'wathet_dark' : "#008080",  # 1-8
+            'white'       : "#FFFFFF",  # 2-1
+            'gray'        : "#C0C0C0",  # 2-2
+            'red_dark'    : "#E2004E",  # 2-3
+            'pink'        : "#E2007A",  # 2-4
+            'pink_dark'   : "#800080",  # 2-5
+            'blue_dark'   : "#000080",  # 2-6
+            'blue'        : "#0085E1",  # 2-7
+            'wathet'      : "#009DE0"}  # 2-8
 
         self.create_color_button(self.above_hbox, "black")
         self.create_color_button(self.above_hbox, "gray_dark")
