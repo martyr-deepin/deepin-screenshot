@@ -404,29 +404,30 @@ class Colorbar():
         self.above_hbox = gtk.HBox(False, 2)
         self.below_hbox = gtk.HBox(False, 2)
         self.color_map = {
-            'black'       : "#000000",
-            'gray_dark'   : "#808080",
-            'red_dark'    : "#800000",
+            'black'       : "#000000",  #1
+            'gray_dark'   : "#808080",  #2
+            'red_dark'    : "#800000",  #3
             #'yellow_dark' : "#808000",
-            'yellow_dark' : "#FF9B00",
-            'green_dark'  : "#008000",
-            'blue_dark'   : "#000080",
+            'yellow_dark' : "#FF9B00",  #4
+            'green_dark'  : "#008000",  #7
+            'blue_dark'   : "#000080",  #
             'pink_dark'   : "#800080",
-            'wathet_dark' : "#008080",
-            'white'       : "#FFFFFF",
-            'gray'        : "#C0C0C0",
-            'red'         : "#FF0000",
-            'yellow'      : "#FFFF00",
+            'wathet_dark' : "#008080",  #8
+            'white'       : "#FFFFFF",  #9
+            'gray'        : "#C0C0C0",  #10
+            'red'         : "#FF0000",  #11
+            'yellow'      : "#FFFF00",  #5
             #'green'       : "#00FF00",
-            'green'       : "#B2E700",
+            'green'       : "#B2E700",  #6
             #'blue'        : "#0000FF",
-            'blue'        : "#0085E1",
+            'blue'        : "#0085E1",  #15
             'pink'        : "#FF00FF",
-            'wathet'      : "#00FFFF"}
+            #'wathet'      : "#00FFFF"}
+            'wathet'      : "#009DE0"}  #16
 
         self.create_color_button(self.above_hbox, "black")
         self.create_color_button(self.above_hbox, "gray_dark")
-        self.create_color_button(self.above_hbox, "red_dark")
+        self.create_color_button(self.above_hbox, "red")
         self.create_color_button(self.above_hbox, "yellow_dark")
         self.create_color_button(self.above_hbox, "yellow")
         self.create_color_button(self.above_hbox, "green")
@@ -435,7 +436,7 @@ class Colorbar():
 
         self.create_color_button(self.below_hbox, "white")
         self.create_color_button(self.below_hbox, "gray")
-        self.create_color_button(self.below_hbox, "red")
+        self.create_color_button(self.below_hbox, "red_dark")
         self.create_color_button(self.below_hbox, "pink")
         self.create_color_button(self.below_hbox, "pink_dark")
         self.create_color_button(self.below_hbox, "blue_dark")
