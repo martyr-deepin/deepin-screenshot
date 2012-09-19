@@ -15,19 +15,19 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 #: main.py:137
-msgid "area width or height cannot be 0"
+msgid "The width or height of selected area cannot be 0"
 msgstr "选区的宽或高不能为0"
 
 #: main.py:145
-msgid "save to file"
+msgid "Picture has been saved to file"
 msgstr "图片已保存到文件"
 
 #: main.py:154 main.py:173
-msgid "save to clipboard"
+msgid "Picture has been saved to clipboard"
 msgstr "图片已保存到剪辑板"
 
 #: main.py:156
-msgid "save failed"
+msgid "Failed to save the picture"
 msgstr "图片保存失败"
 
 # in weibo.py
@@ -37,7 +37,7 @@ msgstr "新浪微博"
 msgid "Tencent"
 msgstr "腾讯微博"
 
-msgid "connect timed out"
+msgid "Connection timed out"
 msgstr "连接超时"
 
 #
@@ -193,11 +193,11 @@ msgid "share to web"
 msgstr "分享至微博"
 
 #: share.py:235
-msgid "clicked to switch user"
+msgid "click to switch user"
 msgstr "点击图标切换帐号"
 
 #: share.py:252
-msgid "clicked to logi"
+msgid "click to login"
 msgstr "点击图标设置帐号"
 
 #: share.py:346 share.py:424
@@ -205,7 +205,7 @@ msgid "left"
 msgstr "还可以输入"
 
 #: share.py:430
-msgid "more than"
+msgid "exceeds"
 msgstr "已经超过"
 
 #: share.py:279 share.py:440 share.py:449
@@ -221,15 +221,15 @@ msgid "Tweet"
 msgstr "立即分享"
 
 #: share.py:407
-msgid "please input content"
+msgid "Please input text here"
 msgstr "请输入内容"
 
 #: share.py:440
-msgid "is not existing"
+msgid "does not exist"
 msgstr "不存在"
 
 #: share.py:449
-msgid "at least choose one web"
+msgid "Please choose at least one platform to share on"
 msgstr "请至少选择一个平台进行分享"
 
 #: share.py:464
@@ -237,7 +237,7 @@ msgid "DeepinScreenshot"
 msgstr "深度截图"
 
 #: share.py:464
-msgid "come from"
+msgid "came from"
 msgstr "来自"
 
 #: share.py:531 share.py:545
@@ -245,7 +245,7 @@ msgid "upload to"
 msgstr "分享至"
 
 #: share.py:534
-msgid "succeed"
+msgid "successful"
 msgstr "成功"
 
 #: share.py:550
@@ -289,7 +289,7 @@ msgid "share"
 msgstr "分享到微博"
 
 #: toolbar.py:156 widget.py:667
-msgid "save auto"
+msgid "save automatically"
 msgstr "自动保存"
 
 #: toolbar.py:157 widget.py:668
@@ -297,11 +297,11 @@ msgid "save as"
 msgstr "保存到指定目录"
 
 #: toolbar.py:158 widget.py:669
-msgid "save clip"
+msgid "save to clipboard"
 msgstr "复制到剪切板"
 
 #: toolbar.py:159 widget.py:670
-msgid "save auto and clip"
+msgid "save automatically to file and clipboard"
 msgstr "自动保存并复制到剪切板"
 
 #: widget.py:217

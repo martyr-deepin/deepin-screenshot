@@ -31,9 +31,10 @@ import window
 
 window.get_current_monitor_info()
 SCREEN_WIDTH = window.SCREEN_WIDTH
+SCREEN_Y = window.SCREEN_Y
 class TipWindow():
     ''' tip window'''
-    def __init__(self, content):
+    def __init__(self, content, index=0):
         ''' Init tip Window'''
         self.delta = 0.01
         self.alpha = 1
@@ -50,7 +51,7 @@ class TipWindow():
         self.tipWindow.set_opacity(1)
         self.tipWindow.set_skip_taskbar_hint(True)
         self.tipWindow.set_skip_pager_hint(True)
-        self.tipWindow.move(SCREEN_WIDTH - 250, 34)
+        self.tipWindow.move(SCREEN_WIDTH - 250, SCREEN_Y + 34 + index * 34)
         self.tipWindow.connect('expose-event', self.tip_expose)
         self.tipWindow.connect("size-allocate", lambda w, a: updateShape(w, a, 4))
         
@@ -157,5 +158,7 @@ class CountdownWindow():
         
 if __name__ == '__main__':
     ''' '''
-    if len(sys.argv) >= 2:
+    if len(sys.argv) == 2:
         TipWindow(sys.argv[1])
+    if len(sys.argv) > 2:
+        TipWindow(sys.argv[1], int(sys.argv[2]))

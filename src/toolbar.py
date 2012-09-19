@@ -153,10 +153,10 @@ class Toolbar():
     def _list_menu_show(self, button, x, y, offset_x, offset_y):
         ''' show combo_buton list menu'''
         menu_item = [
-            (None, _("save auto"), self._list_menu_click, SAVE_OP_AUTO, button),
+            (None, _("save automatically"), self._list_menu_click, SAVE_OP_AUTO, button),
             (None, _("save as"), self._list_menu_click, SAVE_OP_AS, button),
-            (None, _("save clip"), self._list_menu_click, SAVE_OP_CLIP, button),
-            (None, _("save auto and clip"), self._list_menu_click, SAVE_OP_AUTO_AND_CLIP, button)]
+            (None, _("save to clipboard"), self._list_menu_click, SAVE_OP_CLIP, button),
+            (None, _("save automatically to file and clipboard"), self._list_menu_click, SAVE_OP_AUTO_AND_CLIP, button)]
         # set current operate icon
         current_item = menu_item[self.screenshot.save_op_index] 
         menu_pixbuf = (

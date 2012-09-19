@@ -664,10 +664,10 @@ class RightMenu():
     def __init__(self, screenshot):
         self.screenshot = screenshot
         menu_item = [
-            (None, _("save auto"), self.save_sub_menu_clicked, SAVE_OP_AUTO),
+            (None, _("save automatically"), self.save_sub_menu_clicked, SAVE_OP_AUTO),
             (None, _("save as"), self.save_sub_menu_clicked, SAVE_OP_AS),
-            (None, _("save clip"), self.save_sub_menu_clicked, SAVE_OP_CLIP),
-            (None, _("save auto and clip"), self.save_sub_menu_clicked, SAVE_OP_AUTO_AND_CLIP)]
+            (None, _("save to clipboard"), self.save_sub_menu_clicked, SAVE_OP_CLIP),
+            (None, _("save automatically to file and clipboard"), self.save_sub_menu_clicked, SAVE_OP_AUTO_AND_CLIP)]
         ## set current operate icon
         #current_item = menu_item[self.screenshot.save_op_index] 
         #menu_pixbuf = (

@@ -134,7 +134,7 @@ class DeepinScreenshot():
         tipContent = ""
         # Save snapshot.
         if self.rect_width == 0 or self.rect_height == 0:
-            tipContent = _("area width or height cannot be 0")
+            tipContent = _("The width or height of selected area cannot be 0")
             failed_flag = True
         else:
             self.window.finish_flag = True
@@ -142,7 +142,7 @@ class DeepinScreenshot():
                 self.desktop_background.subpixbuf(*self.get_rectangel_in_monitor()))
             # Save to file
             if filename:
-                tipContent = "%s'%s'" % (_("save to file"), filename)
+                tipContent = "%s'%s'" % (_("Picture has been saved to file"), filename)
                 try:
                     surface.write_to_png(filename)
                     # copy to clipboard
@@ -151,9 +151,16 @@ class DeepinScreenshot():
                         clipboard = gtk.Clipboard(selection="CLIPBOARD")
                         clipboard.set_image(pixbuf)
                         clipboard.store()
-                        tipContent += _("save to clipboard")
+                        #tipContent +=  _("Picture has been saved to clipboard")
+                        try:
+                            cmd = ('python2', 'tipswindow.py', _("Picture has been saved to clipboard"), '1')
+                            subprocess.Popen(cmd)
+                        except OSError:    
+                            cmd = ('python', 'tipswindow.py', _("Picture has been saved to clipboard"), '11')
+                            subprocess.Popen(cmd)
+                        
                 except Exception, e:
-                    tipContent = "%s:%s" % (_("save failed"), str(e))
+                    tipContent = "%s:%s" % (_("Failed to save the picture"), str(e))
             # Save snapshot to clipboard
             else:
                 import StringIO
@@ -170,7 +177,7 @@ class DeepinScreenshot():
                 if pixbuf:
                     clipboard.set_image(pixbuf)
                 clipboard.store()
-                tipContent += _("save to clipboard")
+                tipContent += _("Picture has been saved to clipboard")
 
         # Exit
         self.window.quit()

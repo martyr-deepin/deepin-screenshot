@@ -232,7 +232,7 @@ class ShareToWeibo():
                 app_theme.get_pixbuf("share/" + weibo.t_type + ".png"))
             utils.set_clickable_cursor(button)
             #button.connect("enter-notify-event", self.show_tooltip, "点击图标切换帐号")
-            button.connect("enter-notify-event", self.show_tooltip, _("clicked to switch user"))
+            button.connect("enter-notify-event", self.show_tooltip, _("click to switch user"))
             hbox.pack_start(check, False, False)
             hbox.pack_start(button, False, False, 5)
             hbox.pack_start(label, False, False)
@@ -249,7 +249,7 @@ class ShareToWeibo():
                 app_theme.get_pixbuf("share/" + weibo.t_type + "_no.png"))
             utils.set_clickable_cursor(button)
             #button.connect("enter-notify-event", self.show_tooltip, "点击图标设置帐号")
-            button.connect("enter-notify-event", self.show_tooltip, _("clicked to login"))
+            button.connect("enter-notify-event", self.show_tooltip, _("click to login"))
             hbox.pack_start(check, False, False)
             hbox.pack_start(button, False, False)
         button.connect("clicked", self.weibo_login, weibo)
@@ -406,7 +406,7 @@ class ShareToWeibo():
             layout = context.create_layout()
             layout.set_font_description(pango.FontDescription("Snas 10"))
             layout.set_alignment(pango.ALIGN_LEFT)
-            layout.set_text(_("please input content"))
+            layout.set_text(_("Please input text here"))
             cr.set_source_rgb(0.66, 0.66, 0.66)
             context.update_layout(layout)
             context.show_layout(layout)
@@ -429,7 +429,7 @@ class ShareToWeibo():
             if not button.is_sensitive():
                 button.set_sensitive(True)
         else:
-            self.input_tip_label.set_text(_("more than"))
+            self.input_tip_label.set_text(_("exceeds"))
             self.input_num_label.set_text("%d" % (count - self.MAX_CHAR))
             self.input_num_label.text_color = app_theme_get_dynamic_color("#FF0000")
             if button.is_sensitive():
@@ -439,7 +439,7 @@ class ShareToWeibo():
         '''share_button_clicked'''
         # file is not exist.
         if not exists(self.upload_image):
-            ConfirmDialog(_("error"), "'%s' %s." % (self.upload_image, _("is not existing"))).show_all()
+            ConfirmDialog(_("error"), "'%s' %s." % (self.upload_image, _("does not exist"))).show_all()
             return False
         has_share_web = False
         for weibo in self.to_share_weibo:
@@ -448,7 +448,7 @@ class ShareToWeibo():
                 break
         # have no web selected
         if not has_share_web:
-            ConfirmDialog(_("error"), _("at least choose one web")).show_all()
+            ConfirmDialog(_("error"), _("Please choose at least one platform to share on")).show_all()
             return False
         # at first, set widget insensitive
         #self.share_box.set_sensitive(False)
@@ -463,7 +463,7 @@ class ShareToWeibo():
         buf = text_view.get_buffer()
         text = buf.get_text(*buf.get_bounds())
         if text.strip() == "":
-            text = "%s %s" % (_("come from"), _("DeepinScreenshot"))
+            text = "%s %s" % (_("came from"), _("DeepinScreenshot"))
         for weibo in self.to_share_weibo:
             if self.to_share_weibo[weibo]:
                 self.to_share_weibo_res[weibo] = weibo.upload_image(self.upload_image, text)
@@ -533,7 +533,7 @@ class ShareToWeibo():
                 text = _("upload to")
                 label = Label(text, text_size=13, 
                     text_color=app_theme_get_dynamic_color("#5f5f5f"), enable_select=False)
-                text = _("succeed")
+                text = _("successful")
                 label1 = Label(text, text_size=13, 
                     text_color=app_theme_get_dynamic_color("#5f5f5f"), enable_select=False)
                 tip_box.pack_start(img, False, False, 15)
