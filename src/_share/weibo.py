@@ -305,6 +305,7 @@ class Sina(Weibo):
         self.APP_SECRET = 'c0ecbf8644ac043070449ad0901692b8'
         self.CALLBACK_URL = 'http://www.linuxdeepin.com'
         self.DEEPIN_ID = 2675284423
+        self.index_url = 'http://www.weibo.com'
 
         version = 2
         self.ACCESS_URL = 'https://api.weibo.com/oauth2/authorize?client_id=%s&redirect_uri=%s&display=mobile' % (self.APP_KEY,self.CALLBACK_URL)
@@ -484,6 +485,7 @@ class Tencent(Weibo):
         self.APP_SECRET = '39083ce577596d739bbabb6f6bd0dba0'
         self.CALLBACK_URL = 'http://www.linuxdeepin.com'
         self.DEEPIN_ID = "A1311E21F862EE280851CB4244E05120"
+        self.index_url = 'http://t.qq.com'
 
         self.oauth_version = '2.a'
         self.client_ip = '127.0.0.1'    # TODO clientip
@@ -635,6 +637,7 @@ class Twitter(Weibo):
         self.APP_SECRET = '9e4LsNOvxWVWeEgC5gthL9Q78F7FDsnT7lUIBruyQmI'
         self.CALLBACK_URL = 'http://www.linuxdeepin.com'
         self.DEEPIN_ID = '461799845'
+        self.index_url = 'http://twitter.com'
 
         self.oauth_token_secret = ''
         self.oauth_token = ''

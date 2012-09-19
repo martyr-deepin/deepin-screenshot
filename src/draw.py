@@ -205,9 +205,12 @@ def draw_font(cr, content, fontSize, fontColor, x, y):
 
 def draw_alpha_rectangle(cr, x, y, width, height):
     ''' draw alpha Rectangle '''
-    cr.set_source_rgba(0.18, 0.62, 0.18, 0.6)
+    ##1681d0
+    cr.set_source_rgba(0.08, 0.50, 0.81, 0.6)
+    #cr.set_source_rgba(0.18, 0.62, 0.18, 0.6)
     cr.rectangle(x, y, width, height)
     cr.stroke_preserve()
     #cr.stroke()
-    cr.set_source_rgba(0, 0.7, 1.0, 0.4)
+    ##8ecdfe
+    cr.set_source_rgba(0.55, 0.80, 0.99, 0.3)
     cr.fill()

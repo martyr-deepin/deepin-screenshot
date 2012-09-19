@@ -240,6 +240,10 @@ msgstr "深度截图"
 msgid "came from"
 msgstr "来自"
 
+#: share.py:546
+msgid "Follow"
+msgstr "关注"
+
 #: share.py:531 share.py:545
 msgid "upload to"
 msgstr "分享至"

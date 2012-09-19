@@ -14,7 +14,7 @@
  "buttonBorderPrelight" : "#b18ecf",
  "buttonBorderActive" : "#9372c9",
  "buttonFont" : "#000000",
- "link_text"  : "#2030CE"
+ "link_text"  : "#1A70b1"
  },	
  "alpha_colors" : {
      "frame" : ("#000000", 0.5),
