@@ -30,7 +30,7 @@ from dtk.ui.color_selection import ColorSelectDialog
 from dtk.ui.spin import SpinBox
 import dtk.ui.tooltip as Tooltip
 import dtk.ui.constant
-from lang import _
+from nls import _
 import utils
 import gtk
 from constant import *

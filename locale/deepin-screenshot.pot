@@ -1,0 +1,162 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-20 10:33+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/widget.py:217
+msgid "Drag to select area"
+msgstr ""
+
+#: ../src/widget.py:667 ../src/toolbar.py:156
+msgid "save automatically"
+msgstr ""
+
+#: ../src/widget.py:668 ../src/toolbar.py:157
+msgid "save as"
+msgstr ""
+
+#: ../src/widget.py:669 ../src/toolbar.py:158
+msgid "save to clipboard"
+msgstr ""
+
+#: ../src/widget.py:670 ../src/toolbar.py:159
+msgid "save automatically to file and clipboard"
+msgstr ""
+
+#: ../src/widget.py:685 ../src/toolbar.py:76
+msgid "draw rectangle"
+msgstr ""
+
+#: ../src/widget.py:689 ../src/toolbar.py:77
+msgid "draw ellipse"
+msgstr ""
+
+#: ../src/widget.py:693 ../src/toolbar.py:78
+msgid "draw arrow"
+msgstr ""
+
+#: ../src/widget.py:697 ../src/toolbar.py:79
+msgid "draw line"
+msgstr ""
+
+#: ../src/widget.py:701 ../src/toolbar.py:80
+msgid "draw Text"
+msgstr ""
+
+#: ../src/widget.py:706 ../src/toolbar.py:82
+msgid "undo"
+msgstr ""
+
+#: ../src/widget.py:710
+msgid "save"
+msgstr ""
+
+#: ../src/widget.py:714 ../src/toolbar.py:101
+msgid "cancel"
+msgstr ""
+
+#: ../src/widget.py:718 ../src/toolbar.py:102
+msgid "share"
+msgstr ""
+
+#: ../src/share.py:71
+msgid "share to web"
+msgstr ""
+
+#: ../src/share.py:279
+msgid "click to switch user"
+msgstr ""
+
+#: ../src/share.py:297
+msgid "click to login"
+msgstr ""
+
+#: ../src/share.py:326 ../src/share.py:494 ../src/share.py:503
+msgid "error"
+msgstr ""
+
+#: ../src/share.py:401 ../src/share.py:478
+msgid "left"
+msgstr ""
+
+#: ../src/share.py:404
+msgid "chars"
+msgstr ""
+
+#: ../src/share.py:421
+msgid "Tweet"
+msgstr ""
+
+#: ../src/share.py:468
+msgid "Please input text here"
+msgstr ""
+
+#: ../src/share.py:484
+msgid "exceeds"
+msgstr ""
+
+#: ../src/share.py:494
+msgid "picture does not exist"
+msgstr ""
+
+#: ../src/share.py:503
+msgid "Please choose at least one platform to share on"
+msgstr ""
+
+#: ../src/share.py:519
+msgid "came from"
+msgstr ""
+
+#: ../src/share.py:519
+msgid "DeepinScreenshot"
+msgstr ""
+
+#: ../src/share.py:571
+msgid "Follow"
+msgstr ""
+
+#: ../src/share.py:591 ../src/share.py:605
+msgid "upload to"
+msgstr ""
+
+#: ../src/share.py:594
+msgid "successful"
+msgstr ""
+
+#: ../src/share.py:610
+msgid "failed"
+msgstr ""
+
+#: ../src/share.py:648
+msgid "Close"
+msgstr ""
+
+#: ../src/main.py:137
+msgid "The width or height of selected area cannot be 0"
+msgstr ""
+
+#: ../src/main.py:145
+msgid "Picture has been saved to file"
+msgstr ""
+
+#: ../src/main.py:156 ../src/main.py:159 ../src/main.py:180
+msgid "Picture has been saved to clipboard"
+msgstr ""
+
+#: ../src/main.py:163
+msgid "Failed to save the picture"
+msgstr ""

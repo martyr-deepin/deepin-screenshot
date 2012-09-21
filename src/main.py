@@ -33,7 +33,7 @@ from action import *
 from draw import *
 from constant import *
 from window import *
-from lang import _
+from nls import _
 from widget import RootWindow, RightMenu 
 from toolbar import Colorbar, Toolbar
 

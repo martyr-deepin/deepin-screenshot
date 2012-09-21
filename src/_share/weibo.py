@@ -311,7 +311,8 @@ class Sina(Weibo):
         self.index_url = 'http://www.weibo.com'
 
         version = 2
-        self.ACCESS_URL = 'https://api.weibo.com/oauth2/authorize?client_id=%s&redirect_uri=%s&display=mobile' % (self.APP_KEY,self.CALLBACK_URL)
+        #self.ACCESS_URL = 'https://api.weibo.com/oauth2/authorize?client_id=%s&redirect_uri=%s&display=mobile' % (self.APP_KEY,self.CALLBACK_URL)
+        self.ACCESS_URL = 'https://api.weibo.com/oauth2/authorize?client_id=%s&redirect_uri=%s&display=popup' % (self.APP_KEY,self.CALLBACK_URL)
         self.OAUTH2_URL = 'https://api.weibo.com/oauth2/access_token'
         self.USERS_URL = 'https://api.weibo.com/%d/%s' % (version, 'users/show.json')
         self.USER_ID_URL = 'https://api.weibo.com/%d/%s' % (version, 'account/get_uid.json')
@@ -492,7 +493,8 @@ class Tencent(Weibo):
 
         self.oauth_version = '2.a'
         self.client_ip = '127.0.0.1'    # TODO clientip
-        self.ACCESS_URL = 'https://open.t.qq.com/cgi-bin/oauth2/authorize?client_id=%s&response_type=token&redirect_uri=%s&wap=2' % (self.APP_KEY,self.CALLBACK_URL)
+        #self.ACCESS_URL = 'https://open.t.qq.com/cgi-bin/oauth2/authorize?client_id=%s&response_type=token&redirect_uri=%s&wap=2' % (self.APP_KEY,self.CALLBACK_URL)
+        self.ACCESS_URL = 'https://open.t.qq.com/cgi-bin/oauth2/authorize?client_id=%s&response_type=token&redirect_uri=%s' % (self.APP_KEY,self.CALLBACK_URL)
         self.USERS_URL = 'https://open.t.qq.com/api/user/info'
         self.UPLOAD_URL = 'https://open.t.qq.com/api/t/add_pic'
         self.OTHER_URL = 'https://open.t.qq.com/api/user/other_info'

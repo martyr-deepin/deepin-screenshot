@@ -27,7 +27,7 @@ from collections import namedtuple
 from draw import *
 from constant import *
 from action import TextAction
-from lang import _
+from nls import _
 from dtk.ui.entry import Entry
 from dtk.ui.utils import (cairo_state, color_hex_to_cairo,
                           is_left_button, is_right_button,
@@ -184,7 +184,16 @@ class RootWindow():
                or self.screenshot.action == None \
                and self.screenshot.x < ex < self.screenshot.x + self.screenshot.rect_width \
                and self.screenshot.y < ey < self.screenshot.y + self.screenshot.rect_height:
-                self.screenshot.save_snapshot()
+                #self.screenshot.save_snapshot()
+                release_event = gtk.gdk.Event(gtk.gdk.BUTTON_RELEASE)
+                release_event.send_event = True
+                release_event.button = event.button
+                release_event.x = event.x
+                release_event.y = event.y
+                release_event.x_root = event.x_root
+                release_event.y_root = event.y_root
+                print widget.event(release_event)
+                self.screenshot.toolbar.save_operate()
     
     def _button_release_event(self, widget, event):
         ''' button release '''

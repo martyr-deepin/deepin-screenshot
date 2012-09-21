@@ -35,8 +35,9 @@ import dtk.ui.draw as draw
 import dtk.ui.tooltip as Tooltip
 import dtk.ui.utils as utils
 from _share import weibo
-from lang import _
-from lang import lang as sys_lang
+from _share.config import COOKIE_FILE
+from nls import _
+from nls import default_locale as default_locale
 from os.path import exists
 import gtk
 import webkit
@@ -136,7 +137,7 @@ class ShareToWeibo():
         web_navigate_align.set_padding(4, 0, 11, 13)
         web_navigate_align.add(web_navigate_box)
 
-        self.web_view = WebView()
+        self.web_view = WebView(COOKIE_FILE)
         self.web_view.connect("notify::load-status", self.web_view_load_status)
         self.web_scrolled_window = ScrolledWindow()
         self.web_scrolled_window.add(self.web_view)
@@ -151,6 +152,7 @@ class ShareToWeibo():
         res_align = gtk.Alignment()
         res_align.set(0.5, 0.5, 0, 0)
         res_align.add(self.result_box)
+        res_align.connect("expose-event", self.__slider_expose)
 
         self.slider.append_widget(share_align)
         self.slider.append_widget(web_align) 
@@ -164,7 +166,7 @@ class ShareToWeibo():
         self.qq = weibo.Tencent(self.web_view)
         self.__weibo_list.append(self.sina)
         self.__weibo_list.append(self.qq)
-        if sys_lang != 'zh_CN':
+        if default_locale != 'zh_CN':
             self.twitter = weibo.Twitter(self.web_view)
             self.__weibo_list.append(self.twitter)
         self.__current_weibo = None
@@ -185,17 +187,51 @@ class ShareToWeibo():
             self.web_url_entry.entry.move_to_start()
             self.web_url_entry.set_editable(False)
         if state == webkit.LOAD_FAILED: # load failed
+            print "load failed",
             print web.get_property('uri')
-            print "load failed\n"
             pass
         elif state == webkit.LOAD_COMMITTED:
             if self.__current_weibo and self.__current_weibo.is_callback_url(url):
+                web.stop_loading()  # if go to  callback url, stop loading
                 # access token
-                #print web.get_property('uri')
-                if self.__current_weibo.access_token():
-                    web.stop_loading()
-                    self.get_user_info_again()
-                self.set_slide_index(0)
+                #print "load committed", url
+                t = threading.Thread(target=self.weibo_login_thread)
+                t.setDaemon(True)
+                t.start()
+    
+    # login or switch user
+    def weibo_login(self, widget, weibo):
+        '''weibo login'''
+        self.web_view.load_uri("about:blank")
+        self.set_slide_index(1)
+        self.__current_weibo = weibo
+        t = threading.Thread(target=self.__current_weibo.request_oauth)
+        t.setDaemon(True)
+        t.start()
+
+    def weibo_login_thread(self):
+        '''in webkit login finish, get user info again'''
+        if self.__current_weibo.access_token():
+            self.get_user_info_again()
+        gtk.gdk.threads_enter()
+        self.set_slide_index(0)
+        gtk.gdk.threads_leave()
+
+    def get_user_info_again(self):
+        '''recreate label info'''
+        box = self.__current_weibo.get_box()
+        #print "cuurent weibo:", self.__current_weibo.t_type
+        gtk.gdk.threads_enter()
+        children = box.get_children()
+        for child in children:
+            child.destroy()
+        gtk.gdk.threads_leave()
+
+        self.get_user_info(self.__current_weibo)
+
+        gtk.gdk.threads_enter()
+        box.show_all()
+        gtk.gdk.threads_leave()
 
     def set_slide_index(self, index):
         '''set slide to index'''
@@ -211,7 +247,9 @@ class ShareToWeibo():
                 self.window.window_frame.pack_start(self.window.button_box, False, False)
         elif index == 2:
             #self.slider.set_size_request(self.__win_width, 228)
-            self.window.left_button_box.set_buttons([Label("  ")])
+            tmp = gtk.Alignment(0.5, 0.5, 0, 0)
+            #tmp.set_padding()
+            self.window.left_button_box.set_buttons([tmp])
             self.window.right_button_box.set_buttons([Label("  ")])
         self.slider.slide_to(self.slider_list[index])
 
@@ -222,32 +260,12 @@ class ShareToWeibo():
         else:
             self.to_share_weibo[weibo] = 0
 
-    # login or switch user
-    def weibo_login(self, widget, weibo):
-        '''weibo login'''
-        self.web_view.load_uri("about:blank")
-        self.set_slide_index(1)
-        self.__current_weibo = weibo
-        t = threading.Thread(target=self.__current_weibo.request_oauth)
-        t.setDaemon(True)
-        t.start()
-
     def create_ico_image(self, name):
         ''' create image from file'''
         pix1 = app_theme_get_dynamic_pixbuf('image/share/%s.png' % name).get_pixbuf()
         pix2 = app_theme_get_dynamic_pixbuf('image/share/%s_no.png' % name).get_pixbuf()
         return (pix1, pix2)
     
-    def get_user_info_again(self):
-        '''recreate label info'''
-        box = self.__current_weibo.get_box()
-        #print "cuurent weibo:", self.__current_weibo.t_type
-        children = box.get_children()
-        for child in children:
-            child.destroy()
-        self.get_user_info(self.__current_weibo)
-        box.show_all()
-
     def get_user_info(self, weibo):
         '''create label info'''
         self.get_user_error_text = ""
@@ -266,10 +284,14 @@ class ShareToWeibo():
         if info:
             self.is_get_user_info[weibo] = 1
             label = Label(text=info, label_width=70, enable_select=False)
-            #check = CheckButton()
-            check = gtk.CheckButton()
+            check = CheckButton()
+            #check = gtk.CheckButton()
             check.connect("toggled", self.weibo_check_toggle, weibo)
             check.set_active(True)
+            check_vbox = gtk.VBox(False)
+            check_align = gtk.Alignment(0.5, 0.5, 0, 0)
+            check_align.add(check_vbox)
+            check_vbox.pack_start(check, False, False)
             button = ImageButton(
                 app_theme.get_pixbuf("share/" + weibo.t_type + ".png"),
                 app_theme.get_pixbuf("share/" + weibo.t_type + ".png"),
@@ -277,7 +299,7 @@ class ShareToWeibo():
             utils.set_clickable_cursor(button)
             #button.connect("enter-notify-event", self.show_tooltip, "点击图标切换帐号")
             button.connect("enter-notify-event", self.show_tooltip, _("click to switch user"))
-            hbox.pack_start(check, False, False)
+            hbox.pack_start(check_align, False, False)
             hbox.pack_start(button, False, False, 5)
             hbox.pack_start(label, False, False)
         else:
@@ -285,9 +307,13 @@ class ShareToWeibo():
             info_error = weibo.get_curl_error()
             if info_error:
                 self.get_user_error_text += "%s:%s." % (weibo.t_type, _(info_error))
-            #check = CheckButton()
-            check = gtk.CheckButton()
+            check = CheckButton()
+            #check = gtk.CheckButton()
             check.set_sensitive(False)
+            check_vbox = gtk.VBox(False)
+            check_align = gtk.Alignment(0.5, 0.5, 0, 0)
+            check_align.add(check_vbox)
+            check_vbox.pack_start(check, False, False)
             button = ImageButton(
                 app_theme.get_pixbuf("share/" + weibo.t_type + "_no.png"),
                 app_theme.get_pixbuf("share/" + weibo.t_type + "_no.png"),
@@ -295,7 +321,7 @@ class ShareToWeibo():
             utils.set_clickable_cursor(button)
             #button.connect("enter-notify-event", self.show_tooltip, "点击图标设置帐号")
             button.connect("enter-notify-event", self.show_tooltip, _("click to login"))
-            hbox.pack_start(check, False, False)
+            hbox.pack_start(check_align, False, False)
             hbox.pack_start(button, False, False)
         button.connect("clicked", self.weibo_login, weibo)
         gtk.gdk.threads_leave()
@@ -308,7 +334,7 @@ class ShareToWeibo():
         #widget.trigger_tooltip_query()
         Tooltip.text(widget, text)
 
-    def get_user_info_thread(self, button, text_view):
+    def init_user_info_thread(self, button, text_view):
         '''get user name thread'''
         time.sleep(0.1)
 
@@ -439,7 +465,7 @@ class ShareToWeibo():
         #self.share_box.set_sensitive(False)
         button.set_sensitive(False)
         text_view.set_editable(False)
-        t = threading.Thread(target=self.get_user_info_thread, args=(button, text_view))
+        t = threading.Thread(target=self.init_user_info_thread, args=(button, text_view))
         t.setDaemon(True)
         t.start()
 
@@ -522,7 +548,7 @@ class ShareToWeibo():
                 self.to_share_weibo_res[weibo] = weibo.upload_image(self.upload_image, text)
         self.deepin_info[self.sina] = self.sina.get_deepin_info()
         self.deepin_info[self.qq] = self.qq.get_deepin_info()
-        if sys_lang != 'zh_CN':
+        if default_locale != 'zh_CN':
             self.deepin_info[self.twitter] = self.twitter.get_deepin_info()
         self.share_to_weibo_result()
     
@@ -594,6 +620,7 @@ class ShareToWeibo():
                 text = _("successful")
                 label1 = Label(text, text_size=12, 
                     text_color=app_theme_get_dynamic_color(font_color), enable_select=False)
+                #label1.connect("expose-event", lambda w, e: self.__draw_under_line(w))
                 tip_box.pack_start(img, False, False, 15)
                 tip_box.pack_start(label, False, False, 3)
                 tip_box.pack_start(link, False, False, 3)
@@ -651,10 +678,11 @@ class ShareToWeibo():
         utils.set_clickable_cursor(button)
         #button = Button(_("Close"))
         #button.connect("clicked", self.quit)
-        button_box = gtk.HBox(False, 15)
+        button_box = gtk.VBox(False, 5)
+        #button_box.connect("expose-event", lambda w, e: self.__draw_under_line(w))
         button_align = gtk.Alignment()
         button_align.set(0.5, 0.5, 0, 0)
-        #button_align.set_padding(0, 0, 55, 0)
+        #button_align.set_padding(0, 5, 0, 0)
         button_box.pack_start(button, False, False)
         button_align.add(button_box)
         #tmp_box = gtk.HBox(False)
@@ -709,6 +737,18 @@ class ShareToWeibo():
         cr.set_source_rgba(1.0, 1.0, 1.0, 0.8)
         cr.rectangle(rect.x, rect.y, rect.width, rect.height)
         cr.fill()
+
+    def __draw_under_line(self, widget):
+        '''draw under line'''
+        print "under line"
+        cr = widget.window.cairo_create()
+        x, y, w, h = widget.allocation
+        print x, y, w, h
+        cr.set_source_rgba(1, 0, 0, 1.0)
+        cr.set_line_width(1)
+        cr.move_to(0, h-1)
+        cr.line_to(w, h-1)
+        cr.stroke()
 
 
 if __name__ == '__main__':
