@@ -24,12 +24,13 @@ from theme import app_theme
 from dtk.ui.button import ImageButton, ToggleButton, ComboButton
 from dtk.ui.menu import Menu
 from dtk.ui.window import Window
-from dtk.ui.label import Label
-from dtk.ui.color_selection import ColorSelectDialog
+#from dtk.ui.label import Label
+#from dtk.ui.color_selection import ColorSelectDialog
 #from dtk.ui.dialog import SaveFileDialog
 from dtk.ui.spin import SpinBox
+from dtk.ui.group import ToggleButtonGroup, ToggleButtonItem
 import dtk.ui.tooltip as Tooltip
-import dtk.ui.constant
+#import dtk.ui.constant
 from nls import _
 import utils
 import gtk
@@ -72,12 +73,14 @@ class Toolbar():
         #self.window.set_size_request(self.width, self.height)
         self.window.set_size_request(-1, self.height)
 
-        self._toggle_buton_list = []
-        self.create_toggle_button("rect", ACTION_RECTANGLE, _("draw rectangle"))
-        self.create_toggle_button("ellipse", ACTION_ELLIPSE, _("draw ellipse"))
-        self.create_toggle_button("arrow",ACTION_ARROW, _("draw arrow"))
-        self.create_toggle_button("line",ACTION_LINE, _("draw line"))
-        self.create_toggle_button("text",ACTION_TEXT, _("draw Text"))
+        self._toggle_button_list = []
+        self._toggle_button_group = ToggleButtonGroup([], 6)
+        self.toolbox.pack_start(self._toggle_button_group)
+        self.create_toggle_button("rect", ACTION_RECTANGLE, 0, _("draw rectangle"))
+        self.create_toggle_button("ellipse", ACTION_ELLIPSE, 1, _("draw ellipse"))
+        self.create_toggle_button("arrow",ACTION_ARROW, 2, _("draw arrow"))
+        self.create_toggle_button("line",ACTION_LINE, 3, _("draw line"))
+        self.create_toggle_button("text",ACTION_TEXT, 4, _("draw Text"))
 
         self.create_button("undo", _("undo"))
         # pack save and list button
@@ -112,23 +115,21 @@ class Toolbar():
                 'cancel': self.win.quit,
                 'share': self.share_picture}
 
-    def create_toggle_button(self, name, action, text=''):
+    def create_toggle_button(self, name, action, index, text=''):
         ''' make a togglebutton '''
-        button = ToggleButton(
-            app_theme.get_pixbuf("action/" + name + "_normal.png"),
+        button = ToggleButtonItem(
+            (app_theme.get_pixbuf("action/" + name + "_normal.png"),
             app_theme.get_pixbuf("action/" + name + "_press.png"),
             app_theme.get_pixbuf("action/" + name + "_hover.png"),
-            app_theme.get_pixbuf("action/" + name + "_press.png"),
-            app_theme.get_pixbuf("action/" + name + "_press.png"),
-            app_theme.get_pixbuf("action/" + name + "_press.png"))
+            app_theme.get_pixbuf("action/" + name + "_press.png"), None),
+            index, self._toggle_button_group.set_index, self._toggle_button_group.get_index)
         button.connect("pressed", self._toggle_button_pressed)
         button.connect("toggled", self._toggle_button_toggled, action)
-        button.connect("released", self._toggle_button_released)
         button.connect("enter-notify-event", self._show_tooltip, text)
         button.set_name(name)
-        #button.set_size_request(28, 28)
-        self.toolbox.pack_start(button)
-        self._toggle_buton_list.append(button)
+        #self.toolbox.pack_start(button)
+        self._toggle_button_group.pack_start(button)
+        self._toggle_button_list.append(button)
 
     def create_button(self, name, text=''):
         ''' make a button '''
@@ -191,21 +192,8 @@ class Toolbar():
         if name in self._button_clicked_cb:
             self._button_clicked_cb[name](widget)
 
-    def _toggle_button_released(self, widget):
-        ''' toggle button pressed '''
-        if self.screenshot is None:
-            return
-        self.screenshot.isToggled = False
-        for each in self._toggle_buton_list:
-            if each.get_active():
-                self.screenshot.isToggled = True
-
     def _toggle_button_pressed(self, widget):
         ''' toggle button pressed '''
-        for each in self._toggle_buton_list:
-            if each == widget:
-                continue
-            each.set_active(False)
         # save current input text
         if self.screenshot.show_text_window_flag:
             self.win.save_text_window()
@@ -224,22 +212,19 @@ class Toolbar():
             self.win.hide_colorbar()
             if not self.screenshot.action_list and not self.screenshot.text_action_list and self.screenshot.show_toolbar_flag and not self.screenshot.window_flag:
                 self.screenshot.set_action_type(ACTION_SELECT)
-            elif self.screenshot.action_list and self.screenshot.isToggled or self.screenshot.text_action_list:
+            elif self.screenshot.action_list:
                 self.screenshot.set_action_type(None)
     
     def set_button_active(self, name, state):
         '''set button active'''
-        for each in self._toggle_buton_list:
+        for each in self._toggle_button_list:
             if name == each.get_name():
                 each.set_active(state)
                 break
     
     def has_button_active(self):
         '''is has one toggle button active'''
-        for each in self._toggle_buton_list:
-            if each.get_active():
-                return True
-        return False
+        return self._toggle_button_group.is_active()
     
     def save_operate(self, widget=None):
         '''save operate'''
@@ -314,8 +299,11 @@ class Toolbar():
     
     def set_all_inactive(self):
         '''set all button inactive'''
-        for each in self._toggle_buton_list:
-            each.set_active(False)
+        index = self._toggle_button_group.get_index()
+        if index != -1:
+            self._toggle_button_list[index].set_active(False)
+        #for each in self._toggle_button_list:
+            #each.set_active(False)
     
     def show(self):
         ''' show the toolbar '''
@@ -458,8 +446,6 @@ class Colorbar():
             app_theme.get_pixbuf("size/" + name + ".png"),
             app_theme.get_pixbuf("size/" + name + "_press.png"),
             app_theme.get_pixbuf("size/" + name + "_hover.png"),
-            app_theme.get_pixbuf("size/" + name + "_press.png"),
-            app_theme.get_pixbuf("size/" + name + "_press.png"),
             app_theme.get_pixbuf("size/" + name + "_press.png"))
         button.set_name(name)
         return button

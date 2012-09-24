@@ -312,7 +312,7 @@ class Sina(Weibo):
 
         version = 2
         #self.ACCESS_URL = 'https://api.weibo.com/oauth2/authorize?client_id=%s&redirect_uri=%s&display=mobile' % (self.APP_KEY,self.CALLBACK_URL)
-        self.ACCESS_URL = 'https://api.weibo.com/oauth2/authorize?client_id=%s&redirect_uri=%s&display=popup' % (self.APP_KEY,self.CALLBACK_URL)
+        self.ACCESS_URL = 'https://api.weibo.com/oauth2/authorize?client_id=%s&redirect_uri=%s&display=popup&forcelogin=true' % (self.APP_KEY,self.CALLBACK_URL)
         self.OAUTH2_URL = 'https://api.weibo.com/oauth2/access_token'
         self.USERS_URL = 'https://api.weibo.com/%d/%s' % (version, 'users/show.json')
         self.USER_ID_URL = 'https://api.weibo.com/%d/%s' % (version, 'account/get_uid.json')
@@ -715,7 +715,7 @@ class Twitter(Weibo):
             self.oauth_token = parse['oauth_token'][0]
         except KeyError: # request token failed
             return None
-        authorize_url = "%s?oauth_token=%s" % (self.AUTHORIZE_URL, self.oauth_token)
+        authorize_url = "%s?oauth_token=%s&force_login=true" % (self.AUTHORIZE_URL, self.oauth_token)
         return authorize_url
 
     # second authorize the oauth_token which is got at the first step.
@@ -899,12 +899,15 @@ class Twitter(Weibo):
         try:
             cmd = subprocess.Popen(curl_cmd, shell=True, stdout=subprocess.PIPE)
             if cmd.wait() != 0:
+                #print "returncode:", cmd.returncode
+                self.curl.error = "Connection error"
                 return (False, None)
         except OSError:    
             return (False, None)
         try:
             back = json.loads(cmd.stdout.read())
-        except:
+        except Exception, e:
+            print "twitter error:", e
             back = None
         #print back
         if back is None:

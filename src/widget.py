@@ -37,6 +37,8 @@ import status
 import gtk
 import pango
 import gobject
+import threading
+import time
 
 DEFAULT_FONT = dtk_constant.DEFAULT_FONT
 DEFAULT_FONT_SIZE = dtk_constant.DEFAULT_FONT_SIZE
@@ -62,7 +64,7 @@ class RootWindow():
         self.window.add_events(gtk.gdk.POINTER_MOTION_MASK)
         self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
         self.window.add_events(gtk.gdk.BUTTON_RELEASE_MASK)
-        self.window.connect("destroy", self.quit)
+        self.window.connect("destroy", self.destroy_all)
         self.window.connect("button-press-event", self._button_press_event)
         
         self.window.connect("button-press-event", self._button_double_clicked)
@@ -82,11 +84,11 @@ class RootWindow():
         self._button_motion_process = status.MotionProcess(screenshot, self)
 
         # key binding.
-        self.hotkey_map = { "Escape": self.window.destroy}
+        self.hotkey_map = { "Escape": self.quit}
         if self.screenshot:
             self.hotkey_map["Ctrl + s"] = self._save_to_file
-            self.hotkey_map["Return"] = self.screenshot.save_snapshot
-            self.hotkey_map["KP_Enter"] = self.screenshot.save_snapshot
+            self.hotkey_map["Return"] = self._key_enter_press
+            self.hotkey_map["KP_Enter"] = self._key_enter_press
             self.hotkey_map["Ctrl + z"] = self.screenshot.undo
 
     def _draw_expose(self, widget, event):
@@ -192,7 +194,7 @@ class RootWindow():
                 release_event.y = event.y
                 release_event.x_root = event.x_root
                 release_event.y_root = event.y_root
-                print widget.event(release_event)
+                widget.event(release_event)
                 self.screenshot.toolbar.save_operate()
     
     def _button_release_event(self, widget, event):
@@ -210,6 +212,11 @@ class RootWindow():
         self._button_motion_process.update(event)
         self._button_motion_process.process()
     
+    def _key_enter_press(self):
+        '''enter key press'''
+        if self.screenshot.action != ACTION_WINDOW:
+            self.screenshot.toolbar.save_operate()
+    
     def _key_press_event(self, widget, event):
         ''' key press '''
         if event.is_modifier or self.screenshot.show_text_window_flag:
@@ -221,7 +228,21 @@ class RootWindow():
     def quit(self, widget=None):
         ''' window destroy'''
         gtk.main_quit()
-        pass
+
+    def destroy_all(self, widget=None):
+        ''' destroy all window  '''
+        self.window.destroy()
+        self.screenshot.toolbar.window.destroy()
+        self.screenshot.colorbar.window.destroy()
+        threading.Thread(target=self.exit_thread).start()
+
+    def exit_thread(self):
+        '''wait a little, and exit  '''
+        time.sleep(0.5)
+        gtk.gdk.threads_enter()
+        self.quit()
+        gtk.gdk.threads_leave()
+
     
     def update_magnifier(self, x, y, size='', tip=_("Drag to select area"), rgb="RGB:(255,255,255)"):
         ''' update magnifier '''

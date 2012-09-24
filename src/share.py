@@ -121,6 +121,7 @@ class ShareToWeibo():
         self.web_url_entry = InputEntry()
         self.web_url_entry.set_editable(False)
         self.web_url_entry.set_size(555, 20)
+        self.web_url_entry.entry.right_menu_visible_flag = False
         # alig url entry
         web_navigate_vbox = gtk.VBox(False)
         web_navigate_vbox.pack_start(self.web_url_entry)
@@ -231,6 +232,8 @@ class ShareToWeibo():
 
         gtk.gdk.threads_enter()
         box.show_all()
+        if self.get_user_error_text:
+            ConfirmDialog(_("error"), self.get_user_error_text).show_all()
         gtk.gdk.threads_leave()
 
     def set_slide_index(self, index):
@@ -247,10 +250,12 @@ class ShareToWeibo():
                 self.window.window_frame.pack_start(self.window.button_box, False, False)
         elif index == 2:
             #self.slider.set_size_request(self.__win_width, 228)
-            tmp = gtk.Alignment(0.5, 0.5, 0, 0)
+            #tmp = gtk.Alignment(0.5, 0.5, 0, 0)
             #tmp.set_padding()
-            self.window.left_button_box.set_buttons([tmp])
-            self.window.right_button_box.set_buttons([Label("  ")])
+            self.window.left_button_box.set_buttons([])
+            l = Label("  ")
+            l.show()
+            self.window.right_button_box.set_buttons([l])
         self.slider.slide_to(self.slider_list[index])
 
     def weibo_check_toggle(self, button, weibo):
@@ -637,8 +642,15 @@ class ShareToWeibo():
                 text = _("failed")
                 label3 = Label(text, text_size=12, 
                     text_color=app_theme_get_dynamic_color(font_color), enable_select=False)
-                error = "(%s)" % _(weibo.get_error_msg()) 
-                label = Label(text, text_size=12, 
+                if weibo.curl.error:
+                    error = "(%s)" % _(weibo.curl.error)
+                elif weibo.get_error_msg():
+                    error = "(%s)" % _(weibo.get_error_msg()) 
+                else:
+                    error = "(%s)" % _("Unknow reason")
+                #print "%s: %s" % (weibo.t_type, error)
+                print "%s: %s" % (weibo.t_type, weibo.get_error_msg())
+                label = Label(text, text_size=12,
                     text_color=app_theme_get_dynamic_color(font_color), enable_select=False)
                 tip_box.pack_start(img, False, False, 15)
                 tip_box.pack_start(label1, False, False, 3)
@@ -647,7 +659,7 @@ class ShareToWeibo():
                 img = gtk.Image()
                 img.set_size_request(20, 20)
                 error_box.pack_start(img, False, False, 16)
-                error_box.pack_start(Label(error, text_size=9,
+                error_box.pack_start(Label(error, text_size=9, label_width=200,
                     text_color=app_theme_get_dynamic_color(font_color), enable_select=False), False, False)
                 #print text
             res_vbox.pack_start(vbox, False, False, 10)

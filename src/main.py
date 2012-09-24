@@ -180,7 +180,7 @@ class DeepinScreenshot():
                 tipContent += _("Picture has been saved to clipboard")
 
         # Exit
-        self.window.quit()
+        self.window.destroy_all()
         if self.share_to_flag and not failed_flag:
             # share window
             win_x = self.monitor_x + (self.width / 2) - 300
@@ -199,7 +199,7 @@ class DeepinScreenshot():
         except OSError:    
             cmd = ('python', 'tipswindow.py', tipContent)
             subprocess.Popen(cmd)
-
+    
     def make_pic_file(self, pixbuf):
         ''' use cairo make a picture file '''
         surface = cairo.ImageSurface(cairo.FORMAT_RGB24, pixbuf.get_width(), pixbuf.get_height())
