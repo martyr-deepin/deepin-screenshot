@@ -493,8 +493,8 @@ class Tencent(Weibo):
 
         self.oauth_version = '2.a'
         self.client_ip = '127.0.0.1'    # TODO clientip
-        #self.ACCESS_URL = 'https://open.t.qq.com/cgi-bin/oauth2/authorize?client_id=%s&response_type=token&redirect_uri=%s&wap=2' % (self.APP_KEY,self.CALLBACK_URL)
-        self.ACCESS_URL = 'https://open.t.qq.com/cgi-bin/oauth2/authorize?client_id=%s&response_type=token&redirect_uri=%s' % (self.APP_KEY,self.CALLBACK_URL)
+        self.ACCESS_URL = 'https://open.t.qq.com/cgi-bin/oauth2/authorize?client_id=%s&response_type=token&redirect_uri=%s&wap=2' % (self.APP_KEY,self.CALLBACK_URL)
+        #self.ACCESS_URL = 'https://open.t.qq.com/cgi-bin/oauth2/authorize?client_id=%s&response_type=token&redirect_uri=%s' % (self.APP_KEY,self.CALLBACK_URL)
         self.USERS_URL = 'https://open.t.qq.com/api/user/info'
         self.UPLOAD_URL = 'https://open.t.qq.com/api/t/add_pic'
         self.OTHER_URL = 'https://open.t.qq.com/api/user/other_info'

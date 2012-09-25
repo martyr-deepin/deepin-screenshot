@@ -67,6 +67,7 @@ class ShareToWeibo():
         self.__text_frame_color = (0.76, 0.76, 0.76)
         #print "share file:", self.upload_image
         self.__win_width = 602
+        open(COOKIE_FILE,'wb').close()
 
         #self.window = Window()
         self.window = DialogBox(_("share to web"), close_callback=gtk.main_quit)
@@ -75,6 +76,8 @@ class ShareToWeibo():
         #self.window.connect("destroy", self.quit)
         #self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         self.window.set_resizable(False)
+        self.window.titlebar.connect("expose-event", self.__expose_top_and_bottome)
+        self.window.button_box.connect("expose-event", self.__expose_top_and_bottome)
 
         #titlebar = Titlebar(["close"], app_name=_("share to web"))
         ##titlebar.title_align.set(0, 0.5, 0, 0)
@@ -429,13 +432,13 @@ class ShareToWeibo():
         #left_box.button_align.set(0.0, 0.0, 0, 1)
         #right_box.button_align.set(1.0, 0.0, 0, 1)
         # input tip label
-        self.input_tip_label = Label(_("left"), text_size=12, enable_select=False)
+        #self.input_tip_label = Label(_("left"), text_size=12, enable_select=False)
         self.input_num_label = Label("%d" % self.MAX_CHAR,
             text_size=16, text_x_align=pango.ALIGN_CENTER, label_width=40, enable_select=False)
-        label0 = Label(_("chars"), text_size=12, enable_select=False)
-        self.input_tip_label.text_color = app_theme_get_dynamic_color("#828282")
+        #label0 = Label(_("chars"), text_size=12, enable_select=False)
+        #self.input_tip_label.text_color = app_theme_get_dynamic_color("#828282")
         self.input_num_label.text_color = app_theme_get_dynamic_color("#848484")
-        label0.text_color = app_theme_get_dynamic_color("#828282")
+        #label0.text_color = app_theme_get_dynamic_color("#828282")
 
         # login box
         #weibo_box = gtk.HBox(False, 1)
@@ -460,7 +463,8 @@ class ShareToWeibo():
         tmp_vbox.pack_start(button, False, False)
         #tmp_vbox.pack_start(tmp_align)
         tmp_align.add(tmp_vbox)
-        right_box.set_buttons([self.input_tip_label, self.input_num_label, label0, tmp_align])
+        #right_box.set_buttons([self.input_tip_label, self.input_num_label, label0, tmp_align])
+        right_box.set_buttons([self.input_num_label, tmp_align])
         #weibo_box.pack_start(left_box, True, True)
         #weibo_box.pack_start(right_box, True, True)
 
@@ -506,13 +510,13 @@ class ShareToWeibo():
         '''text_view changed'''
         count = buf.get_char_count()
         if count <= self.MAX_CHAR:
-            self.input_tip_label.set_text(_("left"))
+            #self.input_tip_label.set_text(_("left"))
             self.input_num_label.set_text("%d" % (self.MAX_CHAR - count))
-            self.input_num_label.text_color = app_theme_get_dynamic_color("#000000")
+            self.input_num_label.text_color = app_theme_get_dynamic_color("#848484")
             if not button.is_sensitive():
                 button.set_sensitive(True)
         else:
-            self.input_tip_label.set_text(_("exceeds"))
+            #self.input_tip_label.set_text(_("exceeds"))
             self.input_num_label.set_text("%d" % (count - self.MAX_CHAR))
             self.input_num_label.text_color = app_theme_get_dynamic_color("#FF0000")
             if button.is_sensitive():
@@ -672,10 +676,16 @@ class ShareToWeibo():
             if self.deepin_info[weibo] is not None and self.deepin_info[weibo][3]:
                 button = gtk.image_new_from_pixbuf(app_theme.get_pixbuf("share/followed.png").get_pixbuf())
             else:   # to follow
-                button = ImageButton(
-                    app_theme.get_pixbuf("share/follow_normal.png"),
-                    app_theme.get_pixbuf("share/follow_hover.png"),
-                    app_theme.get_pixbuf("share/follow_press.png"))
+                if not default_locale.startswith("zh_"):
+                    button = ImageButton(
+                        app_theme.get_pixbuf("share/follow_normal_en.png"),
+                        app_theme.get_pixbuf("share/follow_hover_en.png"),
+                        app_theme.get_pixbuf("share/follow_press_en.png"))
+                else:
+                    button = ImageButton(
+                        app_theme.get_pixbuf("share/follow_normal.png"),
+                        app_theme.get_pixbuf("share/follow_hover.png"),
+                        app_theme.get_pixbuf("share/follow_press.png"))
                 button.connect("clicked", self.friendships_add_button_clicked, weibo)
             box.pack_start(button, False, False)
             align = gtk.Alignment()
@@ -747,6 +757,14 @@ class ShareToWeibo():
         rect = widget.allocation
         draw.draw_pixbuf(cr, gtk.gdk.pixbuf_new_from_file("../skin/01/bg.png"), rect.x, rect.y)
         cr.set_source_rgba(1.0, 1.0, 1.0, 0.8)
+        cr.rectangle(rect.x, rect.y, rect.width, rect.height)
+        cr.fill()
+    
+    def __expose_top_and_bottome(self, widget, event):
+        '''titlebar or button_box expose'''
+        cr = widget.window.cairo_create()
+        rect = widget.allocation
+        cr.set_source_rgb(0.89, 0.89, 0.89)
         cr.rectangle(rect.x, rect.y, rect.width, rect.height)
         cr.fill()
 

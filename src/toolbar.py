@@ -176,11 +176,13 @@ class Toolbar():
         self.screenshot.save_op_index = save_op_index
         self.__config.set("save", save_op=str(save_op_index))
 
+        # reset the save button's tooltip
         if button:
             item = self.combo_menu.get_menu_items()[save_op_index]
             button.disconnect_by_func(self._show_tooltip)
             button.connect("enter-notify-event", self._show_tooltip, item.item[1])
             self.combo_menu.destroy()
+        self.save_operate()
 
     def _button_clicked(self, widget, name):
         ''' button clicked '''
@@ -217,10 +219,22 @@ class Toolbar():
     
     def set_button_active(self, name, state):
         '''set button active'''
+        if self._toggle_button_group.is_active():
+            button = self._toggle_button_list[self._toggle_button_group.get_index()]
+            # if the button has been in this state, ignore
+            if button.name == name:
+                if button.get_active() == state:
+                    return
+            else:
+                button.set_active(False)
+                self._toggle_button_group.set_index(-1)
+        i = 0
         for each in self._toggle_button_list:
             if name == each.get_name():
                 each.set_active(state)
+                self._toggle_button_group.set_index(i)
                 break
+            i += 1
     
     def has_button_active(self):
         '''is has one toggle button active'''
@@ -299,11 +313,13 @@ class Toolbar():
     
     def set_all_inactive(self):
         '''set all button inactive'''
-        index = self._toggle_button_group.get_index()
-        if index != -1:
-            self._toggle_button_list[index].set_active(False)
+        #index = self._toggle_button_group.get_index()
+        #if index != -1:
+            #self._toggle_button_list[index].set_active(False)
         #for each in self._toggle_button_list:
             #each.set_active(False)
+        if self._toggle_button_group.is_active():
+            self._toggle_button_group.set_index(-1)
     
     def show(self):
         ''' show the toolbar '''
