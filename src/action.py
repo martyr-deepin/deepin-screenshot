@@ -173,10 +173,6 @@ class TextAction(Action):
         '''set color'''
         self.color = color
 
-    #def set_fontname(self, fontname):
-        #'''set fontname'''
-        #self.fontname = fontname
-
     def set_content(self, content):
         '''set content'''
         #self.content = content
@@ -203,7 +199,7 @@ class TextAction(Action):
     def get_font_size(self):
         '''get font size'''
         return self.layout.get_font_description().get_size() / pango.SCALE
-
-    #def get_fontname(self):
-        #return self.fontname
     
+    def get_layout(self):
+        '''get layout'''
+        return self.layout

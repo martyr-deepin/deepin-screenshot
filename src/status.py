@@ -180,6 +180,7 @@ class ButtonPressProcess(BaseProcess):
         if screenshot.show_text_window_flag:    # complete input text, changed action to None
             self.win.save_text_window()
             self.screenshot.toolbar.set_button_active("text", False)
+            self.screenshot.current_text_action = None
         else:   # create a new text
             # calculate the coord in the window
             #event_coord = self.win.get_event_coord(event)

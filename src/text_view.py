@@ -92,7 +92,6 @@ class TextView(Entry):
             e = self.buffer.get_end_iter()
             insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
             self.cursor_index = insert.get_offset()     # get layout cursor index
-            #self.select_start_index = self.select_end_index = e.get_offset()
             self._layout.set_text(text)
             self.count_size()
 
@@ -114,6 +113,10 @@ class TextView(Entry):
         '''get text size'''
         self.count_size()
         return (self.layout_width, self.layout_height)
+
+    def set_layout(self, layout):
+        '''set layout'''
+        self._layout = layout
 
     def get_layout(self):
         '''get layout'''
@@ -356,9 +359,6 @@ class TextView(Entry):
         '''
         Move cursor to start position of entry.
         '''
-        #self.offset_x = 0
-        #self.cursor_index = 0
-        #self.clear_select_status()
         insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
         insert.set_line_offset(0)
         self.buffer.move_mark_by_name("insert", insert)
@@ -369,13 +369,6 @@ class TextView(Entry):
         '''
         Move cursor to end position of entry.
         '''
-        #text_width = self.get_content_width(self.content)
-        #rect = self.get_allocation()
-        #if text_width > rect.width - self.padding_x * 2 > 0:
-            #self.offset_x = text_width - (rect.width - self.padding_x * 2)
-        #self.cursor_index = len(self.content)
-        
-        #self.clear_select_status()
         insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
         insert.forward_to_line_end()
         self.buffer.move_mark_by_name("insert", insert)
@@ -479,8 +472,6 @@ class TextView(Entry):
         if self.keynav_failed(gtk.DIR_UP):
             self.get_toplevel().set_focus_child(self)
             
-        #if self.select_start_index != self.select_end_index:
-            #self.clear_select_status()
         insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
         offset = insert.get_line_offset()
         insert.backward_line()
@@ -564,10 +555,8 @@ class TextView(Entry):
                 self.right_menu.show((cx + wx, cy + wy))
         # Change cursor when click left button.
         elif is_left_button(event):
-            #print "clicked"
             self.left_click_flag = True
             self.left_click_coordindate = (event.x, event.y)
-            #print "coord", self.left_click_coordindate
             xy = map(int, self.left_click_coordindate)
             insert = self.xy_to_iter(*xy)
             self.buffer.move_mark_by_name("insert", insert)

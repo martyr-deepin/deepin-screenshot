@@ -37,6 +37,7 @@ import gtk
 import pango
 import gobject
 import threading
+import subprocess
 import time
 
 DEFAULT_FONT = dtk_constant.DEFAULT_FONT
@@ -63,7 +64,8 @@ class RootWindow():
         self.window.add_events(gtk.gdk.POINTER_MOTION_MASK)
         self.window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
         self.window.add_events(gtk.gdk.BUTTON_RELEASE_MASK)
-        self.window.connect("destroy", self.destroy_all)
+        self.window.connect("destroy", self.quit)
+        #self.window.connect("destroy", self.destroy_all)
         self.window.connect("button-press-event", self._button_press_event)
         
         self.window.connect("button-press-event", self._button_double_clicked)
@@ -167,19 +169,22 @@ class RootWindow():
                     self.screenshot.action_list.remove(current_action)
                 del self.screenshot.text_action_info[current_action]
                 self.screenshot.draw_text_layout_flag = False   # don't draw text layout
+                # set action_color as current_action color
+                for color_name in self.screenshot.colorbar.color_map:
+                    if self.screenshot.colorbar.color_map[color_name] == current_action.get_color():
+                        self.screenshot.colorbar._color_button_pressed(color_name)
+                        break
                 self.show_text_window((current_action.start_x, current_action.start_y))
                 self.screenshot.text_window.set_text(current_action.get_content())
                 self.screenshot.text_window.set_font_size(current_action.get_font_size())
+                self.screenshot.text_window.set_layout(current_action.get_layout())
                 self.screenshot.text_window.adjust_size()
                 self.screenshot.colorbar.font_spin.set_value(self.screenshot.text_window.get_font_size())
-                self.refresh()
-                self.screenshot.text_window.queue_draw()
-                self.screenshot.colorbar.color_select.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.screenshot.action_color))
-                #self.screenshot.colorbar.font_label.set_text(self.screenshot.font_name)
-                
                 # set action ACTION_TEXT
                 self.screenshot.toolbar.set_button_active("text", True)
                 self.screenshot.text_modify_flag = True
+                self.refresh()
+                self.screenshot.text_window.queue_draw()
             # save snapshot
             if self.screenshot.action == ACTION_SELECT \
                or self.screenshot.action == None \
@@ -230,7 +235,7 @@ class RootWindow():
 
     def destroy_all(self, widget=None):
         ''' destroy all window  '''
-        self.window.destroy()
+        self.window.hide()
         self.screenshot.toolbar.window.destroy()
         self.screenshot.colorbar.window.destroy()
         threading.Thread(target=self.exit_thread).start()
@@ -239,7 +244,7 @@ class RootWindow():
         '''wait a little, and exit  '''
         time.sleep(0.5)
         gtk.gdk.threads_enter()
-        self.quit()
+        self.window.destroy()
         gtk.gdk.threads_leave()
 
     
@@ -592,7 +597,7 @@ class RootWindow():
         screenshot.text_window.show_all()
         self.refresh()
         screenshot.text_window.set_width(int(screenshot.rect_width + screenshot.x - ex
-            - screenshot.text_window.padding_x))
+            - 2 * screenshot.text_window.padding_x))
         screenshot.text_window.grab_focus()
         
     def hide_text_window(self):
@@ -758,12 +763,14 @@ class RightMenu():
                 each.released()
                 each.clicked()
                 return
+        # save current input text
+        if self.screenshot.show_text_window_flag:
+            self.screenshot.window.save_text_window()
         self.screenshot.toolbar.set_button_active(name, True)
 
     def save_sub_menu_clicked(self, save_op_index):
         '''save sub menu clicked'''
         self.screenshot.toolbar._list_menu_click(save_op_index)
-        self.screenshot.toolbar.save_operate()
 
     def show(self, coord=(0, 0)):
         ''' show menu '''
@@ -783,13 +790,12 @@ class RightMenu():
             menu_item.item = tuple(item)
         self.window.show(coord)
 
-# FIXME 移动文本时还能移动选中区域
 class TextWindow(TextView):
     '''TextWindow'''
     def __init__(self, screenshot, content="", text_color="#000000",
                  text_select_color="#FFFFFF",background_select_color="#3399FF",
                  font=DEFAULT_FONT, font_size=DEFAULT_FONT_SIZE):
-        super(TextWindow, self).__init__(content, 5, 2, text_color, 
+        super(TextWindow, self).__init__(content, 1, 1, text_color, 
                 text_select_color, background_select_color, font, font_size)
         self.screenshot = screenshot
         self.connect("changed", self.__text_changed)
@@ -800,6 +806,7 @@ class TextWindow(TextView):
         self.drag_origin = (0, 0)
 
         self.set_text(content)
+        self.set_background_dash((9.0, 3.0))
         self.adjust_size()
 
     def adjust_size(self):
@@ -832,20 +839,22 @@ class TextWindow(TextView):
         # out of the area, can't insert
         #if self.allocation.x + text_size[0] > self.screenshot.x + self.screenshot.rect_width \
         if self.allocation.y + text_size[1] + 2 * self.padding_y >self.screenshot.y + self.screenshot.rect_height:
+            # TODO 增加不能输入提示
+            #try:
+                #cmd = ('python2', 'tipswindow.py', "max char num")
+                #subprocess.Popen(cmd)
+            #except OSError:    
+                #cmd = ('python', 'tipswindow.py', "max char num")
+                #subprocess.Popen(cmd)
             return
         with self.monitor_entry_content():
             if self.buffer.get_has_selection():     # if has select, delete it
                 self.buffer.delete_selection(True, self.is_editable())
             self.buffer.insert_at_cursor(input_text)
+            self.set_width(int(self.screenshot.rect_width + self.screenshot.x
+                - self.allocation.x - 2 * self.padding_x))
             self.adjust_size()
             self.queue_draw()
-        #if self.buffer.get_has_selection():     # if has select, delete it
-            #self.buffer.delete_selection(True, self.is_editable())
-        #self.buffer.insert_at_cursor(input_text)
-        #self.set_width(int(self.screenshot.rect_width + self.screenshot.x - self.allocation.x))
-        #self.adjust_size()
-        ##self.screenshot.window.refresh()
-        #self.queue_draw()
     
     def set_font_size(self, size):
         '''set font size'''
@@ -855,6 +864,7 @@ class TextWindow(TextView):
         text_size = layout.get_pixel_size()
         if text_size[0] + self.allocation.x + 2 * self.padding_x> self.screenshot.x + self.screenshot.rect_width \
             or text_size[1] + self.allocation.y + 2 * self.padding_y> self.screenshot.y + self.screenshot.rect_height:
+            # TODO 增加不能调节字体大小提示
             return False
         self.font_size = size
         self.font = pango.FontDescription("%s %d" % (self.font_type, self.font_size))

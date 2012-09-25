@@ -453,7 +453,7 @@ class Colorbar():
             app_theme.get_pixbuf("color/" + name + ".png"),
             app_theme.get_pixbuf("color/" + name + "_hover.png"),
             app_theme.get_pixbuf("color/" + name + "_hover.png"))
-        button.connect('pressed', self._color_button_pressed, name) 
+        button.connect('pressed', lambda w:self._color_button_pressed(name))
         box.pack_start(button)
 
     def create_toggle_button(self, name):
@@ -485,9 +485,8 @@ class Colorbar():
                 widget.set_value(self.screenshot.text_window.get_font_size())
             self.win.refresh()
 
-    def _color_button_pressed(self, widget, name):
+    def _color_button_pressed(self, name):
         ''' color button pressed'''
-        #self.color_select.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse(self.color_map[name]))
         pix = app_theme.get_pixbuf("color_big/" + name + ".png").get_pixbuf()
         self.color_select.set_from_pixbuf(pix)
         if self.screenshot is None:
