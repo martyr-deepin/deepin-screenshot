@@ -73,8 +73,10 @@ def draw_ellipse(cr, ex, ey, ew, eh, color, size, fill):
     cr.restore()
     cr.set_source_rgb(*colorHexToCairo(color))
     cr.set_line_width(size)
-    if fill: cr.fill()
-    else: cr.stroke()
+    if fill:
+        cr.fill()
+    else:
+        cr.stroke()
     
 def draw_arrow(cr, (sx, sy), (ex, ey), color, size):
     '''Draw arrow.'''

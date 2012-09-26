@@ -26,7 +26,7 @@ from main import main
 from window import get_screenshot_pixbuf
 from optparse import OptionParser
 from tipswindow import CountdownWindow
-from utils import make_menu_item, get_format_time, get_pictures_dir, parser_path
+from utils import get_format_time, get_pictures_dir, parser_path
 from constant import DEFAULT_FILENAME
 from nls import _
 
@@ -46,27 +46,8 @@ def open_file_dialog(fullscreen=True, filetype='png'):
     dialog.set_position(gtk.WIN_POS_CENTER)
     dialog.set_local_only(True)
     dialog.set_current_folder(get_pictures_dir())
-    #dialog.set_current_name("%s%s.%s" % (DEFAULT_FILENAME, get_format_time(), save_filetype))
     dialog.set_current_name("%s%s.%s" % (_(DEFAULT_FILENAME), get_format_time(), "png"))
 
-    #optionMenu = gtk.OptionMenu()
-    #optionMenu.set_size_request(155, -1)
-    #menu = gtk.Menu()
-    #menu.set_size_request(155, -1)
-    #pngItem = make_menu_item('PNG (*.png)',
-        #lambda item, data: set_save_filetype(dialog, 'png'))
-    #jpgItem = make_menu_item('JPEG (*.jpeg)',
-        #lambda item, data: set_save_filetype(dialog, 'jpeg'))
-    #bmpItem = make_menu_item('BMP (*.bmp)',
-        #lambda item, data: set_save_filetype(dialog, 'bmp'))
-    #menu.append(pngItem)
-    #menu.append(jpgItem)
-    #menu.append(bmpItem)
-    #optionMenu.set_menu(menu)
-    #hbox = gtk.HBox()
-    #hbox.pack_end(optionMenu, False, False)
-    #dialog.vbox.pack_start(hbox, False, False)
-    #hbox.show_all()
     response = dialog.run()
     if response == gtk.RESPONSE_ACCEPT:
         filename = dialog.get_filename()
@@ -78,7 +59,6 @@ def open_file_dialog(fullscreen=True, filetype='png'):
 
 def set_save_filetype(widget, filetype):
     global save_filetype
-    #widget.set_current_name("%s%s.%s" % (DEFAULT_FILENAME, get_format_time(), filetype))
     widget.set_current_name("%s%s.%s" % (_(DEFAULT_FILENAME), get_format_time(), "png"))
     save_filetype =filetype
        
@@ -90,13 +70,12 @@ def processArguments():
     parser.add_option("-w", "--window", action="store_true", dest="window", help="Taking the currently focused window")
     parser.add_option("-d", "--delay", dest="delay", type="int", help="wait NUM seconds before taking a shot", metavar="NUM")
     parser.add_option("-s", "--save", dest="save_file", help="save screenshot to FILE", metavar="FILE")
-    parser.add_option("-a", "--area", help="Grab an area of the screen instead of the entire screen", action="store_true")
-    parser.add_option("-e", "--border-effect", action="store_true", dest="border_effect", help="Effect to add to the border")
-    parser.add_option("-i", "--interactive", action="store_true", help="Interactively set options")
-    parser.add_option("-b", "--include-border", action="store_true", help="Include the window border with the screenshot")
-    parser.add_option("-B", "--remove-border", action="store_true", help="Remove the window border from the screenshot")
-    parser.add_option("-c", "--clipboard", help="Send the grab directly to the clipboard", action="store_true")
-    parser.add_option("--display", action="store_true")    
+    #parser.add_option("-a", "--area", help="Grab an area of the screen instead of the entire screen", action="store_true")
+    #parser.add_option("-e", "--border-effect", action="store_true", dest="border_effect", help="Effect to add to the border")
+    #parser.add_option("-i", "--interactive", action="store_true", help="Interactively set options")
+    #parser.add_option("-b", "--include-border", action="store_true", help="Include the window border with the screenshot")
+    #parser.add_option("-B", "--remove-border", action="store_true", help="Remove the window border from the screenshot")
+    #parser.add_option("-c", "--clipboard", help="Send the grab directly to the clipboard", action="store_true")
     
     (options, args) = parser.parse_args()
 

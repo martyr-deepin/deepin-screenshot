@@ -104,10 +104,6 @@ class Toolbar():
         self.create_button("cancel", _("cancel"))
         self.create_button("share", _("share"))
 
-        #tmp_align = gtk.Alignment()
-        #tmp_align.set(0, 0, 1, 1)
-        #self.toolbox.pack_start(tmp_align)
-
         if self.screenshot:
             self._button_clicked_cb = {
                 'undo': self.screenshot.undo,
