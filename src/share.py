@@ -327,13 +327,15 @@ class ShareToWeibo():
             #button.connect("enter-notify-event", self.show_tooltip, "点击图标设置帐号")
             button.connect("enter-notify-event", self.show_tooltip, _("click to login"))
             hbox.pack_start(check_align, False, False)
-            hbox.pack_start(button, False, False)
+            hbox.pack_start(button, False, False, 5)
             # curl time out
             info_error = weibo.get_curl_error()
             if info_error:
                 #self.get_user_error_text += "%s:%s." % (weibo.t_type, _(info_error))
                 hbox.pack_start(
-                    Label(text=info_error,label_width=70,enable_select=False), False, False)
+                    Label(text=info_error,label_width=70,enable_select=False,
+                    text_color = app_theme.get_color("left_char_num1")), False, False)
+            
         button.connect("clicked", self.weibo_login, weibo)
         gtk.gdk.threads_leave()
         return weibo_hbox

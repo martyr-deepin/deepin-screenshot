@@ -86,7 +86,7 @@ class Curl(object):
         try:
             crl.perform()
         except Exception, e:
-            self.error = "Connection timed out"
+            self.error = "timed out"
             return None
         crl.close()
         con = crl.fp.getvalue()
@@ -125,7 +125,7 @@ class Curl(object):
         try:
             crl.perform()
         except Exception, e:
-            self.error = "Connection timed out"
+            self.error = "timed out"
             return None
         crl.close()
         #conn = crl.fp.getvalue()
@@ -172,7 +172,7 @@ class Curl(object):
         try:
             crl.perform()
         except Exception, e:
-            self.error = "Connection timed out"
+            self.error = "timed out"
             return None
         crl.close()
         #conn = crl.fp.getvalue()
