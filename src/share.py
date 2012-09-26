@@ -744,8 +744,9 @@ class ShareToWeibo():
         '''titlebar or button_box expose'''
         cr = widget.window.cairo_create()
         rect = widget.allocation
+        #print "expose", widget, rect, widget.window.get_geometry()
         cr.set_source_rgb(0.89, 0.89, 0.89)
-        cr.rectangle(rect.x, rect.y, rect.width, rect.height)
+        cr.rectangle(rect.x+2, rect.y+2, rect.width-4, rect.height-4)
         cr.fill()
 
     def __draw_under_line(self, widget):
