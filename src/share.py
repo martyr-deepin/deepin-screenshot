@@ -72,40 +72,26 @@ class ShareToWeibo():
         #self.window = Window()
         self.window = DialogBox(_("share to web"), close_callback=gtk.main_quit)
         self.window.set_keep_above(True)
-        #self.window.set_size_request(self.__win_width, 288)
+        self.window.set_size_request(self.__win_width+20, 288)
         #self.window.connect("destroy", self.quit)
         #self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         self.window.set_resizable(False)
         self.window.titlebar.connect("expose-event", self.__expose_top_and_bottome)
         self.window.button_box.connect("expose-event", self.__expose_top_and_bottome)
 
-        #titlebar = Titlebar(["close"], app_name=_("share to web"))
-        ##titlebar.title_align.set(0, 0.5, 0, 0)
-        #titlebar.close_button.connect("clicked", self.quit) 
-        #self.window.add_move_event(titlebar)
-        #self.window.window_frame.pack_start(titlebar)
-
-        #slider_align = gtk.Alignment()
-        #slider_align.set(0.5, 0.5, 0, 0)
-        #slider_align.set_padding(5, 5, 5, 5)
-
-        #slider_vbox = gtk.VBox(False)
-        #slider_align.add(slider_vbox)
 
         self.slider = Slider()
-        self.slider.set_size_request(self.__win_width, -1)
+        #self.slider.set_size_request(self.__win_width, -1)
         #self.slider.connect("expose-event", self.__slider_expose)
-        #self.slider.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color(1.0, 0.0, 0.0))
         self.slider_list = []
-        #slider_vbox.pack_start(self.slider, False, False)
 
         self.share_box = gtk.VBox(False, 2)
         self.web_box = gtk.VBox(False, 2)
         self.result_box = gtk.VBox(False, 10)
 
-        self.share_box.set_size_request(self.__win_width, -1)
-        self.web_box.set_size_request(self.__win_width, -1)
-        self.result_box.set_size_request(self.__win_width, -1)
+        #self.share_box.set_size_request(self.__win_width, -1)
+        #self.web_box.set_size_request(self.__win_width, -1)
+        #self.result_box.set_size_request(self.__win_width, -1)
 
         share_align = gtk.Alignment()
         share_align.set(0.5, 0.5, 0, 0)
@@ -453,7 +439,7 @@ class ShareToWeibo():
 
         # share button
         button = Button(_("Tweet"))
-        button.set_size_request(75, 25)
+        #button.set_size_request(75, 25)
         button.connect("clicked", self.share_button_clicked, text_view)
         buf.connect("changed", self.text_view_changed, button)  # check char num
 
