@@ -488,7 +488,8 @@ class Tencent(Weibo):
         self.APP_KEY = '801236993'
         self.APP_SECRET = '39083ce577596d739bbabb6f6bd0dba0'
         self.CALLBACK_URL = 'http://www.linuxdeepin.com'
-        self.DEEPIN_ID = "A1311E21F862EE280851CB4244E05120"
+        #self.DEEPIN_ID = "A1311E21F862EE280851CB4244E05120"
+        self.DEEPIN_ID = "linux_deepin"
         self.index_url = 'http://t.qq.com'
 
         self.oauth_version = '2.a'
@@ -572,7 +573,9 @@ class Tencent(Weibo):
         openid = self.oauth.get("openid")
         if access_token is None or openid is None:
             return None
-        url = '%s?format=json&oauth_consumer_key=%s&access_token=%s&openid=%s&clientip=%s&oauth_version=2.a&scope=all&fopenid=%s' \
+        #url = '%s?format=json&oauth_consumer_key=%s&access_token=%s&openid=%s&clientip=%s&oauth_version=2.a&scope=all&fopenid=%s' \
+            #% (self.OTHER_URL, self.APP_KEY, access_token, openid, self.client_ip, self.DEEPIN_ID)
+        url = '%s?format=json&oauth_consumer_key=%s&access_token=%s&openid=%s&clientip=%s&oauth_version=2.a&scope=all&name=%s' \
             % (self.OTHER_URL, self.APP_KEY, access_token, openid, self.client_ip, self.DEEPIN_ID)
         back = self.curl.get(url)
         #print "user:", back
@@ -598,13 +601,14 @@ class Tencent(Weibo):
             ('clientip', self.client_ip),
             ('oauth_version', '2.a'),
             ('scope', 'all'),
-            ('fopenids', self.DEEPIN_ID)]
+            #('fopenids', self.DEEPIN_ID)]
+            ('name', self.DEEPIN_ID)]
         back = self.curl.post(url, data)
+        #print back
         if back is None or back == '':
             return None
         if back['errcode'] != 0:
             return None
-        #print back
         return back
     
     def upload_image(self, img, mesg=''):

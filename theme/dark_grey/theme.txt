@@ -1,56 +1,26 @@
 {"colors" : {
- "recommend" : "#FF0000",
- "windowMask" : "#FFFFFF",
- "menuFont" : "#000000",
- "menuSelectFont" : "#FFFFFF",
- "navigateItem" : "#FFFFFF",
- "categoryItem" : "#333333",
- "categorySelectItem" : "#FFFFFF",
- "buttonDefaultFont" : "#000000",
- "tooltipText" : "#FFFFFF",
- "listItemText" : "#000000",
- "title" : "#000000",
- "buttonBorderNormal" : "#bc99da",
- "buttonBorderPrelight" : "#b18ecf",
- "buttonBorderActive" : "#9372c9",
- "buttonFont" : "#000000",
- "link_text"  : "#1A70b1"
+ "link_text"  : "#1A70b1",
+ "left_char_num"  : "#848484",
+ "left_char_num1" : "#FF0000",
+ "share_result_text" : "#737373",
  },	
  "alpha_colors" : {
-     "frame" : ("#000000", 0.5),
-     "frameDot" : ("#000000", 0.2),
-     "frameLight" : ("#FFFFFF", 0.2),
-     "frameLightDot" : ("#FFFFFF", 0.1),
-	 "scrollbarBackground" : ("#FFFFFF", 0.5),
-	 "menuMask" : ("#FFFFFF", 0.9),
-	 "progressbarFrame" : ("#EF12AB", 1.0),
  },
  "shadow_colors" : {
 	 "menu_item_select" : [
 		(0, ("#419ADC", 1.0)),
 		(1, ("#419ADC", 1.0)),
 	 ],
-	 "vSeparator" : [
-		(0,		("#777777", 0)),
-		(0.5,	("#000000", 0.5)),
-		(1,		("#777777", 0))
-	 ],
-	 "hSeparator" : [
-		(0,		("#777777", 0)),
-		(0.5,	("#000000", 0.5)),
-		(1,		("#777777", 0))
-	 ],
-	 "windowShadow" : [
-		(0, ("#000000", 0)),
-		(0.66, ("#000000", 0.2)),
-		(1, ("#000000", 0.33)),
-	 ],
-     "viewportBackground" : [
-	    (0,		("#EF0000", 0.0)),
-		(0.05,	("#EF0000", 0.5)),
-		(0.95,	("#EF0000", 0.5)),
-		(1,		("#EF0000", 0.0)),
-	 ],
+	"VSeparator" : [
+		(0, ("#777777", 0)),
+		(0.5, ("#000000", 0.5)),
+		(1, ("#777777", 0))
+	],
+	"HSeparator" : [
+		(0, ("#777777", 0)),
+		(0.5, ("#000000", 0.5)),
+		(1, ("#777777", 0))
+	],
  },
  "text_styles" : {
      "default" : ("#FFFFFF", "#000000", "#000000", 11, 14, 1),

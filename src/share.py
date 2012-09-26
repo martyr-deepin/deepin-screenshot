@@ -417,7 +417,7 @@ class ShareToWeibo():
         text_box.pack_start(text_bg_align)
         text_vbox.pack_start(text_box, False, False, 10)
         ##text_vbox.pack_start(
-            ##HSeparator(app_theme.get_shadow_color("hSeparator").get_color_info(), 0, 0), False, False, 5)
+            ##HSeparator(app_theme.get_shadow_color("HSeparator").get_color_info(), 0, 0), False, False, 5)
         text_align.add(text_vbox)
         tmp_align = gtk.Alignment()
         tmp_align.set(0.5, 0, 0, 1)
@@ -437,7 +437,9 @@ class ShareToWeibo():
             text_size=16, text_x_align=pango.ALIGN_CENTER, label_width=40, enable_select=False)
         #label0 = Label(_("chars"), text_size=12, enable_select=False)
         #self.input_tip_label.text_color = app_theme_get_dynamic_color("#828282")
-        self.input_num_label.text_color = app_theme_get_dynamic_color("#848484")
+        self.input_num_label.text_color = app_theme.get_color("left_char_num")
+        #print "app_theme_get_color:", app_theme.get_color("left_char_num1")
+        #print "get_dynamic_color:", app_theme_get_dynamic_color("#5f5f5f")
         #label0.text_color = app_theme_get_dynamic_color("#828282")
 
         # login box
@@ -512,13 +514,13 @@ class ShareToWeibo():
         if count <= self.MAX_CHAR:
             #self.input_tip_label.set_text(_("left"))
             self.input_num_label.set_text("%d" % (self.MAX_CHAR - count))
-            self.input_num_label.text_color = app_theme_get_dynamic_color("#848484")
+            self.input_num_label.text_color = app_theme.get_color("left_char_num")
             if not button.is_sensitive():
                 button.set_sensitive(True)
         else:
             #self.input_tip_label.set_text(_("exceeds"))
             self.input_num_label.set_text("%d" % (count - self.MAX_CHAR))
-            self.input_num_label.text_color = app_theme_get_dynamic_color("#FF0000")
+            self.input_num_label.text_color = app_theme.get_color("left_char_num1")
             if button.is_sensitive():
                 button.set_sensitive(False)
 
@@ -565,7 +567,7 @@ class ShareToWeibo():
     @post_gui
     def share_to_weibo_result(self):
         '''result of share to weibo'''
-        font_color = "#737373"
+        font_color = app_theme.get_color("share_result_text")
         res_hbox = gtk.HBox(False)
         res_hbox.set_size_request(-1, 240)
 
@@ -581,7 +583,7 @@ class ShareToWeibo():
         
         res_hbox.pack_start(left_box)
         res_hbox.pack_start(
-            VSeparator(app_theme.get_shadow_color("vSeparator").get_color_info(), 0, 0))
+            VSeparator(app_theme.get_shadow_color("VSeparator").get_color_info(), 0, 0))
         res_hbox.pack_start(right_box)
 
         res_vbox = gtk.VBox(False)
@@ -622,17 +624,19 @@ class ShareToWeibo():
                 link.add_events(gtk.gdk.BUTTON_PRESS_MASK)
                 link.connect("button-press-event", 
                     lambda w, e: utils.run_command("xdg-open %s" % self.to_share_weibo_res[weibo][1]))
+                link_box = gtk.HBox(False)
+                link_box.connect("expose-event", lambda w, e: self.__draw_under_line(w))
+                link_box.pack_start(link, False, False)
                 utils.set_clickable_cursor(link)
                 text = _("upload to")
                 label = Label(text, text_size=12, 
-                    text_color=app_theme_get_dynamic_color(font_color), enable_select=False)
+                    text_color=font_color, enable_select=False)
                 text = _("successful")
                 label1 = Label(text, text_size=12, 
-                    text_color=app_theme_get_dynamic_color(font_color), enable_select=False)
-                #label1.connect("expose-event", lambda w, e: self.__draw_under_line(w))
+                    text_color=font_color, enable_select=False)
                 tip_box.pack_start(img, False, False, 15)
                 tip_box.pack_start(label, False, False, 3)
-                tip_box.pack_start(link, False, False, 3)
+                tip_box.pack_start(link_box, False, False, 3)
                 tip_box.pack_start(label1, False, False)
                 #print text
             else:   # upload failed
@@ -640,12 +644,12 @@ class ShareToWeibo():
                 #text = "% %s %s." % (_(weibo.t_type), _("upload failed"))
                 text = _("upload to")
                 label1 = Label(text, text_size=12, 
-                    text_color=app_theme_get_dynamic_color(font_color), enable_select=False)
+                    text_color=font_color, enable_select=False)
                 label2 = Label(_(weibo.t_type), text_size=12, 
-                    text_color=app_theme_get_dynamic_color(font_color), enable_select=False)
+                    text_color=font_color, enable_select=False)
                 text = _("failed")
                 label3 = Label(text, text_size=12, 
-                    text_color=app_theme_get_dynamic_color(font_color), enable_select=False)
+                    text_color=font_color, enable_select=False)
                 if weibo.curl.error:
                     error = "(%s)" % _(weibo.curl.error)
                 elif weibo.get_error_msg():
@@ -655,7 +659,7 @@ class ShareToWeibo():
                 #print "%s: %s" % (weibo.t_type, error)
                 print "%s: %s" % (weibo.t_type, weibo.get_error_msg())
                 label = Label(text, text_size=12,
-                    text_color=app_theme_get_dynamic_color(font_color), enable_select=False)
+                    text_color=font_color, enable_select=False)
                 tip_box.pack_start(img, False, False, 15)
                 tip_box.pack_start(label1, False, False, 3)
                 tip_box.pack_start(label2, False, False, 3)
@@ -664,7 +668,7 @@ class ShareToWeibo():
                 img.set_size_request(20, 20)
                 error_box.pack_start(img, False, False, 16)
                 error_box.pack_start(Label(error, text_size=9, label_width=200,
-                    text_color=app_theme_get_dynamic_color(font_color), enable_select=False), False, False)
+                    text_color=font_color, enable_select=False), False, False)
                 #print text
             res_vbox.pack_start(vbox, False, False, 10)
 
@@ -701,10 +705,10 @@ class ShareToWeibo():
         #button = Button(_("Close"))
         #button.connect("clicked", self.quit)
         button_box = gtk.VBox(False, 5)
-        #button_box.connect("expose-event", lambda w, e: self.__draw_under_line(w))
+        button_box.connect("expose-event", lambda w, e: self.__draw_under_line(w))
         button_align = gtk.Alignment()
         button_align.set(0.5, 0.5, 0, 0)
-        #button_align.set_padding(0, 5, 0, 0)
+        button_align.set_padding(0, 5, 18, 0)
         button_box.pack_start(button, False, False)
         button_align.add(button_box)
         #tmp_box = gtk.HBox(False)
@@ -770,14 +774,13 @@ class ShareToWeibo():
 
     def __draw_under_line(self, widget):
         '''draw under line'''
-        print "under line"
         cr = widget.window.cairo_create()
         x, y, w, h = widget.allocation
-        print x, y, w, h
-        cr.set_source_rgba(1, 0, 0, 1.0)
+        #print x, y, w, h
+        cr.set_source_rgba(0, 0, 0.8, 1.0)
         cr.set_line_width(1)
-        cr.move_to(0, h-1)
-        cr.line_to(w, h-1)
+        cr.move_to(x, y+h-1)
+        cr.line_to(x+w, y+h-1)
         cr.stroke()
 
 
