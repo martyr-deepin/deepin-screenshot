@@ -37,7 +37,7 @@ import dtk.ui.utils as utils
 from _share import weibo
 from _share.config import COOKIE_FILE
 from nls import _
-from nls import default_locale as default_locale
+from nls import default_locale 
 from os.path import exists
 import gtk
 import webkit
@@ -65,33 +65,23 @@ class ShareToWeibo():
         self.thumb_height = 168
         self.MAX_CHAR = 140
         self.__text_frame_color = (0.76, 0.76, 0.76)
-        #print "share file:", self.upload_image
         self.__win_width = 602
         open(COOKIE_FILE,'wb').close()
 
-        #self.window = Window()
         self.window = DialogBox(_("share to web"), close_callback=gtk.main_quit)
         self.window.set_keep_above(True)
         self.window.set_size_request(self.__win_width+20, 288)
-        #self.window.connect("destroy", self.quit)
-        #self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         self.window.set_resizable(False)
         self.window.titlebar.connect("expose-event", self.__expose_top_and_bottome)
         self.window.button_box.connect("expose-event", self.__expose_top_and_bottome)
 
-
+        # create slider
         self.slider = Slider()
-        #self.slider.set_size_request(self.__win_width, -1)
-        #self.slider.connect("expose-event", self.__slider_expose)
         self.slider_list = []
 
-        self.share_box = gtk.VBox(False, 2)
-        self.web_box = gtk.VBox(False, 2)
-        self.result_box = gtk.VBox(False, 10)
-
-        #self.share_box.set_size_request(self.__win_width, -1)
-        #self.web_box.set_size_request(self.__win_width, -1)
-        #self.result_box.set_size_request(self.__win_width, -1)
+        self.share_box = gtk.VBox(False, 2)     # first page, input context
+        self.web_box = gtk.VBox(False, 10)       # second page, login
+        self.result_box = gtk.VBox(False, 10)   # third page, share result
 
         share_align = gtk.Alignment()
         share_align.set(0.5, 0.5, 0, 0)
@@ -127,17 +117,20 @@ class ShareToWeibo():
         web_navigate_align.set_padding(4, 0, 11, 13)
         web_navigate_align.add(web_navigate_box)
 
+        # create a webkit
         self.web_view = WebView(COOKIE_FILE)
         self.web_view.connect("notify::load-status", self.web_view_load_status)
         self.web_scrolled_window = ScrolledWindow()
         self.web_scrolled_window.add(self.web_view)
-        self.web_scrolled_window.set_size_request(590, 218)
+        self.web_scrolled_window.set_size_request(590, 228)
 
         self.web_box.pack_start(web_navigate_align, False, False)
         self.web_box.pack_start(self.web_scrolled_window)
+        #self.web_box.set_size_request(-1, 258)
         web_align = gtk.Alignment()
-        web_align.set(0.5, 0.5, 0, 0)
+        web_align.set(0.5, 0.0, 0, 1)
         web_align.add(self.web_box)
+        web_align.connect("expose-event", self.__slider_expose)
 
         res_align = gtk.Alignment()
         res_align.set(0.5, 0.5, 0, 0)
@@ -156,6 +149,7 @@ class ShareToWeibo():
         self.qq = weibo.Tencent(self.web_view)
         self.__weibo_list.append(self.sina)
         self.__weibo_list.append(self.qq)
+        # TODO 写在po文件内
         if default_locale != 'zh_CN':
             self.twitter = weibo.Twitter(self.web_view)
             self.__weibo_list.append(self.twitter)
@@ -191,6 +185,7 @@ class ShareToWeibo():
     def weibo_login(self, widget, weibo):
         '''weibo login'''
         self.web_view.load_uri("about:blank")
+        utils.set_cursor(widget)
         self.set_slide_index(1)
         self.__current_weibo = weibo
         t = threading.Thread(target=self.__current_weibo.request_oauth)
@@ -199,8 +194,8 @@ class ShareToWeibo():
 
     def weibo_login_thread(self):
         '''in webkit login finish, get user info again'''
-        if self.__current_weibo.access_token():
-            self.get_user_info_again()
+        self.__current_weibo.access_token()
+        self.get_user_info_again()
         gtk.gdk.threads_enter()
         self.set_slide_index(0)
         gtk.gdk.threads_leave()
@@ -225,19 +220,36 @@ class ShareToWeibo():
         '''set slide to index'''
         if index >= len(self.slider_list):
             return
-        # TODO set slider heigth
         if index == 1 and self.window.button_box in self.window.window_frame.get_children():
-            self.slider.set_size_request(self.__win_width, 262)
-            self.window.window_frame.remove(self.window.button_box)
+            self.slider.set_size_request(-1, 260)
+            win = self.window
+            if win.left_button_box in win.button_box.get_children():
+                win.button_box.remove(win.left_button_box)
+            if win.right_button_box in win.button_box.get_children():
+                win.button_box.remove(win.right_button_box)
+            tmp = gtk.HSeparator()
+            tmp.set_size_request(-1, 1)
+            tmp.show()
+            win.button_box.pack_start(tmp)
+            #if self.window.button_box in self.window.window_frame.get_children():
+                #self.window.window_frame.remove(self.window.button_box)
         elif index == 0:
-            self.slider.set_size_request(self.__win_width, 228)
-            if self.window.button_box not in self.window.window_frame.get_children():
-                self.window.window_frame.pack_start(self.window.button_box, False, False)
+            self.slider.set_size_request(-1, 223)
+            win = self.window
+            for each in win.button_box.get_children():
+                each.destroy()
+            if win.left_button_box not in win.button_box.get_children():
+                win.button_box.pack_start(win.left_button_box)
+            if win.right_button_box not in win.button_box.get_children():
+                win.button_box.pack_start(win.right_button_box)
+            #if self.window.button_box not in self.window.window_frame.get_children():
+                #self.window.window_frame.pack_start(self.window.button_box, False, False)
         elif index == 2:
             self.window.left_button_box.set_buttons([])
             l = Label("  ")
             l.show()
             self.window.right_button_box.set_buttons([l])
+            self.slider.set_size_request(-1, 223)
         self.slider.slide_to(self.slider_list[index])
 
     def weibo_check_toggle(self, button, weibo):
@@ -258,12 +270,8 @@ class ShareToWeibo():
         #self.get_user_error_text = ""
         weibo_hbox = weibo.get_box()
         hbox = gtk.HBox(False)
-        #align = gtk.Alignment()
-        #align.set(0.5, 0.5, 0, 0)
         vbox = gtk.VBox(False)
-        #weibo_hbox.pack_start(align, False, False)
         weibo_hbox.pack_start(vbox, False, False)
-        #align.add(vbox)
         vbox.pack_start(hbox)
         info = weibo.get_user_name()
         #print weibo.t_type, info
@@ -310,7 +318,7 @@ class ShareToWeibo():
             if info_error:
                 #self.get_user_error_text += "%s:%s." % (weibo.t_type, _(info_error))
                 hbox.pack_start(
-                    Label(text=info_error,label_width=70,enable_select=False,
+                    Label(text="(%s)" % info_error,label_width=70,enable_select=False,
                     text_color = app_theme.get_color("left_char_num1")), False, False)
             
         button.connect("clicked", self.weibo_login, weibo)
@@ -439,13 +447,8 @@ class ShareToWeibo():
         #tmp_vbox.pack_start(tmp_align)
         tmp_align.add(tmp_vbox)
         right_box.set_buttons([self.input_num_label, tmp_align])
-        #weibo_box.pack_start(left_box, True, True)
-        #weibo_box.pack_start(right_box, True, True)
-
-        #self.share_box.pack_start(weibo_box, False, False)
 
         # at first, set widget insensitive
-        #self.share_box.set_sensitive(False)
         button.set_sensitive(False)
         text_view.set_editable(False)
         t = threading.Thread(target=self.init_user_info_thread, args=(button, text_view))
@@ -516,9 +519,9 @@ class ShareToWeibo():
             d.set_transient_for(self.window)
             return False
         # at first, set widget insensitive
-        #self.share_box.set_sensitive(False)
         button.set_sensitive(False)
         text_view.set_editable(False)
+        self.window.left_button_box.set_sensitive(False)
         t = threading.Thread(target=self.share_to_weibo_thread, args=(text_view, ))
         t.setDaemon(True)
         t.start()
@@ -547,20 +550,20 @@ class ShareToWeibo():
         res_hbox = gtk.HBox(False)
         res_hbox.set_size_request(-1, 240)
 
-        left_box = DialogLeftButtonBox()
-        right_box = DialogRightButtonBox()
+        res_left_box = DialogLeftButtonBox()
+        res_right_box = DialogRightButtonBox()
 
-        left_box.button_align.set(0.5, 0.0, 0, 1)
-        right_box.button_align.set(0.5, 0.0, 0, 1)
-        right_box.button_align.set_padding(30, 0, 0, 0)
+        res_left_box.button_align.set(0.5, 0.0, 0, 1)
+        res_right_box.button_align.set(0.5, 0.0, 0, 1)
+        res_right_box.button_align.set_padding(30, 0, 0, 0)
 
-        left_box.set_size_request(405, -1)
-        right_box.set_size_request(195, -1)
+        res_left_box.set_size_request(405, -1)
+        res_right_box.set_size_request(195, -1)
         
-        res_hbox.pack_start(left_box)
+        res_hbox.pack_start(res_left_box)
         res_hbox.pack_start(
             VSeparator(app_theme.get_shadow_color("VSeparator").get_color_info(), 0, 0))
-        res_hbox.pack_start(right_box)
+        res_hbox.pack_start(res_right_box)
 
         res_vbox = gtk.VBox(False)
         follow_vbox = gtk.VBox(False)
@@ -695,8 +698,8 @@ class ShareToWeibo():
         res_vbox.pack_start(button_align, False, False)
         #res_vbox.pack_start(tmp_box, False, False)
 
-        left_box.set_buttons([res_vbox])
-        right_box.set_buttons([follow_vbox])
+        res_left_box.set_buttons([res_vbox])
+        res_right_box.set_buttons([follow_vbox])
 
         self.result_box.pack_start(res_hbox, False, False)
         self.result_box.show_all()
@@ -735,7 +738,9 @@ class ShareToWeibo():
         ''' slider expose redraw'''
         cr = widget.window.cairo_create()
         rect = widget.allocation
-        draw.draw_pixbuf(cr, gtk.gdk.pixbuf_new_from_file("../skin/01/bg.png"), rect.x, rect.y)
+        #parent_dir = utils.get_parent_dir(__file__, 2)
+        #draw.draw_pixbuf(cr, gtk.gdk.pixbuf_new_from_file(
+            #"%s/%s" % (parent_dir, "skin/01/bg.png")), rect.x, rect.y)
         cr.set_source_rgba(1.0, 1.0, 1.0, 0.8)
         cr.rectangle(rect.x, rect.y, rect.width, rect.height)
         cr.fill()
@@ -744,7 +749,6 @@ class ShareToWeibo():
         '''titlebar or button_box expose'''
         cr = widget.window.cairo_create()
         rect = widget.allocation
-        #print "expose", widget, rect, widget.window.get_geometry()
         cr.set_source_rgb(0.89, 0.89, 0.89)
         cr.rectangle(rect.x+2, rect.y+2, rect.width-4, rect.height-4)
         cr.fill()
@@ -752,13 +756,13 @@ class ShareToWeibo():
     def __draw_under_line(self, widget):
         '''draw under line'''
         cr = widget.window.cairo_create()
-        x, y, w, h = widget.allocation
-        #print x, y, w, h
-        cr.set_source_rgba(0, 0, 0.8, 1.0)
-        cr.set_line_width(1)
-        cr.move_to(x, y+h-1)
-        cr.line_to(x+w, y+h-1)
-        cr.stroke()
+        with utils.cairo_disable_antialias(cr):
+            x, y, w, h = widget.allocation
+            cr.set_source_rgba(0, 0, 0.8, 1.0)
+            cr.set_line_width(1)
+            cr.move_to(x, y+h-3)
+            cr.line_to(x+w, y+h-3)
+            cr.stroke()
 
 
 if __name__ == '__main__':

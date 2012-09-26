@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-22 20:32+0800\n"
+"POT-Creation-Date: 2012-09-26 21:01+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,136 +17,127 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/widget.py:247
+#: ../src/widget.py:251
 msgid "Drag to select area"
 msgstr ""
 
-#: ../src/widget.py:697 ../src/toolbar.py:157
+#: ../src/widget.py:703 ../src/toolbar.py:153
 msgid "save automatically"
 msgstr ""
 
-#: ../src/widget.py:698 ../src/toolbar.py:158
+#: ../src/widget.py:704 ../src/toolbar.py:154
 msgid "save as"
 msgstr ""
 
-#: ../src/widget.py:699 ../src/toolbar.py:159
+#: ../src/widget.py:705 ../src/toolbar.py:155
 msgid "save to clipboard"
 msgstr ""
 
-#: ../src/widget.py:700 ../src/toolbar.py:160
+#: ../src/widget.py:706 ../src/toolbar.py:156
 msgid "save automatically to file and clipboard"
 msgstr ""
 
-#: ../src/widget.py:715 ../src/toolbar.py:77
+#: ../src/widget.py:714 ../src/toolbar.py:79
 msgid "draw rectangle"
 msgstr ""
 
-#: ../src/widget.py:719 ../src/toolbar.py:78
+#: ../src/widget.py:718 ../src/toolbar.py:80
 msgid "draw ellipse"
 msgstr ""
 
-#: ../src/widget.py:723 ../src/toolbar.py:79
+#: ../src/widget.py:722 ../src/toolbar.py:81
 msgid "draw arrow"
 msgstr ""
 
-#: ../src/widget.py:727 ../src/toolbar.py:80
+#: ../src/widget.py:726 ../src/toolbar.py:82
 msgid "draw line"
 msgstr ""
 
-#: ../src/widget.py:731 ../src/toolbar.py:81
+#: ../src/widget.py:730 ../src/toolbar.py:83
 msgid "draw Text"
 msgstr ""
 
-#: ../src/widget.py:736 ../src/toolbar.py:83
+#: ../src/widget.py:735 ../src/toolbar.py:85
 msgid "undo"
 msgstr ""
 
-#: ../src/widget.py:740
+#: ../src/widget.py:739
 msgid "save"
 msgstr ""
 
-#: ../src/widget.py:744 ../src/toolbar.py:102
+#: ../src/widget.py:743 ../src/toolbar.py:104
 msgid "cancel"
 msgstr ""
 
-#: ../src/widget.py:748 ../src/toolbar.py:103
+#: ../src/widget.py:747 ../src/toolbar.py:105
 msgid "share"
 msgstr ""
 
-#: ../src/share.py:72
+#: ../src/share.py:71
 msgid "share to web"
 msgstr ""
 
-#: ../src/share.py:235 ../src/share.py:356 ../src/share.py:524
-#: ../src/share.py:533
-msgid "error"
-msgstr ""
-
-#: ../src/share.py:305
+#: ../src/share.py:295
 msgid "click to switch user"
 msgstr ""
 
-#: ../src/share.py:327
+#: ../src/share.py:313
 msgid "click to login"
 msgstr ""
 
-#: ../src/share.py:431 ../src/share.py:508
-msgid "left"
+#: ../src/share.py:427
+msgid "loading"
 msgstr ""
 
-#: ../src/share.py:434
-msgid "chars"
-msgstr ""
-
-#: ../src/share.py:451
+#: ../src/share.py:438
 msgid "Tweet"
 msgstr ""
 
-#: ../src/share.py:498
+#: ../src/share.py:480
 msgid "Please input text here"
 msgstr ""
 
-#: ../src/share.py:514
-msgid "exceeds"
+#: ../src/share.py:506 ../src/share.py:517
+msgid "error"
 msgstr ""
 
-#: ../src/share.py:524
+#: ../src/share.py:506
 msgid "picture does not exist"
 msgstr ""
 
-#: ../src/share.py:533
+#: ../src/share.py:517
 msgid "Please choose at least one platform to share on"
 msgstr ""
 
-#: ../src/share.py:549
+#: ../src/share.py:535
 msgid "came from"
 msgstr ""
 
-#: ../src/share.py:549
+#: ../src/share.py:535
 msgid "DeepinScreenshot"
 msgstr ""
 
-#: ../src/share.py:601
+#: ../src/share.py:587
 msgid "Follow"
 msgstr ""
 
-#: ../src/share.py:621 ../src/share.py:636
+#: ../src/share.py:610 ../src/share.py:624
 msgid "upload to"
 msgstr ""
 
-#: ../src/share.py:624
+#: ../src/share.py:613
 msgid "successful"
 msgstr ""
 
-#: ../src/share.py:641
+#: ../src/share.py:629
 msgid "failed"
 msgstr ""
 
-#: ../src/share.py:649
-msgid "Unknow"
+#: ../src/share.py:637
+msgid "Unknow reason"
 msgstr ""
 
-#: ../src/share.py:686
+#: ../src/share.py:680
 msgid "Close"
 msgstr ""
 

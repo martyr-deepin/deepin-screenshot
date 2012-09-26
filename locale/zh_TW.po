@@ -1,4 +1,5 @@
 # Chinese translations for PACKAGE package.
+# PACKAGE 软件包的繁体中文翻译.
 # Copyright (C) 2012 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Automatically generated, 2012.
@@ -7,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-22 20:32+0800\n"
+"POT-Creation-Date: 2012-09-26 21:01+0800\n"
 "PO-Revision-Date: 2012-09-22 20:32+0800\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -16,151 +17,312 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/widget.py:247
+#: ../src/widget.py:251
 msgid "Drag to select area"
-msgstr ""
+msgstr "拖动可自由选区"
 
-#: ../src/widget.py:697 ../src/toolbar.py:157
+#: ../src/widget.py:703 ../src/toolbar.py:153
 msgid "save automatically"
-msgstr ""
+msgstr "自动保存"
 
-#: ../src/widget.py:698 ../src/toolbar.py:158
+#: ../src/widget.py:704 ../src/toolbar.py:154
 msgid "save as"
-msgstr ""
+msgstr "保存到指定目录"
 
-#: ../src/widget.py:699 ../src/toolbar.py:159
+#: ../src/widget.py:705 ../src/toolbar.py:155
 msgid "save to clipboard"
-msgstr ""
+msgstr "复制到剪切板"
 
-#: ../src/widget.py:700 ../src/toolbar.py:160
+#: ../src/widget.py:706 ../src/toolbar.py:156
 msgid "save automatically to file and clipboard"
-msgstr ""
+msgstr "自动保存并复制到剪切板"
 
-#: ../src/widget.py:715 ../src/toolbar.py:77
+#: ../src/widget.py:714 ../src/toolbar.py:79
 msgid "draw rectangle"
-msgstr ""
+msgstr "矩形工具"
 
-#: ../src/widget.py:719 ../src/toolbar.py:78
+#: ../src/widget.py:718 ../src/toolbar.py:80
 msgid "draw ellipse"
-msgstr ""
+msgstr "椭圆工具"
 
-#: ../src/widget.py:723 ../src/toolbar.py:79
+#: ../src/widget.py:722 ../src/toolbar.py:81
 msgid "draw arrow"
-msgstr ""
+msgstr "箭头工具"
 
-#: ../src/widget.py:727 ../src/toolbar.py:80
+#: ../src/widget.py:726 ../src/toolbar.py:82
 msgid "draw line"
-msgstr ""
+msgstr "线条工具"
 
-#: ../src/widget.py:731 ../src/toolbar.py:81
+#: ../src/widget.py:730 ../src/toolbar.py:83
 msgid "draw Text"
-msgstr ""
+msgstr "文本工具"
 
-#: ../src/widget.py:736 ../src/toolbar.py:83
+#: ../src/widget.py:735 ../src/toolbar.py:85
 msgid "undo"
-msgstr ""
+msgstr "撤销编辑"
 
-#: ../src/widget.py:740
+#: ../src/widget.py:739
 msgid "save"
-msgstr ""
+msgstr "保存"
 
-#: ../src/widget.py:744 ../src/toolbar.py:102
+#: ../src/widget.py:743 ../src/toolbar.py:104
 msgid "cancel"
-msgstr ""
+msgstr "退出截图"
 
-#: ../src/widget.py:748 ../src/toolbar.py:103
+#: ../src/widget.py:747 ../src/toolbar.py:105
 msgid "share"
-msgstr ""
+msgstr "分享到微博"
 
-#: ../src/share.py:72
+#: ../src/share.py:71
 msgid "share to web"
-msgstr ""
+msgstr "分享至微博"
 
-#: ../src/share.py:235 ../src/share.py:356 ../src/share.py:524
-#: ../src/share.py:533
-msgid "error"
-msgstr ""
-
-#: ../src/share.py:305
+#: ../src/share.py:295
 msgid "click to switch user"
-msgstr ""
+msgstr "点击图标切换帐号"
 
-#: ../src/share.py:327
+#: ../src/share.py:313
 msgid "click to login"
-msgstr ""
+msgstr "点击图标设置帐号"
 
-#: ../src/share.py:431 ../src/share.py:508
-msgid "left"
-msgstr ""
+#: ../src/share.py:427
+msgid "loading"
+msgstr "加载中"
 
-#: ../src/share.py:434
-msgid "chars"
-msgstr ""
-
-#: ../src/share.py:451
+#: ../src/share.py:438
 msgid "Tweet"
-msgstr ""
+msgstr "立即分享"
 
-#: ../src/share.py:498
+#: ../src/share.py:480
 msgid "Please input text here"
-msgstr ""
+msgstr "请输入内容"
 
-#: ../src/share.py:514
-msgid "exceeds"
-msgstr ""
+#: ../src/share.py:506 ../src/share.py:517
+msgid "error"
+msgstr "错误"
 
-#: ../src/share.py:524
+#: ../src/share.py:506
 msgid "picture does not exist"
-msgstr ""
+msgstr "图片不存在"
 
-#: ../src/share.py:533
+#: ../src/share.py:517
 msgid "Please choose at least one platform to share on"
-msgstr ""
+msgstr "请至少选择一个平台进行分享"
 
-#: ../src/share.py:549
+#: ../src/share.py:535
 msgid "came from"
-msgstr ""
+msgstr "来自"
 
-#: ../src/share.py:549
+#: ../src/share.py:535
 msgid "DeepinScreenshot"
-msgstr ""
+msgstr "深度截图"
 
-#: ../src/share.py:601
+#: ../src/share.py:587
 msgid "Follow"
-msgstr ""
+msgstr "关注"
 
-#: ../src/share.py:621 ../src/share.py:636
+#: ../src/share.py:610 ../src/share.py:624
 msgid "upload to"
-msgstr ""
+msgstr "分享至"
 
-#: ../src/share.py:624
+#: ../src/share.py:613
 msgid "successful"
-msgstr ""
+msgstr "成功"
 
-#: ../src/share.py:641
+#: ../src/share.py:629
 msgid "failed"
-msgstr ""
+msgstr "失败"
 
-#: ../src/share.py:649
-msgid "Unknow"
-msgstr ""
+#: ../src/share.py:637
+msgid "Unknow reason"
+msgstr "未知"
 
-#: ../src/share.py:686
+#: ../src/share.py:680
 msgid "Close"
-msgstr ""
+msgstr "关闭"
 
 #: ../src/main.py:137
 msgid "The width or height of selected area cannot be 0"
-msgstr ""
+msgstr "选区的宽或高不能为0"
 
 #: ../src/main.py:145
 msgid "Picture has been saved to file"
-msgstr ""
+msgstr "图片已保存到文件"
 
 #: ../src/main.py:156 ../src/main.py:159 ../src/main.py:180
 msgid "Picture has been saved to clipboard"
-msgstr ""
+msgstr "图片已保存到剪辑板"
 
 #: ../src/main.py:163
 msgid "Failed to save the picture"
-msgstr ""
+msgstr "图片保存失败"
+
+msgid "left"
+msgstr "还可以输入"
+
+msgid "chars"
+msgstr "字"
+
+msgid "exceeds"
+msgstr "已经超过"
+
+# in weibo.py
+msgid "Sina"
+msgstr "新浪微博"
+
+msgid "Tencent"
+msgstr "腾讯微博"
+
+msgid "timed out"
+msgstr "连接超时"
+
+msgid "Connection error"
+msgstr "连接出错"
+
+#
+# Sina error message
+msgid "System error"
+msgstr "系统错误"
+
+msgid "Service unavailable"
+msgstr "服务暂停"
+
+msgid "Remote service error"
+msgstr "远程服务错误"
+
+msgid "IP limit"
+msgstr "IP限制不能请求该资源"
+
+msgid "Unsupport mediatype"
+msgstr "不支持的MediaType"
+
+msgid "Too many pending tasks, system is busy"
+msgstr "任务过多，系统繁忙"
+
+msgid "Job expired"
+msgstr "任务超时"
+
+msgid "RPC error"
+msgstr "RPC错误"
+
+msgid "Illegal request"
+msgstr "非法请求"
+
+msgid "Invalid weibo user"
+msgstr "不合法的微博用户"
+
+msgid "miss required parameter"
+msgstr "缺失必选参数"
+
+msgid "Request body length over limit"
+msgstr "请求长度超过限制"
+
+msgid "IP requests out of rate limit"
+msgstr "IP请求频次超过上限"
+
+msgid "User requests out of rate limit"
+msgstr "用户请求频次超过上限"
+
+msgid "User does not exists"
+msgstr "用户不存在"
+
+msgid "Unsupported image type, only suport JPG, GIF, PNG"
+msgstr "不支持的图片类型，仅仅支持JPG、GIF、PNG"
+
+msgid "Image size too large"
+msgstr "图片太大"
+
+msgid "Content is null"
+msgstr "内容为空"
+
+msgid "Text too long, please input text less than 140 characters"
+msgstr "输入文字太长，请确认不超过140个字符"
+
+msgid "Text too long, please input text less than 300 characters"
+msgstr "输入文字太长，请确认不超过300个字符"
+
+msgid "Account or ip or app is illgal, can not continue"
+msgstr "账号、IP或应用非法，暂时无法完成此操作"
+
+msgid "Out of limit"
+msgstr "发布内容过于频繁"
+
+msgid "Repeat content"
+msgstr "提交相似的信息"
+
+msgid "Contain illegal website"
+msgstr "包含非法网址"
+
+msgid "Contain advertising"
+msgstr "包含广告信息"
+
+msgid "Content is illegal"
+msgstr "包含非法内容"
+
+msgid "Your ip's behave in a comic boisterous or unruly manner"
+msgstr "此IP地址上的行为异常"
+
+msgid "Update success, while server slow now, please wait 1-2 minutes"
+msgstr "发布成功，目前服务器可能会有延迟，请耐心等待1-2分钟"
+
+msgid "Illegal weibo"
+msgstr "不合法的微博"
+
+msgid "Repeated weibo text"
+msgstr "不能发布相同的微博"
+
+msgid "Contains forbid world"
+msgstr "含有敏感词"
+
+#
+# Tencent error message
+msgid "error content len"
+msgstr "微博内容超出长度限制或为空"
+
+msgid "error pic size"
+msgstr "图片大小超出限制或为0"
+
+msgid "pic format error"
+msgstr "图片格式错误"
+
+msgid "post format error"
+msgstr "格式错误、用户无效（非微博用户）"
+
+msgid "forbidden content"
+msgstr "有过多脏话"
+
+msgid "forbidden access"
+msgstr "禁止访问，如城市，uin黑名单限制等"
+
+msgid "post invliad content"
+msgstr "包含垃圾信息：广告，恶意链接、黑名单号码等"
+
+msgid "post content too fast"
+msgstr "发表太快，被频率限制"
+
+msgid "content is verifying"
+msgstr "源消息审核中"
+
+msgid "post content repeated"
+msgstr "重复发表，请不要连续发表重复内容"
+
+msgid "not verify real name"
+msgstr "用户未进行实名认证"
+
+msgid "add fail"
+msgstr "服务器内部错误导致发表失败"
+
+msgid "pic upload error"
+msgstr "上传图片失败"
+
+msgid "common uin blacklist limit"
+msgstr "公共uin黑名单限制"
+
+msgid "common ip blacklist limit"
+msgstr "公共IP黑名单限制 "
+
+msgid "weibo blacklist limit"
+msgstr "微博黑名单限制"
+
+msgid "access too fast"
+msgstr "单UIN访问微博过快"

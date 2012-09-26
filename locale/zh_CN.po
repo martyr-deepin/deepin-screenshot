@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-22 20:32+0800\n"
+"POT-Creation-Date: 2012-09-26 21:01+0800\n"
 "PO-Revision-Date: 2012-09-22 20:32+0800\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,136 +17,127 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/widget.py:247
+#: ../src/widget.py:251
 msgid "Drag to select area"
 msgstr "拖动可自由选区"
 
-#: ../src/widget.py:697 ../src/toolbar.py:157
+#: ../src/widget.py:703 ../src/toolbar.py:153
 msgid "save automatically"
 msgstr "自动保存"
 
-#: ../src/widget.py:698 ../src/toolbar.py:158
+#: ../src/widget.py:704 ../src/toolbar.py:154
 msgid "save as"
 msgstr "保存到指定目录"
 
-#: ../src/widget.py:699 ../src/toolbar.py:159
+#: ../src/widget.py:705 ../src/toolbar.py:155
 msgid "save to clipboard"
 msgstr "复制到剪切板"
 
-#: ../src/widget.py:700 ../src/toolbar.py:160
+#: ../src/widget.py:706 ../src/toolbar.py:156
 msgid "save automatically to file and clipboard"
 msgstr "自动保存并复制到剪切板"
 
-#: ../src/widget.py:715 ../src/toolbar.py:77
+#: ../src/widget.py:714 ../src/toolbar.py:79
 msgid "draw rectangle"
 msgstr "矩形工具"
 
-#: ../src/widget.py:719 ../src/toolbar.py:78
+#: ../src/widget.py:718 ../src/toolbar.py:80
 msgid "draw ellipse"
 msgstr "椭圆工具"
 
-#: ../src/widget.py:723 ../src/toolbar.py:79
+#: ../src/widget.py:722 ../src/toolbar.py:81
 msgid "draw arrow"
 msgstr "箭头工具"
 
-#: ../src/widget.py:727 ../src/toolbar.py:80
+#: ../src/widget.py:726 ../src/toolbar.py:82
 msgid "draw line"
 msgstr "线条工具"
 
-#: ../src/widget.py:731 ../src/toolbar.py:81
+#: ../src/widget.py:730 ../src/toolbar.py:83
 msgid "draw Text"
 msgstr "文本工具"
 
-#: ../src/widget.py:736 ../src/toolbar.py:83
+#: ../src/widget.py:735 ../src/toolbar.py:85
 msgid "undo"
 msgstr "撤销编辑"
 
-#: ../src/widget.py:740
+#: ../src/widget.py:739
 msgid "save"
 msgstr "保存"
 
-#: ../src/widget.py:744 ../src/toolbar.py:102
+#: ../src/widget.py:743 ../src/toolbar.py:104
 msgid "cancel"
 msgstr "退出截图"
 
-#: ../src/widget.py:748 ../src/toolbar.py:103
+#: ../src/widget.py:747 ../src/toolbar.py:105
 msgid "share"
 msgstr "分享到微博"
 
-#: ../src/share.py:72
+#: ../src/share.py:71
 msgid "share to web"
 msgstr "分享至微博"
 
-#: ../src/share.py:235 ../src/share.py:356 ../src/share.py:524
-#: ../src/share.py:533
-msgid "error"
-msgstr "错误"
-
-#: ../src/share.py:305
+#: ../src/share.py:295
 msgid "click to switch user"
 msgstr "点击图标切换帐号"
 
-#: ../src/share.py:327
+#: ../src/share.py:313
 msgid "click to login"
 msgstr "点击图标设置帐号"
 
-#: ../src/share.py:431 ../src/share.py:508
-msgid "left"
-msgstr "还可以输入"
+#: ../src/share.py:427
+msgid "loading"
+msgstr "加载中"
 
-#: ../src/share.py:434
-msgid "chars"
-msgstr "字"
-
-#: ../src/share.py:451
+#: ../src/share.py:438
 msgid "Tweet"
 msgstr "立即分享"
 
-#: ../src/share.py:498
+#: ../src/share.py:480
 msgid "Please input text here"
 msgstr "请输入内容"
 
-#: ../src/share.py:514
-msgid "exceeds"
-msgstr "已经超过"
+#: ../src/share.py:506 ../src/share.py:517
+msgid "error"
+msgstr "错误"
 
-#: ../src/share.py:524
+#: ../src/share.py:506
 msgid "picture does not exist"
 msgstr "图片不存在"
 
-#: ../src/share.py:533
+#: ../src/share.py:517
 msgid "Please choose at least one platform to share on"
 msgstr "请至少选择一个平台进行分享"
 
-#: ../src/share.py:549
+#: ../src/share.py:535
 msgid "came from"
 msgstr "来自"
 
-#: ../src/share.py:549
+#: ../src/share.py:535
 msgid "DeepinScreenshot"
 msgstr "深度截图"
 
-#: ../src/share.py:601
+#: ../src/share.py:587
 msgid "Follow"
 msgstr "关注"
 
-#: ../src/share.py:621 ../src/share.py:636
+#: ../src/share.py:610 ../src/share.py:624
 msgid "upload to"
 msgstr "分享至"
 
-#: ../src/share.py:624
+#: ../src/share.py:613
 msgid "successful"
 msgstr "成功"
 
-#: ../src/share.py:641
+#: ../src/share.py:629
 msgid "failed"
 msgstr "失败"
 
-#: ../src/share.py:649
-msgid "Unknow"
+#: ../src/share.py:637
+msgid "Unknow reason"
 msgstr "未知"
 
-#: ../src/share.py:686
+#: ../src/share.py:680
 msgid "Close"
 msgstr "关闭"
 
@@ -166,6 +157,15 @@ msgstr "图片已保存到剪辑板"
 msgid "Failed to save the picture"
 msgstr "图片保存失败"
 
+msgid "left"
+msgstr "还可以输入"
+
+msgid "chars"
+msgstr "字"
+
+msgid "exceeds"
+msgstr "已经超过"
+
 # in weibo.py
 msgid "Sina"
 msgstr "新浪微博"
@@ -173,7 +173,7 @@ msgstr "新浪微博"
 msgid "Tencent"
 msgstr "腾讯微博"
 
-msgid "Connection timed out"
+msgid "timed out"
 msgstr "连接超时"
 
 msgid "Connection error"
@@ -275,7 +275,7 @@ msgid "Contains forbid world"
 msgstr "含有敏感词"
 
 #
-# encent error message
+# Tencent error message
 msgid "error content len"
 msgstr "微博内容超出长度限制或为空"
 

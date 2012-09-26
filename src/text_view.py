@@ -22,6 +22,7 @@
 
 from theme import app_theme
 from dtk.ui.entry import Entry
+from dtk.ui.utils import cairo_disable_antialias
 import dtk.ui.constant as dtk_constant
 import gtk
 import gobject
@@ -178,16 +179,17 @@ class TextView(Entry):
 
     def draw_entry_background(self, cr, rect):
         '''draw background '''
-        x, y, w, h = rect.x, rect.y, rect.width, rect.height
-        cr.set_source_rgba(1.0, 1.0, 1.0, 0.8)
-        cr.rectangle(x, y, w, h)
-        cr.fill()
-        cr.set_source_rgba(0.0, 0.0, 0.0, 1.0)
-        if self.background_dash:
-            cr.set_dash(self.background_dash)
-        cr.set_line_width(1)
-        cr.rectangle(x, y, w, h)
-        cr.stroke()
+        with cairo_disable_antialias(cr):
+            x, y, w, h = rect.x, rect.y, rect.width, rect.height
+            cr.set_source_rgba(1.0, 1.0, 1.0, 0.8)
+            cr.rectangle(x, y, w, h)
+            cr.fill()
+            cr.set_source_rgba(0.0, 0.0, 0.0, 1.0)
+            if self.background_dash:
+                cr.set_dash(self.background_dash)
+            cr.set_line_width(1)
+            cr.rectangle(x, y, w, h)
+            cr.stroke()
     
     def draw_entry_text(self, cr, rect):
         ''' draw text '''
