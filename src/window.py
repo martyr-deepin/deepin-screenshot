@@ -33,7 +33,7 @@ DISPLAY_NUM = len(gtk.gdk.display_manager_get().list_displays())
 DISPLAY = gtk.gdk.display_get_default()
 SCREEN_NUM = DISPLAY.get_n_screens()
 GDK_SCREEN = DISPLAY.get_default_screen()
-MONITOR_NUM = GDK_SCREEN.get_n_monitors()
+MONITOR_NUM = GDK_SCREEN.get_n_monitors()       # the monitors number
 
 CURRENT_MONITOR = 0
 CURRENT_MONITOR_INFO = GDK_SCREEN.get_monitor_geometry(CURRENT_MONITOR)

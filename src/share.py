@@ -22,11 +22,11 @@
 
 from theme import app_theme, app_theme_get_dynamic_color, app_theme_get_dynamic_pixbuf
 from dtk.ui.scrolled_window import ScrolledWindow
-from dtk.ui.window import Window
+#from dtk.ui.window import Window
 from dtk.ui.dialog import ConfirmDialog, DialogLeftButtonBox, DialogRightButtonBox, DialogBox
 from dtk.ui.browser import WebView
 from dtk.ui.slider import Slider
-from dtk.ui.titlebar import Titlebar
+#from dtk.ui.titlebar import Titlebar
 from dtk.ui.button import Button, CheckButton, LinkButton, ImageButton
 from dtk.ui.line import HSeparator, VSeparator
 from dtk.ui.label import Label
@@ -161,8 +161,6 @@ class ShareToWeibo():
             self.__weibo_list.append(self.twitter)
         self.__current_weibo = None
 
-        #self.window.window_frame.pack_start(self.slider)
-        #self.window.window_frame.pack_start(slider_align)
         self.window.body_box.pack_start(self.slider, True, True)
         self.init_share_box()
 
@@ -221,8 +219,6 @@ class ShareToWeibo():
 
         gtk.gdk.threads_enter()
         box.show_all()
-        #if self.get_user_error_text:
-            #ConfirmDialog(_("error"), self.get_user_error_text).show_all()
         gtk.gdk.threads_leave()
 
     def set_slide_index(self, index):
@@ -238,9 +234,6 @@ class ShareToWeibo():
             if self.window.button_box not in self.window.window_frame.get_children():
                 self.window.window_frame.pack_start(self.window.button_box, False, False)
         elif index == 2:
-            #self.slider.set_size_request(self.__win_width, 228)
-            #tmp = gtk.Alignment(0.5, 0.5, 0, 0)
-            #tmp.set_padding()
             self.window.left_button_box.set_buttons([])
             l = Label("  ")
             l.show()
@@ -291,7 +284,6 @@ class ShareToWeibo():
                 app_theme.get_pixbuf("share/" + weibo.t_type + ".png"),
                 app_theme.get_pixbuf("share/" + weibo.t_type + ".png"))
             utils.set_clickable_cursor(button)
-            #button.connect("enter-notify-event", self.show_tooltip, "点击图标切换帐号")
             button.connect("enter-notify-event", self.show_tooltip, _("click to switch user"))
             hbox.pack_start(check_align, False, False)
             hbox.pack_start(button, False, False, 5)
@@ -310,7 +302,6 @@ class ShareToWeibo():
                 app_theme.get_pixbuf("share/" + weibo.t_type + "_no.png"),
                 app_theme.get_pixbuf("share/" + weibo.t_type + "_no.png"))
             utils.set_clickable_cursor(button)
-            #button.connect("enter-notify-event", self.show_tooltip, "点击图标设置帐号")
             button.connect("enter-notify-event", self.show_tooltip, _("click to login"))
             hbox.pack_start(check_align, False, False)
             hbox.pack_start(button, False, False, 5)
@@ -347,8 +338,6 @@ class ShareToWeibo():
         for weibo in self.__weibo_list:
             weibo.get_box().show_all()
             weibo.get_box().queue_draw()
-        #if self.get_user_error_text:
-            #ConfirmDialog(_("error"), self.get_user_error_text).show_all()
         self.loading_label.destroy()
         gtk.gdk.threads_leave()
     
@@ -511,7 +500,9 @@ class ShareToWeibo():
         '''share_button_clicked'''
         # file is not exist.
         if not exists(self.upload_image):
-            ConfirmDialog(_("error"), "%s." % ( _("picture does not exist"))).show_all()
+            d = ConfirmDialog(_("error"), "%s." % ( _("picture does not exist")))
+            d.show_all()
+            d.set_transient_for(self.window)
             return False
         has_share_web = False
         for weibo in self.to_share_weibo:
@@ -520,7 +511,9 @@ class ShareToWeibo():
                 break
         # have no web selected
         if not has_share_web:
-            ConfirmDialog(_("error"), _("Please choose at least one platform to share on")).show_all()
+            d = ConfirmDialog(_("error"), _("Please choose at least one platform to share on"))
+            d.show_all()
+            d.set_transient_for(self.window)
             return False
         # at first, set widget insensitive
         #self.share_box.set_sensitive(False)

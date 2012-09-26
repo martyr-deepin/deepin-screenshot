@@ -6,7 +6,9 @@
 #               2011 Wang Yong
 #
 # Author:     Wang Yong <lazycat.manatee@gmail.com>
+#             Long Changjin <admin@longchangjin.cn>
 # Maintainer: Wang Yong <lazycat.manatee@gmail.com>
+#             Long Changjin <admin@longchangjin.cn>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -56,8 +58,10 @@ class RectangleAction(Action):
     def __init__(self, aType, size, color):
         '''Rectangle action.'''
         Action.__init__(self, aType, size, color)
-        if size == ACTION_SIZE_RECTANGLE_ELLIPSE_FILL: self.fill_flag = True
-        else: self.fill_flag = False
+        if size == ACTION_SIZE_RECTANGLE_ELLIPSE_FILL: 
+            self.fill_flag = True
+        else:
+            self.fill_flag = False
         
     def drawing(self, (ex, ey), (rx, ry, rw, rh)):
         '''Drawing.'''
