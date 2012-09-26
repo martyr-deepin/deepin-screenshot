@@ -235,8 +235,8 @@ class ShareToWeibo():
 
         gtk.gdk.threads_enter()
         box.show_all()
-        if self.get_user_error_text:
-            ConfirmDialog(_("error"), self.get_user_error_text).show_all()
+        #if self.get_user_error_text:
+            #ConfirmDialog(_("error"), self.get_user_error_text).show_all()
         gtk.gdk.threads_leave()
 
     def set_slide_index(self, index):
@@ -276,7 +276,7 @@ class ShareToWeibo():
     
     def get_user_info(self, weibo):
         '''create label info'''
-        self.get_user_error_text = ""
+        #self.get_user_error_text = ""
         weibo_hbox = weibo.get_box()
         hbox = gtk.HBox(False)
         #align = gtk.Alignment()
@@ -312,9 +312,6 @@ class ShareToWeibo():
             hbox.pack_start(label, False, False)
         else:
             self.is_get_user_info[weibo] = 0
-            info_error = weibo.get_curl_error()
-            if info_error:
-                self.get_user_error_text += "%s:%s." % (weibo.t_type, _(info_error))
             check = CheckButton()
             #check = gtk.CheckButton()
             check.set_sensitive(False)
@@ -331,6 +328,12 @@ class ShareToWeibo():
             button.connect("enter-notify-event", self.show_tooltip, _("click to login"))
             hbox.pack_start(check_align, False, False)
             hbox.pack_start(button, False, False)
+            # curl time out
+            info_error = weibo.get_curl_error()
+            if info_error:
+                #self.get_user_error_text += "%s:%s." % (weibo.t_type, _(info_error))
+                hbox.pack_start(
+                    Label(text=info_error,label_width=70,enable_select=False), False, False)
         button.connect("clicked", self.weibo_login, weibo)
         gtk.gdk.threads_leave()
         return weibo_hbox
@@ -356,8 +359,9 @@ class ShareToWeibo():
         for weibo in self.__weibo_list:
             weibo.get_box().show_all()
             weibo.get_box().queue_draw()
-        if self.get_user_error_text:
-            ConfirmDialog(_("error"), self.get_user_error_text).show_all()
+        #if self.get_user_error_text:
+            #ConfirmDialog(_("error"), self.get_user_error_text).show_all()
+        self.loading_label.destroy()
         gtk.gdk.threads_leave()
     
     # init share box, create share button, input
@@ -401,7 +405,6 @@ class ShareToWeibo():
         text_view.set_right_margin(10)
         text_view.set_pixels_above_lines(5)
         text_view.set_pixels_below_lines(5)
-        #text_view.set_border_window_size(gtk.TEXT_WINDOW_LEFT, 14)
         text_view.set_wrap_mode(gtk.WRAP_WORD| gtk.WRAP_CHAR)
         text_view.connect("expose-event", self.text_view_expose)
         buf = text_view.get_buffer()
@@ -416,36 +419,29 @@ class ShareToWeibo():
         text_box.pack_start(thumb, False, False, 10)
         text_box.pack_start(text_bg_align)
         text_vbox.pack_start(text_box, False, False, 10)
-        ##text_vbox.pack_start(
-            ##HSeparator(app_theme.get_shadow_color("HSeparator").get_color_info(), 0, 0), False, False, 5)
+
         text_align.add(text_vbox)
         tmp_align = gtk.Alignment()
         tmp_align.set(0.5, 0, 0, 1)
         self.share_box.pack_start(tmp_align, False, False)
         self.share_box.pack_start(text_align, False, False)
 
+        # dialog button box
         left_box = self.window.left_button_box
         right_box = self.window.right_button_box
-        #left_box = DialogLeftButtonBox()
-        #right_box = DialogRightButtonBox()
 
-        #left_box.button_align.set(0.0, 0.0, 0, 1)
-        #right_box.button_align.set(1.0, 0.0, 0, 1)
         # input tip label
-        #self.input_tip_label = Label(_("left"), text_size=12, enable_select=False)
         self.input_num_label = Label("%d" % self.MAX_CHAR,
             text_size=16, text_x_align=pango.ALIGN_CENTER, label_width=40, enable_select=False)
-        #label0 = Label(_("chars"), text_size=12, enable_select=False)
-        #self.input_tip_label.text_color = app_theme_get_dynamic_color("#828282")
         self.input_num_label.text_color = app_theme.get_color("left_char_num")
-        #print "app_theme_get_color:", app_theme.get_color("left_char_num1")
-        #print "get_dynamic_color:", app_theme_get_dynamic_color("#5f5f5f")
-        #label0.text_color = app_theme_get_dynamic_color("#828282")
 
         # login box
         #weibo_box = gtk.HBox(False, 1)
         #weibo_box.set_size_request(-1, 50)
         weibo_box_list = []
+        self.loading_label = Label("%s..." % _("loading"), text_size=12,
+            label_width=70, enable_select=False)
+        weibo_box_list.append(self.loading_label)
 
         for weibo in self.__weibo_list:
             box = gtk.HBox(False, 2)
@@ -465,7 +461,6 @@ class ShareToWeibo():
         tmp_vbox.pack_start(button, False, False)
         #tmp_vbox.pack_start(tmp_align)
         tmp_align.add(tmp_vbox)
-        #right_box.set_buttons([self.input_tip_label, self.input_num_label, label0, tmp_align])
         right_box.set_buttons([self.input_num_label, tmp_align])
         #weibo_box.pack_start(left_box, True, True)
         #weibo_box.pack_start(right_box, True, True)
