@@ -1,7 +1,7 @@
 {"colors" : {
  "link_text"  : "#1A70b1",
  "left_char_num"  : "#848484",
- "left_char_num1" : "#FF0000",
+ "left_char_num1" : "#C70000",
  "share_result_text" : "#737373",
  },	
  "alpha_colors" : {
