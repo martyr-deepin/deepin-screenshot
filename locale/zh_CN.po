@@ -176,6 +176,9 @@ msgstr "腾讯微博"
 msgid "timed out"
 msgstr "连接超时"
 
+msgid "network errors"
+msgstr "网络错误"
+
 msgid "Connection error"
 msgstr "连接出错"
 

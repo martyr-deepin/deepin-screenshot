@@ -19,23 +19,23 @@ msgstr ""
 
 #: ../src/widget.py:251
 msgid "Drag to select area"
-msgstr "拖动可自由选区"
+msgstr "拖動可自由選區"
 
 #: ../src/widget.py:703 ../src/toolbar.py:153
 msgid "save automatically"
-msgstr "自动保存"
+msgstr "自動保存"
 
 #: ../src/widget.py:704 ../src/toolbar.py:154
 msgid "save as"
-msgstr "保存到指定目录"
+msgstr "保存到指定目錄"
 
 #: ../src/widget.py:705 ../src/toolbar.py:155
 msgid "save to clipboard"
-msgstr "复制到剪切板"
+msgstr "複制到剪切板"
 
 #: ../src/widget.py:706 ../src/toolbar.py:156
 msgid "save automatically to file and clipboard"
-msgstr "自动保存并复制到剪切板"
+msgstr "自動保存並複制到剪切板"
 
 #: ../src/widget.py:714 ../src/toolbar.py:79
 msgid "draw rectangle"
@@ -43,15 +43,15 @@ msgstr "矩形工具"
 
 #: ../src/widget.py:718 ../src/toolbar.py:80
 msgid "draw ellipse"
-msgstr "椭圆工具"
+msgstr "橢圓工具"
 
 #: ../src/widget.py:722 ../src/toolbar.py:81
 msgid "draw arrow"
-msgstr "箭头工具"
+msgstr "箭頭工具"
 
 #: ../src/widget.py:726 ../src/toolbar.py:82
 msgid "draw line"
-msgstr "线条工具"
+msgstr "線條工具"
 
 #: ../src/widget.py:730 ../src/toolbar.py:83
 msgid "draw Text"
@@ -59,7 +59,7 @@ msgstr "文本工具"
 
 #: ../src/widget.py:735 ../src/toolbar.py:85
 msgid "undo"
-msgstr "撤销编辑"
+msgstr "撤銷編輯"
 
 #: ../src/widget.py:739
 msgid "save"
@@ -67,7 +67,7 @@ msgstr "保存"
 
 #: ../src/widget.py:743 ../src/toolbar.py:104
 msgid "cancel"
-msgstr "退出截图"
+msgstr "退出截圖"
 
 #: ../src/widget.py:747 ../src/toolbar.py:105
 msgid "share"
@@ -79,15 +79,15 @@ msgstr "分享至微博"
 
 #: ../src/share.py:295
 msgid "click to switch user"
-msgstr "点击图标切换帐号"
+msgstr "點擊圖標切換帳號"
 
 #: ../src/share.py:313
 msgid "click to login"
-msgstr "点击图标设置帐号"
+msgstr "點擊圖標設置帳號"
 
 #: ../src/share.py:427
 msgid "loading"
-msgstr "加载中"
+msgstr "加載中"
 
 #: ../src/share.py:438
 msgid "Tweet"
@@ -95,31 +95,31 @@ msgstr "立即分享"
 
 #: ../src/share.py:480
 msgid "Please input text here"
-msgstr "请输入内容"
+msgstr "請輸入內容"
 
 #: ../src/share.py:506 ../src/share.py:517
 msgid "error"
-msgstr "错误"
+msgstr "錯誤"
 
 #: ../src/share.py:506
 msgid "picture does not exist"
-msgstr "图片不存在"
+msgstr "圖片不存在"
 
 #: ../src/share.py:517
 msgid "Please choose at least one platform to share on"
-msgstr "请至少选择一个平台进行分享"
+msgstr "請至少選擇一個平台進行分享"
 
 #: ../src/share.py:535
 msgid "came from"
-msgstr "来自"
+msgstr "來自"
 
 #: ../src/share.py:535
 msgid "DeepinScreenshot"
-msgstr "深度截图"
+msgstr "深度截圖"
 
 #: ../src/share.py:587
 msgid "Follow"
-msgstr "关注"
+msgstr "關注"
 
 #: ../src/share.py:610 ../src/share.py:624
 msgid "upload to"
@@ -131,7 +131,7 @@ msgstr "成功"
 
 #: ../src/share.py:629
 msgid "failed"
-msgstr "失败"
+msgstr "失敗"
 
 #: ../src/share.py:637
 msgid "Unknow reason"
@@ -139,190 +139,193 @@ msgstr "未知"
 
 #: ../src/share.py:680
 msgid "Close"
-msgstr "关闭"
+msgstr "關閉"
 
 #: ../src/main.py:137
 msgid "The width or height of selected area cannot be 0"
-msgstr "选区的宽或高不能为0"
+msgstr "選區的寬或高不能爲0"
 
 #: ../src/main.py:145
 msgid "Picture has been saved to file"
-msgstr "图片已保存到文件"
+msgstr "圖片已保存到文件"
 
 #: ../src/main.py:156 ../src/main.py:159 ../src/main.py:180
 msgid "Picture has been saved to clipboard"
-msgstr "图片已保存到剪辑板"
+msgstr "圖片已保存到剪輯板"
 
 #: ../src/main.py:163
 msgid "Failed to save the picture"
-msgstr "图片保存失败"
+msgstr "圖片保存失敗"
 
 msgid "left"
-msgstr "还可以输入"
+msgstr "還可以輸入"
 
 msgid "chars"
 msgstr "字"
 
 msgid "exceeds"
-msgstr "已经超过"
+msgstr "已經超過"
 
 # in weibo.py
 msgid "Sina"
 msgstr "新浪微博"
 
 msgid "Tencent"
-msgstr "腾讯微博"
+msgstr "騰訊微博"
 
 msgid "timed out"
-msgstr "连接超时"
+msgstr "連接超時"
+
+msgid "network errors"
+msgstr "網絡錯誤"
 
 msgid "Connection error"
-msgstr "连接出错"
+msgstr "連接出錯"
 
 #
 # Sina error message
 msgid "System error"
-msgstr "系统错误"
+msgstr "系統錯誤"
 
 msgid "Service unavailable"
-msgstr "服务暂停"
+msgstr "服務暫停"
 
 msgid "Remote service error"
-msgstr "远程服务错误"
+msgstr "遠程服務錯誤"
 
 msgid "IP limit"
-msgstr "IP限制不能请求该资源"
+msgstr "IP限制不能請求該資源"
 
 msgid "Unsupport mediatype"
 msgstr "不支持的MediaType"
 
 msgid "Too many pending tasks, system is busy"
-msgstr "任务过多，系统繁忙"
+msgstr "任務過多，系統繁忙"
 
 msgid "Job expired"
-msgstr "任务超时"
+msgstr "任務超時"
 
 msgid "RPC error"
-msgstr "RPC错误"
+msgstr "RPC錯誤"
 
 msgid "Illegal request"
-msgstr "非法请求"
+msgstr "非法請求"
 
 msgid "Invalid weibo user"
-msgstr "不合法的微博用户"
+msgstr "不合法的微博用戶"
 
 msgid "miss required parameter"
-msgstr "缺失必选参数"
+msgstr "缺失必選參數"
 
 msgid "Request body length over limit"
-msgstr "请求长度超过限制"
+msgstr "請求長度超過限制"
 
 msgid "IP requests out of rate limit"
-msgstr "IP请求频次超过上限"
+msgstr "IP請求頻次超過上限"
 
 msgid "User requests out of rate limit"
-msgstr "用户请求频次超过上限"
+msgstr "用戶請求頻次超過上限"
 
 msgid "User does not exists"
-msgstr "用户不存在"
+msgstr "用戶不存在"
 
 msgid "Unsupported image type, only suport JPG, GIF, PNG"
-msgstr "不支持的图片类型，仅仅支持JPG、GIF、PNG"
+msgstr "不支持的圖片類型，僅僅支持JPG、GIF、PNG"
 
 msgid "Image size too large"
-msgstr "图片太大"
+msgstr "圖片太大"
 
 msgid "Content is null"
-msgstr "内容为空"
+msgstr "內容爲空"
 
 msgid "Text too long, please input text less than 140 characters"
-msgstr "输入文字太长，请确认不超过140个字符"
+msgstr "輸入文字太長，請確認不超過140個字符"
 
 msgid "Text too long, please input text less than 300 characters"
-msgstr "输入文字太长，请确认不超过300个字符"
+msgstr "輸入文字太長，請確認不超過300個字符"
 
 msgid "Account or ip or app is illgal, can not continue"
-msgstr "账号、IP或应用非法，暂时无法完成此操作"
+msgstr "賬號、IP或應用非法，暫時無法完成此操作"
 
 msgid "Out of limit"
-msgstr "发布内容过于频繁"
+msgstr "發布內容過于頻繁"
 
 msgid "Repeat content"
 msgstr "提交相似的信息"
 
 msgid "Contain illegal website"
-msgstr "包含非法网址"
+msgstr "包含非法網址"
 
 msgid "Contain advertising"
-msgstr "包含广告信息"
+msgstr "包含廣告信息"
 
 msgid "Content is illegal"
-msgstr "包含非法内容"
+msgstr "包含非法內容"
 
 msgid "Your ip's behave in a comic boisterous or unruly manner"
-msgstr "此IP地址上的行为异常"
+msgstr "此IP地址上的行爲異常"
 
 msgid "Update success, while server slow now, please wait 1-2 minutes"
-msgstr "发布成功，目前服务器可能会有延迟，请耐心等待1-2分钟"
+msgstr "發布成功，目前服務器可能會有延遲，請耐心等待1-2分鍾"
 
 msgid "Illegal weibo"
 msgstr "不合法的微博"
 
 msgid "Repeated weibo text"
-msgstr "不能发布相同的微博"
+msgstr "不能發布相同的微博"
 
 msgid "Contains forbid world"
-msgstr "含有敏感词"
+msgstr "含有敏感詞"
 
 #
 # Tencent error message
 msgid "error content len"
-msgstr "微博内容超出长度限制或为空"
+msgstr "微博內容超出長度限制或爲空"
 
 msgid "error pic size"
-msgstr "图片大小超出限制或为0"
+msgstr "圖片大小超出限制或爲0"
 
 msgid "pic format error"
-msgstr "图片格式错误"
+msgstr "圖片格式錯誤"
 
 msgid "post format error"
-msgstr "格式错误、用户无效（非微博用户）"
+msgstr "格式錯誤、用戶無效（非微博用戶）"
 
 msgid "forbidden content"
-msgstr "有过多脏话"
+msgstr "有過多髒話"
 
 msgid "forbidden access"
-msgstr "禁止访问，如城市，uin黑名单限制等"
+msgstr "禁止訪問，如城市，uin黑名單限制等"
 
 msgid "post invliad content"
-msgstr "包含垃圾信息：广告，恶意链接、黑名单号码等"
+msgstr "包含垃圾信息：廣告，惡意鏈接、黑名單號碼等"
 
 msgid "post content too fast"
-msgstr "发表太快，被频率限制"
+msgstr "發表太快，被頻率限制"
 
 msgid "content is verifying"
-msgstr "源消息审核中"
+msgstr "源消息審核中"
 
 msgid "post content repeated"
-msgstr "重复发表，请不要连续发表重复内容"
+msgstr "重複發表，請不要連續發表重複內容"
 
 msgid "not verify real name"
-msgstr "用户未进行实名认证"
+msgstr "用戶未進行實名認證"
 
 msgid "add fail"
-msgstr "服务器内部错误导致发表失败"
+msgstr "服務器內部錯誤導致發表失敗"
 
 msgid "pic upload error"
-msgstr "上传图片失败"
+msgstr "上傳圖片失敗"
 
 msgid "common uin blacklist limit"
-msgstr "公共uin黑名单限制"
+msgstr "公共uin黑名單限制"
 
 msgid "common ip blacklist limit"
-msgstr "公共IP黑名单限制 "
+msgstr "公共IP黑名單限制 "
 
 msgid "weibo blacklist limit"
-msgstr "微博黑名单限制"
+msgstr "微博黑名單限制"
 
 msgid "access too fast"
-msgstr "单UIN访问微博过快"
+msgstr "單UIN訪問微博過快"

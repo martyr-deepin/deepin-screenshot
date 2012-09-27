@@ -27,8 +27,8 @@ from dtk.ui.dialog import ConfirmDialog, DialogLeftButtonBox, DialogRightButtonB
 from dtk.ui.browser import WebView
 from dtk.ui.slider import Slider
 #from dtk.ui.titlebar import Titlebar
-from dtk.ui.button import Button, CheckButton, LinkButton, ImageButton
-from dtk.ui.line import HSeparator, VSeparator
+from dtk.ui.button import Button, CheckButton, ImageButton
+from dtk.ui.line import VSeparator
 from dtk.ui.label import Label
 from dtk.ui.entry import InputEntry
 import dtk.ui.draw as draw
@@ -149,7 +149,7 @@ class ShareToWeibo():
         self.qq = weibo.Tencent(self.web_view)
         self.__weibo_list.append(self.sina)
         self.__weibo_list.append(self.qq)
-        # TODO 写在po文件内
+        # TODO .po file
         if default_locale != 'zh_CN':
             self.twitter = weibo.Twitter(self.web_view)
             self.__weibo_list.append(self.twitter)
@@ -417,7 +417,7 @@ class ShareToWeibo():
 
         # input tip label
         self.input_num_label = Label("%d" % self.MAX_CHAR,
-            text_size=16, text_x_align=pango.ALIGN_CENTER, label_width=40, enable_select=False)
+            text_size=16, text_x_align=pango.ALIGN_CENTER, label_width=50, enable_select=False)
         self.input_num_label.text_color = app_theme.get_color("left_char_num")
 
         # login box
@@ -494,7 +494,7 @@ class ShareToWeibo():
                 button.set_sensitive(True)
         else:
             #self.input_tip_label.set_text(_("exceeds"))
-            self.input_num_label.set_text("%d" % (count - self.MAX_CHAR))
+            self.input_num_label.set_text("-%d" % (count - self.MAX_CHAR))
             self.input_num_label.text_color = app_theme.get_color("left_char_num1")
             if button.is_sensitive():
                 button.set_sensitive(False)
@@ -568,14 +568,6 @@ class ShareToWeibo():
         res_vbox = gtk.VBox(False)
         follow_vbox = gtk.VBox(False)
 
-        #tmp_align = gtk.Alignment()
-        #tmp_align.set(0.5, 1.0, 0, 1)
-        #tmp_align.set_padding(80, 0, 0, 0)
-        #res_vbox.pack_start(tmp_align, False, False)
-        #tmp_align = gtk.Alignment()
-        #tmp_align.set(0, 0, 0, 0)
-        ##tmp_align.set_padding(50, 0, 0, 0)
-        #follow_vbox.pack_start(tmp_align, False, False, 50)
         tmp_img = gtk.Image()
         tmp_img.set_size_request(-1, 60) 
         res_vbox.pack_start(tmp_img, False, False)
@@ -636,7 +628,7 @@ class ShareToWeibo():
                 else:
                     error = "(%s)" % _("Unknow reason")
                 #print "%s: %s" % (weibo.t_type, error)
-                print "%s: %s" % (weibo.t_type, weibo.get_error_msg())
+                #print "%s: %s" % (weibo.t_type, weibo.get_error_msg())
                 label = Label(text, text_size=12,
                     text_color=font_color, enable_select=False)
                 tip_box.pack_start(img, False, False, 15)
@@ -677,14 +669,12 @@ class ShareToWeibo():
             align.add(box)
             follow_vbox.pack_start(align, False, False, 10)
         # close button
-        button = Label(_("Close"), text_size=15, text_color=app_theme.get_color("link_text"))
+        button = Label(_("Close"), text_size=15, text_color=font_color)
         button.add_events(gtk.gdk.BUTTON_PRESS_MASK)
         button.connect("button-press-event", lambda w, e: self.quit(w))
         utils.set_clickable_cursor(button)
-        #button = Button(_("Close"))
-        #button.connect("clicked", self.quit)
         button_box = gtk.VBox(False, 5)
-        button_box.connect("expose-event", lambda w, e: self.__draw_under_line(w))
+        #button_box.connect("expose-event", lambda w, e: self.__draw_under_line(w))
         button_align = gtk.Alignment()
         button_align.set(0.5, 0.5, 0, 0)
         button_align.set_padding(0, 5, 18, 0)
@@ -758,7 +748,8 @@ class ShareToWeibo():
         cr = widget.window.cairo_create()
         with utils.cairo_disable_antialias(cr):
             x, y, w, h = widget.allocation
-            cr.set_source_rgba(0, 0, 0.8, 1.0)
+            # #1A70b1
+            cr.set_source_rgba(0.1, 0.43, 0.69, 1.0)
             cr.set_line_width(1)
             cr.move_to(x, y+h-3)
             cr.line_to(x+w, y+h-3)

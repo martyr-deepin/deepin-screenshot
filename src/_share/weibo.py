@@ -219,7 +219,7 @@ class Curl(object):
         try:
             crl.perform()
         except Exception, e:
-            self.error = "timed out"
+            self.error = "network errors"
             return None
         crl.close()
         #conn = crl.fp.getvalue()
@@ -471,7 +471,6 @@ class Sina(Weibo):
         if annotations:
             data.append(('annotations', annotations))
         back = self.upload(data)
-        #print back
         if back is None:
             return (False, None)
         if 'error_code' in back:
