@@ -69,6 +69,7 @@ class Curl(object):
         # set ssl
         crl.setopt(pycurl.SSL_VERIFYPEER, 0)
         crl.setopt(pycurl.SSL_VERIFYHOST, 0)
+        crl.setopt(pycurl.SSLVERSION, 3)
          
         crl.setopt(pycurl.CONNECTTIMEOUT, 10)
         crl.setopt(pycurl.TIMEOUT, 300)
@@ -108,6 +109,7 @@ class Curl(object):
         # set ssl
         crl.setopt(pycurl.SSL_VERIFYPEER, 0)
         crl.setopt(pycurl.SSL_VERIFYHOST, 0)
+        crl.setopt(pycurl.SSLVERSION, 3)
          
         crl.setopt(pycurl.CONNECTTIMEOUT, 10)
         crl.setopt(pycurl.TIMEOUT, 300)
@@ -153,6 +155,7 @@ class Curl(object):
         # set ssl
         crl.setopt(pycurl.SSL_VERIFYPEER, 0)
         crl.setopt(pycurl.SSL_VERIFYHOST, 0)
+        crl.setopt(pycurl.SSLVERSION, 3)
          
         crl.setopt(pycurl.CONNECTTIMEOUT, 10)
         crl.setopt(pycurl.TIMEOUT, 300)
@@ -201,6 +204,7 @@ class Curl(object):
         # set ssl
         crl.setopt(pycurl.SSL_VERIFYPEER, 0)
         crl.setopt(pycurl.SSL_VERIFYHOST, 0)
+        crl.setopt(pycurl.SSLVERSION, 3)
          
         crl.setopt(pycurl.CONNECTTIMEOUT, 10)
         crl.setopt(pycurl.TIMEOUT, 300)

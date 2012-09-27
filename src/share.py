@@ -595,6 +595,7 @@ class ShareToWeibo():
                 link.add_events(gtk.gdk.BUTTON_PRESS_MASK)
                 link.connect("button-press-event", 
                     lambda w, e: utils.run_command("xdg-open %s" % self.to_share_weibo_res[weibo][1]))
+                #print "xdg-open %s" % self.to_share_weibo_res[weibo][1]
                 link_box = gtk.HBox(False)
                 link_box.connect("expose-event", lambda w, e: self.__draw_under_line(w))
                 link_box.pack_start(link, False, False)
@@ -649,7 +650,12 @@ class ShareToWeibo():
             img = gtk.image_new_from_pixbuf(app_theme.get_pixbuf("share/"+weibo.t_type+".png").get_pixbuf())
             box.pack_start(img, False, False)
             if self.deepin_info[weibo] is not None and self.deepin_info[weibo][3]:
-                button = gtk.image_new_from_pixbuf(app_theme.get_pixbuf("share/followed.png").get_pixbuf())
+                if not default_locale.startswith("zh_"):
+                    button = gtk.image_new_from_pixbuf(
+                        app_theme.get_pixbuf("share/followed_en.png").get_pixbuf())
+                else:
+                    button = gtk.image_new_from_pixbuf(
+                        app_theme.get_pixbuf("share/followed.png").get_pixbuf())
             else:   # to follow
                 if not default_locale.startswith("zh_"):
                     button = ImageButton(
@@ -661,7 +667,7 @@ class ShareToWeibo():
                         app_theme.get_pixbuf("share/follow_normal.png"),
                         app_theme.get_pixbuf("share/follow_hover.png"),
                         app_theme.get_pixbuf("share/follow_press.png"))
-                button.connect("clicked", self.friendships_add_button_clicked, weibo)
+                button.connect("clicked", self.friendships_add_button_clicked, weibo, box)
             box.pack_start(button, False, False)
             align = gtk.Alignment()
             align.set(0.0, 0.5, 0, 0)
@@ -680,13 +686,7 @@ class ShareToWeibo():
         button_align.set_padding(0, 5, 18, 0)
         button_box.pack_start(button, False, False)
         button_align.add(button_box)
-        #tmp_box = gtk.HBox(False)
-        #img = gtk.Image()
-        #img.set_size_request(20, 20)
-        #tmp_box.pack_start(img)
-        #tmp_box.pack_start(button_align)
         res_vbox.pack_start(button_align, False, False)
-        #res_vbox.pack_start(tmp_box, False, False)
 
         res_left_box.set_buttons([res_vbox])
         res_right_box.set_buttons([follow_vbox])
@@ -695,7 +695,7 @@ class ShareToWeibo():
         self.result_box.show_all()
         self.set_slide_index(2)
 
-    def friendships_add_button_clicked(self, widget, weibo):
+    def friendships_add_button_clicked(self, widget, weibo, box):
         '''add friendships'''
         #self.result_box.set_sensitive(False)
         if not self.is_get_user_info[weibo]:
@@ -703,15 +703,24 @@ class ShareToWeibo():
             return True
 
         widget.set_sensitive(False)
-        t = threading.Thread(target=self.friendships_add_thread, args=(widget, weibo))
+        t = threading.Thread(target=self.friendships_add_thread, args=(widget, weibo, box))
         t.setDaemon(True)
         t.start()
     
-    def friendships_add_thread(self, button, weibo):
+    def friendships_add_thread(self, button, weibo, box):
         '''add friendships'''
         if weibo.friendships_create() is not None:
             gtk.gdk.threads_enter()
-            button.set_label("已关注")
+            button.destroy()
+            if not default_locale.startswith("zh_"):
+                button = gtk.image_new_from_pixbuf(
+                    app_theme.get_pixbuf("share/followed_en.png").get_pixbuf())
+            else:
+                button = gtk.image_new_from_pixbuf(
+                    app_theme.get_pixbuf("share/followed.png").get_pixbuf())
+            button.show()
+            box.pack_start(button, False, False)
+            #button.set_label("已关注")
             gtk.gdk.threads_leave()
     
     # show window
