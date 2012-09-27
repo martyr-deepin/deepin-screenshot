@@ -207,6 +207,10 @@ class ShareToWeibo():
         gtk.gdk.threads_enter()
         children = box.get_children()
         for child in children:
+            if child in self.__weibo_check_button_list:
+                self.__weibo_check_button_list.remove(child)
+            if child in self.__weibo_image_button_list:
+                self.__weibo_image_button_list.remove(child)
             child.destroy()
         gtk.gdk.threads_leave()
 
@@ -322,6 +326,8 @@ class ShareToWeibo():
                     text_color = app_theme.get_color("left_char_num1")), False, False)
             
         button.connect("clicked", self.weibo_login, weibo)
+        self.__weibo_check_button_list.append(check)
+        self.__weibo_image_button_list.append(button)
         gtk.gdk.threads_leave()
         return weibo_hbox
     
@@ -356,6 +362,8 @@ class ShareToWeibo():
         self.to_share_weibo_res = {}
         self.deepin_info = {}
         self.is_get_user_info = {}
+        self.__weibo_check_button_list = []
+        self.__weibo_image_button_list = []
 
         # create Thumbnail
         if exists(self.upload_image):
@@ -521,7 +529,14 @@ class ShareToWeibo():
         # at first, set widget insensitive
         button.set_sensitive(False)
         text_view.set_editable(False)
-        self.window.left_button_box.set_sensitive(False)
+        #self.window.left_button_box.set_sensitive(False)
+        # set weibo checkbutton sensitive
+        for check in self.__weibo_check_button_list:
+            check.set_sensitive(False)
+        # disconnect weibo ico button clicked function
+        for img in self.__weibo_image_button_list:
+            img.disconnect_by_func(self.weibo_login)
+        button.set_label(_("uploading"))
         t = threading.Thread(target=self.share_to_weibo_thread, args=(text_view, ))
         t.setDaemon(True)
         t.start()
@@ -569,7 +584,7 @@ class ShareToWeibo():
         follow_vbox = gtk.VBox(False)
 
         tmp_img = gtk.Image()
-        tmp_img.set_size_request(-1, 60) 
+        tmp_img.set_size_request(-1, 50) 
         res_vbox.pack_start(tmp_img, False, False)
 
         follow_tip_hbox = gtk.HBox(False)
@@ -593,11 +608,11 @@ class ShareToWeibo():
                     text_color=app_theme.get_color("link_text"))
                 #, enable_gaussian=True, gaussian_radious=1, border_radious=0)
                 link.add_events(gtk.gdk.BUTTON_PRESS_MASK)
-                link.connect("button-press-event", 
-                    lambda w, e: utils.run_command("xdg-open %s" % self.to_share_weibo_res[weibo][1]))
-                #print "xdg-open %s" % self.to_share_weibo_res[weibo][1]
+                link.connect("enter-notify-event", lambda w, e: self.__draw_under_line(w))
+                link.connect("leave-notify-event", lambda w, e: w.queue_draw())
+                # FIXME KeyError
+                link.connect("button-press-event", self.goto_weibo_button_clicked, weibo)
                 link_box = gtk.HBox(False)
-                link_box.connect("expose-event", lambda w, e: self.__draw_under_line(w))
                 link_box.pack_start(link, False, False)
                 utils.set_clickable_cursor(link)
                 text = _("upload to")
@@ -674,19 +689,19 @@ class ShareToWeibo():
             align.set_padding(0, 0, 30, 0)
             align.add(box)
             follow_vbox.pack_start(align, False, False, 10)
-        # close button
-        button = Label(_("Close"), text_size=15, text_color=font_color)
-        button.add_events(gtk.gdk.BUTTON_PRESS_MASK)
-        button.connect("button-press-event", lambda w, e: self.quit(w))
-        utils.set_clickable_cursor(button)
-        button_box = gtk.VBox(False, 5)
-        #button_box.connect("expose-event", lambda w, e: self.__draw_under_line(w))
-        button_align = gtk.Alignment()
-        button_align.set(0.5, 0.5, 0, 0)
-        button_align.set_padding(0, 5, 18, 0)
-        button_box.pack_start(button, False, False)
-        button_align.add(button_box)
-        res_vbox.pack_start(button_align, False, False)
+        ## close button
+        #button = Label(_("Close"), text_size=15, text_color=font_color)
+        #button.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+        #button.connect("button-press-event", lambda w, e: self.quit(w))
+        #utils.set_clickable_cursor(button)
+        #button_box = gtk.VBox(False, 5)
+        ##button_box.connect("expose-event", lambda w, e: self.__draw_under_line(w))
+        #button_align = gtk.Alignment()
+        #button_align.set(0.5, 0.5, 0, 0)
+        #button_align.set_padding(0, 5, 18, 0)
+        #button_box.pack_start(button, False, False)
+        #button_align.add(button_box)
+        #res_vbox.pack_start(button_align, False, False)
 
         res_left_box.set_buttons([res_vbox])
         res_right_box.set_buttons([follow_vbox])
@@ -694,7 +709,14 @@ class ShareToWeibo():
         self.result_box.pack_start(res_hbox, False, False)
         self.result_box.show_all()
         self.set_slide_index(2)
-
+    
+    def goto_weibo_button_clicked(self, widget, event, weibo):
+        '''goto my weibo'''
+        #print "goto weibo button clicked", weibo.t_type, "xdg-open %s" % self.to_share_weibo_res[weibo][1]
+        if weibo in self.to_share_weibo_res:
+            if self.to_share_weibo_res[weibo][1]:
+                utils.run_command("xdg-open %s" % self.to_share_weibo_res[weibo][1])
+        
     def friendships_add_button_clicked(self, widget, weibo, box):
         '''add friendships'''
         #self.result_box.set_sensitive(False)

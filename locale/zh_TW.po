@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-26 21:01+0800\n"
+"POT-Creation-Date: 2012-09-27 16:57+0800\n"
 "PO-Revision-Date: 2012-09-22 20:32+0800\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -109,37 +109,37 @@ msgstr "圖片不存在"
 msgid "Please choose at least one platform to share on"
 msgstr "請至少選擇一個平台進行分享"
 
-#: ../src/share.py:535
+#: ../src/share.py:525
+msgid "uploading"
+msgstr "分享中"
+
+#: ../src/share.py:536
 msgid "came from"
 msgstr "來自"
 
-#: ../src/share.py:535
+#: ../src/share.py:536
 msgid "DeepinScreenshot"
 msgstr "深度截圖"
 
-#: ../src/share.py:587
+#: ../src/share.py:580
 msgid "Follow"
 msgstr "關注"
 
-#: ../src/share.py:610 ../src/share.py:624
+#: ../src/share.py:605 ../src/share.py:619
 msgid "upload to"
 msgstr "分享至"
 
-#: ../src/share.py:613
+#: ../src/share.py:608
 msgid "successful"
 msgstr "成功"
 
-#: ../src/share.py:629
+#: ../src/share.py:624
 msgid "failed"
 msgstr "失敗"
 
-#: ../src/share.py:637
+#: ../src/share.py:632
 msgid "Unknow reason"
 msgstr "未知"
-
-#: ../src/share.py:680
-msgid "Close"
-msgstr "關閉"
 
 #: ../src/main.py:137
 msgid "The width or height of selected area cannot be 0"
@@ -156,6 +156,9 @@ msgstr "圖片已保存到剪輯板"
 #: ../src/main.py:163
 msgid "Failed to save the picture"
 msgstr "圖片保存失敗"
+
+msgid "Close"
+msgstr "關閉"
 
 msgid "left"
 msgstr "還可以輸入"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-26 21:01+0800\n"
+"POT-Creation-Date: 2012-09-27 16:57+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,36 +109,36 @@ msgstr ""
 msgid "Please choose at least one platform to share on"
 msgstr ""
 
-#: ../src/share.py:535
+#: ../src/share.py:525
+msgid "uploading"
+msgstr ""
+
+#: ../src/share.py:536
 msgid "came from"
 msgstr ""
 
-#: ../src/share.py:535
+#: ../src/share.py:536
 msgid "DeepinScreenshot"
 msgstr ""
 
-#: ../src/share.py:587
+#: ../src/share.py:580
 msgid "Follow"
 msgstr ""
 
-#: ../src/share.py:610 ../src/share.py:624
+#: ../src/share.py:605 ../src/share.py:619
 msgid "upload to"
 msgstr ""
 
-#: ../src/share.py:613
+#: ../src/share.py:608
 msgid "successful"
 msgstr ""
 
-#: ../src/share.py:629
+#: ../src/share.py:624
 msgid "failed"
 msgstr ""
 
-#: ../src/share.py:637
+#: ../src/share.py:632
 msgid "Unknow reason"
-msgstr ""
-
-#: ../src/share.py:680
-msgid "Close"
 msgstr ""
 
 #: ../src/main.py:137
