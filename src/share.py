@@ -540,7 +540,10 @@ class ShareToWeibo():
             check.set_sensitive(False)
         # disconnect weibo ico button clicked function
         for img in self.__weibo_image_button_list:
-            img.disconnect_by_func(self.weibo_login)
+            try:
+                img.disconnect_by_func(self.weibo_login)
+            except:
+                pass
         button.set_label(_("uploading"))
         t = threading.Thread(target=self.share_to_weibo_thread, args=(text_view, ))
         t.setDaemon(True)
