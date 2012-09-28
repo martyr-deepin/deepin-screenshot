@@ -42,6 +42,17 @@ class TextView(Entry):
                  text_select_color="#FFFFFF",
                  background_select_color="#0000F0",
                  font=DEFAULT_FONT, font_size=DEFAULT_FONT_SIZE):
+        '''
+        init TextView
+        @param content: initialize content, a string type
+        @param padding_x: Horizontal padding value, an int num
+        @param padding_y: Vertical padding value, an int num
+        @param text_color: color of text in normal status, an hex string
+        @param text_select_color: color of text in selected status, an hex string
+        @param background_select_color: color of background in selected status, an hex string
+        @param font: fontname of text
+        @param font_size: fontsize of text
+        '''
         super(TextView, self).__init__(content, padding_x, padding_y, 
               text_color, text_select_color, background_select_color, font_size)
         self.font_type = font
@@ -75,11 +86,17 @@ class TextView(Entry):
         self.adjust_size()
 
     def get_text(self):
-        '''get text'''
+        '''
+        get text
+        @return: text string
+        '''
         return self.buffer.get_text(*self.buffer.get_bounds())
 
     def set_text(self, text):
-        '''set text'''
+        '''
+        set text
+        @param text: text string
+        '''
         if text is None:
             return 
         if not isinstance(text, unicode):
@@ -99,7 +116,10 @@ class TextView(Entry):
             self.queue_draw()
 
     def set_width(self, width):
-        '''set layout width'''
+        '''
+        set layout width
+        @param width: the layout width, an int num
+        '''
         if width > 0:
             self._layout_width = width * pango.SCALE
         else:
@@ -107,55 +127,88 @@ class TextView(Entry):
         self._layout.set_width(self._layout_width)
 
     def get_width(self):
-        '''get layout width '''
+        '''
+        get layout width
+        @return: the layout width
+        '''
         return self._layout_width
 
     def get_size(self):
-        '''get text size'''
+        '''
+        get text size
+        @return: a tuple containing layout width and height
+        '''
         self.count_size()
         return (self.layout_width, self.layout_height)
 
     def set_layout(self, layout):
-        '''set layout'''
+        '''
+        set layout
+        @param layout: a pango.Layout
+        '''
         self._layout = layout
 
     def get_layout(self):
-        '''get layout'''
+        '''
+        get layout
+        @return: a pango.Layout
+        '''
         return self._layout
 
     def get_buffer(self):
-        '''get buffer'''
+        '''
+        get buffer
+        @return: a gtk.TextBuffer
+        '''
         return self.buffer
 
     def set_buffer(self, buf):
-        '''set buffer'''
+        '''
+        set buffer
+        @param buf: a gtk.TextBuffer
+        '''
         self.buffer = buf
 
     def set_font_size(self, size):
-        '''set font size'''
+        '''
+        set font size
+        @param size: the fontsize, an int num
+        '''
         self.font_size = size
         self.font = pango.FontDescription("%s %d" % (self.font_type, self.font_size))
         self._layout.set_font_description(self.font)
         self.adjust_size()
 
     def get_font_size(self):
-        '''get font size'''
+        '''
+        get font size
+        @return: the fontsize, an int num
+        '''
         return self.font_size
 
     def set_text_color(self, color):
-        '''set text color'''
+        '''
+        set text color
+        @param color: the font color, a hex string
+        '''
         self.text_color = color
 
     def get_text_color(self):
-        '''get text color'''
+        '''
+        get text color
+        @return: the font color, a hex string
+        '''
         return self.text_color
 
     def set_background_dash(self, dash=None):
-        '''set the cairo dash of background'''
+        '''
+        set the cairo dash of background
+        @param dash: a sequence specifying alternate lengths of on and off stroke portions.
+        '''
         self.background_dash = dash
 
     def count_size(self):
-        '''count widget size'''
+        '''count layout size'''
         self._layout.set_text(self.get_text())
         (self.layout_width, self.layout_height) = self._layout.get_pixel_size()
 
@@ -178,7 +231,7 @@ class TextView(Entry):
         self.commit_entry('\n')
 
     def draw_entry_background(self, cr, rect):
-        '''draw background '''
+        '''draw background. expose-event callback'''
         with cairo_disable_antialias(cr):
             x, y, w, h = rect.x, rect.y, rect.width, rect.height
             cr.set_source_rgba(1.0, 1.0, 1.0, 0.8)
@@ -192,7 +245,7 @@ class TextView(Entry):
             cr.stroke()
     
     def draw_entry_text(self, cr, rect):
-        ''' draw text '''
+        ''' draw text.expose-event callback'''
         x, y, w, h = rect.x, rect.y, rect.width, rect.height
         with cairo_state(cr):
             # Clip text area first.
@@ -217,9 +270,7 @@ class TextView(Entry):
         self.draw_selection_lines(bounds[0], bounds[1], cr, x, y)
 
     def draw_entry_cursor(self, cr, rect):
-        '''
-        Internal function to draw entry cursor.
-        '''
+        ''' Internal function to draw entry cursor. expose-event callback '''
         if self.grab_focus_flag and not self.buffer.get_has_selection():
             # Init.
             x, y, w, h = rect.x, rect.y, rect.width, rect.height
@@ -233,7 +284,7 @@ class TextView(Entry):
             self.im.set_cursor_location(gtk.gdk.Rectangle(pos[0]+x, pos[1]+y, 1, pos[3]))
     
     def draw_selection_lines(self, start, end, cr, x, y):
-        '''draw selection line background'''
+        '''draw selection line background. expose-event callback'''
         cursor = start
         while cursor.in_range(start, end):
             self.draw_selection_index(cursor, cr, x, y)
@@ -261,12 +312,20 @@ class TextView(Entry):
         context.show_layout(layout)
 
     def iter_to_index(self, iter):
-        ''' textiter to index'''
+        '''
+        textiter to index
+        @param iter: a gtk.TextIter
+        @return: the index of char at the iter, an int num
+        '''
         index = self.buffer.get_text(self.buffer.get_start_iter(), iter).__len__()
         return index
 
     def index_to_pos(self, index):
-        '''index to pos'''
+        '''
+        index to pos
+        @param index: the index of the text, an int num
+        @return: a list containing the char's coordinate
+        '''
         pos = self._layout.index_to_pos(index)
         pos = list(pos)
         pos[0] /= pango.SCALE
@@ -276,7 +335,10 @@ class TextView(Entry):
         return pos
     
     def commit_entry(self, input_text):
-        ''' commit entry '''
+        '''
+        commit entry
+        @param input_text: a text insert to this TextWindow, a string type
+        '''
         if not self.is_editable():
             return
         if not isinstance(input_text, unicode):
@@ -526,7 +588,12 @@ class TextView(Entry):
         self.queue_draw()
 
     def xy_to_iter(self, x, y):
-        '''from xy get iter'''
+        '''
+        from xy get iter
+        @param x: the X coordinate in layout
+        @param y: the Y coordinate in layout
+        @return: a gtk.TextIter
+        '''
         index = self._layout.xy_to_index(x*pango.SCALE, y*pango.SCALE)
         layout_iter = self._layout.get_iter()
         offset = 0

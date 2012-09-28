@@ -34,7 +34,13 @@ from pango import ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT
 pygtk.require('2.0')
 
 def drawPixbuf(cr, pixbuf, x=0, y=0):
-    '''Draw pixbuf.'''
+    '''
+    Draw pixbuf.
+    @param cr: a gtk.gdk.CairoContext
+    @param pixbuf: a gtk.gdk.Pixbuf
+    @param x: the X coordinate of the location to place the upper left corner of pixbuf.
+    @param y: the Y coordinate of the location to place the upper left corner of pixbuf.
+    '''
     if pixbuf != None:
         cr.set_source_pixbuf(pixbuf, x, y)
         cr.paint()
@@ -65,7 +71,17 @@ def colorRGBToCairo(color):
     return (color[0] / 255.0, color[1] / 255.0, color[2] / 255.0) 
 
 def draw_ellipse(cr, ex, ey, ew, eh, color, size, fill):
-    '''Draw ellipse'''
+    '''
+    Draw ellipse
+    @param cr: a gtk.gdk.CairoContext
+    @param ex: the X coordinate of the ellipse's center
+    @param ey: the Y coordinate of the ellipse's center
+    @param ew: the ellipse's width, a float num
+    @param eh: the ellipse's height, a float num
+    @param color: the ellipse's color, an hex string
+    @param size: the ellipse's border width
+    @param fill: a flag that the ellipse is stroke or fill.
+    '''
     cr.new_path()
     cr.save()
     cr.translate(ex, ey)
@@ -80,7 +96,14 @@ def draw_ellipse(cr, ex, ey, ew, eh, color, size, fill):
         cr.stroke()
     
 def draw_arrow(cr, (sx, sy), (ex, ey), color, size):
-    '''Draw arrow.'''
+    '''
+    Draw arrow.
+    @param cr: a gtk.gdk.CairoContext
+    @param (sx, sy): the start point coordinate.
+    @param (ex, ey): the end point coordinate.
+    @param color: the arrow's color, an hex string
+    @param size: the arrow's border width
+    '''
     # Init.
     arrowSize = 10              # in pixel
     arrowAngle = 10             # in degree
@@ -142,7 +165,15 @@ def updateShape(widget, allocation, radius):
         widget.shape_combine_mask(bitmap, 0, 0)
 
 def draw_round_rectangle(cr, x, y, width, height, r):
-    '''Draw round rectangle.'''
+    '''
+    Draw round rectangle.
+    @param cr: a gtk.gdk.CairoContext
+    @param x: the x coordinate of the rectangle left-top point
+    @param y: the y coordinate of the rectangle left-top point
+    @param width: the rectangle's width
+    @param height: the rectangle's height
+    @param r: Radious of rectangle corner. 
+    '''
     cr.move_to(x + r, y)
     cr.line_to(x + width - r, y)
 
@@ -173,7 +204,17 @@ def exposeBackground(widget, event, dPixbuf):
     return True
 
 def draw_round_text_rectangle(cr, x, y, width, height, r, Text, alpha=0.8):
-    ''' draw Round Text Rectangle''' 
+    '''
+    draw Round Text Rectangle
+    @param cr: a gtk.gdk.CairoContext
+    @param x: the x coordinate of the rectangle left-top point
+    @param y: the y coordinate of the rectangle left-top point
+    @param width: the rectangle's width
+    @param height: the rectangle's height
+    @param r: Radious of rectangle corner. 
+    @param Text: the text to draw, a string type
+    @param alpha: Alpha value to render pixbuf, float value between 0 and 1.0
+    ''' 
     cr.set_source_rgba(0.14, 0.13, 0.15, alpha)
     cr.move_to(x+r, y)
     cr.line_to(x+width-r,y)
@@ -196,7 +237,15 @@ def draw_round_text_rectangle(cr, x, y, width, height, r, Text, alpha=0.8):
     dtk_render_text(cr, Text, x, y, width, height, 9, "#FFFFFF", DEFAULT_FONT, ALIGN_CENTER)
 
 def draw_font(cr, content, fontSize, fontColor, x, y):
-    '''Draw font.'''
+    '''
+    Draw font.
+    @param cr: a gtk.gdk.CairoContext
+    @param content: the text to draw, a string type
+    @param fontSize: the text size, an int type
+    @param fontColor: the text color, a hex string
+    @param x: the x coordinate of source point
+    @param y: the y coordinate of source point
+    '''
     if DEFAULT_FONT in get_font_families():
         cr.select_font_face(DEFAULT_FONT,
                             cairo.FONT_SLANT_NORMAL, 
@@ -207,7 +256,14 @@ def draw_font(cr, content, fontSize, fontColor, x, y):
     cr.show_text(content)
 
 def draw_alpha_rectangle(cr, x, y, width, height):
-    ''' draw alpha Rectangle '''
+    '''
+    draw alpha Rectangle
+    @param cr: a gtk.gdk.CairoContext
+    @param x: the x coordinate of the rectangle left-top point
+    @param y: the y coordinate of the rectangle left-top point
+    @param width: the rectangle's width
+    @param height: the rectangle's height
+    '''
     with cairo_disable_antialias(cr):
         ##1681d0
         cr.set_source_rgba(0.08, 0.50, 0.81, 0.6)

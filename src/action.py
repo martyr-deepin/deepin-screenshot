@@ -30,9 +30,14 @@ import pango
 import pangocairo
 
 class Action:
-    '''Action'''
+    '''Action Base Class, it must be inherited and refactored'''
     def __init__(self, aType, size, color):
-        '''Init action.'''
+        '''
+        Init action.
+        @param aType: the action type, it must be one of the ACTION in constant
+        @param size: the cairo line width, is an int num.
+        @param color: the cairo color, an hex color string.
+        '''
         self.type = aType
         self.size = size
         self.color = color
@@ -40,12 +45,19 @@ class Action:
         self.track = []
         
     def start_draw(self, (sx, sy)):
-        '''Start draw.'''
+        '''
+        Start draw. Set the start point.
+        @param (sx, sy): the start point coordinate, is an int tuple
+        '''
         self.end_x = self.start_x = sx
         self.end_y = self.start_y = sy
         
     def end_draw(self, (ex, ey), (rx, ry, rw, rh)):
-        '''End draw.'''
+        '''
+        End draw. Set the end point, and make sure the end point in the draw area.
+        @param (ex, ey): the end point coordinate, is an int tuple
+        @param (rx, ry, rw, rh): the draw area's x, y and width, height, is an int tuple
+        '''
         self.end_x = min((max(ex, rx)), rx + rw)
         self.end_y = min((max(ey, ry)), ry + rh)
 
@@ -54,7 +66,10 @@ class Action:
         return self.type
     
 class RectangleAction(Action):
-    '''Rectangle action.'''
+    '''
+    Rectangle action. Draw a rectangle.
+    @undocmented: expose
+    '''
     def __init__(self, aType, size, color):
         '''Rectangle action.'''
         Action.__init__(self, aType, size, color)
@@ -64,7 +79,11 @@ class RectangleAction(Action):
             self.fill_flag = False
         
     def drawing(self, (ex, ey), (rx, ry, rw, rh)):
-        '''Drawing.'''
+        '''
+        Drawing. Set the current point, and make sure the current point in the draw area.
+        @param (ex, ey): the end point coordinate.
+        @param (rx, ry, rw, rh): the draw area's x, y and width, height.
+        '''
         self.end_x = min((max(ex, rx)), rx + rw)
         self.end_y = min((max(ey, ry)), ry + rh)
         
@@ -79,7 +98,10 @@ class RectangleAction(Action):
             cr.stroke()
 
 class EllipseAction(Action):
-    '''Ellipse action.'''
+    '''
+    Ellipse action. Draw an ellipse.
+    @undocmented: expose
+    '''
     def __init__(self, aType, size, color):
         '''Ellipse action.'''
         Action.__init__(self, aType, size, color)
@@ -89,7 +111,11 @@ class EllipseAction(Action):
             self.fill_flag = False
         
     def drawing(self, (ex, ey), (rx, ry, rw, rh)):
-        '''Drawing.'''
+        '''
+        Drawing. Set the current point, and make sure the current point in the draw area.
+        @param (ex, ey): the end point coordinate.
+        @param (rx, ry, rw, rh): the draw area's x, y and width, height.
+        '''
         self.end_x = min((max(ex, rx)), rx + rw)
         self.end_y = min((max(ey, ry)), ry + rh)
         
@@ -102,13 +128,20 @@ class EllipseAction(Action):
                 fabs(ew), fabs(eh), self.color, self.size, self.fill_flag)
 
 class ArrowAction(Action):
-    '''Arrow action.'''
+    '''
+    Arrow action. Draw an arrow.
+    @undocmented: expose
+    '''
     def __init__(self, aType, size, color):
         '''Arrow action.'''
         Action.__init__(self, aType, size, color)
         
     def drawing(self, (ex, ey), (rx, ry, rw, rh)):
-        '''Drawing.'''
+        '''
+        Drawing. Set the current point, and make sure the current point in the draw area.
+        @param (ex, ey): the end point coordinate.
+        @param (rx, ry, rw, rh): the draw area's x, y and width, height.
+        '''
         self.end_x = min((max(ex, rx)), rx + rw)
         self.end_y = min((max(ey, ry)), ry + rh)
         
@@ -119,13 +152,20 @@ class ArrowAction(Action):
             self.color, self.size)
 
 class LineAction(Action):
-    '''Line action.'''
+    '''
+    Line action. Draw a line.
+    @undocmented: expose
+    '''
     def __init__(self, aType, size, color):
         '''Line action.'''
         Action.__init__(self, aType, size, color)
         
     def drawing(self, (ex, ey), (rx, ry, rw, rh)):
-        '''Drawing.'''
+        '''
+        Drawing. Set the current point, and make sure the current point in the draw area.
+        @param (ex, ey): the end point coordinate.
+        @param (rx, ry, rw, rh): the draw area's x, y and width, height.
+        '''
         newX = min((max(ex, rx)), rx + rw)
         newY = min((max(ey, ry)), ry + rh)
         self.end_x = newX
@@ -147,63 +187,89 @@ class LineAction(Action):
             cr.stroke()
             
 class TextAction(Action):
-    '''Text action.'''
+    '''
+    Text action. Draw a text.
+    @undocmented: expose
+    '''
     def __init__(self, aType, size, color, layout):
         '''Text action.'''
         Action.__init__(self, aType, size, color)
         self.layout = layout
-        #self.content = self.layout.get_text()
-        #self.fontname = fontname
         
     def expose(self, cr):
         '''Expose.'''
         cr.move_to(self.start_x, self.start_y)
         context = pangocairo.CairoContext(cr)
 
-        #self.layout = context.create_layout()
-        #self.layout.set_font_description(pango.FontDescription(self.fontname))
-        #self.layout.set_text(self.content)
-
         cr.set_source_rgb(*colorHexToCairo(self.color))
         context.update_layout(self.layout)
         context.show_layout(self.layout)
  
     def update_coord(self, x, y):
-        "update arguments"
+        '''
+        update the text start point coordinate.
+        @param x: the start point x coordinate, is an int num.
+        @param y: the start point y coordinate, is an int num.
+        '''
         self.start_x = x
         self.start_y = y
     
     def set_color(self, color):
-        '''set color'''
+        '''
+        set color
+        @param color: the cairo color, an hex color string.
+        '''
         self.color = color
 
     def set_content(self, content):
-        '''set content'''
-        #self.content = content
+        '''
+        set text's content
+        @param content: the new content, is a string.
+        '''
         self.layout.set_text(content)
     
     def update(self, color, layout):
+        '''
+        update the action info.
+        @param color: the cairo color, an hex color string.
+        @param layout: a pango.Layout object
+        '''
         self.set_color(color)
         self.layout = layout
 
     def get_layout_info(self):
-        ''' get layout (x, y, width, height) '''
+        '''
+        get layout info
+        @return: (x, y, width, height)
+        '''
         return (self.start_x, self.start_y, 
                 self.layout.get_size()[0] / pango.SCALE,
                 self.layout.get_size()[1] / pango.SCALE)
 
     def get_content(self):
-        '''get Content '''
+        '''
+        get Content
+        @return: text string
+        '''
         return self.layout.get_text()
 
     def get_color(self):
-        ''' get color '''
+        '''
+        get color
+        @return: an hex color string
+        '''
         return self.color
 
     def get_font_size(self):
-        '''get font size'''
+        '''
+        get font size
+        @return: int num
+        '''
         return self.layout.get_font_description().get_size() / pango.SCALE
     
     def get_layout(self):
-        '''get layout'''
+        '''
+        get layout
+        @return: pango.layout
+        '''
         return self.layout

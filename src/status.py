@@ -25,8 +25,13 @@ from action import *
 import utils
 
 class BaseProcess():
-    ''' BaseProcess Class'''
+    ''' BaseProcess Class. it must be inherited and refactored'''
     def __init__(self, screenshot=None, window=None):
+        '''
+        init process
+        @param screenshot: a Screenshot object
+        @param window: a RootWindow object
+        '''
         self.screenshot = screenshot
         self.win = window
         self.event = None
@@ -42,34 +47,78 @@ class BaseProcess():
             None: self._none_action}
     
     def update(self, event):
+        '''
+        update event info
+        @param event: a gtk.gdk.Event
+        '''
         self.event = event
     
     def action_init(self, screenshot, event):
+        '''
+        process the in event in ACTION_INIT status
+        @param screenshot: a Screenshot object
+        @param event: a gtk.gdk.Event
+        '''
         pass
     
     def action_arrow(self, screenshot, event):
+        '''
+        process the in event in ACTION_ARROW status
+        @param screenshot: a Screenshot object
+        @param event: a gtk.gdk.Event
+        '''
         pass
     
     def action_ellipse(self, screenshot, event):
+        '''
+        process the in event in ACTION_ELLIPSE status
+        @param screenshot: a Screenshot object
+        @param event: a gtk.gdk.Event
+        '''
         pass
     
     def action_line(self, screenshot, event):
+        '''
+        process the in event in ACTION_LINE status
+        @param screenshot: a Screenshot object
+        @param event: a gtk.gdk.Event
+        '''
         pass
     
     def action_rectangle(self, screenshot, event):
+        '''
+        process the in event in ACTION_RECTANGLE status
+        @param screenshot: a Screenshot object
+        @param event: a gtk.gdk.Event
+        '''
         pass
     
     def action_select(self, screenshot, event):
+        '''
+        process the in event in ACTION_SELECT status
+        @param screenshot: a Screenshot object
+        @param event: a gtk.gdk.Event
+        '''
         pass
     
     def action_text(self, screenshot, event):
+        '''
+        process the in event in ACTION_TEXT status
+        @param screenshot: a Screenshot object
+        @param event: a gtk.gdk.Event
+        '''
         pass
     
     def action_window(self, screenshot, event):
+        '''
+        process the in event in ACTION_WINDOW status
+        @param screenshot: a Screenshot object
+        @param event: a gtk.gdk.Event
+        '''
         pass
     
     def _none_action(self, *arg):
-        ''' none action '''
+        ''' process the in event in Action None status '''
         pass
     
 class ButtonPressProcess(BaseProcess):

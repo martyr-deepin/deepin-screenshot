@@ -29,32 +29,38 @@ import gtk
 import wnck
 from Xlib import display
 
-DISPLAY_NUM = len(gtk.gdk.display_manager_get().list_displays())
-DISPLAY = gtk.gdk.display_get_default()
-SCREEN_NUM = DISPLAY.get_n_screens()
-GDK_SCREEN = DISPLAY.get_default_screen()
+DISPLAY_NUM = len(gtk.gdk.display_manager_get().list_displays())    # gtk.gdk.Display num
+DISPLAY = gtk.gdk.display_get_default()         # gtk.gdk.Display
+SCREEN_NUM = DISPLAY.get_n_screens()            # gtk.gdk.Screen num
+GDK_SCREEN = DISPLAY.get_default_screen()       # gtk.gdk.Screen
 MONITOR_NUM = GDK_SCREEN.get_n_monitors()       # the monitors number
 
-CURRENT_MONITOR = 0
-CURRENT_MONITOR_INFO = GDK_SCREEN.get_monitor_geometry(CURRENT_MONITOR)
-SCREEN_WIDTH = CURRENT_MONITOR_INFO.width
-SCREEN_HEIGHT = CURRENT_MONITOR_INFO.height
-SCREEN_X = CURRENT_MONITOR_INFO.x
-SCREEN_Y = CURRENT_MONITOR_INFO.y
+CURRENT_MONITOR = 0                             # index of current monitor
+CURRENT_MONITOR_INFO = GDK_SCREEN.get_monitor_geometry(CURRENT_MONITOR) # current monitor info
+SCREEN_WIDTH = CURRENT_MONITOR_INFO.width       # current monitor width
+SCREEN_HEIGHT = CURRENT_MONITOR_INFO.height     # current monitor height
+SCREEN_X = CURRENT_MONITOR_INFO.x               # current monitor x coordinate
+SCREEN_Y = CURRENT_MONITOR_INFO.y               # current monitor y coordinate
 
-WNCK_SCREEN = wnck.screen_get_default()
-WNCK_SCREEN.force_update()
-WNCK_WORKSPACE = WNCK_SCREEN.get_active_workspace()
+WNCK_SCREEN = wnck.screen_get_default()         # wnck.Screen
+WNCK_SCREEN.force_update()                      # update wnc.Screen
+WNCK_WORKSPACE = WNCK_SCREEN.get_active_workspace() # current workspace
 
 # for multi monitor, get current monitor
 def get_current_monitor():
-    '''get current monitor'''
+    '''
+    get current monitor
+    @return: the index of current monitor
+    '''
     global CURRENT_MONITOR
     CURRENT_MONITOR = GDK_SCREEN.get_monitor_at_point(*DISPLAY.get_pointer()[1:3])
     return CURRENT_MONITOR
 
 def get_current_monitor_info():
-    '''get current monitor geometry'''
+    '''
+    get current monitor geometry
+    @return: a tuple containing the X and Y coordinate and width and height of current monitor
+    '''
     global CURRENT_MONITOR_INFO
     global SCREEN_X, SCREEN_Y, SCREEN_WIDTH, SCREEN_HEIGHT
     CURRENT_MONITOR_INFO = GDK_SCREEN.get_monitor_geometry(get_current_monitor())
@@ -65,7 +71,14 @@ def get_current_monitor_info():
     return CURRENT_MONITOR_INFO
 
 def convert_coord(x, y, width, height):
-    ''' cut out overstep the monitor'''
+    '''
+    cut out overstep the monitor
+    @param x: X coordinate of the source point
+    @param y: Y coordinate of the source point
+    @param width: the area's width
+    @param height: the area's height
+    @return: a tuple containing new x and y and width and height that in this monitor
+    '''
     end_x = x + width
     end_y = y + height
     # overstep left of monitor
@@ -85,12 +98,19 @@ def convert_coord(x, y, width, height):
     return (x, y, width, height)
 
 def get_screenshot_window_info():
-    ''' get current monitor windows info '''
+    '''
+    get current monitor windows info
+    @return: all windows' coordinate in this workspace
+    @rtype: a list, each in the list is a tuple which containing x and y and width and height
+    '''
     get_current_monitor_info()
     return get_windows_info()
 
 def get_windows_info():
-    ''' return (x, y, width, height) '''
+    '''
+    @return: all windows' coordinate in this workspace
+    @rtype: a list, each in the list is a tuple which containing x and y and width and height
+    '''
     coord= namedtuple('coord', 'x y width height')
     screenshot_window_info = []
     screenshot_window_info.insert(0, coord(SCREEN_X, SCREEN_Y, SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -107,7 +127,10 @@ def get_windows_info():
     return screenshot_window_info
 
 def get_window_info_at_pointer():
-    ''' get the window at pointer '''
+    '''
+    get the window's coordinate at pointer
+    return: a tuple containing x and y and width and height of the window at pointer
+    '''
     (x, y) = DISPLAY.get_pointer()[1:3]
     win_info = get_screenshot_window_info()
     for info in win_info:
@@ -115,7 +138,11 @@ def get_window_info_at_pointer():
             return info
 
 def get_screenshot_pixbuf(fullscreen=True):
-    ''' save snapshot to file with filetype. '''
+    '''
+    get the screenshot pixbuf
+    @param fullscreen: if get fullscreen snapshot.
+    @return: a gtk.gdk.Pixbuf of screenshot
+    '''
     xroot = display.Display().screen().root
     root_window = gtk.gdk.window_foreign_new(xroot.id)
     if not fullscreen:
@@ -131,7 +158,10 @@ def get_screenshot_pixbuf(fullscreen=True):
 
 # 
 def get_display(index):
-    ''' get the index display '''
+    '''
+    get the index display
+    @param index: the index of display
+    '''
     if index >= DISPLAY_NUM:
         return
     global DISPLAY
@@ -140,7 +170,10 @@ def get_display(index):
     SCREEN_NUM = DISPLAY.get_n_screens()
 
 def get_wnck_screen(index):
-    '''get the index screen'''
+    '''
+    get the index screen
+    @param index: the index of screen
+    '''
     global WNCK_SCREEN
     screen = wnck.screen_get(index)
     if screen:

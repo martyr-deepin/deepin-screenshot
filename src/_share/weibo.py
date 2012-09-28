@@ -34,7 +34,7 @@ import subprocess
 CONFIG = config.WeiboConfig()
 
 class OAuth(object):
-    '''Weibo OAuth'''
+    '''Weibo OAuth config'''
     def __init__(self, t_type=''):
         self.config = CONFIG
         self.t_type = t_type
@@ -54,7 +54,7 @@ class OAuth(object):
 class Curl(object):
     '''Curl Class'''
     def twitter_get(self, url, header=None, proxy_host=None, proxy_port=None):
-        '''get url for twitter'''
+        '''open url with get method for twitter'''
         self.error = None
         crl = pycurl.Curl()
         #crl.setopt(pycurl.VERBOSE,1)
@@ -95,7 +95,7 @@ class Curl(object):
         return con
 
     def get(self, url, header=None, proxy_host=None, proxy_port=None):
-        '''get to url'''
+        '''open url width get method'''
         self.error = None
         crl = pycurl.Curl()
         #crl.setopt(pycurl.VERBOSE,1)
@@ -141,7 +141,7 @@ class Curl(object):
             return None
     
     def post(self, url, data, header=None, proxy_host=None, proxy_port=None):
-        '''post to url'''
+        '''open url width post method'''
         self.error = None
         crl = pycurl.Curl()
         #crl.setopt(pycurl.VERBOSE,1)
@@ -189,7 +189,7 @@ class Curl(object):
             return None
     
     def upload(self, url, data, header=None, proxy_host=None, proxy_port=None):
-        '''upload to url'''
+        '''open url with upload'''
         self.error = None
         #print "upload:", url, data, header
         crl = pycurl.Curl()
@@ -237,8 +237,13 @@ class Curl(object):
             return None
         
 class Weibo():
-    '''Weibo base class'''
+    '''Weibo base class, it must be inherited and refactored'''
     def __init__(self, t_type, webkit):
+        '''
+        init weibo
+        @param t_type: the weibo type, a string text
+        @param webkit: a webkit.WebView
+        '''
         self.webkit = webkit
         self.t_type = t_type
         self.oauth = OAuth(t_type)
@@ -264,11 +269,17 @@ class Weibo():
         self.oauth.set(**kw)
 
     def get_curl_error(self):
-        '''get curl error msg'''
+        '''
+        get curl error msg
+        @return: string text or None
+        '''
         return self.curl.error
 
     def get_error_msg(self):
-        '''get error message'''
+        '''
+        get error message
+        @return: a string text
+        '''
         if self.error_code in self.errors:
             return self.errors[self.error_code]
         return self.error_msg
@@ -279,11 +290,18 @@ class Weibo():
         self.webkit.load_uri(self.ACCESS_URL)
 
     def get_access_url(self):
-        ''' '''
+        '''
+        get access url
+        @return: a url string text
+        '''
         return self.ACCESS_URL
     
     def parse_url(self, uri=''):
-        ''' parse url '''
+        '''
+        parse url
+        @param uri: a url string text
+        @return: a tuple containing the url hostname and parse_qs if parse succedd, otherwise None
+        '''
         if not uri:
             return None
         url = urlparse.urlparse(uri)
@@ -294,14 +312,22 @@ class Weibo():
         return (url.hostname, query)
     
     def is_callback_url(self, url):
-        '''check is in callback url now'''
+        '''
+        check is in callback url now
+        @param url: the webkit url now, a string text
+        @return: True if the url is in callback, otherwise False
+        '''
         if url:
             return url.startswith(self.CALLBACK_URL)
         return False
     
     # upload image
     def upload(self, upload_data):
-        '''upload image'''
+        '''
+        upload image
+        @param upload_data: the data that will post to server
+        @return: some info from server
+        '''
         return self.curl.upload(self.UPLOAD_URL, upload_data)
 
 class Sina(Weibo):
@@ -380,7 +406,10 @@ class Sina(Weibo):
 
     # second access token
     def access_token(self):
-        '''access token'''
+        '''
+        access token
+        @return: True if access token succeed, otherwise False
+        '''
         if self.get_code() is None:
             return False
         url = '%s?client_id=%s&client_secret=%s&grant_type=authorization_code&code=%s&redirect_uri=%s' % (
@@ -400,7 +429,10 @@ class Sina(Weibo):
     
     # get user id
     def get_user_id(self):
-        '''get user id'''
+        '''
+        get user id
+        @return: a dict containing user id if get succeed, otherwise None
+        '''
         access_token = self.oauth.get('access_token')
         if access_token is None:
             return None
@@ -416,7 +448,10 @@ class Sina(Weibo):
     
     # get user name
     def get_user_name(self):
-        ''' get user name'''
+        '''
+        get user name
+        @return: user name if get succeed, otherwise None
+        '''
         back = self.get_user_id()
         access_token = self.oauth.get('access_token')
         if access_token is None:
@@ -527,7 +562,10 @@ class Tencent(Weibo):
             '41472': 'add fail'}                  # 服务器内部错误导致发表失败
 
     def access_token(self):
-        '''access token'''
+        '''
+        access token
+        @return: True if access token succeed, otherwise False
+        '''
         url = self.webkit.get_property('uri')
         if url is None:
             return False
@@ -670,6 +708,14 @@ class Twitter(Weibo):
         self.errors = {}
     
     def signature_base_string(self, method, params, url, secret_key=''):
+        '''
+        signature base string
+        @param method: the HTTP method, POST or GET
+        @param params: a list containing some tuple
+        @param url: the target url
+        @param secret_key: a key for base64
+        @return: a tuple containing the result of signature and request_url with params and http headers
+        '''
         http_method = method
         base_url = url
         params.sort()

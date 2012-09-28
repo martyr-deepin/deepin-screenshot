@@ -35,7 +35,11 @@ SCREEN_Y = window.SCREEN_Y
 class TipWindow():
     ''' tip window'''
     def __init__(self, content, index=0):
-        ''' Init tip Window'''
+        '''
+        Init tip Window
+        @param content: the tips content
+        @param index: this TipWindow's index 
+        '''
         self.delta = 0.01
         self.alpha = 1
         self.paddingX = 10
@@ -70,6 +74,7 @@ class TipWindow():
         gtk.main()
     
     def tip_expose(self, widget, event, data=None):
+        ''' TipWindow expose-event callback'''
         self.alpha -= self.delta
         widget.set_opacity(self.alpha)
         cr = widget.window.cairo_create()
@@ -85,9 +90,14 @@ class TipWindow():
         return True
     
     def get_alpha(self):
+        '''
+        get alpha
+        @return: alpha value, a float num
+        '''
         return self.alpha
         
     def timeout_handler(self, widget):
+        ''' timeout callback'''
         if self.get_alpha() <= 0:
             gtk.main_quit()
             return False
@@ -98,7 +108,10 @@ class TipWindow():
 class CountdownWindow():
     '''  show a countdown before taking the shot'''
     def __init__(self, count):
-        ''' Init tip Window'''
+        '''
+        Init Count TipWindow
+        @param count: the count num, an int num
+        '''
         self.count = count
         self.paddingX = 10
         
@@ -131,6 +144,7 @@ class CountdownWindow():
         gtk.main()
     
     def tip_expose(self, widget, event, data=None):
+        ''' expose-event callback'''
         self.label.set_markup("<span foreground='#00AEFF' size='36000'>%d</span>" % (self.count))
         cr = widget.window.cairo_create()
         width, height = widget.window.get_size()
@@ -145,6 +159,7 @@ class CountdownWindow():
         return True
         
     def timeout_handler(self, widget):
+        ''' timeout callback'''
         if self.count == 1:
             self.tipWindow.hide_all()
         elif self.count <= 0:

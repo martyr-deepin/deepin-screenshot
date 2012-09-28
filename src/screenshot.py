@@ -34,7 +34,11 @@ save_filetype = "png"
 
 
 def open_file_dialog(fullscreen=True, filetype='png'):
-    '''Save file to file.'''
+    '''
+    Save file to file.
+    @param fullscreen: if get the fullscreen snapshot.
+    @parser filetype: the filetype to save
+    '''
     pixbuf = get_screenshot_pixbuf(fullscreen)
     dialog = gtk.FileChooserDialog(
         "Save..",
@@ -64,7 +68,7 @@ def set_save_filetype(widget, filetype):
        
 
 def processArguments():
-    '''init processArguments '''
+    '''init process arguments '''
     parser = OptionParser(usage="Usage: deepin-screenshot [options] [arg]", version="deepin-screenshot v2.1")
     parser.add_option("-f", "--full", action="store_true", dest="fullscreen", help="Taking the fullscreen shot")
     parser.add_option("-w", "--window", action="store_true", dest="window", help="Taking the currently focused window")

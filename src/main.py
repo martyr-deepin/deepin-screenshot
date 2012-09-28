@@ -36,6 +36,7 @@ from window import *
 from nls import _
 from widget import RootWindow, RightMenu 
 from toolbar import Colorbar, Toolbar
+from dtk.ui.utils import get_parent_dir
 
 import pygtk
 import subprocess
@@ -45,19 +46,21 @@ import gtk
 
 
 class DeepinScreenshot():
-    '''Main screenshot.'''
+    ''' Main Screenshot. '''
     def __init__(self, save_file=""):
         '''Init Main screenshot.'''
         # Init.
-        self.action = ACTION_WINDOW
+        self.action = ACTION_WINDOW         # current action status
+        # the windows in this workspace coordinate info
         self.screenshot_window_info = get_screenshot_window_info()
-        self.width = SCREEN_WIDTH
-        self.height = SCREEN_HEIGHT
-        self.monitor_x = SCREEN_X
-        self.monitor_y = SCREEN_Y
+        self.width = SCREEN_WIDTH           # this monitor width
+        self.height = SCREEN_HEIGHT         # this monitor height
+        self.monitor_x = SCREEN_X           # this monitor source point's x coordinate
+        self.monitor_y = SCREEN_Y           # this monitor source point's y coordinate
+        # the screenshot area's x, y, width, height
         self.x = self.y = self.rect_width = self.rect_height = 0
 
-        self.save_op_index = SAVE_OP_AUTO
+        self.save_op_index = SAVE_OP_AUTO   # current operation when the save button clicked
 
         #self.buttonToggle = None
         self.drag_position = None
@@ -65,14 +68,15 @@ class DeepinScreenshot():
         self.dragStartX = self.dragStartY = self.dragStartOffsetX = self.dragStartOffsetY = 0
         self.textDragOffsetX = self.textDragOffsetY = 0
         
-        self.drag_flag = False
-        self.show_toolbar_flag = False
-        self.show_colorbar_flag = False 
-        self.show_text_window_flag = False
-        self.text_drag_flag = False
-        self.text_modify_flag = False
-        self.draw_text_layout_flag = False
-        self.share_to_flag = False
+        self.drag_flag = False              # a flag if the selected area can be dragged
+        self.show_toolbar_flag = False      # a flag if the toolbar has shown
+        self.show_colorbar_flag = False     # a flag if the colorbar has shown
+        self.show_text_window_flag = False  # a flag if the text_window has shown
+        self.text_drag_flag = False         # a flag if the text_window can be dragged
+        self.text_modify_flag = False       # a flag if the text has been modified
+        self.draw_text_layout_flag = False  # a flag if the text layout will be drawn
+        self.share_to_flag = False          # a flag if the screenshot will be shared
+        self.window_flag = True             # a flag if has not selected area or window
 
         self.saveFiletype = 'png'
         self.saveFilename = save_file
@@ -84,25 +88,26 @@ class DeepinScreenshot():
         #self.toolbarOffsetY = 10
         #self.toolbar_height = 50
         
-        self.action_size = ACTION_SIZE_SMALL
-        self.action_color = "#FF0000"
-        self.font_name = "Sans"
-        self.font_size = 12
-        
-        # default window 
-        self.window_flag = True         # has not selected area or window
+        self.action_size = ACTION_SIZE_SMALL    # the draw action's line width
+        self.action_color = "#FF0000"           # the draw action's color
+        self.font_name = "Sans"                 # the fontname of text to draw
+        self.font_size = 12                     # the fontsize of text to draw
         
         # Init action list.
-        self.current_action = None
-        self.action_list = []
-        self.current_text_action = None
-        self.text_action_list = []
-        self.text_action_info = {}
+        self.current_action = None          # current drawing action
+        self.action_list = []               # a list of actions have created
+        self.current_text_action = None     # current drawing text action
+        self.text_action_list = []          # a list of text actions have created
+        self.text_action_info = {}          # the created text actions' info
 
         # Get desktop background.
+        # a gtk.gdk.Pixbuf of the desktop_background
         self.desktop_background = self.get_desktop_snapshot()
+        # a string containing the pixel data of the pixbuf
         self.desktop_background_pixels= self.desktop_background.get_pixels()
+        # the number of the pixbuf channels.
         self.desktop_background_n_channels = self.desktop_background.get_n_channels()
+        # the number of bytes between rows.
         self.desktop_background_rowstride = self.desktop_background.get_rowstride()
         
         # Init window.
@@ -114,22 +119,27 @@ class DeepinScreenshot():
         # Init color window.
         self.colorbar = Colorbar(self.window.window, self)
 
-        # Init text window
-        #self.text_window = TextWindow(self.window.window, self)
-
         # right button press menu
         self.right_menu = RightMenu(self)
         # Show.
         self.window.show()
         self.window.set_cursor(ACTION_WINDOW)
 
-    def set_action_type(self, aType):         # 设置操作类型
-        '''Set action. type'''
+    def set_action_type(self, aType):
+        '''
+        Set action type
+        @param aType: one of ACTION Type Constants 
+        '''
         self.action = aType    
         self.current_action = None
     
     def save_snapshot(self, filename=None, filetype='png', clip_flag=False):
-        '''Save snapshot.'''
+        '''
+        Save snapshot.
+        @param filename: the filename to save, a string type
+        @param filetype: the filetype to save, a string type. Default is 'png'
+        @param clip_flag: a flag if copy the snapshot to clipboard. Default is False
+        '''
         failed_flag = False
         tipContent = ""
         # Save snapshot.
@@ -181,27 +191,32 @@ class DeepinScreenshot():
 
         # Exit
         self.window.destroy_all()
+        parent_dir = get_parent_dir(__file__, 1)
         if self.share_to_flag and not failed_flag:
             # share window
             win_x = self.monitor_x + (self.width / 2) - 300
             win_y = self.monitor_y + (self.height/ 2) - 200
             try:
-                cmd = ('python2', 'share.py', filename, str(win_x), str(win_y))
+                cmd = ('python2', '%s/%s' % (parent_dir, 'share.py'), filename, str(win_x), str(win_y))
                 subprocess.Popen(cmd)
             except OSError:    
-                cmd = ('python', 'share.py', filename, str(win_x), str(win_y))
+                cmd = ('python', '%s/%s' % (parent_dir, 'share.py'), filename, str(win_x), str(win_y))
                 subprocess.Popen(cmd)
         
         # tipWindow
         try:
-            cmd = ('python2', 'tipswindow.py', tipContent)
+            cmd = ('python2', '%s/%s' % (parent_dir, 'tipswindow.py'), tipContent)
             subprocess.Popen(cmd)
         except OSError:    
-            cmd = ('python', 'tipswindow.py', tipContent)
+            cmd = ('python', '%s/%s' % (parent_dir, 'tipswindow.py'), tipContent)
             subprocess.Popen(cmd)
     
     def make_pic_file(self, pixbuf):
-        ''' use cairo make a picture file '''
+        '''
+        use cairo to make a picture file
+        @param pixbuf: gtk.gdk.Pixbuf
+        @return: a cairo.ImageSurface object
+        '''
         surface = cairo.ImageSurface(cairo.FORMAT_RGB24, pixbuf.get_width(), pixbuf.get_height())
         cr = cairo.Context(surface)
         gdkcr = gtk.gdk.CairoContext(cr)
@@ -228,11 +243,16 @@ class DeepinScreenshot():
         return surface
 
     def get_desktop_snapshot(self):
-        '''Get desktop snapshot.'''
+        '''
+        Get desktop snapshot.
+        @return: a gtk.gdk.Pixbuf object
+        '''
         return get_screenshot_pixbuf()
         
     def undo(self, widget=None):
-        '''Undo'''
+        '''
+        Undo the last action.
+        '''
         if self.show_text_window_flag:
             self.window.hide_text_window()
         if self.current_text_action:
@@ -257,16 +277,25 @@ class DeepinScreenshot():
         self.window.refresh()
         
     def get_rectangel(self):
-        '''get select rectangle'''
+        '''
+        get select rectangle
+        @return: a tuple contain the selected area coordinate.
+        '''
         return (int(self.x), int(self.y), int(self.rect_width), int(self.rect_height))
     
     def get_rectangel_in_monitor(self):
-        '''get select rectangle in the monitor'''
+        '''
+        get select rectangle in the monitor
+        @return: a tuple contain the selected area coordinate in this monitor.
+        '''
         return (int(self.x-self.monitor_x), int(self.y-self.monitor_y),
                 int(self.rect_width), int(self.rect_height))
     
     def get_monitor_info(self):
-        '''get monitor info'''
+        '''
+        get monitor info
+        @return: a tuple contain this monitor coordinate.
+        '''
         return (self.monitor_x, self.monitor_y, self.width, self.height)
     
 def main(name=""):

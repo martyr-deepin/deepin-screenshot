@@ -24,13 +24,9 @@ from theme import app_theme
 from dtk.ui.button import ImageButton, ToggleButton, ComboButton
 from dtk.ui.menu import Menu
 from dtk.ui.window import Window
-#from dtk.ui.label import Label
-#from dtk.ui.color_selection import ColorSelectDialog
-#from dtk.ui.dialog import SaveFileDialog
 from dtk.ui.spin import SpinBox
 from dtk.ui.group import ToggleButtonGroup, ToggleButtonItem
 import dtk.ui.tooltip as Tooltip
-#import dtk.ui.constant
 from nls import _
 import utils
 import gtk
@@ -41,6 +37,11 @@ from _share.config import OperateConfig
 class Toolbar():
     ''' Toolbar window'''
     def __init__(self, parent=None, screenshot=None):
+        '''
+        init toolbar
+        @param parent: the transient parent for this window
+        @param screenshot: a Screenshot object
+        '''
         self.screenshot = screenshot
         self.win = screenshot.window
         self.__config = OperateConfig()
@@ -112,7 +113,13 @@ class Toolbar():
                 'share': self.share_picture}
 
     def create_toggle_button(self, name, action, index, text=''):
-        ''' make a togglebutton '''
+        '''
+        create a togglebutton
+        @param name: the button's name, a string
+        @param action: one of ACTION Type Constants 
+        @param index: the button's index in button list, an int num
+        @param text: the button's tooltip text, a string
+        '''
         button = ToggleButtonItem(
             (app_theme.get_pixbuf("action/" + name + "_normal.png"),
             app_theme.get_pixbuf("action/" + name + "_press.png"),
@@ -128,7 +135,11 @@ class Toolbar():
         self._toggle_button_list.append(button)
 
     def create_button(self, name, text=''):
-        ''' make a button '''
+        '''
+        make a button
+        @param name: the button's name, a string
+        @param text: the button's tooltip text, a string
+        '''
         button = ImageButton(
             app_theme.get_pixbuf("action/" + name + "_normal.png"),
             app_theme.get_pixbuf("action/" + name + "_hover.png"),
@@ -141,14 +152,14 @@ class Toolbar():
         return button
 
     def _show_tooltip(self, widget, event, text):
-        '''Create help tooltip.'''
+        '''the button enter-notify-event callback. Create help tooltip.'''
         #widget.set_has_tooltip(True)
         #widget.set_tooltip_text(text)
         #widget.trigger_tooltip_query()
         Tooltip.text(widget, text)
 
     def _list_menu_show(self, button, x, y, offset_x, offset_y):
-        ''' show combo_buton list menu'''
+        '''the combo button clicked callback. show combo_buton list menu'''
         menu_item = [
             (None, _("save automatically"), self._list_menu_click, SAVE_OP_AUTO, button),
             (None, _("save as"), self._list_menu_click, SAVE_OP_AS, button),
@@ -168,7 +179,7 @@ class Toolbar():
         self.combo_menu.show((x, y), (offset_x, offset_y))
     
     def _list_menu_click(self, save_op_index, button=None):
-        '''list menu clicked'''
+        '''list menu clicked callback'''
         self.screenshot.save_op_index = save_op_index
         self.__config.set("save", save_op=str(save_op_index))
 
@@ -181,7 +192,7 @@ class Toolbar():
         self.save_operate()
 
     def _button_clicked(self, widget, name):
-        ''' button clicked '''
+        ''' button clicked callback '''
         if self.screenshot is None:
             return
         # save current input text
@@ -191,13 +202,13 @@ class Toolbar():
             self._button_clicked_cb[name](widget)
 
     def _toggle_button_pressed(self, widget):
-        ''' toggle button pressed '''
+        ''' toggle button pressed callback '''
         # save current input text
         if self.screenshot.show_text_window_flag:
             self.win.save_text_window()
 
     def _toggle_button_toggled(self, widget, action):
-        ''' toggle button toggled'''
+        ''' toggle button toggled callback'''
         if self.screenshot is None:
             return
         if widget.get_active():
@@ -214,7 +225,11 @@ class Toolbar():
                 self.screenshot.set_action_type(None)
     
     def set_button_active(self, name, state):
-        '''set button active'''
+        '''
+        set button active
+        @param name: the button's name which will set, a string type
+        @param state: the state to set, True or False
+        '''
         if self._toggle_button_group.is_active():
             button = self._toggle_button_list[self._toggle_button_group.get_index()]
             # if the button has been in this state, ignore
@@ -233,11 +248,14 @@ class Toolbar():
             i += 1
     
     def has_button_active(self):
-        '''is has one toggle button active'''
+        '''
+        is has one toggle button active
+        @return: True if has one togglebutton active, otherwise False
+        '''
         return self._toggle_button_group.is_active()
     
     def save_operate(self, widget=None):
-        '''save operate'''
+        '''do save operate'''
         screenshot = self.screenshot
         #print "operate:", screenshot.save_op_index
         # auto save
@@ -258,7 +276,7 @@ class Toolbar():
             screenshot.save_snapshot("%s/%s" % (folder, filename), clip_flag=True)
     
     def share_picture(self, widget):
-        '''share picture'''
+        '''share picture. share button clicked callback'''
         self.screenshot.share_to_flag = True
         self.screenshot.save_op_index = SAVE_OP_AUTO
         self.save_operate()
@@ -308,7 +326,7 @@ class Toolbar():
         self.screenshot.save_snapshot(filename=filename)
     
     def set_all_inactive(self):
-        '''set all button inactive'''
+        '''set all toggle button inactive'''
         #index = self._toggle_button_group.get_index()
         #if index != -1:
             #self._toggle_button_list[index].set_active(False)
@@ -331,6 +349,11 @@ class Toolbar():
 class Colorbar():
     ''' Colorbar window '''
     def __init__(self, parent=None, screenshot=None):
+        '''
+        init colorbar
+        @param parent: the transient parent for this window
+        @param screenshot: a Screenshot object
+        '''
         self.screenshot = screenshot
         self.win = self.screenshot.window
         
@@ -444,7 +467,11 @@ class Colorbar():
         self.box.pack_start(self.vbox)
 
     def create_color_button(self, box, name):
-        ''' create color button'''
+        '''
+        create color button
+        @param box: a gtk.HBox
+        @param name: the button's name
+        '''
         button = ImageButton(
             app_theme.get_pixbuf("color/" + name + ".png"),
             app_theme.get_pixbuf("color/" + name + "_hover.png"),
@@ -453,7 +480,11 @@ class Colorbar():
         box.pack_start(button)
 
     def create_toggle_button(self, name):
-        ''' make a togglebutton '''
+        '''
+        create a togglebutton
+        @param name: the button's name
+        @return: a dtk.ui.ToggleButton
+        '''
         button = ToggleButton(
             app_theme.get_pixbuf("size/" + name + ".png"),
             app_theme.get_pixbuf("size/" + name + "_press.png"),
@@ -463,7 +494,12 @@ class Colorbar():
         return button
 
     def create_size_button(self, name, index):
-        ''' create size button '''
+        '''
+        create size button
+        @param name: the button's name
+        @param index: the button's index in button list
+        @return: a dtk.ui.ToggleButton
+        '''
         button = self.create_toggle_button(name)
         button.connect("pressed", self._size_button_pressed, index)
         #button.connect("toggled", self._size_button_toggled, name)
@@ -473,7 +509,7 @@ class Colorbar():
         return button
 
     def _font_size_changed(self, widget, value):
-        '''font size changed'''
+        '''font size changed, SpinBox changed callback'''
         self.screenshot.font_size = value
         if self.screenshot.show_text_window_flag:
             if not self.screenshot.text_window.set_font_size(value):
@@ -482,7 +518,7 @@ class Colorbar():
             self.win.refresh()
 
     def _color_button_pressed(self, name):
-        ''' color button pressed'''
+        ''' color button pressed callback'''
         pix = app_theme.get_pixbuf("color_big/" + name + ".png").get_pixbuf()
         self.color_select.set_from_pixbuf(pix)
         if self.screenshot is None:
@@ -493,7 +529,7 @@ class Colorbar():
             self.win.refresh()
 
     def _size_button_pressed(self, widget, index):
-        ''' size button pressed'''
+        ''' size button pressed callback'''
         if self.screenshot is None:
             return
         self.screenshot.action_size = index
@@ -504,12 +540,16 @@ class Colorbar():
                 self.__size_button_dict[each].set_active(False)
 
     def _size_button_released(self, widget):
-        ''' size button release '''
+        ''' size button release callback'''
         if not widget.get_active():
             widget.set_active(True)
 
     def _set_size_button_state(self, name, state):
-        '''set size button state'''
+        '''
+        set size button state
+        @param name: the button's name which will set
+        @param state: the state to set, True or False
+        '''
         for each in self.__size_button_dict.keys():
             if each == name:
                 self.__size_button_dict[name].set_active(state)

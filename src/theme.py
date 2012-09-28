@@ -57,13 +57,25 @@ theme_cursor = {
 theme_cursor['drag'] = theme_cursor[DRAG_INSIDE]
 
 def app_theme_get_pixbuf(filename):
-    ''' from file get theme pixbuf '''
+    '''
+    from file get theme pixbuf
+    @param filename: the image filename
+    @return: a gtk.gdk.Pixbuf
+    '''
     return app_theme.get_pixbuf(filename).get_pixbuf()
 
 def app_theme_get_dynamic_pixbuf(filename):
-    ''' from file get dynamic pixbuf '''
+    '''
+    from file get dynamic pixbuf
+    @param filename: the image filename
+    @return: a DynamicPixbuf
+    '''
     return DynamicPixbuf(app_theme.get_theme_file_path(filename))
 
 def app_theme_get_dynamic_color(color):
-    '''get them coloe'''
+    '''
+    get them color
+    @param color: a hex color string
+    @return: a DynamicColor
+    '''
     return DynamicColor(color)

@@ -40,18 +40,18 @@ import threading
 import subprocess
 import time
 
-DEFAULT_FONT = dtk_constant.DEFAULT_FONT
-DEFAULT_FONT_SIZE = dtk_constant.DEFAULT_FONT_SIZE
+DEFAULT_FONT = dtk_constant.DEFAULT_FONT            # default font to draw
+DEFAULT_FONT_SIZE = dtk_constant.DEFAULT_FONT_SIZE  # default fontsize to draw
 
 Magnifier = namedtuple('Magnifier', 'x y size_content tip rgb')
 
 class RootWindow():
-    ''' background window'''
+    ''' root window of the screenshot '''
     def __init__(self, screenshot):
-        self.screenshot = screenshot
-        self.frame_border = 2
-        self.drag_point_radius = 4
-        self.__frame_color = (0.0, 0.68, 1.0)
+        self.screenshot = screenshot            # a DeepinScreenshot object
+        self.frame_border = 2                   # frame border width to draw
+        self.drag_point_radius = 4              # the eight drag points' radius
+        self.__frame_color = (0.0, 0.68, 1.0)   # frame border color to draw
 
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
         # move window to current monitor
@@ -93,7 +93,7 @@ class RootWindow():
             self.hotkey_map["Ctrl + z"] = self.screenshot.undo
 
     def _draw_expose(self, widget, event):
-        ''' draw area expose'''
+        ''' draw area expose-event callback, drawing background and action'''
         cr = self._cr = widget.window.cairo_create()
         # draw background
         if self.screenshot:
@@ -146,7 +146,7 @@ class RootWindow():
             draw_alpha_rectangle(cr, *self.screenshot.current_text_action.get_layout_info())
 
     def _button_press_event(self, widget, event):
-        ''' button press '''
+        ''' button press event callback '''
         if self.screenshot is None:
             return
         self._button_pressed_process.update(event)
@@ -202,14 +202,14 @@ class RootWindow():
                 self.screenshot.toolbar.save_operate()
     
     def _button_release_event(self, widget, event):
-        ''' button release '''
+        ''' button release event callback '''
         if self.screenshot is None:
             return
         self._button_released_process.update(event)
         self._button_released_process.process()
     
     def _motion_notify_event(self, widget, event):
-        ''' motion notify '''
+        ''' motion notify event callback '''
         #self.update_magnifier(event.x, event.y)
         if self.screenshot is None:
             return
@@ -222,7 +222,7 @@ class RootWindow():
             self.screenshot.toolbar.save_operate()
     
     def _key_press_event(self, widget, event):
-        ''' key press '''
+        ''' key press event callback'''
         if event.is_modifier or self.screenshot.show_text_window_flag:
             return
         key = get_keyevent_name(event)
@@ -230,11 +230,11 @@ class RootWindow():
             self.hotkey_map[key]()
     
     def quit(self, widget=None):
-        ''' window destroy'''
+        ''' window destroy callback, exit'''
         gtk.main_quit()
 
     def destroy_all(self, widget=None):
-        ''' destroy all window  '''
+        ''' after save snapshot, destroy all window  '''
         self.window.hide()
         self.screenshot.toolbar.window.destroy()
         self.screenshot.colorbar.window.destroy()
@@ -249,11 +249,21 @@ class RootWindow():
 
     
     def update_magnifier(self, x, y, size='', tip=_("Drag to select area"), rgb="RGB:(255,255,255)"):
-        ''' update magnifier '''
+        '''
+        update magnifier
+        @param x: the X coordinate of cursor point
+        @param y: the Y coordinate of cursor point
+        @param size: the window info at point, a string type
+        @param tip: the tips shown, a string type
+        @param rgb: the pixel's rgb at point, a string type
+        '''
         self.magnifier = Magnifier(x, y, size, tip, rgb)
 
     def _draw_magnifier(self, cr):
-        ''' draw the magnifier'''
+        '''
+        draw the magnifier
+        @param cr: a gtk.gdk.CairoContext
+        '''
         screen_width = self.screenshot.width
         screen_height = self.screenshot.height
         #cr = self._cr
@@ -348,7 +358,10 @@ class RootWindow():
             self.draw_area.queue_draw()
 
     def _draw_mask(self, cr):
-        '''draw mask'''
+        '''
+        draw mask
+        @param cr: a gtk.gdk.CairoContext
+        '''
         if self.screenshot is None:
             return
         screenshot = self.screenshot
@@ -390,7 +403,10 @@ class RootWindow():
         cr.fill()
 
     def _draw_drag_point(self, cr):
-        '''Draw drag point.'''
+        '''
+        Draw drag point.
+        @param cr: a gtk.gdk.CairoContext
+        '''
         screenshot = self.screenshot
         cr.set_source_rgb(*self.__frame_color)
         # convert to coord in this monitor
@@ -421,7 +437,10 @@ class RootWindow():
         cr.fill()
 
     def _draw_frame(self, cr):
-        '''Draw frame.'''
+        '''
+        Draw frame.
+        @param cr: a gtk.gdk.CairoContext
+        '''
         screenshot = self.screenshot
         cr.set_source_rgb(*self.__frame_color)
         cr.set_line_width(self.frame_border)
@@ -430,49 +449,80 @@ class RootWindow():
         cr.stroke()
 
     def _draw_window_rectangle(self, cr):
-        '''Draw window frame.'''
+        '''
+        Draw window frame.
+        @param cr: a gtk.gdk.CairoContext
+        '''
         screenshot = self.screenshot
         cr.set_line_width(4.5)
         cr.set_source_rgb(*(self.__frame_color))
-        cr.rectangle(screenshot.x + 1, screenshot.y + 1, screenshot.rect_width - 2, screenshot.rect_height - 2)
+        rect = screenshot.get_rectangel_in_monitor()
+        cr.rectangle(rect[0] + 1, rect[1] + 1, rect[2] - 2, rect[3] - 2)
         cr.stroke()
     
-    def get_event_coord(self, event):     # 获取事件的坐标
-        '''Get event coord.'''
+    def get_event_coord(self, event):
+        '''
+        Get event coord.
+        @param event: a gtk.gdk.Event
+        @return: a tuple containing the event x_root and y_root
+        '''
         (rx, ry) = event.get_root_coords()
         return (int(rx), int(ry))
     
     def get_event_coord_in_monitor(self, event):
-        '''Get event coord in current monitor'''
+        '''
+        Get event coord in current monitor
+        @param event: a gtk.gdk.Event
+        @return: a tuple containing the event x_root and y_root in this monitor
+        '''
         (ex, ey) = self.get_event_coord(event)
         return (ex-self.screenshot.monitor_x, ey-self.screenshot.monitor_y)
         
     def drag_frame_top(self, ex, ey):
-        '''Drag frame top.'''
+        '''
+        Drag frame top.
+        @param ex: the X coordinate of the drag event
+        @param ey: the Y coordinate of the drag event
+        '''
         screenshot = self.screenshot
         maxY = screenshot.y + screenshot.rect_height
         screenshot.rect_height = screenshot.rect_height - min(screenshot.rect_height, (ey - screenshot.y))
         screenshot.y = min(ey, maxY) 
     
     def drag_frame_bottom(self, ex, ey):
-        '''Drag frame bottom.'''
+        '''
+        Drag frame bottom.
+        @param ex: the X coordinate of the drag event
+        @param ey: the Y coordinate of the drag event
+        '''
         screenshot = self.screenshot
         screenshot.rect_height = max(0, ey - screenshot.y)
     
     def drag_frame_left(self, ex, ey):
-        '''Drag frame left.'''
+        '''
+        Drag frame left.
+        @param ex: the X coordinate of the drag event
+        @param ey: the Y coordinate of the drag event
+        '''
         screenshot = self.screenshot
         maxX = screenshot.x + screenshot.rect_width
         screenshot.rect_width = screenshot.rect_width - min(screenshot.rect_width, (ex - screenshot.x))
         screenshot.x = min(ex, maxX)
     
     def drag_frame_right(self, ex, ey):
-        '''Drag frame right.'''
+        '''
+        Drag frame right.
+        @param ex: the X coordinate of the drag event
+        @param ey: the Y coordinate of the drag event
+        '''
         screenshot = self.screenshot
         screenshot.rect_width = max(0, ex - screenshot.x)
 
     def get_drag_point_coords(self):
-        '''Get drag point coords.'''
+        '''
+        Get drag point coords.
+        @return: a 8-tuple containing the eight drag points' coords
+        '''
         screenshot = self.screenshot
         return (
             # Top left.
@@ -493,7 +543,11 @@ class RootWindow():
             (screenshot.x + screenshot.rect_width - self.drag_point_radius, screenshot.y + screenshot.rect_height / 2 - self.drag_point_radius))
 
     def get_position(self, event):
-        '''Get drag position.'''
+        '''
+        Get drag position.
+        @param event: the mouse event
+        @return: one of DRAG POS Type Constants
+        '''
         screenshot = self.screenshot
         # Get event position.
         (ex, ey) = self.get_event_coord(event)
@@ -542,7 +596,10 @@ class RootWindow():
         screenshot.toolbar.window.move(int(screenshot.toolbarX), int(screenshot.toolbarY))
         
     def make_menu(self, coord):
-        ''' make menu'''
+        '''
+        show menu when right button press
+        @param coord: a tuple containing x and y coordinate.
+        '''
         #RightMenu().show(coord)
         self.screenshot.right_menu.show(coord)
     
@@ -586,7 +643,10 @@ class RootWindow():
         screenshot.colorbar.window.move(int(colorbarX), int(colorbarY))
 
     def show_text_window(self, (ex, ey)):
-        '''Show text window.'''
+        '''
+        Show text window.
+        @param (ex, ey): the coordinate of text_window
+        '''
         screenshot = self.screenshot
         screenshot.show_text_window_flag = True
         screenshot.text_window = TextWindow(screenshot, "", text_color=screenshot.action_color, font_size=screenshot.font_size)
@@ -607,7 +667,7 @@ class RootWindow():
         screenshot.text_window.destroy()
 
     def save_text_window(self):
-        '''save TextWindowtext'''
+        '''save TextWindow's text'''
         screenshot = self.screenshot
         content = screenshot.text_window.get_text()
         if content != "":
@@ -640,7 +700,7 @@ class RootWindow():
             self.set_cursor(DRAG_INSIDE)
 
     def __text_window_button_release(self, widget, event):
-        '''button release'''
+        '''button release in textview, stop dragging'''
         if event.button == 1:
             widget.drag_flag = False
             widget.drag_offset = (0, 0)
@@ -649,7 +709,7 @@ class RootWindow():
             self.set_cursor(None)
 
     def __text_window__motion(self, widget, event):
-        '''motion notify'''
+        '''button motion in textview, dragging'''
         coord = widget.allocation
         monitor_rect = self.screenshot.get_rectangel_in_monitor()
         rect_x = monitor_rect[0] + monitor_rect[2]
@@ -677,7 +737,10 @@ class RootWindow():
             self.draw_area.move(widget, des_x, des_y)
     
     def set_cursor(self, cursor_type):
-        ''' set cursor'''
+        '''
+        set cursor type
+        @param cursor_type: one of cursor Type Constants in theme moudle
+        '''
         if cursor_type in theme_cursor:
             set_cursor(self.window, theme_cursor[cursor_type])
         else:
@@ -688,7 +751,7 @@ class RootWindow():
         self.screenshot.toolbar.save_to_file()
 
     def show(self):
-        '''show'''
+        '''show root window'''
         self.window.show_all()
         #self._cr = self.window.window.cairo_create()
         self._cr = self.draw_area.window.cairo_create()
@@ -697,7 +760,7 @@ class RootWindow():
 class RightMenu():
     ''' Right Button Menu'''
     def __init__(self, screenshot):
-        self.screenshot = screenshot
+        self.screenshot = screenshot    # a DeepinScreenshot object
         # sub menu in save node
         menu_item = [
             (None, _("save automatically"), self.save_sub_menu_clicked, SAVE_OP_AUTO),
@@ -749,7 +812,7 @@ class RightMenu():
             menu_item_select_color=app_theme.get_shadow_color("menu_item_select").get_color_info())
         
     def _menu_click(self, name):
-        '''docstring for _menu_click'''
+        '''menu clicked callback'''
         buttons = self.screenshot.toolbar.toolbox.get_children()
         for each in buttons:
             if each.name == name:
@@ -763,7 +826,7 @@ class RightMenu():
         self.screenshot.toolbar.set_button_active(name, True)
 
     def save_sub_menu_clicked(self, save_op_index):
-        '''save sub menu clicked'''
+        '''save sub menu clicked callback'''
         self.screenshot.toolbar._list_menu_click(save_op_index)
 
     def show(self, coord=(0, 0)):
@@ -789,15 +852,25 @@ class TextWindow(TextView):
     def __init__(self, screenshot, content="", text_color="#000000",
                  text_select_color="#FFFFFF",background_select_color="#3399FF",
                  font=DEFAULT_FONT, font_size=DEFAULT_FONT_SIZE):
+        '''
+        init TextWindow
+        @param screenshot: a Screenshot object
+        @param content: initialize content, a string type
+        @param text_color: color of text in normal status, an hex string
+        @param text_select_color: color of text in selected status, an hex string
+        @param background_select_color: color of background in selected status, an hex string
+        @param font: fontname of text
+        @param font_size: fontsize of text
+        '''
         super(TextWindow, self).__init__(content, 1, 1, text_color, 
                 text_select_color, background_select_color, font, font_size)
         self.screenshot = screenshot
         self.connect("changed", self.__text_changed)
         
-        self.drag_flag = False              # drag this
-        self.drag_position = (0, 0)
-        self.drag_offset = (0, 0)
-        self.drag_origin = (0, 0)
+        self.drag_flag = False              # a flag if the TextWindow can be dragged
+        self.drag_position = (0, 0)         # the start drag point position
+        self.drag_offset = (0, 0)           # the offset when dragging
+        self.drag_origin = (0, 0)           # the origin position at start drag
 
         self.set_text(content)
         self.set_background_dash((9.0, 3.0))
@@ -811,7 +884,10 @@ class TextWindow(TextView):
         self.set_size_request(self.layout_width+self.padding_x*2, self.layout_height+self.padding_y*2)
 
     def commit_entry(self, input_text):
-        ''' commit entry '''
+        '''
+        commit entry
+        @param input_text: a text insert to this TextWindow, a string type
+        '''
         if not self.is_editable():
             return
         if not isinstance(input_text, unicode):
@@ -833,13 +909,7 @@ class TextWindow(TextView):
         # out of the area, can't insert
         #if self.allocation.x + text_size[0] > self.screenshot.x + self.screenshot.rect_width \
         if self.allocation.y + text_size[1] + 2 * self.padding_y >self.screenshot.y + self.screenshot.rect_height:
-            # TODO 增加不能输入提示
-            #try:
-                #cmd = ('python2', 'tipswindow.py', "max char num")
-                #subprocess.Popen(cmd)
-            #except OSError:    
-                #cmd = ('python', 'tipswindow.py', "max char num")
-                #subprocess.Popen(cmd)
+            # TODO add tips
             return
         with self.monitor_entry_content():
             if self.buffer.get_has_selection():     # if has select, delete it
@@ -851,14 +921,18 @@ class TextWindow(TextView):
             self.queue_draw()
     
     def set_font_size(self, size):
-        '''set font size'''
+        '''
+        set font size
+        @param size: font size, an int num
+        @return: if set successfully return True, otherwise return False
+        '''
         # if font size too large ,ignore
         layout = self._layout.copy()
         layout.set_font_description(pango.FontDescription("%s %d" % (self.font_type, size)))
         text_size = layout.get_pixel_size()
         if text_size[0] + self.allocation.x + 2 * self.padding_x> self.screenshot.x + self.screenshot.rect_width \
             or text_size[1] + self.allocation.y + 2 * self.padding_y> self.screenshot.y + self.screenshot.rect_height:
-            # TODO 增加不能调节字体大小提示
+            # TODO add tips
             return False
         self.font_size = size
         self.font = pango.FontDescription("%s %d" % (self.font_type, self.font_size))
@@ -867,7 +941,7 @@ class TextWindow(TextView):
         return True
     
     def __text_changed(self, w, string):
-        '''text changed'''
+        '''changed signal callback'''
         self.screenshot.window.refresh()
 
 gobject.type_register(TextWindow)

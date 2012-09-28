@@ -31,25 +31,45 @@ from subprocess import Popen,PIPE
 pygtk.require('2.0')
 
 def is_collide_rect((cx, cy), (x, y, w, h)):
-    '''Whether coordinate collide with rectangle.'''
+    '''
+    Whether coordinate collide with rectangle.
+    @param (cx, cy): the coordinate which will to judge
+    @param (x, y, w, h): the rectangle geometry
+    @return: True if the coordinate inside the rectangle, otherwise False
+    '''
     return (x <= cx <= x + w and y <= cy <= y + h)
 
 def is_in_rect((cx, cy), (x, y, w, h)):
-    '''Whether coordinate in rectangle.'''
+    '''
+    Whether coordinate in rectangle.
+    @param (cx, cy): the coordinate which will to judge
+    @param (x, y, w, h): the rectangle geometry
+    @return: True if the coordinate inside the rectangle, otherwise False
+    '''
     return (x < cx < x + w and y < cy < y + h)
 
 def set_default_cursor(widget):
-    '''Set default cursor.'''
+    '''
+    Set default cursor.
+    @param widget: a gtk.Widget
+    '''
     widget.window.set_cursor(None)
     return False
 
 def set_cursor(widget, cursor):
-    '''Set cursor.'''
+    '''
+    Set cursor.
+    @param widget: a gtk.Widget
+    @param cursor: a gtk.gdk.Cursor 
+    '''
     widget.window.set_cursor(cursor)
     return False
 
 def get_screen_size():
-    '''Get screen size.'''
+    '''
+    Get screen size.
+    @return: a tuple containing width and height
+    '''
     return gtk.gdk.get_default_root_window().get_size()
 
 def get_font_families():
@@ -69,7 +89,13 @@ def encode(text):
     return unicode(text, sys.getfilesystemencoding())
 
 def get_coord_rgb(screenshot, x, y):
-    '''get coordinate's pixel. '''
+    '''
+    get coordinate's pixel.
+    @param screenshot: a Screenshot object
+    @param x: the X coordinate of point
+    @param y: the Y coordinate of point
+    @return: a list containing the point pixel's rgb info
+    '''
     rowstride = screenshot.desktop_background_rowstride
     n_channels = screenshot.desktop_background_n_channels
     pixels = screenshot.desktop_background_pixels
@@ -91,6 +117,9 @@ def make_menu_item(name, callback, data=None):
     return item
 
 def get_format_time():
+    '''
+    @return: current time for format
+    '''
     #return time.strftime("%M%S", time.localtime())
     return time.strftime("%Y%m%d%H%M%S", time.localtime())
 
@@ -103,7 +132,10 @@ def moveWindow(widget, event, window):
         event.time)
 
 def get_pictures_dir():
-    ''' get user pictures dir. '''
+    '''
+    get user pictures dir.
+    @return: current user's own pictures dir, a string type
+    '''
     picturesDir = os.path.expanduser("~/Pictures")
     try:
         p = Popen(["xdg-user-dir", "PICTURES"], stdout=PIPE)
@@ -118,6 +150,11 @@ def get_pictures_dir():
             return picturesDir
 
 def parser_path(filepath):
+    '''
+    parser filepath
+    @param filepath: the file being parser
+    @return: a tuple containing filename and filetype
+    '''
     filename, ext = os.path.splitext(filepath)
     if ext == ".bmp":
         return (filename + ".bmp", "bmp")

@@ -22,11 +22,9 @@
 
 from theme import app_theme, app_theme_get_dynamic_color, app_theme_get_dynamic_pixbuf
 from dtk.ui.scrolled_window import ScrolledWindow
-#from dtk.ui.window import Window
 from dtk.ui.dialog import ConfirmDialog, DialogLeftButtonBox, DialogRightButtonBox, DialogBox
 from dtk.ui.browser import WebView
 from dtk.ui.slider import Slider
-#from dtk.ui.titlebar import Titlebar
 from dtk.ui.button import Button, CheckButton, ImageButton
 from dtk.ui.line import VSeparator
 from dtk.ui.label import Label
@@ -60,11 +58,15 @@ def post_gui(func):
 class ShareToWeibo():
     '''share picture to weibo'''
     def __init__(self, filename=""):
+        '''
+        init share
+        @param filename: the file to share
+        '''
         self.upload_image = filename
         self.thumb_width = 188
         self.thumb_height = 168
         self.MAX_CHAR = 140
-        self.__text_frame_color = (0.76, 0.76, 0.76)
+        #self.__text_frame_color = (0.76, 0.76, 0.76)
         self.__win_width = 602
         open(COOKIE_FILE,'wb').close()
 
@@ -80,7 +82,7 @@ class ShareToWeibo():
         self.slider_list = []
 
         self.share_box = gtk.VBox(False, 2)     # first page, input context
-        self.web_box = gtk.VBox(False, 10)       # second page, login
+        self.web_box = gtk.VBox(False, 10)      # second page, login
         self.result_box = gtk.VBox(False, 10)   # third page, share result
 
         share_align = gtk.Alignment()
@@ -160,7 +162,7 @@ class ShareToWeibo():
 
     # webkit load-status, login success, go back
     def web_view_load_status(self, web, status):
-        '''web_view notify load-status'''
+        '''web_view notify load-status callback'''
         state = web.get_property("load-status")
         url = web.get_property('uri')
         if url:
@@ -183,7 +185,7 @@ class ShareToWeibo():
     
     # login or switch user
     def weibo_login(self, widget, weibo):
-        '''weibo login'''
+        '''weibo button clicked callback'''
         self.web_view.load_uri("about:blank")
         utils.set_cursor(widget)
         self.set_slide_index(1)
@@ -201,7 +203,7 @@ class ShareToWeibo():
         gtk.gdk.threads_leave()
 
     def get_user_info_again(self):
-        '''recreate label info'''
+        ''' login or switch user, and get user info again'''
         box = self.__current_weibo.get_box()
         #print "cuurent weibo:", self.__current_weibo.t_type
         gtk.gdk.threads_enter()
@@ -221,7 +223,10 @@ class ShareToWeibo():
         gtk.gdk.threads_leave()
 
     def set_slide_index(self, index):
-        '''set slide to index'''
+        '''
+        set slide to index
+        @param index: the index of widget in slider, an int num
+        '''
         if index >= len(self.slider_list):
             return
         if index == 1 and self.window.button_box in self.window.window_frame.get_children():
@@ -257,7 +262,7 @@ class ShareToWeibo():
         self.slider.slide_to(self.slider_list[index])
 
     def weibo_check_toggle(self, button, weibo):
-        '''weibo check button toggle'''
+        '''weibo check button toggled callback'''
         if button.get_active():
             self.to_share_weibo[weibo] = 1
         else:
@@ -270,7 +275,7 @@ class ShareToWeibo():
         return (pix1, pix2)
     
     def get_user_info(self, weibo):
-        '''create label info'''
+        '''get weibo user info'''
         #self.get_user_error_text = ""
         weibo_hbox = weibo.get_box()
         hbox = gtk.HBox(False)
@@ -492,7 +497,7 @@ class ShareToWeibo():
     
     # show input char num
     def text_view_changed(self, buf, button):
-        '''text_view changed'''
+        '''text_view changed callback'''
         count = buf.get_char_count()
         if count <= self.MAX_CHAR:
             #self.input_tip_label.set_text(_("left"))
@@ -508,7 +513,7 @@ class ShareToWeibo():
                 button.set_sensitive(False)
 
     def share_button_clicked(self, button, text_view):
-        '''share_button_clicked'''
+        '''share_button_clicked callback'''
         # file is not exist.
         if not exists(self.upload_image):
             d = ConfirmDialog(_("error"), "%s." % ( _("picture does not exist")))
@@ -610,7 +615,6 @@ class ShareToWeibo():
                 link.add_events(gtk.gdk.BUTTON_PRESS_MASK)
                 link.connect("enter-notify-event", lambda w, e: self.__draw_under_line(w))
                 link.connect("leave-notify-event", lambda w, e: w.queue_draw())
-                # FIXME KeyError
                 link.connect("button-press-event", self.goto_weibo_button_clicked, weibo)
                 link_box = gtk.HBox(False)
                 link_box.pack_start(link, False, False)
@@ -712,7 +716,7 @@ class ShareToWeibo():
     
     def goto_weibo_button_clicked(self, widget, event, weibo):
         '''goto my weibo'''
-        #print "goto weibo button clicked", weibo.t_type, "xdg-open %s" % self.to_share_weibo_res[weibo][1]
+        print "goto weibo button clicked", weibo.t_type, "xdg-open %s" % self.to_share_weibo_res[weibo][1]
         if weibo in self.to_share_weibo_res:
             if self.to_share_weibo_res[weibo][1]:
                 utils.run_command("xdg-open %s" % self.to_share_weibo_res[weibo][1])
