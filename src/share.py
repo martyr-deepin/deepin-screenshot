@@ -578,6 +578,7 @@ class ShareToWeibo():
 
         res_left_box.button_align.set(0.5, 0.0, 0, 1)
         res_right_box.button_align.set(0.5, 0.0, 0, 1)
+        res_left_box.button_align.set_padding(5, 9, 23, 0)
         res_right_box.button_align.set_padding(30, 0, 0, 0)
 
         res_left_box.set_size_request(405, -1)
@@ -602,7 +603,7 @@ class ShareToWeibo():
             Label("%s %s" % (_("Follow"), "Linux Deepin"), 
                 text_color=app_theme_get_dynamic_color("#5f5f5f"),
                 text_size=12, enable_select=False), False, False)
-        follow_vbox.pack_start(follow_tip_hbox, False, False, 20)
+        follow_vbox.pack_start(follow_tip_hbox, False, False, 13)
         for weibo in self.to_share_weibo_res:
             vbox = gtk.VBox(False, 1)
             tip_box = gtk.HBox()
@@ -695,20 +696,7 @@ class ShareToWeibo():
             align.set(0.0, 0.5, 0, 0)
             align.set_padding(0, 0, 30, 0)
             align.add(box)
-            follow_vbox.pack_start(align, False, False, 10)
-        ## close button
-        #button = Label(_("Close"), text_size=15, text_color=font_color)
-        #button.add_events(gtk.gdk.BUTTON_PRESS_MASK)
-        #button.connect("button-press-event", lambda w, e: self.quit(w))
-        #utils.set_clickable_cursor(button)
-        #button_box = gtk.VBox(False, 5)
-        ##button_box.connect("expose-event", lambda w, e: self.__draw_under_line(w))
-        #button_align = gtk.Alignment()
-        #button_align.set(0.5, 0.5, 0, 0)
-        #button_align.set_padding(0, 5, 18, 0)
-        #button_box.pack_start(button, False, False)
-        #button_align.add(button_box)
-        #res_vbox.pack_start(button_align, False, False)
+            follow_vbox.pack_start(align, False, False, 8)
 
         res_left_box.set_buttons([res_vbox])
         res_right_box.set_buttons([follow_vbox])
