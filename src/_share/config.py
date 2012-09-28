@@ -41,24 +41,42 @@ if not exists(OPERATE_CONFIG):
 class WeiboConfig():
     '''Weibo config'''
     def __init__(self, config_file=WEIBO_CONFIG):
+        '''
+        init config
+        @param config_file: the file to save config
+        '''
         self.config = ConfigParser.ConfigParser()
         self.config_file = config_file
         self.config.read(config_file)
 
     def sina_get(self):
-        '''get sina info'''
+        '''
+        get sina info
+        @return: all options value in Sina section
+        '''
         return self.get('Sina')
 
     def tencent_get(self):
-        '''get tencent info'''
+        '''
+        get tencent info
+        @return: all options value in Tecent section
+        '''
         return self.get('Tencent')
 
     def twitter_get(self):
-        '''get twitter info'''
+        '''
+        get twitter info
+        @return: all options value in Twitter section
+        '''
         return self.get('Twitter')
 
     def get(self, weibo, opt=None):
-        '''get weibo info'''
+        '''
+        get weibo info
+        @param weibo: the section name 
+        @param opt: the options name
+        @return: the opt value if the opt in the section, else None
+        '''
         if not self.config.has_section(weibo):
             return None
         if opt:
@@ -81,7 +99,11 @@ class WeiboConfig():
         self.set('Twitter', **kw)
 
     def set(self, weibo, **kw):
-        ''' set weibo info'''
+        '''
+        set weibo info
+        @param weibo: the section name 
+        @param kw: some option and value
+        '''
         if not self.config.has_section(weibo):
             self.config.add_section(weibo)
         for option in kw:
@@ -100,12 +122,21 @@ class WeiboConfig():
 class OperateConfig():
     '''operate config'''
     def __init__(self, config_file=OPERATE_CONFIG):
+        '''
+        init config
+        @param config_file: the file to save config
+        '''
         self.config = ConfigParser.ConfigParser()
         self.config_file = config_file
         self.config.read(config_file)
 
     def get(self, section, opt=None):
-        '''get section info'''
+        '''
+        get section info
+        @param section: the section name 
+        @param opt: the options name
+        @return: the opt value if the opt in the section, else None
+        '''
         if not self.config.has_section(section):
             return None
         if opt:
@@ -116,7 +147,11 @@ class OperateConfig():
         return back
 
     def set(self, section, **kw):
-        ''' set section info'''
+        '''
+        set section info
+        @param section: the section name 
+        @param kw: some option and value
+        '''
         if not self.config.has_section(section):
             self.config.add_section(section)
         for option in kw:

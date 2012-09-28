@@ -262,7 +262,7 @@ class ShareToWeibo():
         self.slider.slide_to(self.slider_list[index])
 
     def weibo_check_toggle(self, button, weibo):
-        '''weibo check button toggled callback'''
+        '''weibo check button toggled callback. check the weibo to share'''
         if button.get_active():
             self.to_share_weibo[weibo] = 1
         else:
@@ -276,15 +276,15 @@ class ShareToWeibo():
     
     def get_user_info(self, weibo):
         '''get weibo user info'''
+        info = weibo.get_user_name()
+        gtk.gdk.threads_enter()
         #self.get_user_error_text = ""
         weibo_hbox = weibo.get_box()
         hbox = gtk.HBox(False)
         vbox = gtk.VBox(False)
         weibo_hbox.pack_start(vbox, False, False)
         vbox.pack_start(hbox)
-        info = weibo.get_user_name()
         #print weibo.t_type, info
-        gtk.gdk.threads_enter()
         if info:
             self.is_get_user_info[weibo] = 1
             label = Label(text=info, label_width=70, enable_select=False)
@@ -556,13 +556,15 @@ class ShareToWeibo():
         text = buf.get_text(*buf.get_bounds())
         if text.strip() == "":
             text = "%s %s" % (_("came from"), _("DeepinScreenshot"))
-        for weibo in self.to_share_weibo:
-            if self.to_share_weibo[weibo]:
-                self.to_share_weibo_res[weibo] = weibo.upload_image(self.upload_image, text)
+        # get deepin official info
         self.deepin_info[self.sina] = self.sina.get_deepin_info()
         self.deepin_info[self.qq] = self.qq.get_deepin_info()
         if default_locale != 'zh_CN':
             self.deepin_info[self.twitter] = self.twitter.get_deepin_info()
+        # upload
+        for weibo in self.to_share_weibo:
+            if self.to_share_weibo[weibo]:
+                self.to_share_weibo_res[weibo] = weibo.upload_image(self.upload_image, text)
         self.share_to_weibo_result()
     
     # show upload result
@@ -707,7 +709,7 @@ class ShareToWeibo():
     
     def goto_weibo_button_clicked(self, widget, event, weibo):
         '''goto my weibo'''
-        print "goto weibo button clicked", weibo.t_type, "xdg-open %s" % self.to_share_weibo_res[weibo][1]
+        #print "goto weibo button clicked", weibo.t_type, "xdg-open %s" % self.to_share_weibo_res[weibo][1]
         if weibo in self.to_share_weibo_res:
             if self.to_share_weibo_res[weibo][1]:
                 utils.run_command("xdg-open %s" % self.to_share_weibo_res[weibo][1])

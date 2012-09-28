@@ -95,7 +95,13 @@ class Curl(object):
         return con
 
     def get(self, url, header=None, proxy_host=None, proxy_port=None):
-        '''open url width get method'''
+        '''
+        open url width get method
+        @param url: the url to visit
+        @param header: the http header
+        @param proxy_host: the proxy host name
+        @param proxy_port: the proxy port
+        '''
         self.error = None
         crl = pycurl.Curl()
         #crl.setopt(pycurl.VERBOSE,1)
@@ -141,7 +147,14 @@ class Curl(object):
             return None
     
     def post(self, url, data, header=None, proxy_host=None, proxy_port=None):
-        '''open url width post method'''
+        '''
+        open url width post method
+        @param url: the url to visit
+        @param data: the data to post
+        @param header: the http header
+        @param proxy_host: the proxy host name
+        @param proxy_port: the proxy port
+        '''
         self.error = None
         crl = pycurl.Curl()
         #crl.setopt(pycurl.VERBOSE,1)
@@ -189,7 +202,14 @@ class Curl(object):
             return None
     
     def upload(self, url, data, header=None, proxy_host=None, proxy_port=None):
-        '''open url with upload'''
+        '''
+        open url with upload
+        @param url: the url to visit
+        @param data: the data to upload
+        @param header: the http header
+        @param proxy_host: the proxy host name
+        @param proxy_port: the proxy port
+        '''
         self.error = None
         #print "upload:", url, data, header
         crl = pycurl.Curl()
