@@ -29,9 +29,10 @@ import sys
 import glib
 import window
 
-window.get_current_monitor_info()
-SCREEN_WIDTH = window.SCREEN_WIDTH
-SCREEN_Y = window.SCREEN_Y
+#window.get_current_monitor_info()
+#SCREEN_WIDTH = window.SCREEN_WIDTH
+#SCREEN_Y = window.SCREEN_Y
+SCREEN_X, SCREEN_Y, SCREEN_WIDTH, h = window.get_current_monitor_info()
 class TipWindow():
     ''' tip window'''
     def __init__(self, content, index=0):
@@ -55,7 +56,7 @@ class TipWindow():
         self.tipWindow.set_opacity(1)
         self.tipWindow.set_skip_taskbar_hint(True)
         self.tipWindow.set_skip_pager_hint(True)
-        self.tipWindow.move(SCREEN_WIDTH - 250, SCREEN_Y + 34 + index * 34)
+        self.tipWindow.move(SCREEN_X + SCREEN_WIDTH - 250, SCREEN_Y + 34 + index * 34)
         self.tipWindow.connect('expose-event', self.tip_expose)
         self.tipWindow.connect("size-allocate", lambda w, a: updateShape(w, a, 4))
         
@@ -125,7 +126,7 @@ class CountdownWindow():
         self.tipWindow.set_accept_focus(False)
         #self.tipWindow.set_icon_from_file("../theme/logo/deepin-screenshot.ico")
         self.tipWindow.set_opacity(0.8)
-        self.tipWindow.move(SCREEN_WIDTH - 200, 34)
+        self.tipWindow.move(SCREEN_X + SCREEN_WIDTH - 200, 34)
         self.tipWindow.connect('expose-event', self.tip_expose)
         self.tipWindow.connect("size-allocate", lambda w, a: updateShape(w, a, 4))
         

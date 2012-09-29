@@ -425,9 +425,9 @@ class MotionProcess(BaseProcess):
             (ex, ey) = self.win.get_event_coord(event)
             if screenshot.drag_position == DRAG_INSIDE:
                 screenshot.x = min(max(ex - screenshot.dragStartOffsetX, screenshot.monitor_x),
-                    screenshot.width - screenshot.rect_width)
+                    screenshot.monitor_x + screenshot.width - screenshot.rect_width)
                 screenshot.y = min(max(ey - screenshot.dragStartOffsetY, screenshot.monitor_y),
-                    screenshot.height - screenshot.rect_height)
+                    screenshot.monitor_y + screenshot.height - screenshot.rect_height)
             elif screenshot.drag_position == DRAG_TOP_SIDE:
                 self.win.drag_frame_top(ex, ey)
             elif screenshot.drag_position == DRAG_BOTTOM_SIDE:
