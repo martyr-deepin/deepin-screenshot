@@ -147,8 +147,8 @@ class ButtonPressProcess(BaseProcess):
             screenshot = self.screenshot
             if screenshot.window_flag:  # has not select area, press right button quit
                 self.win.quit()
-            if is_in_rect((ev.x, ev.y), screenshot.get_rectangel()):
-                self.win.make_menu((int(ev.x), int(ev.y)))      # popup menu
+            if is_in_rect((ev.x_root, ev.y_root), screenshot.get_rectangel()):
+                self.win.make_menu((int(ev.x_root), int(ev.y_root)))      # popup menu
             else:
                 while screenshot.action_list:
                     screenshot.action_list.pop()
@@ -530,14 +530,14 @@ class MotionProcess(BaseProcess):
                 layout_info = screenshot.current_text_action.get_layout_info()
                 des_x = tx - screenshot.textDragOffsetX
                 des_y = ty - screenshot.textDragOffsetY
-                if des_x < screenshot.x:    # left
-                    des_x = screenshot.x
-                elif des_x + layout_info[2] > screenshot.x + screenshot.rect_width:     # right
-                    des_x = screenshot.x + screenshot.rect_width - layout_info[2]
-                if des_y < screenshot.y:    # top
-                    des_y = screenshot.y
-                elif des_y + layout_info[3] > screenshot.y + screenshot.rect_height:    # bottom
-                    des_y = screenshot.y + screenshot.rect_height - layout_info[3]
+                if des_x < screenshot.x - screenshot.monitor_x:    # left
+                    des_x = screenshot.x - screenshot.monitor_x
+                elif des_x + layout_info[2] > screenshot.x - screenshot.monitor_x + screenshot.rect_width:     # right
+                    des_x = screenshot.x - screenshot.monitor_x + screenshot.rect_width - layout_info[2]
+                if des_y < screenshot.y - screenshot.monitor_y:    # top
+                    des_y = screenshot.y - screenshot.monitor_y
+                elif des_y + layout_info[3] > screenshot.y - screenshot.monitor_y + screenshot.rect_height:    # bottom
+                    des_y = screenshot.y - screenshot.monitor_y + screenshot.rect_height - layout_info[3]
                 screenshot.current_text_action.update_coord(des_x, des_y)
                 screenshot.draw_text_layout_flag = True
                 self.win.refresh()

@@ -656,8 +656,8 @@ class RootWindow():
         self.draw_area.put(screenshot.text_window, ex, ey)
         screenshot.text_window.show_all()
         self.refresh()
-        screenshot.text_window.set_width(int(screenshot.rect_width + screenshot.x - ex
-            - 2 * screenshot.text_window.padding_x))
+        screenshot.text_window.set_width(int(screenshot.rect_width + screenshot.x 
+            - screenshot.monitor_x - ex - 2 * screenshot.text_window.padding_x))
         screenshot.text_window.grab_focus()
         
     def hide_text_window(self):
@@ -728,12 +728,12 @@ class RootWindow():
             # make sure the textview in the area
             if des_x + coord[2] > rect_x:
                 des_x = rect_x - coord[2]
-            elif des_x < self.screenshot.x:
-                des_x = self.screenshot.x
+            elif des_x < self.screenshot.x - self.screenshot.monitor_x:
+                des_x = self.screenshot.x - self.screenshot.monitor_x
             if des_y + coord[3] > rect_y:
                 des_y = rect_y - coord[3]
-            elif des_y < self.screenshot.y:
-                des_y = self.screenshot.y
+            elif des_y < self.screenshot.y - self.screenshot.monitor_y:
+                des_y = self.screenshot.y - self.screenshot.monitor_y
             self.draw_area.move(widget, des_x, des_y)
     
     def set_cursor(self, cursor_type):
@@ -916,7 +916,7 @@ class TextWindow(TextView):
                 self.buffer.delete_selection(True, self.is_editable())
             self.buffer.insert_at_cursor(input_text)
             self.set_width(int(self.screenshot.rect_width + self.screenshot.x
-                - self.allocation.x - 2 * self.padding_x))
+                - self.screenshot.monitor_x - self.allocation.x - 2 * self.padding_x))
             self.adjust_size()
             self.queue_draw()
     
