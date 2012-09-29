@@ -226,15 +226,15 @@ class DeepinScreenshot():
 
         for action in self.action_list:
             if action is not None:
-                action.start_x -= self.x
-                action.start_y -= self.y
+                action.start_x -= self.x - self.monitor_x
+                action.start_y -= self.y - self.monitor_y
                 if not isinstance(action, (TextAction)):
-                    action.end_x -= self.x
-                    action.end_y -= self.y
+                    action.end_x -= self.x - self.monitor_x
+                    action.end_y -= self.y - self.monitor_y
                 if isinstance(action, (LineAction)):
                     for track in action.track:
-                        track[0] -= self.x
-                        track[1] -= self.y
+                        track[0] -= self.x - self.monitor_x
+                        track[1] -= self.y - self.monitor_y
                 action.expose(cr)
         
         # Draw Text Action list.
