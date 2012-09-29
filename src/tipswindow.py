@@ -56,7 +56,6 @@ class TipWindow():
         self.tipWindow.set_opacity(1)
         self.tipWindow.set_skip_taskbar_hint(True)
         self.tipWindow.set_skip_pager_hint(True)
-        self.tipWindow.move(SCREEN_X + SCREEN_WIDTH - 250, SCREEN_Y + 34 + index * 34)
         self.tipWindow.connect('expose-event', self.tip_expose)
         self.tipWindow.connect("size-allocate", lambda w, a: updateShape(w, a, 4))
         
@@ -71,6 +70,10 @@ class TipWindow():
         self.tipWindow.add(self.align)
         glib.timeout_add(50, lambda: self.timeout_handler(self.tipWindow))
         self.tipWindow.show_all()
+        win_width = self.tipWindow.allocation.width
+        if win_width < 250:
+            win_width = 250
+        self.tipWindow.move(SCREEN_X + SCREEN_WIDTH - win_width, SCREEN_Y + 34 + index * 34)
         
         gtk.main()
     
