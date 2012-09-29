@@ -408,6 +408,7 @@ class Colorbar():
         font_img = gtk.image_new_from_pixbuf(app_theme.get_pixbuf("action/text_normal.png").get_pixbuf())
         self.font_spin = SpinBox(self.screenshot.font_size, 8, 72, 1)
         self.font_spin.connect("value-changed", self._font_size_changed)
+        self.font_spin.value_entry.set_can_focus(False)
         self.font_box.pack_start(font_img)
         self.font_box.pack_start(self.font_spin)
         self.font_align = gtk.Alignment()
