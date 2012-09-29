@@ -142,6 +142,7 @@ class DeepinScreenshot():
         '''
         failed_flag = False
         tipContent = ""
+        parent_dir = get_parent_dir(__file__, 1)
         # Save snapshot.
         if self.rect_width == 0 or self.rect_height == 0:
             tipContent = _("The width or height of selected area cannot be 0")
@@ -163,10 +164,10 @@ class DeepinScreenshot():
                         clipboard.store()
                         #tipContent +=  _("Picture has been saved to clipboard")
                         try:
-                            cmd = ('python2', 'tipswindow.py', _("Picture has been saved to clipboard"), '1')
+                            cmd = ('python2', '%s/%s' % (parent_dir, 'tipswindow.py'), _("Picture has been saved to clipboard"), '1')
                             subprocess.Popen(cmd)
                         except OSError:    
-                            cmd = ('python', 'tipswindow.py', _("Picture has been saved to clipboard"), '11')
+                            cmd = ('python', '%s/%s' % (parent_dir, 'tipswindow.py'), _("Picture has been saved to clipboard"), '1')
                             subprocess.Popen(cmd)
                         
                 except Exception, e:
@@ -191,7 +192,6 @@ class DeepinScreenshot():
 
         # Exit
         self.window.destroy_all()
-        parent_dir = get_parent_dir(__file__, 1)
         if self.share_to_flag and not failed_flag:
             # share window
             win_x = self.monitor_x + (self.width / 2) - 300

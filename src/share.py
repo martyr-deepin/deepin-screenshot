@@ -580,7 +580,7 @@ class ShareToWeibo():
 
         res_left_box.button_align.set(0.5, 0.0, 0, 1)
         res_right_box.button_align.set(0.5, 0.0, 0, 1)
-        res_left_box.button_align.set_padding(5, 9, 23, 0)
+        res_left_box.button_align.set_padding(5, 9, 19, 0)
         res_right_box.button_align.set_padding(30, 0, 0, 0)
 
         res_left_box.set_size_request(405, -1)
@@ -594,7 +594,7 @@ class ShareToWeibo():
         res_vbox = gtk.VBox(False)
         follow_vbox = gtk.VBox(False)
 
-        tmp_img = gtk.Image()
+        tmp_img = gtk.Image()       # only use as a placeholder
         tmp_img.set_size_request(-1, 50) 
         res_vbox.pack_start(tmp_img, False, False)
 
@@ -635,6 +635,13 @@ class ShareToWeibo():
                 tip_box.pack_start(label, False, False, 3)
                 tip_box.pack_start(link_box, False, False, 3)
                 tip_box.pack_start(label1, False, False)
+                # only use as a placeholder
+                img = gtk.Image()
+                img.set_size_request(20, 1)
+                error_box.pack_start(img, False, False, 16)
+                tmp = Label(" ", text_size=9, label_width=200)
+                tmp.set_size_request(200, 1)
+                error_box.pack_start(tmp, False, False)
                 #print text
             else:   # upload failed
                 img = gtk.image_new_from_file(app_theme.get_theme_file_path("image/share/share_failed.png"))
@@ -661,7 +668,7 @@ class ShareToWeibo():
                 tip_box.pack_start(label1, False, False, 3)
                 tip_box.pack_start(label2, False, False, 3)
                 tip_box.pack_start(label3, False, False)
-                img = gtk.Image()
+                img = gtk.Image()   # only use as a placeholder
                 img.set_size_request(20, 20)
                 error_box.pack_start(img, False, False, 16)
                 error_box.pack_start(Label(error, text_size=9, label_width=200,
