@@ -338,9 +338,6 @@ class ShareToWeibo():
     
     def show_tooltip(self, widget, event, text):
         '''Create help tooltip.'''
-        #widget.set_has_tooltip(True)
-        #widget.set_tooltip_text(text)
-        #widget.trigger_tooltip_query()
         Tooltip.text(widget, text)
 
     def init_user_info_thread(self, button, text_view):
@@ -412,16 +409,16 @@ class ShareToWeibo():
 
         text_align = gtk.Alignment() 
         text_align.set(0.5, 0.5, 0, 0)
-        text_align.set_padding(0, 0, 10, 10)
+        text_align.set_padding(0, 30, 10, 10)
 
         text_box.pack_start(thumb, False, False, 10)
         text_box.pack_start(text_bg_align)
         text_vbox.pack_start(text_box, False, False, 10)
 
         text_align.add(text_vbox)
-        tmp_align = gtk.Alignment()
-        tmp_align.set(0.5, 0, 0, 1)
-        self.share_box.pack_start(tmp_align, False, False)
+        #tmp_align = gtk.Alignment()
+        #tmp_align.set(0.5, 0, 0, 1)
+        #self.share_box.pack_start(tmp_align, False, False)
         self.share_box.pack_start(text_align, False, False)
 
         # dialog button box

@@ -120,8 +120,11 @@ def get_windows_info():
     for w in win_list:
         if not w.is_on_workspace(WNCK_WORKSPACE):
             continue
-        if w.get_state() & wnck.WINDOW_STATE_MINIMIZED:
-            continue
+        try:    # some environment has not WINDOW_STATE_MINIMIZED property
+            if w.get_state() & wnck.WINDOW_STATE_MINIMIZED:
+                continue
+        except:
+            pass
         (x, y, width, height) = w.get_geometry()                # with frame
         #(x, y, width, height) = w.get_client_window_geometry()  # without frame
         screenshot_window_info.insert(0, coord(*convert_coord(x, y, width, height)))

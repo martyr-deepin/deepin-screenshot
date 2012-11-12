@@ -22,7 +22,6 @@
 
 from theme import app_theme
 from dtk.ui.entry import Entry
-from dtk.ui.utils import cairo_disable_antialias
 import dtk.ui.constant as dtk_constant
 import gtk
 import gobject
@@ -30,7 +29,9 @@ import pango
 import pangocairo
 import cairo
 from dtk.ui.utils import (cairo_state, color_hex_to_cairo,
-                          is_left_button, is_right_button, is_double_click, )
+                          is_left_button, is_right_button,
+                          cairo_disable_antialias, is_double_click,
+                          propagate_expose)
 
 DEFAULT_FONT = dtk_constant.DEFAULT_FONT
 DEFAULT_FONT_SIZE = dtk_constant.DEFAULT_FONT_SIZE
@@ -53,7 +54,7 @@ class TextView(Entry):
         @param font: fontname of text
         @param font_size: fontsize of text
         '''
-        super(TextView, self).__init__(content, padding_x, padding_y, 
+        super(TextView, self).__init__(content,False, padding_x, padding_y, 
               text_color, text_select_color, background_select_color, font_size)
         self.font_type = font
         self.font = pango.FontDescription("%s %d" % (font, font_size))
@@ -229,7 +230,30 @@ class TextView(Entry):
     def entry_press_return(self, widget):
         '''press return'''
         self.commit_entry('\n')
-
+    
+    def expose_entry(self, widget, event):
+        '''
+        Internal callback for `expose-event` signal.
+        '''
+        # Init.
+        cr = widget.window.cairo_create()
+        rect = widget.allocation
+        
+        # Draw background.
+        if self.get_sensitive():
+            self.draw_entry_background(cr, rect)
+        
+        # Draw text.
+        self.draw_entry_text(cr, rect)
+        
+        # Draw cursor.
+        if self.cursor_visible_flag and self.get_sensitive():
+            self.draw_entry_cursor(cr, rect)
+        
+        # Propagate expose.
+        propagate_expose(widget, event)
+        return True
+    
     def draw_entry_background(self, cr, rect):
         '''draw background. expose-event callback'''
         with cairo_disable_antialias(cr):
