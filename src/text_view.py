@@ -54,7 +54,7 @@ class TextView(Entry):
         @param font: fontname of text
         @param font_size: fontsize of text
         '''
-        super(TextView, self).__init__(content,False, padding_x, padding_y, 
+        super(TextView, self).__init__(content, padding_x, padding_y, 
               text_color, text_select_color, background_select_color, font_size)
         self.font_type = font
         self.font = pango.FontDescription("%s %d" % (font, font_size))
