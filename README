@@ -1,5 +1,8 @@
 Snapshot tools for linux deepin.
 
+* Dependence
+  sudo apt-get install python-xdg python-wnck python-xlib python-pycurl python-webkit
+
 * First generate mo files.
   Swith `deepin-scrot` directory to execute updateTranslate.sh like below:
       ./updateTranslate.sh
