@@ -27,6 +27,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from bus import SCROT_BUS
 from action import *
 #from utils import *
 #from math import *
@@ -36,7 +37,7 @@ from window import *
 from nls import _
 from widget import RootWindow, RightMenu 
 from toolbar import Colorbar, Toolbar
-from dtk.ui.utils import get_parent_dir
+from deepin_utils.file import get_parent_dir
 
 import pygtk
 import subprocess
@@ -53,6 +54,7 @@ class DeepinScreenshot():
         self.action = ACTION_WINDOW         # current action status
         # the windows in this workspace coordinate info
         self.screenshot_window_info = get_screenshot_window_info()
+        print "window info:", self.screenshot_window_info
         self.monitor_x, self.monitor_y, self.width, self.height = get_current_monitor_info()
         #self.width = SCREEN_WIDTH           # this monitor width
         #self.height = SCREEN_HEIGHT         # this monitor height
@@ -157,6 +159,7 @@ class DeepinScreenshot():
                 tipContent = "%s'%s'" % (_("Picture has been saved to file"), filename)
                 try:
                     surface.write_to_png(filename)
+                    SCROT_BUS.emit_finish(1, filename)
                     # copy to clipboard
                     if clip_flag:
                         pixbuf = gtk.gdk.pixbuf_new_from_file(filename)
@@ -190,6 +193,7 @@ class DeepinScreenshot():
                     clipboard.set_image(pixbuf)
                 clipboard.store()
                 tipContent += _("Picture has been saved to clipboard")
+                SCROT_BUS.emit_finish(0)
 
         # Exit
         self.window.destroy_all()

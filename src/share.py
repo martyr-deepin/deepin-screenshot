@@ -760,9 +760,6 @@ class ShareToWeibo():
         ''' slider expose redraw'''
         cr = widget.window.cairo_create()
         rect = widget.allocation
-        #parent_dir = utils.get_parent_dir(__file__, 2)
-        #draw.draw_pixbuf(cr, gtk.gdk.pixbuf_new_from_file(
-            #"%s/%s" % (parent_dir, "skin/01/bg.png")), rect.x, rect.y)
         cr.set_source_rgba(1.0, 1.0, 1.0, 0.8)
         cr.rectangle(rect.x, rect.y, rect.width, rect.height)
         cr.fill()

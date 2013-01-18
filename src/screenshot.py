@@ -21,7 +21,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from bus import SCROT_BUS
 import gtk
+import gobject
 from main import main
 from window import get_screenshot_pixbuf
 from optparse import OptionParser
@@ -57,6 +59,7 @@ def open_file_dialog(fullscreen=True, filetype='png'):
         filename = dialog.get_filename()
         pixbuf.save(filename, save_filetype)
         print "Save snapshot to %s" % (filename)
+        SCROT_BUS.emit_finish(1, filename)
     elif response == gtk.RESPONSE_REJECT:
         print 'Closed, no files selected'
     dialog.destroy()
@@ -87,6 +90,9 @@ def processArguments():
         parser.error("options -f and -w are mutually exclusive")
     if options.delay:
         CountdownWindow(options.delay)
+        loop = gobject.MainLoop()
+        gobject.timeout_add_seconds(options.delay, loop.quit)
+        loop.run()
     if options.save_file:
         parserFile = parser_path(str(options.save_file))
         if options.fullscreen:

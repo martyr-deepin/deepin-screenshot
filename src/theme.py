@@ -22,7 +22,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from dtk.ui.init_skin import init_skin
-from dtk.ui.utils import get_parent_dir
+from deepin_utils.file import get_parent_dir
 from dtk.ui.theme import DynamicPixbuf, DynamicColor
 from constant import *
 import os
