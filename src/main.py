@@ -54,7 +54,7 @@ class DeepinScreenshot():
         self.action = ACTION_WINDOW         # current action status
         # the windows in this workspace coordinate info
         self.screenshot_window_info = get_screenshot_window_info()
-        print "window info:", self.screenshot_window_info
+        #print "window info:", self.screenshot_window_info
         self.monitor_x, self.monitor_y, self.width, self.height = get_current_monitor_info()
         #self.width = SCREEN_WIDTH           # this monitor width
         #self.height = SCREEN_HEIGHT         # this monitor height

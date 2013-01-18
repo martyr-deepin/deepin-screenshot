@@ -90,9 +90,9 @@ def processArguments():
         parser.error("options -f and -w are mutually exclusive")
     if options.delay:
         CountdownWindow(options.delay)
-        loop = gobject.MainLoop()
-        gobject.timeout_add_seconds(options.delay, loop.quit)
-        loop.run()
+        #loop = gobject.MainLoop()
+        #gobject.timeout_add_seconds(options.delay, loop.quit)
+        #loop.run()
     if options.save_file:
         parserFile = parser_path(str(options.save_file))
         if options.fullscreen:
