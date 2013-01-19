@@ -77,6 +77,7 @@ def processArguments():
     parser.add_option("-w", "--window", action="store_true", dest="window", help="Taking the currently focused window")
     parser.add_option("-d", "--delay", dest="delay", type="int", help="wait NUM seconds before taking a shot", metavar="NUM")
     parser.add_option("-s", "--save", dest="save_file", help="save screenshot to FILE", metavar="FILE")
+    parser.add_option("--sub", action="store_true", dest="sub", help="Run as a subprocess")
     #parser.add_option("-a", "--area", help="Grab an area of the screen instead of the entire screen", action="store_true")
     #parser.add_option("-e", "--border-effect", action="store_true", dest="border_effect", help="Effect to add to the border")
     #parser.add_option("-i", "--interactive", action="store_true", help="Interactively set options")
@@ -89,10 +90,10 @@ def processArguments():
     if options.fullscreen and options.window:
         parser.error("options -f and -w are mutually exclusive")
     if options.delay:
-        CountdownWindow(options.delay)
-        #loop = gobject.MainLoop()
-        #gobject.timeout_add_seconds(options.delay, loop.quit)
-        #loop.run()
+        #CountdownWindow(options.delay)
+        loop = gobject.MainLoop()
+        gobject.timeout_add_seconds(options.delay, loop.quit)
+        loop.run()
     if options.save_file:
         parserFile = parser_path(str(options.save_file))
         if options.fullscreen:
@@ -108,7 +109,7 @@ def processArguments():
     elif options.window:
         open_file_dialog(False)
     else:
-        main()
+        main(options.sub)
 
 if __name__ == '__main__':
     processArguments()

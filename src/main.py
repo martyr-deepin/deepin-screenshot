@@ -48,7 +48,7 @@ import gtk
 
 class DeepinScreenshot():
     ''' Main Screenshot. '''
-    def __init__(self, save_file=""):
+    def __init__(self, is_subprocess=False, save_file=""):
         '''Init Main screenshot.'''
         # Init.
         self.action = ACTION_WINDOW         # current action status
@@ -81,6 +81,7 @@ class DeepinScreenshot():
         self.share_to_flag = False          # a flag if the screenshot will be shared
         self.window_flag = True             # a flag if has not selected area or window
 
+        self.is_subprocess = is_subprocess
         self.saveFiletype = 'png'
         self.saveFilename = save_file
         
@@ -193,7 +194,6 @@ class DeepinScreenshot():
                     clipboard.set_image(pixbuf)
                 clipboard.store()
                 tipContent += _("Picture has been saved to clipboard")
-                SCROT_BUS.emit_finish(0)
 
         # Exit
         self.window.destroy_all()
@@ -215,7 +215,7 @@ class DeepinScreenshot():
         except OSError:    
             cmd = ('python', '%s/%s' % (parent_dir, 'tipswindow.py'), tipContent)
             subprocess.Popen(cmd)
-    
+
     def make_pic_file(self, pixbuf):
         '''
         use cairo to make a picture file
@@ -246,6 +246,20 @@ class DeepinScreenshot():
             if each is not None:
                 each.expose(cr)
         return surface
+    
+    def save_to_tmp_file(self):
+        if self.rect_width > 0 and self.rect_height > 0:
+            from tempfile import mkstemp
+            import os
+            tmp = mkstemp(".tmp", "deepin-screenshot")
+            os.close(tmp[0])
+            filename = tmp[1]
+            self.window.finish_flag = True
+            surface = self.make_pic_file(
+                self.desktop_background.subpixbuf(*self.get_rectangel_in_monitor()))
+            surface.write_to_png(filename)
+            SCROT_BUS.emit_finish(1, filename)
+        gtk.main_quit()
 
     def get_desktop_snapshot(self):
         '''
@@ -303,10 +317,10 @@ class DeepinScreenshot():
         '''
         return (self.monitor_x, self.monitor_y, self.width, self.height)
     
-def main(name=""):
+def main(is_sub=False, name=""):
     ''' main function '''
     gtk.gdk.threads_init()
-    DeepinScreenshot(name)
+    DeepinScreenshot(is_sub, name)
     gtk.main()
 
 if __name__ == '__main__':

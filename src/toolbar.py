@@ -84,26 +84,32 @@ class Toolbar():
         self.create_toggle_button("text",ACTION_TEXT, 4, _("draw Text"))
 
         self.create_button("undo", _("undo"))
-        # pack save and list button
-        save_combo_button = ComboButton(
-            app_theme.get_pixbuf("action/save_normal.png"),
-            app_theme.get_pixbuf("action/save_hover.png"),
-            app_theme.get_pixbuf("action/save_press.png"),
-            app_theme.get_pixbuf("action/save_normal.png"),
-            app_theme.get_pixbuf("action/list_normal.png"),
-            app_theme.get_pixbuf("action/list_hover.png"),
-            app_theme.get_pixbuf("action/list_press.png"),
-            app_theme.get_pixbuf("action/list_normal.png"),)
-        save_combo_button.set_name("save")
-        save_combo_button.connect("button-clicked", self._button_clicked, "save")
-        save_combo_button.connect("arrow-clicked", self._list_menu_show)
-        save_tip_text_list = ["save automatically", "save as", "save to clipboard", "save automatically to file and clipboard"]
-        tip_text = save_tip_text_list[self.screenshot.save_op_index]
-        save_combo_button.connect("enter-notify-event", self._show_tooltip, _(tip_text))
-        self.toolbox.pack_start(save_combo_button)
+
+        if self.screenshot.is_subprocess:
+            self.create_button("save", _("save"))
+        else:
+            # pack save and list button
+            save_combo_button = ComboButton(
+                app_theme.get_pixbuf("action/save_normal.png"),
+                app_theme.get_pixbuf("action/save_hover.png"),
+                app_theme.get_pixbuf("action/save_press.png"),
+                app_theme.get_pixbuf("action/save_normal.png"),
+                app_theme.get_pixbuf("action/list_normal.png"),
+                app_theme.get_pixbuf("action/list_hover.png"),
+                app_theme.get_pixbuf("action/list_press.png"),
+                app_theme.get_pixbuf("action/list_normal.png"),)
+            save_combo_button.set_name("save")
+            save_combo_button.connect("button-clicked", self._button_clicked, "save")
+            save_combo_button.connect("arrow-clicked", self._list_menu_show)
+            save_tip_text_list = ["save automatically", "save as", "save to clipboard", "save automatically to file and clipboard"]
+            tip_text = save_tip_text_list[self.screenshot.save_op_index]
+            save_combo_button.connect("enter-notify-event", self._show_tooltip, _(tip_text))
+            self.toolbox.pack_start(save_combo_button)
 
         self.create_button("cancel", _("cancel"))
-        self.create_button("share", _("share"))
+
+        if not self.screenshot.is_subprocess:
+            self.create_button("share", _("share"))
 
         if self.screenshot:
             self._button_clicked_cb = {
@@ -257,23 +263,25 @@ class Toolbar():
     def save_operate(self, widget=None):
         '''do save operate'''
         screenshot = self.screenshot
-        #print "operate:", screenshot.save_op_index
-        # auto save
-        if screenshot.save_op_index == SAVE_OP_AUTO:
-            folder = utils.get_pictures_dir()
-            filename = "%s%s.%s" % (_(DEFAULT_FILENAME), utils.get_format_time(), "png")
-            screenshot.save_snapshot("%s/%s" % (folder, filename))
-        # save as
-        elif screenshot.save_op_index == SAVE_OP_AS:
-            self.save_to_file()
-        # copy to clip
-        elif screenshot.save_op_index == SAVE_OP_CLIP:
-            screenshot.save_snapshot()
-        # auto save and copy to clip
+        if screenshot.is_subprocess:
+            screenshot.save_to_tmp_file()
         else:
-            folder = utils.get_pictures_dir()
-            filename = "%s%s.%s" % (_(DEFAULT_FILENAME), utils.get_format_time(), "png")
-            screenshot.save_snapshot("%s/%s" % (folder, filename), clip_flag=True)
+            # auto save
+            if screenshot.save_op_index == SAVE_OP_AUTO:
+                folder = utils.get_pictures_dir()
+                filename = "%s%s.%s" % (_(DEFAULT_FILENAME), utils.get_format_time(), "png")
+                screenshot.save_snapshot("%s/%s" % (folder, filename))
+            # save as
+            elif screenshot.save_op_index == SAVE_OP_AS:
+                self.save_to_file()
+            # copy to clip
+            elif screenshot.save_op_index == SAVE_OP_CLIP:
+                screenshot.save_snapshot()
+            # auto save and copy to clip
+            else:
+                folder = utils.get_pictures_dir()
+                filename = "%s%s.%s" % (_(DEFAULT_FILENAME), utils.get_format_time(), "png")
+                screenshot.save_snapshot("%s/%s" % (folder, filename), clip_flag=True)
     
     def share_picture(self, widget):
         '''share picture. share button clicked callback'''
