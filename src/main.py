@@ -38,6 +38,7 @@ from nls import _
 from widget import RootWindow, RightMenu 
 from toolbar import Colorbar, Toolbar
 from deepin_utils.file import get_parent_dir
+from notify_dbus import notify
 
 import pygtk
 import subprocess
@@ -147,6 +148,7 @@ class DeepinScreenshot():
         failed_flag = False
         tipContent = ""
         parent_dir = get_parent_dir(__file__, 1)
+        app_icon = "%s/theme/logo/deepin-screenshot.png" % get_parent_dir(__file__, 2)
         # Save snapshot.
         if self.rect_width == 0 or self.rect_height == 0:
             tipContent = _("The width or height of selected area cannot be 0")
@@ -157,7 +159,7 @@ class DeepinScreenshot():
                 self.desktop_background.subpixbuf(*self.get_rectangel_in_monitor()))
             # Save to file
             if filename:
-                tipContent = "%s'%s'" % (_("Picture has been saved to file"), filename)
+                tipContent = "%s '%s'" % (_("Picture has been saved to file"), filename)
                 try:
                     surface.write_to_png(filename)
                     SCROT_BUS.emit_finish(1, filename)
@@ -168,12 +170,13 @@ class DeepinScreenshot():
                         clipboard.set_image(pixbuf)
                         clipboard.store()
                         #tipContent +=  _("Picture has been saved to clipboard")
-                        try:
-                            cmd = ('python2', '%s/%s' % (parent_dir, 'tipswindow.py'), _("Picture has been saved to clipboard"), '1')
-                            subprocess.Popen(cmd)
-                        except OSError:    
-                            cmd = ('python', '%s/%s' % (parent_dir, 'tipswindow.py'), _("Picture has been saved to clipboard"), '1')
-                            subprocess.Popen(cmd)
+                        #try:
+                            #cmd = ('python2', '%s/%s' % (parent_dir, 'tipswindow.py'), _("Picture has been saved to clipboard"), '1')
+                            #subprocess.Popen(cmd)
+                        #except OSError:    
+                            #cmd = ('python', '%s/%s' % (parent_dir, 'tipswindow.py'), _("Picture has been saved to clipboard"), '1')
+                            #subprocess.Popen(cmd)
+                        notify("Deepin Screenshot", 0, app_icon, _("截图完毕"), tipContent, '', '', 3500)
                         
                 except Exception, e:
                     tipContent = "%s:%s" % (_("Failed to save the picture"), str(e))
@@ -209,12 +212,13 @@ class DeepinScreenshot():
                 subprocess.Popen(cmd)
         
         # tipWindow
-        try:
-            cmd = ('python2', '%s/%s' % (parent_dir, 'tipswindow.py'), tipContent)
-            subprocess.Popen(cmd)
-        except OSError:    
-            cmd = ('python', '%s/%s' % (parent_dir, 'tipswindow.py'), tipContent)
-            subprocess.Popen(cmd)
+        #try:
+            #cmd = ('python2', '%s/%s' % (parent_dir, 'tipswindow.py'), tipContent)
+            #subprocess.Popen(cmd)
+        #except OSError:    
+            #cmd = ('python', '%s/%s' % (parent_dir, 'tipswindow.py'), tipContent)
+            #subprocess.Popen(cmd)
+        notify("Deepin Screenshot", 0, app_icon, _("截图完毕"), tipContent, '', '', 3500)
 
     def make_pic_file(self, pixbuf):
         '''
@@ -260,6 +264,15 @@ class DeepinScreenshot():
             surface.write_to_png(filename)
             SCROT_BUS.emit_finish(1, filename)
         gtk.main_quit()
+        return filename
+
+    def parse_barcode(self):
+        filename = self.save_to_tmp_file()
+        import os
+        from debarcode import debarcode
+        print filename
+        print debarcode(filename)
+        os.remove(filename)
 
     def get_desktop_snapshot(self):
         '''

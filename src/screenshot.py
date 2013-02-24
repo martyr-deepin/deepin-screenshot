@@ -27,7 +27,7 @@ import gobject
 from main import main
 from window import get_screenshot_pixbuf
 from optparse import OptionParser
-from tipswindow import CountdownWindow
+#from tipswindow import CountdownWindow
 from utils import get_format_time, get_pictures_dir, parser_path
 from constant import DEFAULT_FILENAME
 from nls import _
