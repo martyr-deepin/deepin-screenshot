@@ -85,6 +85,19 @@ class RootWindow():
         self._button_motion_process = status.MotionProcess(screenshot, self)
 
         # key binding.
+
+        accel_group = gtk.AccelGroup()
+        self.window.add_accel_group(accel_group)
+        accel_group.connect_group(ord('1'), gtk.gdk.CONTROL_MASK, gtk.ACCEL_VISIBLE,
+                                  self.__accel_group_callback)
+        accel_group.connect_group(ord('2'), gtk.gdk.CONTROL_MASK, gtk.ACCEL_VISIBLE,
+                                  self.__accel_group_callback)
+        accel_group.connect_group(ord('3'), gtk.gdk.CONTROL_MASK, gtk.ACCEL_VISIBLE,
+                                  self.__accel_group_callback)
+        accel_group.connect_group(ord('5'), gtk.gdk.CONTROL_MASK, gtk.ACCEL_VISIBLE,
+                                  self.__accel_group_callback)
+        accel_group.connect_group(ord('4'), gtk.gdk.CONTROL_MASK, gtk.ACCEL_VISIBLE,
+                                  self.__accel_group_callback)
         self.hotkey_map = { "Escape": self.quit}
         if self.screenshot:
             self.hotkey_map["Ctrl + s"] = self._save_to_file
@@ -736,6 +749,11 @@ class RootWindow():
                 des_y = self.screenshot.y - self.screenshot.monitor_y
             self.draw_area.move(widget, des_x, des_y)
     
+    def __accel_group_callback(self, group, acceleratable, keyval, modifier):
+        if self.screenshot.toolbar.window.get_visible():
+            self.screenshot.toolbar.accel_group_callback(
+                group, acceleratable, keyval, modifier)
+        
     def set_cursor(self, cursor_type):
         '''
         set cursor type
@@ -804,7 +822,9 @@ class RightMenu():
               app_theme_get_dynamic_pixbuf('image/action_menu/save_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action_menu/save_normal.png')), 
              _("save"), save_sub_menu),
+            ########
             (None, _("解析二维码"), self.screenshot.parse_barcode),
+            ########
             ((app_theme_get_dynamic_pixbuf('image/action_menu/cancel_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action_menu/cancel_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action_menu/cancel_normal.png')), 

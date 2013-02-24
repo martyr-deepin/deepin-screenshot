@@ -75,18 +75,19 @@ class Toolbar():
         self.window.set_size_request(-1, self.height)
 
         self._toggle_button_list = []
+        self.__button_accelerator_dict = {}
         self._toggle_button_group = ToggleButtonGroup([], 6)
         self.toolbox.pack_start(self._toggle_button_group)
-        self.create_toggle_button("rect", ACTION_RECTANGLE, 0, _("draw rectangle"))
-        self.create_toggle_button("ellipse", ACTION_ELLIPSE, 1, _("draw ellipse"))
-        self.create_toggle_button("arrow",ACTION_ARROW, 2, _("draw arrow"))
-        self.create_toggle_button("line",ACTION_LINE, 3, _("draw line"))
-        self.create_toggle_button("text",ACTION_TEXT, 4, _("draw Text"))
+        self.create_toggle_button("rect", ACTION_RECTANGLE, 0, _("draw rectangle"), "<Ctrl>1")
+        self.create_toggle_button("ellipse", ACTION_ELLIPSE, 1, _("draw ellipse"), "<Ctrl>2")
+        self.create_toggle_button("arrow",ACTION_ARROW, 2, _("draw arrow"), "<Ctrl>3")
+        self.create_toggle_button("line",ACTION_LINE, 3, _("draw line"), "<Ctrl>4")
+        self.create_toggle_button("text",ACTION_TEXT, 4, _("draw Text"), "<Ctrl>5")
 
-        self.create_button("undo", _("undo"))
+        self.create_button("undo", _("undo"), "<Ctrl>6")
 
         if self.screenshot.is_subprocess:
-            self.create_button("save", _("save"))
+            self.create_button("save", _("save"), "<Ctrl>7")
         else:
             # pack save and list button
             save_combo_button = ComboButton(
@@ -106,10 +107,10 @@ class Toolbar():
             save_combo_button.connect("enter-notify-event", self._show_tooltip, _(tip_text))
             self.toolbox.pack_start(save_combo_button)
 
-        self.create_button("cancel", _("cancel"))
+        self.create_button("cancel", _("cancel"), "<Ctrl>8")
 
         if not self.screenshot.is_subprocess:
-            self.create_button("share", _("share"))
+            self.create_button("share", _("share"), "<Ctrl>9")
 
         if self.screenshot:
             self._button_clicked_cb = {
@@ -118,7 +119,7 @@ class Toolbar():
                 'cancel': self.win.quit,
                 'share': self.share_picture}
 
-    def create_toggle_button(self, name, action, index, text=''):
+    def create_toggle_button(self, name, action, index, text='', accel_key=None):
         '''
         create a togglebutton
         @param name: the button's name, a string
@@ -139,8 +140,11 @@ class Toolbar():
         #self.toolbox.pack_start(button)
         self._toggle_button_group.pack_start(button)
         self._toggle_button_list.append(button)
+        if accel_key:
+            self.__button_accelerator_dict[gtk.accelerator_name(
+                                           *gtk.accelerator_parse(accel_key))] = button
 
-    def create_button(self, name, text=''):
+    def create_button(self, name, text='', accel_key=None):
         '''
         make a button
         @param name: the button's name, a string
@@ -155,6 +159,9 @@ class Toolbar():
         button.set_name(name)
         #button.set_size_request(28, 28)
         self.toolbox.pack_start(button)
+        if accel_key:
+            self.__button_accelerator_dict[gtk.accelerator_name(
+                                           *gtk.accelerator_parse(accel_key))] = button
         return button
 
     def _show_tooltip(self, widget, event, text):
@@ -343,6 +350,15 @@ class Toolbar():
         if self._toggle_button_group.is_active():
             self._toggle_button_group.set_index(-1)
     
+    def accel_group_callback(self, group, acceleratable, keyval, modifier):
+        accel_name = gtk.accelerator_name(keyval, modifier)
+        if accel_name in self.__button_accelerator_dict:
+            button = self.__button_accelerator_dict[accel_name]
+            button.pressed()
+            button.released()
+            #button.clicked()
+            self.set_button_active(button.get_name(), True)
+        
     def show(self):
         ''' show the toolbar '''
         if not self.window.get_visible():
