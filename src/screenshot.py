@@ -30,6 +30,7 @@ from optparse import OptionParser
 #from tipswindow import CountdownWindow
 from utils import get_format_time, get_pictures_dir, parser_path
 from constant import DEFAULT_FILENAME
+from notify_dbus import notify
 from nls import _
 
 save_filetype = "png"
@@ -90,7 +91,8 @@ def processArguments():
     if options.fullscreen and options.window:
         parser.error("options -f and -w are mutually exclusive")
     if options.delay:
-        #CountdownWindow(options.delay)
+        notify("Deepin Screenshot", 0, "deepin-screenshot", _("DeepinScreenshot"),
+               _("DeepinScreent will start after %d seconds") % options.delay, timeout=(options.delay-0.5)*1000)
         loop = gobject.MainLoop()
         gobject.timeout_add_seconds(options.delay, loop.quit)
         loop.run()

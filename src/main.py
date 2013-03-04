@@ -148,7 +148,6 @@ class DeepinScreenshot():
         failed_flag = False
         tipContent = ""
         parent_dir = get_parent_dir(__file__, 1)
-        app_icon = "%s/theme/logo/deepin-screenshot.png" % get_parent_dir(__file__, 2)
         # Save snapshot.
         if self.rect_width == 0 or self.rect_height == 0:
             tipContent = _("The width or height of selected area cannot be 0")
@@ -176,7 +175,7 @@ class DeepinScreenshot():
                         #except OSError:    
                             #cmd = ('python', '%s/%s' % (parent_dir, 'tipswindow.py'), _("Picture has been saved to clipboard"), '1')
                             #subprocess.Popen(cmd)
-                        notify("Deepin Screenshot", 0, app_icon, _("截图完毕"), tipContent, '', '', 3500)
+                        notify("Deepin Screenshot", 0, "deepin-screenshot", _("DeepinScreenshot"), tipContent)
                         
                 except Exception, e:
                     tipContent = "%s:%s" % (_("Failed to save the picture"), str(e))
@@ -218,7 +217,7 @@ class DeepinScreenshot():
         #except OSError:    
             #cmd = ('python', '%s/%s' % (parent_dir, 'tipswindow.py'), tipContent)
             #subprocess.Popen(cmd)
-        notify("Deepin Screenshot", 0, app_icon, _("截图完毕"), tipContent, '', '', 3500)
+        notify("Deepin Screenshot", 0, "deepin-screenshot", _("DeepinScreenshot"), tipContent)
 
     def make_pic_file(self, pixbuf):
         '''

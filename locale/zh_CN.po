@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-27 16:57+0800\n"
+"POT-Creation-Date: 2013-03-04 15:42+0800\n"
 "PO-Revision-Date: 2012-09-22 20:32+0800\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,145 +17,154 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/widget.py:251
-msgid "Drag to select area"
-msgstr "拖动可自由选区"
-
-#: ../src/widget.py:703 ../src/toolbar.py:153
-msgid "save automatically"
-msgstr "自动保存"
-
-#: ../src/widget.py:704 ../src/toolbar.py:154
-msgid "save as"
-msgstr "保存到指定目录"
-
-#: ../src/widget.py:705 ../src/toolbar.py:155
-msgid "save to clipboard"
-msgstr "复制到剪切板"
-
-#: ../src/widget.py:706 ../src/toolbar.py:156
-msgid "save automatically to file and clipboard"
-msgstr "自动保存并复制到剪切板"
-
-#: ../src/widget.py:714 ../src/toolbar.py:79
+#: ../src/toolbar.py:81 ../src/widget.py:799
 msgid "draw rectangle"
 msgstr "矩形工具"
 
-#: ../src/widget.py:718 ../src/toolbar.py:80
+#: ../src/toolbar.py:82 ../src/widget.py:803
 msgid "draw ellipse"
 msgstr "椭圆工具"
 
-#: ../src/widget.py:722 ../src/toolbar.py:81
+#: ../src/toolbar.py:83 ../src/widget.py:807
 msgid "draw arrow"
 msgstr "箭头工具"
 
-#: ../src/widget.py:726 ../src/toolbar.py:82
+#: ../src/toolbar.py:84 ../src/widget.py:811
 msgid "draw line"
 msgstr "线条工具"
 
-#: ../src/widget.py:730 ../src/toolbar.py:83
+#: ../src/toolbar.py:85 ../src/widget.py:815
 msgid "draw Text"
 msgstr "文本工具"
 
-#: ../src/widget.py:735 ../src/toolbar.py:85
+#: ../src/toolbar.py:87 ../src/widget.py:820
 msgid "undo"
 msgstr "撤销编辑"
 
-#: ../src/widget.py:739
+#: ../src/toolbar.py:90 ../src/widget.py:824
 msgid "save"
 msgstr "保存"
 
-#: ../src/widget.py:743 ../src/toolbar.py:104
+#: ../src/toolbar.py:110 ../src/widget.py:831
 msgid "cancel"
 msgstr "退出截图"
 
-#: ../src/widget.py:747 ../src/toolbar.py:105
+#: ../src/toolbar.py:113 ../src/widget.py:838
 msgid "share"
 msgstr "分享到微博"
 
-#: ../src/share.py:71
-msgid "share to web"
-msgstr "分享至微博"
+#: ../src/toolbar.py:177 ../src/widget.py:784
+msgid "save automatically"
+msgstr "自动保存"
 
-#: ../src/share.py:295
-msgid "click to switch user"
-msgstr "点击图标切换帐号"
+#: ../src/toolbar.py:178 ../src/widget.py:785
+msgid "save as"
+msgstr "保存到指定目录"
 
-#: ../src/share.py:313
-msgid "click to login"
-msgstr "点击图标设置帐号"
+#: ../src/toolbar.py:179 ../src/widget.py:786
+msgid "save to clipboard"
+msgstr "复制到剪切板"
 
-#: ../src/share.py:427
-msgid "loading"
-msgstr "加载中"
+#: ../src/toolbar.py:180 ../src/widget.py:787
+msgid "save automatically to file and clipboard"
+msgstr "自动保存并复制到剪切板"
 
-#: ../src/share.py:438
-msgid "Tweet"
-msgstr "立即分享"
-
-#: ../src/share.py:480
-msgid "Please input text here"
-msgstr "请输入内容"
-
-#: ../src/share.py:506 ../src/share.py:517
-msgid "error"
-msgstr "错误"
-
-#: ../src/share.py:506
-msgid "picture does not exist"
-msgstr "图片不存在"
-
-#: ../src/share.py:517
-msgid "Please choose at least one platform to share on"
-msgstr "请至少选择一个平台进行分享"
-
-#: ../src/share.py:525
-msgid "uploading"
-msgstr "分享中"
-
-#: ../src/share.py:536
-msgid "came from"
-msgstr "来自"
-
-#: ../src/share.py:536
+#: ../src/screenshot.py:94 ../src/main.py:178 ../src/main.py:220
+#: ../src/share.py:555
 msgid "DeepinScreenshot"
 msgstr "深度截图"
 
-#: ../src/share.py:580
-msgid "Follow"
-msgstr "关注"
+#: ../src/screenshot.py:95
+msgid "DeepinScreent will start after %d seconds"
+msgstr ""
 
-#: ../src/share.py:605 ../src/share.py:619
-msgid "upload to"
-msgstr "分享至"
-
-#: ../src/share.py:608
-msgid "successful"
-msgstr "成功"
-
-#: ../src/share.py:624
-msgid "failed"
-msgstr "失败"
-
-#: ../src/share.py:632
-msgid "Unknow reason"
-msgstr "未知"
-
-#: ../src/main.py:137
+#: ../src/main.py:153
 msgid "The width or height of selected area cannot be 0"
 msgstr "选区的宽或高不能为0"
 
-#: ../src/main.py:145
+#: ../src/main.py:161
 msgid "Picture has been saved to file"
 msgstr "图片已保存到文件"
 
-#: ../src/main.py:156 ../src/main.py:159 ../src/main.py:180
+#: ../src/main.py:181
+msgid "Failed to save the picture"
+msgstr "图片保存失败"
+
+#: ../src/main.py:198
 msgid "Picture has been saved to clipboard"
 msgstr "图片已保存到剪辑板"
 
-#: ../src/main.py:163
-msgid "Failed to save the picture"
-msgstr "图片保存失败"
+#: ../src/share.py:73
+msgid "share to web"
+msgstr "分享至微博"
+
+#: ../src/share.py:304
+msgid "click to switch user"
+msgstr "点击图标切换帐号"
+
+#: ../src/share.py:322
+msgid "click to login"
+msgstr "点击图标设置帐号"
+
+#: ../src/share.py:437
+msgid "loading"
+msgstr "加载中"
+
+#: ../src/share.py:448
+msgid "Tweet"
+msgstr "立即分享"
+
+#: ../src/share.py:490
+msgid "Please input text here"
+msgstr "请输入内容"
+
+#: ../src/share.py:516 ../src/share.py:527
+msgid "error"
+msgstr "错误"
+
+#: ../src/share.py:516
+msgid "picture does not exist"
+msgstr "图片不存在"
+
+#: ../src/share.py:527
+msgid "Please choose at least one platform to share on"
+msgstr "请至少选择一个平台进行分享"
+
+#: ../src/share.py:544
+msgid "uploading"
+msgstr "分享中"
+
+#: ../src/share.py:555
+msgid "came from"
+msgstr "来自"
+
+#: ../src/share.py:602
+msgid "Follow"
+msgstr "关注"
+
+#: ../src/share.py:625 ../src/share.py:646
+msgid "upload to"
+msgstr "分享至"
+
+#: ../src/share.py:628
+msgid "successful"
+msgstr "成功"
+
+#: ../src/share.py:651
+msgid "failed"
+msgstr "失败"
+
+#: ../src/share.py:659
+msgid "Unknow reason"
+msgstr "未知"
+
+#: ../src/widget.py:264
+msgid "Drag to select area"
+msgstr "拖动可自由选区"
+
+#: ../src/widget.py:826
+msgid "解析二维码"
+msgstr ""
 
 msgid "Close"
 msgstr "关闭"
