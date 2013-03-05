@@ -823,7 +823,7 @@ class RightMenu():
               app_theme_get_dynamic_pixbuf('image/action_menu/save_normal.png')), 
              _("save"), save_sub_menu),
             ########
-            (None, _("解析二维码"), self.screenshot.parse_barcode),
+            #(None, _("解析二维码"), self.screenshot.parse_barcode),
             ########
             ((app_theme_get_dynamic_pixbuf('image/action_menu/cancel_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action_menu/cancel_hover.png'), 

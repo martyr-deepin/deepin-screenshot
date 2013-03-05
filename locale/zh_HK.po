@@ -63,11 +63,11 @@ msgstr "保存到指定目錄"
 
 #: ../src/toolbar.py:179 ../src/widget.py:786
 msgid "save to clipboard"
-msgstr "複制到剪切板"
+msgstr "復制到剪切板"
 
 #: ../src/toolbar.py:180 ../src/widget.py:787
 msgid "save automatically to file and clipboard"
-msgstr "自動保存並複制到剪切板"
+msgstr "自動保存并復制到剪切板"
 
 #: ../src/screenshot.py:94 ../src/main.py:178 ../src/main.py:220
 #: ../src/share.py:555
@@ -75,13 +75,12 @@ msgid "DeepinScreenshot"
 msgstr "深度截圖"
 
 #: ../src/screenshot.py:95
-#, python-format
 msgid "DeepinScreent will start after %d seconds"
-msgstr ""
+msgstr "深度截圖將在%d秒后啟動"
 
 #: ../src/main.py:153
 msgid "The width or height of selected area cannot be 0"
-msgstr "選區的寬或高不能爲0"
+msgstr "選區的寬或高不能為0"
 
 #: ../src/main.py:161
 msgid "Picture has been saved to file"
@@ -164,181 +163,181 @@ msgid "Drag to select area"
 msgstr "拖動可自由選區"
 
 #: ../src/widget.py:826
-msgid "解析二维码"
-msgstr ""
+msgid "analyse QR code"
+msgstr "解析二維碼"
 
-#~ msgid "Close"
-#~ msgstr "關閉"
+msgid "Close"
+msgstr "關閉"
 
-#~ msgid "left"
-#~ msgstr "還可以輸入"
+msgid "left"
+msgstr "還可以輸入"
 
-#~ msgid "chars"
-#~ msgstr "字"
+msgid "chars"
+msgstr "字"
 
-#~ msgid "exceeds"
-#~ msgstr "已經超過"
+msgid "exceeds"
+msgstr "已經超過"
 
 # in weibo.py
-#~ msgid "Sina"
-#~ msgstr "新浪微博"
+msgid "Sina"
+msgstr "新浪微博"
 
-#~ msgid "Tencent"
-#~ msgstr "騰訊微博"
+msgid "Tencent"
+msgstr "騰訊微博"
 
-#~ msgid "timed out"
-#~ msgstr "連接超時"
+msgid "timed out"
+msgstr "連接超時"
 
-#~ msgid "network errors"
-#~ msgstr "網絡錯誤"
+msgid "network errors"
+msgstr "網絡錯誤"
 
-#~ msgid "Connection error"
-#~ msgstr "連接出錯"
+msgid "Connection error"
+msgstr "連接出錯"
 
 #
 # Sina error message
-#~ msgid "System error"
-#~ msgstr "系統錯誤"
+msgid "System error"
+msgstr "系統錯誤"
 
-#~ msgid "Service unavailable"
-#~ msgstr "服務暫停"
+msgid "Service unavailable"
+msgstr "服務暫停"
 
-#~ msgid "Remote service error"
-#~ msgstr "遠程服務錯誤"
+msgid "Remote service error"
+msgstr "遠程服務錯誤"
 
-#~ msgid "IP limit"
-#~ msgstr "IP限制不能請求該資源"
+msgid "IP limit"
+msgstr "IP限制不能請求該資源"
 
-#~ msgid "Unsupport mediatype"
-#~ msgstr "不支持的MediaType"
+msgid "Unsupport mediatype"
+msgstr "不支持的MediaType"
 
-#~ msgid "Too many pending tasks, system is busy"
-#~ msgstr "任務過多，系統繁忙"
+msgid "Too many pending tasks, system is busy"
+msgstr "任務過多，系統繁忙"
 
-#~ msgid "Job expired"
-#~ msgstr "任務超時"
+msgid "Job expired"
+msgstr "任務超時"
 
-#~ msgid "RPC error"
-#~ msgstr "RPC錯誤"
+msgid "RPC error"
+msgstr "RPC錯誤"
 
-#~ msgid "Illegal request"
-#~ msgstr "非法請求"
+msgid "Illegal request"
+msgstr "非法請求"
 
-#~ msgid "Invalid weibo user"
-#~ msgstr "不合法的微博用戶"
+msgid "Invalid weibo user"
+msgstr "不合法的微博用戶"
 
-#~ msgid "miss required parameter"
-#~ msgstr "缺失必選參數"
+msgid "miss required parameter"
+msgstr "缺失必選參數"
 
-#~ msgid "Request body length over limit"
-#~ msgstr "請求長度超過限制"
+msgid "Request body length over limit"
+msgstr "請求長度超過限制"
 
-#~ msgid "IP requests out of rate limit"
-#~ msgstr "IP請求頻次超過上限"
+msgid "IP requests out of rate limit"
+msgstr "IP請求頻次超過上限"
 
-#~ msgid "User requests out of rate limit"
-#~ msgstr "用戶請求頻次超過上限"
+msgid "User requests out of rate limit"
+msgstr "用戶請求頻次超過上限"
 
-#~ msgid "User does not exists"
-#~ msgstr "用戶不存在"
+msgid "User does not exists"
+msgstr "用戶不存在"
 
-#~ msgid "Unsupported image type, only suport JPG, GIF, PNG"
-#~ msgstr "不支持的圖片類型，僅僅支持JPG、GIF、PNG"
+msgid "Unsupported image type, only suport JPG, GIF, PNG"
+msgstr "不支持的圖片類型，僅僅支持JPG、GIF、PNG"
 
-#~ msgid "Image size too large"
-#~ msgstr "圖片太大"
+msgid "Image size too large"
+msgstr "圖片太大"
 
-#~ msgid "Content is null"
-#~ msgstr "內容爲空"
+msgid "Content is null"
+msgstr "內容為空"
 
-#~ msgid "Text too long, please input text less than 140 characters"
-#~ msgstr "輸入文字太長，請確認不超過140個字符"
+msgid "Text too long, please input text less than 140 characters"
+msgstr "輸入文字太長，請確認不超過140個字符"
 
-#~ msgid "Text too long, please input text less than 300 characters"
-#~ msgstr "輸入文字太長，請確認不超過300個字符"
+msgid "Text too long, please input text less than 300 characters"
+msgstr "輸入文字太長，請確認不超過300個字符"
 
-#~ msgid "Account or ip or app is illgal, can not continue"
-#~ msgstr "賬號、IP或應用非法，暫時無法完成此操作"
+msgid "Account or ip or app is illgal, can not continue"
+msgstr "賬號、IP或應用非法，暫時無法完成此操作"
 
-#~ msgid "Out of limit"
-#~ msgstr "發布內容過于頻繁"
+msgid "Out of limit"
+msgstr "發布內容過於頻繁"
 
-#~ msgid "Repeat content"
-#~ msgstr "提交相似的信息"
+msgid "Repeat content"
+msgstr "提交相似的信息"
 
-#~ msgid "Contain illegal website"
-#~ msgstr "包含非法網址"
+msgid "Contain illegal website"
+msgstr "包含非法網址"
 
-#~ msgid "Contain advertising"
-#~ msgstr "包含廣告信息"
+msgid "Contain advertising"
+msgstr "包含廣告信息"
 
-#~ msgid "Content is illegal"
-#~ msgstr "包含非法內容"
+msgid "Content is illegal"
+msgstr "包含非法內容"
 
-#~ msgid "Your ip's behave in a comic boisterous or unruly manner"
-#~ msgstr "此IP地址上的行爲異常"
+msgid "Your ip's behave in a comic boisterous or unruly manner"
+msgstr "此IP地址上的行為異常"
 
-#~ msgid "Update success, while server slow now, please wait 1-2 minutes"
-#~ msgstr "發布成功，目前服務器可能會有延遲，請耐心等待1-2分鍾"
+msgid "Update success, while server slow now, please wait 1-2 minutes"
+msgstr "發布成功，目前服務器可能會有延遲，請耐心等待1-2分鐘"
 
-#~ msgid "Illegal weibo"
-#~ msgstr "不合法的微博"
+msgid "Illegal weibo"
+msgstr "不合法的微博"
 
-#~ msgid "Repeated weibo text"
-#~ msgstr "不能發布相同的微博"
+msgid "Repeated weibo text"
+msgstr "不能發布相衕的微博"
 
-#~ msgid "Contains forbid world"
-#~ msgstr "含有敏感詞"
+msgid "Contains forbid world"
+msgstr "含有敏感詞"
 
 #
 # Tencent error message
-#~ msgid "error content len"
-#~ msgstr "微博內容超出長度限制或爲空"
+msgid "error content len"
+msgstr "微博內容超出長度限制或為空"
 
-#~ msgid "error pic size"
-#~ msgstr "圖片大小超出限制或爲0"
+msgid "error pic size"
+msgstr "圖片大小超出限制或為0"
 
-#~ msgid "pic format error"
-#~ msgstr "圖片格式錯誤"
+msgid "pic format error"
+msgstr "圖片格式錯誤"
 
-#~ msgid "post format error"
-#~ msgstr "格式錯誤、用戶無效（非微博用戶）"
+msgid "post format error"
+msgstr "格式錯誤、用戶無效（非微博用戶）"
 
-#~ msgid "forbidden content"
-#~ msgstr "有過多髒話"
+msgid "forbidden content"
+msgstr "有過多臟話"
 
-#~ msgid "forbidden access"
-#~ msgstr "禁止訪問，如城市，uin黑名單限制等"
+msgid "forbidden access"
+msgstr "禁止訪問，如城市，uin黑名單限制等"
 
-#~ msgid "post invliad content"
-#~ msgstr "包含垃圾信息：廣告，惡意鏈接、黑名單號碼等"
+msgid "post invliad content"
+msgstr "包含垃圾信息：廣告，惡意鏈接、黑名單號碼等"
 
-#~ msgid "post content too fast"
-#~ msgstr "發表太快，被頻率限制"
+msgid "post content too fast"
+msgstr "發表太快，被頻率限制"
 
-#~ msgid "content is verifying"
-#~ msgstr "源消息審核中"
+msgid "content is verifying"
+msgstr "源消息審核中"
 
-#~ msgid "post content repeated"
-#~ msgstr "重複發表，請不要連續發表重複內容"
+msgid "post content repeated"
+msgstr "重復發表，請不要連續發表重復內容"
 
-#~ msgid "not verify real name"
-#~ msgstr "用戶未進行實名認證"
+msgid "not verify real name"
+msgstr "用戶未進行實名認證"
 
-#~ msgid "add fail"
-#~ msgstr "服務器內部錯誤導致發表失敗"
+msgid "add fail"
+msgstr "服務器內部錯誤導致發表失敗"
 
-#~ msgid "pic upload error"
-#~ msgstr "上傳圖片失敗"
+msgid "pic upload error"
+msgstr "上傳圖片失敗"
 
-#~ msgid "common uin blacklist limit"
-#~ msgstr "公共uin黑名單限制"
+msgid "common uin blacklist limit"
+msgstr "公共uin黑名單限制"
 
-#~ msgid "common ip blacklist limit"
-#~ msgstr "公共IP黑名單限制 "
+msgid "common ip blacklist limit"
+msgstr "公共IP黑名單限制 "
 
-#~ msgid "weibo blacklist limit"
-#~ msgstr "微博黑名單限制"
+msgid "weibo blacklist limit"
+msgstr "微博黑名單限制"
 
-#~ msgid "access too fast"
-#~ msgstr "單UIN訪問微博過快"
+msgid "access too fast"
+msgstr "單UIN訪問微博過快"

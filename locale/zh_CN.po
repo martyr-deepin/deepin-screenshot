@@ -76,7 +76,7 @@ msgstr "深度截图"
 
 #: ../src/screenshot.py:95
 msgid "DeepinScreent will start after %d seconds"
-msgstr ""
+msgstr "深度截图将在%d秒后启动"
 
 #: ../src/main.py:153
 msgid "The width or height of selected area cannot be 0"
@@ -163,8 +163,8 @@ msgid "Drag to select area"
 msgstr "拖动可自由选区"
 
 #: ../src/widget.py:826
-msgid "解析二维码"
-msgstr ""
+msgid "analyse QR code"
+msgstr "解析二维码"
 
 msgid "Close"
 msgstr "关闭"
