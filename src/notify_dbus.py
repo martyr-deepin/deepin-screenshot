@@ -25,8 +25,8 @@ from deepin_utils.file import get_parent_dir
 
 image_path = "%s/theme/logo/deepin-screenshot.png" % get_parent_dir(__file__, 2)
 
-def notify(app_name, replaces_id, app_icon, summary,
-           body, actions=[], hints={"image-path": image_path}, timeout=3500):
+def notify(app_name, replaces_id, app_icon=image_path, summary="",
+           body="", actions=[], hints={"image-path": image_path}, timeout=3500):
     session_bus = dbus.SessionBus()
     obj = session_bus.get_object('org.freedesktop.Notifications', '/org/freedesktop/Notifications')
     interface = dbus.Interface(obj, 'org.freedesktop.Notifications')

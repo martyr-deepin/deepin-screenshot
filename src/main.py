@@ -175,7 +175,7 @@ class DeepinScreenshot():
                         #except OSError:    
                             #cmd = ('python', '%s/%s' % (parent_dir, 'tipswindow.py'), _("Picture has been saved to clipboard"), '1')
                             #subprocess.Popen(cmd)
-                        notify("Deepin Screenshot", 0, "deepin-screenshot", _("DeepinScreenshot"), tipContent)
+                        notify("Deepin Screenshot", 0, summary=_("DeepinScreenshot"), body=tipContent)
                         
                 except Exception, e:
                     tipContent = "%s:%s" % (_("Failed to save the picture"), str(e))
@@ -217,7 +217,7 @@ class DeepinScreenshot():
         #except OSError:    
             #cmd = ('python', '%s/%s' % (parent_dir, 'tipswindow.py'), tipContent)
             #subprocess.Popen(cmd)
-        notify("Deepin Screenshot", 0, "deepin-screenshot", _("DeepinScreenshot"), tipContent)
+        notify("Deepin Screenshot", 0, summary=_("DeepinScreenshot"), body=tipContent)
 
     def make_pic_file(self, pixbuf):
         '''
