@@ -62,7 +62,5 @@ class ScreenshotService(dbus.service.Object):
         '''
         self.finish(save_type, file_name)
         
-if is_service_exists():
-    print "deepin screenshot has run"
-    os._exit(1)
+IS_EXISTS = is_service_exists()
 SCROT_BUS = ScreenshotService()

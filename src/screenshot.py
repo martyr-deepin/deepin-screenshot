@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from bus import SCROT_BUS
+from bus import SCROT_BUS, IS_EXISTS
 import gtk
 import gobject
 from main import main
@@ -79,6 +79,7 @@ def processArguments():
     parser.add_option("-d", "--delay", dest="delay", type="int", help="wait NUM seconds before taking a shot", metavar="NUM")
     parser.add_option("-s", "--save", dest="save_file", help="save screenshot to FILE", metavar="FILE")
     parser.add_option("--sub", action="store_true", dest="sub", help="Run as a subprocess")
+    parser.add_option("-n", "--new", action="store_true", dest="new", help="run a new process")
     #parser.add_option("-a", "--area", help="Grab an area of the screen instead of the entire screen", action="store_true")
     #parser.add_option("-e", "--border-effect", action="store_true", dest="border_effect", help="Effect to add to the border")
     #parser.add_option("-i", "--interactive", action="store_true", help="Interactively set options")
@@ -88,6 +89,9 @@ def processArguments():
     
     (options, args) = parser.parse_args()
 
+    if not options.new and IS_EXISTS:
+        print "deepint-screenshot has run"
+        exit(1)
     if options.fullscreen and options.window:
         parser.error("options -f and -w are mutually exclusive")
     if options.delay:
