@@ -88,22 +88,24 @@ class RootWindow():
 
         accel_group = gtk.AccelGroup()
         self.window.add_accel_group(accel_group)
-        accel_group.connect_group(ord('1'), gtk.gdk.CONTROL_MASK, gtk.ACCEL_VISIBLE,
+        accel_group.connect_group(ord('1'), gtk.gdk.MOD1_MASK, gtk.ACCEL_VISIBLE,
                                   self.__accel_group_callback)
-        accel_group.connect_group(ord('2'), gtk.gdk.CONTROL_MASK, gtk.ACCEL_VISIBLE,
+        accel_group.connect_group(ord('2'), gtk.gdk.MOD1_MASK, gtk.ACCEL_VISIBLE,
                                   self.__accel_group_callback)
-        accel_group.connect_group(ord('3'), gtk.gdk.CONTROL_MASK, gtk.ACCEL_VISIBLE,
+        accel_group.connect_group(ord('3'), gtk.gdk.MOD1_MASK, gtk.ACCEL_VISIBLE,
                                   self.__accel_group_callback)
-        accel_group.connect_group(ord('5'), gtk.gdk.CONTROL_MASK, gtk.ACCEL_VISIBLE,
+        accel_group.connect_group(ord('5'), gtk.gdk.MOD1_MASK, gtk.ACCEL_VISIBLE,
                                   self.__accel_group_callback)
-        accel_group.connect_group(ord('4'), gtk.gdk.CONTROL_MASK, gtk.ACCEL_VISIBLE,
+        accel_group.connect_group(ord('4'), gtk.gdk.MOD1_MASK, gtk.ACCEL_VISIBLE,
                                   self.__accel_group_callback)
+        #accel_group.connect_group(ord('z'), gtk.gdk.CONTROL_MASK, gtk.ACCEL_VISIBLE,
+                                  #lambda g, a, k, m: self.screenshot.undo())
         self.hotkey_map = { "Escape": self.quit}
         if self.screenshot:
-            self.hotkey_map["Ctrl + s"] = self._save_to_file
+            self.hotkey_map["Ctrl + S"] = self._save_to_file
             self.hotkey_map["Return"] = self._key_enter_press
             self.hotkey_map["KP_Enter"] = self._key_enter_press
-            self.hotkey_map["Ctrl + z"] = self.screenshot.undo
+            self.hotkey_map["Ctrl + Z"] = self.screenshot.undo
 
     def _draw_expose(self, widget, event):
         ''' draw area expose-event callback, drawing background and action'''

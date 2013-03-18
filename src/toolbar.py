@@ -78,16 +78,16 @@ class Toolbar():
         self.__button_accelerator_dict = {}
         self._toggle_button_group = ToggleButtonGroup([], 6)
         self.toolbox.pack_start(self._toggle_button_group)
-        self.create_toggle_button("rect", ACTION_RECTANGLE, 0, _("draw rectangle"), "<Ctrl>1")
-        self.create_toggle_button("ellipse", ACTION_ELLIPSE, 1, _("draw ellipse"), "<Ctrl>2")
-        self.create_toggle_button("arrow",ACTION_ARROW, 2, _("draw arrow"), "<Ctrl>3")
-        self.create_toggle_button("line",ACTION_LINE, 3, _("draw line"), "<Ctrl>4")
-        self.create_toggle_button("text",ACTION_TEXT, 4, _("draw Text"), "<Ctrl>5")
+        self.create_toggle_button("rect", ACTION_RECTANGLE, 0, _("draw rectangle"), "<Alt>1")
+        self.create_toggle_button("ellipse", ACTION_ELLIPSE, 1, _("draw ellipse"), "<Alt>2")
+        self.create_toggle_button("arrow",ACTION_ARROW, 2, _("draw arrow"), "<Alt>3")
+        self.create_toggle_button("line",ACTION_LINE, 3, _("draw line"), "<Alt>4")
+        self.create_toggle_button("text",ACTION_TEXT, 4, _("draw Text"), "<Alt>5")
 
-        self.create_button("undo", _("undo"), "<Ctrl>6")
+        self.create_button("undo", _("undo"), "<Alt>6")
 
         if self.screenshot.is_subprocess:
-            self.create_button("save", _("save"), "<Ctrl>7")
+            self.create_button("save", _("save"), "<Alt>7")
         else:
             # pack save and list button
             save_combo_button = ComboButton(
@@ -107,10 +107,10 @@ class Toolbar():
             save_combo_button.connect("enter-notify-event", self._show_tooltip, _(tip_text))
             self.toolbox.pack_start(save_combo_button)
 
-        self.create_button("cancel", _("cancel"), "<Ctrl>8")
+        self.create_button("cancel", _("cancel"), "<Alt>8")
 
         if not self.screenshot.is_subprocess:
-            self.create_button("share", _("share"), "<Ctrl>9")
+            self.create_button("share", _("share"), "<Alt>9")
 
         if self.screenshot:
             self._button_clicked_cb = {
@@ -129,9 +129,9 @@ class Toolbar():
         '''
         button = ToggleButtonItem(
             (app_theme.get_pixbuf("action/" + name + "_normal.png"),
-            app_theme.get_pixbuf("action/" + name + "_press.png"),
-            app_theme.get_pixbuf("action/" + name + "_hover.png"),
-            app_theme.get_pixbuf("action/" + name + "_press.png"), None),
+             app_theme.get_pixbuf("action/" + name + "_press.png"),
+             app_theme.get_pixbuf("action/" + name + "_hover.png"),
+             app_theme.get_pixbuf("action/" + name + "_press.png"), None),
             index, self._toggle_button_group.set_index, self._toggle_button_group.get_index)
         button.connect("pressed", self._toggle_button_pressed)
         button.connect("toggled", self._toggle_button_toggled, action)
