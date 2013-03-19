@@ -219,6 +219,7 @@ class Toolbar():
         # save current input text
         if self.screenshot.show_text_window_flag:
             self.win.save_text_window()
+        widget.released()
 
     def _toggle_button_toggled(self, widget, action):
         ''' toggle button toggled callback'''
@@ -229,7 +230,7 @@ class Toolbar():
             self.win.set_cursor(action)
             self.win.show_colorbar()
             self.win.adjust_colorbar()
-        else:
+        elif widget.index == widget.get_index():
             self.win.set_cursor(None)
             self.win.hide_colorbar()
             if not self.screenshot.action_list and not self.screenshot.text_action_list and self.screenshot.show_toolbar_flag and not self.screenshot.window_flag:
@@ -589,12 +590,14 @@ class Colorbar():
                 self.dynamic_box.remove(self.size_align)
             if self.font_align not in self.dynamic_box.get_children():
                 self.dynamic_box.add(self.font_align)
+            self.dynamic_box.show_all()
         # show draw size
         else:
             if self.font_align in self.dynamic_box.get_children():
                 self.dynamic_box.remove(self.font_align)
             if self.size_align not in self.dynamic_box.get_children():
                 self.dynamic_box.add(self.size_align)
+            self.dynamic_box.show_all()
             # actin is rectangle or ellispe, show fill button
             # show rect fill button
             if self.screenshot.action == ACTION_RECTANGLE:
@@ -634,6 +637,7 @@ class Colorbar():
                         self.__size_button_dict['small'].pressed()
                         self.__size_button_dict['small'].released()
                     self.size_box.remove(self.__size_button_dict['ellipse_fill'])
+            self.size_box.show_all()
         if not self.window.get_visible():
             self.window.show_window()
         #print "colorbox:", self.box.allocation, self.window.allocation
