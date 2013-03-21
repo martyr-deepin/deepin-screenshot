@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-04 15:42+0800\n"
+"POT-Creation-Date: 2013-03-21 13:45+0800\n"
 "PO-Revision-Date: 2012-09-22 20:32+0800\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,64 +17,95 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/toolbar.py:81 ../src/widget.py:799
+#: ../src/toolbar.py:81 ../src/widget.py:801
 msgid "draw rectangle"
 msgstr "矩形工具"
 
-#: ../src/toolbar.py:82 ../src/widget.py:803
+#: ../src/toolbar.py:82 ../src/widget.py:805
 msgid "draw ellipse"
 msgstr "橢圓工具"
 
-#: ../src/toolbar.py:83 ../src/widget.py:807
+#: ../src/toolbar.py:83 ../src/widget.py:809
 msgid "draw arrow"
 msgstr "箭頭工具"
 
-#: ../src/toolbar.py:84 ../src/widget.py:811
+#: ../src/toolbar.py:84 ../src/widget.py:813
 msgid "draw line"
 msgstr "線條工具"
 
-#: ../src/toolbar.py:85 ../src/widget.py:815
+#: ../src/toolbar.py:85 ../src/widget.py:817
 msgid "draw Text"
 msgstr "文本工具"
 
-#: ../src/toolbar.py:87 ../src/widget.py:820
+#: ../src/toolbar.py:87 ../src/widget.py:822
 msgid "undo"
 msgstr "撤銷編輯"
 
-#: ../src/toolbar.py:90 ../src/widget.py:824
+#: ../src/toolbar.py:90 ../src/widget.py:826
 msgid "save"
 msgstr "保存"
 
-#: ../src/toolbar.py:110 ../src/widget.py:831
+#: ../src/toolbar.py:110 ../src/widget.py:833
 msgid "cancel"
 msgstr "退出截圖"
 
-#: ../src/toolbar.py:113 ../src/widget.py:838
+#: ../src/toolbar.py:113 ../src/widget.py:840
 msgid "share"
 msgstr "分享到微博"
 
-#: ../src/toolbar.py:177 ../src/widget.py:784
+#: ../src/toolbar.py:177 ../src/widget.py:786
 msgid "save automatically"
 msgstr "自動保存"
 
-#: ../src/toolbar.py:178 ../src/widget.py:785
+#: ../src/toolbar.py:178 ../src/widget.py:787
 msgid "save as"
 msgstr "保存到指定目錄"
 
-#: ../src/toolbar.py:179 ../src/widget.py:786
+#: ../src/toolbar.py:179 ../src/widget.py:788
 msgid "save to clipboard"
 msgstr "復制到剪切板"
 
-#: ../src/toolbar.py:180 ../src/widget.py:787
+#: ../src/toolbar.py:180 ../src/widget.py:789
 msgid "save automatically to file and clipboard"
 msgstr "自動保存并復制到剪切板"
 
-#: ../src/screenshot.py:94 ../src/main.py:178 ../src/main.py:220
-#: ../src/share.py:555
+#: ../src/screenshot.py:77
+msgid "Take a screenshot of full screen"
+msgstr "截取整個屏幕"
+
+#: ../src/screenshot.py:78
+msgid "Take a screenshot of a window"
+msgstr "截取當前窗口"
+
+#: ../src/screenshot.py:79
+msgid "Take a screenshot after NUM seconds"
+msgstr "NUM秒后啟動截圖"
+
+#: ../src/screenshot.py:80
+msgid "save screenshot to FILE"
+msgstr "保存截圖到文件FILE"
+
+#: ../src/screenshot.py:81
+msgid "run as a subprocess"
+msgstr "以子進程方式運行"
+
+#: ../src/screenshot.py:82
+msgid "run a new process"
+msgstr "啟動一個新的進程"
+
+#: ../src/screenshot.py:89
+msgid "show this help message and exit"
+msgstr "顯示該幫助信息并退出"
+
+#: ../src/screenshot.py:90
+msgid "show program's version number and exit"
+msgstr "顯示程序的版本號并退出"
+
+#: ../src/screenshot.py:100 ../src/main.py:220 ../src/share.py:555
 msgid "DeepinScreenshot"
 msgstr "深度截圖"
 
-#: ../src/screenshot.py:95
+#: ../src/screenshot.py:101
 msgid "DeepinScreent will start after %d seconds"
 msgstr "深度截圖將在%d秒后啟動"
 
@@ -158,11 +189,10 @@ msgstr "失敗"
 msgid "Unknow reason"
 msgstr "未知"
 
-#: ../src/widget.py:264
+#: ../src/widget.py:266
 msgid "Drag to select area"
 msgstr "拖動可自由選區"
 
-#: ../src/widget.py:826
 msgid "analyse QR code"
 msgstr "解析二維碼"
 

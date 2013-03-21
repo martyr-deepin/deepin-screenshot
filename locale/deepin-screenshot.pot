@@ -8,73 +8,104 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-04 15:42+0800\n"
+"POT-Creation-Date: 2013-03-21 13:45+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/toolbar.py:81 ../src/widget.py:799
+#: ../src/toolbar.py:81 ../src/widget.py:801
 msgid "draw rectangle"
 msgstr ""
 
-#: ../src/toolbar.py:82 ../src/widget.py:803
+#: ../src/toolbar.py:82 ../src/widget.py:805
 msgid "draw ellipse"
 msgstr ""
 
-#: ../src/toolbar.py:83 ../src/widget.py:807
+#: ../src/toolbar.py:83 ../src/widget.py:809
 msgid "draw arrow"
 msgstr ""
 
-#: ../src/toolbar.py:84 ../src/widget.py:811
+#: ../src/toolbar.py:84 ../src/widget.py:813
 msgid "draw line"
 msgstr ""
 
-#: ../src/toolbar.py:85 ../src/widget.py:815
+#: ../src/toolbar.py:85 ../src/widget.py:817
 msgid "draw Text"
 msgstr ""
 
-#: ../src/toolbar.py:87 ../src/widget.py:820
+#: ../src/toolbar.py:87 ../src/widget.py:822
 msgid "undo"
 msgstr ""
 
-#: ../src/toolbar.py:90 ../src/widget.py:824
+#: ../src/toolbar.py:90 ../src/widget.py:826
 msgid "save"
 msgstr ""
 
-#: ../src/toolbar.py:110 ../src/widget.py:831
+#: ../src/toolbar.py:110 ../src/widget.py:833
 msgid "cancel"
 msgstr ""
 
-#: ../src/toolbar.py:113 ../src/widget.py:838
+#: ../src/toolbar.py:113 ../src/widget.py:840
 msgid "share"
 msgstr ""
 
-#: ../src/toolbar.py:177 ../src/widget.py:784
+#: ../src/toolbar.py:177 ../src/widget.py:786
 msgid "save automatically"
 msgstr ""
 
-#: ../src/toolbar.py:178 ../src/widget.py:785
+#: ../src/toolbar.py:178 ../src/widget.py:787
 msgid "save as"
 msgstr ""
 
-#: ../src/toolbar.py:179 ../src/widget.py:786
+#: ../src/toolbar.py:179 ../src/widget.py:788
 msgid "save to clipboard"
 msgstr ""
 
-#: ../src/toolbar.py:180 ../src/widget.py:787
+#: ../src/toolbar.py:180 ../src/widget.py:789
 msgid "save automatically to file and clipboard"
 msgstr ""
 
-#: ../src/screenshot.py:94 ../src/main.py:178 ../src/main.py:220
-#: ../src/share.py:555
+#: ../src/screenshot.py:77
+msgid "Take a screenshot of full screen"
+msgstr ""
+
+#: ../src/screenshot.py:78
+msgid "Take a screenshot of a window"
+msgstr ""
+
+#: ../src/screenshot.py:79
+msgid "Take a screenshot after NUM seconds"
+msgstr ""
+
+#: ../src/screenshot.py:80
+msgid "save screenshot to FILE"
+msgstr ""
+
+#: ../src/screenshot.py:81
+msgid "run as a subprocess"
+msgstr ""
+
+#: ../src/screenshot.py:82
+msgid "run a new process"
+msgstr ""
+
+#: ../src/screenshot.py:89
+msgid "show this help message and exit"
+msgstr ""
+
+#: ../src/screenshot.py:90
+msgid "show program's version number and exit"
+msgstr ""
+
+#: ../src/screenshot.py:100 ../src/main.py:220 ../src/share.py:555
 msgid "DeepinScreenshot"
 msgstr ""
 
-#: ../src/screenshot.py:95
+#: ../src/screenshot.py:101
 #, python-format
 msgid "DeepinScreent will start after %d seconds"
 msgstr ""
@@ -159,10 +190,6 @@ msgstr ""
 msgid "Unknow reason"
 msgstr ""
 
-#: ../src/widget.py:264
+#: ../src/widget.py:266
 msgid "Drag to select area"
-msgstr ""
-
-#: ../src/widget.py:826
-msgid "解析二维码"
 msgstr ""

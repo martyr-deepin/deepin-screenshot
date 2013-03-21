@@ -74,18 +74,20 @@ def set_save_filetype(widget, filetype):
 def processArguments():
     '''init process arguments '''
     parser = OptionParser(usage="Usage: deepin-screenshot [options] [arg]", version="deepin-screenshot v2.1")
-    parser.add_option("-f", "--full", action="store_true", dest="fullscreen", help="Taking the fullscreen shot")
-    parser.add_option("-w", "--window", action="store_true", dest="window", help="Taking the currently focused window")
-    parser.add_option("-d", "--delay", dest="delay", type="int", help="wait NUM seconds before taking a shot", metavar="NUM")
-    parser.add_option("-s", "--save", dest="save_file", help="save screenshot to FILE", metavar="FILE")
-    parser.add_option("--sub", action="store_true", dest="sub", help="Run as a subprocess")
-    parser.add_option("-n", "--new", action="store_true", dest="new", help="run a new process")
+    parser.add_option("-f", "--full", action="store_true", dest="fullscreen", help=_("Take a screenshot of full screen"))
+    parser.add_option("-w", "--window", action="store_true", dest="window", help=_("Take a screenshot of a window"))
+    parser.add_option("-d", "--delay", dest="delay", type="int", help=_("Take a screenshot after NUM seconds"), metavar="NUM")
+    parser.add_option("-s", "--save", dest="save_file", help=_("save screenshot to FILE"), metavar="FILE")
+    parser.add_option("--sub", action="store_true", dest="sub", help=_("run as a subprocess"))
+    parser.add_option("-n", "--new", action="store_true", dest="new", help=_("run a new process"))
     #parser.add_option("-a", "--area", help="Grab an area of the screen instead of the entire screen", action="store_true")
     #parser.add_option("-e", "--border-effect", action="store_true", dest="border_effect", help="Effect to add to the border")
     #parser.add_option("-i", "--interactive", action="store_true", help="Interactively set options")
     #parser.add_option("-b", "--include-border", action="store_true", help="Include the window border with the screenshot")
     #parser.add_option("-B", "--remove-border", action="store_true", help="Remove the window border from the screenshot")
     #parser.add_option("-c", "--clipboard", help="Send the grab directly to the clipboard", action="store_true")
+    parser.get_option('-h').help = _("show this help message and exit")
+    parser.get_option('--version').help = _("show program's version number and exit")
     
     (options, args) = parser.parse_args()
 
