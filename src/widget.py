@@ -892,7 +892,7 @@ class TextWindow(TextView):
         @param font: fontname of text
         @param font_size: fontsize of text
         '''
-        super(TextWindow, self).__init__(content, 1, 1, text_color, 
+        super(TextWindow, self).__init__(content, 2, 1, text_color, 
                 text_select_color, background_select_color, font, font_size)
         self.screenshot = screenshot
         self.connect("changed", self.__text_changed)

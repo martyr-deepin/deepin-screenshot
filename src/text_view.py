@@ -302,7 +302,7 @@ class TextView(Entry):
             cr.set_source_rgb(*color_hex_to_cairo("#000000"))
             index = self.iter_to_index(self.buffer.get_iter_at_mark(self.buffer.get_insert()))
             pos = self.index_to_pos(index)
-            cr.rectangle(pos[0]+x+self.padding_x, pos[1]+y+self.padding_y, 1, pos[3])
+            cr.rectangle(pos[0]+x+self.padding_x-1, pos[1]+y+self.padding_y+1, 1, pos[3]-2)
             cr.fill()
             # Tell input method follow cursor position
             self.im.set_cursor_location(gtk.gdk.Rectangle(pos[0]+x, pos[1]+y, 1, pos[3]))
@@ -666,5 +666,35 @@ class TextView(Entry):
             insert = self.xy_to_iter(*xy)
             self.buffer.move_mark_by_name("selection_bound", insert)
             self.queue_draw()    
+
+    def handle_key_event(self, event):
+        '''
+        Internal function to handle key event.
+        '''
+        modifiers = []
+        
+        # Add Ctrl modifier.
+        if event.state & gtk.gdk.CONTROL_MASK:
+            modifiers.append("Ctrl")    
+            
+        # Add Super modifiers.
+        if event.state & gtk.gdk.SUPER_MASK:
+            modifiers.append("Super")
+            
+        # Add Hyper modifiers.
+        if event.state & gtk.gdk.HYPER_MASK:
+            modifiers.append("Hyper")
+            
+        # Add Alt modifier.
+        if event.state & gtk.gdk.MOD1_MASK:
+            modifiers.append("Alt")    
+            
+        if event.state & gtk.gdk.SHIFT_MASK:
+            modifiers.append("Shift")    
+        modifiers.append(gtk.accelerator_name(event.keyval, 0))
+        key_name = " + ".join(modifiers)
+        
+        if key_name in self.keymap:
+            self.keymap[key_name]()
 
 gobject.type_register(TextView)
