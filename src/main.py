@@ -297,6 +297,7 @@ class DeepinScreenshot():
                     del self.text_action_info[tempAction]
         else:       # back to select area
             self.window.set_cursor(ACTION_WINDOW)
+            self.window.magnifier = None
             self.action = ACTION_WINDOW
             self.x = self.y = self.rect_width = self.rect_height = 0
             self.window_flag = True

@@ -106,6 +106,8 @@ class RootWindow():
             self.hotkey_map["Return"] = self._key_enter_press
             self.hotkey_map["KP_Enter"] = self._key_enter_press
             self.hotkey_map["Ctrl + Z"] = self.screenshot.undo
+            self.hotkey_map["Ctrl + z"] = self.hotkey_map["Ctrl + Z"]
+            self.hotkey_map["Ctrl + s"] = self.hotkey_map["Ctrl + S"]
 
     def _draw_expose(self, widget, event):
         ''' draw area expose-event callback, drawing background and action'''
@@ -262,7 +264,6 @@ class RootWindow():
         self.window.destroy()
         gtk.gdk.threads_leave()
 
-    
     def update_magnifier(self, x, y, size='', tip=_("Drag to select area"), rgb="RGB:(255,255,255)"):
         '''
         update magnifier
