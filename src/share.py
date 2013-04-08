@@ -258,7 +258,7 @@ class ShareToWeibo():
             l = Label("  ")
             l.show()
             self.window.right_button_box.set_buttons([l])
-            direct = "left"
+            direct = "right"
             #self.slider.set_size_request(-1, 223)
             
         self.slider.slide_to_page(self.slider_list[index], direct)
