@@ -24,7 +24,7 @@ from theme import app_theme, app_theme_get_dynamic_color, app_theme_get_dynamic_
 from dtk.ui.scrolled_window import ScrolledWindow
 from dtk.ui.dialog import ConfirmDialog, DialogLeftButtonBox, DialogRightButtonBox, DialogBox
 from dtk.ui.browser import WebView
-from dtk.ui.slider import Slider
+from dtk.ui.new_slider import HSlider
 from dtk.ui.button import Button, CheckButton, ImageButton
 from dtk.ui.line import VSeparator
 from dtk.ui.label import Label
@@ -78,7 +78,7 @@ class ShareToWeibo():
         self.window.button_box.connect("expose-event", self.__expose_top_and_bottome)
 
         # create slider
-        self.slider = Slider()
+        self.slider = HSlider()
         self.slider_list = []
 
         self.share_box = gtk.VBox(False, 2)     # first page, input context
@@ -139,9 +139,6 @@ class ShareToWeibo():
         res_align.add(self.result_box)
         res_align.connect("expose-event", self.__slider_expose)
 
-        self.slider.append_widget(share_align)
-        self.slider.append_widget(web_align) 
-        self.slider.append_widget(res_align)
         self.slider_list.append(share_align)
         self.slider_list.append(web_align)
         self.slider_list.append(res_align)
@@ -259,7 +256,8 @@ class ShareToWeibo():
             l.show()
             self.window.right_button_box.set_buttons([l])
             self.slider.set_size_request(-1, 223)
-        self.slider.slide_to(self.slider_list[index])
+            
+        self.slider.slide_to_page(self.slider_list[index], "right")
 
     def weibo_check_toggle(self, button, weibo):
         '''weibo check button toggled callback. check the weibo to share'''
