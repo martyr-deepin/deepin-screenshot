@@ -28,7 +28,7 @@ from dtk.ui.slider import Slider
 from dtk.ui.button import Button, CheckButton, ImageButton
 from dtk.ui.line import VSeparator
 from dtk.ui.label import Label
-from dtk.ui.entry import InputEntry
+from dtk.ui.new_entry import InputEntry
 import dtk.ui.draw as draw
 import dtk.ui.tooltip as Tooltip
 import dtk.ui.utils as utils

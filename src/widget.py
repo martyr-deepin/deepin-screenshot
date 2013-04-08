@@ -29,7 +29,6 @@ from draw import *
 from constant import *
 from action import TextAction
 from nls import _
-#from dtk.ui.entry import Entry
 from text_view import TextView
 import dtk.ui.constant as dtk_constant
 import status

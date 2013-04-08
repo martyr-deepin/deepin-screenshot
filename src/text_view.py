@@ -21,7 +21,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from theme import app_theme
-from dtk.ui.entry import Entry
+from dtk.ui.new_entry import Entry
 import dtk.ui.constant as dtk_constant
 import gtk
 import gobject
@@ -192,14 +192,14 @@ class TextView(Entry):
         set text color
         @param color: the font color, a hex string
         '''
-        self.text_color = color
+        self.entry_buffer.text_color = color
 
     def get_text_color(self):
         '''
         get text color
         @return: the font color, a hex string
         '''
-        return self.text_color
+        return self.entry_buffer.text_color
 
     def set_background_dash(self, dash=None):
         '''
@@ -284,7 +284,7 @@ class TextView(Entry):
             # Move text.
             cr.move_to(draw_x, draw_y)
             # Draw text.
-            cr.set_source_rgb(*color_hex_to_cairo(self.text_color))
+            cr.set_source_rgb(*color_hex_to_cairo(self.entry_buffer.text_color))
             context.update_layout(self._layout)
             context.show_layout(self._layout)
         # draw selection
