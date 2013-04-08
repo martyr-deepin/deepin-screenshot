@@ -139,6 +139,7 @@ class ShareToWeibo():
         res_align.add(self.result_box)
         res_align.connect("expose-event", self.__slider_expose)
 
+        self.slider.set_to_page(share_align)
         self.slider_list.append(share_align)
         self.slider_list.append(web_align)
         self.slider_list.append(res_align)
@@ -148,7 +149,6 @@ class ShareToWeibo():
         self.qq = weibo.Tencent(self.web_view)
         self.__weibo_list.append(self.sina)
         self.__weibo_list.append(self.qq)
-        # TODO .po file
         if default_locale != 'zh_CN':
             self.twitter = weibo.Twitter(self.web_view)
             self.__weibo_list.append(self.twitter)
@@ -226,8 +226,9 @@ class ShareToWeibo():
         '''
         if index >= len(self.slider_list):
             return
+        direct = "right"
         if index == 1 and self.window.button_box in self.window.window_frame.get_children():
-            self.slider.set_size_request(-1, 260)
+            #self.slider.set_size_request(-1, 260)
             win = self.window
             if win.left_button_box in win.button_box.get_children():
                 win.button_box.remove(win.left_button_box)
@@ -237,10 +238,11 @@ class ShareToWeibo():
             tmp.set_size_request(-1, 1)
             tmp.show()
             win.button_box.pack_start(tmp)
+            direct = "right"
             #if self.window.button_box in self.window.window_frame.get_children():
                 #self.window.window_frame.remove(self.window.button_box)
         elif index == 0:
-            self.slider.set_size_request(-1, 223)
+            #self.slider.set_size_request(-1, 223)
             win = self.window
             for each in win.button_box.get_children():
                 each.destroy()
@@ -248,6 +250,7 @@ class ShareToWeibo():
                 win.button_box.pack_start(win.left_button_box)
             if win.right_button_box not in win.button_box.get_children():
                 win.button_box.pack_start(win.right_button_box)
+            direct = "left"
             #if self.window.button_box not in self.window.window_frame.get_children():
                 #self.window.window_frame.pack_start(self.window.button_box, False, False)
         elif index == 2:
@@ -255,9 +258,10 @@ class ShareToWeibo():
             l = Label("  ")
             l.show()
             self.window.right_button_box.set_buttons([l])
-            self.slider.set_size_request(-1, 223)
+            direct = "left"
+            #self.slider.set_size_request(-1, 223)
             
-        self.slider.slide_to_page(self.slider_list[index], "right")
+        self.slider.slide_to_page(self.slider_list[index], direct)
 
     def weibo_check_toggle(self, button, weibo):
         '''weibo check button toggled callback. check the weibo to share'''
@@ -407,7 +411,7 @@ class ShareToWeibo():
 
         text_align = gtk.Alignment() 
         text_align.set(0.5, 0.5, 0, 0)
-        text_align.set_padding(0, 30, 10, 10)
+        text_align.set_padding(25, 30, 10, 10)
 
         text_box.pack_start(thumb, False, False, 10)
         text_box.pack_start(text_bg_align)
