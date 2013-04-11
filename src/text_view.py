@@ -319,7 +319,7 @@ class TextView(Entry):
         pos = self.index_to_pos(self.iter_to_index(index))
         cr.rectangle(pos[0]+x+self.padding_x, pos[1]+y+self.padding_y, pos[2], pos[3])
         # Draw selection background
-        cr.set_source_rgb(*color_hex_to_cairo(self.background_select_color))
+        cr.set_source_rgb(*color_hex_to_cairo(self.entry_buffer.background_select_color))
         cr.fill()
         # Create pangocairo context.
         context = pangocairo.CairoContext(cr)
@@ -331,7 +331,7 @@ class TextView(Entry):
         index1.forward_char()
         t = self.buffer.get_text(index, index1)
         layout.set_text(t)
-        cr.set_source_rgb(*color_hex_to_cairo(self.text_select_color))
+        cr.set_source_rgb(*color_hex_to_cairo(self.entry_buffer.text_select_color))
         context.update_layout(layout)
         context.show_layout(layout)
 
