@@ -24,11 +24,11 @@ from theme import app_theme, app_theme_get_dynamic_color, app_theme_get_dynamic_
 from dtk.ui.scrolled_window import ScrolledWindow
 from dtk.ui.dialog import ConfirmDialog, DialogLeftButtonBox, DialogRightButtonBox, DialogBox
 from dtk.ui.browser import WebView
-from dtk.ui.new_slider import HSlider
+from dtk.ui.slider import HSlider
 from dtk.ui.button import Button, CheckButton, ImageButton
 from dtk.ui.line import VSeparator
 from dtk.ui.label import Label
-from dtk.ui.new_entry import InputEntry
+from dtk.ui.entry import InputEntry
 import dtk.ui.draw as draw
 import dtk.ui.tooltip as Tooltip
 import dtk.ui.utils as utils
