@@ -110,7 +110,7 @@ class RootWindow():
 
     def _draw_expose(self, widget, event):
         ''' draw area expose-event callback, drawing background and action'''
-        cr = self._cr = widget.window.cairo_create()
+        cr = widget.window.cairo_create()
         # draw background
         if self.screenshot:
             cr.set_source_pixbuf(self.screenshot.desktop_background, 0, 0)
@@ -281,7 +281,6 @@ class RootWindow():
         '''
         screen_width = self.screenshot.width
         screen_height = self.screenshot.height
-        #cr = self._cr
         mag_width = pixbuf_width = 30
         mag_height = pixbuf_height = 20
         x = self.magnifier.x
@@ -380,7 +379,6 @@ class RootWindow():
         if self.screenshot is None:
             return
         screenshot = self.screenshot
-        #cr = self._cr
         # Adjust value when create selection area.
         # convert value in the monitor
         if screenshot.rect_width > 0:
@@ -773,8 +771,6 @@ class RootWindow():
     def show(self):
         '''show root window'''
         self.window.show_all()
-        #self._cr = self.window.window.cairo_create()
-        self._cr = self.draw_area.window.cairo_create()
         self.window.window.raise_()
 
 class RightMenu():
