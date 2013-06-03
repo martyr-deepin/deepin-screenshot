@@ -140,6 +140,8 @@ def get_pictures_dir():
     try:
         p = Popen(["xdg-user-dir", "PICTURES"], stdout=PIPE)
     except OSError:    
+        if not os.path.exists(picturesDir):
+            os.mkdir(picturesDir)
         return picturesDir
     else:
         picturesPath = p.communicate()[0].strip()
@@ -147,6 +149,8 @@ def get_pictures_dir():
             return picturesPath
                 
         else:
+            if not os.path.exists(picturesDir):
+                os.mkdir(picturesDir)
             return picturesDir
 
 def parser_path(filepath):
