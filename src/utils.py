@@ -146,6 +146,8 @@ def get_pictures_dir():
     else:
         picturesPath = p.communicate()[0].strip()
         if p.returncode == 0 and picturesPath and picturesPath != os.path.expanduser("~"):
+            if not os.path.exists(picturesPath):
+                os.mkdir(picturesPath)
             return picturesPath
                 
         else:
