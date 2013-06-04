@@ -779,10 +779,10 @@ class RightMenu():
         self.screenshot = screenshot    # a DeepinScreenshot object
         # sub menu in save node
         menu_item = [
-            (None, _("save automatically"), self.save_sub_menu_clicked, SAVE_OP_AUTO),
-            (None, _("save as"), self.save_sub_menu_clicked, SAVE_OP_AS),
-            (None, _("save to clipboard"), self.save_sub_menu_clicked, SAVE_OP_CLIP),
-            (None, _("save automatically to file and clipboard"), self.save_sub_menu_clicked, SAVE_OP_AUTO_AND_CLIP)]
+            (None, _("Save automatically"), self.save_sub_menu_clicked, SAVE_OP_AUTO),
+            (None, _("Save as"), self.save_sub_menu_clicked, SAVE_OP_AS),
+            (None, _("Save to clipboard"), self.save_sub_menu_clicked, SAVE_OP_CLIP),
+            (None, _("Save automatically to file and clipboard"), self.save_sub_menu_clicked, SAVE_OP_AUTO_AND_CLIP)]
         self.save_sub_menu = Menu(menu_item, 
             menu_item_select_color=app_theme.get_shadow_color("menu_item_select").get_color_info())
         if self.screenshot.is_subprocess:
@@ -794,46 +794,46 @@ class RightMenu():
             ((app_theme_get_dynamic_pixbuf('image/action_menu/rect_normal.png'),
               app_theme_get_dynamic_pixbuf('image/action_menu/rect_hover.png'),
               app_theme_get_dynamic_pixbuf('image/action_menu/rect_normal.png')),
-             _("draw rectangle"), self._menu_click, "rect"),
+             _("Draw Rectangle"), self._menu_click, "rect"),
             ((app_theme_get_dynamic_pixbuf('image/action_menu/ellipse_normal.png'),
               app_theme_get_dynamic_pixbuf('image/action_menu/ellipse_hover.png'),
               app_theme_get_dynamic_pixbuf('image/action_menu/ellipse_normal.png')),
-             _("draw ellipse"), self._menu_click, "ellipse"),
+             _("Draw Ellipse"), self._menu_click, "ellipse"),
             ((app_theme_get_dynamic_pixbuf('image/action_menu/arrow_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action_menu/arrow_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action_menu/arrow_normal.png')), 
-             _("draw arrow"), self._menu_click, "arrow"),
+             _("Draw Arrow"), self._menu_click, "arrow"),
             ((app_theme_get_dynamic_pixbuf('image/action_menu/line_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action_menu/line_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action_menu/line_normal.png')), 
-             _("draw line"), self._menu_click, "line"),
+             _("Draw Line"), self._menu_click, "line"),
             ((app_theme_get_dynamic_pixbuf('image/action_menu/text_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action_menu/text_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action_menu/text_normal.png')), 
-             _("draw Text"), self._menu_click, "text"),
+             _("Draw Text"), self._menu_click, "text"),
             None,
             ((app_theme_get_dynamic_pixbuf('image/action_menu/undo_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action_menu/undo_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action_menu/undo_normal.png')), 
-             _("undo"), self._menu_click, "undo"),
+             _("Undo"), self._menu_click, "undo"),
             ((app_theme_get_dynamic_pixbuf('image/action_menu/save_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action_menu/save_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action_menu/save_normal.png')), 
-             _("save"), save_sub_menu),
+             _("Save"), save_sub_menu),
             ########
             #(None, _("解析二维码"), self.screenshot.parse_barcode),
             ########
             ((app_theme_get_dynamic_pixbuf('image/action_menu/cancel_normal.png'), 
               app_theme_get_dynamic_pixbuf('image/action_menu/cancel_hover.png'), 
               app_theme_get_dynamic_pixbuf('image/action_menu/cancel_normal.png')), 
-             _("cancel"), self._menu_click, "cancel")]
+             _("Cancel"), self._menu_click, "cancel")]
 
         if not self.screenshot.is_subprocess:
             menu_item_list.append(
                 ((app_theme_get_dynamic_pixbuf('image/action_menu/share_normal.png'), 
                   app_theme_get_dynamic_pixbuf('image/action_menu/share_hover.png'), 
                   app_theme_get_dynamic_pixbuf('image/action_menu/share_normal.png')), 
-                 _("share"), self._menu_click, "share"))
+                 _("Share"), self._menu_click, "share"))
         self.window = Menu(menu_item_list, True,
             menu_item_select_color=app_theme.get_shadow_color("menu_item_select").get_color_info())
         

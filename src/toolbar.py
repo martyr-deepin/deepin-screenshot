@@ -78,16 +78,16 @@ class Toolbar():
         self.__button_accelerator_dict = {}
         self._toggle_button_group = ToggleButtonGroup([], 6)
         self.toolbox.pack_start(self._toggle_button_group)
-        self.create_toggle_button("rect", ACTION_RECTANGLE, 0, _("draw rectangle"), "<Alt>1")
-        self.create_toggle_button("ellipse", ACTION_ELLIPSE, 1, _("draw ellipse"), "<Alt>2")
-        self.create_toggle_button("arrow",ACTION_ARROW, 2, _("draw arrow"), "<Alt>3")
-        self.create_toggle_button("line",ACTION_LINE, 3, _("draw line"), "<Alt>4")
-        self.create_toggle_button("text",ACTION_TEXT, 4, _("draw Text"), "<Alt>5")
+        self.create_toggle_button("rect", ACTION_RECTANGLE, 0, _("Draw Rectangle"), "<Alt>1")
+        self.create_toggle_button("ellipse", ACTION_ELLIPSE, 1, _("Draw Ellipse"), "<Alt>2")
+        self.create_toggle_button("arrow",ACTION_ARROW, 2, _("Draw Arrow"), "<Alt>3")
+        self.create_toggle_button("line",ACTION_LINE, 3, _("Draw Line"), "<Alt>4")
+        self.create_toggle_button("text",ACTION_TEXT, 4, _("Draw Text"), "<Alt>5")
 
-        self.create_button("undo", _("undo"), "<Alt>6")
+        self.create_button("undo", _("Undo"), "<Alt>6")
 
         if self.screenshot.is_subprocess:
-            self.create_button("save", _("save"), "<Alt>7")
+            self.create_button("save", _("Save"), "<Alt>7")
         else:
             # pack save and list button
             save_combo_button = ComboButton(
@@ -102,15 +102,15 @@ class Toolbar():
             save_combo_button.set_name("save")
             save_combo_button.connect("button-clicked", self._button_clicked, "save")
             save_combo_button.connect("arrow-clicked", self._list_menu_show)
-            save_tip_text_list = ["save automatically", "save as", "save to clipboard", "save automatically to file and clipboard"]
+            save_tip_text_list = ["Save automatically", "Save as", "Save to clipboard", "Save automatically to file and clipboard"]
             tip_text = save_tip_text_list[self.screenshot.save_op_index]
             save_combo_button.connect("enter-notify-event", self._show_tooltip, _(tip_text))
             self.toolbox.pack_start(save_combo_button)
 
-        self.create_button("cancel", _("cancel"), "<Alt>8")
+        self.create_button("cancel", _("Cancel"), "<Alt>8")
 
         if not self.screenshot.is_subprocess:
-            self.create_button("share", _("share"), "<Alt>9")
+            self.create_button("share", _("Share"), "<Alt>9")
 
         if self.screenshot:
             self._button_clicked_cb = {
@@ -174,10 +174,10 @@ class Toolbar():
     def _list_menu_show(self, button, x, y, offset_x, offset_y):
         '''the combo button clicked callback. show combo_buton list menu'''
         menu_item = [
-            (None, _("save automatically"), self._list_menu_click, SAVE_OP_AUTO, button),
-            (None, _("save as"), self._list_menu_click, SAVE_OP_AS, button),
-            (None, _("save to clipboard"), self._list_menu_click, SAVE_OP_CLIP, button),
-            (None, _("save automatically to file and clipboard"), self._list_menu_click, SAVE_OP_AUTO_AND_CLIP, button)]
+            (None, _("Save automatically"), self._list_menu_click, SAVE_OP_AUTO, button),
+            (None, _("Save as"), self._list_menu_click, SAVE_OP_AS, button),
+            (None, _("Save to clipboard"), self._list_menu_click, SAVE_OP_CLIP, button),
+            (None, _("Save automatically to file and clipboard"), self._list_menu_click, SAVE_OP_AUTO_AND_CLIP, button)]
         # set current operate icon
         current_item = menu_item[self.screenshot.save_op_index] 
         menu_pixbuf = (

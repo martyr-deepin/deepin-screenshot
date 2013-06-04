@@ -515,7 +515,7 @@ class ShareToWeibo():
         '''share_button_clicked callback'''
         # file is not exist.
         if not exists(self.upload_image):
-            d = ConfirmDialog(_("error"), "%s." % ( _("picture does not exist")))
+            d = ConfirmDialog(_("error"), "%s." % ( _("Picture does not exist.")))
             d.show_all()
             d.set_transient_for(self.window)
             return False
@@ -554,7 +554,7 @@ class ShareToWeibo():
         buf = text_view.get_buffer()
         text = buf.get_text(*buf.get_bounds())
         if text.strip() == "":
-            text = "%s %s" % (_("came from"), _("DeepinScreenshot"))
+            text = "%s %s" % (_("came from"), _("DSnapshot"))
         # get deepin official info
         self.deepin_info[self.sina] = self.sina.get_deepin_info()
         self.deepin_info[self.qq] = self.qq.get_deepin_info()

@@ -87,7 +87,7 @@ class Curl(object):
         try:
             crl.perform()
         except Exception, e:
-            self.error = "timed out"
+            self.error = "Connection timed out."
             return None
         crl.close()
         con = crl.fp.getvalue()
@@ -133,7 +133,7 @@ class Curl(object):
         try:
             crl.perform()
         except Exception, e:
-            self.error = "timed out"
+            self.error = "Connection timed out."
             return None
         crl.close()
         #conn = crl.fp.getvalue()
@@ -188,7 +188,7 @@ class Curl(object):
         try:
             crl.perform()
         except Exception, e:
-            self.error = "timed out"
+            self.error = "Connection timed out."
             return None
         crl.close()
         #conn = crl.fp.getvalue()
@@ -243,7 +243,7 @@ class Curl(object):
         try:
             crl.perform()
         except Exception, e:
-            self.error = "network errors"
+            self.error = "An error occured in network connection."
             return None
         crl.close()
         #conn = crl.fp.getvalue()
@@ -378,17 +378,17 @@ class Sina(Weibo):
             '10004': 'IP limit',                                    # IP限制不能请求该资源
             '10007': 'Unsupport mediatype',                         # 不支持的MediaType
             '10009': 'Too many pending tasks, system is busy',      # 任务过多，系统繁忙
-            '10010': 'Job expired',                                 # 任务超时
+            '10010': 'The job has expired',                         # 任务超时
             '10011': 'RPC error',                                   # RPC错误
             '10012': 'Illegal request',                             # 非法请求
-            '10013': 'Invalid weibo user',                          # 不合法的微博用户
+            '10013': 'Invalid Weibo user account',                  # 不合法的微博用户
             '10016': 'miss required parameter',                     # 缺失必选参数
             '10018': 'Request body length over limit',              # 请求长度超过限制
             '10022': 'IP requests out of rate limit',               # IP请求频次超过上限
             '10023': 'User requests out of rate limit',             # 用户请求频次超过上限
             # service error code
-            '20003': 'User does not exists',                        # 用户不存在
-            '20005': 'Unsupported image type, only suport JPG, GIF, PNG',  # 不支持的图片类型，仅仅支持JPG、GIF、PNG
+            '20003': 'User name does not exist',                    # 用户不存在
+            '20005': 'Unsupported image type. Currently we only suport JPG, GIF and PNG formats',  # 不支持的图片类型，仅仅支持JPG、GIF、PNG
             '20006': 'Image size too large',                        # 图片太大
             '20008': 'Content is null',                             # 内容为空
             '20012': 'Text too long, please input text less than 140 characters',  # 输入文字太长，请确认不超过140个字符
@@ -973,7 +973,7 @@ class Twitter(Weibo):
             cmd = subprocess.Popen(curl_cmd, shell=True, stdout=subprocess.PIPE)
             if cmd.wait() != 0:
                 #print "returncode:", cmd.returncode
-                self.curl.error = "Connection error"
+                self.curl.error = "An error occured while connecting."
                 return (False, None)
         except OSError:    
             return (False, None)

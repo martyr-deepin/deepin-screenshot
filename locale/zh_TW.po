@@ -18,55 +18,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../src/toolbar.py:81 ../src/widget.py:801
-msgid "draw rectangle"
+msgid "Draw Rectangle"
 msgstr "矩形工具"
 
 #: ../src/toolbar.py:82 ../src/widget.py:805
-msgid "draw ellipse"
+msgid "Draw Ellipse"
 msgstr "橢圓工具"
 
 #: ../src/toolbar.py:83 ../src/widget.py:809
-msgid "draw arrow"
+msgid "Draw Arrow"
 msgstr "箭頭工具"
 
 #: ../src/toolbar.py:84 ../src/widget.py:813
-msgid "draw line"
+msgid "Draw Line"
 msgstr "線條工具"
 
 #: ../src/toolbar.py:85 ../src/widget.py:817
-msgid "draw Text"
+msgid "Draw Text"
 msgstr "文字工具"
 
 #: ../src/toolbar.py:87 ../src/widget.py:822
-msgid "undo"
+msgid "Undo"
 msgstr "復原"
 
 #: ../src/toolbar.py:90 ../src/widget.py:826
-msgid "save"
+msgid "Save"
 msgstr "保存"
 
 #: ../src/toolbar.py:110 ../src/widget.py:833
-msgid "cancel"
+msgid "Cancel"
 msgstr "取消螢幕截圖"
 
 #: ../src/toolbar.py:113 ../src/widget.py:840
-msgid "share"
+msgid "Share"
 msgstr "分享到微博"
 
 #: ../src/toolbar.py:177 ../src/widget.py:786
-msgid "save automatically"
+msgid "Save automatically"
 msgstr "自動保存"
 
 #: ../src/toolbar.py:178 ../src/widget.py:787
-msgid "save as"
+msgid "Save as"
 msgstr "保存到指定目錄"
 
 #: ../src/toolbar.py:179 ../src/widget.py:788
-msgid "save to clipboard"
+msgid "Save to clipboard"
 msgstr "複製到剪貼簿"
 
 #: ../src/toolbar.py:180 ../src/widget.py:789
-msgid "save automatically to file and clipboard"
+msgid "Save automatically to file and clipboard"
 msgstr "自動保存并複製到剪貼簿"
 
 #: ../src/screenshot.py:77
@@ -102,11 +102,11 @@ msgid "show program's version number and exit"
 msgstr "顯示程式的版本并退出"
 
 #: ../src/screenshot.py:100 ../src/main.py:220 ../src/share.py:555
-msgid "DeepinScreenshot"
+msgid "DSnapshot"
 msgstr "深度截圖"
 
 #: ../src/screenshot.py:101
-msgid "DeepinScreent will start after %d seconds"
+msgid "DSnapshot will start in %d seconds."
 msgstr "深度截圖將在 %d 秒後啟動"
 
 #: ../src/main.py:153
@@ -154,7 +154,7 @@ msgid "error"
 msgstr "錯誤"
 
 #: ../src/share.py:516
-msgid "picture does not exist"
+msgid "Picture does not exist."
 msgstr "圖片不存在"
 
 #: ../src/share.py:527
@@ -215,13 +215,13 @@ msgstr "新浪微博"
 msgid "Tencent"
 msgstr "騰訊微博"
 
-msgid "timed out"
+msgid "Connection timed out."
 msgstr "連線逾時"
 
-msgid "network errors"
+msgid "An error occured in network connection."
 msgstr "網絡錯誤"
 
-msgid "Connection error"
+msgid "An error occured while connecting."
 msgstr "連線出錯"
 
 #
@@ -244,7 +244,7 @@ msgstr "不支持的 MediaType"
 msgid "Too many pending tasks, system is busy"
 msgstr "工作過多，系統繁忙"
 
-msgid "Job expired"
+msgid "The job has expired"
 msgstr "工作逾時"
 
 msgid "RPC error"
@@ -253,7 +253,7 @@ msgstr "RPC 錯誤"
 msgid "Illegal request"
 msgstr "不合法的請求"
 
-msgid "Invalid weibo user"
+msgid "Invalid Weibo user account"
 msgstr "不合法的微博使用者帳號"
 
 msgid "miss required parameter"
@@ -268,10 +268,10 @@ msgstr "IP 請求頻次超過上限"
 msgid "User requests out of rate limit"
 msgstr "使用者請求頻次超過上限"
 
-msgid "User does not exists"
+msgid "User name does not exist"
 msgstr "使用者帳號不存在"
 
-msgid "Unsupported image type, only suport JPG, GIF, PNG"
+msgid "Unsupported image type. Currently we only suport JPG, GIF and PNG formats"
 msgstr "不支持的圖片類型，僅支持 JPG、GIF、PNG"
 
 msgid "Image size too large"
