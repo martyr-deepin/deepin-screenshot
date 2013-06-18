@@ -98,7 +98,7 @@ def processArguments():
         parser.error("options -f and -w are mutually exclusive")
     if options.delay:
         notify("Deepin Screenshot", 0, summary=_("DSnapshot"),
-               body=_("DSnapshot will start after %d seconds.") % options.delay, timeout=(options.delay-0.5)*1000)
+               body=_("DSnapshot will start in %d seconds.") % options.delay, timeout=(options.delay-0.5)*1000)
         loop = gobject.MainLoop()
         gobject.timeout_add_seconds(options.delay, loop.quit)
         loop.run()
