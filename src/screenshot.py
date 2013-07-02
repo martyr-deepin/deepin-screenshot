@@ -42,28 +42,45 @@ def open_file_dialog(fullscreen=True, filetype='png'):
     @param fullscreen: if get the fullscreen snapshot.
     @parser filetype: the filetype to save
     '''
+    from constant import SAVE_OP_AUTO, SAVE_OP_AUTO_AND_CLIP, SAVE_OP_AS
+    from _share.config import OperateConfig
+    config = OperateConfig()
+    save_op = config.get("save", "save_op")
+    if save_op:
+        save_op_index = int(save_op)
+    else:
+        save_op_index = SAVE_OP_AS
     pixbuf = get_screenshot_pixbuf(fullscreen)
-    dialog = gtk.FileChooserDialog(
-        "Save..",
-        None,
-        gtk.FILE_CHOOSER_ACTION_SAVE,
-        (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
-        gtk.STOCK_SAVE, gtk.RESPONSE_ACCEPT))
-    dialog.set_default_response(gtk.RESPONSE_ACCEPT)
-    dialog.set_position(gtk.WIN_POS_CENTER)
-    dialog.set_local_only(True)
-    dialog.set_current_folder(get_pictures_dir())
-    dialog.set_current_name("%s%s.%s" % (_(DEFAULT_FILENAME), get_format_time(), "png"))
-
-    response = dialog.run()
-    if response == gtk.RESPONSE_ACCEPT:
-        filename = dialog.get_filename()
+    if save_op_index == SAVE_OP_AUTO or save_op_index == SAVE_OP_AUTO_AND_CLIP:
+        filename = "%s/%s%s.%s" % (get_pictures_dir(), _(DEFAULT_FILENAME),
+                                   get_format_time(), "png")
         pixbuf.save(filename, save_filetype)
-        print "Save snapshot to %s" % (filename)
+        msg = "%s '%s'" % (_("Picture has been saved to file"), filename)
         SCROT_BUS.emit_finish(1, filename)
-    elif response == gtk.RESPONSE_REJECT:
-        print 'Closed, no files selected'
-    dialog.destroy()
+        notify("Deepin Screenshot", 0, summary=_("DSnapshot"), body=msg)
+    else:
+        dialog = gtk.FileChooserDialog(
+            "Save..",
+            None,
+            gtk.FILE_CHOOSER_ACTION_SAVE,
+            (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
+            gtk.STOCK_SAVE, gtk.RESPONSE_ACCEPT))
+        dialog.set_default_response(gtk.RESPONSE_ACCEPT)
+        dialog.set_position(gtk.WIN_POS_CENTER)
+        dialog.set_local_only(True)
+        dialog.set_current_folder(get_pictures_dir())
+        dialog.set_current_name("%s%s.%s" % (_(DEFAULT_FILENAME), get_format_time(), "png"))
+
+        response = dialog.run()
+        if response == gtk.RESPONSE_ACCEPT:
+            filename = dialog.get_filename()
+            pixbuf.save(filename, save_filetype)
+            msg = "%s '%s'" % (_("Picture has been saved to file"), filename)
+            SCROT_BUS.emit_finish(1, filename)
+            notify("Deepin Screenshot", 0, summary=_("DSnapshot"), body=msg)
+        elif response == gtk.RESPONSE_REJECT:
+            print 'Closed, no files selected'
+        dialog.destroy()
 
 def set_save_filetype(widget, filetype):
     global save_filetype
