@@ -29,8 +29,6 @@
 
 from bus import SCROT_BUS
 from action import *
-#from utils import *
-#from math import *
 from draw import *
 from constant import *
 from window import *

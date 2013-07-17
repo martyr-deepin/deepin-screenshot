@@ -22,7 +22,6 @@
 
 import gettext
 import os
-
 import locale
 
 default_locale = locale.getdefaultlocale()[0]
