@@ -29,7 +29,7 @@ from constant import *
 import pango
 import pangocairo
 
-class Action:
+class Action(object):
     '''Action Base Class, it must be inherited and refactored'''
     def __init__(self, aType, size, color):
         '''

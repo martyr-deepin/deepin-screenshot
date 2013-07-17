@@ -24,7 +24,7 @@ from constant import *
 from action import *
 import utils
 
-class BaseProcess():
+class BaseProcess(object):
     ''' BaseProcess Class. it must be inherited and refactored'''
     def __init__(self, screenshot=None, window=None):
         '''

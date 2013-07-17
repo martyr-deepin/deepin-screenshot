@@ -33,7 +33,7 @@ import window
 #SCREEN_WIDTH = window.SCREEN_WIDTH
 #SCREEN_Y = window.SCREEN_Y
 SCREEN_X, SCREEN_Y, SCREEN_WIDTH, h = window.get_current_monitor_info()
-class TipWindow():
+class TipWindow(object):
     ''' tip window'''
     def __init__(self, content, index=0):
         '''
@@ -109,7 +109,7 @@ class TipWindow():
         return True
 
 
-class CountdownWindow():
+class CountdownWindow(object):
     '''  show a countdown before taking the shot'''
     def __init__(self, count):
         '''

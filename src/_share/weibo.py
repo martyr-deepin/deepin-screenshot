@@ -256,7 +256,7 @@ class Curl(object):
         except:
             return None
         
-class Weibo():
+class Weibo(object):
     '''Weibo base class, it must be inherited and refactored'''
     def __init__(self, t_type, webkit):
         '''

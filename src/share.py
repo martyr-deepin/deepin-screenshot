@@ -55,7 +55,7 @@ def post_gui(func):
         return ret
     return wrap 
 
-class ShareToWeibo():
+class ShareToWeibo(object):
     '''share picture to weibo'''
     def __init__(self, filename=""):
         '''

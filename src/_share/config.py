@@ -38,7 +38,7 @@ if not exists(WEIBO_CONFIG):
 if not exists(OPERATE_CONFIG):
     open(OPERATE_CONFIG, 'wb').close()
 
-class WeiboConfig():
+class WeiboConfig(object):
     '''Weibo config'''
     def __init__(self, config_file=WEIBO_CONFIG):
         '''
@@ -119,7 +119,7 @@ class WeiboConfig():
             return None
     
 
-class OperateConfig():
+class OperateConfig(object):
     '''operate config'''
     def __init__(self, config_file=OPERATE_CONFIG):
         '''

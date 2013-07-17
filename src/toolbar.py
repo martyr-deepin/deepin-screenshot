@@ -34,7 +34,7 @@ from constant import *
 from _share.config import OperateConfig
 
 
-class Toolbar():
+class Toolbar(object):
     ''' Toolbar window'''
     def __init__(self, parent=None, screenshot=None):
         '''
@@ -371,7 +371,7 @@ class Toolbar():
         if self.window.get_visible():
             self.window.hide_all()
 
-class Colorbar():
+class Colorbar(object):
     ''' Colorbar window '''
     def __init__(self, parent=None, screenshot=None):
         '''

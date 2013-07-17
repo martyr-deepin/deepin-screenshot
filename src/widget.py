@@ -43,7 +43,7 @@ DEFAULT_FONT_SIZE = dtk_constant.DEFAULT_FONT_SIZE  # default fontsize to draw
 
 Magnifier = namedtuple('Magnifier', 'x y size_content tip rgb')
 
-class RootWindow():
+class RootWindow(object):
     ''' root window of the screenshot '''
     def __init__(self, screenshot):
         self.screenshot = screenshot            # a DeepinScreenshot object
@@ -775,7 +775,7 @@ class RootWindow():
         self.window.show_all()
         self.window.window.raise_()
 
-class RightMenu():
+class RightMenu(object):
     ''' Right Button Menu'''
     def __init__(self, screenshot):
         self.screenshot = screenshot    # a DeepinScreenshot object

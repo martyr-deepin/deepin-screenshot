@@ -47,7 +47,7 @@ pygtk.require('2.0')
 import gtk
 
 
-class DeepinScreenshot():
+class DeepinScreenshot(object):
     ''' Main Screenshot. '''
     def __init__(self, is_subprocess=False, save_file=""):
         '''Init Main screenshot.'''
