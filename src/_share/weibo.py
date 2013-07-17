@@ -966,8 +966,8 @@ class Twitter(Weibo):
         #back = self.curl.upload(url, data, [header, 'Expect: '], "127.0.0.1", 8087)
         #back = self.curl.upload(url, data, header)
 
-        #curl_cmd = """curl --connect-timeout 10 -k -F media[]="@%s" -F 'status=%s' --request 'POST' '%s' --header '%s' --header '%s'""" %(img, mesg, url, header, "Expect: ")
-        curl_cmd = """curl --connect-timeout 10 -k %s -F media[]="@%s" -F 'status=%s' --request 'POST' '%s' --header '%s' --header '%s'""" %("-x 127.0.0.1:8087", img, mesg, url, header, "Expect: ")
+        curl_cmd = """curl --connect-timeout 10 -k -F media[]="@%s" -F 'status=%s' --request 'POST' '%s' --header '%s' --header '%s'""" %(img, mesg, url, header, "Expect: ")
+        #curl_cmd = """curl --connect-timeout 10 -k %s -F media[]="@%s" -F 'status=%s' --request 'POST' '%s' --header '%s' --header '%s'""" %("-x 127.0.0.1:8087", img, mesg, url, header, "Expect: ")
         #print curl_cmd
         try:
             cmd = subprocess.Popen(curl_cmd, shell=True, stdout=subprocess.PIPE)
