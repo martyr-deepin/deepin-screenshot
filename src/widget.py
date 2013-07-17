@@ -36,6 +36,7 @@ import pango
 import gobject
 import threading
 import time
+import utils
 
 DEFAULT_FONT = dtk_constant.DEFAULT_FONT            # default font to draw
 DEFAULT_FONT_SIZE = dtk_constant.DEFAULT_FONT_SIZE  # default fontsize to draw
@@ -130,7 +131,7 @@ class RootWindow():
             self.adjust_colorbar()
 
         # ACTION_WINDOW draw magnifier and window frame
-        if self.magnifier and self.screenshot.action == ACTION_WINDOW:
+        if self.magnifier and self.screenshot.action in [ACTION_INIT, ACTION_WINDOW]:
             self._draw_magnifier(cr)
             self._draw_window_rectangle(cr)
         # action is not ACTION_WINDOW draw frame
@@ -224,7 +225,10 @@ class RootWindow():
     
     def _motion_notify_event(self, widget, event):
         ''' motion notify event callback '''
-        #self.update_magnifier(event.x, event.y)
+        size = "%d x %d " % (self.screenshot.rect_width, self.screenshot.rect_height)
+        rgb = utils.get_coord_rgb(self.screenshot, event.x, event.y)
+        self.update_magnifier(event.x, event.y, size=size, rgb=str(rgb))
+        
         if self.screenshot is None:
             return
         self._button_motion_process.update(event)
