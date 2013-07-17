@@ -20,7 +20,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from theme import app_theme
 from dtk.ui.entry import Entry
 import dtk.ui.constant as dtk_constant
 import gtk

@@ -23,7 +23,6 @@
 from theme import theme_cursor, app_theme_get_dynamic_pixbuf
 from dtk.ui.keymap import get_keyevent_name
 from dtk.ui.menu import Menu
-from dtk.ui.button import ToggleButton
 from collections import namedtuple
 from draw import *
 from constant import *
@@ -36,7 +35,6 @@ import gtk
 import pango
 import gobject
 import threading
-import subprocess
 import time
 
 DEFAULT_FONT = dtk_constant.DEFAULT_FONT            # default font to draw
@@ -919,7 +917,7 @@ class TextWindow(TextView):
         if not isinstance(input_text, unicode):
             try:
                 input_text = input_text.decode('utf-8')
-            except Exception, e:
+            except:
                 pass
         input_text = input_text.encode('utf-8')
         layout = self._layout.copy()

@@ -29,7 +29,7 @@ import gtk
 import pygtk
 from dtk.ui.draw import render_text as dtk_render_text
 from dtk.ui.utils import cairo_disable_antialias
-from pango import ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT
+from pango import ALIGN_CENTER
 
 pygtk.require('2.0')
 
