@@ -102,12 +102,11 @@ class TextView(Entry):
         if not isinstance(text, unicode):
             try:
                 text = text.decode('utf-8')
-            except Exception, e:
+            except:
                 pass
         text = text.encode('utf-8')
         with self.monitor_entry_content():
             self.buffer.set_text(text)
-            e = self.buffer.get_end_iter()
             insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
             self.cursor_index = insert.get_offset()     # get layout cursor index
             self._layout.set_text(text)
@@ -367,7 +366,7 @@ class TextView(Entry):
         if not isinstance(input_text, unicode):
             try:
                 input_text = input_text.decode('utf-8')
-            except Exception, e:
+            except:
                 pass
         input_text = input_text.encode('utf-8')
         with self.monitor_entry_content():

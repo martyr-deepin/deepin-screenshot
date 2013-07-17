@@ -169,8 +169,7 @@ class CountdownWindow():
         elif self.count <= 0:
             gtk.main_quit()
             return False   
-        else:
-            pass
+
         self.count -= 1
         widget.queue_draw()
         return True

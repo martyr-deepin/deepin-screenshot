@@ -170,7 +170,7 @@ class ShareToWeibo():
         if state == webkit.LOAD_FAILED: # load failed
             print "load failed",
             print web.get_property('uri')
-            pass
+
         elif state == webkit.LOAD_COMMITTED:
             if self.__current_weibo and self.__current_weibo.is_callback_url(url):
                 web.stop_loading()  # if go to  callback url, stop loading

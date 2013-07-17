@@ -415,8 +415,6 @@ class MotionProcess(BaseProcess):
             (ex, ey) = self.win.get_event_coord(event)
             (screenshot.rect_width, screenshot.rect_height) = (ex - screenshot.x, ey - screenshot.y)
             self.win.refresh()
-        else:
-            pass
 
     def action_select(self, screenshot, event):
         '''Motion ACTION_SELECT '''
@@ -468,8 +466,6 @@ class MotionProcess(BaseProcess):
             (ex, ey) = self.win.get_event_coord_in_monitor(event)
             screenshot.current_action.drawing((ex, ey), screenshot.get_rectangel_in_monitor())
             self.win.refresh()
-        else:
-            pass
 
     def action_ellipse(self, screenshot, event):
         '''Motion ACTION_ELLIPSE '''
@@ -480,8 +476,6 @@ class MotionProcess(BaseProcess):
             (ex, ey) = self.win.get_event_coord_in_monitor(event)
             screenshot.current_action.drawing((ex, ey), screenshot.get_rectangel_in_monitor())
             self.win.refresh()
-        else:
-            pass
 
     def action_arrow(self, screenshot, event):
         '''Motion ACTION_ARROW '''
@@ -492,8 +486,6 @@ class MotionProcess(BaseProcess):
             (ex, ey) = self.win.get_event_coord_in_monitor(event)
             screenshot.current_action.drawing((ex, ey), screenshot.get_rectangel_in_monitor())
             self.win.refresh()
-        else:
-            pass
 
     def action_line(self, screenshot, event):
         '''Motion ACTION_LINE '''
@@ -504,8 +496,6 @@ class MotionProcess(BaseProcess):
             (ex, ey) = self.win.get_event_coord_in_monitor(event)
             screenshot.current_action.drawing((ex, ey), screenshot.get_rectangel_in_monitor())
             self.win.refresh()
-        else:
-            pass
 
     def adjust(self, screenshot, event):
         '''Motion adjust '''
