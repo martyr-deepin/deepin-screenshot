@@ -130,12 +130,12 @@ class DeepinScreenshot(object):
         self.window.show()
         self.window.set_cursor(ACTION_WINDOW)
 
-    def set_action_type(self, aType):
+    def set_action_type(self, action_type):
         '''
         Set action type
-        @param aType: one of ACTION Type Constants 
+        @param action_type: one of ACTION Type Constants 
         '''
-        self.action = aType    
+        self.action = action_type    
         self.current_action = None
     
     def save_snapshot(self, filename=None, filetype='png', clip_flag=False):

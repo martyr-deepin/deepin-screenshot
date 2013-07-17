@@ -31,14 +31,14 @@ import pangocairo
 
 class Action(object):
     '''Action Base Class, it must be inherited and refactored'''
-    def __init__(self, aType, size, color):
+    def __init__(self, action_type, size, color):
         '''
         Init action.
-        @param aType: the action type, it must be one of the ACTION in constant
+        @param action_type: the action type, it must be one of the ACTION in constant
         @param size: the cairo line width, is an int num.
         @param color: the cairo color, an hex color string.
         '''
-        self.type = aType
+        self.type = action_type
         self.size = size
         self.color = color
         self.start_x = self.end_x = self.start_y = self.end_y = None
@@ -70,9 +70,9 @@ class RectangleAction(Action):
     Rectangle action. Draw a rectangle.
     @undocmented: expose
     '''
-    def __init__(self, aType, size, color):
+    def __init__(self, action_type, size, color):
         '''Rectangle action.'''
-        Action.__init__(self, aType, size, color)
+        Action.__init__(self, action_type, size, color)
         if size == ACTION_SIZE_RECTANGLE_ELLIPSE_FILL: 
             self.fill_flag = True
         else:
@@ -102,9 +102,9 @@ class EllipseAction(Action):
     Ellipse action. Draw an ellipse.
     @undocmented: expose
     '''
-    def __init__(self, aType, size, color):
+    def __init__(self, action_type, size, color):
         '''Ellipse action.'''
-        Action.__init__(self, aType, size, color)
+        Action.__init__(self, action_type, size, color)
         if size == ACTION_SIZE_RECTANGLE_ELLIPSE_FILL:
             self.fill_flag = True
         else: 
@@ -132,9 +132,9 @@ class ArrowAction(Action):
     Arrow action. Draw an arrow.
     @undocmented: expose
     '''
-    def __init__(self, aType, size, color):
+    def __init__(self, action_type, size, color):
         '''Arrow action.'''
-        Action.__init__(self, aType, size, color)
+        Action.__init__(self, action_type, size, color)
         
     def drawing(self, (ex, ey), (rx, ry, rw, rh)):
         '''
@@ -156,9 +156,9 @@ class LineAction(Action):
     Line action. Draw a line.
     @undocmented: expose
     '''
-    def __init__(self, aType, size, color):
+    def __init__(self, action_type, size, color):
         '''Line action.'''
-        Action.__init__(self, aType, size, color)
+        Action.__init__(self, action_type, size, color)
         
     def drawing(self, (ex, ey), (rx, ry, rw, rh)):
         '''
@@ -191,9 +191,9 @@ class TextAction(Action):
     Text action. Draw a text.
     @undocmented: expose
     '''
-    def __init__(self, aType, size, color, layout):
+    def __init__(self, action_type, size, color, layout):
         '''Text action.'''
-        Action.__init__(self, aType, size, color)
+        Action.__init__(self, action_type, size, color)
         self.layout = layout
         
     def expose(self, cr):
