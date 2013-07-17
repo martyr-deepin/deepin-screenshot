@@ -382,16 +382,8 @@ class Colorbar(object):
         self.screenshot = screenshot
         self.win = self.screenshot.window
         
-        #padding_x = 5
-        #padding_y = 3
-        #icon_width = icon_height = 28
-        #self.width = 280
-        #color_num = 9
-        #self.height = icon_height + padding_y * 2
         self.height = 36
         self.width = 279
-        self.width_no_fill = 254
-        self.width_text = 259
         
         self.window = Window(window_type=gtk.WINDOW_POPUP, shadow_visible=False)
         self.window.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DIALOG)
@@ -584,8 +576,8 @@ class Colorbar(object):
         ''' show the colorbar'''
         # action is text, show font size set
         if self.screenshot.action == ACTION_TEXT:
-            self.window.set_size_request(self.width_text, self.height)
-            self.window.resize(self.width_text, self.height)
+            self.window.set_size_request(self.width, self.height)
+            self.window.resize(self.width, self.height)
             if self.size_align in self.dynamic_box.get_children():
                 self.dynamic_box.remove(self.size_align)
             if self.font_align not in self.dynamic_box.get_children():
@@ -625,8 +617,8 @@ class Colorbar(object):
 
             # don't show fill button
             else:
-                self.window.set_size_request(self.width_no_fill, self.height)
-                self.window.resize(self.width_no_fill, self.height)
+                self.window.set_size_request(self.width, self.height)
+                self.window.resize(self.width, self.height)
                 if self.__size_button_dict['rect_fill'] in self.size_box.get_children():
                     if self.__size_button_dict['rect_fill'].get_active():
                         self.__size_button_dict['small'].pressed()
