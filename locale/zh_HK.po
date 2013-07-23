@@ -129,6 +129,14 @@ msgstr "圖片已保存到剪貼簿"
 msgid "share to web"
 msgstr "分享至微博"
 
+#: ../src/share.py:187
+msgid "Unable to load page"
+msgstr "未能加載頁面"
+
+#: ../src/share.py:187
+msgid "Problem occurred while loading the URL '%s'"
+msgstr "在加載URL'%s'時出現了問題"
+
 #: ../src/share.py:304
 msgid "click to switch user"
 msgstr "點擊圖示來切換使用者帳號"

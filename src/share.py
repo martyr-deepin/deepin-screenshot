@@ -122,6 +122,7 @@ class ShareToWeibo(object):
         # create a webkit
         self.web_view = WebView(COOKIE_FILE)
         self.web_view.connect("notify::load-status", self.web_view_load_status)
+        self.web_view.connect("load-error", self.web_view_load_error)
         self.web_scrolled_window = ScrolledWindow()
         self.web_scrolled_window.add(self.web_view)
         self.web_scrolled_window.set_size_request(590, 228)
@@ -167,7 +168,7 @@ class ShareToWeibo(object):
             self.web_url_entry.set_text(url)
             self.web_url_entry.entry.move_to_start()
             self.web_url_entry.set_editable(False)
-        if state == webkit.LOAD_FAILED: # load failed
+        if state == webkit.LOAD_FAILED:  # load failed
             print "load failed",
             print web.get_property('uri')
 
@@ -179,6 +180,15 @@ class ShareToWeibo(object):
                 t = threading.Thread(target=self.weibo_login_thread)
                 t.setDaemon(True)
                 t.start()
+
+    def web_view_load_error(self, web, fram, url, error, data=None):
+        web.load_string(
+            "<html><body><p><h1>%s</h1></p>%s</body></html>" % (
+            _("Unable to load page"),
+            _("Problem occurred while loading the URL '%s'") % (url)),
+            "text/html", "UTF-8", "")
+        print url
+        return True
     
     # login or switch user
     def weibo_login(self, widget, weibo):
@@ -329,7 +339,7 @@ class ShareToWeibo(object):
             if info_error:
                 #self.get_user_error_text += "%s:%s." % (weibo.t_type, _(info_error))
                 hbox.pack_start(
-                    Label(text="(%s)" % info_error,label_width=70,enable_select=False,
+                    Label(text="(%s)" % _(info_error), label_width=70,enable_select=False,
                     text_color = app_theme.get_color("left_char_num1")), False, False)
             
         button.connect("clicked", self.weibo_login, weibo)
