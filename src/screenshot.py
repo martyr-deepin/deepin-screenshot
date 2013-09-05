@@ -24,6 +24,7 @@
 from bus import SCROT_BUS, IS_EXISTS
 import gtk
 import gobject
+import config
 from main import main
 from window import get_screenshot_pixbuf
 from optparse import OptionParser
@@ -113,9 +114,7 @@ def processArguments():
         exit(1)
     if options.fullscreen and options.window:
         parser.error("options -f and -w are mutually exclusive")
-    if options.icon:
-        notify("Deepin Screenshot", 0, summary=_("DSnapshot"),
-               body=_("Next time you can just press Ctrl+Alt+A to start."))
+    config.OPTION_ICON = options.icon
     if options.delay:
         notify("Deepin Screenshot", 0, summary=_("DSnapshot"),
                body=_("DSnapshot will start in %d seconds.") % options.delay, timeout=(options.delay-0.5)*1000)

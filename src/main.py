@@ -40,6 +40,7 @@ from notify_dbus import notify
 
 import pygtk
 import subprocess
+import config
 
 pygtk.require('2.0')
 import gtk
@@ -216,6 +217,9 @@ class DeepinScreenshot(object):
             #cmd = ('python', '%s/%s' % (parent_dir, 'tipswindow.py'), tipContent)
             #subprocess.Popen(cmd)
         notify("Deepin Screenshot", 0, summary=_("DSnapshot"), body=tipContent)
+        if config.OPTION_ICON:
+            notify("Deepin Screenshot", 0, summary=_("DSnapshot"),
+                   body=_("Next time you can just press Ctrl+Alt+A to start."))
 
     def make_pic_file(self, pixbuf):
         '''
