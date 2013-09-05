@@ -105,6 +105,10 @@ msgstr "显示程序的版本号并退出"
 msgid "DSnapshot"
 msgstr "深度截图"
 
+#: ../src/screenshot.py:118
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "下次可以直接按Ctrl+Alt+A启动"
+
 #: ../src/screenshot.py:101
 msgid "DSnapshot will start in %d seconds."
 msgstr "深度截图将在%d秒后启动"

@@ -96,6 +96,7 @@ def processArguments():
     parser.add_option("-s", "--save", dest="save_file", help=_("save screenshot to FILE"), metavar="FILE")
     parser.add_option("--sub", action="store_true", dest="sub", help=_("run as a subprocess"))
     parser.add_option("-n", "--new", action="store_true", dest="new", help=_("run a new process"))
+    parser.add_option("-I", "--icon", action="store_true", dest="icon")
     #parser.add_option("-a", "--area", help="Grab an area of the screen instead of the entire screen", action="store_true")
     #parser.add_option("-e", "--border-effect", action="store_true", dest="border_effect", help="Effect to add to the border")
     #parser.add_option("-i", "--interactive", action="store_true", help="Interactively set options")
@@ -112,6 +113,9 @@ def processArguments():
         exit(1)
     if options.fullscreen and options.window:
         parser.error("options -f and -w are mutually exclusive")
+    if options.icon:
+        notify("Deepin Screenshot", 0, summary=_("DSnapshot"),
+               body=_("Next time you can just press Ctrl+Alt+A to start."))
     if options.delay:
         notify("Deepin Screenshot", 0, summary=_("DSnapshot"),
                body=_("DSnapshot will start in %d seconds.") % options.delay, timeout=(options.delay-0.5)*1000)
