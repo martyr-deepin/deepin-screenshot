@@ -106,6 +106,14 @@ class RootWindow(object):
             self.hotkey_map["Ctrl + Z"] = self.screenshot.undo
             self.hotkey_map["Ctrl + z"] = self.hotkey_map["Ctrl + Z"]
             self.hotkey_map["Ctrl + s"] = self.hotkey_map["Ctrl + S"]
+            self.hotkey_map["Up"] = self.move_area_up
+            self.hotkey_map["Down"] = self.move_area_down
+            self.hotkey_map["Left"] = self.move_area_left
+            self.hotkey_map["Right"] = self.move_area_right
+            self.hotkey_map["Ctrl + Up"] = self.extend_area_up
+            self.hotkey_map["Ctrl + Down"] = self.extend_area_down
+            self.hotkey_map["Ctrl + Left"] = self.extend_area_left
+            self.hotkey_map["Ctrl + Right"] = self.extend_area_right
 
     def _draw_expose(self, widget, event):
         ''' draw area expose-event callback, drawing background and action'''
@@ -774,6 +782,76 @@ class RootWindow(object):
         '''show root window'''
         self.window.show_all()
         self.window.window.raise_()
+
+    def __move_area(self, x, y):
+        screenshot = self.screenshot
+        if screenshot.action == ACTION_SELECT:
+            new_x = min(max(screenshot.x + x, screenshot.monitor_x),
+                screenshot.monitor_x + screenshot.width - screenshot.rect_width)
+            new_y = min(max(screenshot.y + y, screenshot.monitor_y),
+                screenshot.monitor_y + screenshot.height - screenshot.rect_height)
+            if screenshot.x != new_x or screenshot.y != new_y:
+                screenshot.x = new_x
+                screenshot.y = new_y
+                self.refresh()
+
+    def move_area_up(self):
+        self.__move_area(0, -1)
+
+    def move_area_down(self):
+        self.__move_area(0, 1)
+
+    def move_area_left(self):
+        self.__move_area(-1, 0)
+
+    def move_area_right(self):
+        self.__move_area(1, 0)
+
+    def __extend_area(self, x, y):
+        screenshot = self.screenshot
+        if screenshot.action != ACTION_SELECT:
+            return
+        is_changed = False
+        if x > 0:       # Right
+            new_width = min(
+                screenshot.rect_width + 1,
+                screenshot.monitor_x + screenshot.width - screenshot.x)
+            if screenshot.rect_width != new_width:
+                screenshot.rect_width = new_width
+                is_changed = True
+        elif x < 0:     # Left
+            new_x = max(screenshot.x - 1, screenshot.monitor_x)
+            if screenshot.x != new_x:
+                screenshot.x = new_x
+                screenshot.rect_width += 1
+                is_changed = True
+        if y > 0:       # Down
+            new_height = min(
+                screenshot.rect_height + 1,
+                screenshot.monitor_y + screenshot.height - screenshot.y)
+            if screenshot.rect_height != new_height:
+                screenshot.rect_height = new_height
+                is_changed = True
+        elif y < 0:     # Up
+            new_y = max(screenshot.y - 1, screenshot.monitor_y)
+            if screenshot.y != new_y:
+                screenshot.y = new_y
+                screenshot.rect_height += 1
+                is_changed = True
+        if is_changed:
+            self.refresh()
+
+    def extend_area_up(self):
+        self.__extend_area(0, -1)
+
+    def extend_area_down(self):
+        self.__extend_area(0, 1)
+
+    def extend_area_left(self):
+        self.__extend_area(-1, 0)
+
+    def extend_area_right(self):
+        self.__extend_area(1, 0)
 
 class RightMenu(object):
     ''' Right Button Menu'''
