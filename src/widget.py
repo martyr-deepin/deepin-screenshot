@@ -70,6 +70,7 @@ class RootWindow(object):
         self.window.connect("button-release-event", self._button_release_event)
         self.window.connect("motion-notify-event", self._motion_notify_event)
         self.window.connect("key-press-event", self._key_press_event)
+        self.window.connect("scroll-event", self._scroll_event)
         
         #self.draw_area = gtk.DrawingArea()
         self.draw_area = gtk.Fixed()
@@ -852,6 +853,46 @@ class RootWindow(object):
 
     def extend_area_right(self):
         self.__extend_area(1, 0)
+
+    def _scroll_event(self, widget, event):
+        screenshot = self.screenshot
+        if screenshot.action != ACTION_SELECT:
+            return
+        if event.state & gtk.gdk.CONTROL_MASK == 0:
+            return
+        is_changed = False
+        if event.direction == gtk.gdk.SCROLL_UP:        # zoom in
+            new_x = max(screenshot.x - 1, screenshot.monitor_x)
+            new_y = max(screenshot.y - 1, screenshot.monitor_y)
+            if screenshot.x != new_x or screenshot.y != new_y:
+                screenshot.x = new_x
+                screenshot.y = new_y
+                is_changed = True
+            new_width = min(
+                screenshot.rect_width + 2,
+                screenshot.monitor_x + screenshot.width - screenshot.x)
+            new_height = min(
+                screenshot.rect_height + 2,
+                screenshot.monitor_y + screenshot.height - screenshot.y)
+            if screenshot.rect_width != new_width or screenshot.rect_height != new_height:
+                screenshot.rect_width = new_width
+                screenshot.rect_height = new_height
+                is_changed = True
+        if event.direction == gtk.gdk.SCROLL_DOWN:      # zoom out
+            new_x = min(screenshot.x + 1, screenshot.x + screenshot.rect_width - 2)
+            new_y = min(screenshot.y + 1, screenshot.y + screenshot.rect_height - 2)
+            if screenshot.x != new_x or screenshot.y != new_y:
+                screenshot.x = new_x
+                screenshot.y = new_y
+                is_changed = True
+            new_width = max(screenshot.rect_width - 2, 2)
+            new_height = max(screenshot.rect_height - 2, 2)
+            if screenshot.rect_width != new_width or screenshot.rect_height != new_height:
+                screenshot.rect_width = new_width
+                screenshot.rect_height = new_height
+                is_changed = True
+        if is_changed:
+            self.refresh()
 
 class RightMenu(object):
     ''' Right Button Menu'''
