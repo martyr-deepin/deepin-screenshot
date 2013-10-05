@@ -1,5 +1,5 @@
 # Chinese translations for PACKAGE package.
-# PACKAGE 软件包的繁体中文翻译.
+# PACKAGE 套件的繁體中文翻譯.
 # Copyright (C) 2012 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Automatically generated, 2012.
@@ -43,7 +43,7 @@ msgstr "復原"
 
 #: ../src/toolbar.py:90 ../src/widget.py:826
 msgid "Save"
-msgstr "保存"
+msgstr "儲存"
 
 #: ../src/toolbar.py:110 ../src/widget.py:833
 msgid "Cancel"
@@ -55,11 +55,11 @@ msgstr "分享到微博"
 
 #: ../src/toolbar.py:177 ../src/widget.py:786
 msgid "Save automatically"
-msgstr "自動保存"
+msgstr "自動儲存"
 
 #: ../src/toolbar.py:178 ../src/widget.py:787
 msgid "Save as"
-msgstr "保存到指定目錄"
+msgstr "儲存到指定目錄"
 
 #: ../src/toolbar.py:179 ../src/widget.py:788
 msgid "Save to clipboard"
@@ -67,27 +67,27 @@ msgstr "複製到剪貼簿"
 
 #: ../src/toolbar.py:180 ../src/widget.py:789
 msgid "Save automatically to file and clipboard"
-msgstr "自動保存并複製到剪貼簿"
+msgstr "自動儲存並複製到剪貼簿"
 
 #: ../src/screenshot.py:77
 msgid "Take a screenshot of full screen"
-msgstr "拍下全螢幕的螢幕截圖"
+msgstr "拍下全螢幕的截圖"
 
 #: ../src/screenshot.py:78
 msgid "Take a screenshot of a window"
-msgstr "拍下視窗的螢幕截圖"
+msgstr "拍下視窗的截圖"
 
 #: ../src/screenshot.py:79
 msgid "Take a screenshot after NUM seconds"
-msgstr "將會在 NUM 秒后啟用螢幕截圖"
+msgstr "將會在 NUM 秒後啟動螢幕截圖"
 
 #: ../src/screenshot.py:80
 msgid "save screenshot to FILE"
-msgstr "保存螢幕截圖到檔案「FILE」"
+msgstr "儲存螢幕截圖到檔案「FILE」"
 
 #: ../src/screenshot.py:81
 msgid "run as a subprocess"
-msgstr "以子進程方式運行"
+msgstr "以子進程方式執行"
 
 #: ../src/screenshot.py:82
 msgid "run a new process"
@@ -95,11 +95,11 @@ msgstr "啟動一個新的進程"
 
 #: ../src/screenshot.py:89
 msgid "show this help message and exit"
-msgstr "顯示該求助說明訊息并退出"
+msgstr "顯示該求助說明訊息並退出"
 
 #: ../src/screenshot.py:90
 msgid "show program's version number and exit"
-msgstr "顯示程式的版本并退出"
+msgstr "顯示程式的版本並退出"
 
 #: ../src/screenshot.py:100 ../src/main.py:220 ../src/share.py:555
 msgid "DSnapshot"
@@ -107,7 +107,7 @@ msgstr "深度截圖"
 
 #: ../src/screenshot.py:118
 msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "下次可以直接按Ctrl+Alt+A啓動"
+msgstr "下次可以直接按Ctrl+Alt+A啟動"
 
 #: ../src/screenshot.py:101
 msgid "DSnapshot will start in %d seconds."
@@ -115,19 +115,19 @@ msgstr "深度截圖將在 %d 秒後啟動"
 
 #: ../src/main.py:153
 msgid "The width or height of selected area cannot be 0"
-msgstr "選區的寬度或高度不能設為 0"
+msgstr "選取區域的寬度或高度不能設為 0"
 
 #: ../src/main.py:161
 msgid "Picture has been saved to file"
-msgstr "圖片已保存到檔案"
+msgstr "圖片已儲存到檔案"
 
 #: ../src/main.py:181
 msgid "Failed to save the picture"
-msgstr "圖片保存失敗"
+msgstr "圖片儲存失敗"
 
 #: ../src/main.py:198
 msgid "Picture has been saved to clipboard"
-msgstr "圖片已保存到剪貼簿"
+msgstr "圖片已儲存到剪貼簿"
 
 #: ../src/share.py:73
 msgid "share to web"
@@ -135,11 +135,11 @@ msgstr "分享至微博"
 
 #: ../src/share.py:187
 msgid "Unable to load page"
-msgstr "未能加載頁面"
+msgstr "無法載入頁面"
 
 #: ../src/share.py:187
 msgid "Problem occurred while loading the URL '%s'"
-msgstr "在加載URL'%s'時出現了問題"
+msgstr "在載入URL'%s'時出現了問題"
 
 #: ../src/share.py:304
 msgid "click to switch user"
@@ -151,7 +151,7 @@ msgstr "點擊圖示來設定登入帳號"
 
 #: ../src/share.py:437
 msgid "loading"
-msgstr "加載中"
+msgstr "載入中"
 
 #: ../src/share.py:448
 msgid "Tweet"
@@ -203,10 +203,10 @@ msgstr "不明原因"
 
 #: ../src/widget.py:266
 msgid "Drag to select area"
-msgstr "拖動可自由選區"
+msgstr "拖曳可自由選取"
 
 msgid "analyse QR code"
-msgstr "解析二維碼"
+msgstr "分析QR條碼"
 
 msgid "Close"
 msgstr "關閉"
@@ -231,7 +231,7 @@ msgid "Connection timed out."
 msgstr "連線逾時"
 
 msgid "An error occured in network connection."
-msgstr "網絡錯誤"
+msgstr "網路錯誤"
 
 msgid "An error occured while connecting."
 msgstr "連線出錯"
@@ -242,7 +242,7 @@ msgid "System error"
 msgstr "系統錯誤"
 
 msgid "Service unavailable"
-msgstr "服務不可用"
+msgstr "服務無法使用"
 
 msgid "Remote service error"
 msgstr "遠端服務錯誤"
@@ -269,7 +269,7 @@ msgid "Invalid Weibo user account"
 msgstr "不合法的微博使用者帳號"
 
 msgid "miss required parameter"
-msgstr "缺失必要的參數"
+msgstr "缺少必要的參數"
 
 msgid "Request body length over limit"
 msgstr "請求長度超過限制"
@@ -284,7 +284,7 @@ msgid "User name does not exist"
 msgstr "使用者帳號不存在"
 
 msgid "Unsupported image type. Currently we only suport JPG, GIF and PNG formats"
-msgstr "不支持的圖片類型，僅支持 JPG、GIF、PNG"
+msgstr "不支援的圖片類型，僅支持 JPG、GIF、PNG"
 
 msgid "Image size too large"
 msgstr "圖片太大"
@@ -302,7 +302,7 @@ msgid "Account or ip or app is illgal, can not continue"
 msgstr "帳號、IP 或應用程式不合法，暫時無法完成此操作"
 
 msgid "Out of limit"
-msgstr "發布內容過於頻繁"
+msgstr "發佈內容過於頻繁"
 
 msgid "Repeat content"
 msgstr "提交相似的信息"
@@ -326,7 +326,7 @@ msgid "Illegal weibo"
 msgstr "不合法的微博"
 
 msgid "Repeated weibo text"
-msgstr "不能發布相衕的微博"
+msgstr "不能發布相關的微博"
 
 msgid "Contains forbid world"
 msgstr "含有敏感詞"
@@ -346,7 +346,7 @@ msgid "post format error"
 msgstr "格式錯誤、使用者無效（非微博使用者）"
 
 msgid "forbidden content"
-msgstr "有過多臟話"
+msgstr "有過多髒話"
 
 msgid "forbidden access"
 msgstr "禁止訪問，如城市，uin 黑名單限制等"
