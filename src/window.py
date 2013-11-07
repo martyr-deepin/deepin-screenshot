@@ -28,6 +28,7 @@ pygtk.require("2.0")
 import gtk
 import wnck
 from Xlib import display
+from dtk.ui.xutils import get_window_property_by_id
 
 DISPLAY_NUM = len(gtk.gdk.display_manager_get().list_displays())    # gtk.gdk.Display num
 DISPLAY = gtk.gdk.display_get_default()         # gtk.gdk.Display
@@ -129,10 +130,22 @@ def get_windows_info():
             pass
         (x, y, width, height) = w.get_geometry()                # with frame
         #(x, y, width, height) = w.get_client_window_geometry()  # without frame
+        
+        # Get shadow value for deepin-ui window.
+        deepin_window_shadow_value = get_window_property_by_id(w.get_xid(), "DEEPIN_WINDOW_SHADOW")
+        if deepin_window_shadow_value:
+            deepin_window_shadow_size = int(deepin_window_shadow_value)
+        else:
+            deepin_window_shadow_size = 0
+            
         if w.get_window_type() == wnck.WINDOW_DOCK and\
                 width >= SCREEN_WIDTH and height >= SCREEN_HEIGHT:
             continue
-        screenshot_window_info.insert(0, coord(*convert_coord(x, y, width, height)))
+        screenshot_window_info.insert(0, coord(*convert_coord(
+                    x + deepin_window_shadow_size, 
+                    y + deepin_window_shadow_size, 
+                    width - deepin_window_shadow_size * 2, 
+                    height - deepin_window_shadow_size * 2)))
     return screenshot_window_info
 
 def get_window_info_at_pointer():
