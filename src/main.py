@@ -48,7 +48,7 @@ import gtk
 
 class DeepinScreenshot(object):
     ''' Main Screenshot. '''
-    def __init__(self, is_subprocess=False, save_file=""):
+    def __init__(self):
         '''Init Main screenshot.'''
         # Init.
         self.action = ACTION_WINDOW         # current action status
@@ -81,9 +81,9 @@ class DeepinScreenshot(object):
         self.share_to_flag = False          # a flag if the screenshot will be shared
         self.window_flag = True             # a flag if has not selected area or window
 
-        self.is_subprocess = is_subprocess
+        self.is_subprocess = config.OPTION_SUB
         self.saveFiletype = 'png'
-        self.saveFilename = save_file
+        self.saveFilename = config.OPTION_FILE
         
         # make sure the toolbar in this monitor
         self.toolbarOffsetX = self.monitor_x + 10
@@ -331,11 +331,12 @@ class DeepinScreenshot(object):
         @return: a tuple contain this monitor coordinate.
         '''
         return (self.monitor_x, self.monitor_y, self.width, self.height)
-    
-def main(is_sub=False, name=""):
+
+
+def main():
     ''' main function '''
     gtk.gdk.threads_init()
-    DeepinScreenshot(is_sub, name)
+    DeepinScreenshot()
     gtk.main()
 
 if __name__ == '__main__':

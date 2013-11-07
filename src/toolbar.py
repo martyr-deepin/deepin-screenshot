@@ -30,6 +30,7 @@ import dtk.ui.tooltip as Tooltip
 from nls import _
 import utils
 import gtk
+import config
 from constant import *
 from _share.config import OperateConfig
 
@@ -318,7 +319,10 @@ class Toolbar(object):
             dialog.set_current_folder(last_folder)
         else:
             dialog.set_current_folder(utils.get_pictures_dir())
-        dialog.set_current_name("%s%s.%s" % (_(DEFAULT_FILENAME), utils.get_format_time(), "png"))
+        if config.OPTION_FILE:
+            dialog.set_current_name(config.OPTION_FILE)
+        else:
+            dialog.set_current_name("%s%s.%s" % (_(DEFAULT_FILENAME), utils.get_format_time(), "png"))
         response = dialog.run()
         filename = dialog.get_filename()
         if response == gtk.RESPONSE_ACCEPT:

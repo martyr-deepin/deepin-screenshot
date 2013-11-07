@@ -107,6 +107,9 @@ def processArguments():
     parser.get_option('-h').help = _("show this help message and exit")
     parser.get_option('--version').help = _("show program's version number and exit")
     
+    import sys
+    if '-h' in sys.argv or '--help' in sys.argv:
+        parser.remove_option("-I")
     (options, args) = parser.parse_args()
 
     if not options.new and IS_EXISTS:
@@ -115,6 +118,11 @@ def processArguments():
     if options.fullscreen and options.window:
         parser.error("options -f and -w are mutually exclusive")
     config.OPTION_ICON = options.icon
+    config.OPTION_FULLSCREEN = options.fullscreen
+    config.OPTION_WINDOWN = options.window
+    config.OPTION_NEW = options.new
+    config.OPTION_FILE = options.save_file
+    config.OPTION_SUB = options.sub
     if options.delay:
         notify("Deepin Screenshot", 0, summary=_("DSnapshot"),
                body=_("DSnapshot will start in %d seconds.") % options.delay, timeout=(options.delay-0.5)*1000)
@@ -130,13 +138,13 @@ def processArguments():
             pixbuf = get_screenshot_pixbuf(False)
             pixbuf.save(parserFile[0], parserFile[1])
         else:    
-            main(options.save_file)
+            main()
     elif options.fullscreen:
         open_file_dialog()
     elif options.window:
         open_file_dialog(False)
     else:
-        main(options.sub)
+        main()
 
 if __name__ == '__main__':
     processArguments()

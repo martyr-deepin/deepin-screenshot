@@ -21,3 +21,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 OPTION_ICON = False
+OPTION_FULLSCREEN = False
+OPTION_WINDOWN = False
+OPTION_FILE = ""
+OPTION_SUB = False
+OPTION_NEW = False

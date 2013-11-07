@@ -208,7 +208,19 @@ class RootWindow(object):
                 self.screenshot.toolbar.set_button_active("text", True)
                 self.screenshot.text_modify_flag = True
                 self.refresh()
-                self.screenshot.text_window.queue_draw()
+
+                new_event = gtk.gdk.Event(gtk.gdk.BUTTON_PRESS)
+                new_event.window = event.window
+                new_event.send_event = event.send_event
+                new_event.time = event.time
+                new_event.x = event.x - current_action.start_x
+                new_event.y = event.y - current_action.start_y
+                new_event.state = event.state
+                new_event.button = event.button
+                new_event.x_root = event.x_root
+                new_event.y_root = event.y_root
+                self.screenshot.text_window.event(new_event)
+                #self.screenshot.text_window.queue_draw()
             # save snapshot
             if self.screenshot.action == ACTION_SELECT \
                or self.screenshot.action == None \
