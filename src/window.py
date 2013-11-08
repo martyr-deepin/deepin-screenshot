@@ -28,7 +28,7 @@ pygtk.require("2.0")
 import gtk
 import wnck
 from Xlib import display
-from dtk.ui.xutils import get_window_property_by_id
+from deepin_utils.xutils import get_window_property_by_id
 
 DISPLAY_NUM = len(gtk.gdk.display_manager_get().list_displays())    # gtk.gdk.Display num
 DISPLAY = gtk.gdk.display_get_default()         # gtk.gdk.Display
