@@ -617,10 +617,15 @@ class TextView(Entry):
         @return: a gtk.TextIter
         '''
         index = self._layout.xy_to_index(x*pango.SCALE, y*pango.SCALE)
+        pos = map(lambda x: x/pango.SCALE, self._layout.index_to_pos(index[0]))
         layout_iter = self._layout.get_iter()
         offset = 0
         while layout_iter.get_index() != index[0]:
-            layout_iter.next_char()
+            if layout_iter.next_char():
+                offset += 1
+            else:
+                break
+        if pos[0] + pos[2] < x:
             offset += 1
         insert = self.buffer.get_iter_at_mark(self.buffer.get_insert())
         insert.set_offset(offset)
