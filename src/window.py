@@ -117,7 +117,10 @@ def get_windows_info():
     screenshot_window_info.insert(0, coord(SCREEN_X, SCREEN_Y, SCREEN_WIDTH, SCREEN_HEIGHT))
     WNCK_SCREEN.force_update()
     win_list = WNCK_SCREEN.get_windows_stacked()
+    global WNCK_WORKSPACE
     WNCK_WORKSPACE = WNCK_SCREEN.get_active_workspace()
+    if not WNCK_WORKSPACE:      # there is no active workspace in some wm.
+        WNCK_WORKSPACE = WNCK_SCREEN.get_workspaces()[0]
     for w in win_list:
         if not w.is_on_workspace(WNCK_WORKSPACE):
             continue
