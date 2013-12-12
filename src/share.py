@@ -148,11 +148,10 @@ class ShareToWeibo(object):
         self.__weibo_list = []
         self.sina = weibo.Sina(self.web_view)
         self.qq = weibo.Tencent(self.web_view)
+        self.twitter = weibo.Twitter(self.web_view)
         self.__weibo_list.append(self.sina)
         self.__weibo_list.append(self.qq)
-        if default_locale != 'zh_CN':
-            self.twitter = weibo.Twitter(self.web_view)
-            self.__weibo_list.append(self.twitter)
+        self.__weibo_list.append(self.twitter)
         self.__current_weibo = None
 
         self.window.body_box.pack_start(self.slider, True, True)
