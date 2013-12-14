@@ -1,0 +1,196 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# kazzike <jeancarlosrivas@gmail.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: DSnapshot\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-21 13:45+0800\n"
+"PO-Revision-Date: 2013-12-10 14:24+0000\n"
+"Last-Translator: kazzike <jeancarlosrivas@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/deepin-screenshot/language/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../src/toolbar.py:81 ../src/widget.py:801
+msgid "draw rectangle"
+msgstr "Dibujar Rectangulo"
+
+#: ../src/toolbar.py:82 ../src/widget.py:805
+msgid "draw ellipse"
+msgstr "Dibujar Eclipse"
+
+#: ../src/toolbar.py:83 ../src/widget.py:809
+msgid "draw arrow"
+msgstr "Dibujar Flecha"
+
+#: ../src/toolbar.py:84 ../src/widget.py:813
+msgid "draw line"
+msgstr "Dibujar Línea"
+
+#: ../src/toolbar.py:85 ../src/widget.py:817
+msgid "draw Text"
+msgstr "Dibujar Texto"
+
+#: ../src/toolbar.py:87 ../src/widget.py:822
+msgid "undo"
+msgstr "Deshacer"
+
+#: ../src/toolbar.py:90 ../src/widget.py:826
+msgid "save"
+msgstr "Guardar"
+
+#: ../src/toolbar.py:110 ../src/widget.py:833
+msgid "cancel"
+msgstr "Cancelar"
+
+#: ../src/toolbar.py:113 ../src/widget.py:840
+msgid "share"
+msgstr "Compartir"
+
+#: ../src/toolbar.py:177 ../src/widget.py:786
+msgid "save automatically"
+msgstr "Guardar Automaticamente"
+
+#: ../src/toolbar.py:178 ../src/widget.py:787
+msgid "save as"
+msgstr "Guardar Como"
+
+#: ../src/toolbar.py:179 ../src/widget.py:788
+msgid "save to clipboard"
+msgstr "Guardar en el Portapapeles"
+
+#: ../src/toolbar.py:180 ../src/widget.py:789
+msgid "save automatically to file and clipboard"
+msgstr "Guardar Automáticamente a un Archivo y al Portapapeles"
+
+#: ../src/screenshot.py:77
+msgid "Take a screenshot of full screen"
+msgstr "Capturar Pantalla Completa"
+
+#: ../src/screenshot.py:78
+msgid "Take a screenshot of a window"
+msgstr "Tomar Captura de Pantalla de la Ventana"
+
+#: ../src/screenshot.py:79
+msgid "Take a screenshot after NUM seconds"
+msgstr "Capturar Pantalla Ddespués de NUM Segundos "
+
+#: ../src/screenshot.py:80
+msgid "save screenshot to FILE"
+msgstr "Guardar Captura de Pantalla en FILE"
+
+#: ../src/screenshot.py:81
+msgid "run as a subprocess"
+msgstr "Ejecutar como un Subproceso"
+
+#: ../src/screenshot.py:82
+msgid "run a new process"
+msgstr "Ejecutar como un nuevo proceso"
+
+#: ../src/screenshot.py:89
+msgid "show this help message and exit"
+msgstr "Mostrar este mensaje de ayuda y salir"
+
+#: ../src/screenshot.py:90
+msgid "show program's version number and exit"
+msgstr "Mostrar Número de Versión del Programa y Salir"
+
+#: ../src/screenshot.py:100 ../src/main.py:220 ../src/share.py:555
+msgid "DeepinScreenshot"
+msgstr "Captura de Pantalla DeepIn"
+
+#: ../src/screenshot.py:101
+#, python-format
+msgid "DeepinScreent will start after %d seconds"
+msgstr "Captura de Pantalla DeepIn comenzará despúes de %d segundos"
+
+#: ../src/main.py:153
+msgid "The width or height of selected area cannot be 0"
+msgstr "El Ancho o Alto del área Seleccionada no puede ser 0"
+
+#: ../src/main.py:161
+msgid "Picture has been saved to file"
+msgstr "La imagen se ha guardado en un archivo"
+
+#: ../src/main.py:181
+msgid "Failed to save the picture"
+msgstr "Falló al guardar la imagen"
+
+#: ../src/main.py:198
+msgid "Picture has been saved to clipboard"
+msgstr "La Imagen se ha guardado en el portapapeles"
+
+#: ../src/share.py:73
+msgid "share to web"
+msgstr "Compartir en la Web"
+
+#: ../src/share.py:304
+msgid "click to switch user"
+msgstr "Haga Clic para Cambiar de Usuario"
+
+#: ../src/share.py:322
+msgid "click to login"
+msgstr "Haga Clic para Iniciar Sesión"
+
+#: ../src/share.py:437
+msgid "loading"
+msgstr "Cargando"
+
+#: ../src/share.py:448
+msgid "Tweet"
+msgstr "Twittear"
+
+#: ../src/share.py:490
+msgid "Please input text here"
+msgstr "Por Favor Inserte el Texto Aquí"
+
+#: ../src/share.py:516 ../src/share.py:527
+msgid "error"
+msgstr "Error"
+
+#: ../src/share.py:516
+msgid "picture does not exist"
+msgstr "La Imagen no Existe"
+
+#: ../src/share.py:527
+msgid "Please choose at least one platform to share on"
+msgstr "Por Favor selecciones al Menos una Servicio para Compartir "
+
+#: ../src/share.py:544
+msgid "uploading"
+msgstr "Subiendo"
+
+#: ../src/share.py:555
+msgid "came from"
+msgstr "Viene de"
+
+#: ../src/share.py:602
+msgid "Follow"
+msgstr "Seguir"
+
+#: ../src/share.py:625 ../src/share.py:646
+msgid "upload to"
+msgstr "Subir a"
+
+#: ../src/share.py:628
+msgid "successful"
+msgstr "Exitoso"
+
+#: ../src/share.py:651
+msgid "failed"
+msgstr "Falló"
+
+#: ../src/share.py:659
+msgid "Unknow reason"
+msgstr "Razón Desconocida"
+
+#: ../src/widget.py:266
+msgid "Drag to select area"
+msgstr "Arrastre para Seleccionar el área"

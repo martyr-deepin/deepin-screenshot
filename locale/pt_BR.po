@@ -1,0 +1,195 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: DSnapshot\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-21 13:45+0800\n"
+"PO-Revision-Date: 2013-12-11 05:01+0000\n"
+"Last-Translator: 648trindade <rafaelgt.mbin@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/deepin-screenshot/language/pt_BR/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ../src/toolbar.py:81 ../src/widget.py:801
+msgid "draw rectangle"
+msgstr "desenhar um retângulo"
+
+#: ../src/toolbar.py:82 ../src/widget.py:805
+msgid "draw ellipse"
+msgstr "desenhar uma elípse"
+
+#: ../src/toolbar.py:83 ../src/widget.py:809
+msgid "draw arrow"
+msgstr "desenhar uma flecha"
+
+#: ../src/toolbar.py:84 ../src/widget.py:813
+msgid "draw line"
+msgstr "desenhar uma linha"
+
+#: ../src/toolbar.py:85 ../src/widget.py:817
+msgid "draw Text"
+msgstr "Escrever"
+
+#: ../src/toolbar.py:87 ../src/widget.py:822
+msgid "undo"
+msgstr "desfazer"
+
+#: ../src/toolbar.py:90 ../src/widget.py:826
+msgid "save"
+msgstr "salvar"
+
+#: ../src/toolbar.py:110 ../src/widget.py:833
+msgid "cancel"
+msgstr "cancelar"
+
+#: ../src/toolbar.py:113 ../src/widget.py:840
+msgid "share"
+msgstr "compartilhar"
+
+#: ../src/toolbar.py:177 ../src/widget.py:786
+msgid "save automatically"
+msgstr "salvar automaticamente"
+
+#: ../src/toolbar.py:178 ../src/widget.py:787
+msgid "save as"
+msgstr "salvar como"
+
+#: ../src/toolbar.py:179 ../src/widget.py:788
+msgid "save to clipboard"
+msgstr "copiar para a área de transferência"
+
+#: ../src/toolbar.py:180 ../src/widget.py:789
+msgid "save automatically to file and clipboard"
+msgstr "salvar automaticamente e copiar para a área de transferência"
+
+#: ../src/screenshot.py:77
+msgid "Take a screenshot of full screen"
+msgstr "Criar uma captura de tela inteira"
+
+#: ../src/screenshot.py:78
+msgid "Take a screenshot of a window"
+msgstr "Criar uma captura de uma janela"
+
+#: ../src/screenshot.py:79
+msgid "Take a screenshot after NUM seconds"
+msgstr "Criar uma captura após NUM segundos"
+
+#: ../src/screenshot.py:80
+msgid "save screenshot to FILE"
+msgstr "salvar captura para FILE"
+
+#: ../src/screenshot.py:81
+msgid "run as a subprocess"
+msgstr "executar como um subprocesso"
+
+#: ../src/screenshot.py:82
+msgid "run a new process"
+msgstr "executar um novo processo"
+
+#: ../src/screenshot.py:89
+msgid "show this help message and exit"
+msgstr "mostrar essa mensagem e sair"
+
+#: ../src/screenshot.py:90
+msgid "show program's version number and exit"
+msgstr "mostrar a versão do programa e sair"
+
+#: ../src/screenshot.py:100 ../src/main.py:220 ../src/share.py:555
+msgid "DeepinScreenshot"
+msgstr "DeepinScreenshot"
+
+#: ../src/screenshot.py:101
+#, python-format
+msgid "DeepinScreent will start after %d seconds"
+msgstr "DeepinScreent iniciará após %d segundos"
+
+#: ../src/main.py:153
+msgid "The width or height of selected area cannot be 0"
+msgstr "A largura e a altura da área selecionada não podem ser 0"
+
+#: ../src/main.py:161
+msgid "Picture has been saved to file"
+msgstr "A captura foi salva em arquivo"
+
+#: ../src/main.py:181
+msgid "Failed to save the picture"
+msgstr "Falhou ao salvar a captura"
+
+#: ../src/main.py:198
+msgid "Picture has been saved to clipboard"
+msgstr "Captura foi copiada para a área de tranferência"
+
+#: ../src/share.py:73
+msgid "share to web"
+msgstr "compartilhar na web"
+
+#: ../src/share.py:304
+msgid "click to switch user"
+msgstr "clique para trocar usuário"
+
+#: ../src/share.py:322
+msgid "click to login"
+msgstr "clique para entrar"
+
+#: ../src/share.py:437
+msgid "loading"
+msgstr "carregando"
+
+#: ../src/share.py:448
+msgid "Tweet"
+msgstr "Tweet"
+
+#: ../src/share.py:490
+msgid "Please input text here"
+msgstr "Por favor insira texto aqui"
+
+#: ../src/share.py:516 ../src/share.py:527
+msgid "error"
+msgstr "erro"
+
+#: ../src/share.py:516
+msgid "picture does not exist"
+msgstr "foto não existe"
+
+#: ../src/share.py:527
+msgid "Please choose at least one platform to share on"
+msgstr "por favor escolha pelo menos uma plataforma para compartilhar"
+
+#: ../src/share.py:544
+msgid "uploading"
+msgstr "enviando"
+
+#: ../src/share.py:555
+msgid "came from"
+msgstr "veio de"
+
+#: ../src/share.py:602
+msgid "Follow"
+msgstr "Seguir"
+
+#: ../src/share.py:625 ../src/share.py:646
+msgid "upload to"
+msgstr "enviar para"
+
+#: ../src/share.py:628
+msgid "successful"
+msgstr "bem sucedido"
+
+#: ../src/share.py:651
+msgid "failed"
+msgstr "falhou"
+
+#: ../src/share.py:659
+msgid "Unknow reason"
+msgstr "Razão desconhecida"
+
+#: ../src/widget.py:266
+msgid "Drag to select area"
+msgstr "Arrastar para área selecionada"
