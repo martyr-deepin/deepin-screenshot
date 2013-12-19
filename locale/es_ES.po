@@ -19,55 +19,55 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/toolbar.py:81 ../src/widget.py:801
-msgid "draw rectangle"
+msgid "Draw Rectangle"
 msgstr "Dibujar Rectangulo"
 
 #: ../src/toolbar.py:82 ../src/widget.py:805
-msgid "draw ellipse"
+msgid "Draw Ellipse"
 msgstr "Dibujar Eclipse"
 
 #: ../src/toolbar.py:83 ../src/widget.py:809
-msgid "draw arrow"
+msgid "Draw Arrow"
 msgstr "Dibujar Flecha"
 
 #: ../src/toolbar.py:84 ../src/widget.py:813
-msgid "draw line"
+msgid "Draw Line"
 msgstr "Dibujar Línea"
 
 #: ../src/toolbar.py:85 ../src/widget.py:817
-msgid "draw Text"
+msgid "Draw Text"
 msgstr "Dibujar Texto"
 
 #: ../src/toolbar.py:87 ../src/widget.py:822
-msgid "undo"
+msgid "Undo"
 msgstr "Deshacer"
 
 #: ../src/toolbar.py:90 ../src/widget.py:826
-msgid "save"
+msgid "Save"
 msgstr "Guardar"
 
 #: ../src/toolbar.py:110 ../src/widget.py:833
-msgid "cancel"
+msgid "Cancel"
 msgstr "Cancelar"
 
 #: ../src/toolbar.py:113 ../src/widget.py:840
-msgid "share"
+msgid "Share"
 msgstr "Compartir"
 
 #: ../src/toolbar.py:177 ../src/widget.py:786
-msgid "save automatically"
+msgid "Save automatically"
 msgstr "Guardar Automaticamente"
 
 #: ../src/toolbar.py:178 ../src/widget.py:787
-msgid "save as"
+msgid "Save as"
 msgstr "Guardar Como"
 
 #: ../src/toolbar.py:179 ../src/widget.py:788
-msgid "save to clipboard"
+msgid "Save to clipboard"
 msgstr "Guardar en el Portapapeles"
 
 #: ../src/toolbar.py:180 ../src/widget.py:789
-msgid "save automatically to file and clipboard"
+msgid "Save automatically to file and clipboard"
 msgstr "Guardar Automáticamente a un Archivo y al Portapapeles"
 
 #: ../src/screenshot.py:77
@@ -103,12 +103,11 @@ msgid "show program's version number and exit"
 msgstr "Mostrar Número de Versión del Programa y Salir"
 
 #: ../src/screenshot.py:100 ../src/main.py:220 ../src/share.py:555
-msgid "DeepinScreenshot"
+msgid "DSnapshot"
 msgstr "Captura de Pantalla DeepIn"
 
 #: ../src/screenshot.py:101
-#, python-format
-msgid "DeepinScreent will start after %d seconds"
+msgid "DSnapshot will start in %d seconds."
 msgstr "Captura de Pantalla DeepIn comenzará despúes de %d segundos"
 
 #: ../src/main.py:153
@@ -156,7 +155,7 @@ msgid "error"
 msgstr "Error"
 
 #: ../src/share.py:516
-msgid "picture does not exist"
+msgid "Picture does not exist."
 msgstr "La Imagen no Existe"
 
 #: ../src/share.py:527
