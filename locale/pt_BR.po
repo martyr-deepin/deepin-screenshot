@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DSnapshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-21 13:45+0800\n"
-"PO-Revision-Date: 2013-12-11 05:01+0000\n"
-"Last-Translator: 648trindade <rafaelgt.mbin@gmail.com>\n"
+"POT-Creation-Date: 2013-12-19 10:32+0800\n"
+"PO-Revision-Date: 2013-12-19 08:21+0000\n"
+"Last-Translator: lihongwu <lihongwu1987@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/deepin-screenshot/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,178 +17,191 @@ msgstr ""
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ../src/toolbar.py:81 ../src/widget.py:801
-msgid "Draw Rectangle"
-msgstr "desenhar um retângulo"
-
-#: ../src/toolbar.py:82 ../src/widget.py:805
-msgid "Draw Ellipse"
-msgstr "desenhar uma elípse"
-
-#: ../src/toolbar.py:83 ../src/widget.py:809
-msgid "Draw Arrow"
-msgstr "desenhar uma flecha"
-
-#: ../src/toolbar.py:84 ../src/widget.py:813
-msgid "Draw Line"
-msgstr "desenhar uma linha"
-
-#: ../src/toolbar.py:85 ../src/widget.py:817
-msgid "Draw Text"
-msgstr "Escrever"
-
-#: ../src/toolbar.py:87 ../src/widget.py:822
-msgid "Undo"
-msgstr "desfazer"
-
-#: ../src/toolbar.py:90 ../src/widget.py:826
-msgid "Save"
-msgstr "salvar"
-
-#: ../src/toolbar.py:110 ../src/widget.py:833
-msgid "Cancel"
-msgstr "cancelar"
-
-#: ../src/toolbar.py:113 ../src/widget.py:840
-msgid "Share"
-msgstr "compartilhar"
-
-#: ../src/toolbar.py:177 ../src/widget.py:786
-msgid "Save automatically"
-msgstr "salvar automaticamente"
-
-#: ../src/toolbar.py:178 ../src/widget.py:787
-msgid "Save as"
-msgstr "salvar como"
-
-#: ../src/toolbar.py:179 ../src/widget.py:788
-msgid "Save to clipboard"
-msgstr "copiar para a área de transferência"
-
-#: ../src/toolbar.py:180 ../src/widget.py:789
-msgid "Save automatically to file and clipboard"
-msgstr "salvar automaticamente e copiar para a área de transferência"
-
-#: ../src/screenshot.py:77
-msgid "Take a screenshot of full screen"
-msgstr "Criar uma captura de tela inteira"
-
-#: ../src/screenshot.py:78
-msgid "Take a screenshot of a window"
-msgstr "Criar uma captura de uma janela"
-
-#: ../src/screenshot.py:79
-msgid "Take a screenshot after NUM seconds"
-msgstr "Criar uma captura após NUM segundos"
-
-#: ../src/screenshot.py:80
-msgid "save screenshot to FILE"
-msgstr "salvar captura para FILE"
-
-#: ../src/screenshot.py:81
-msgid "run as a subprocess"
-msgstr "executar como um subprocesso"
-
-#: ../src/screenshot.py:82
-msgid "run a new process"
-msgstr "executar um novo processo"
-
-#: ../src/screenshot.py:89
-msgid "show this help message and exit"
-msgstr "mostrar essa mensagem e sair"
-
-#: ../src/screenshot.py:90
-msgid "show program's version number and exit"
-msgstr "mostrar a versão do programa e sair"
-
-#: ../src/screenshot.py:100 ../src/main.py:220 ../src/share.py:555
-msgid "DSnapshot"
-msgstr "DeepinScreenshot"
-
-#: ../src/screenshot.py:101
-msgid "DSnapshot will start in %d seconds."
-msgstr "DeepinScreent iniciará após %d segundos"
-
-#: ../src/main.py:153
-msgid "The width or height of selected area cannot be 0"
-msgstr "A largura e a altura da área selecionada não podem ser 0"
-
-#: ../src/main.py:161
+#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:160
 msgid "Picture has been saved to file"
 msgstr "A captura foi salva em arquivo"
 
-#: ../src/main.py:181
+#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
+#: ../src/main.py:219 ../src/main.py:221 ../src/share.py:566
+msgid "DSnapshot"
+msgstr ""
+
+#: ../src/screenshot.py:94
+msgid "Take a screenshot of full screen"
+msgstr "Criar uma captura de tela inteira"
+
+#: ../src/screenshot.py:95
+msgid "Take a screenshot of a window"
+msgstr "Criar uma captura de uma janela"
+
+#: ../src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr "Criar uma captura após NUM segundos"
+
+#: ../src/screenshot.py:97
+msgid "save screenshot to FILE"
+msgstr "salvar captura para FILE"
+
+#: ../src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "executar como um subprocesso"
+
+#: ../src/screenshot.py:99
+msgid "run a new process"
+msgstr "executar um novo processo"
+
+#: ../src/screenshot.py:107
+msgid "show this help message and exit"
+msgstr "mostrar essa mensagem e sair"
+
+#: ../src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "mostrar a versão do programa e sair"
+
+#: ../src/screenshot.py:128
+msgid "DSnapshot will start in %d seconds."
+msgstr ""
+
+#: ../src/main.py:152
+msgid "The width or height of selected area cannot be 0"
+msgstr "A largura e a altura da área selecionada não podem ser 0"
+
+#: ../src/main.py:180
 msgid "Failed to save the picture"
 msgstr "Falhou ao salvar a captura"
 
-#: ../src/main.py:198
+#: ../src/main.py:197
 msgid "Picture has been saved to clipboard"
 msgstr "Captura foi copiada para a área de tranferência"
+
+#: ../src/main.py:222
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr ""
+
+#: ../src/widget.py:289
+msgid "Drag to select area"
+msgstr "Arrastar para área selecionada"
+
+#: ../src/widget.py:915 ../src/toolbar.py:178
+msgid "Save automatically"
+msgstr ""
+
+#: ../src/widget.py:916 ../src/toolbar.py:179
+msgid "Save as"
+msgstr ""
+
+#: ../src/widget.py:917 ../src/toolbar.py:180
+msgid "Save to clipboard"
+msgstr ""
+
+#: ../src/widget.py:918 ../src/toolbar.py:181
+msgid "Save automatically to file and clipboard"
+msgstr ""
+
+#: ../src/widget.py:930 ../src/toolbar.py:82
+msgid "Draw Rectangle"
+msgstr ""
+
+#: ../src/widget.py:934 ../src/toolbar.py:83
+msgid "Draw Ellipse"
+msgstr ""
+
+#: ../src/widget.py:938 ../src/toolbar.py:84
+msgid "Draw Arrow"
+msgstr ""
+
+#: ../src/widget.py:942 ../src/toolbar.py:85
+msgid "Draw Line"
+msgstr ""
+
+#: ../src/widget.py:946 ../src/toolbar.py:86
+msgid "Draw Text"
+msgstr ""
+
+#: ../src/widget.py:951 ../src/toolbar.py:88
+msgid "Undo"
+msgstr ""
+
+#: ../src/widget.py:955 ../src/toolbar.py:91
+msgid "Save"
+msgstr ""
+
+#: ../src/widget.py:962 ../src/toolbar.py:111
+msgid "Cancel"
+msgstr ""
+
+#: ../src/widget.py:969 ../src/toolbar.py:114
+msgid "Share"
+msgstr ""
 
 #: ../src/share.py:73
 msgid "share to web"
 msgstr "compartilhar na web"
 
-#: ../src/share.py:304
+#: ../src/share.py:186
+msgid "Unable to load page"
+msgstr ""
+
+#: ../src/share.py:187
+msgid "Problem occurred while loading the URL '%s'"
+msgstr ""
+
+#: ../src/share.py:315
 msgid "click to switch user"
 msgstr "clique para trocar usuário"
 
-#: ../src/share.py:322
+#: ../src/share.py:333
 msgid "click to login"
 msgstr "clique para entrar"
 
-#: ../src/share.py:437
+#: ../src/share.py:448
 msgid "loading"
 msgstr "carregando"
 
-#: ../src/share.py:448
+#: ../src/share.py:459
 msgid "Tweet"
 msgstr "Tweet"
 
-#: ../src/share.py:490
+#: ../src/share.py:501
 msgid "Please input text here"
 msgstr "Por favor insira texto aqui"
 
-#: ../src/share.py:516 ../src/share.py:527
+#: ../src/share.py:527 ../src/share.py:538
 msgid "error"
 msgstr "erro"
 
-#: ../src/share.py:516
-msgid "Picture does not exist."
-msgstr "foto não existe"
-
 #: ../src/share.py:527
+msgid "Picture does not exist."
+msgstr ""
+
+#: ../src/share.py:538
 msgid "Please choose at least one platform to share on"
 msgstr "por favor escolha pelo menos uma plataforma para compartilhar"
 
-#: ../src/share.py:544
+#: ../src/share.py:555
 msgid "uploading"
 msgstr "enviando"
 
-#: ../src/share.py:555
+#: ../src/share.py:566
 msgid "came from"
 msgstr "veio de"
 
-#: ../src/share.py:602
+#: ../src/share.py:613
 msgid "Follow"
 msgstr "Seguir"
 
-#: ../src/share.py:625 ../src/share.py:646
+#: ../src/share.py:636 ../src/share.py:657
 msgid "upload to"
 msgstr "enviar para"
 
-#: ../src/share.py:628
+#: ../src/share.py:639
 msgid "successful"
 msgstr "bem sucedido"
 
-#: ../src/share.py:651
+#: ../src/share.py:662
 msgid "failed"
 msgstr "falhou"
 
-#: ../src/share.py:659
+#: ../src/share.py:670
 msgid "Unknow reason"
 msgstr "Razão desconhecida"
-
-#: ../src/widget.py:266
-msgid "Drag to select area"
-msgstr "Arrastar para área selecionada"

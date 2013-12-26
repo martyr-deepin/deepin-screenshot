@@ -1,139 +1,145 @@
-# Chinese translations for PACKAGE package.
-# PACKAGE 软件包的繁体中文翻译.
-# Copyright (C) 2012 THE PACKAGE'S COPYRIGHT HOLDER
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Automatically generated, 2012.
-#
+# 
+# Translators:
+# Automatically generated, 2012
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: DSnapshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-21 13:45+0800\n"
-"PO-Revision-Date: 2012-09-22 20:32+0800\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
-"Language: zh_HK\n"
+"POT-Creation-Date: 2013-12-19 10:32+0800\n"
+"PO-Revision-Date: 2013-12-19 09:20+0000\n"
+"Last-Translator: lihongwu <lihongwu1987@gmail.com>\n"
+"Language-Team: Chinese (Hong Kong) (http://www.transifex.com/projects/p/deepin-screenshot/language/zh_HK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_HK\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../src/toolbar.py:81 ../src/widget.py:801
-msgid "Draw Rectangle"
-msgstr "矩形工具"
-
-#: ../src/toolbar.py:82 ../src/widget.py:805
-msgid "Draw Ellipse"
-msgstr "橢圓工具"
-
-#: ../src/toolbar.py:83 ../src/widget.py:809
-msgid "Draw Arrow"
-msgstr "箭頭工具"
-
-#: ../src/toolbar.py:84 ../src/widget.py:813
-msgid "Draw Line"
-msgstr "線條工具"
-
-#: ../src/toolbar.py:85 ../src/widget.py:817
-msgid "Draw Text"
-msgstr "文字工具"
-
-#: ../src/toolbar.py:87 ../src/widget.py:822
-msgid "Undo"
-msgstr "復原"
-
-#: ../src/toolbar.py:90 ../src/widget.py:826
-msgid "Save"
-msgstr "保存"
-
-#: ../src/toolbar.py:110 ../src/widget.py:833
-msgid "Cancel"
-msgstr "取消螢幕截圖"
-
-#: ../src/toolbar.py:113 ../src/widget.py:840
-msgid "Share"
-msgstr "分享到微博"
-
-#: ../src/toolbar.py:177 ../src/widget.py:786
-msgid "Save automatically"
-msgstr "自動保存"
-
-#: ../src/toolbar.py:178 ../src/widget.py:787
-msgid "Save as"
-msgstr "保存到指定目錄"
-
-#: ../src/toolbar.py:179 ../src/widget.py:788
-msgid "Save to clipboard"
-msgstr "複製到剪貼簿"
-
-#: ../src/toolbar.py:180 ../src/widget.py:789
-msgid "Save automatically to file and clipboard"
-msgstr "自動保存并複製到剪貼簿"
-
-#: ../src/screenshot.py:77
-msgid "Take a screenshot of full screen"
-msgstr "拍下全螢幕的螢幕截圖"
-
-#: ../src/screenshot.py:78
-msgid "Take a screenshot of a window"
-msgstr "拍下視窗的螢幕截圖"
-
-#: ../src/screenshot.py:79
-msgid "Take a screenshot after NUM seconds"
-msgstr "將會在 NUM 秒后啟用螢幕截圖"
-
-#: ../src/screenshot.py:80
-msgid "save screenshot to FILE"
-msgstr "保存螢幕截圖到檔案「FILE」"
-
-#: ../src/screenshot.py:81
-msgid "run as a subprocess"
-msgstr "以子進程方式運行"
-
-#: ../src/screenshot.py:82
-msgid "run a new process"
-msgstr "啟動一個新的進程"
-
-#: ../src/screenshot.py:89
-msgid "show this help message and exit"
-msgstr "顯示該求助說明訊息并退出"
-
-#: ../src/screenshot.py:90
-msgid "show program's version number and exit"
-msgstr "顯示程式的版本并退出"
-
-#: ../src/screenshot.py:100 ../src/main.py:220 ../src/share.py:555
-msgid "DSnapshot"
-msgstr "深度截圖"
-
-#: ../src/screenshot.py:118
-msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "下次可以直接按Ctrl+Alt+A啓動"
-
-#: ../src/screenshot.py:101
-msgid "DSnapshot will start in %d seconds."
-msgstr "深度截圖將在 %d 秒後啟動"
-
-#: ../src/main.py:153
-msgid "The width or height of selected area cannot be 0"
-msgstr "選區的寬度或高度不能設為 0"
-
-#: ../src/main.py:161
+#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:160
 msgid "Picture has been saved to file"
 msgstr "圖片已保存到檔案"
 
-#: ../src/main.py:181
+#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
+#: ../src/main.py:219 ../src/main.py:221 ../src/share.py:566
+msgid "DSnapshot"
+msgstr "深度截圖"
+
+#: ../src/screenshot.py:94
+msgid "Take a screenshot of full screen"
+msgstr "拍下全螢幕的螢幕截圖"
+
+#: ../src/screenshot.py:95
+msgid "Take a screenshot of a window"
+msgstr "拍下視窗的螢幕截圖"
+
+#: ../src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr "將會在 NUM 秒后啟用螢幕截圖"
+
+#: ../src/screenshot.py:97
+msgid "save screenshot to FILE"
+msgstr "保存螢幕截圖到檔案「FILE」"
+
+#: ../src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "以子進程方式運行"
+
+#: ../src/screenshot.py:99
+msgid "run a new process"
+msgstr "啟動一個新的進程"
+
+#: ../src/screenshot.py:107
+msgid "show this help message and exit"
+msgstr "顯示該求助說明訊息并退出"
+
+#: ../src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "顯示程式的版本并退出"
+
+#: ../src/screenshot.py:128
+msgid "DSnapshot will start in %d seconds."
+msgstr "深度截圖將在 %d 秒後啟動"
+
+#: ../src/main.py:152
+msgid "The width or height of selected area cannot be 0"
+msgstr "選區的寬度或高度不能設為 0"
+
+#: ../src/main.py:180
 msgid "Failed to save the picture"
 msgstr "圖片保存失敗"
 
-#: ../src/main.py:198
+#: ../src/main.py:197
 msgid "Picture has been saved to clipboard"
 msgstr "圖片已保存到剪貼簿"
+
+#: ../src/main.py:222
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "下次可以直接按Ctrl+Alt+A啓動"
+
+#: ../src/widget.py:289
+msgid "Drag to select area"
+msgstr "拖動可自由選區"
+
+#: ../src/widget.py:915 ../src/toolbar.py:178
+msgid "Save automatically"
+msgstr "自動保存"
+
+#: ../src/widget.py:916 ../src/toolbar.py:179
+msgid "Save as"
+msgstr "保存到指定目錄"
+
+#: ../src/widget.py:917 ../src/toolbar.py:180
+msgid "Save to clipboard"
+msgstr "複製到剪貼簿"
+
+#: ../src/widget.py:918 ../src/toolbar.py:181
+msgid "Save automatically to file and clipboard"
+msgstr "自動保存并複製到剪貼簿"
+
+#: ../src/widget.py:930 ../src/toolbar.py:82
+msgid "Draw Rectangle"
+msgstr "矩形工具"
+
+#: ../src/widget.py:934 ../src/toolbar.py:83
+msgid "Draw Ellipse"
+msgstr "橢圓工具"
+
+#: ../src/widget.py:938 ../src/toolbar.py:84
+msgid "Draw Arrow"
+msgstr "箭頭工具"
+
+#: ../src/widget.py:942 ../src/toolbar.py:85
+msgid "Draw Line"
+msgstr "線條工具"
+
+#: ../src/widget.py:946 ../src/toolbar.py:86
+msgid "Draw Text"
+msgstr "文字工具"
+
+#: ../src/widget.py:951 ../src/toolbar.py:88
+msgid "Undo"
+msgstr "復原"
+
+#: ../src/widget.py:955 ../src/toolbar.py:91
+msgid "Save"
+msgstr "保存"
+
+#: ../src/widget.py:962 ../src/toolbar.py:111
+msgid "Cancel"
+msgstr "取消螢幕截圖"
+
+#: ../src/widget.py:969 ../src/toolbar.py:114
+msgid "Share"
+msgstr "分享到微博"
 
 #: ../src/share.py:73
 msgid "share to web"
 msgstr "分享至微博"
 
-#: ../src/share.py:187
+#: ../src/share.py:186
 msgid "Unable to load page"
 msgstr "未能加載頁面"
 
@@ -141,245 +147,62 @@ msgstr "未能加載頁面"
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "在加載URL'%s'時出現了問題"
 
-#: ../src/share.py:304
+#: ../src/share.py:315
 msgid "click to switch user"
 msgstr "點擊圖示來切換使用者帳號"
 
-#: ../src/share.py:322
+#: ../src/share.py:333
 msgid "click to login"
 msgstr "點擊圖示來設定登入帳號"
 
-#: ../src/share.py:437
+#: ../src/share.py:448
 msgid "loading"
 msgstr "加載中"
 
-#: ../src/share.py:448
+#: ../src/share.py:459
 msgid "Tweet"
 msgstr "立即分享"
 
-#: ../src/share.py:490
+#: ../src/share.py:501
 msgid "Please input text here"
 msgstr "請在此鍵入文字內容"
 
-#: ../src/share.py:516 ../src/share.py:527
+#: ../src/share.py:527 ../src/share.py:538
 msgid "error"
 msgstr "錯誤"
 
-#: ../src/share.py:516
+#: ../src/share.py:527
 msgid "Picture does not exist."
 msgstr "圖片不存在"
 
-#: ../src/share.py:527
+#: ../src/share.py:538
 msgid "Please choose at least one platform to share on"
 msgstr "請至少選擇一個平台進行分享"
 
-#: ../src/share.py:544
+#: ../src/share.py:555
 msgid "uploading"
 msgstr "分享中"
 
-#: ../src/share.py:555
+#: ../src/share.py:566
 msgid "came from"
 msgstr "來自"
 
-#: ../src/share.py:602
+#: ../src/share.py:613
 msgid "Follow"
 msgstr "關注"
 
-#: ../src/share.py:625 ../src/share.py:646
+#: ../src/share.py:636 ../src/share.py:657
 msgid "upload to"
 msgstr "分享至"
 
-#: ../src/share.py:628
+#: ../src/share.py:639
 msgid "successful"
 msgstr "成功"
 
-#: ../src/share.py:651
+#: ../src/share.py:662
 msgid "failed"
 msgstr "失敗"
 
-#: ../src/share.py:659
+#: ../src/share.py:670
 msgid "Unknow reason"
 msgstr "不明原因"
-
-#: ../src/widget.py:266
-msgid "Drag to select area"
-msgstr "拖動可自由選區"
-
-msgid "analyse QR code"
-msgstr "解析二維碼"
-
-msgid "Close"
-msgstr "關閉"
-
-msgid "left"
-msgstr "還可以鍵入"
-
-msgid "chars"
-msgstr "字元"
-
-msgid "exceeds"
-msgstr "已經超過"
-
-# in weibo.py
-msgid "Sina"
-msgstr "新浪微博"
-
-msgid "Tencent"
-msgstr "騰訊微博"
-
-msgid "Connection timed out."
-msgstr "連線逾時"
-
-msgid "An error occured in network connection."
-msgstr "網絡錯誤"
-
-msgid "An error occured while connecting."
-msgstr "連線出錯"
-
-#
-# Sina error message
-msgid "System error"
-msgstr "系統錯誤"
-
-msgid "Service unavailable"
-msgstr "服務不可用"
-
-msgid "Remote service error"
-msgstr "遠端服務錯誤"
-
-msgid "IP limit"
-msgstr "IP 限制不能請求該資源"
-
-msgid "Unsupport mediatype"
-msgstr "不支持的 MediaType"
-
-msgid "Too many pending tasks, system is busy"
-msgstr "工作過多，系統繁忙"
-
-msgid "The job has expired"
-msgstr "工作逾時"
-
-msgid "RPC error"
-msgstr "RPC 錯誤"
-
-msgid "Illegal request"
-msgstr "不合法的請求"
-
-msgid "Invalid Weibo user account"
-msgstr "不合法的微博使用者帳號"
-
-msgid "miss required parameter"
-msgstr "缺失必要的參數"
-
-msgid "Request body length over limit"
-msgstr "請求長度超過限制"
-
-msgid "IP requests out of rate limit"
-msgstr "IP 請求頻次超過上限"
-
-msgid "User requests out of rate limit"
-msgstr "使用者請求頻次超過上限"
-
-msgid "User name does not exist"
-msgstr "使用者帳號不存在"
-
-msgid "Unsupported image type. Currently we only suport JPG, GIF and PNG formats"
-msgstr "不支持的圖片類型，僅支持 JPG、GIF、PNG"
-
-msgid "Image size too large"
-msgstr "圖片太大"
-
-msgid "Content is null"
-msgstr "內容為空"
-
-msgid "Text too long, please input text less than 140 characters"
-msgstr "輸入文字太長，請確認不超過 140 個字元"
-
-msgid "Text too long, please input text less than 300 characters"
-msgstr "輸入文字太長，請確認不超過 300 個字元"
-
-msgid "Account or ip or app is illgal, can not continue"
-msgstr "帳號、IP 或應用程式不合法，暫時無法完成此操作"
-
-msgid "Out of limit"
-msgstr "發布內容過於頻繁"
-
-msgid "Repeat content"
-msgstr "提交相似的信息"
-
-msgid "Contain illegal website"
-msgstr "包含非法網址"
-
-msgid "Contain advertising"
-msgstr "包含廣告訊息"
-
-msgid "Content is illegal"
-msgstr "包含不合法內容"
-
-msgid "Your ip's behave in a comic boisterous or unruly manner"
-msgstr "此 IP 位址上的行為異常"
-
-msgid "Update success, while server slow now, please wait 1-2 minutes"
-msgstr "發布成功，目前伺服器可能會有延遲，請耐心等待 1～2 分鐘"
-
-msgid "Illegal weibo"
-msgstr "不合法的微博"
-
-msgid "Repeated weibo text"
-msgstr "不能發布相衕的微博"
-
-msgid "Contains forbid world"
-msgstr "含有敏感詞"
-
-#
-# Tencent error message
-msgid "error content len"
-msgstr "微博內容超出長度限制或為空"
-
-msgid "error pic size"
-msgstr "圖片大小超出限制或為0"
-
-msgid "pic format error"
-msgstr "圖片格式錯誤"
-
-msgid "post format error"
-msgstr "格式錯誤、使用者無效（非微博使用者）"
-
-msgid "forbidden content"
-msgstr "有過多臟話"
-
-msgid "forbidden access"
-msgstr "禁止訪問，如城市，uin 黑名單限制等"
-
-msgid "post invliad content"
-msgstr "包含垃圾訊息：廣告，惡意鏈接、黑名單號碼等"
-
-msgid "post content too fast"
-msgstr "發表太快，被頻率限制"
-
-msgid "content is verifying"
-msgstr "源消息審核中"
-
-msgid "post content repeated"
-msgstr "重復發表，請不要連續發表重復內容"
-
-msgid "not verify real name"
-msgstr "使用者未進行實名認證"
-
-msgid "add fail"
-msgstr "伺服器內部錯誤導致發表失敗"
-
-msgid "pic upload error"
-msgstr "上傳圖片失敗"
-
-msgid "common uin blacklist limit"
-msgstr "公共 uin 黑名單限制"
-
-msgid "common ip blacklist limit"
-msgstr "公共 IP 黑名單限制 "
-
-msgid "weibo blacklist limit"
-msgstr "微博黑名單限制"
-
-msgid "access too fast"
-msgstr "單 UIN 訪問微博過快"
