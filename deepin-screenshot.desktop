@@ -1,0 +1,40 @@
+[Delay_Screenshot Shortcut Group]
+Exec=deepin-screenshot -d 5
+Name=Delay 5 seconds
+Name[ar]=تأخر 5 ثواني
+Name[cs]=Zpoždění 5 sekund
+Name[fr]=Redard 5 secondes
+Name[zh_CN]=延时5秒截图
+Name[zh_HK]=延時5秒擷取
+Name[zh_TW]=延時5秒擷取
+
+[Desktop Entry]
+Categories=Graphics;GTK;
+Comment=Screen capturing application
+Comment[ar]=طبيق أخذ لقطة للشاشة
+Comment[cs]=Program na zachytávání obrazovky
+Comment[fr]=Application du capture d'écran
+Comment[zh_CN]=屏幕截图程序
+Comment[zh_HK]=螢幕擷取程式
+Comment[zh_TW]=畫面擷取程式
+Exec=deepin-screenshot --icon
+GenericName=Screen capturing application
+Icon=deepin-screenshot
+Name=Deepin Screenshot
+Name[ar]=لقطة شاشة دييبـ إن
+Name[cs]=Snímek obrazovky
+Name[fr]=Capture d'écran de Deepin
+Name[zh_CN]=深度截图
+Name[zh_TW]=深度截圖
+StartupNotify=false
+Type=Application
+
+[Full_Screenshot Shortcut Group]
+Exec=deepin-screenshot -f
+Name=Full Screenshot
+Name[ar]=أخد لقطة لكامل الشاشة
+Name[cs]=Plný snímek obrazovky
+Name[fr]=Plein écran
+Name[zh_CN]=截取全屏
+Name[zh_HK]=擷取全螢幕
+Name[zh_TW]=擷取全畫面
