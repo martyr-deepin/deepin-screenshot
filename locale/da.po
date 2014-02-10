@@ -3,91 +3,89 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# fri <pavelfric@seznam.cz>, 2013
-# fri <pavelfric@seznam.cz>, 2013
-# fri <pavelfric@seznam.cz>, 2014
+# Snubbi <carl@manjaro.dk>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: DSnapshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-10 14:46+0800\n"
-"PO-Revision-Date: 2014-01-25 21:40+0000\n"
-"Last-Translator: fri <pavelfric@seznam.cz>\n"
-"Language-Team: Czech (http://www.transifex.com/projects/p/deepin-screenshot/"
-"language/cs/)\n"
-"Language: cs\n"
+"PO-Revision-Date: 2014-01-10 19:47+0000\n"
+"Last-Translator: Snubbi <carl@manjaro.dk>\n"
+"Language-Team: Danish (http://www.transifex.com/projects/p/deepin-screenshot/"
+"language/da/)\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/toolbar.py:82 ../src/widget.py:930
 msgid "Draw Rectangle"
-msgstr "Nakreslit obdélník"
+msgstr "Tegn firkant"
 
 #: ../src/toolbar.py:83 ../src/widget.py:934
 msgid "Draw Ellipse"
-msgstr "Nakreslit elipsu"
+msgstr "Tegn Ellipse"
 
 #: ../src/toolbar.py:84 ../src/widget.py:938
 msgid "Draw Arrow"
-msgstr "Nakreslit šipku"
+msgstr "Tegn Pil"
 
 #: ../src/toolbar.py:85 ../src/widget.py:942
 msgid "Draw Line"
-msgstr "Nakreslit čáru"
+msgstr "Tegn Linie"
 
 #: ../src/toolbar.py:86 ../src/widget.py:946
 msgid "Draw Text"
-msgstr "Nakreslit text"
+msgstr "Tegn Tekst"
 
 #: ../src/toolbar.py:88 ../src/widget.py:951
 msgid "Undo"
-msgstr "Zpět"
+msgstr "Fortryd"
 
 #: ../src/toolbar.py:91 ../src/widget.py:955
 msgid "Save"
-msgstr "Uložit"
+msgstr "Gem"
 
 #: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
-msgstr "Zrušit"
+msgstr "Annuler"
 
 #: ../src/toolbar.py:114 ../src/widget.py:969
 msgid "Share"
-msgstr "Sdílet"
+msgstr "Del"
 
 #: ../src/toolbar.py:178 ../src/widget.py:915
 msgid "Save automatically"
-msgstr "Uložit automaticky"
+msgstr "Gem automatisk"
 
 #: ../src/toolbar.py:179 ../src/widget.py:916
 msgid "Save as"
-msgstr "Uložit jako"
+msgstr "Gem som"
 
 #: ../src/toolbar.py:180 ../src/widget.py:917
 msgid "Save to clipboard"
-msgstr "Uložit do schránky"
+msgstr "Gem til udklipsholder"
 
 #: ../src/toolbar.py:181 ../src/widget.py:918
 msgid "Save automatically to file and clipboard"
-msgstr "Uložit automaticky do souboru a do schránky"
+msgstr "Gem automatisk som fil og til udklipsholder"
 
 #: ../src/main.py:152
 msgid "The width or height of selected area cannot be 0"
-msgstr "Šířka nebo výška vybrané oblasti nemůže být 0"
+msgstr "Bredden eller højden af udvalgt område kan ikke være 0"
 
 #: ../src/main.py:160 ../src/screenshot.py:58 ../src/screenshot.py:78
 msgid "Picture has been saved to file"
-msgstr "Obrázek byl uložen do souboru"
+msgstr "Billede er blevet gemt som fil"
 
 #: ../src/main.py:180
 msgid "Failed to save the picture"
-msgstr "Obrázek se nepodařilo uložit"
+msgstr "Gemning af billede fejlede"
 
 #: ../src/main.py:197
 msgid "Picture has been saved to clipboard"
-msgstr "Obrázek byl uložen do schránky"
+msgstr "Billede er blevet gemt til udklipsholder"
 
 #: ../src/main.py:219 ../src/main.py:221 ../src/share.py:566
 #: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
@@ -96,118 +94,118 @@ msgstr "DSnapshot"
 
 #: ../src/main.py:222
 msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "Příště ke spuštění stačí, když stisknete Ctrl+Alt+A."
+msgstr "Næste gang kan du bare vælge Ctrl+Alt+A for at starte op."
 
 #: ../src/share.py:73
 msgid "share to web"
-msgstr "Sdílet na internetu"
+msgstr "del det på nettet"
 
 #: ../src/share.py:186
 msgid "Unable to load page"
-msgstr "Nelze nahrát stránku"
+msgstr "Ude af stand til at loade side"
 
 #: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
-msgstr "Při nahrávání adresy (URL) '%s' se vyskytly potíže"
+msgstr "Problem forekom under loading af URL '%s'"
 
 #: ../src/share.py:315
 msgid "click to switch user"
-msgstr "Klepněte pro přepnutí uživatele"
+msgstr "klik for at skifte bruger"
 
 #: ../src/share.py:333
 msgid "click to login"
-msgstr "Klepněte pro přihlášení"
+msgstr "klik til logind"
 
 #: ../src/share.py:448
 msgid "loading"
-msgstr "Nahrává se "
+msgstr "loader"
 
 #: ../src/share.py:459
 msgid "Tweet"
-msgstr "Zpráva"
+msgstr "Tweet"
 
 #: ../src/share.py:501
 msgid "Please input text here"
-msgstr "Zadejte, prosím, text zde"
+msgstr "Indtast venligst tekst her"
 
 #: ../src/share.py:527 ../src/share.py:538
 msgid "error"
-msgstr "Chyba"
+msgstr "fejl"
 
 #: ../src/share.py:527
 msgid "Picture does not exist."
-msgstr "Obrázek neexistuje."
+msgstr "Billede eksisterer ikke."
 
 #: ../src/share.py:538
 msgid "Please choose at least one platform to share on"
-msgstr "Vyberte, prosím, alespoň jeden systém, na kterém se má sdílet"
+msgstr "Vælg venligst  mindst en platform til at dele på"
 
 #: ../src/share.py:555
 msgid "uploading"
-msgstr "Nahrává se"
+msgstr "uploader"
 
 #: ../src/share.py:566
 msgid "came from"
-msgstr "Přišlo od"
+msgstr "kom fra"
 
 #: ../src/share.py:613
 msgid "Follow"
-msgstr "Sledovat"
+msgstr "Følg"
 
 #: ../src/share.py:636 ../src/share.py:657
 msgid "upload to"
-msgstr "Nahrát na"
+msgstr "upload til"
 
 #: ../src/share.py:639
 msgid "successful"
-msgstr "Úspěšné"
+msgstr "vellykket"
 
 #: ../src/share.py:662
 msgid "failed"
-msgstr "Nepodařilo se"
+msgstr "fejlede"
 
 #: ../src/share.py:670
 msgid "Unknow reason"
-msgstr "Neznámý důvod"
+msgstr "Ukendt årsag"
 
 #: ../src/widget.py:289
 msgid "Drag to select area"
-msgstr "Táhněte pro výběr oblasti"
+msgstr "Maker og vælg område"
 
 #: ../src/screenshot.py:94
 msgid "Take a screenshot of full screen"
-msgstr "Udělat snímek celé obrazovky"
+msgstr "Tag et skærmbillede af hele skærmen"
 
 #: ../src/screenshot.py:95
 msgid "Take a screenshot of a window"
-msgstr "Udělat snímek okna"
+msgstr "Tag et skærmbillede af et vindue"
 
 #: ../src/screenshot.py:96
 msgid "Take a screenshot after NUM seconds"
-msgstr "Udělat snímek obrazovky po určitém počtu sekund"
+msgstr "Tag et skærmbillede efter ANTAL sekunder"
 
 #: ../src/screenshot.py:97
 msgid "save screenshot to FILE"
-msgstr "Uložit snímek obrazovky do souboru"
+msgstr "Gem skærmbillede som FIL"
 
 #: ../src/screenshot.py:98
 msgid "run as a subprocess"
-msgstr "Spustit jako podproces"
+msgstr "kør som en underliggende proces"
 
 #: ../src/screenshot.py:99
 msgid "run a new process"
-msgstr "Spustit nový podproces"
+msgstr "kør en ny proces"
 
 #: ../src/screenshot.py:107
 msgid "show this help message and exit"
-msgstr "Ukázat tuto zprávu s nápovědou a ukončit"
+msgstr "Vis denne hjælpebesked og luk"
 
 #: ../src/screenshot.py:108
 msgid "show program's version number and exit"
-msgstr "Ukázat číslo s verzí programu a ukončit"
+msgstr "Vis programs version nummer og luk"
 
 #: ../src/screenshot.py:128
 #, python-format
 msgid "DSnapshot will start in %d seconds."
-msgstr "DSnapshot se spustí za %d sekund"
+msgstr "DSnapshot vil starte om %d sekunder."

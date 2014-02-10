@@ -3,211 +3,208 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# fri <pavelfric@seznam.cz>, 2013
-# fri <pavelfric@seznam.cz>, 2013
-# fri <pavelfric@seznam.cz>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: DSnapshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-10 14:46+0800\n"
-"PO-Revision-Date: 2014-01-25 21:40+0000\n"
-"Last-Translator: fri <pavelfric@seznam.cz>\n"
-"Language-Team: Czech (http://www.transifex.com/projects/p/deepin-screenshot/"
-"language/cs/)\n"
-"Language: cs\n"
+"PO-Revision-Date: 2014-02-10 03:06+0000\n"
+"Last-Translator: cxbii <mycxbii@gmail.com>\n"
+"Language-Team: English (United States) (http://www.transifex.com/projects/p/"
+"deepin-screenshot/language/en_US/)\n"
+"Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/toolbar.py:82 ../src/widget.py:930
 msgid "Draw Rectangle"
-msgstr "Nakreslit obdélník"
+msgstr ""
 
 #: ../src/toolbar.py:83 ../src/widget.py:934
 msgid "Draw Ellipse"
-msgstr "Nakreslit elipsu"
+msgstr ""
 
 #: ../src/toolbar.py:84 ../src/widget.py:938
 msgid "Draw Arrow"
-msgstr "Nakreslit šipku"
+msgstr ""
 
 #: ../src/toolbar.py:85 ../src/widget.py:942
 msgid "Draw Line"
-msgstr "Nakreslit čáru"
+msgstr ""
 
 #: ../src/toolbar.py:86 ../src/widget.py:946
 msgid "Draw Text"
-msgstr "Nakreslit text"
+msgstr ""
 
 #: ../src/toolbar.py:88 ../src/widget.py:951
 msgid "Undo"
-msgstr "Zpět"
+msgstr ""
 
 #: ../src/toolbar.py:91 ../src/widget.py:955
 msgid "Save"
-msgstr "Uložit"
+msgstr ""
 
 #: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
-msgstr "Zrušit"
+msgstr ""
 
 #: ../src/toolbar.py:114 ../src/widget.py:969
 msgid "Share"
-msgstr "Sdílet"
+msgstr ""
 
 #: ../src/toolbar.py:178 ../src/widget.py:915
 msgid "Save automatically"
-msgstr "Uložit automaticky"
+msgstr ""
 
 #: ../src/toolbar.py:179 ../src/widget.py:916
 msgid "Save as"
-msgstr "Uložit jako"
+msgstr ""
 
 #: ../src/toolbar.py:180 ../src/widget.py:917
 msgid "Save to clipboard"
-msgstr "Uložit do schránky"
+msgstr ""
 
 #: ../src/toolbar.py:181 ../src/widget.py:918
 msgid "Save automatically to file and clipboard"
-msgstr "Uložit automaticky do souboru a do schránky"
+msgstr ""
 
 #: ../src/main.py:152
 msgid "The width or height of selected area cannot be 0"
-msgstr "Šířka nebo výška vybrané oblasti nemůže být 0"
+msgstr ""
 
 #: ../src/main.py:160 ../src/screenshot.py:58 ../src/screenshot.py:78
 msgid "Picture has been saved to file"
-msgstr "Obrázek byl uložen do souboru"
+msgstr ""
 
 #: ../src/main.py:180
 msgid "Failed to save the picture"
-msgstr "Obrázek se nepodařilo uložit"
+msgstr ""
 
 #: ../src/main.py:197
 msgid "Picture has been saved to clipboard"
-msgstr "Obrázek byl uložen do schránky"
+msgstr ""
 
 #: ../src/main.py:219 ../src/main.py:221 ../src/share.py:566
 #: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
 msgid "DSnapshot"
-msgstr "DSnapshot"
+msgstr ""
 
 #: ../src/main.py:222
 msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "Příště ke spuštění stačí, když stisknete Ctrl+Alt+A."
+msgstr ""
 
 #: ../src/share.py:73
 msgid "share to web"
-msgstr "Sdílet na internetu"
+msgstr ""
 
 #: ../src/share.py:186
 msgid "Unable to load page"
-msgstr "Nelze nahrát stránku"
+msgstr ""
 
 #: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
-msgstr "Při nahrávání adresy (URL) '%s' se vyskytly potíže"
+msgstr ""
 
 #: ../src/share.py:315
 msgid "click to switch user"
-msgstr "Klepněte pro přepnutí uživatele"
+msgstr ""
 
 #: ../src/share.py:333
 msgid "click to login"
-msgstr "Klepněte pro přihlášení"
+msgstr ""
 
 #: ../src/share.py:448
 msgid "loading"
-msgstr "Nahrává se "
+msgstr ""
 
 #: ../src/share.py:459
 msgid "Tweet"
-msgstr "Zpráva"
+msgstr ""
 
 #: ../src/share.py:501
 msgid "Please input text here"
-msgstr "Zadejte, prosím, text zde"
+msgstr ""
 
 #: ../src/share.py:527 ../src/share.py:538
 msgid "error"
-msgstr "Chyba"
+msgstr ""
 
 #: ../src/share.py:527
 msgid "Picture does not exist."
-msgstr "Obrázek neexistuje."
+msgstr ""
 
 #: ../src/share.py:538
 msgid "Please choose at least one platform to share on"
-msgstr "Vyberte, prosím, alespoň jeden systém, na kterém se má sdílet"
+msgstr ""
 
 #: ../src/share.py:555
 msgid "uploading"
-msgstr "Nahrává se"
+msgstr ""
 
 #: ../src/share.py:566
 msgid "came from"
-msgstr "Přišlo od"
+msgstr ""
 
 #: ../src/share.py:613
 msgid "Follow"
-msgstr "Sledovat"
+msgstr ""
 
 #: ../src/share.py:636 ../src/share.py:657
 msgid "upload to"
-msgstr "Nahrát na"
+msgstr ""
 
 #: ../src/share.py:639
 msgid "successful"
-msgstr "Úspěšné"
+msgstr ""
 
 #: ../src/share.py:662
 msgid "failed"
-msgstr "Nepodařilo se"
+msgstr ""
 
 #: ../src/share.py:670
 msgid "Unknow reason"
-msgstr "Neznámý důvod"
+msgstr ""
 
 #: ../src/widget.py:289
 msgid "Drag to select area"
-msgstr "Táhněte pro výběr oblasti"
+msgstr ""
 
 #: ../src/screenshot.py:94
 msgid "Take a screenshot of full screen"
-msgstr "Udělat snímek celé obrazovky"
+msgstr ""
 
 #: ../src/screenshot.py:95
 msgid "Take a screenshot of a window"
-msgstr "Udělat snímek okna"
+msgstr ""
 
 #: ../src/screenshot.py:96
 msgid "Take a screenshot after NUM seconds"
-msgstr "Udělat snímek obrazovky po určitém počtu sekund"
+msgstr ""
 
 #: ../src/screenshot.py:97
 msgid "save screenshot to FILE"
-msgstr "Uložit snímek obrazovky do souboru"
+msgstr ""
 
 #: ../src/screenshot.py:98
 msgid "run as a subprocess"
-msgstr "Spustit jako podproces"
+msgstr ""
 
 #: ../src/screenshot.py:99
 msgid "run a new process"
-msgstr "Spustit nový podproces"
+msgstr ""
 
 #: ../src/screenshot.py:107
 msgid "show this help message and exit"
-msgstr "Ukázat tuto zprávu s nápovědou a ukončit"
+msgstr ""
 
 #: ../src/screenshot.py:108
 msgid "show program's version number and exit"
-msgstr "Ukázat číslo s verzí programu a ukončit"
+msgstr ""
 
 #: ../src/screenshot.py:128
 #, python-format
 msgid "DSnapshot will start in %d seconds."
-msgstr "DSnapshot se spustí za %d sekund"
+msgstr ""
