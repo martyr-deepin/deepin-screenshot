@@ -1,70 +1,82 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: DSnapshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-19 10:32+0800\n"
+"POT-Creation-Date: 2014-02-10 14:46+0800\n"
 "PO-Revision-Date: 2013-12-19 08:21+0000\n"
 "Last-Translator: lihongwu <lihongwu1987@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/deepin-screenshot/language/pt_BR/)\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/"
+"deepin-screenshot/language/pt_BR/)\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:160
-msgid "Picture has been saved to file"
-msgstr "A captura foi salva em arquivo"
-
-#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
-#: ../src/main.py:219 ../src/main.py:221 ../src/share.py:566
-msgid "DSnapshot"
+#: ../src/toolbar.py:82 ../src/widget.py:930
+msgid "Draw Rectangle"
 msgstr ""
 
-#: ../src/screenshot.py:94
-msgid "Take a screenshot of full screen"
-msgstr "Criar uma captura de tela inteira"
+#: ../src/toolbar.py:83 ../src/widget.py:934
+msgid "Draw Ellipse"
+msgstr ""
 
-#: ../src/screenshot.py:95
-msgid "Take a screenshot of a window"
-msgstr "Criar uma captura de uma janela"
+#: ../src/toolbar.py:84 ../src/widget.py:938
+msgid "Draw Arrow"
+msgstr ""
 
-#: ../src/screenshot.py:96
-msgid "Take a screenshot after NUM seconds"
-msgstr "Criar uma captura após NUM segundos"
+#: ../src/toolbar.py:85 ../src/widget.py:942
+msgid "Draw Line"
+msgstr ""
 
-#: ../src/screenshot.py:97
-msgid "save screenshot to FILE"
-msgstr "salvar captura para FILE"
+#: ../src/toolbar.py:86 ../src/widget.py:946
+msgid "Draw Text"
+msgstr ""
 
-#: ../src/screenshot.py:98
-msgid "run as a subprocess"
-msgstr "executar como um subprocesso"
+#: ../src/toolbar.py:88 ../src/widget.py:951
+msgid "Undo"
+msgstr ""
 
-#: ../src/screenshot.py:99
-msgid "run a new process"
-msgstr "executar um novo processo"
+#: ../src/toolbar.py:91 ../src/widget.py:955
+msgid "Save"
+msgstr ""
 
-#: ../src/screenshot.py:107
-msgid "show this help message and exit"
-msgstr "mostrar essa mensagem e sair"
+#: ../src/toolbar.py:111 ../src/widget.py:962
+msgid "Cancel"
+msgstr ""
 
-#: ../src/screenshot.py:108
-msgid "show program's version number and exit"
-msgstr "mostrar a versão do programa e sair"
+#: ../src/toolbar.py:114 ../src/widget.py:969
+msgid "Share"
+msgstr ""
 
-#: ../src/screenshot.py:128
-msgid "DSnapshot will start in %d seconds."
+#: ../src/toolbar.py:178 ../src/widget.py:915
+msgid "Save automatically"
+msgstr ""
+
+#: ../src/toolbar.py:179 ../src/widget.py:916
+msgid "Save as"
+msgstr ""
+
+#: ../src/toolbar.py:180 ../src/widget.py:917
+msgid "Save to clipboard"
+msgstr ""
+
+#: ../src/toolbar.py:181 ../src/widget.py:918
+msgid "Save automatically to file and clipboard"
 msgstr ""
 
 #: ../src/main.py:152
 msgid "The width or height of selected area cannot be 0"
 msgstr "A largura e a altura da área selecionada não podem ser 0"
+
+#: ../src/main.py:160 ../src/screenshot.py:58 ../src/screenshot.py:78
+msgid "Picture has been saved to file"
+msgstr "A captura foi salva em arquivo"
 
 #: ../src/main.py:180
 msgid "Failed to save the picture"
@@ -74,64 +86,13 @@ msgstr "Falhou ao salvar a captura"
 msgid "Picture has been saved to clipboard"
 msgstr "Captura foi copiada para a área de tranferência"
 
+#: ../src/main.py:219 ../src/main.py:221 ../src/share.py:566
+#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
+msgid "DSnapshot"
+msgstr ""
+
 #: ../src/main.py:222
 msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr ""
-
-#: ../src/widget.py:289
-msgid "Drag to select area"
-msgstr "Arrastar para área selecionada"
-
-#: ../src/widget.py:915 ../src/toolbar.py:178
-msgid "Save automatically"
-msgstr ""
-
-#: ../src/widget.py:916 ../src/toolbar.py:179
-msgid "Save as"
-msgstr ""
-
-#: ../src/widget.py:917 ../src/toolbar.py:180
-msgid "Save to clipboard"
-msgstr ""
-
-#: ../src/widget.py:918 ../src/toolbar.py:181
-msgid "Save automatically to file and clipboard"
-msgstr ""
-
-#: ../src/widget.py:930 ../src/toolbar.py:82
-msgid "Draw Rectangle"
-msgstr ""
-
-#: ../src/widget.py:934 ../src/toolbar.py:83
-msgid "Draw Ellipse"
-msgstr ""
-
-#: ../src/widget.py:938 ../src/toolbar.py:84
-msgid "Draw Arrow"
-msgstr ""
-
-#: ../src/widget.py:942 ../src/toolbar.py:85
-msgid "Draw Line"
-msgstr ""
-
-#: ../src/widget.py:946 ../src/toolbar.py:86
-msgid "Draw Text"
-msgstr ""
-
-#: ../src/widget.py:951 ../src/toolbar.py:88
-msgid "Undo"
-msgstr ""
-
-#: ../src/widget.py:955 ../src/toolbar.py:91
-msgid "Save"
-msgstr ""
-
-#: ../src/widget.py:962 ../src/toolbar.py:111
-msgid "Cancel"
-msgstr ""
-
-#: ../src/widget.py:969 ../src/toolbar.py:114
-msgid "Share"
 msgstr ""
 
 #: ../src/share.py:73
@@ -143,6 +104,7 @@ msgid "Unable to load page"
 msgstr ""
 
 #: ../src/share.py:187
+#, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr ""
 
@@ -205,3 +167,44 @@ msgstr "falhou"
 #: ../src/share.py:670
 msgid "Unknow reason"
 msgstr "Razão desconhecida"
+
+#: ../src/widget.py:289
+msgid "Drag to select area"
+msgstr "Arrastar para área selecionada"
+
+#: ../src/screenshot.py:94
+msgid "Take a screenshot of full screen"
+msgstr "Criar uma captura de tela inteira"
+
+#: ../src/screenshot.py:95
+msgid "Take a screenshot of a window"
+msgstr "Criar uma captura de uma janela"
+
+#: ../src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr "Criar uma captura após NUM segundos"
+
+#: ../src/screenshot.py:97
+msgid "save screenshot to FILE"
+msgstr "salvar captura para FILE"
+
+#: ../src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "executar como um subprocesso"
+
+#: ../src/screenshot.py:99
+msgid "run a new process"
+msgstr "executar um novo processo"
+
+#: ../src/screenshot.py:107
+msgid "show this help message and exit"
+msgstr "mostrar essa mensagem e sair"
+
+#: ../src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "mostrar a versão do programa e sair"
+
+#: ../src/screenshot.py:128
+#, python-format
+msgid "DSnapshot will start in %d seconds."
+msgstr ""
