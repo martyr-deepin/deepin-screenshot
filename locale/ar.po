@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DSnapshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-10 14:46+0800\n"
-"PO-Revision-Date: 2014-02-09 18:34+0000\n"
+"POT-Creation-Date: 2014-02-25 11:11+0800\n"
+"PO-Revision-Date: 2014-02-16 01:21+0000\n"
 "Last-Translator: Mohd <mo-hd@windowslive.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/deepin-screenshot/"
 "language/ar/)\n"
@@ -74,7 +74,7 @@ msgstr "أحفظ تلقائياً إلى الملف والحافظة"
 
 #: ../src/main.py:152
 msgid "The width or height of selected area cannot be 0"
-msgstr ""
+msgstr "الطول أو العرض للمنطقة المحددة لا يمكن أن تكون 0"
 
 #: ../src/main.py:160 ../src/screenshot.py:58 ../src/screenshot.py:78
 msgid "Picture has been saved to file"
@@ -91,11 +91,11 @@ msgstr "تم حفظ الصورة في الحافظة"
 #: ../src/main.py:219 ../src/main.py:221 ../src/share.py:566
 #: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
 msgid "DSnapshot"
-msgstr ""
+msgstr "دي لقطة الشاشة"
 
 #: ../src/main.py:222
 msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "المرة القادمة يمكنك الضغط فقط على Ctrl+Alt+A للبدأ"
+msgstr "المرة القادمة يمكنك الضغط فقط على Ctrl+Alt+A للبدأ."
 
 #: ../src/share.py:73
 msgid "share to web"
@@ -108,7 +108,7 @@ msgstr "غير قادر على تحميل الصفحة"
 #: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
-msgstr ""
+msgstr "حدثت مشكلة أثناء تحميل الـ URL '%s'"
 
 #: ../src/share.py:315
 msgid "click to switch user"
@@ -136,11 +136,11 @@ msgstr "خطأ"
 
 #: ../src/share.py:527
 msgid "Picture does not exist."
-msgstr "الصورة غير موجودة"
+msgstr "الصورة غير موجودة."
 
 #: ../src/share.py:538
 msgid "Please choose at least one platform to share on"
-msgstr ""
+msgstr "الرجاء قم بإختيار منصة واحد على الأقل للمشاركة "
 
 #: ../src/share.py:555
 msgid "uploading"
@@ -184,15 +184,15 @@ msgstr "أخذ لقطة شاشة لنافذة"
 
 #: ../src/screenshot.py:96
 msgid "Take a screenshot after NUM seconds"
-msgstr ""
+msgstr "أخذ لقطة للشاشة بعد عدد من الثواني"
 
 #: ../src/screenshot.py:97
 msgid "save screenshot to FILE"
-msgstr ""
+msgstr "حفظ لقطة الشاشة إلى ملف"
 
 #: ../src/screenshot.py:98
 msgid "run as a subprocess"
-msgstr ""
+msgstr "تشغيل كـ عملية فرعية"
 
 #: ../src/screenshot.py:99
 msgid "run a new process"
@@ -209,4 +209,4 @@ msgstr "أظهر رقم إصدار البرنامج ثم أخرج"
 #: ../src/screenshot.py:128
 #, python-format
 msgid "DSnapshot will start in %d seconds."
-msgstr ""
+msgstr "دي لقطة الشاشة سيبدأ في %d ثواني."
