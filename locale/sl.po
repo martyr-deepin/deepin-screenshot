@@ -3,209 +3,210 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# lexross <its4moi@gmail.com>, 2014
+# kloki <klokimass@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: DSnapshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-25 11:11+0800\n"
-"PO-Revision-Date: 2014-01-09 02:05+0000\n"
-"Last-Translator: lexross <its4moi@gmail.com>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/deepin-screenshot/"
-"language/fr/)\n"
-"Language: fr\n"
+"PO-Revision-Date: 2014-02-22 01:06+0000\n"
+"Last-Translator: kloki <klokimass@gmail.com>\n"
+"Language-Team: Slovenian (http://www.transifex.com/projects/p/deepin-"
+"screenshot/language/sl/)\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3);\n"
 
 #: ../src/toolbar.py:82 ../src/widget.py:930
 msgid "Draw Rectangle"
-msgstr "Tracer un rectangle"
+msgstr "Nariši pravokotnik"
 
 #: ../src/toolbar.py:83 ../src/widget.py:934
 msgid "Draw Ellipse"
-msgstr "Tracer une ellipse"
+msgstr "Nariši elipso"
 
 #: ../src/toolbar.py:84 ../src/widget.py:938
 msgid "Draw Arrow"
-msgstr "Tracer une flèche "
+msgstr "Nariši puščico"
 
 #: ../src/toolbar.py:85 ../src/widget.py:942
 msgid "Draw Line"
-msgstr "Tracer une ligne"
+msgstr "Nariši črto"
 
 #: ../src/toolbar.py:86 ../src/widget.py:946
 msgid "Draw Text"
-msgstr "Tracer un texte"
+msgstr "Napiši besedilo"
 
 #: ../src/toolbar.py:88 ../src/widget.py:951
 msgid "Undo"
-msgstr "Annuler une action"
+msgstr "Razveljavi"
 
 #: ../src/toolbar.py:91 ../src/widget.py:955
 msgid "Save"
-msgstr "Sauvegarder"
+msgstr "Shrani"
 
 #: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "Prekliči"
 
 #: ../src/toolbar.py:114 ../src/widget.py:969
 msgid "Share"
-msgstr "Partager"
+msgstr "Deli"
 
 #: ../src/toolbar.py:178 ../src/widget.py:915
 msgid "Save automatically"
-msgstr "Sauvegarde automatiquement"
+msgstr "Samodejno shrani."
 
 #: ../src/toolbar.py:179 ../src/widget.py:916
 msgid "Save as"
-msgstr "Enregistrer sous"
+msgstr "Shrani kot"
 
 #: ../src/toolbar.py:180 ../src/widget.py:917
 msgid "Save to clipboard"
-msgstr "Enregistrer dans le presse-papiers"
+msgstr "Shrani v odložišče"
 
 #: ../src/toolbar.py:181 ../src/widget.py:918
 msgid "Save automatically to file and clipboard"
-msgstr "sauvegarder automatiquement dans le dossier et dans le presse-papiers"
+msgstr "Samodejno shrani datoteko v odložišče"
 
 #: ../src/main.py:152
 msgid "The width or height of selected area cannot be 0"
-msgstr "La largeur ou la hauteur de la zone sélectionnée ne peut pas être de 0"
+msgstr "Širina in višina v izbranem območju ne more biti 0"
 
 #: ../src/main.py:160 ../src/screenshot.py:58 ../src/screenshot.py:78
 msgid "Picture has been saved to file"
-msgstr "L'image a été sauvegardée dans le fichier"
+msgstr "Slika je bila shranjena v datoteko"
 
 #: ../src/main.py:180
 msgid "Failed to save the picture"
-msgstr "Échec de la sauvegarde de l'image"
+msgstr "Shranjevanje slike neuspešno"
 
 #: ../src/main.py:197
 msgid "Picture has been saved to clipboard"
-msgstr "L'image a été sauvegardée dans le presse-papiers"
+msgstr "Slika je bila shranjena v odložišče"
 
 #: ../src/main.py:219 ../src/main.py:221 ../src/share.py:566
 #: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
 msgid "DSnapshot"
-msgstr "Dsnapshot"
+msgstr "DPosnetek"
 
 #: ../src/main.py:222
 msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "Vous pouvez aussi faire simplement Ctrl+Alt+A pour démarrer."
+msgstr "Naslednjič lahko za zagon programa pritisnete Ctrl+Alt+A."
 
 #: ../src/share.py:73
 msgid "share to web"
-msgstr "Partager sur le net"
+msgstr "deli s spletom"
 
 #: ../src/share.py:186
 msgid "Unable to load page"
-msgstr "Impossible de charger la page"
+msgstr "Ni možno naložiti strani"
 
 #: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
-msgstr "Problème pendant le chargement du lien '%s'"
+msgstr "Pojavila se je težava pri nalaganju URL '%s'"
 
 #: ../src/share.py:315
 msgid "click to switch user"
-msgstr "Cliquer pour changer d'utilisateur"
+msgstr "Kliknite za zamenjavo uporabnika"
 
 #: ../src/share.py:333
 msgid "click to login"
-msgstr "Cliquer pour se connecter"
+msgstr "Kliknite za prijavo"
 
 #: ../src/share.py:448
 msgid "loading"
-msgstr "chargement en cours"
+msgstr "nalagam"
 
 #: ../src/share.py:459
 msgid "Tweet"
-msgstr "Tweeter"
+msgstr "Tweet"
 
 #: ../src/share.py:501
 msgid "Please input text here"
-msgstr "Insérez votre texte ici"
+msgstr "Prosim tukaj vpišite besedilo"
 
 #: ../src/share.py:527 ../src/share.py:538
 msgid "error"
-msgstr "erreur"
+msgstr "napaka"
 
 #: ../src/share.py:527
 msgid "Picture does not exist."
-msgstr "L'image n'existe pas"
+msgstr "Slika ne obstaja"
 
 #: ../src/share.py:538
 msgid "Please choose at least one platform to share on"
-msgstr "Veuillez choisir au moins une plate-forme pour partager "
+msgstr "Prosim, izberite vsaj eno platformo za deljenje"
 
 #: ../src/share.py:555
 msgid "uploading"
-msgstr "Envoi en cours"
+msgstr "prenašanje"
 
 #: ../src/share.py:566
 msgid "came from"
-msgstr "Viens de"
+msgstr "prihaja iz"
 
 #: ../src/share.py:613
 msgid "Follow"
-msgstr "Suis"
+msgstr "Sledi"
 
 #: ../src/share.py:636 ../src/share.py:657
 msgid "upload to"
-msgstr "Envoyer vers "
+msgstr "Prenesi v"
 
 #: ../src/share.py:639
 msgid "successful"
-msgstr "Réussi "
+msgstr "uspešno"
 
 #: ../src/share.py:662
 msgid "failed"
-msgstr "Échoué "
+msgstr "neuspešno"
 
 #: ../src/share.py:670
 msgid "Unknow reason"
-msgstr "Raison inconnue"
+msgstr "Neznan razlog"
 
 #: ../src/widget.py:289
 msgid "Drag to select area"
-msgstr "Faites glisser pour sélectionner la zone"
+msgstr "Povlecite, da izberete območje"
 
 #: ../src/screenshot.py:94
 msgid "Take a screenshot of full screen"
-msgstr "Prendre une capture de l'écran entier"
+msgstr "Zajemi sliko celotnega zaslona"
 
 #: ../src/screenshot.py:95
 msgid "Take a screenshot of a window"
-msgstr "Prendre une capture de la fenêtre"
+msgstr "Zajemi sliko dela zaslona"
 
 #: ../src/screenshot.py:96
 msgid "Take a screenshot after NUM seconds"
-msgstr "Prendre une capture d'écran après NUM secondes "
+msgstr "Zajemi sliko zaslona po določenem številu sekund"
 
 #: ../src/screenshot.py:97
 msgid "save screenshot to FILE"
-msgstr "Sauvegarder la capture d'écran dans FILE"
+msgstr "Shrani zaslonsko sliko v datoteko"
 
 #: ../src/screenshot.py:98
 msgid "run as a subprocess"
-msgstr "Exécuter dans un sous-processus "
+msgstr "zaženi kot podpostopek"
 
 #: ../src/screenshot.py:99
 msgid "run a new process"
-msgstr "exécuter un nouveau processus"
+msgstr "zaženi kot nov postopek"
 
 #: ../src/screenshot.py:107
 msgid "show this help message and exit"
-msgstr "afficher ce message d'aide et quitter"
+msgstr "prikaži sporočilo za pomoč in zapri"
 
 #: ../src/screenshot.py:108
 msgid "show program's version number and exit"
-msgstr "Afficher la version du programme et quitter"
+msgstr "prikaži različico programa in zapri"
 
 #: ../src/screenshot.py:128
 #, python-format
 msgid "DSnapshot will start in %d seconds."
-msgstr "DSnapshot va démarrer dans %d secondes."
+msgstr "DPosnetek se bo zagnal v %d sekundah."

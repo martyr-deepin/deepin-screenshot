@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DSnapshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-10 14:46+0800\n"
-"PO-Revision-Date: 2014-01-03 15:20+0000\n"
-"Last-Translator: fasier <matus.ravas@outlook.com>\n"
+"POT-Creation-Date: 2014-02-25 11:11+0800\n"
+"PO-Revision-Date: 2014-02-23 15:20+0000\n"
+"Last-Translator: ballmet <emkohencel@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/deepin-screenshot/"
 "language/sk/)\n"
 "Language: sk\n"
@@ -21,117 +21,117 @@ msgstr ""
 
 #: ../src/toolbar.py:82 ../src/widget.py:930
 msgid "Draw Rectangle"
-msgstr ""
+msgstr "Nakresliť obdĺžnik"
 
 #: ../src/toolbar.py:83 ../src/widget.py:934
 msgid "Draw Ellipse"
-msgstr ""
+msgstr "Nakresliť elipsu"
 
 #: ../src/toolbar.py:84 ../src/widget.py:938
 msgid "Draw Arrow"
-msgstr ""
+msgstr "Nakresliť šípku"
 
 #: ../src/toolbar.py:85 ../src/widget.py:942
 msgid "Draw Line"
-msgstr ""
+msgstr "Nakresliť čiaru"
 
 #: ../src/toolbar.py:86 ../src/widget.py:946
 msgid "Draw Text"
-msgstr ""
+msgstr "Nakresliť text"
 
 #: ../src/toolbar.py:88 ../src/widget.py:951
 msgid "Undo"
-msgstr ""
+msgstr "Späť"
 
 #: ../src/toolbar.py:91 ../src/widget.py:955
 msgid "Save"
-msgstr ""
+msgstr "Uložiť"
 
 #: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušiť"
 
 #: ../src/toolbar.py:114 ../src/widget.py:969
 msgid "Share"
-msgstr ""
+msgstr "Zdieľať"
 
 #: ../src/toolbar.py:178 ../src/widget.py:915
 msgid "Save automatically"
-msgstr ""
+msgstr "Automaticky uložiť"
 
 #: ../src/toolbar.py:179 ../src/widget.py:916
 msgid "Save as"
-msgstr ""
+msgstr "Uložiť ako"
 
 #: ../src/toolbar.py:180 ../src/widget.py:917
 msgid "Save to clipboard"
-msgstr ""
+msgstr "Uložiť do schránky"
 
 #: ../src/toolbar.py:181 ../src/widget.py:918
 msgid "Save automatically to file and clipboard"
-msgstr ""
+msgstr "Automaticky uložiť do schránky a súboru."
 
 #: ../src/main.py:152
 msgid "The width or height of selected area cannot be 0"
-msgstr ""
+msgstr "Šírka alebo výška vybranej oblasti nemôže byť 0"
 
 #: ../src/main.py:160 ../src/screenshot.py:58 ../src/screenshot.py:78
 msgid "Picture has been saved to file"
-msgstr ""
+msgstr "Obrázok bol uložený do súboru"
 
 #: ../src/main.py:180
 msgid "Failed to save the picture"
-msgstr ""
+msgstr "Nepodarilo sa uložiť súbor"
 
 #: ../src/main.py:197
 msgid "Picture has been saved to clipboard"
-msgstr ""
+msgstr "Obrázok bol uložený do schránky"
 
 #: ../src/main.py:219 ../src/main.py:221 ../src/share.py:566
 #: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
 msgid "DSnapshot"
-msgstr ""
+msgstr "DSnapshot"
 
 #: ../src/main.py:222
 msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr ""
+msgstr "Nabudúce stačí, aby ste k spusteniu stlačili Ctrl+Alt+A."
 
 #: ../src/share.py:73
 msgid "share to web"
-msgstr ""
+msgstr "Zdieľať na internet"
 
 #: ../src/share.py:186
 msgid "Unable to load page"
-msgstr ""
+msgstr "Nepodarilo sa nahrať stránku"
 
 #: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
-msgstr ""
+msgstr "Pri nahrávaní URL adresy '%s' sa vyskytli problémy"
 
 #: ../src/share.py:315
 msgid "click to switch user"
-msgstr ""
+msgstr "kliknite pre prepnutie používateľa"
 
 #: ../src/share.py:333
 msgid "click to login"
-msgstr ""
+msgstr "kliknite pre prihlásenie"
 
 #: ../src/share.py:448
 msgid "loading"
-msgstr ""
+msgstr "načítavanie"
 
 #: ../src/share.py:459
 msgid "Tweet"
-msgstr ""
+msgstr "Tweet"
 
 #: ../src/share.py:501
 msgid "Please input text here"
-msgstr ""
+msgstr "Zadajte text tu, prosím"
 
 #: ../src/share.py:527 ../src/share.py:538
 msgid "error"
-msgstr ""
+msgstr "chyba"
 
 #: ../src/share.py:527
 msgid "Picture does not exist."
@@ -139,39 +139,39 @@ msgstr "Obrázok neexistuje."
 
 #: ../src/share.py:538
 msgid "Please choose at least one platform to share on"
-msgstr ""
+msgstr "Vyberte prosím aspoň jeden systém, na ktorom sa má zdieľať"
 
 #: ../src/share.py:555
 msgid "uploading"
-msgstr ""
+msgstr "nahrávanie"
 
 #: ../src/share.py:566
 msgid "came from"
-msgstr ""
+msgstr "prišlo od"
 
 #: ../src/share.py:613
 msgid "Follow"
-msgstr ""
+msgstr "Sledovať"
 
 #: ../src/share.py:636 ../src/share.py:657
 msgid "upload to"
-msgstr ""
+msgstr "Nahrať do"
 
 #: ../src/share.py:639
 msgid "successful"
-msgstr ""
+msgstr "úspešné"
 
 #: ../src/share.py:662
 msgid "failed"
-msgstr ""
+msgstr "neúspešné"
 
 #: ../src/share.py:670
 msgid "Unknow reason"
-msgstr ""
+msgstr "Neznámy dôvod"
 
 #: ../src/widget.py:289
 msgid "Drag to select area"
-msgstr ""
+msgstr "Presúvajte pre zmenenie oblasti"
 
 #: ../src/screenshot.py:94
 msgid "Take a screenshot of full screen"
@@ -208,4 +208,4 @@ msgstr "Ukázať číslo s verziou programu a ukončiť"
 #: ../src/screenshot.py:128
 #, python-format
 msgid "DSnapshot will start in %d seconds."
-msgstr ""
+msgstr "DSnapshot sa spustí o %d sekúnd."
