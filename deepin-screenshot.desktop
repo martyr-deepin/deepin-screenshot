@@ -1,20 +1,3 @@
-[Delay_Screenshot Shortcut Group]
-Exec=deepin-screenshot -d 5
-Name=Delay 5 seconds
-Name[ar]=تأخير 5 ثواني
-Name[cs]=Zpoždění 5 sekund
-Name[da]=Forsinkelse 5 sekunder
-Name[en]=Delay 5 seconds
-Name[es]=Retrasar 5 segundos
-Name[fr]=Délais 5 secondes
-Name[pt_BR]=Atraso de 5 segundos
-Name[ru]=Задержка 5 секунд
-Name[sk]=Oneskorenie 5 sekúnd
-Name[sl]=Zakasni za 5 sekund
-Name[zh_CN]=延时5秒截图
-Name[zh_HK]=延時5秒擷取
-Name[zh_TW]=延時5秒擷取
-
 [Desktop Entry]
 Categories=Graphics;GTK;
 Comment=Screen capturing application
@@ -66,3 +49,20 @@ Name[sl]=Zajem celotnega zaslona
 Name[zh_CN]=截取全屏
 Name[zh_HK]=擷取全螢幕
 Name[zh_TW]=擷取全螢幕
+
+[Delay_Screenshot Shortcut Group]
+Exec=deepin-screenshot -d 5
+Name=Delay 5 seconds
+Name[ar]=تأخير 5 ثواني
+Name[cs]=Zpoždění 5 sekund
+Name[da]=Forsinkelse 5 sekunder
+Name[en]=Delay 5 seconds
+Name[es]=Retrasar 5 segundos
+Name[fr]=Délais 5 secondes
+Name[pt_BR]=Atraso de 5 segundos
+Name[ru]=Задержка 5 секунд
+Name[sk]=Oneskorenie 5 sekúnd
+Name[sl]=Zakasni za 5 sekund
+Name[zh_CN]=延时5秒截图
+Name[zh_HK]=延時5秒擷取
+Name[zh_TW]=延時5秒擷取
