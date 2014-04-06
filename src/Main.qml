@@ -110,7 +110,6 @@ Item {
         
         function handlePress(pos) {
             if (x <= pos.x <= x + width && y <= pos.y <= y + height) {
-                console.log("handlePress")
                 hasPress = true
                 if (x < pos.x < x + width && y < pos.y < y + height) {
                     inCenter = true
@@ -124,7 +123,6 @@ Item {
         
         function handlePositionChange(pos) {
             if (hasPress) {
-                console.log("handlePositionChange")
                 if (inCenter) {
                     x = Math.max(Math.min(startX + pos.x - pressX, screenWidth - width), 0)
                     y = Math.max(Math.min(startY + pos.y - pressY, screenHeight - height), 0)
@@ -134,7 +132,6 @@ Item {
         
         function handleRelease() {
             if (hasPress) {
-                console.log("handleRelease")
                 hasPress = false
                 inCenter = false
                 startX = 0
@@ -184,7 +181,7 @@ Item {
     Rectangle {
         id: toolbar
         x: Math.max(selectFrame.x + selectFrame.width - width - padding, padding)
-        y: selectFrame.y + selectFrame.height > screen.height - height * 2 ? selectFrame.y - height - padding : selectFrame.y + selectFrame.height + padding
+        y: selectFrame.y + selectFrame.height > screen.height - height * 2 ? (selectFrame.y < height * 1.5 ? selectFrame.y + padding : selectFrame.y - height - padding) : selectFrame.y + selectFrame.height + padding
         width: 250
         height: 32
         color: "black"
