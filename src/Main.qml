@@ -162,7 +162,7 @@ Item {
     
     Rectangle {
         id: selectSizeTooltip
-        x: selectFrame.x + padding
+        x: Math.min(screenWidth - width - padding, selectFrame.x + padding)
         y: selectFrame.y < height * 1.5 ? selectFrame.y + padding : selectFrame.y - height - padding
         color: "black"
         opacity: 0.7
@@ -183,7 +183,7 @@ Item {
     
     Rectangle {
         id: toolbar
-        x: selectFrame.x + selectFrame.width - width - padding
+        x: Math.max(selectFrame.x + selectFrame.width - width - padding, padding)
         y: selectFrame.y + selectFrame.height > screen.height - height * 2 ? selectFrame.y - height - padding : selectFrame.y + selectFrame.height + padding
         width: 250
         height: 32
