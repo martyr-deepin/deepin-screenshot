@@ -57,10 +57,12 @@ Item {
 
             if (!firstPress) {
                 var window_info = windowView.get_window_info_at_pointer()
-                selectArea.x = window_info[0]
-                selectArea.y = window_info[1]
-                selectArea.width = window_info[2]
-                selectArea.height = window_info[3]
+                if (window_info != undefined) {
+                    selectArea.x = window_info[0]
+                    selectArea.y = window_info[1]
+                    selectArea.width = window_info[2]
+                    selectArea.height = window_info[3]
+                }
             }
 
             if (firstPress) {
@@ -192,7 +194,7 @@ Item {
         visible: firstMove && firstRelease
 
         property int padding: 4
-        
+
         function tryHideSizeTooltip() {
             if (firstMove && firstRelease) {
                 if (x <= selectSizeTooltip.x + selectSizeTooltip.width && selectSizeTooltip.y <= y && y <= selectSizeTooltip.y + selectSizeTooltip.height) {
@@ -202,11 +204,11 @@ Item {
                 }
             }
         }
-        
+
         onXChanged: {
             tryHideSizeTooltip()
         }
-        
+
         onYChanged: {
             tryHideSizeTooltip()
         }
@@ -235,6 +237,13 @@ Item {
             y = pos.y + height + cursorHeight > screenHeight ? pos.y - height : pos.y + cursorHeight
         }
 
+        
+    }
+    
+    Item {
+        anchors.fill: zoomIndicator
+        visible: zoomIndicator.visible
+        
         Column {
             id: zoomIndicatorTooltip
 
@@ -244,20 +253,48 @@ Item {
             property int marginValue: 3
 
             Rectangle {
-                clip: true
-                height: 68
                 width: parent.width
+                height: 68
 
-                Image {
-                    id: zoomIndicatorImage
-                    x: -zoomIndicator.cursorX + zoomIndicator.width / 2
-                    y: -zoomIndicator.cursorY + zoomIndicatorTooltip.marginValue + parent.height / 2
-                    source: "/tmp/deepin-screenshot.png"
+                Rectangle {
+                    id: zoomIndicatorClip
+                    clip: true
+                    height: parent.height / zoomIndicatorClip.scaleValue
+                    width: parent.width / zoomIndicatorClip.scaleValue
+                    
+                    property int scaleValue: 4
 
-                    property int imageWidth: parent.width / 2
-                    property int imageHeight: parent.height / 2
+                    transform: Scale {
+                        xScale: zoomIndicatorClip.scaleValue
+                        yScale: zoomIndicatorClip.scaleValue
+                    }
+
+                    Image {
+                        id: zoomIndicatorImage
+                        x: -zoomIndicator.cursorX + zoomIndicator.width / (2 * zoomIndicatorClip.scaleValue)
+                        y: -zoomIndicator.cursorY + parent.height / 2
+                        source: "/tmp/deepin-screenshot.png"
+                        smooth: false
+                    }
+                }
+                
+                Rectangle {
+                    color: "black"
+                    height: 1
+                    width: parent.width
+                    x: parent.x
+                    y: parent.y + parent.height / 2
+                }
+                
+                Rectangle {
+                    color: "black"
+                    width: 1
+                    height: parent.height
+                    x: parent.x + parent.width / 2
+                    y: parent.y
                 }
             }
+
 
             Text {
                 text: "(" + zoomIndicator.cursorX + ", " + zoomIndicator.cursorY + ")"

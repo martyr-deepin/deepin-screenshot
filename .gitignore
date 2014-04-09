@@ -1,0 +1,8 @@
+*.pyc
+nohup.out
+.#*
+*.~
+build
+dist
+*.po~
+*.swp

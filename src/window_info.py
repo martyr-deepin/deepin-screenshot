@@ -39,7 +39,7 @@ class WindowInfo(object):
         self.screen_width = self.screen_rect.width()
         self.screen_height = self.screen_rect.height()
     
-        self.windows_info = sorted(self.get_windows_info(), cmp=lambda x, y: cmp(x[2] * x[3], y[2] * y[3]))
+        self.windows_info = self.get_windows_info()
         
     @pyqtSlot(result="QVariant")    
     def get_window_info_at_pointer(self):
@@ -47,7 +47,9 @@ class WindowInfo(object):
         for (x, y, w, h) in self.windows_info:
             if x <= cursor_pos.x() <= x + w and y <= cursor_pos.y() <= y + h:
                 return [x, y, w, h]
-        
+            
+        return [self.screen_x, self.screen_y, self.screen_width, self.screen_height]    
+    
     def get_windows_info(self):
         '''
         @return: all windows' coordinate in this workspace
@@ -90,7 +92,7 @@ class WindowInfo(object):
             
             if ww != 0 and wh != 0:
               screenshot_window_info.insert(0, (wx, wy, ww, wh))
-        return list(set(screenshot_window_info))
+        return screenshot_window_info
     
     def convert_coord(self, x, y, width, height):
         '''
