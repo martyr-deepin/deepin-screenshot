@@ -2,43 +2,45 @@ import QtQuick 2.1
 
 Item {
     id: screen
-    
+
     property bool firstMove: false
     property bool firstPress: false
     property bool firstRelease: false
     property bool firstEdit: false
-    
+
     property alias selectArea: selectArea
-    
+    property alias zoomIndicator: zoomIndicator
+    property alias selectSizeTooltip: selectSizeTooltip
+
     MouseArea {
         id: screenArea
         anchors.fill: parent
         hoverEnabled: true
-        
+
         property int pressX: 0
         property int pressY: 0
-        
+
         onPressed: {
             var pos = windowView.get_cursor_pos()
             pressX = pos.x
             pressY = pos.y
-            
+
             if (!firstPress) {
                 firstPress = true
             }
-            
+
             if (firstRelease) {
                 if (!firstEdit) {
                     selectArea.handlePress(pos)
                 }
             }
         }
-        
+
         onReleased: {
             if (!firstRelease) {
                 firstRelease = true
             }
-            
+
             if (firstRelease) {
                 if (!firstEdit) {
                     selectArea.handleRelease()
@@ -48,11 +50,11 @@ Item {
 
         onPositionChanged: {
             var pos = windowView.get_cursor_pos()
-            
+
             if (!firstMove) {
                 firstMove = true
             }
-            
+
             if (!firstPress) {
                 var window_info = windowView.get_window_info_at_pointer()
                 selectArea.x = window_info[0]
@@ -71,47 +73,47 @@ Item {
                     }
                 }
             }
-            
+
             if (firstRelease) {
                 if (!firstEdit) {
                     selectArea.handlePositionChange(pos)
                 }
             }
+
+            if (firstMove && !firstRelease) {
+                zoomIndicator.updatePosition(pos)
+            }
         }
     }
-    
+
     Image {
         id: background
         anchors.fill: parent
         source: "/tmp/deepin-screenshot.png"
     }
-    
+
     Rectangle {
         anchors.fill: screen
         color: "black"
         opacity: 0.5
     }
-    
+
     Rectangle {
         id: selectArea
-        x: 0
-        y: 0
-        width: 0
-        height: 0
         clip: true
         visible: firstMove
-        
+
         property int startX: 0
         property int startY: 0
         property int pressX: 0
         property int pressY: 0
         property bool hasPress: false
         property bool inCenter: false
-        
+
         function handlePress(pos) {
-            if (x <= pos.x <= x + width && y <= pos.y <= y + height) {
+            if (x <= pos.x && pos.x <= x + width && y <= pos.y && pos.y <= y + height) {
                 hasPress = true
-                if (x < pos.x < x + width && y < pos.y < y + height) {
+                if (x < pos.x && pos.x < x + width && y < pos.y && pos.y < y + height) {
                     inCenter = true
                     startX = x
                     startY = y
@@ -120,7 +122,7 @@ Item {
                 }
             }
         }
-        
+
         function handlePositionChange(pos) {
             if (hasPress) {
                 if (inCenter) {
@@ -129,7 +131,7 @@ Item {
                 }
             }
         }
-        
+
         function handleRelease() {
             if (hasPress) {
                 hasPress = false
@@ -140,14 +142,14 @@ Item {
                 pressY = 0
             }
         }
-        
+
         Image {
             x: -selectArea.x
             y: -selectArea.y
             source: "/tmp/deepin-screenshot.png"
         }
     }
-    
+
     Rectangle {
         id: selectFrame
         anchors.fill: selectArea
@@ -156,7 +158,7 @@ Item {
         border.width: 2
         visible: firstMove
     }
-    
+
     Rectangle {
         id: selectSizeTooltip
         x: Math.min(screenWidth - width - padding, selectFrame.x + padding)
@@ -166,10 +168,10 @@ Item {
         width: 100
         height: 32
         radius: 3
-        visible: firstMove && firstPress
-        
+        visible: firstMove
+
         property int padding: 4
-        
+
         Text {
             id: selectSizeTooltipText
             anchors.centerIn: parent
@@ -177,7 +179,7 @@ Item {
             text: selectArea.width + "x" + selectArea.height
         }
     }
-    
+
     Rectangle {
         id: toolbar
         x: Math.max(selectFrame.x + selectFrame.width - width - padding, padding)
@@ -188,7 +190,89 @@ Item {
         opacity: 0.7
         radius: 3
         visible: firstMove && firstRelease
-        
+
         property int padding: 4
+        
+        function tryHideSizeTooltip() {
+            if (firstMove && firstRelease) {
+                if (x <= selectSizeTooltip.x + selectSizeTooltip.width && selectSizeTooltip.y <= y && y <= selectSizeTooltip.y + selectSizeTooltip.height) {
+                    selectSizeTooltip.visible = false
+                } else {
+                    selectSizeTooltip.visible = true
+                }
+            }
+        }
+        
+        onXChanged: {
+            tryHideSizeTooltip()
+        }
+        
+        onYChanged: {
+            tryHideSizeTooltip()
+        }
+    }
+
+    Rectangle {
+        id: zoomIndicator
+        visible: firstMove && !firstRelease
+
+        width: 130
+        height: 130
+        color: "black"
+        opacity: 0.7
+
+        property int cursorWidth: 8
+        property int cursorHeight: 18
+
+        property int cursorX: 0
+        property int cursorY: 0
+
+        function updatePosition(pos) {
+            cursorX = pos.x
+            cursorY = pos.y
+
+            x = pos.x + width + cursorWidth > screenWidth ? pos.x - width : pos.x + cursorWidth
+            y = pos.y + height + cursorHeight > screenHeight ? pos.y - height : pos.y + cursorHeight
+        }
+
+        Column {
+            id: zoomIndicatorTooltip
+
+            anchors.fill: parent
+            anchors.margins: marginValue
+
+            property int marginValue: 3
+
+            Rectangle {
+                clip: true
+                height: 68
+                width: parent.width
+
+                Image {
+                    id: zoomIndicatorImage
+                    x: -zoomIndicator.cursorX + zoomIndicator.width / 2
+                    y: -zoomIndicator.cursorY + zoomIndicatorTooltip.marginValue + parent.height / 2
+                    source: "/tmp/deepin-screenshot.png"
+
+                    property int imageWidth: parent.width / 2
+                    property int imageHeight: parent.height / 2
+                }
+            }
+
+            Text {
+                text: "(" + zoomIndicator.cursorX + ", " + zoomIndicator.cursorY + ")"
+                color: "white"
+            }
+
+            Text {
+                text: "[255, 255, 255]"
+                color: "white"
+            }
+
+            Text {
+                text: "拖动可自由选区"
+                color: "white"
+            }
+        }
     }
 }

@@ -55,7 +55,6 @@ class Window(QQuickView):
         QGuiApplication.primaryScreen().grabWindow(0).save("/tmp/deepin-screenshot.png")
         
         self.window_info = WindowInfo()
-        print self.window_info.get_windows_info()
         
     @pyqtSlot(result="QVariant")    
     def get_window_info_at_pointer(self):
