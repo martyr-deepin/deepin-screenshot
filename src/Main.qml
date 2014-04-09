@@ -280,17 +280,35 @@ Item {
                 
                 Rectangle {
                     color: "black"
+                    opacity: 0.5
                     height: 1
                     width: parent.width
                     x: parent.x
                     y: parent.y + parent.height / 2
                 }
+                Rectangle {
+                    color: "white"
+                    opacity: 0.5
+                    height: 1
+                    width: parent.width
+                    x: parent.x
+                    y: parent.y + parent.height / 2 + 1
+                }
                 
                 Rectangle {
                     color: "black"
+                    opacity: 0.5
                     width: 1
                     height: parent.height
                     x: parent.x + parent.width / 2
+                    y: parent.y
+                }
+                Rectangle {
+                    color: "white"
+                    opacity: 0.5
+                    width: 1
+                    height: parent.height
+                    x: parent.x + parent.width / 2 + 1
                     y: parent.y
                 }
             }
