@@ -330,4 +330,9 @@ Item {
             }
         }
     }
+    
+    focus: true
+    Keys.onEscapePressed: {
+        windowView.close()
+    }
 }
