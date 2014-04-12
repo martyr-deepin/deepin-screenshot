@@ -27,7 +27,7 @@ if os.name == 'posix':
     QCoreApplication.setAttribute(QtCore.Qt.AA_X11InitThreads, True)
     
 from PyQt5.QtQuick import QQuickView
-from PyQt5.QtGui import QSurfaceFormat, QColor, QGuiApplication
+from PyQt5.QtGui import QSurfaceFormat, QColor, QGuiApplication, qRed, qGreen, qBlue
 from PyQt5 import QtCore, QtQuick
 
 import sys
@@ -53,9 +53,16 @@ class Window(QQuickView):
         
         self.qml_context = self.rootContext()
         
-        QGuiApplication.primaryScreen().grabWindow(0).save("/tmp/deepin-screenshot.png")
+        self.qpixmap = QGuiApplication.primaryScreen().grabWindow(0)
+        self.qpixmap.save("/tmp/deepin-screenshot.png")
+        self.qimage = self.qpixmap.toImage()
         
         self.window_info = WindowInfo()
+        
+    @pyqtSlot(int, int, result="QVariant")    
+    def get_color_at_point(self, x, y):
+        rgb = self.qimage.pixel(x, y)
+        return [qRed(rgb), qGreen(rgb), qBlue(rgb)]
         
     @pyqtSlot(result="QVariant")    
     def get_window_info_at_pointer(self):

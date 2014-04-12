@@ -8,6 +8,7 @@ Item {
     property bool firstRelease: false
     property bool firstEdit: false
 
+    property alias pointColor: pointColor
     property alias selectArea: selectArea
     property alias selectResizeCanvas: selectResizeCanvas
     property alias zoomIndicator: zoomIndicator
@@ -87,6 +88,9 @@ Item {
 
             if (firstMove && !firstRelease) {
                 zoomIndicator.updatePosition(pos)
+                
+                var rgb = windowView.get_color_at_point(pos.x, pos.y)
+                pointColor.text = "[" + rgb[0] + ", " + rgb[1] + ", " + rgb[2] + "]"
             }
         }
     }
@@ -518,7 +522,7 @@ Item {
             }
 
             Text {
-                text: "[255, 255, 255]"
+                id: pointColor
                 color: "white"
             }
 
