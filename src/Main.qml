@@ -12,7 +12,7 @@ Item {
     property alias selectResizeCanvas: selectResizeCanvas
     property alias zoomIndicator: zoomIndicator
     property alias selectSizeTooltip: selectSizeTooltip
-
+    
     MouseArea {
         id: screenArea
         anchors.fill: parent

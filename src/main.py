@@ -36,6 +36,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5 import QtGui
 import signal
 from window_info import WindowInfo
+from PyQt5.QtDBus import QDBusConnection, QDBusInterface
 
 class Window(QQuickView):
 
@@ -64,18 +65,41 @@ class Window(QQuickView):
     def get_cursor_pos(self):
         return QtGui.QCursor.pos()        
             
+    @pyqtSlot()    
+    def enable_zone(self):
+        try:
+            iface = QDBusInterface("com.deepin.daemon.Zone", "/com/deepin/daemon/Zone", '', QDBusConnection.sessionBus())
+            iface.asyncCall("EnableZoneDetected", True)
+        except:
+            pass
+        
+    @pyqtSlot()    
+    def disable_zone(self):
+        try:
+            iface = QDBusInterface("com.deepin.daemon.Zone", "/com/deepin/daemon/Zone", '', QDBusConnection.sessionBus())
+            iface.asyncCall("EnableZoneDetected", False)
+        except:
+            pass
+        
+    def exit_app(self):
+        self.enable_zone()
+        qApp.quit()
+        
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     view = Window()
+    
+    qApp.lastWindowClosed.connect(view.exit_app)
     
     qml_context = view.rootContext()
     qml_context.setContextProperty("windowView", view)
     qml_context.setContextProperty("qApp", qApp)
     qml_context.setContextProperty("screenWidth", view.window_info.screen_width)
     qml_context.setContextProperty("screenHeight", view.window_info.screen_height)
-    
+        
     view.setSource(QtCore.QUrl.fromLocalFile(os.path.join(os.path.dirname(__file__), 'Main.qml')))
         
+    view.disable_zone()
     view.showFullScreen()
             
     signal.signal(signal.SIGINT, signal.SIG_DFL)
