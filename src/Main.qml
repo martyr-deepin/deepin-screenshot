@@ -9,6 +9,7 @@ Item {
     property bool firstEdit: false
 
     property alias selectArea: selectArea
+    property alias selectResizeCanvas: selectResizeCanvas
     property alias zoomIndicator: zoomIndicator
     property alias selectSizeTooltip: selectSizeTooltip
 
@@ -37,13 +38,15 @@ Item {
         }
 
         onReleased: {
+            var pos = windowView.get_cursor_pos()
+            
             if (!firstRelease) {
                 firstRelease = true
             }
 
             if (firstRelease) {
                 if (!firstEdit) {
-                    selectArea.handleRelease()
+                    selectArea.handleRelease(pos)
                 }
             }
         }
@@ -107,41 +110,150 @@ Item {
 
         property int startX: 0
         property int startY: 0
+        property int startWidth: 0
+        property int startHeight: 0
         property int pressX: 0
         property int pressY: 0
+        property int dndSize: 5
+        property int minSize: 10
         property bool hasPress: false
-        property bool inCenter: false
-
+        property bool pressAtCenter: false
+        property bool pressAtLeft: false
+        property bool pressAtRight: false
+        property bool pressAtTop: false
+        property bool pressAtBottom: false
+        property bool pressAtTopLeft: false
+        property bool pressAtTopRight: false
+        property bool pressAtBottomLeft: false
+        property bool pressAtBottomRight: false
+        
         function handlePress(pos) {
             if (x <= pos.x && pos.x <= x + width && y <= pos.y && pos.y <= y + height) {
                 hasPress = true
-                if (x < pos.x && pos.x < x + width && y < pos.y && pos.y < y + height) {
-                    inCenter = true
-                    startX = x
-                    startY = y
-                    pressX = pos.x
-                    pressY = pos.y
+                startX = x
+                startY = y
+                startWidth = width
+                startHeight = height
+                pressX = pos.x
+                pressY = pos.y
+                
+                if (x + dndSize < pos.x && pos.x < x + width - dndSize && y + dndSize < pos.y && pos.y < y + height - dndSize) {
+                    pressAtCenter = true
+                } else if (x + dndSize >= pos.x) {
+                    if (y + dndSize >= pos.y) {
+                        pressAtTopLeft = true
+                    } else if (y + height - dndSize <= pos.y) {
+                        pressAtBottomLeft = true
+                    } else {
+                        pressAtLeft = true
+                    }
+                } else if (x + width - dndSize <= pos.x) {
+                    if (y + dndSize >= pos.y) {
+                        pressAtTopRight = true
+                    } else if (y + height - dndSize <= pos.y) {
+                        pressAtBottomRight = true
+                    } else {
+                        pressAtRight = true
+                    }
+                } else if (y + dndSize >= pos.y) {
+                    pressAtTop = true
+                } else if (y + height - dndSize <= pos.y) {
+                    pressAtBottom = true
                 }
             }
         }
 
         function handlePositionChange(pos) {
             if (hasPress) {
-                if (inCenter) {
+                if (pressAtCenter) {
                     x = Math.max(Math.min(startX + pos.x - pressX, screenWidth - width), 0)
                     y = Math.max(Math.min(startY + pos.y - pressY, screenHeight - height), 0)
+                    
+                    screenArea.cursorShape = Qt.ClosedHandCursor
+                } else {
+                    if (pressAtLeft || pressAtTopLeft || pressAtBottomLeft) {
+                        x = Math.min(pos.x, startX + startWidth - minSize)
+                        width = Math.max(startWidth + startX - pos.x, minSize)
+                    }
+                    
+                    if (pressAtRight || pressAtTopRight || pressAtBottomRight) {
+                        width = Math.max(pos.x - startX, minSize)
+                        x = Math.max(pos.x - width, startX)
+                    }
+                    
+                    if (pressAtTop || pressAtTopLeft || pressAtTopRight) {
+                        y = Math.min(pos.y, startY + startHeight - minSize)
+                        height = Math.max(startHeight + startY - pos.y, minSize)
+                    }
+                    
+                    if (pressAtBottom || pressAtBottomLeft || pressAtBottomRight) {
+                        height = Math.max(pos.y - startY, minSize)
+                        y = Math.max(pos.y - height, startY)
+                    }
+                } 
+            } else {
+                if (x <= pos.x && pos.x <= x + width && y <= pos.y && pos.y <= y + height) {
+                    if (x + dndSize < pos.x && pos.x < x + width - dndSize && y + dndSize < pos.y && pos.y < y + height - dndSize) {
+                        screenArea.cursorShape = Qt.OpenHandCursor
+                        
+                        selectResizeCanvas.visible = false
+                    } else if (x + dndSize >= pos.x) {
+                        if (y + dndSize >= pos.y) {
+                            screenArea.cursorShape = Qt.SizeFDiagCursor
+                        } else if (y + height - dndSize <= pos.y) {
+                            screenArea.cursorShape = Qt.SizeBDiagCursor
+                        } else {
+                            screenArea.cursorShape = Qt.SizeHorCursor
+                        }
+                        
+                        selectResizeCanvas.visible = true
+                    } else if (x + width - dndSize <= pos.x) {
+                        if (y + dndSize >= pos.y) {
+                            screenArea.cursorShape = Qt.SizeBDiagCursor
+                        } else if (y + height - dndSize <= pos.y) {
+                            screenArea.cursorShape = Qt.SizeFDiagCursor
+                        } else {
+                            screenArea.cursorShape = Qt.SizeHorCursor
+                        }
+                        
+                        selectResizeCanvas.visible = true
+                    } else {
+                        screenArea.cursorShape = Qt.SizeVerCursor
+                        
+                        selectResizeCanvas.visible = true
+                    }
+                } else {
+                    screenArea.cursorShape = Qt.ArrowCursor
+                    
+                    selectResizeCanvas.visible = false
                 }
             }
         }
 
-        function handleRelease() {
+        function handleRelease(pos) {
             if (hasPress) {
                 hasPress = false
-                inCenter = false
+                pressAtCenter = false
+                pressAtLeft = false
+                pressAtRight = false
+                pressAtTop = false
+                pressAtBottom = false
+                pressAtTopLeft = false
+                pressAtTopRight = false
+                pressAtBottomLeft = false
+                pressAtBottomRight = false
                 startX = 0
                 startY = 0
+                startWidth = 0
+                startHeight = 0
                 pressX = 0
                 pressY = 0
+                
+                if (x <= pos.x && pos.x <= x + width && y <= pos.y && pos.y <= y + height) {
+                    if (x + dndSize < pos.x && pos.x < x + width - dndSize && y + dndSize < pos.y && pos.y < y + height - dndSize) {
+                        screenArea.cursorShape = Qt.OpenHandCursor
+                    }
+                }                
             }
         }
 
@@ -151,14 +263,100 @@ Item {
             source: "/tmp/deepin-screenshot.png"
         }
     }
-
+    
     Rectangle {
         id: selectFrame
         anchors.fill: selectArea
         color: "transparent"
         border.color: "#00A0E9"
-        border.width: 2
+        border.width: 1
         visible: firstMove
+    }
+
+    Canvas {
+        id: selectResizeCanvas
+        visible: false
+
+        property int bigPointRadius: 4
+        property int smallPointRadius: 3
+        
+        x: selectArea.x - bigPointRadius
+        y: selectArea.y - bigPointRadius
+        width: selectArea.width + bigPointRadius * 2
+        height: selectArea.height + bigPointRadius * 2
+        
+        onXChanged: requestPaint()
+        onYChanged: requestPaint()
+        onWidthChanged: requestPaint()
+        onHeightChanged: requestPaint()
+        
+        onPaint: {
+            var ctx = getContext("2d")
+            ctx.save()
+            ctx.clearRect(0, 0, width, height)
+            
+            ctx.lineWidth = 1
+            ctx.strokeStyle = "#00A0E9"
+            ctx.fillStyle = "white"
+            
+            /* Top left */
+            ctx.beginPath()
+            ctx.arc(selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, 0, Math.PI * 2, false)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+            
+            /* Top right */
+            ctx.beginPath()
+            ctx.arc(width - selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, 0, Math.PI * 2, false)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+
+            /* Bottom left */
+            ctx.beginPath()
+            ctx.arc(selectResizeCanvas.bigPointRadius, height - selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, 0, Math.PI * 2, false)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+            
+            /* Bottom right */
+            ctx.beginPath()
+            ctx.arc(width - selectResizeCanvas.bigPointRadius, height - selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, 0, Math.PI * 2, false)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+            
+            /* Top */
+            ctx.beginPath()
+            ctx.arc(width / 2, selectResizeCanvas.bigPointRadius, selectResizeCanvas.smallPointRadius, 0, Math.PI * 2, false)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+
+            /* Bottom */
+            ctx.beginPath()
+            ctx.arc(width / 2, height - selectResizeCanvas.bigPointRadius, selectResizeCanvas.smallPointRadius, 0, Math.PI * 2, false)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+            
+            /* Left */
+            ctx.beginPath()
+            ctx.arc(selectResizeCanvas.bigPointRadius, height / 2, selectResizeCanvas.smallPointRadius, 0, Math.PI * 2, false)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+
+            /* Right */
+            ctx.beginPath()
+            ctx.arc(width - selectResizeCanvas.bigPointRadius, height / 2, selectResizeCanvas.smallPointRadius, 0, Math.PI * 2, false)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+
+            ctx.restore()
+        }
     }
 
     Rectangle {
