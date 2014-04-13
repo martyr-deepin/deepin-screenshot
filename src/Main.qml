@@ -9,6 +9,7 @@ Item {
     property bool firstEdit: false
 
     property alias pointColor: pointColor
+    property alias pointColorRect: pointColorRect
     property alias selectArea: selectArea
     property alias selectResizeCanvas: selectResizeCanvas
     property alias zoomIndicator: zoomIndicator
@@ -91,6 +92,7 @@ Item {
                 
                 var rgb = windowView.get_color_at_point(pos.x, pos.y)
                 pointColor.text = "[" + rgb[0] + ", " + rgb[1] + ", " + rgb[2] + "]"
+                pointColorRect.color = Qt.rgba(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, 1)
             }
         }
     }
@@ -473,7 +475,7 @@ Item {
 
                     Image {
                         id: zoomIndicatorImage
-                        x: -zoomIndicator.cursorX + zoomIndicator.width / (2 * zoomIndicatorClip.scaleValue)
+                        x: -zoomIndicator.cursorX + (zoomIndicator.width - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue) 
                         y: -zoomIndicator.cursorY + parent.height / 2
                         source: "/tmp/deepin-screenshot.png"
                         smooth: false
@@ -524,8 +526,23 @@ Item {
             Text {
                 id: pointColor
                 color: "white"
+                width: parent.width
+                
+                Rectangle {
+                    width: 12
+                    height: width
+                    x: parent.width - width
+                    y: (parent.height - height) / 2
+                    color: "grey"
+                    
+                    Rectangle {
+                        id: pointColorRect
+                        anchors.fill: parent
+                        anchors.margins: 1
+                    }
+                }
             }
-
+            
             Text {
                 text: "拖动可自由选区"
                 color: "white"
