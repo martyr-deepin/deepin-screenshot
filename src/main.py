@@ -37,6 +37,7 @@ from widget import RootWindow, RightMenu
 from toolbar import Colorbar, Toolbar
 from deepin_utils.file import get_parent_dir
 from notify_dbus import notify
+import dss
 
 import pygtk
 import subprocess
@@ -128,6 +129,7 @@ class DeepinScreenshot(object):
         # Show.
         self.window.show()
         self.window.set_cursor(ACTION_WINDOW)
+        dss.hide()
 
     def set_action_type(self, action_type):
         '''
