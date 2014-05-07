@@ -14,6 +14,7 @@ Item {
     property alias selectResizeCanvas: selectResizeCanvas
     property alias zoomIndicator: zoomIndicator
     property alias selectSizeTooltip: selectSizeTooltip
+    property alias toolbar: toolbar
     
     MouseArea {
         id: screenArea
@@ -393,9 +394,16 @@ Item {
         width: 315
         height: 32
         
-        color: "black"
+        /* color: "black" */
         opacity: 0.7
         radius: 3
+        
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: Qt.rgba(0, 0, 0, 0.6)}
+            GradientStop { position: 1.0; color: Qt.rgba(0, 0, 0, 0.75)}
+        }
+        
+        border.color:  Qt.rgba(1, 1, 1, 0.2)
         
         visible: firstMove && firstRelease
 
