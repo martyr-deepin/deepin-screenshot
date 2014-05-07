@@ -396,9 +396,20 @@ Item {
         
         radius: 3
         
+        property color stop1Color: Qt.rgba(0, 0, 0, 0.6)
+        property color stop2Color: Qt.rgba(0, 0, 0, 0.675)
+        property color stop3Color: Qt.rgba(0, 0, 0, 0.676)
+        property color stop4Color: Qt.rgba(0, 0, 0, 0.677)
+        property color stop5Color: Qt.rgba(0, 0, 0, 0.678)
+        property color stop6Color: Qt.rgba(0, 0, 0, 0.75)
+        
         gradient: Gradient {
-            GradientStop { position: 0.0; color: Qt.rgba(0, 0, 0, 0.6)}
-            GradientStop { position: 1.0; color: Qt.rgba(0, 0, 0, 0.75)}
+            GradientStop {id: stop1; position: 0.0; color: toolbar.stop1Color}
+            GradientStop {id: stop2; position: 0.5; color: toolbar.stop2Color}
+            GradientStop {id: stop3; position: 0.51; color: toolbar.stop3Color}
+            GradientStop {id: stop4; position: 0.5100001; color: toolbar.stop4Color}
+            GradientStop {id: stop5; position: 0.52; color: toolbar.stop5Color}
+            GradientStop {id: stop6; position: 1.0; color: toolbar.stop6Color}
         }
         
         border.color:  Qt.rgba(1, 1, 1, 0.2)
@@ -406,7 +417,12 @@ Item {
         visible: firstMove && firstRelease
 
         property int padding: 4
-
+        
+        Component.onCompleted: {
+            expandToolbar()
+            shrinkToolbar()
+        }
+        
         function tryHideSizeTooltip() {
             if (firstMove && firstRelease) {
                 if (x <= selectSizeTooltip.x + selectSizeTooltip.width && selectSizeTooltip.y <= y && y <= selectSizeTooltip.y + selectSizeTooltip.height) {
@@ -415,6 +431,26 @@ Item {
                     selectSizeTooltip.visible = true
                 }
             }
+        }
+        
+        function expandToolbar() {
+            toolbar.height = 64
+            toolbar.stop1Color = Qt.rgba(0, 0, 0, 0.6)
+            toolbar.stop2Color = Qt.rgba(0, 0, 0, 0.75)
+            toolbar.stop3Color = Qt.rgba(1, 1, 1, 0.1)
+            toolbar.stop4Color = Qt.rgba(1, 1, 1, 0.1)
+            toolbar.stop5Color = Qt.rgba(0.1, 0.1, 0.1, 0.8)
+            toolbar.stop6Color = Qt.rgba(0.1, 0.1, 0.1, 0.8)
+        }
+        
+        function shrinkToolbar() {
+            toolbar.height = 32
+            toolbar.stop1Color = Qt.rgba(0, 0, 0, 0.6)
+            toolbar.stop2Color = Qt.rgba(0, 0, 0, 0.675)
+            toolbar.stop3Color = Qt.rgba(0, 0, 0, 0.676)
+            toolbar.stop4Color = Qt.rgba(0, 0, 0, 0.677)
+            toolbar.stop5Color = Qt.rgba(0, 0, 0, 0.677)
+            toolbar.stop6Color = Qt.rgba(0, 0, 0, 0.75)
         }
 
         onXChanged: {
