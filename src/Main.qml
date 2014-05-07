@@ -418,11 +418,6 @@ Item {
 
         property int padding: 4
         
-        Component.onCompleted: {
-            expandToolbar()
-            shrinkToolbar()
-        }
-        
         function tryHideSizeTooltip() {
             if (firstMove && firstRelease) {
                 if (x <= selectSizeTooltip.x + selectSizeTooltip.width && selectSizeTooltip.y <= y && y <= selectSizeTooltip.y + selectSizeTooltip.height) {
