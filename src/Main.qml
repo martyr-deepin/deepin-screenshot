@@ -390,7 +390,7 @@ Item {
         id: toolbar
         x: Math.max(selectFrame.x + selectFrame.width - width - padding, padding)
         y: selectFrame.y + selectFrame.height > screen.height - height * 2 ? (selectFrame.y < height * 1.5 ? selectFrame.y + padding : selectFrame.y - height - padding) : selectFrame.y + selectFrame.height + padding
-        width: 304
+        width: 315
         height: 32
         color: "black"
         opacity: 0.7
@@ -454,8 +454,7 @@ Item {
                 imageName: "undo"
             }
             
-            ToolButton {
-                imageName: "save"
+            SaveButton {
             }
             
             ToolButton {
