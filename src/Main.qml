@@ -390,7 +390,7 @@ Item {
         id: toolbar
         x: Math.max(selectFrame.x + selectFrame.width - width - padding, padding)
         y: selectFrame.y + selectFrame.height > screen.height - height * 2 ? (selectFrame.y < height * 1.5 ? selectFrame.y + padding : selectFrame.y - height - padding) : selectFrame.y + selectFrame.height + padding
-        width: 250
+        width: 304
         height: 32
         color: "black"
         opacity: 0.7
@@ -415,6 +415,52 @@ Item {
 
         onYChanged: {
             tryHideSizeTooltip()
+        }
+        
+        Row {
+            anchors.left: parent.left
+            anchors.leftMargin: 8
+            
+            ToolButton {
+                imageName: "rect"
+            }
+            
+            ToolButton {
+                imageName: "ellipse"
+            }
+            
+            ToolButton {
+                imageName: "arrow"
+            }
+            
+            ToolButton {
+                imageName: "line"
+            }
+            
+            ToolButton {
+                imageName: "text"
+            }
+        }
+        
+        Row {
+            anchors.right: parent.right
+            anchors.rightMargin: 8
+            
+            ToolButton {
+                imageName: "color"
+            }
+            
+            ToolButton {
+                imageName: "undo"
+            }
+            
+            ToolButton {
+                imageName: "save"
+            }
+            
+            ToolButton {
+                imageName: "share"
+            }            
         }
     }
 
