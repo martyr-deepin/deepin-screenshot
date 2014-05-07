@@ -392,9 +392,11 @@ Item {
         y: selectFrame.y + selectFrame.height > screen.height - height * 2 ? (selectFrame.y < height * 1.5 ? selectFrame.y + padding : selectFrame.y - height - padding) : selectFrame.y + selectFrame.height + padding
         width: 315
         height: 32
+        
         color: "black"
         opacity: 0.7
         radius: 3
+        
         visible: firstMove && firstRelease
 
         property int padding: 4
