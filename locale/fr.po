@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DSnapshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-25 11:11+0800\n"
+"POT-Creation-Date: 2014-05-09 17:45+0800\n"
 "PO-Revision-Date: 2014-01-09 02:05+0000\n"
 "Last-Translator: lexross <its4moi@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/deepin-screenshot/"
@@ -19,193 +19,145 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ../src/toolbar.py:82 ../src/widget.py:930
-msgid "Draw Rectangle"
-msgstr "Tracer un rectangle"
-
-#: ../src/toolbar.py:83 ../src/widget.py:934
-msgid "Draw Ellipse"
-msgstr "Tracer une ellipse"
-
-#: ../src/toolbar.py:84 ../src/widget.py:938
-msgid "Draw Arrow"
-msgstr "Tracer une flèche "
-
-#: ../src/toolbar.py:85 ../src/widget.py:942
-msgid "Draw Line"
-msgstr "Tracer une ligne"
-
-#: ../src/toolbar.py:86 ../src/widget.py:946
-msgid "Draw Text"
-msgstr "Tracer un texte"
-
-#: ../src/toolbar.py:88 ../src/widget.py:951
-msgid "Undo"
-msgstr "Annuler une action"
-
-#: ../src/toolbar.py:91 ../src/widget.py:955
-msgid "Save"
-msgstr "Sauvegarder"
-
-#: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ../src/toolbar.py:114 ../src/widget.py:969
-msgid "Share"
-msgstr "Partager"
-
-#: ../src/toolbar.py:178 ../src/widget.py:915
-msgid "Save automatically"
-msgstr "Sauvegarde automatiquement"
-
-#: ../src/toolbar.py:179 ../src/widget.py:916
-msgid "Save as"
-msgstr "Enregistrer sous"
-
-#: ../src/toolbar.py:180 ../src/widget.py:917
-msgid "Save to clipboard"
-msgstr "Enregistrer dans le presse-papiers"
-
-#: ../src/toolbar.py:181 ../src/widget.py:918
-msgid "Save automatically to file and clipboard"
-msgstr "sauvegarder automatiquement dans le dossier et dans le presse-papiers"
-
-#: ../src/main.py:152
-msgid "The width or height of selected area cannot be 0"
-msgstr "La largeur ou la hauteur de la zone sélectionnée ne peut pas être de 0"
-
-#: ../src/main.py:160 ../src/screenshot.py:58 ../src/screenshot.py:78
-msgid "Picture has been saved to file"
-msgstr "L'image a été sauvegardée dans le fichier"
-
-#: ../src/main.py:180
-msgid "Failed to save the picture"
-msgstr "Échec de la sauvegarde de l'image"
-
-#: ../src/main.py:197
-msgid "Picture has been saved to clipboard"
-msgstr "L'image a été sauvegardée dans le presse-papiers"
-
-#: ../src/main.py:219 ../src/main.py:221 ../src/share.py:566
-#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
 msgid "DSnapshot"
 msgstr "Dsnapshot"
 
-#: ../src/main.py:222
+#, python-format
+msgid "DSnapshot will start in %d seconds."
+msgstr "DSnapshot va démarrer dans %d secondes."
+
+msgid "Drag to select area"
+msgstr "Faites glisser pour sélectionner la zone"
+
+msgid "Draw Arrow"
+msgstr "Tracer une flèche "
+
+msgid "Draw Ellipse"
+msgstr "Tracer une ellipse"
+
+msgid "Draw Line"
+msgstr "Tracer une ligne"
+
+msgid "Draw Rectangle"
+msgstr "Tracer un rectangle"
+
+msgid "Draw Text"
+msgstr "Tracer un texte"
+
+msgid "Failed to save the picture"
+msgstr "Échec de la sauvegarde de l'image"
+
+msgid "Follow"
+msgstr "Suis"
+
 msgid "Next time you can just press Ctrl+Alt+A to start."
 msgstr "Vous pouvez aussi faire simplement Ctrl+Alt+A pour démarrer."
 
-#: ../src/share.py:73
-msgid "share to web"
-msgstr "Partager sur le net"
+msgid "Picture does not exist."
+msgstr "L'image n'existe pas"
 
-#: ../src/share.py:186
-msgid "Unable to load page"
-msgstr "Impossible de charger la page"
+msgid "Picture has been saved to clipboard"
+msgstr "L'image a été sauvegardée dans le presse-papiers"
 
-#: ../src/share.py:187
+msgid "Picture has been saved to file"
+msgstr "L'image a été sauvegardée dans le fichier"
+
+msgid "Please choose at least one platform to share on"
+msgstr "Veuillez choisir au moins une plate-forme pour partager "
+
+msgid "Please input text here"
+msgstr "Insérez votre texte ici"
+
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "Problème pendant le chargement du lien '%s'"
 
-#: ../src/share.py:315
-msgid "click to switch user"
-msgstr "Cliquer pour changer d'utilisateur"
+msgid "Save"
+msgstr "Sauvegarder"
 
-#: ../src/share.py:333
-msgid "click to login"
-msgstr "Cliquer pour se connecter"
+msgid "Save as"
+msgstr "Enregistrer sous"
 
-#: ../src/share.py:448
-msgid "loading"
-msgstr "chargement en cours"
+msgid "Save automatically"
+msgstr "Sauvegarde automatiquement"
 
-#: ../src/share.py:459
-msgid "Tweet"
-msgstr "Tweeter"
+msgid "Save automatically to file and clipboard"
+msgstr "sauvegarder automatiquement dans le dossier et dans le presse-papiers"
 
-#: ../src/share.py:501
-msgid "Please input text here"
-msgstr "Insérez votre texte ici"
+msgid "Save to clipboard"
+msgstr "Enregistrer dans le presse-papiers"
 
-#: ../src/share.py:527 ../src/share.py:538
-msgid "error"
-msgstr "erreur"
+msgid "Share"
+msgstr "Partager"
 
-#: ../src/share.py:527
-msgid "Picture does not exist."
-msgstr "L'image n'existe pas"
-
-#: ../src/share.py:538
-msgid "Please choose at least one platform to share on"
-msgstr "Veuillez choisir au moins une plate-forme pour partager "
-
-#: ../src/share.py:555
-msgid "uploading"
-msgstr "Envoi en cours"
-
-#: ../src/share.py:566
-msgid "came from"
-msgstr "Viens de"
-
-#: ../src/share.py:613
-msgid "Follow"
-msgstr "Suis"
-
-#: ../src/share.py:636 ../src/share.py:657
-msgid "upload to"
-msgstr "Envoyer vers "
-
-#: ../src/share.py:639
-msgid "successful"
-msgstr "Réussi "
-
-#: ../src/share.py:662
-msgid "failed"
-msgstr "Échoué "
-
-#: ../src/share.py:670
-msgid "Unknow reason"
-msgstr "Raison inconnue"
-
-#: ../src/widget.py:289
-msgid "Drag to select area"
-msgstr "Faites glisser pour sélectionner la zone"
-
-#: ../src/screenshot.py:94
-msgid "Take a screenshot of full screen"
-msgstr "Prendre une capture de l'écran entier"
-
-#: ../src/screenshot.py:95
-msgid "Take a screenshot of a window"
-msgstr "Prendre une capture de la fenêtre"
-
-#: ../src/screenshot.py:96
 msgid "Take a screenshot after NUM seconds"
 msgstr "Prendre une capture d'écran après NUM secondes "
 
-#: ../src/screenshot.py:97
-msgid "save screenshot to FILE"
-msgstr "Sauvegarder la capture d'écran dans FILE"
+msgid "Take a screenshot of a window"
+msgstr "Prendre une capture de la fenêtre"
 
-#: ../src/screenshot.py:98
-msgid "run as a subprocess"
-msgstr "Exécuter dans un sous-processus "
+msgid "Take a screenshot of full screen"
+msgstr "Prendre une capture de l'écran entier"
 
-#: ../src/screenshot.py:99
+msgid "The width or height of selected area cannot be 0"
+msgstr "La largeur ou la hauteur de la zone sélectionnée ne peut pas être de 0"
+
+msgid "Tweet"
+msgstr "Tweeter"
+
+msgid "Unable to load page"
+msgstr "Impossible de charger la page"
+
+msgid "Undo"
+msgstr "Annuler une action"
+
+msgid "Unknow reason"
+msgstr "Raison inconnue"
+
+msgid "came from"
+msgstr "Viens de"
+
+msgid "click to login"
+msgstr "Cliquer pour se connecter"
+
+msgid "click to switch user"
+msgstr "Cliquer pour changer d'utilisateur"
+
+msgid "error"
+msgstr "erreur"
+
+msgid "failed"
+msgstr "Échoué "
+
+msgid "loading"
+msgstr "chargement en cours"
+
 msgid "run a new process"
 msgstr "exécuter un nouveau processus"
 
-#: ../src/screenshot.py:107
-msgid "show this help message and exit"
-msgstr "afficher ce message d'aide et quitter"
+msgid "run as a subprocess"
+msgstr "Exécuter dans un sous-processus "
 
-#: ../src/screenshot.py:108
+msgid "save screenshot to FILE"
+msgstr "Sauvegarder la capture d'écran dans FILE"
+
+msgid "share to web"
+msgstr "Partager sur le net"
+
 msgid "show program's version number and exit"
 msgstr "Afficher la version du programme et quitter"
 
-#: ../src/screenshot.py:128
-#, python-format
-msgid "DSnapshot will start in %d seconds."
-msgstr "DSnapshot va démarrer dans %d secondes."
+msgid "show this help message and exit"
+msgstr "afficher ce message d'aide et quitter"
+
+msgid "successful"
+msgstr "Réussi "
+
+msgid "upload to"
+msgstr "Envoyer vers "
+
+msgid "uploading"
+msgstr "Envoi en cours"

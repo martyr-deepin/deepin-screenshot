@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Fox909 <ffox909@mail.ru>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: DSnapshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-25 11:11+0800\n"
-"PO-Revision-Date: 2013-12-19 08:21+0000\n"
-"Last-Translator: lihongwu <lihongwu1987@gmail.com>\n"
+"POT-Creation-Date: 2014-05-09 17:45+0800\n"
+"PO-Revision-Date: 2014-03-29 09:12+0000\n"
+"Last-Translator: Fox909 <ffox909@mail.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/deepin-"
 "screenshot/language/ru/)\n"
 "Language: ru\n"
@@ -19,193 +20,146 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ../src/toolbar.py:82 ../src/widget.py:930
-msgid "Draw Rectangle"
-msgstr ""
-
-#: ../src/toolbar.py:83 ../src/widget.py:934
-msgid "Draw Ellipse"
-msgstr ""
-
-#: ../src/toolbar.py:84 ../src/widget.py:938
-msgid "Draw Arrow"
-msgstr ""
-
-#: ../src/toolbar.py:85 ../src/widget.py:942
-msgid "Draw Line"
-msgstr ""
-
-#: ../src/toolbar.py:86 ../src/widget.py:946
-msgid "Draw Text"
-msgstr ""
-
-#: ../src/toolbar.py:88 ../src/widget.py:951
-msgid "Undo"
-msgstr ""
-
-#: ../src/toolbar.py:91 ../src/widget.py:955
-msgid "Save"
-msgstr ""
-
-#: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена"
 
-#: ../src/toolbar.py:114 ../src/widget.py:969
-msgid "Share"
-msgstr ""
-
-#: ../src/toolbar.py:178 ../src/widget.py:915
-msgid "Save automatically"
-msgstr ""
-
-#: ../src/toolbar.py:179 ../src/widget.py:916
-msgid "Save as"
-msgstr ""
-
-#: ../src/toolbar.py:180 ../src/widget.py:917
-msgid "Save to clipboard"
-msgstr ""
-
-#: ../src/toolbar.py:181 ../src/widget.py:918
-msgid "Save automatically to file and clipboard"
-msgstr ""
-
-#: ../src/main.py:152
-msgid "The width or height of selected area cannot be 0"
-msgstr ""
-
-#: ../src/main.py:160 ../src/screenshot.py:58 ../src/screenshot.py:78
-msgid "Picture has been saved to file"
-msgstr ""
-
-#: ../src/main.py:180
-msgid "Failed to save the picture"
-msgstr ""
-
-#: ../src/main.py:197
-msgid "Picture has been saved to clipboard"
-msgstr ""
-
-#: ../src/main.py:219 ../src/main.py:221 ../src/share.py:566
-#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
 msgid "DSnapshot"
-msgstr ""
+msgstr "DSnapshot"
 
-#: ../src/main.py:222
-msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr ""
-
-#: ../src/share.py:73
-msgid "share to web"
-msgstr ""
-
-#: ../src/share.py:186
-msgid "Unable to load page"
-msgstr ""
-
-#: ../src/share.py:187
-#, python-format
-msgid "Problem occurred while loading the URL '%s'"
-msgstr ""
-
-#: ../src/share.py:315
-msgid "click to switch user"
-msgstr ""
-
-#: ../src/share.py:333
-msgid "click to login"
-msgstr ""
-
-#: ../src/share.py:448
-msgid "loading"
-msgstr ""
-
-#: ../src/share.py:459
-msgid "Tweet"
-msgstr ""
-
-#: ../src/share.py:501
-msgid "Please input text here"
-msgstr ""
-
-#: ../src/share.py:527 ../src/share.py:538
-msgid "error"
-msgstr ""
-
-#: ../src/share.py:527
-msgid "Picture does not exist."
-msgstr ""
-
-#: ../src/share.py:538
-msgid "Please choose at least one platform to share on"
-msgstr ""
-
-#: ../src/share.py:555
-msgid "uploading"
-msgstr ""
-
-#: ../src/share.py:566
-msgid "came from"
-msgstr ""
-
-#: ../src/share.py:613
-msgid "Follow"
-msgstr ""
-
-#: ../src/share.py:636 ../src/share.py:657
-msgid "upload to"
-msgstr ""
-
-#: ../src/share.py:639
-msgid "successful"
-msgstr ""
-
-#: ../src/share.py:662
-msgid "failed"
-msgstr ""
-
-#: ../src/share.py:670
-msgid "Unknow reason"
-msgstr ""
-
-#: ../src/widget.py:289
-msgid "Drag to select area"
-msgstr ""
-
-#: ../src/screenshot.py:94
-msgid "Take a screenshot of full screen"
-msgstr ""
-
-#: ../src/screenshot.py:95
-msgid "Take a screenshot of a window"
-msgstr ""
-
-#: ../src/screenshot.py:96
-msgid "Take a screenshot after NUM seconds"
-msgstr ""
-
-#: ../src/screenshot.py:97
-msgid "save screenshot to FILE"
-msgstr ""
-
-#: ../src/screenshot.py:98
-msgid "run as a subprocess"
-msgstr ""
-
-#: ../src/screenshot.py:99
-msgid "run a new process"
-msgstr ""
-
-#: ../src/screenshot.py:107
-msgid "show this help message and exit"
-msgstr ""
-
-#: ../src/screenshot.py:108
-msgid "show program's version number and exit"
-msgstr ""
-
-#: ../src/screenshot.py:128
 #, python-format
 msgid "DSnapshot will start in %d seconds."
+msgstr "DSnapshot запустится через %d секунд"
+
+msgid "Drag to select area"
+msgstr "Перетащите в выбранную область"
+
+msgid "Draw Arrow"
+msgstr "Рисовать стрелку"
+
+msgid "Draw Ellipse"
+msgstr "Рисовать эллипс"
+
+msgid "Draw Line"
+msgstr "Рисовать линию"
+
+msgid "Draw Rectangle"
+msgstr "Рисовать прямоугольник"
+
+msgid "Draw Text"
+msgstr "Нанести текст"
+
+msgid "Failed to save the picture"
+msgstr "Не удалось сохранить изображение"
+
+msgid "Follow"
+msgstr "Следовать"
+
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "В следующий раз вы можете просто нажать Ctrl + Alt + A, чтобы начать."
+
+msgid "Picture does not exist."
+msgstr "Изображение отсутсвует"
+
+msgid "Picture has been saved to clipboard"
+msgstr "Изображение сохранено в буфер обмена"
+
+msgid "Picture has been saved to file"
+msgstr "Изображение сохранено в файл"
+
+msgid "Please choose at least one platform to share on"
 msgstr ""
+"Пожалуйста, выберите по крайней мере, одну платформу для распространения"
+
+msgid "Please input text here"
+msgstr "Пожалуйста введите текст здесь"
+
+#, python-format
+msgid "Problem occurred while loading the URL '%s'"
+msgstr "Проблема при загрузке URL '%s'"
+
+msgid "Save"
+msgstr "Сохранить"
+
+msgid "Save as"
+msgstr "Сохранить как"
+
+msgid "Save automatically"
+msgstr "Сохранять автоматически"
+
+msgid "Save automatically to file and clipboard"
+msgstr "Сохранить автоматически в файл и буфер обмена"
+
+msgid "Save to clipboard"
+msgstr "Сохранить в буфер обмена"
+
+msgid "Share"
+msgstr "Раздать"
+
+msgid "Take a screenshot after NUM seconds"
+msgstr "Сделать скриншот после NUM секунд"
+
+msgid "Take a screenshot of a window"
+msgstr "Сделать снимок окна"
+
+msgid "Take a screenshot of full screen"
+msgstr "Сделать снимок всего экрана"
+
+msgid "The width or height of selected area cannot be 0"
+msgstr "Ширина или высота выбранной области не может ровняться 0"
+
+msgid "Tweet"
+msgstr "Tweet"
+
+msgid "Unable to load page"
+msgstr "Невозможно загрузить страницу"
+
+msgid "Undo"
+msgstr "Аннулировать"
+
+msgid "Unknow reason"
+msgstr "Причина неизвестна"
+
+msgid "came from"
+msgstr "происходит от"
+
+msgid "click to login"
+msgstr "Нажать для авторизации"
+
+msgid "click to switch user"
+msgstr "Нажать для смены пользователя"
+
+msgid "error"
+msgstr "ошибка"
+
+msgid "failed"
+msgstr "неудача"
+
+msgid "loading"
+msgstr "Загрузка"
+
+msgid "run a new process"
+msgstr "запустить новый процесс"
+
+msgid "run as a subprocess"
+msgstr "выполнять в фоне"
+
+msgid "save screenshot to FILE"
+msgstr "сохранить скриншот в FILE"
+
+msgid "share to web"
+msgstr "сделать общедоступным"
+
+msgid "show program's version number and exit"
+msgstr "показать версию программы и выйти"
+
+msgid "show this help message and exit"
+msgstr "показать это сообщение справки и выйти"
+
+msgid "successful"
+msgstr "успешно"
+
+msgid "upload to"
+msgstr "загрузить в"
+
+msgid "uploading"
+msgstr "загрузка"
