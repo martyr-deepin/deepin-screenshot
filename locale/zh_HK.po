@@ -6,10 +6,10 @@
 # Automatically generated, 2012
 msgid ""
 msgstr ""
-"Project-Id-Version: DSnapshot\n"
+"Project-Id-Version: Deepin Snapshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-25 11:11+0800\n"
-"PO-Revision-Date: 2013-12-19 09:20+0000\n"
+"POT-Creation-Date: 2014-05-09 17:45+0800\n"
+"PO-Revision-Date: 2014-05-08 13:42+0000\n"
 "Last-Translator: lihongwu <lihongwu1987@gmail.com>\n"
 "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/projects/p/"
 "deepin-screenshot/language/zh_HK/)\n"
@@ -19,193 +19,145 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../src/toolbar.py:82 ../src/widget.py:930
-msgid "Draw Rectangle"
-msgstr "矩形工具"
-
-#: ../src/toolbar.py:83 ../src/widget.py:934
-msgid "Draw Ellipse"
-msgstr "橢圓工具"
-
-#: ../src/toolbar.py:84 ../src/widget.py:938
-msgid "Draw Arrow"
-msgstr "箭頭工具"
-
-#: ../src/toolbar.py:85 ../src/widget.py:942
-msgid "Draw Line"
-msgstr "線條工具"
-
-#: ../src/toolbar.py:86 ../src/widget.py:946
-msgid "Draw Text"
-msgstr "文字工具"
-
-#: ../src/toolbar.py:88 ../src/widget.py:951
-msgid "Undo"
-msgstr "復原"
-
-#: ../src/toolbar.py:91 ../src/widget.py:955
-msgid "Save"
-msgstr "保存"
-
-#: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
 msgstr "取消螢幕截圖"
 
-#: ../src/toolbar.py:114 ../src/widget.py:969
-msgid "Share"
-msgstr "分享到微博"
-
-#: ../src/toolbar.py:178 ../src/widget.py:915
-msgid "Save automatically"
-msgstr "自動保存"
-
-#: ../src/toolbar.py:179 ../src/widget.py:916
-msgid "Save as"
-msgstr "保存到指定目錄"
-
-#: ../src/toolbar.py:180 ../src/widget.py:917
-msgid "Save to clipboard"
-msgstr "複製到剪貼簿"
-
-#: ../src/toolbar.py:181 ../src/widget.py:918
-msgid "Save automatically to file and clipboard"
-msgstr "自動保存并複製到剪貼簿"
-
-#: ../src/main.py:152
-msgid "The width or height of selected area cannot be 0"
-msgstr "選區的寬度或高度不能設為 0"
-
-#: ../src/main.py:160 ../src/screenshot.py:58 ../src/screenshot.py:78
-msgid "Picture has been saved to file"
-msgstr "圖片已保存到檔案"
-
-#: ../src/main.py:180
-msgid "Failed to save the picture"
-msgstr "圖片保存失敗"
-
-#: ../src/main.py:197
-msgid "Picture has been saved to clipboard"
-msgstr "圖片已保存到剪貼簿"
-
-#: ../src/main.py:219 ../src/main.py:221 ../src/share.py:566
-#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
 msgid "DSnapshot"
 msgstr "深度截圖"
 
-#: ../src/main.py:222
+#, python-format
+msgid "DSnapshot will start in %d seconds."
+msgstr "深度截圖將在 %d 秒後啟動"
+
+msgid "Drag to select area"
+msgstr "拖動可自由選區"
+
+msgid "Draw Arrow"
+msgstr "箭頭工具"
+
+msgid "Draw Ellipse"
+msgstr "橢圓工具"
+
+msgid "Draw Line"
+msgstr "線條工具"
+
+msgid "Draw Rectangle"
+msgstr "矩形工具"
+
+msgid "Draw Text"
+msgstr "文字工具"
+
+msgid "Failed to save the picture"
+msgstr "圖片保存失敗"
+
+msgid "Follow"
+msgstr "關注"
+
 msgid "Next time you can just press Ctrl+Alt+A to start."
 msgstr "下次可以直接按Ctrl+Alt+A啓動"
 
-#: ../src/share.py:73
-msgid "share to web"
-msgstr "分享至微博"
+msgid "Picture does not exist."
+msgstr "圖片不存在"
 
-#: ../src/share.py:186
-msgid "Unable to load page"
-msgstr "未能加載頁面"
+msgid "Picture has been saved to clipboard"
+msgstr "圖片已保存到剪貼簿"
 
-#: ../src/share.py:187
+msgid "Picture has been saved to file"
+msgstr "圖片已保存到檔案"
+
+msgid "Please choose at least one platform to share on"
+msgstr "請至少選擇一個平台進行分享"
+
+msgid "Please input text here"
+msgstr "請在此鍵入文字內容"
+
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "在加載URL'%s'時出現了問題"
 
-#: ../src/share.py:315
-msgid "click to switch user"
-msgstr "點擊圖示來切換使用者帳號"
+msgid "Save"
+msgstr "保存"
 
-#: ../src/share.py:333
-msgid "click to login"
-msgstr "點擊圖示來設定登入帳號"
+msgid "Save as"
+msgstr "保存到指定目錄"
 
-#: ../src/share.py:448
-msgid "loading"
-msgstr "加載中"
+msgid "Save automatically"
+msgstr "自動保存"
 
-#: ../src/share.py:459
-msgid "Tweet"
-msgstr "立即分享"
+msgid "Save automatically to file and clipboard"
+msgstr "自動保存并複製到剪貼簿"
 
-#: ../src/share.py:501
-msgid "Please input text here"
-msgstr "請在此鍵入文字內容"
+msgid "Save to clipboard"
+msgstr "複製到剪貼簿"
 
-#: ../src/share.py:527 ../src/share.py:538
-msgid "error"
-msgstr "錯誤"
+msgid "Share"
+msgstr "分享到微博"
 
-#: ../src/share.py:527
-msgid "Picture does not exist."
-msgstr "圖片不存在"
-
-#: ../src/share.py:538
-msgid "Please choose at least one platform to share on"
-msgstr "請至少選擇一個平台進行分享"
-
-#: ../src/share.py:555
-msgid "uploading"
-msgstr "分享中"
-
-#: ../src/share.py:566
-msgid "came from"
-msgstr "來自"
-
-#: ../src/share.py:613
-msgid "Follow"
-msgstr "關注"
-
-#: ../src/share.py:636 ../src/share.py:657
-msgid "upload to"
-msgstr "分享至"
-
-#: ../src/share.py:639
-msgid "successful"
-msgstr "成功"
-
-#: ../src/share.py:662
-msgid "failed"
-msgstr "失敗"
-
-#: ../src/share.py:670
-msgid "Unknow reason"
-msgstr "不明原因"
-
-#: ../src/widget.py:289
-msgid "Drag to select area"
-msgstr "拖動可自由選區"
-
-#: ../src/screenshot.py:94
-msgid "Take a screenshot of full screen"
-msgstr "拍下全螢幕的螢幕截圖"
-
-#: ../src/screenshot.py:95
-msgid "Take a screenshot of a window"
-msgstr "拍下視窗的螢幕截圖"
-
-#: ../src/screenshot.py:96
 msgid "Take a screenshot after NUM seconds"
 msgstr "將會在 NUM 秒后啟用螢幕截圖"
 
-#: ../src/screenshot.py:97
-msgid "save screenshot to FILE"
-msgstr "保存螢幕截圖到檔案「FILE」"
+msgid "Take a screenshot of a window"
+msgstr "拍下視窗的螢幕截圖"
 
-#: ../src/screenshot.py:98
-msgid "run as a subprocess"
-msgstr "以子進程方式運行"
+msgid "Take a screenshot of full screen"
+msgstr "拍下全螢幕的螢幕截圖"
 
-#: ../src/screenshot.py:99
+msgid "The width or height of selected area cannot be 0"
+msgstr "選區的寬度或高度不能設為 0"
+
+msgid "Tweet"
+msgstr "立即分享"
+
+msgid "Unable to load page"
+msgstr "未能加載頁面"
+
+msgid "Undo"
+msgstr "復原"
+
+msgid "Unknow reason"
+msgstr "不明原因"
+
+msgid "came from"
+msgstr "來自"
+
+msgid "click to login"
+msgstr "點擊圖示來設定登入帳號"
+
+msgid "click to switch user"
+msgstr "點擊圖示來切換使用者帳號"
+
+msgid "error"
+msgstr "錯誤"
+
+msgid "failed"
+msgstr "失敗"
+
+msgid "loading"
+msgstr "加載中"
+
 msgid "run a new process"
 msgstr "啟動一個新的進程"
 
-#: ../src/screenshot.py:107
-msgid "show this help message and exit"
-msgstr "顯示該求助說明訊息并退出"
+msgid "run as a subprocess"
+msgstr "以子進程方式運行"
 
-#: ../src/screenshot.py:108
+msgid "save screenshot to FILE"
+msgstr "保存螢幕截圖到檔案「FILE」"
+
+msgid "share to web"
+msgstr "分享至微博"
+
 msgid "show program's version number and exit"
 msgstr "顯示程式的版本并退出"
 
-#: ../src/screenshot.py:128
-#, python-format
-msgid "DSnapshot will start in %d seconds."
-msgstr "深度截圖將在 %d 秒後啟動"
+msgid "show this help message and exit"
+msgstr "顯示該求助說明訊息并退出"
+
+msgid "successful"
+msgstr "成功"
+
+msgid "upload to"
+msgstr "分享至"
+
+msgid "uploading"
+msgstr "分享中"

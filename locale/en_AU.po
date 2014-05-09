@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DSnapshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-25 11:11+0800\n"
+"POT-Creation-Date: 2014-05-09 17:45+0800\n"
 "PO-Revision-Date: 2014-02-10 03:06+0000\n"
 "Last-Translator: cxbii <mycxbii@gmail.com>\n"
 "Language-Team: English (Australia) (http://www.transifex.com/projects/p/"
@@ -18,193 +18,145 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/toolbar.py:82 ../src/widget.py:930
-msgid "Draw Rectangle"
-msgstr ""
-
-#: ../src/toolbar.py:83 ../src/widget.py:934
-msgid "Draw Ellipse"
-msgstr ""
-
-#: ../src/toolbar.py:84 ../src/widget.py:938
-msgid "Draw Arrow"
-msgstr ""
-
-#: ../src/toolbar.py:85 ../src/widget.py:942
-msgid "Draw Line"
-msgstr ""
-
-#: ../src/toolbar.py:86 ../src/widget.py:946
-msgid "Draw Text"
-msgstr ""
-
-#: ../src/toolbar.py:88 ../src/widget.py:951
-msgid "Undo"
-msgstr ""
-
-#: ../src/toolbar.py:91 ../src/widget.py:955
-msgid "Save"
-msgstr ""
-
-#: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
 msgstr ""
 
-#: ../src/toolbar.py:114 ../src/widget.py:969
-msgid "Share"
-msgstr ""
-
-#: ../src/toolbar.py:178 ../src/widget.py:915
-msgid "Save automatically"
-msgstr ""
-
-#: ../src/toolbar.py:179 ../src/widget.py:916
-msgid "Save as"
-msgstr ""
-
-#: ../src/toolbar.py:180 ../src/widget.py:917
-msgid "Save to clipboard"
-msgstr ""
-
-#: ../src/toolbar.py:181 ../src/widget.py:918
-msgid "Save automatically to file and clipboard"
-msgstr ""
-
-#: ../src/main.py:152
-msgid "The width or height of selected area cannot be 0"
-msgstr ""
-
-#: ../src/main.py:160 ../src/screenshot.py:58 ../src/screenshot.py:78
-msgid "Picture has been saved to file"
-msgstr ""
-
-#: ../src/main.py:180
-msgid "Failed to save the picture"
-msgstr ""
-
-#: ../src/main.py:197
-msgid "Picture has been saved to clipboard"
-msgstr ""
-
-#: ../src/main.py:219 ../src/main.py:221 ../src/share.py:566
-#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
 msgid "DSnapshot"
 msgstr ""
 
-#: ../src/main.py:222
+#, python-format
+msgid "DSnapshot will start in %d seconds."
+msgstr ""
+
+msgid "Drag to select area"
+msgstr ""
+
+msgid "Draw Arrow"
+msgstr ""
+
+msgid "Draw Ellipse"
+msgstr ""
+
+msgid "Draw Line"
+msgstr ""
+
+msgid "Draw Rectangle"
+msgstr ""
+
+msgid "Draw Text"
+msgstr ""
+
+msgid "Failed to save the picture"
+msgstr ""
+
+msgid "Follow"
+msgstr ""
+
 msgid "Next time you can just press Ctrl+Alt+A to start."
 msgstr ""
 
-#: ../src/share.py:73
-msgid "share to web"
+msgid "Picture does not exist."
 msgstr ""
 
-#: ../src/share.py:186
-msgid "Unable to load page"
+msgid "Picture has been saved to clipboard"
 msgstr ""
 
-#: ../src/share.py:187
+msgid "Picture has been saved to file"
+msgstr ""
+
+msgid "Please choose at least one platform to share on"
+msgstr ""
+
+msgid "Please input text here"
+msgstr ""
+
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr ""
 
-#: ../src/share.py:315
-msgid "click to switch user"
+msgid "Save"
 msgstr ""
 
-#: ../src/share.py:333
-msgid "click to login"
+msgid "Save as"
 msgstr ""
 
-#: ../src/share.py:448
-msgid "loading"
+msgid "Save automatically"
 msgstr ""
 
-#: ../src/share.py:459
-msgid "Tweet"
+msgid "Save automatically to file and clipboard"
 msgstr ""
 
-#: ../src/share.py:501
-msgid "Please input text here"
+msgid "Save to clipboard"
 msgstr ""
 
-#: ../src/share.py:527 ../src/share.py:538
-msgid "error"
+msgid "Share"
 msgstr ""
 
-#: ../src/share.py:527
-msgid "Picture does not exist."
-msgstr ""
-
-#: ../src/share.py:538
-msgid "Please choose at least one platform to share on"
-msgstr ""
-
-#: ../src/share.py:555
-msgid "uploading"
-msgstr ""
-
-#: ../src/share.py:566
-msgid "came from"
-msgstr ""
-
-#: ../src/share.py:613
-msgid "Follow"
-msgstr ""
-
-#: ../src/share.py:636 ../src/share.py:657
-msgid "upload to"
-msgstr ""
-
-#: ../src/share.py:639
-msgid "successful"
-msgstr ""
-
-#: ../src/share.py:662
-msgid "failed"
-msgstr ""
-
-#: ../src/share.py:670
-msgid "Unknow reason"
-msgstr ""
-
-#: ../src/widget.py:289
-msgid "Drag to select area"
-msgstr ""
-
-#: ../src/screenshot.py:94
-msgid "Take a screenshot of full screen"
-msgstr ""
-
-#: ../src/screenshot.py:95
-msgid "Take a screenshot of a window"
-msgstr ""
-
-#: ../src/screenshot.py:96
 msgid "Take a screenshot after NUM seconds"
 msgstr ""
 
-#: ../src/screenshot.py:97
-msgid "save screenshot to FILE"
+msgid "Take a screenshot of a window"
 msgstr ""
 
-#: ../src/screenshot.py:98
-msgid "run as a subprocess"
+msgid "Take a screenshot of full screen"
 msgstr ""
 
-#: ../src/screenshot.py:99
+msgid "The width or height of selected area cannot be 0"
+msgstr ""
+
+msgid "Tweet"
+msgstr ""
+
+msgid "Unable to load page"
+msgstr ""
+
+msgid "Undo"
+msgstr ""
+
+msgid "Unknow reason"
+msgstr ""
+
+msgid "came from"
+msgstr ""
+
+msgid "click to login"
+msgstr ""
+
+msgid "click to switch user"
+msgstr ""
+
+msgid "error"
+msgstr ""
+
+msgid "failed"
+msgstr ""
+
+msgid "loading"
+msgstr ""
+
 msgid "run a new process"
 msgstr ""
 
-#: ../src/screenshot.py:107
-msgid "show this help message and exit"
+msgid "run as a subprocess"
 msgstr ""
 
-#: ../src/screenshot.py:108
+msgid "save screenshot to FILE"
+msgstr ""
+
+msgid "share to web"
+msgstr ""
+
 msgid "show program's version number and exit"
 msgstr ""
 
-#: ../src/screenshot.py:128
-#, python-format
-msgid "DSnapshot will start in %d seconds."
+msgid "show this help message and exit"
+msgstr ""
+
+msgid "successful"
+msgstr ""
+
+msgid "upload to"
+msgstr ""
+
+msgid "uploading"
 msgstr ""
