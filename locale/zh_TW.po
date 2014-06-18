@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Snapshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-09 17:45+0800\n"
+"POT-Creation-Date: 2014-06-18 17:56+0800\n"
 "PO-Revision-Date: 2014-05-09 04:10+0000\n"
 "Last-Translator: PeterDaveHello <hsu@peterdavehello.org>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/deepin-"
@@ -21,145 +21,212 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-msgid "Cancel"
-msgstr "取消螢幕截圖"
-
-msgid "DSnapshot"
-msgstr "深度截圖"
-
-#, python-format
-msgid "DSnapshot will start in %d seconds."
-msgstr "深度截圖將在 %d 秒後啟動"
-
-msgid "Drag to select area"
-msgstr "拖曳可自由選取"
-
-msgid "Draw Arrow"
-msgstr "箭頭工具"
-
-msgid "Draw Ellipse"
-msgstr "橢圓工具"
-
-msgid "Draw Line"
-msgstr "線條工具"
-
+#: ../src/toolbar.py:82 ../src/widget.py:930
 msgid "Draw Rectangle"
 msgstr "矩形工具"
 
+#: ../src/toolbar.py:83 ../src/widget.py:934
+msgid "Draw Ellipse"
+msgstr "橢圓工具"
+
+#: ../src/toolbar.py:84 ../src/widget.py:938
+msgid "Draw Arrow"
+msgstr "箭頭工具"
+
+#: ../src/toolbar.py:85 ../src/widget.py:942
+msgid "Draw Line"
+msgstr "線條工具"
+
+#: ../src/toolbar.py:86 ../src/widget.py:946
 msgid "Draw Text"
 msgstr "文字工具"
 
-msgid "Failed to save the picture"
-msgstr "圖片儲存失敗"
+#: ../src/toolbar.py:88 ../src/widget.py:951
+msgid "Undo"
+msgstr "復原"
 
-msgid "Follow"
-msgstr "關注"
+#: ../src/toolbar.py:91 ../src/widget.py:955
+msgid "Save"
+msgstr "儲存"
 
-msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "下次可以直接按Ctrl+Alt+A啟動"
+#: ../src/toolbar.py:111 ../src/widget.py:962
+msgid "Cancel"
+msgstr "取消螢幕截圖"
 
-msgid "Picture does not exist."
-msgstr "圖片不存在"
+#: ../src/toolbar.py:114 ../src/share.py:459 ../src/widget.py:969
+msgid "Share"
+msgstr "分享"
 
-msgid "Picture has been saved to clipboard"
-msgstr "圖片已儲存到剪貼簿"
+#: ../src/toolbar.py:178 ../src/widget.py:915
+msgid "Save automatically"
+msgstr "自動儲存"
 
-msgid "Picture has been saved to file"
-msgstr "圖片已儲存到檔案"
+#: ../src/toolbar.py:179 ../src/widget.py:916
+msgid "Save as"
+msgstr "另存新檔"
 
-msgid "Please choose at least one platform to share on"
-msgstr "請選擇至少一個平台進行分享"
+#: ../src/toolbar.py:180 ../src/widget.py:917
+msgid "Save to clipboard"
+msgstr "複製到剪貼簿"
 
-msgid "Please input text here"
-msgstr "請在此處輸入文字"
+#: ../src/toolbar.py:181 ../src/widget.py:918
+msgid "Save automatically to file and clipboard"
+msgstr "自動儲存並複製到剪貼簿"
 
+#: ../src/share.py:73
+msgid "Share to social networks"
+msgstr ""
+
+#: ../src/share.py:186
+msgid "Unable to load page"
+msgstr "無法載入頁面"
+
+#: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "在載入網址「%s」時出現了問題"
 
-msgid "Save"
-msgstr "儲存"
+#: ../src/share.py:315
+#, fuzzy
+msgid "Click to switch user"
+msgstr "點擊即可切換帳號"
 
-msgid "Save as"
-msgstr "另存新檔"
+#: ../src/share.py:333
+#, fuzzy
+msgid "Click to login"
+msgstr "點擊即可登入"
 
-msgid "Save automatically"
-msgstr "自動儲存"
+#: ../src/share.py:448
+#, fuzzy
+msgid "Loading"
+msgstr "載入中"
 
-msgid "Save automatically to file and clipboard"
-msgstr "自動儲存並複製到剪貼簿"
+#: ../src/share.py:501
+msgid "Please input text here"
+msgstr "請在此處輸入文字"
 
-msgid "Save to clipboard"
-msgstr "複製到剪貼簿"
+#: ../src/share.py:527 ../src/share.py:538
+#, fuzzy
+msgid "Error"
+msgstr "錯誤"
 
-msgid "Share"
+#: ../src/share.py:527
+msgid "Picture does not exist."
+msgstr "圖片不存在"
+
+#: ../src/share.py:538
+msgid "Please choose at least one platform to share on"
+msgstr "請選擇至少一個平台進行分享"
+
+#: ../src/share.py:555
+#, fuzzy
+msgid "Uploading"
+msgstr "分享中"
+
+#: ../src/share.py:566
+msgid "from Deepin Screenshot"
+msgstr ""
+
+#: ../src/share.py:613
+msgid "Follow"
+msgstr "關注"
+
+#: ../src/share.py:636 ../src/share.py:657
+#, fuzzy
+msgid "Share to"
 msgstr "分享"
 
-msgid "Take a screenshot after NUM seconds"
-msgstr "將會在 NUM 秒後啟動螢幕截圖"
+#: ../src/share.py:639
+#, fuzzy
+msgid "Successful"
+msgstr "成功"
 
-msgid "Take a screenshot of a window"
-msgstr "拍下視窗的截圖"
+#: ../src/share.py:662
+#, fuzzy
+msgid "Failed"
+msgstr "失敗"
 
+#: ../src/share.py:670
+#, fuzzy
+msgid "Unknown reason"
+msgstr "不明原因"
+
+#: ../src/widget.py:289
+msgid "Drag to select area"
+msgstr "拖曳可自由選取"
+
+#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
+msgid "Picture has been saved to file"
+msgstr "圖片已儲存到檔案"
+
+#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
+#: ../src/main.py:221 ../src/main.py:223
+#, fuzzy
+msgid "DScreenshot"
+msgstr "深度截圖"
+
+#: ../src/screenshot.py:94
 msgid "Take a screenshot of full screen"
 msgstr "拍下全螢幕的截圖"
 
-msgid "The width or height of selected area cannot be 0"
-msgstr "選取區域的寬度或高度不能設為 0"
+#: ../src/screenshot.py:95
+#, fuzzy
+msgid "Take a screenshot of the window"
+msgstr "拍下視窗的截圖"
 
-msgid "Tweet"
-msgstr "立即分享"
+#: ../src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr "將會在 NUM 秒後啟動螢幕截圖"
 
-msgid "Unable to load page"
-msgstr "無法載入頁面"
-
-msgid "Undo"
-msgstr "復原"
-
-msgid "Unknow reason"
-msgstr "不明原因"
-
-msgid "came from"
-msgstr "來自"
-
-msgid "click to login"
-msgstr "點擊即可登入"
-
-msgid "click to switch user"
-msgstr "點擊即可切換帳號"
-
-msgid "error"
-msgstr "錯誤"
-
-msgid "failed"
-msgstr "失敗"
-
-msgid "loading"
-msgstr "載入中"
-
-msgid "run a new process"
-msgstr "啟動一個新的程序"
-
-msgid "run as a subprocess"
-msgstr "以子程序方式執行"
-
+#: ../src/screenshot.py:97
 msgid "save screenshot to FILE"
 msgstr "儲存螢幕截圖到檔案「FILE」"
 
-msgid "share to web"
-msgstr "分享到網路"
+#: ../src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "以子程序方式執行"
 
-msgid "show program's version number and exit"
-msgstr "顯示程式的版本並退出"
+#: ../src/screenshot.py:99
+msgid "run a new process"
+msgstr "啟動一個新的程序"
 
+#: ../src/screenshot.py:107
 msgid "show this help message and exit"
 msgstr "顯示該求助說明訊息並退出"
 
-msgid "successful"
-msgstr "成功"
+#: ../src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "顯示程式的版本並退出"
 
-msgid "upload to"
-msgstr "分享至"
+#: ../src/screenshot.py:128
+#, fuzzy, python-format
+msgid "Deepin Screenshot will start in %d seconds."
+msgstr "深度截圖將在 %d 秒後啟動"
 
-msgid "uploading"
-msgstr "分享中"
+#: ../src/main.py:154
+msgid "The width or height of selected area cannot be 0"
+msgstr "選取區域的寬度或高度不能設為 0"
+
+#: ../src/main.py:182
+msgid "Failed to save the picture"
+msgstr "圖片儲存失敗"
+
+#: ../src/main.py:199
+msgid "Picture has been saved to clipboard"
+msgstr "圖片已儲存到剪貼簿"
+
+#: ../src/main.py:224
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "下次可以直接按Ctrl+Alt+A啟動"
+
+#~ msgid "share to web"
+#~ msgstr "分享到網路"
+
+#~ msgid "Tweet"
+#~ msgstr "立即分享"
+
+#~ msgid "came from"
+#~ msgstr "來自"
+
+#~ msgid "upload to"
+#~ msgstr "分享至"

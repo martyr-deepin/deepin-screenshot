@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DSnapshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-09 17:45+0800\n"
+"POT-Creation-Date: 2014-06-18 17:56+0800\n"
 "PO-Revision-Date: 2014-04-04 10:30+0000\n"
 "Last-Translator: kloki <klokimass@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/deepin-"
@@ -20,145 +20,212 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
 "%100==4 ? 2 : 3);\n"
 
-msgid "Cancel"
-msgstr "Prekliči"
-
-msgid "DSnapshot"
-msgstr "DPosnetek"
-
-#, python-format
-msgid "DSnapshot will start in %d seconds."
-msgstr "DPosnetek se bo zagnal v %d sekundah."
-
-msgid "Drag to select area"
-msgstr "Povlecite, da izberete območje"
-
-msgid "Draw Arrow"
-msgstr "Nariši puščico"
-
-msgid "Draw Ellipse"
-msgstr "Nariši elipso"
-
-msgid "Draw Line"
-msgstr "Nariši črto"
-
+#: ../src/toolbar.py:82 ../src/widget.py:930
 msgid "Draw Rectangle"
 msgstr "Nariši pravokotnik"
 
+#: ../src/toolbar.py:83 ../src/widget.py:934
+msgid "Draw Ellipse"
+msgstr "Nariši elipso"
+
+#: ../src/toolbar.py:84 ../src/widget.py:938
+msgid "Draw Arrow"
+msgstr "Nariši puščico"
+
+#: ../src/toolbar.py:85 ../src/widget.py:942
+msgid "Draw Line"
+msgstr "Nariši črto"
+
+#: ../src/toolbar.py:86 ../src/widget.py:946
 msgid "Draw Text"
 msgstr "Napiši besedilo"
 
-msgid "Failed to save the picture"
-msgstr "Shranjevanje slike neuspešno"
+#: ../src/toolbar.py:88 ../src/widget.py:951
+msgid "Undo"
+msgstr "Razveljavi"
 
-msgid "Follow"
-msgstr "Sledi"
+#: ../src/toolbar.py:91 ../src/widget.py:955
+msgid "Save"
+msgstr "Shrani"
 
-msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "Naslednjič lahko za zagon programa pritisnete Ctrl+Alt+A."
+#: ../src/toolbar.py:111 ../src/widget.py:962
+msgid "Cancel"
+msgstr "Prekliči"
 
-msgid "Picture does not exist."
-msgstr "Slika ne obstaja"
+#: ../src/toolbar.py:114 ../src/share.py:459 ../src/widget.py:969
+msgid "Share"
+msgstr "Deli"
 
-msgid "Picture has been saved to clipboard"
-msgstr "Slika je bila shranjena v odložišče"
+#: ../src/toolbar.py:178 ../src/widget.py:915
+msgid "Save automatically"
+msgstr "Samodejno shrani"
 
-msgid "Picture has been saved to file"
-msgstr "Slika je bila shranjena v datoteko"
+#: ../src/toolbar.py:179 ../src/widget.py:916
+msgid "Save as"
+msgstr "Shrani kot"
 
-msgid "Please choose at least one platform to share on"
-msgstr "Prosim, izberite vsaj eno platformo za deljenje"
+#: ../src/toolbar.py:180 ../src/widget.py:917
+msgid "Save to clipboard"
+msgstr "Shrani v odložišče"
 
-msgid "Please input text here"
-msgstr "Prosim tukaj vpišite besedilo"
+#: ../src/toolbar.py:181 ../src/widget.py:918
+msgid "Save automatically to file and clipboard"
+msgstr "Samodejno shrani datoteko v odložišče"
 
+#: ../src/share.py:73
+msgid "Share to social networks"
+msgstr ""
+
+#: ../src/share.py:186
+msgid "Unable to load page"
+msgstr "Ni možno naložiti strani"
+
+#: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "Pojavila se je težava pri nalaganju URL '%s'"
 
-msgid "Save"
-msgstr "Shrani"
+#: ../src/share.py:315
+#, fuzzy
+msgid "Click to switch user"
+msgstr "Kliknite za zamenjavo uporabnika"
 
-msgid "Save as"
-msgstr "Shrani kot"
+#: ../src/share.py:333
+#, fuzzy
+msgid "Click to login"
+msgstr "Kliknite za prijavo"
 
-msgid "Save automatically"
-msgstr "Samodejno shrani"
+#: ../src/share.py:448
+#, fuzzy
+msgid "Loading"
+msgstr "nalagam"
 
-msgid "Save automatically to file and clipboard"
-msgstr "Samodejno shrani datoteko v odložišče"
+#: ../src/share.py:501
+msgid "Please input text here"
+msgstr "Prosim tukaj vpišite besedilo"
 
-msgid "Save to clipboard"
-msgstr "Shrani v odložišče"
+#: ../src/share.py:527 ../src/share.py:538
+#, fuzzy
+msgid "Error"
+msgstr "napaka"
 
-msgid "Share"
+#: ../src/share.py:527
+msgid "Picture does not exist."
+msgstr "Slika ne obstaja"
+
+#: ../src/share.py:538
+msgid "Please choose at least one platform to share on"
+msgstr "Prosim, izberite vsaj eno platformo za deljenje"
+
+#: ../src/share.py:555
+#, fuzzy
+msgid "Uploading"
+msgstr "prenašanje"
+
+#: ../src/share.py:566
+msgid "from Deepin Screenshot"
+msgstr ""
+
+#: ../src/share.py:613
+msgid "Follow"
+msgstr "Sledi"
+
+#: ../src/share.py:636 ../src/share.py:657
+#, fuzzy
+msgid "Share to"
 msgstr "Deli"
 
-msgid "Take a screenshot after NUM seconds"
-msgstr "Zajemi sliko zaslona po določenem številu sekund"
+#: ../src/share.py:639
+#, fuzzy
+msgid "Successful"
+msgstr "uspešno"
 
-msgid "Take a screenshot of a window"
-msgstr "Zajemi sliko dela zaslona"
+#: ../src/share.py:662
+#, fuzzy
+msgid "Failed"
+msgstr "neuspešno"
 
+#: ../src/share.py:670
+#, fuzzy
+msgid "Unknown reason"
+msgstr "Neznan razlog"
+
+#: ../src/widget.py:289
+msgid "Drag to select area"
+msgstr "Povlecite, da izberete območje"
+
+#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
+msgid "Picture has been saved to file"
+msgstr "Slika je bila shranjena v datoteko"
+
+#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
+#: ../src/main.py:221 ../src/main.py:223
+#, fuzzy
+msgid "DScreenshot"
+msgstr "DPosnetek"
+
+#: ../src/screenshot.py:94
 msgid "Take a screenshot of full screen"
 msgstr "Zajemi sliko celotnega zaslona"
 
-msgid "The width or height of selected area cannot be 0"
-msgstr "Širina in višina v izbranem območju ne more biti 0"
+#: ../src/screenshot.py:95
+#, fuzzy
+msgid "Take a screenshot of the window"
+msgstr "Zajemi sliko dela zaslona"
 
-msgid "Tweet"
-msgstr "Tvitaj"
+#: ../src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr "Zajemi sliko zaslona po določenem številu sekund"
 
-msgid "Unable to load page"
-msgstr "Ni možno naložiti strani"
-
-msgid "Undo"
-msgstr "Razveljavi"
-
-msgid "Unknow reason"
-msgstr "Neznan razlog"
-
-msgid "came from"
-msgstr "prihaja iz"
-
-msgid "click to login"
-msgstr "Kliknite za prijavo"
-
-msgid "click to switch user"
-msgstr "Kliknite za zamenjavo uporabnika"
-
-msgid "error"
-msgstr "napaka"
-
-msgid "failed"
-msgstr "neuspešno"
-
-msgid "loading"
-msgstr "nalagam"
-
-msgid "run a new process"
-msgstr "zaženi kot nov postopek"
-
-msgid "run as a subprocess"
-msgstr "zaženi kot podpostopek"
-
+#: ../src/screenshot.py:97
 msgid "save screenshot to FILE"
 msgstr "Shrani zaslonsko sliko v datoteko"
 
-msgid "share to web"
-msgstr "deli s spletom"
+#: ../src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "zaženi kot podpostopek"
 
-msgid "show program's version number and exit"
-msgstr "prikaži različico programa in zapri"
+#: ../src/screenshot.py:99
+msgid "run a new process"
+msgstr "zaženi kot nov postopek"
 
+#: ../src/screenshot.py:107
 msgid "show this help message and exit"
 msgstr "prikaži sporočilo za pomoč in zapri"
 
-msgid "successful"
-msgstr "uspešno"
+#: ../src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "prikaži različico programa in zapri"
 
-msgid "upload to"
-msgstr "Prenesi v"
+#: ../src/screenshot.py:128
+#, fuzzy, python-format
+msgid "Deepin Screenshot will start in %d seconds."
+msgstr "DPosnetek se bo zagnal v %d sekundah."
 
-msgid "uploading"
-msgstr "prenašanje"
+#: ../src/main.py:154
+msgid "The width or height of selected area cannot be 0"
+msgstr "Širina in višina v izbranem območju ne more biti 0"
+
+#: ../src/main.py:182
+msgid "Failed to save the picture"
+msgstr "Shranjevanje slike neuspešno"
+
+#: ../src/main.py:199
+msgid "Picture has been saved to clipboard"
+msgstr "Slika je bila shranjena v odložišče"
+
+#: ../src/main.py:224
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "Naslednjič lahko za zagon programa pritisnete Ctrl+Alt+A."
+
+#~ msgid "share to web"
+#~ msgstr "deli s spletom"
+
+#~ msgid "Tweet"
+#~ msgstr "Tvitaj"
+
+#~ msgid "came from"
+#~ msgstr "prihaja iz"
+
+#~ msgid "upload to"
+#~ msgstr "Prenesi v"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DSnapshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-09 17:45+0800\n"
+"POT-Creation-Date: 2014-06-18 17:56+0800\n"
 "PO-Revision-Date: 2014-01-10 19:47+0000\n"
 "Last-Translator: Snubbi <carl@manjaro.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/deepin-screenshot/"
@@ -19,145 +19,212 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Cancel"
-msgstr "Annuler"
-
-msgid "DSnapshot"
-msgstr "DSnapshot"
-
-#, python-format
-msgid "DSnapshot will start in %d seconds."
-msgstr "DSnapshot vil starte om %d sekunder."
-
-msgid "Drag to select area"
-msgstr "Maker og vælg område"
-
-msgid "Draw Arrow"
-msgstr "Tegn Pil"
-
-msgid "Draw Ellipse"
-msgstr "Tegn Ellipse"
-
-msgid "Draw Line"
-msgstr "Tegn Linie"
-
+#: ../src/toolbar.py:82 ../src/widget.py:930
 msgid "Draw Rectangle"
 msgstr "Tegn firkant"
 
+#: ../src/toolbar.py:83 ../src/widget.py:934
+msgid "Draw Ellipse"
+msgstr "Tegn Ellipse"
+
+#: ../src/toolbar.py:84 ../src/widget.py:938
+msgid "Draw Arrow"
+msgstr "Tegn Pil"
+
+#: ../src/toolbar.py:85 ../src/widget.py:942
+msgid "Draw Line"
+msgstr "Tegn Linie"
+
+#: ../src/toolbar.py:86 ../src/widget.py:946
 msgid "Draw Text"
 msgstr "Tegn Tekst"
 
-msgid "Failed to save the picture"
-msgstr "Gemning af billede fejlede"
+#: ../src/toolbar.py:88 ../src/widget.py:951
+msgid "Undo"
+msgstr "Fortryd"
 
-msgid "Follow"
-msgstr "Følg"
+#: ../src/toolbar.py:91 ../src/widget.py:955
+msgid "Save"
+msgstr "Gem"
 
-msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "Næste gang kan du bare vælge Ctrl+Alt+A for at starte op."
+#: ../src/toolbar.py:111 ../src/widget.py:962
+msgid "Cancel"
+msgstr "Annuler"
 
-msgid "Picture does not exist."
-msgstr "Billede eksisterer ikke."
+#: ../src/toolbar.py:114 ../src/share.py:459 ../src/widget.py:969
+msgid "Share"
+msgstr "Del"
 
-msgid "Picture has been saved to clipboard"
-msgstr "Billede er blevet gemt til udklipsholder"
+#: ../src/toolbar.py:178 ../src/widget.py:915
+msgid "Save automatically"
+msgstr "Gem automatisk"
 
-msgid "Picture has been saved to file"
-msgstr "Billede er blevet gemt som fil"
+#: ../src/toolbar.py:179 ../src/widget.py:916
+msgid "Save as"
+msgstr "Gem som"
 
-msgid "Please choose at least one platform to share on"
-msgstr "Vælg venligst  mindst en platform til at dele på"
+#: ../src/toolbar.py:180 ../src/widget.py:917
+msgid "Save to clipboard"
+msgstr "Gem til udklipsholder"
 
-msgid "Please input text here"
-msgstr "Indtast venligst tekst her"
+#: ../src/toolbar.py:181 ../src/widget.py:918
+msgid "Save automatically to file and clipboard"
+msgstr "Gem automatisk som fil og til udklipsholder"
 
+#: ../src/share.py:73
+msgid "Share to social networks"
+msgstr ""
+
+#: ../src/share.py:186
+msgid "Unable to load page"
+msgstr "Ude af stand til at loade side"
+
+#: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "Problem forekom under loading af URL '%s'"
 
-msgid "Save"
-msgstr "Gem"
+#: ../src/share.py:315
+#, fuzzy
+msgid "Click to switch user"
+msgstr "klik for at skifte bruger"
 
-msgid "Save as"
-msgstr "Gem som"
+#: ../src/share.py:333
+#, fuzzy
+msgid "Click to login"
+msgstr "klik til logind"
 
-msgid "Save automatically"
-msgstr "Gem automatisk"
+#: ../src/share.py:448
+#, fuzzy
+msgid "Loading"
+msgstr "loader"
 
-msgid "Save automatically to file and clipboard"
-msgstr "Gem automatisk som fil og til udklipsholder"
+#: ../src/share.py:501
+msgid "Please input text here"
+msgstr "Indtast venligst tekst her"
 
-msgid "Save to clipboard"
-msgstr "Gem til udklipsholder"
+#: ../src/share.py:527 ../src/share.py:538
+#, fuzzy
+msgid "Error"
+msgstr "fejl"
 
-msgid "Share"
+#: ../src/share.py:527
+msgid "Picture does not exist."
+msgstr "Billede eksisterer ikke."
+
+#: ../src/share.py:538
+msgid "Please choose at least one platform to share on"
+msgstr "Vælg venligst  mindst en platform til at dele på"
+
+#: ../src/share.py:555
+#, fuzzy
+msgid "Uploading"
+msgstr "uploader"
+
+#: ../src/share.py:566
+msgid "from Deepin Screenshot"
+msgstr ""
+
+#: ../src/share.py:613
+msgid "Follow"
+msgstr "Følg"
+
+#: ../src/share.py:636 ../src/share.py:657
+#, fuzzy
+msgid "Share to"
 msgstr "Del"
 
-msgid "Take a screenshot after NUM seconds"
-msgstr "Tag et skærmbillede efter ANTAL sekunder"
+#: ../src/share.py:639
+#, fuzzy
+msgid "Successful"
+msgstr "vellykket"
 
-msgid "Take a screenshot of a window"
-msgstr "Tag et skærmbillede af et vindue"
+#: ../src/share.py:662
+#, fuzzy
+msgid "Failed"
+msgstr "fejlede"
 
+#: ../src/share.py:670
+#, fuzzy
+msgid "Unknown reason"
+msgstr "Ukendt årsag"
+
+#: ../src/widget.py:289
+msgid "Drag to select area"
+msgstr "Maker og vælg område"
+
+#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
+msgid "Picture has been saved to file"
+msgstr "Billede er blevet gemt som fil"
+
+#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
+#: ../src/main.py:221 ../src/main.py:223
+#, fuzzy
+msgid "DScreenshot"
+msgstr "DSnapshot"
+
+#: ../src/screenshot.py:94
 msgid "Take a screenshot of full screen"
 msgstr "Tag et skærmbillede af hele skærmen"
 
-msgid "The width or height of selected area cannot be 0"
-msgstr "Bredden eller højden af udvalgt område kan ikke være 0"
+#: ../src/screenshot.py:95
+#, fuzzy
+msgid "Take a screenshot of the window"
+msgstr "Tag et skærmbillede af et vindue"
 
-msgid "Tweet"
-msgstr "Tweet"
+#: ../src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr "Tag et skærmbillede efter ANTAL sekunder"
 
-msgid "Unable to load page"
-msgstr "Ude af stand til at loade side"
-
-msgid "Undo"
-msgstr "Fortryd"
-
-msgid "Unknow reason"
-msgstr "Ukendt årsag"
-
-msgid "came from"
-msgstr "kom fra"
-
-msgid "click to login"
-msgstr "klik til logind"
-
-msgid "click to switch user"
-msgstr "klik for at skifte bruger"
-
-msgid "error"
-msgstr "fejl"
-
-msgid "failed"
-msgstr "fejlede"
-
-msgid "loading"
-msgstr "loader"
-
-msgid "run a new process"
-msgstr "kør en ny proces"
-
-msgid "run as a subprocess"
-msgstr "kør som en underliggende proces"
-
+#: ../src/screenshot.py:97
 msgid "save screenshot to FILE"
 msgstr "Gem skærmbillede som FIL"
 
-msgid "share to web"
-msgstr "del det på nettet"
+#: ../src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "kør som en underliggende proces"
 
-msgid "show program's version number and exit"
-msgstr "Vis programs version nummer og luk"
+#: ../src/screenshot.py:99
+msgid "run a new process"
+msgstr "kør en ny proces"
 
+#: ../src/screenshot.py:107
 msgid "show this help message and exit"
 msgstr "Vis denne hjælpebesked og luk"
 
-msgid "successful"
-msgstr "vellykket"
+#: ../src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "Vis programs version nummer og luk"
 
-msgid "upload to"
-msgstr "upload til"
+#: ../src/screenshot.py:128
+#, fuzzy, python-format
+msgid "Deepin Screenshot will start in %d seconds."
+msgstr "DSnapshot vil starte om %d sekunder."
 
-msgid "uploading"
-msgstr "uploader"
+#: ../src/main.py:154
+msgid "The width or height of selected area cannot be 0"
+msgstr "Bredden eller højden af udvalgt område kan ikke være 0"
+
+#: ../src/main.py:182
+msgid "Failed to save the picture"
+msgstr "Gemning af billede fejlede"
+
+#: ../src/main.py:199
+msgid "Picture has been saved to clipboard"
+msgstr "Billede er blevet gemt til udklipsholder"
+
+#: ../src/main.py:224
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "Næste gang kan du bare vælge Ctrl+Alt+A for at starte op."
+
+#~ msgid "share to web"
+#~ msgstr "del det på nettet"
+
+#~ msgid "Tweet"
+#~ msgstr "Tweet"
+
+#~ msgid "came from"
+#~ msgstr "kom fra"
+
+#~ msgid "upload to"
+#~ msgstr "upload til"

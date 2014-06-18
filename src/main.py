@@ -218,9 +218,9 @@ class DeepinScreenshot(object):
         #except OSError:    
             #cmd = ('python', '%s/%s' % (parent_dir, 'tipswindow.py'), tipContent)
             #subprocess.Popen(cmd)
-        notify("Deepin Screenshot", 0, summary=_("DSnapshot"), body=tipContent)
+        notify("Deepin Screenshot", 0, summary=_("DScreenshot"), body=tipContent)
         if config.OPTION_ICON:
-            notify("Deepin Screenshot", 0, summary=_("DSnapshot"),
+            notify("Deepin Screenshot", 0, summary=_("DScreenshot"),
                    body=_("Next time you can just press Ctrl+Alt+A to start."))
 
     def make_pic_file(self, pixbuf):

@@ -57,7 +57,7 @@ def open_file_dialog(fullscreen=True, filetype='png'):
         pixbuf.save(filename, save_filetype)
         msg = "%s '%s'" % (_("Picture has been saved to file"), filename)
         SCROT_BUS.emit_finish(1, filename)
-        notify("Deepin Screenshot", 0, summary=_("DSnapshot"), body=msg)
+        notify("Deepin Screenshot", 0, summary=_("DScreenshot"), body=msg)
     else:
         dialog = gtk.FileChooserDialog(
             "Save..",
@@ -77,7 +77,7 @@ def open_file_dialog(fullscreen=True, filetype='png'):
             pixbuf.save(filename, save_filetype)
             msg = "%s '%s'" % (_("Picture has been saved to file"), filename)
             SCROT_BUS.emit_finish(1, filename)
-            notify("Deepin Screenshot", 0, summary=_("DSnapshot"), body=msg)
+            notify("Deepin Screenshot", 0, summary=_("DScreenshot"), body=msg)
         elif response == gtk.RESPONSE_REJECT:
             print 'Closed, no files selected'
         dialog.destroy()
@@ -92,7 +92,7 @@ def processArguments():
     '''init process arguments '''
     parser = OptionParser(usage="Usage: deepin-screenshot [options] [arg]", version="deepin-screenshot v2.1")
     parser.add_option("-f", "--full", action="store_true", dest="fullscreen", help=_("Take a screenshot of full screen"))
-    parser.add_option("-w", "--window", action="store_true", dest="window", help=_("Take a screenshot of a window"))
+    parser.add_option("-w", "--window", action="store_true", dest="window", help=_("Take a screenshot of the window"))
     parser.add_option("-d", "--delay", dest="delay", type="int", help=_("Take a screenshot after NUM seconds"), metavar="NUM")
     parser.add_option("-s", "--save", dest="save_file", help=_("save screenshot to FILE"), metavar="FILE")
     parser.add_option("--sub", action="store_true", dest="sub", help=_("run as a subprocess"))
@@ -124,8 +124,8 @@ def processArguments():
     config.OPTION_FILE = options.save_file
     config.OPTION_SUB = options.sub
     if options.delay:
-        notify("Deepin Screenshot", 0, summary=_("DSnapshot"),
-               body=_("DSnapshot will start in %d seconds.") % options.delay, timeout=(options.delay-0.5)*1000)
+        notify("Deepin Screenshot", 0, summary=_("DScreenshot"),
+               body=_("Deepin Screenshot will start in %d seconds.") % options.delay, timeout=(options.delay-0.5)*1000)
         loop = gobject.MainLoop()
         gobject.timeout_add_seconds(options.delay, loop.quit)
         loop.run()

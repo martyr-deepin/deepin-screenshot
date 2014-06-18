@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Snapshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-09 17:45+0800\n"
+"POT-Creation-Date: 2014-06-18 17:56+0800\n"
 "PO-Revision-Date: 2014-05-08 13:31+0000\n"
 "Last-Translator: halbares <pablo.alvarez.flores@gmail.com>\n"
 "Language-Team: Spanish (Chile) (http://www.transifex.com/projects/p/deepin-"
@@ -20,145 +20,212 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Cancel"
-msgstr "Cancelar"
-
-msgid "DSnapshot"
-msgstr "DSnapshot"
-
-#, python-format
-msgid "DSnapshot will start in %d seconds."
-msgstr "DSnapshot se iniciará en %d segundos."
-
-msgid "Drag to select area"
-msgstr "Arrastra para seleccionar el área"
-
-msgid "Draw Arrow"
-msgstr "Dibujar Flecha"
-
-msgid "Draw Ellipse"
-msgstr "Dibujar Elipse"
-
-msgid "Draw Line"
-msgstr "Dibujar Línea"
-
+#: ../src/toolbar.py:82 ../src/widget.py:930
 msgid "Draw Rectangle"
 msgstr "Dibujar Rectángulo"
 
+#: ../src/toolbar.py:83 ../src/widget.py:934
+msgid "Draw Ellipse"
+msgstr "Dibujar Elipse"
+
+#: ../src/toolbar.py:84 ../src/widget.py:938
+msgid "Draw Arrow"
+msgstr "Dibujar Flecha"
+
+#: ../src/toolbar.py:85 ../src/widget.py:942
+msgid "Draw Line"
+msgstr "Dibujar Línea"
+
+#: ../src/toolbar.py:86 ../src/widget.py:946
 msgid "Draw Text"
 msgstr "Dibujar Texto"
 
-msgid "Failed to save the picture"
-msgstr "Error al guardar la imagen"
+#: ../src/toolbar.py:88 ../src/widget.py:951
+msgid "Undo"
+msgstr "Deshacer"
 
-msgid "Follow"
-msgstr "Seguir"
+#: ../src/toolbar.py:91 ../src/widget.py:955
+msgid "Save"
+msgstr "Guardar"
 
-msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "La próxima vez presione Ctrl+Alt+A para iniciar."
+#: ../src/toolbar.py:111 ../src/widget.py:962
+msgid "Cancel"
+msgstr "Cancelar"
 
-msgid "Picture does not exist."
-msgstr "Imagen no existe."
+#: ../src/toolbar.py:114 ../src/share.py:459 ../src/widget.py:969
+msgid "Share"
+msgstr "Compartir"
 
-msgid "Picture has been saved to clipboard"
-msgstr "La imagen se guardó en el portapapeles"
+#: ../src/toolbar.py:178 ../src/widget.py:915
+msgid "Save automatically"
+msgstr "Guardar automáticamente"
 
-msgid "Picture has been saved to file"
-msgstr "La imagen se guardó como archivo"
+#: ../src/toolbar.py:179 ../src/widget.py:916
+msgid "Save as"
+msgstr "Guardar como"
 
-msgid "Please choose at least one platform to share on"
-msgstr "Por favor, elige al menos una plataforma para compartir"
+#: ../src/toolbar.py:180 ../src/widget.py:917
+msgid "Save to clipboard"
+msgstr "Copiar al portapapeles"
 
-msgid "Please input text here"
-msgstr "Por favor ingrese su texto aquí"
+#: ../src/toolbar.py:181 ../src/widget.py:918
+msgid "Save automatically to file and clipboard"
+msgstr "Guardar automáticamente en archivo y portapapeles"
 
+#: ../src/share.py:73
+msgid "Share to social networks"
+msgstr ""
+
+#: ../src/share.py:186
+msgid "Unable to load page"
+msgstr "No se puede cargar la página"
+
+#: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "Problema al cargar la URL '%s'"
 
-msgid "Save"
-msgstr "Guardar"
+#: ../src/share.py:315
+#, fuzzy
+msgid "Click to switch user"
+msgstr "Clic para cambiar de usuario"
 
-msgid "Save as"
-msgstr "Guardar como"
+#: ../src/share.py:333
+#, fuzzy
+msgid "Click to login"
+msgstr "Clic para iniciar sesión"
 
-msgid "Save automatically"
-msgstr "Guardar automáticamente"
+#: ../src/share.py:448
+#, fuzzy
+msgid "Loading"
+msgstr "cargando"
 
-msgid "Save automatically to file and clipboard"
-msgstr "Guardar automáticamente en archivo y portapapeles"
+#: ../src/share.py:501
+msgid "Please input text here"
+msgstr "Por favor ingrese su texto aquí"
 
-msgid "Save to clipboard"
-msgstr "Copiar al portapapeles"
+#: ../src/share.py:527 ../src/share.py:538
+#, fuzzy
+msgid "Error"
+msgstr "error"
 
-msgid "Share"
+#: ../src/share.py:527
+msgid "Picture does not exist."
+msgstr "Imagen no existe."
+
+#: ../src/share.py:538
+msgid "Please choose at least one platform to share on"
+msgstr "Por favor, elige al menos una plataforma para compartir"
+
+#: ../src/share.py:555
+#, fuzzy
+msgid "Uploading"
+msgstr "subiendo"
+
+#: ../src/share.py:566
+msgid "from Deepin Screenshot"
+msgstr ""
+
+#: ../src/share.py:613
+msgid "Follow"
+msgstr "Seguir"
+
+#: ../src/share.py:636 ../src/share.py:657
+#, fuzzy
+msgid "Share to"
 msgstr "Compartir"
 
-msgid "Take a screenshot after NUM seconds"
-msgstr "Tomar pantallazo después de NUM segundos"
+#: ../src/share.py:639
+#, fuzzy
+msgid "Successful"
+msgstr "satisfactorio"
 
-msgid "Take a screenshot of a window"
-msgstr "Tomar pantallazo de una ventana"
+#: ../src/share.py:662
+#, fuzzy
+msgid "Failed"
+msgstr "fallido"
 
+#: ../src/share.py:670
+#, fuzzy
+msgid "Unknown reason"
+msgstr "Motivo desconocido"
+
+#: ../src/widget.py:289
+msgid "Drag to select area"
+msgstr "Arrastra para seleccionar el área"
+
+#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
+msgid "Picture has been saved to file"
+msgstr "La imagen se guardó como archivo"
+
+#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
+#: ../src/main.py:221 ../src/main.py:223
+#, fuzzy
+msgid "DScreenshot"
+msgstr "DSnapshot"
+
+#: ../src/screenshot.py:94
 msgid "Take a screenshot of full screen"
 msgstr "Tomar pantallazo de la pantalla completa"
 
-msgid "The width or height of selected area cannot be 0"
-msgstr "El ancho o alto del área seleccionada no puede ser 0"
+#: ../src/screenshot.py:95
+#, fuzzy
+msgid "Take a screenshot of the window"
+msgstr "Tomar pantallazo de una ventana"
 
-msgid "Tweet"
-msgstr "tuitear"
+#: ../src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr "Tomar pantallazo después de NUM segundos"
 
-msgid "Unable to load page"
-msgstr "No se puede cargar la página"
-
-msgid "Undo"
-msgstr "Deshacer"
-
-msgid "Unknow reason"
-msgstr "Motivo desconocido"
-
-msgid "came from"
-msgstr "vino de"
-
-msgid "click to login"
-msgstr "Clic para iniciar sesión"
-
-msgid "click to switch user"
-msgstr "Clic para cambiar de usuario"
-
-msgid "error"
-msgstr "error"
-
-msgid "failed"
-msgstr "fallido"
-
-msgid "loading"
-msgstr "cargando"
-
-msgid "run a new process"
-msgstr "ejecutar un nuevo proceso"
-
-msgid "run as a subprocess"
-msgstr "ejecutar como subproceso"
-
+#: ../src/screenshot.py:97
 msgid "save screenshot to FILE"
 msgstr "guardar pantallazo en FILE"
 
-msgid "share to web"
-msgstr "compartir en internet"
+#: ../src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "ejecutar como subproceso"
 
-msgid "show program's version number and exit"
-msgstr "mostrar el número de versión del programa y salir"
+#: ../src/screenshot.py:99
+msgid "run a new process"
+msgstr "ejecutar un nuevo proceso"
 
+#: ../src/screenshot.py:107
 msgid "show this help message and exit"
 msgstr "mostrar este mensaje de ayuda y salir"
 
-msgid "successful"
-msgstr "satisfactorio"
+#: ../src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "mostrar el número de versión del programa y salir"
 
-msgid "upload to"
-msgstr "subir a"
+#: ../src/screenshot.py:128
+#, fuzzy, python-format
+msgid "Deepin Screenshot will start in %d seconds."
+msgstr "DSnapshot se iniciará en %d segundos."
 
-msgid "uploading"
-msgstr "subiendo"
+#: ../src/main.py:154
+msgid "The width or height of selected area cannot be 0"
+msgstr "El ancho o alto del área seleccionada no puede ser 0"
+
+#: ../src/main.py:182
+msgid "Failed to save the picture"
+msgstr "Error al guardar la imagen"
+
+#: ../src/main.py:199
+msgid "Picture has been saved to clipboard"
+msgstr "La imagen se guardó en el portapapeles"
+
+#: ../src/main.py:224
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "La próxima vez presione Ctrl+Alt+A para iniciar."
+
+#~ msgid "share to web"
+#~ msgstr "compartir en internet"
+
+#~ msgid "Tweet"
+#~ msgstr "tuitear"
+
+#~ msgid "came from"
+#~ msgstr "vino de"
+
+#~ msgid "upload to"
+#~ msgstr "subir a"
