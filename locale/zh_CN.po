@@ -164,7 +164,7 @@ msgstr "截取当前窗口"
 
 #: ../src/screenshot.py:96
 msgid "Take a screenshot after NUM seconds"
-msgstr " NUM 秒后启动截图"
+msgstr " NUM秒后启动截图"
 
 #: ../src/screenshot.py:97
 msgid "save screenshot to FILE"
