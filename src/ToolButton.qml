@@ -7,8 +7,9 @@ Item {
     width: 32
     height: 32
     
-    property bool clicked: false
     property alias selectArea: selectArea
+    
+    signal clicked()
     
     Rectangle {
         id: selectArea
@@ -39,6 +40,10 @@ Item {
         
         onExited: {
             selectArea.visible = false
+        }
+        
+        onClicked: {
+            toolButton.clicked()
         }
     }
 }

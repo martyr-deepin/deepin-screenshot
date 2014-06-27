@@ -417,6 +417,7 @@ Item {
         visible: firstMove && firstRelease
 
         property int padding: 4
+        property string buttonType: ""
         
         function tryHideSizeTooltip() {
             if (firstMove && firstRelease) {
@@ -425,6 +426,16 @@ Item {
                 } else {
                     selectSizeTooltip.visible = true
                 }
+            }
+        }
+        
+        function toggleToolbar(type) {
+            if (toolbar.buttonType != type) {
+                toolbar.expandToolbar()
+                toolbar.buttonType = type
+            } else {
+                toolbar.shrinkToolbar()
+                toolbar.buttonType = ""
             }
         }
         
@@ -462,22 +473,42 @@ Item {
             
             ToolButton {
                 imageName: "rect"
+                
+                onClicked: {
+                    toolbar.toggleToolbar("rect")
+                }
             }
             
             ToolButton {
                 imageName: "ellipse"
+
+                onClicked: {
+                    toolbar.toggleToolbar("ellipse")
+                }
             }
             
             ToolButton {
                 imageName: "arrow"
+
+                onClicked: {
+                    toolbar.toggleToolbar("arrow")
+                }
             }
             
             ToolButton {
                 imageName: "line"
+
+                onClicked: {
+                    toolbar.toggleToolbar("line")
+                }
             }
             
             ToolButton {
                 imageName: "text"
+
+                onClicked: {
+                    toolbar.toggleToolbar("text")
+                }
             }
         }
         
@@ -487,6 +518,10 @@ Item {
             
             ToolButton {
                 imageName: "color"
+
+                onClicked: {
+                    toolbar.toggleToolbar("color")
+                }
             }
             
             ToolButton {
