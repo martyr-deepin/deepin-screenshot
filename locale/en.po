@@ -22,23 +22,19 @@ msgid "Cancel"
 msgstr "Cancel"
 
 #: src/share.py:333
-#, fuzzy
 msgid "Click to login"
 msgstr "click to login"
 
 #: src/share.py:315
-#, fuzzy
 msgid "Click to switch user"
 msgstr "click to switch user"
 
 #: src/main.py:221 src/main.py:223 src/screenshot.py:60 src/screenshot.py:80
 #: src/screenshot.py:127
-#, fuzzy
 msgid "DScreenshot"
 msgstr "DSnapshot"
 
 #: src/screenshot.py:128
-#, fuzzy, python-format
 msgid "Deepin Screenshot will start in %d seconds."
 msgstr "DSnapshot will start in %d seconds."
 
@@ -67,12 +63,10 @@ msgid "Draw Text"
 msgstr "Draw Text"
 
 #: src/share.py:527 src/share.py:538
-#, fuzzy
 msgid "Error"
 msgstr "error"
 
 #: src/share.py:662
-#, fuzzy
 msgid "Failed"
 msgstr "failed"
 
@@ -85,7 +79,6 @@ msgid "Follow"
 msgstr "Follow"
 
 #: src/share.py:448
-#, fuzzy
 msgid "Loading"
 msgstr "loading"
 
@@ -143,7 +136,6 @@ msgid "Share"
 msgstr "Share"
 
 #: src/share.py:636 src/share.py:657
-#, fuzzy
 msgid "Share to"
 msgstr "Share"
 
@@ -152,7 +144,6 @@ msgid "Share to social networks"
 msgstr ""
 
 #: src/share.py:639
-#, fuzzy
 msgid "Successful"
 msgstr "successful"
 
@@ -165,7 +156,6 @@ msgid "Take a screenshot of full screen"
 msgstr "Take a screenshot of full screen"
 
 #: src/screenshot.py:95
-#, fuzzy
 msgid "Take a screenshot of the window"
 msgstr "Take a screenshot of a window"
 
@@ -182,12 +172,10 @@ msgid "Undo"
 msgstr "Undo"
 
 #: src/share.py:670
-#, fuzzy
 msgid "Unknown reason"
 msgstr "Unknow reason"
 
 #: src/share.py:555
-#, fuzzy
 msgid "Uploading"
 msgstr "uploading"
 

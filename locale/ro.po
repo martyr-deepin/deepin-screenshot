@@ -66,12 +66,10 @@ msgid "Draw Text"
 msgstr ""
 
 #: src/share.py:527 src/share.py:538
-#, fuzzy
 msgid "Error"
 msgstr "eroare"
 
 #: src/share.py:662
-#, fuzzy
 msgid "Failed"
 msgstr "eșec"
 
@@ -84,7 +82,6 @@ msgid "Follow"
 msgstr "Urmărește"
 
 #: src/share.py:448
-#, fuzzy
 msgid "Loading"
 msgstr "se încarcă"
 
@@ -142,7 +139,6 @@ msgid "Share"
 msgstr "Distribuie"
 
 #: src/share.py:636 src/share.py:657
-#, fuzzy
 msgid "Share to"
 msgstr "Distribuie"
 
@@ -151,7 +147,6 @@ msgid "Share to social networks"
 msgstr ""
 
 #: src/share.py:639
-#, fuzzy
 msgid "Successful"
 msgstr "reușită"
 
@@ -180,12 +175,10 @@ msgid "Undo"
 msgstr ""
 
 #: src/share.py:670
-#, fuzzy
 msgid "Unknown reason"
 msgstr "Motiv necunoscut"
 
 #: src/share.py:555
-#, fuzzy
 msgid "Uploading"
 msgstr "se încarcă"
 

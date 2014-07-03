@@ -26,23 +26,19 @@ msgid "Cancel"
 msgstr "取消螢幕截圖"
 
 #: src/share.py:333
-#, fuzzy
 msgid "Click to login"
 msgstr "點擊即可登入"
 
 #: src/share.py:315
-#, fuzzy
 msgid "Click to switch user"
 msgstr "點擊即可切換帳號"
 
 #: src/main.py:221 src/main.py:223 src/screenshot.py:60 src/screenshot.py:80
 #: src/screenshot.py:127
-#, fuzzy
 msgid "DScreenshot"
 msgstr "深度截圖"
 
 #: src/screenshot.py:128
-#, fuzzy, python-format
 msgid "Deepin Screenshot will start in %d seconds."
 msgstr "深度截圖將在 %d 秒後啟動"
 
@@ -71,12 +67,10 @@ msgid "Draw Text"
 msgstr "文字工具"
 
 #: src/share.py:527 src/share.py:538
-#, fuzzy
 msgid "Error"
 msgstr "錯誤"
 
 #: src/share.py:662
-#, fuzzy
 msgid "Failed"
 msgstr "失敗"
 
@@ -89,7 +83,6 @@ msgid "Follow"
 msgstr "關注"
 
 #: src/share.py:448
-#, fuzzy
 msgid "Loading"
 msgstr "載入中"
 
@@ -147,7 +140,6 @@ msgid "Share"
 msgstr "分享"
 
 #: src/share.py:636 src/share.py:657
-#, fuzzy
 msgid "Share to"
 msgstr "分享"
 
@@ -156,7 +148,6 @@ msgid "Share to social networks"
 msgstr ""
 
 #: src/share.py:639
-#, fuzzy
 msgid "Successful"
 msgstr "成功"
 
@@ -169,7 +160,6 @@ msgid "Take a screenshot of full screen"
 msgstr "拍下全螢幕的截圖"
 
 #: src/screenshot.py:95
-#, fuzzy
 msgid "Take a screenshot of the window"
 msgstr "拍下視窗的截圖"
 
@@ -186,12 +176,10 @@ msgid "Undo"
 msgstr "復原"
 
 #: src/share.py:670
-#, fuzzy
 msgid "Unknown reason"
 msgstr "不明原因"
 
 #: src/share.py:555
-#, fuzzy
 msgid "Uploading"
 msgstr "分享中"
 
