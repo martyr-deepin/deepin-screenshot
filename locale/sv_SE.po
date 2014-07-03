@@ -5,11 +5,11 @@
 # Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: Deepin Snapshot\n"
+"Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-18 17:56+0800\n"
-"PO-Revision-Date: 2014-05-08 13:42+0000\n"
-"Last-Translator: lihongwu <lihongwu1987@gmail.com>\n"
+"POT-Creation-Date: 2014-07-03 10:42+0800\n"
+"PO-Revision-Date: 2014-06-30 04:41+0000\n"
+"Last-Translator: cxbii <chenxiangbang@linuxdeepin.com>\n"
 "Language-Team: Swedish (Sweden) (http://www.transifex.com/projects/p/deepin-"
 "screenshot/language/sv_SE/)\n"
 "Language: sv_SE\n"
@@ -18,205 +18,189 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/toolbar.py:82 ../src/widget.py:930
-msgid "Draw Rectangle"
-msgstr ""
-
-#: ../src/toolbar.py:83 ../src/widget.py:934
-msgid "Draw Ellipse"
-msgstr ""
-
-#: ../src/toolbar.py:84 ../src/widget.py:938
-msgid "Draw Arrow"
-msgstr ""
-
-#: ../src/toolbar.py:85 ../src/widget.py:942
-msgid "Draw Line"
-msgstr ""
-
-#: ../src/toolbar.py:86 ../src/widget.py:946
-msgid "Draw Text"
-msgstr ""
-
-#: ../src/toolbar.py:88 ../src/widget.py:951
-msgid "Undo"
-msgstr ""
-
-#: ../src/toolbar.py:91 ../src/widget.py:955
-msgid "Save"
-msgstr "Spara"
-
-#: ../src/toolbar.py:111 ../src/widget.py:962
+#: src/toolbar.py:111 src/widget.py:962
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: ../src/toolbar.py:114 ../src/share.py:459 ../src/widget.py:969
-msgid "Share"
-msgstr "Dela"
-
-#: ../src/toolbar.py:178 ../src/widget.py:915
-msgid "Save automatically"
-msgstr ""
-
-#: ../src/toolbar.py:179 ../src/widget.py:916
-msgid "Save as"
-msgstr ""
-
-#: ../src/toolbar.py:180 ../src/widget.py:917
-msgid "Save to clipboard"
-msgstr ""
-
-#: ../src/toolbar.py:181 ../src/widget.py:918
-msgid "Save automatically to file and clipboard"
-msgstr ""
-
-#: ../src/share.py:73
-msgid "Share to social networks"
-msgstr ""
-
-#: ../src/share.py:186
-msgid "Unable to load page"
-msgstr "Misslyckades att ladda sidan"
-
-#: ../src/share.py:187
-#, python-format
-msgid "Problem occurred while loading the URL '%s'"
-msgstr "Ett problem uppstod vid laddningen av URL '%s'"
-
-#: ../src/share.py:315
-msgid "Click to switch user"
-msgstr ""
-
-#: ../src/share.py:333
+#: src/share.py:333
 msgid "Click to login"
-msgstr ""
+msgstr "Tryck för att logga in"
 
-#: ../src/share.py:448
-#, fuzzy
-msgid "Loading"
-msgstr "Laddar"
+#: src/share.py:315
+msgid "Click to switch user"
+msgstr "Tryck för att byta användare"
 
-#: ../src/share.py:501
-msgid "Please input text here"
-msgstr "Skriv här"
-
-#: ../src/share.py:527 ../src/share.py:538
-#, fuzzy
-msgid "Error"
-msgstr "fel"
-
-#: ../src/share.py:527
-msgid "Picture does not exist."
-msgstr "Bilden finns inte"
-
-#: ../src/share.py:538
-msgid "Please choose at least one platform to share on"
-msgstr "Ange minst en plattform att dela på"
-
-#: ../src/share.py:555
-#, fuzzy
-msgid "Uploading"
-msgstr "Laddar"
-
-#: ../src/share.py:566
-msgid "from Deepin Screenshot"
-msgstr ""
-
-#: ../src/share.py:613
-msgid "Follow"
-msgstr "Följ"
-
-#: ../src/share.py:636 ../src/share.py:657
-#, fuzzy
-msgid "Share to"
-msgstr "Dela"
-
-#: ../src/share.py:639
-#, fuzzy
-msgid "Successful"
-msgstr "lyckades"
-
-#: ../src/share.py:662
-#, fuzzy
-msgid "Failed"
-msgstr "misslyckades"
-
-#: ../src/share.py:670
-#, fuzzy
-msgid "Unknown reason"
-msgstr "Okänd anledning"
-
-#: ../src/widget.py:289
-msgid "Drag to select area"
-msgstr ""
-
-#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
-msgid "Picture has been saved to file"
-msgstr ""
-
-#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
-#: ../src/main.py:221 ../src/main.py:223
+#: src/main.py:221 src/main.py:223 src/screenshot.py:60 src/screenshot.py:80
+#: src/screenshot.py:127
 msgid "DScreenshot"
 msgstr ""
 
-#: ../src/screenshot.py:94
-msgid "Take a screenshot of full screen"
-msgstr ""
-
-#: ../src/screenshot.py:95
-msgid "Take a screenshot of the window"
-msgstr ""
-
-#: ../src/screenshot.py:96
-msgid "Take a screenshot after NUM seconds"
-msgstr ""
-
-#: ../src/screenshot.py:97
-msgid "save screenshot to FILE"
-msgstr ""
-
-#: ../src/screenshot.py:98
-msgid "run as a subprocess"
-msgstr ""
-
-#: ../src/screenshot.py:99
-msgid "run a new process"
-msgstr ""
-
-#: ../src/screenshot.py:107
-msgid "show this help message and exit"
-msgstr "Visa hjälp vid meddelanden och avslut"
-
-#: ../src/screenshot.py:108
-msgid "show program's version number and exit"
-msgstr "Visa program versionsnummer och avslut"
-
-#: ../src/screenshot.py:128
+#: src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
 msgstr ""
 
-#: ../src/main.py:154
-msgid "The width or height of selected area cannot be 0"
+#: src/widget.py:289
+msgid "Drag to select area"
 msgstr ""
 
-#: ../src/main.py:182
+#: src/toolbar.py:84 src/widget.py:938
+msgid "Draw Arrow"
+msgstr ""
+
+#: src/toolbar.py:83 src/widget.py:934
+msgid "Draw Ellipse"
+msgstr ""
+
+#: src/toolbar.py:85 src/widget.py:942
+msgid "Draw Line"
+msgstr ""
+
+#: src/toolbar.py:82 src/widget.py:930
+msgid "Draw Rectangle"
+msgstr ""
+
+#: src/toolbar.py:86 src/widget.py:946
+msgid "Draw Text"
+msgstr ""
+
+#: src/share.py:527 src/share.py:538
+msgid "Error"
+msgstr ""
+
+#: src/share.py:662
+msgid "Failed"
+msgstr ""
+
+#: src/main.py:182
 msgid "Failed to save the picture"
 msgstr ""
 
-#: ../src/main.py:199
-msgid "Picture has been saved to clipboard"
+#: src/share.py:613
+msgid "Follow"
+msgstr "Följ"
+
+#: src/share.py:448
+msgid "Loading"
 msgstr ""
 
-#: ../src/main.py:224
+#: src/main.py:224
 msgid "Next time you can just press Ctrl+Alt+A to start."
 msgstr ""
 
-#~ msgid "share to web"
-#~ msgstr "Dela på webben"
+#: src/share.py:527
+msgid "Picture does not exist."
+msgstr "Bilden finns inte"
 
-#~ msgid "Tweet"
-#~ msgstr "Tweet"
+#: src/main.py:199
+msgid "Picture has been saved to clipboard"
+msgstr ""
 
-#~ msgid "upload to"
-#~ msgstr "ladda upp till"
+#: src/main.py:162 src/screenshot.py:58 src/screenshot.py:78
+msgid "Picture has been saved to file"
+msgstr ""
+
+#: src/share.py:538
+msgid "Please choose at least one platform to share on"
+msgstr "Ange minst en plattform att dela på"
+
+#: src/share.py:501
+msgid "Please input text here"
+msgstr "Skriv här"
+
+#: src/share.py:187
+#, python-format
+msgid "Problem occurred while loading the URL '%s'"
+msgstr "Ett problem uppstod vid laddningen av URL '%s'"
+
+#: src/toolbar.py:91 src/widget.py:955
+msgid "Save"
+msgstr "Spara"
+
+#: src/toolbar.py:179 src/widget.py:916
+msgid "Save as"
+msgstr ""
+
+#: src/toolbar.py:178 src/widget.py:915
+msgid "Save automatically"
+msgstr ""
+
+#: src/toolbar.py:181 src/widget.py:918
+msgid "Save automatically to file and clipboard"
+msgstr ""
+
+#: src/toolbar.py:180 src/widget.py:917
+msgid "Save to clipboard"
+msgstr ""
+
+#: src/toolbar.py:114 src/share.py:459 src/widget.py:969
+msgid "Share"
+msgstr "Dela"
+
+#: src/share.py:636 src/share.py:657
+msgid "Share to"
+msgstr ""
+
+#: src/share.py:73
+msgid "Share to social networks"
+msgstr ""
+
+#: src/share.py:639
+msgid "Successful"
+msgstr ""
+
+#: src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr ""
+
+#: src/screenshot.py:94
+msgid "Take a screenshot of full screen"
+msgstr ""
+
+#: src/screenshot.py:95
+msgid "Take a screenshot of the window"
+msgstr ""
+
+#: src/main.py:154
+msgid "The width or height of selected area cannot be 0"
+msgstr ""
+
+#: src/share.py:186
+msgid "Unable to load page"
+msgstr "Misslyckades att ladda sidan"
+
+#: src/toolbar.py:88 src/widget.py:951
+msgid "Undo"
+msgstr ""
+
+#: src/share.py:670
+msgid "Unknown reason"
+msgstr ""
+
+#: src/share.py:555
+msgid "Uploading"
+msgstr "Laddar upp"
+
+#: src/share.py:566
+msgid "from Deepin Screenshot"
+msgstr ""
+
+#: src/screenshot.py:99
+msgid "run a new process"
+msgstr ""
+
+#: src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr ""
+
+#: src/screenshot.py:97
+msgid "save screenshot to FILE"
+msgstr ""
+
+#: src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "Visa program versionsnummer och avslut"
+
+#: src/screenshot.py:107
+msgid "show this help message and exit"
+msgstr "Visa hjälp vid meddelanden och avslut"

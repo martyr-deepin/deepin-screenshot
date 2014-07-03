@@ -5,30 +5,30 @@
 # Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: DSnapshot\n"
+"Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-03 10:42+0800\n"
-"PO-Revision-Date: 2014-02-20 09:25+0000\n"
-"Last-Translator: lihongwu <lihongwu1987@gmail.com>\n"
-"Language-Team: Vietnamese (http://www.transifex.com/projects/p/deepin-"
-"screenshot/language/vi/)\n"
-"Language: vi\n"
+"PO-Revision-Date: 2014-06-30 04:41+0000\n"
+"Last-Translator: cxbii <chenxiangbang@linuxdeepin.com>\n"
+"Language-Team: Greek (Greece) (http://www.transifex.com/projects/p/deepin-"
+"screenshot/language/el_GR/)\n"
+"Language: el_GR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/toolbar.py:111 src/widget.py:962
 msgid "Cancel"
-msgstr ""
+msgstr "Ακύρωση"
 
 #: src/share.py:333
 msgid "Click to login"
-msgstr ""
+msgstr "Κάντε κλικ για να συνδεθείτε"
 
 #: src/share.py:315
 msgid "Click to switch user"
-msgstr ""
+msgstr "Κάντε κλικ για αλλαγή χρήστη"
 
 #: src/main.py:221 src/main.py:223 src/screenshot.py:60 src/screenshot.py:80
 #: src/screenshot.py:127
@@ -78,7 +78,7 @@ msgstr ""
 
 #: src/share.py:613
 msgid "Follow"
-msgstr ""
+msgstr "Ακολουθήστε"
 
 #: src/share.py:448
 msgid "Loading"
@@ -90,7 +90,7 @@ msgstr ""
 
 #: src/share.py:527
 msgid "Picture does not exist."
-msgstr ""
+msgstr "Εικόνα δεν υπάρχει."
 
 #: src/main.py:199
 msgid "Picture has been saved to clipboard"
@@ -102,20 +102,20 @@ msgstr ""
 
 #: src/share.py:538
 msgid "Please choose at least one platform to share on"
-msgstr ""
+msgstr "Παρακαλώ επιλέξτε τουλάχιστον μία πλατφόρμα για δημοσίευση σε"
 
 #: src/share.py:501
 msgid "Please input text here"
-msgstr ""
+msgstr "Παρακαλώ εισάγετε κείμενο εδώ"
 
 #: src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
-msgstr ""
+msgstr "Πρόβλημα κατά τη φόρτωση του URL '%s'"
 
 #: src/toolbar.py:91 src/widget.py:955
 msgid "Save"
-msgstr ""
+msgstr "Αποθήκευση"
 
 #: src/toolbar.py:179 src/widget.py:916
 msgid "Save as"
@@ -135,7 +135,7 @@ msgstr ""
 
 #: src/toolbar.py:114 src/share.py:459 src/widget.py:969
 msgid "Share"
-msgstr ""
+msgstr "Μοιραστείτε"
 
 #: src/share.py:636 src/share.py:657
 msgid "Share to"
@@ -167,7 +167,7 @@ msgstr ""
 
 #: src/share.py:186
 msgid "Unable to load page"
-msgstr ""
+msgstr "Δεν είναι δυνατή η φόρτωση της σελίδας"
 
 #: src/toolbar.py:88 src/widget.py:951
 msgid "Undo"
@@ -179,7 +179,7 @@ msgstr ""
 
 #: src/share.py:555
 msgid "Uploading"
-msgstr ""
+msgstr "Ανέβαζει"
 
 #: src/share.py:566
 msgid "from Deepin Screenshot"
@@ -199,8 +199,8 @@ msgstr ""
 
 #: src/screenshot.py:108
 msgid "show program's version number and exit"
-msgstr ""
+msgstr "προβολή αριθμού έκδοσης του πρόγραμμα και έξοδος"
 
 #: src/screenshot.py:107
 msgid "show this help message and exit"
-msgstr ""
+msgstr "εμφανιστεί αυτού του μήνυματος βοήθειας και έξοδος"

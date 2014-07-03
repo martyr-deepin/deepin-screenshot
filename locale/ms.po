@@ -6,11 +6,11 @@
 # inashdeen <inashdeen@gmail.com>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: Deepin Snapshot\n"
+"Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-18 17:56+0800\n"
-"PO-Revision-Date: 2014-05-08 13:42+0000\n"
-"Last-Translator: inashdeen <inashdeen@gmail.com>\n"
+"POT-Creation-Date: 2014-07-03 10:42+0800\n"
+"PO-Revision-Date: 2014-06-30 04:41+0000\n"
+"Last-Translator: cxbii <chenxiangbang@linuxdeepin.com>\n"
 "Language-Team: Malay (http://www.transifex.com/projects/p/deepin-screenshot/"
 "language/ms/)\n"
 "Language: ms\n"
@@ -19,212 +19,189 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ../src/toolbar.py:82 ../src/widget.py:930
-msgid "Draw Rectangle"
-msgstr "Lukis Segi Empat"
-
-#: ../src/toolbar.py:83 ../src/widget.py:934
-msgid "Draw Ellipse"
-msgstr "Lukis melonjong"
-
-#: ../src/toolbar.py:84 ../src/widget.py:938
-msgid "Draw Arrow"
-msgstr "Lukis Anak Panah"
-
-#: ../src/toolbar.py:85 ../src/widget.py:942
-msgid "Draw Line"
-msgstr "Lukis Garisan"
-
-#: ../src/toolbar.py:86 ../src/widget.py:946
-msgid "Draw Text"
-msgstr "Lukis Teks"
-
-#: ../src/toolbar.py:88 ../src/widget.py:951
-msgid "Undo"
-msgstr "Buat asal"
-
-#: ../src/toolbar.py:91 ../src/widget.py:955
-msgid "Save"
-msgstr "Simpan"
-
-#: ../src/toolbar.py:111 ../src/widget.py:962
+#: src/toolbar.py:111 src/widget.py:962
 msgid "Cancel"
 msgstr "Batal"
 
-#: ../src/toolbar.py:114 ../src/share.py:459 ../src/widget.py:969
-msgid "Share"
-msgstr "Kongsi"
+#: src/share.py:333
+msgid "Click to login"
+msgstr "Klik untuk log masu"
 
-#: ../src/toolbar.py:178 ../src/widget.py:915
-msgid "Save automatically"
-msgstr "Disimpan secara automatik"
+#: src/share.py:315
+msgid "Click to switch user"
+msgstr "Klik untuk penukar pengguna"
 
-#: ../src/toolbar.py:179 ../src/widget.py:916
-msgid "Save as"
-msgstr "Simpan sebagai"
-
-#: ../src/toolbar.py:180 ../src/widget.py:917
-msgid "Save to clipboard"
-msgstr "Simpan ke klipbod"
-
-#: ../src/toolbar.py:181 ../src/widget.py:918
-msgid "Save automatically to file and clipboard"
-msgstr "Simpan secara automatik ke fail dan klipbod"
-
-#: ../src/share.py:73
-msgid "Share to social networks"
+#: src/main.py:221 src/main.py:223 src/screenshot.py:60 src/screenshot.py:80
+#: src/screenshot.py:127
+msgid "DScreenshot"
 msgstr ""
 
-#: ../src/share.py:186
-msgid "Unable to load page"
-msgstr "Tidak boleh memuat halaman"
+#: src/screenshot.py:128
+#, python-format
+msgid "Deepin Screenshot will start in %d seconds."
+msgstr ""
 
-#: ../src/share.py:187
+#: src/widget.py:289
+msgid "Drag to select area"
+msgstr "Heret ke kawasan yang dipilih"
+
+#: src/toolbar.py:84 src/widget.py:938
+msgid "Draw Arrow"
+msgstr "Lukis Anak Panah"
+
+#: src/toolbar.py:83 src/widget.py:934
+msgid "Draw Ellipse"
+msgstr "Lukis melonjong"
+
+#: src/toolbar.py:85 src/widget.py:942
+msgid "Draw Line"
+msgstr "Lukis Garisan"
+
+#: src/toolbar.py:82 src/widget.py:930
+msgid "Draw Rectangle"
+msgstr "Lukis Segi Empat"
+
+#: src/toolbar.py:86 src/widget.py:946
+msgid "Draw Text"
+msgstr "Lukis Teks"
+
+#: src/share.py:527 src/share.py:538
+msgid "Error"
+msgstr ""
+
+#: src/share.py:662
+msgid "Failed"
+msgstr ""
+
+#: src/main.py:182
+msgid "Failed to save the picture"
+msgstr "Gagal menyimpan gambar"
+
+#: src/share.py:613
+msgid "Follow"
+msgstr "Ikut"
+
+#: src/share.py:448
+msgid "Loading"
+msgstr ""
+
+#: src/main.py:224
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "Pada masa akan datang anda boleh menekan  Ctrl+Alt+A untuk mula."
+
+#: src/share.py:527
+msgid "Picture does not exist."
+msgstr "Gambar tidak wujud"
+
+#: src/main.py:199
+msgid "Picture has been saved to clipboard"
+msgstr "Gambar telah disimpan ke klipbod"
+
+#: src/main.py:162 src/screenshot.py:58 src/screenshot.py:78
+msgid "Picture has been saved to file"
+msgstr "Gambar telah disimpan ke fail"
+
+#: src/share.py:538
+msgid "Please choose at least one platform to share on"
+msgstr "Sila pilih sekurang-kurangnya satu platform untuk dikongsikan padanya"
+
+#: src/share.py:501
+msgid "Please input text here"
+msgstr "Sila masukkan teks di sini"
+
+#: src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "Masalah berlaku ketika memuat URL '%s'"
 
-#: ../src/share.py:315
-#, fuzzy
-msgid "Click to switch user"
-msgstr "klik untuk menukar pengguna"
+#: src/toolbar.py:91 src/widget.py:955
+msgid "Save"
+msgstr "Simpan"
 
-#: ../src/share.py:333
-#, fuzzy
-msgid "Click to login"
-msgstr "klik untuk log masuk"
+#: src/toolbar.py:179 src/widget.py:916
+msgid "Save as"
+msgstr "Simpan sebagai"
 
-#: ../src/share.py:448
-#, fuzzy
-msgid "Loading"
-msgstr "memuat"
+#: src/toolbar.py:178 src/widget.py:915
+msgid "Save automatically"
+msgstr "Disimpan secara automatik"
 
-#: ../src/share.py:501
-msgid "Please input text here"
-msgstr "Sila masukkan teks di sini"
+#: src/toolbar.py:181 src/widget.py:918
+msgid "Save automatically to file and clipboard"
+msgstr "Simpan secara automatik ke fail dan klipbod"
 
-#: ../src/share.py:527 ../src/share.py:538
-#, fuzzy
-msgid "Error"
-msgstr "ralat"
+#: src/toolbar.py:180 src/widget.py:917
+msgid "Save to clipboard"
+msgstr "Simpan ke klipbod"
 
-#: ../src/share.py:527
-msgid "Picture does not exist."
-msgstr "Gambar tidak wujud"
-
-#: ../src/share.py:538
-msgid "Please choose at least one platform to share on"
-msgstr "Sila pilih sekurang-kurangnya satu platform untuk dikongsikan padanya"
-
-#: ../src/share.py:555
-#, fuzzy
-msgid "Uploading"
-msgstr "Memuat naik"
-
-#: ../src/share.py:566
-msgid "from Deepin Screenshot"
-msgstr ""
-
-#: ../src/share.py:613
-msgid "Follow"
-msgstr "Ikut"
-
-#: ../src/share.py:636 ../src/share.py:657
-#, fuzzy
-msgid "Share to"
+#: src/toolbar.py:114 src/share.py:459 src/widget.py:969
+msgid "Share"
 msgstr "Kongsi"
 
-#: ../src/share.py:639
-#, fuzzy
+#: src/share.py:636 src/share.py:657
+msgid "Share to"
+msgstr ""
+
+#: src/share.py:73
+msgid "Share to social networks"
+msgstr ""
+
+#: src/share.py:639
 msgid "Successful"
-msgstr "berjaya"
+msgstr ""
 
-#: ../src/share.py:662
-#, fuzzy
-msgid "Failed"
-msgstr "gagal"
-
-#: ../src/share.py:670
-#, fuzzy
-msgid "Unknown reason"
-msgstr "Sebab tidak diketahui"
-
-#: ../src/widget.py:289
-msgid "Drag to select area"
-msgstr "Heret ke kawasan yang dipilih"
-
-#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
-msgid "Picture has been saved to file"
-msgstr "Gambar telah disimpan ke fail"
-
-#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
-#: ../src/main.py:221 ../src/main.py:223
-#, fuzzy
-msgid "DScreenshot"
-msgstr "DCekupan Gambar"
-
-#: ../src/screenshot.py:94
-msgid "Take a screenshot of full screen"
-msgstr "Ambil cekupan skrin berskrin penuh"
-
-#: ../src/screenshot.py:95
-#, fuzzy
-msgid "Take a screenshot of the window"
-msgstr "Ambil cekupan skrin sebuah tetingkap"
-
-#: ../src/screenshot.py:96
+#: src/screenshot.py:96
 msgid "Take a screenshot after NUM seconds"
 msgstr "Ambil cekupan skrin selepas NUM saat"
 
-#: ../src/screenshot.py:97
-msgid "save screenshot to FILE"
-msgstr "simpan cekupan skrin ke FILE"
+#: src/screenshot.py:94
+msgid "Take a screenshot of full screen"
+msgstr "Ambil cekupan skrin berskrin penuh"
 
-#: ../src/screenshot.py:98
-msgid "run as a subprocess"
-msgstr "jalankan sebagai subproses"
+#: src/screenshot.py:95
+msgid "Take a screenshot of the window"
+msgstr ""
 
-#: ../src/screenshot.py:99
-msgid "run a new process"
-msgstr "jalankan sebagai proses baru"
-
-#: ../src/screenshot.py:107
-msgid "show this help message and exit"
-msgstr "tunjuk mesej ini dan keluar"
-
-#: ../src/screenshot.py:108
-msgid "show program's version number and exit"
-msgstr "tunjuk nombor versi program dan keluar"
-
-#: ../src/screenshot.py:128
-#, fuzzy, python-format
-msgid "Deepin Screenshot will start in %d seconds."
-msgstr "DCekupan Gambar akan mula dalam %d saat."
-
-#: ../src/main.py:154
+#: src/main.py:154
 msgid "The width or height of selected area cannot be 0"
 msgstr "Lebar atau tinggi kawasan yang dipilih tidak boleh 0"
 
-#: ../src/main.py:182
-msgid "Failed to save the picture"
-msgstr "Gagal menyimpan gambar"
+#: src/share.py:186
+msgid "Unable to load page"
+msgstr "Tidak boleh memuat halaman"
 
-#: ../src/main.py:199
-msgid "Picture has been saved to clipboard"
-msgstr "Gambar telah disimpan ke klipbod"
+#: src/toolbar.py:88 src/widget.py:951
+msgid "Undo"
+msgstr "Buat asal"
 
-#: ../src/main.py:224
-msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "Pada masa akan datang anda boleh menekan  Ctrl+Alt+A untuk mula."
+#: src/share.py:670
+msgid "Unknown reason"
+msgstr ""
 
-#~ msgid "share to web"
-#~ msgstr "kongsi ke sesawang"
+#: src/share.py:555
+msgid "Uploading"
+msgstr "Memuat naik"
 
-#~ msgid "Tweet"
-#~ msgstr "Tweet"
+#: src/share.py:566
+msgid "from Deepin Screenshot"
+msgstr ""
 
-#~ msgid "came from"
-#~ msgstr "datang dari"
+#: src/screenshot.py:99
+msgid "run a new process"
+msgstr "jalankan sebagai proses baru"
 
-#~ msgid "upload to"
-#~ msgstr "memuat naik ke"
+#: src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "jalankan sebagai subproses"
+
+#: src/screenshot.py:97
+msgid "save screenshot to FILE"
+msgstr "simpan cekupan skrin ke FILE"
+
+#: src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "tunjuk nombor versi program dan keluar"
+
+#: src/screenshot.py:107
+msgid "show this help message and exit"
+msgstr "tunjuk mesej ini dan keluar"

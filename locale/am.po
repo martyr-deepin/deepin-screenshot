@@ -3,204 +3,205 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# samson <sambelet@yahoo.com>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: DSnapshot\n"
+"Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-03 10:42+0800\n"
-"PO-Revision-Date: 2014-02-20 09:25+0000\n"
-"Last-Translator: lihongwu <lihongwu1987@gmail.com>\n"
-"Language-Team: Vietnamese (http://www.transifex.com/projects/p/deepin-"
-"screenshot/language/vi/)\n"
-"Language: vi\n"
+"PO-Revision-Date: 2014-06-30 04:34+0000\n"
+"Last-Translator: samson <sambelet@yahoo.com>\n"
+"Language-Team: Amharic (http://www.transifex.com/projects/p/deepin-"
+"screenshot/language/am/)\n"
+"Language: am\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: src/toolbar.py:111 src/widget.py:962
 msgid "Cancel"
-msgstr ""
+msgstr "መሰረዣ"
 
 #: src/share.py:333
 msgid "Click to login"
-msgstr ""
+msgstr "ለመግባት ይጫኑ"
 
 #: src/share.py:315
 msgid "Click to switch user"
-msgstr ""
+msgstr "ተጠቃሚ ለመቀየር ይጫኑ"
 
 #: src/main.py:221 src/main.py:223 src/screenshot.py:60 src/screenshot.py:80
 #: src/screenshot.py:127
 msgid "DScreenshot"
-msgstr ""
+msgstr "ፎቶ ማንሻ"
 
 #: src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
-msgstr ""
+msgstr "ፎቶ ማንሻው ይጀምራል ከ %d ሰከንዶች በኋላ."
 
 #: src/widget.py:289
 msgid "Drag to select area"
-msgstr ""
+msgstr "ቦታውን ለመምረጥ ይጎትቱ"
 
 #: src/toolbar.py:84 src/widget.py:938
 msgid "Draw Arrow"
-msgstr ""
+msgstr "ቀስት መሳያ"
 
 #: src/toolbar.py:83 src/widget.py:934
 msgid "Draw Ellipse"
-msgstr ""
+msgstr "ሞላላ መሳያ"
 
 #: src/toolbar.py:85 src/widget.py:942
 msgid "Draw Line"
-msgstr ""
+msgstr "መስመር መሳያ"
 
 #: src/toolbar.py:82 src/widget.py:930
 msgid "Draw Rectangle"
-msgstr ""
+msgstr "አራት ማእዘን መሳያ"
 
 #: src/toolbar.py:86 src/widget.py:946
 msgid "Draw Text"
-msgstr ""
+msgstr "ጽሁፍ መጻፊያ"
 
 #: src/share.py:527 src/share.py:538
 msgid "Error"
-msgstr ""
+msgstr "ስህተት"
 
 #: src/share.py:662
 msgid "Failed"
-msgstr ""
+msgstr "ወድቋል"
 
 #: src/main.py:182
 msgid "Failed to save the picture"
-msgstr ""
+msgstr "ስእሉን ማስቀመጥ አልተቻለም "
 
 #: src/share.py:613
 msgid "Follow"
-msgstr ""
+msgstr "ይከተሉ"
 
 #: src/share.py:448
 msgid "Loading"
-msgstr ""
+msgstr "በመጫን ላይ"
 
 #: src/main.py:224
 msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr ""
+msgstr "በሚቀጥለው ጊዜ ለማስጀመር ይጫኑ Ctrl+Alt+A"
 
 #: src/share.py:527
 msgid "Picture does not exist."
-msgstr ""
+msgstr "ስእሉን ማግኘት አልተቻለም"
 
 #: src/main.py:199
 msgid "Picture has been saved to clipboard"
-msgstr ""
+msgstr "ስእሉ በ ቁራጭ ሰሌዳ ውስጥ ተቀምጧል"
 
 #: src/main.py:162 src/screenshot.py:58 src/screenshot.py:78
 msgid "Picture has been saved to file"
-msgstr ""
+msgstr "ስእሉ በ ፋይል ውስጥ ተቀምጧል"
 
 #: src/share.py:538
 msgid "Please choose at least one platform to share on"
-msgstr ""
+msgstr "እባክዎን ቢያንስ አንድ ማካፈያ መድረክ ይምረጡ"
 
 #: src/share.py:501
 msgid "Please input text here"
-msgstr ""
+msgstr "እባክዎን ጽሁፍ እዚህ ያስገቡ"
 
 #: src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
-msgstr ""
+msgstr "ስህተት ተፈጥሯል በመጫን ላይ እንዳለ URL '%s'"
 
 #: src/toolbar.py:91 src/widget.py:955
 msgid "Save"
-msgstr ""
+msgstr "ማስቀመጫ"
 
 #: src/toolbar.py:179 src/widget.py:916
 msgid "Save as"
-msgstr ""
+msgstr "ማስቀመጫ እንደ"
 
 #: src/toolbar.py:178 src/widget.py:915
 msgid "Save automatically"
-msgstr ""
+msgstr "ራሱ በራሱ ማስቀመጫ"
 
 #: src/toolbar.py:181 src/widget.py:918
 msgid "Save automatically to file and clipboard"
-msgstr ""
+msgstr "ራሱ በራሱ ወደ ፋይል እና ቁራጭ ሰሌዳ ማስቀመጫ"
 
 #: src/toolbar.py:180 src/widget.py:917
 msgid "Save to clipboard"
-msgstr ""
+msgstr "ወደ ቁራጭ ሰሌዳ ማስቀመጫ"
 
 #: src/toolbar.py:114 src/share.py:459 src/widget.py:969
 msgid "Share"
-msgstr ""
+msgstr "ማካፈያ"
 
 #: src/share.py:636 src/share.py:657
 msgid "Share to"
-msgstr ""
+msgstr "ማካፈያ ለ"
 
 #: src/share.py:73
 msgid "Share to social networks"
-msgstr ""
+msgstr "ወደ ሕብረተሰብ ኔትዎርክ ማካፈያ"
 
 #: src/share.py:639
 msgid "Successful"
-msgstr ""
+msgstr "ተሳክቷል"
 
 #: src/screenshot.py:96
 msgid "Take a screenshot after NUM seconds"
-msgstr ""
+msgstr "ፎቶ ማንሻ ከ NUM ሰከንዶች በኋላ"
 
 #: src/screenshot.py:94
 msgid "Take a screenshot of full screen"
-msgstr ""
+msgstr "መመልከቻውን በሙሉ ፎቶ ማንሻ"
 
 #: src/screenshot.py:95
 msgid "Take a screenshot of the window"
-msgstr ""
+msgstr "መስኮቱን ፎቶ ማንሻ"
 
 #: src/main.py:154
 msgid "The width or height of selected area cannot be 0"
-msgstr ""
+msgstr "የተመረጠው አካባቢ ስፋት ወይንም እርዝመት 0 መሆን የለበትም"
 
 #: src/share.py:186
 msgid "Unable to load page"
-msgstr ""
+msgstr "ገጹን መጫን አልተቻለም"
 
 #: src/toolbar.py:88 src/widget.py:951
 msgid "Undo"
-msgstr ""
+msgstr "መተው"
 
 #: src/share.py:670
 msgid "Unknown reason"
-msgstr ""
+msgstr "ባልታወቀ ምክንያት"
 
 #: src/share.py:555
 msgid "Uploading"
-msgstr ""
+msgstr "በመጫን ላይ"
 
 #: src/share.py:566
 msgid "from Deepin Screenshot"
-msgstr ""
+msgstr "ከ ፎቶ ማንሻ"
 
 #: src/screenshot.py:99
 msgid "run a new process"
-msgstr ""
+msgstr "እንደ አዲስ ሂደት ማስኬጃ"
 
 #: src/screenshot.py:98
 msgid "run as a subprocess"
-msgstr ""
+msgstr "እንደ ንዑስ ሂደት ማስኬጃ"
 
 #: src/screenshot.py:97
 msgid "save screenshot to FILE"
-msgstr ""
+msgstr "ፎቶውን ወደ ፋይል ማስቀመጫ"
 
 #: src/screenshot.py:108
 msgid "show program's version number and exit"
-msgstr ""
+msgstr "የ ፕሮግራሙን እትም ቁጥር ማሳያ እና መውጫ"
 
 #: src/screenshot.py:107
 msgid "show this help message and exit"
-msgstr ""
+msgstr "ይህን የእርዳታ መልእክት ማሳያ እና መውጫ"
