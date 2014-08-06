@@ -1,2 +1,1 @@
-usr/share/deepin-scrot/src/deepin-scrot usr/bin/deepin-scrot
-usr/share/deepin-scrot/locale/en_US usr/share/deepin-scrot/locale/default
+usr/share/deepin-screenshot/src/screenshot.py usr/bin/deepin-screenshot

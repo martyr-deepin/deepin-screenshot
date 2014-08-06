@@ -1,3 +1,391 @@
+deepin-screenshot (2.1+20140703160929~bed4810663) trusty; urgency=low
+
+  * Build from git bed4810663e6aa16a145a4797e4327ec728298a6
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Thu, 03 Jul 2014 16:09:29 +0800
+
+deepin-screenshot (2.1-20140619162620~4124444769) trusty; urgency=low
+
+  * Build from git 412444476928d5ec33331e8e5de7d97560c75e8b
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Thu, 19 Jun 2014 16:26:21 +0800
+
+deepin-screenshot (2.1-20140619095248~e6062720d6) trusty; urgency=low
+
+  * Build from git e6062720d6fd226d59fb0c77c0f6495ce83a45e7
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Thu, 19 Jun 2014 09:52:48 +0800
+
+deepin-screenshot (2.1-20140603094442~63088c2537) trusty; urgency=low
+
+  * Build from git 63088c2537e372ebc5ebc70eea81b02840e0ed73
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Tue, 03 Jun 2014 09:44:43 +0800
+
+deepin-screenshot (2.1-20140504132429~01404ada54) trusty; urgency=medium
+
+  * Build from git 01404ada544572818cee6fb53a7ba3d5885a8a01
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Sun, 04 May 2014 13:24:30 +0800
+
+deepin-screenshot (2.1-20140504132233~01404ada54) trusty; urgency=medium
+
+  * Build from git 01404ada544572818cee6fb53a7ba3d5885a8a01
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Sun, 04 May 2014 13:22:34 +0800
+
+deepin-screenshot (2.1-20140504132037~01404ada54) trusty; urgency=medium
+
+  * Build from git 01404ada544572818cee6fb53a7ba3d5885a8a01
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Sun, 04 May 2014 13:20:38 +0800
+
+deepin-screenshot (2.0+git20140103114838~ed1779ed2c~saucy) saucy; urgency=low
+
+  * port to saucy 
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Fri, 03 Jan 2014 11:50:48 +0800
+
+deepin-screenshot (2.0+git20140103114838~ed1779ed2c) raring; urgency=low
+
+  * Build from git revision ed1779ed2cc040185cc7a6c37bbe183f3084f0b0
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Fri, 03 Jan 2014 11:48:38 +0800
+
+deepin-screenshot (2.0+git20140102144134~86cf3c1d9d) raring; urgency=low
+
+  * Build from git revision 86cf3c1d9d9e1553991a91653276b67084acfb99
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Thu, 02 Jan 2014 14:41:34 +0800
+
+deepin-screenshot (2.0+git20131219150013~f58373936f) raring; urgency=low
+
+  * Build from git revision f58373936f4ac1a3d21e2435c3f28c09c09f9d27
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Thu, 19 Dec 2013 15:00:13 +0800
+
+deepin-screenshot (2.0+git20131216095436~f61c6b88b1) raring; urgency=low
+
+  * Build from git revision f61c6b88b11576429578bf67f467248042d447da
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Mon, 16 Dec 2013 09:54:36 +0800
+
+deepin-screenshot (2.0+git20131212160259~f8cf778a36) raring; urgency=low
+
+  * Build from git revision f8cf778a367b99fcb76170a070d3fd707758069e
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Thu, 12 Dec 2013 16:03:00 +0800
+
+deepin-screenshot (2.0+git20131206094739~4c6302ead9) saucy; urgency=low
+
+  * Build from git revision 4c6302ead98945a61efa06310ef119e819e38f1d
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Fri, 06 Dec 2013 09:47:39 +0800
+
+deepin-screenshot (2.0+git20131128140500~4c6302ead9) raring; urgency=low
+
+  * Build from git revision 4c6302ead98945a61efa06310ef119e819e38f1d
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Thu, 28 Nov 2013 14:05:00 +0800
+
+deepin-screenshot (2.0+git20131108165119~32e91fbc03) raring; urgency=low
+
+  * Build from git revision 32e91fbc036b07bc10ebd713dac73f5c5d77b657
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Fri, 08 Nov 2013 16:51:19 +0800
+
+deepin-screenshot (2.0+git20131107144556~08a32b9856) raring; urgency=low
+
+  * Build from git revision 08a32b985625fa3c07952a8aab043bdbfb8f66cf
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Thu, 07 Nov 2013 14:45:56 +0800
+
+deepin-screenshot (2.0+git20131107140208~9e701be687) raring; urgency=low
+
+  * Build from git revision 9e701be6874bfe42fe40cca60a6e17defdb6db7f
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Thu, 07 Nov 2013 14:02:09 +0800
+
+deepin-screenshot (2.0+git20131106173157~ab95d3cc33) raring; urgency=low
+
+  * Build from git revision ab95d3cc3395b3ef1b315c2bdef46877e8cf7efc
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Wed, 06 Nov 2013 17:31:58 +0800
+
+deepin-screenshot (2.0+git20130912150412~7680f08c57) raring; urgency=low
+
+  * Build from git revision 7680f08c57ef548da0abdfcd2b376bc6d256afc1
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Thu, 12 Sep 2013 15:04:12 +0800
+
+deepin-screenshot (2.0+git20130912125842~7680f08c57) raring; urgency=low
+
+  * Build from git revision 7680f08c57ef548da0abdfcd2b376bc6d256afc1
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Thu, 12 Sep 2013 12:58:42 +0800
+
+deepin-screenshot (2.0+git20130905104457~a85712ea12) raring; urgency=low
+
+  * Build from git revision a85712ea12001bca3366417bf8113b3498803ab0
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Thu, 05 Sep 2013 10:44:57 +0800
+
+deepin-screenshot (2.0+git20130905100857~446023b36f) raring; urgency=low
+
+  * Build from git revision 446023b36fd725081d512a5f89e6d07aefe1a15a
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Thu, 05 Sep 2013 10:08:58 +0800
+
+deepin-screenshot (2.0+git20130829105653~96c804b853) raring; urgency=low
+
+  * Build from git revision 96c804b85323def51083147f2d67d73adf6b0ec6
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Thu, 29 Aug 2013 10:56:53 +0800
+
+deepin-screenshot (2.0+git20130724085618~0406926a5b) raring; urgency=low
+
+  * Build from git revision 0406926a5b5efa8a74ea07506d7065f084041d25
+
+ -- Deepin Packages Builder <packages@linuxdeepin.com>  Wed, 24 Jul 2013 08:56:18 +0800
+
+deepin-screenshot (2.0+git20130717162555~1c6c11d003) raring; urgency=low
+
+  * Build from git revision 1c6c11d0039b3d982a9782182f44840ca5da5748
+
+ -- Deepin Testing Packages <testing@linuxdeepin.com>  Wed, 17 Jul 2013 16:25:55 +0800
+
+deepin-screenshot (2.0+git20130704090222~25cab616e1) raring; urgency=low
+
+  * Build from git revision 25cab616e185e38c9850a6dbd196e6b2f988e331
+
+ -- Deepin Testing Packages <testing@linuxdeepin.com>  Thu, 04 Jul 2013 09:02:23 +0800
+
+deepin-screenshot (2.0+git20130618155753~8c1ba38453) raring; urgency=low
+
+  * Build from git revision 8c1ba384539ea91e97e4321335d76002d82c909f
+
+ -- Deepin Testing Packages <testing@linuxdeepin.com>  Tue, 18 Jun 2013 15:57:53 +0800
+
+deepin-screenshot (2.0+git20130609145227~401a9f4824) raring; urgency=low
+
+  * Build from git revision 401a9f4824fbbfa303c8120fa3984859dce5a564
+
+ -- Deepin Testing Packages <testing@linuxdeepin.com>  Sun, 09 Jun 2013 14:52:28 +0800
+
+deepin-screenshot (2.0+git20130605084630~401a9f4824) raring; urgency=low
+
+  * Build from git revision 401a9f4824fbbfa303c8120fa3984859dce5a564
+
+ -- Deepin Testing Packages <testing@linuxdeepin.com>  Wed, 05 Jun 2013 08:46:30 +0800
+
+deepin-screenshot (2.0+git20130604092849~8ba428c830) raring; urgency=low
+
+  * Build from git revision 8ba428c8305f8ec8fc58d2156dc8c7fbed7f7f5f
+
+ -- Deepin Testing Packages <testing@linuxdeepin.com>  Tue, 04 Jun 2013 09:28:49 +0800
+
+deepin-screenshot (2.0+git20130604085957~327586e8f3) raring; urgency=low
+
+  * Build from git revision 327586e8f37c063975ee0a2370c04ed9b3e842bd
+
+ -- Deepin Testing Packages <testing@linuxdeepin.com>  Tue, 04 Jun 2013 08:59:57 +0800
+
+deepin-screenshot (2.0+git20130531175930~b69be7831f) raring; urgency=low
+
+  * Build from git revision b69be7831f73e71ac7703ef6390086d94647387d
+
+ -- Deepin Testing Packages <testing@linuxdeepin.com>  Fri, 31 May 2013 17:59:31 +0800
+
+deepin-screenshot (2.0+git20130508143603) raring; urgency=low
+
+  * Upstreamer update
+
+ -- Deepin Testing Packages <testing@linuxdeepin.com>  Wed, 08 May 2013 14:36:03 +0800
+
+deepin-screenshot (2.0+git20130508143219) raring; urgency=low
+
+  * Upstreamer update
+
+ -- Deepin Testing Packages <testing@linuxdeepin.com>  Wed, 08 May 2013 14:32:19 +0800
+
+deepin-screenshot (2.0+git20130506100957) raring; urgency=low
+
+  [ Yueqian Zhang ]
+  * Upstreamer update
+
+  [ Deepin Testing Packages ]
+  * Just build for raring
+
+ -- Deepin Testing Packages <testing@linuxdeepin.com>  Mon, 06 May 2013 13:31:00 +0800
+
+deepin-screenshot (2.0+git20130418131616) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Thu, 18 Apr 2013 13:16:16 +0800
+
+deepin-screenshot (2.0+git20130411161853) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Thu, 11 Apr 2013 16:18:53 +0800
+
+deepin-screenshot (2.0+git20130409170444) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Tue, 09 Apr 2013 17:04:44 +0800
+
+deepin-screenshot (2.0+git20130409093049) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Tue, 09 Apr 2013 09:30:50 +0800
+
+deepin-screenshot (2.0+git20130327103654) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Wed, 27 Mar 2013 10:36:55 +0800
+
+deepin-screenshot (2.0+git20130322173202) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Fri, 22 Mar 2013 17:32:03 +0800
+
+deepin-screenshot (2.0+git20130319172455) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Tue, 19 Mar 2013 17:24:55 +0800
+
+deepin-screenshot (2.0+git20130318151813) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Mon, 18 Mar 2013 15:18:13 +0800
+
+deepin-screenshot (2.0+git20130318115858) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Mon, 18 Mar 2013 11:58:58 +0800
+
+deepin-screenshot (2.0+git20130314091904) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Thu, 14 Mar 2013 09:19:04 +0800
+
+deepin-screenshot (2.0+git20130313091815) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Wed, 13 Mar 2013 09:18:16 +0800
+
+deepin-screenshot (2.0+git20130313091553) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Wed, 13 Mar 2013 09:15:54 +0800
+
+deepin-screenshot (2.0+git20130311113613) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Mon, 11 Mar 2013 11:36:13 +0800
+
+deepin-screenshot (2.0+git20130121004724deepin2) quantal; urgency=low
+
+  * fix links
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Thu, 24 Jan 2013 12:23:14 +0800
+
+deepin-screenshot (2.0+git20130121004724deepin1) quantal; urgency=low
+
+  * change target dir
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Thu, 24 Jan 2013 12:11:33 +0800
+
+deepin-screenshot (2.0+git20130121004724) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Li Longyu (Ai Kotoba) <leaeasy@gmail.com>  Mon, 21 Jan 2013 00:47:24 +0800
+
+deepin-screenshot (2.0+git20121226162834) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Li Longyu (Ai Kotoba) <leaeasy@gmail.com>  Wed, 26 Dec 2012 16:28:34 +0800
+
+deepin-screenshot (2.0+git20121221165742) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Li Longyu (Ai Kotoba) <leaeasy@gmail.com>  Fri, 21 Dec 2012 16:57:42 +0800
+
+deepin-screenshot (2.0+git20121221165722) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Li Longyu (Ai Kotoba) <leaeasy@gmail.com>  Fri, 21 Dec 2012 16:57:22 +0800
+
+deepin-screenshot (2.0+git20121221165650) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Li Longyu (Ai Kotoba) <leaeasy@gmail.com>  Fri, 21 Dec 2012 16:56:50 +0800
+
+deepin-screenshot (2.0+git20121221165642) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Li Longyu (Ai Kotoba) <leaeasy@gmail.com>  Fri, 21 Dec 2012 16:56:43 +0800
+
+deepin-screenshot (2.0+git20121221165250) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Li Longyu (Ai Kotoba) <leaeasy@gmail.com>  Fri, 21 Dec 2012 16:52:51 +0800
+
+deepin-screenshot (2.0+git20121204090352) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Li Longyu (Ai Kotoba) <leaeasy@gmail.com>  Tue, 04 Dec 2012 09:03:52 +0800
+
+deepin-screenshot (2.0+git20121203181142) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Li Longyu (Ai Kotoba) <leaeasy@gmail.com>  Mon, 03 Dec 2012 18:11:42 +0800
+
+deepin-screenshot (2.0+git20121203180942) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Li Longyu (Ai Kotoba) <leaeasy@gmail.com>  Mon, 03 Dec 2012 18:09:42 +0800
+
+deepin-screenshot (2.0+git20121203175151) quantal; urgency=low
+
+  * Upstreamer update
+
+ -- Li Longyu (Ai Kotoba) <leaeasy@gmail.com>  Mon, 03 Dec 2012 17:51:51 +0800
+
+deepin-screenshot (2.0+git201210081328) precise; urgency=low
+
+  * add dependencies python-wnck
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Mon, 08 Oct 2012 13:28:20 +0800
+
+deepin-screenshot (2.0+git201209291439) precise; urgency=low
+
+  * new upstream update.
+
+ -- Yueqian Zhang <zhangyueqian@linuxdeepin.com>  Sat, 29 Sep 2012 14:40:49 +0800
+
 deepin-scrot (1.0.2) oneiric; urgency=low
 
   * Fix bug

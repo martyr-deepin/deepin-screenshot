@@ -1,0 +1,21 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    configure)
+        update-alternatives \
+            --install /usr/bin/x-window-screenshot x-window-screenshot \
+                /usr/bin/deepin-screenshot 20
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+exit 0
