@@ -1,23 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # Automatically generated, 2012
-# "chenxiangbang@linuxdeepin.com"
+# 李洪武 <lihongwu1987@gmail.com>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: DSnapshot\n"
+"Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-03 10:42+0800\n"
-"PO-Revision-Date: 2013-12-19 09:14+0000\n"
-"Last-Translator: chenxiangbang <chenxiangbang@linuxdeepin.com>\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/deepin-"
-"screenshot/language/zh_CN/)\n"
-"Language: zh_CN\n"
+"PO-Revision-Date: 2014-08-22 06:00+0000\n"
+"Last-Translator: Catherinelin <linhongxia@linuxdeepin.com>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/deepin-screenshot/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/toolbar.py:111 src/widget.py:962

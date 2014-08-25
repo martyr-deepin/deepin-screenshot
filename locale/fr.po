@@ -1,23 +1,23 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
+# 4goodapp <4goodapp@gmail.com>, 2014
 # lexross <its4moi@gmail.com>, 2014
-# trid <tristan.denni@viacesi.fr>, 2014
+# Tristan Denni <tristan.denni@viacesi.fr>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-03 10:42+0800\n"
-"PO-Revision-Date: 2014-06-30 04:34+0000\n"
-"Last-Translator: trid <tristan.denni@viacesi.fr>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/deepin-screenshot/"
-"language/fr/)\n"
-"Language: fr\n"
+"PO-Revision-Date: 2014-08-09 13:32+0000\n"
+"Last-Translator: 4goodapp <4goodapp@gmail.com>\n"
+"Language-Team: French (http://www.transifex.com/projects/p/deepin-screenshot/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: src/toolbar.py:111 src/widget.py:962
@@ -40,7 +40,7 @@ msgstr "DScreenshot"
 #: src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
-msgstr "Deepin Screenshot démarrera dans %d secondes."
+msgstr "Deepin Screenshot va démarrer dans %d secondes."
 
 #: src/widget.py:289
 msgid "Drag to select area"
@@ -104,11 +104,11 @@ msgstr "L'image a été sauvegardée dans le fichier"
 
 #: src/share.py:538
 msgid "Please choose at least one platform to share on"
-msgstr "Veuillez choisir au moins une plate-forme pour partager "
+msgstr "Choisissez au moins un service sur lequel partager"
 
 #: src/share.py:501
 msgid "Please input text here"
-msgstr "Insérez votre texte ici"
+msgstr "Insérer du texte ici"
 
 #: src/share.py:187
 #, python-format
@@ -129,7 +129,7 @@ msgstr "Sauvegarde automatiquement"
 
 #: src/toolbar.py:181 src/widget.py:918
 msgid "Save automatically to file and clipboard"
-msgstr "sauvegarder automatiquement dans le dossier et dans le presse-papiers"
+msgstr "sauvegarder automatiquement dans le fichier et dans le presse-papiers"
 
 #: src/toolbar.py:180 src/widget.py:917
 msgid "Save to clipboard"
@@ -165,7 +165,7 @@ msgstr "Prendre une capture d'écran de la fenêtre"
 
 #: src/main.py:154
 msgid "The width or height of selected area cannot be 0"
-msgstr "La largeur ou la hauteur de la zone sélectionnée ne peut pas être de 0"
+msgstr "La largeur ou la hauteur de la zone sélectionnée ne peut pas être 0"
 
 #: src/share.py:186
 msgid "Unable to load page"
@@ -173,7 +173,7 @@ msgstr "Impossible de charger la page"
 
 #: src/toolbar.py:88 src/widget.py:951
 msgid "Undo"
-msgstr "Annuler une action"
+msgstr "Annuler l'action"
 
 #: src/share.py:670
 msgid "Unknown reason"
