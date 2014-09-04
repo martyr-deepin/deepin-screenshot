@@ -5,6 +5,12 @@ mode = developer
 
 [deepin-screenshot.deepin-screenshot-20140619]
 file_filter = locale/<lang>.po
+source_file = locale/deepin-screenshot.pot
 source_lang = en
 type = PO
+
+[deepin-screenshot.desktop]
+source_file = deepin-screenshot.desktop
+source_lang = en
+type = DESKTOP
 
