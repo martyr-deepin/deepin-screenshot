@@ -24,34 +24,36 @@ import subprocess
 import os
 from ConfigParser import RawConfigParser as ConfigParser
 
-if __name__ == "__main__":
+def main():
     # Read config options.
     config_parser = ConfigParser()
     config_parser.read("locale_config.ini")
     project_name = config_parser.get("locale", "project_name")
-    source_dir = os.path.abspath(config_parser.get("locale", "source_dir"))
     locale_dir = os.path.abspath(config_parser.get("locale", "locale_dir"))
-    langs = eval(config_parser.get("locale", "langs"))
+    mo_locale_dir = os.path.join(locale_dir, "mo")
 
-    # Generate mo files.
-    for lang in langs:
-        subprocess.call(
-            "mkdir -p %s" % (os.path.join(locale_dir, "%s/LC_MESSAGES/" % (lang))),
-            shell=True
-            )
+    for f in os.listdir(locale_dir):
+        lang, ext = os.path.splitext(f)
+        if ext == ".po":
+            mo_dir = os.path.join(mo_locale_dir, lang, "LC_MESSAGES")
+            mo_path = os.path.join(mo_dir, "%s.mo" % project_name)
+            po_path = os.path.join(locale_dir, f)
+            subprocess.call(
+                "mkdir -p %s" % mo_dir,
+                shell=True
+                )
 
-        subprocess.call(
-            "msgfmt -o %s %s" % (
-                os.path.join(locale_dir, "%s/LC_MESSAGES/%s.mo" % (lang, project_name)),
-                os.path.join(locale_dir, "%s.po" % (lang))),
-            shell=True
-            )
+            subprocess.call(
+                "msgfmt -o %s %s" % (mo_path, po_path),
+                shell=True
+                )
 
-    for lang in langs:
-        subprocess.call(
-            "sudo cp -r %s %s" % (
-                os.path.join(locale_dir, "%s" % lang),
-                "/usr/share/locale/"),
-            shell=True
-            )
+            subprocess.call(
+                "sudo cp -r %s %s" % (
+                    os.path.join(mo_locale_dir, lang),
+                    "/usr/share/locale/"),
+                shell=True
+                )
 
+if __name__ == "__main__":
+    main()
