@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # Antisound <antisound@gmail.com>, 2014
 # corEr <baracus.de@gmail.com>, 2014
@@ -10,14 +10,13 @@ msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-07-03 10:42+0800\n"
-"PO-Revision-Date: 2014-06-30 04:41+0000\n"
+"PO-Revision-Date: 2014-09-14 13:51+0000\n"
 "Last-Translator: cxbii <chenxiangbang@linuxdeepin.com>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/deepin-screenshot/"
-"language/de/)\n"
-"Language: de\n"
+"Language-Team: German (http://www.transifex.com/projects/p/deepin-screenshot/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/toolbar.py:111 src/widget.py:962
@@ -44,8 +43,7 @@ msgstr ""
 
 #: src/widget.py:289
 msgid "Drag to select area"
-msgstr ""
-"Ein Feld mit der Maus ziehen, von welchem Sie ein Screenshot machen wollen"
+msgstr "Ein Feld mit der Maus ziehen, von welchem Sie ein Screenshot machen wollen"
 
 #: src/toolbar.py:84 src/widget.py:938
 msgid "Draw Arrow"
@@ -69,11 +67,11 @@ msgstr "Text zeichnen"
 
 #: src/share.py:527 src/share.py:538
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: src/share.py:662
 msgid "Failed"
-msgstr ""
+msgstr "Fehlgeschlagen"
 
 #: src/main.py:182
 msgid "Failed to save the picture"
