@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-03 10:42+0800\n"
-"PO-Revision-Date: 2014-08-29 08:11+0000\n"
+"POT-Creation-Date: 2014-09-04 17:29+0800\n"
+"PO-Revision-Date: 2014-09-24 10:22+0000\n"
 "Last-Translator: Sinan Eldem\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/deepin-screenshot/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -21,189 +21,189 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/toolbar.py:111 src/widget.py:962
+#: ../src/toolbar.py:82 ../src/widget.py:930
+msgid "Draw Rectangle"
+msgstr "Dikdörtgen çiz"
+
+#: ../src/toolbar.py:83 ../src/widget.py:934
+msgid "Draw Ellipse"
+msgstr "Elips çiz"
+
+#: ../src/toolbar.py:84 ../src/widget.py:938
+msgid "Draw Arrow"
+msgstr "Ok çiz"
+
+#: ../src/toolbar.py:85 ../src/widget.py:942
+msgid "Draw Line"
+msgstr "Çizgi çiz"
+
+#: ../src/toolbar.py:86 ../src/widget.py:946
+msgid "Draw Text"
+msgstr "Metin oluştur"
+
+#: ../src/toolbar.py:88 ../src/widget.py:951
+msgid "Undo"
+msgstr "Geri al"
+
+#: ../src/toolbar.py:91 ../src/widget.py:955
+msgid "Save"
+msgstr "Kayıt"
+
+#: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
 msgstr "İptal"
 
-#: src/share.py:333
-msgid "Click to login"
-msgstr "Giriş için tıklayın"
+#: ../src/toolbar.py:114 ../src/widget.py:969 ../src/share.py:459
+msgid "Share"
+msgstr "Paylaş"
 
-#: src/share.py:315
-msgid "Click to switch user"
-msgstr "Kullanıcıyı değiştir"
+#: ../src/toolbar.py:178 ../src/widget.py:915
+msgid "Save automatically"
+msgstr "Otomatik olarak kaydet"
 
-#: src/main.py:221 src/main.py:223 src/screenshot.py:60 src/screenshot.py:80
-#: src/screenshot.py:127
+#: ../src/toolbar.py:179 ../src/widget.py:916
+msgid "Save as"
+msgstr "Farklı kaydet"
+
+#: ../src/toolbar.py:180 ../src/widget.py:917
+msgid "Save to clipboard"
+msgstr "Panoya kaydet"
+
+#: ../src/toolbar.py:181 ../src/widget.py:918
+msgid "Save automatically to file and clipboard"
+msgstr "Dosyayı otomatik olarak panoya kaydet"
+
+#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
+msgid "Picture has been saved to file"
+msgstr "Resim dosyaya kaydedildi"
+
+#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
+#: ../src/main.py:221 ../src/main.py:223
 msgid "DScreenshot"
 msgstr "DEkran görüntüsü"
 
-#: src/screenshot.py:128
+#: ../src/screenshot.py:94
+msgid "Take a screenshot of full screen"
+msgstr "Ekranın görüntüsünü yakala"
+
+#: ../src/screenshot.py:95
+msgid "Take a screenshot of the window"
+msgstr "Pencerenin görüntüsünü yakala"
+
+#: ../src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr "NUM saniye sonra ekran görüntüsünü yakala"
+
+#: ../src/screenshot.py:97
+msgid "save screenshot to FILE"
+msgstr "ekran görüntüsünü FILE kaydet"
+
+#: ../src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "alt işlem olarak çalıştır"
+
+#: ../src/screenshot.py:99
+msgid "run a new process"
+msgstr "yeni görev çalıştır"
+
+#: ../src/screenshot.py:107
+msgid "show this help message and exit"
+msgstr "yardım mesajını göster ve çık"
+
+#: ../src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "program versiyonunu göster ve çık"
+
+#: ../src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
 msgstr "Deepin Ekran görünütüsü %d saniye içinde başlayacak."
 
-#: src/widget.py:289
+#: ../src/widget.py:289
 msgid "Drag to select area"
 msgstr "Alanı seçmek için sürükleyin"
 
-#: src/toolbar.py:84 src/widget.py:938
-msgid "Draw Arrow"
-msgstr "Ok çiz"
+#: ../src/main.py:154
+msgid "The width or height of selected area cannot be 0"
+msgstr "Seçilen alanın genişliği veya yüksekliği 0 olamaz"
 
-#: src/toolbar.py:83 src/widget.py:934
-msgid "Draw Ellipse"
-msgstr "Elips çiz"
-
-#: src/toolbar.py:85 src/widget.py:942
-msgid "Draw Line"
-msgstr "Çizgi çiz"
-
-#: src/toolbar.py:82 src/widget.py:930
-msgid "Draw Rectangle"
-msgstr "Dikdörtgen çiz"
-
-#: src/toolbar.py:86 src/widget.py:946
-msgid "Draw Text"
-msgstr "Metin oluştur"
-
-#: src/share.py:527 src/share.py:538
-msgid "Error"
-msgstr "Hata"
-
-#: src/share.py:662
-msgid "Failed"
-msgstr "Başarısız"
-
-#: src/main.py:182
+#: ../src/main.py:182
 msgid "Failed to save the picture"
 msgstr "Resim kaydedilemedi"
 
-#: src/share.py:613
-msgid "Follow"
-msgstr "Takip et"
-
-#: src/share.py:448
-msgid "Loading"
-msgstr "Yükleniyor"
-
-#: src/main.py:224
-msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "Bir dahaki sefere başlatmak için Ctrl+Alt+A tuşlarına basabilirsiniz."
-
-#: src/share.py:527
-msgid "Picture does not exist."
-msgstr "Resim yok"
-
-#: src/main.py:199
+#: ../src/main.py:199
 msgid "Picture has been saved to clipboard"
 msgstr "Resim panoya kaydedildi"
 
-#: src/main.py:162 src/screenshot.py:58 src/screenshot.py:78
-msgid "Picture has been saved to file"
-msgstr "Resim dosyaya kaydedildi"
+#: ../src/main.py:224
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "Bir dahaki sefere başlatmak için Ctrl+Alt+A tuşlarına basabilirsiniz."
 
-#: src/share.py:538
-msgid "Please choose at least one platform to share on"
-msgstr "Paylaşmak için bir platform seçin"
+#: ../src/share.py:73
+msgid "Share to social networks"
+msgstr "Sosyal ağlar ile paylaş."
 
-#: src/share.py:501
-msgid "Please input text here"
-msgstr "Lütfen buraya yazın"
+#: ../src/share.py:186
+msgid "Unable to load page"
+msgstr "Sayfa yüklenemedi"
 
-#: src/share.py:187
+#: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "'%s' URL'yi yüklerken sorun oluştu"
 
-#: src/toolbar.py:91 src/widget.py:955
-msgid "Save"
-msgstr "Kayıt"
+#: ../src/share.py:315
+msgid "Click to switch user"
+msgstr "Kullanıcıyı değiştir"
 
-#: src/toolbar.py:179 src/widget.py:916
-msgid "Save as"
-msgstr "Farklı kaydet"
+#: ../src/share.py:333
+msgid "Click to login"
+msgstr "Giriş için tıklayın"
 
-#: src/toolbar.py:178 src/widget.py:915
-msgid "Save automatically"
-msgstr "Otomatik olarak kaydet"
+#: ../src/share.py:448
+msgid "Loading"
+msgstr "Yükleniyor"
 
-#: src/toolbar.py:181 src/widget.py:918
-msgid "Save automatically to file and clipboard"
-msgstr "Dosyayı otomatik olarak panoya kaydet"
+#: ../src/share.py:501
+msgid "Please input text here"
+msgstr "Lütfen buraya yazın"
 
-#: src/toolbar.py:180 src/widget.py:917
-msgid "Save to clipboard"
-msgstr "Panoya kaydet"
+#: ../src/share.py:527 ../src/share.py:538
+msgid "Error"
+msgstr "Hata"
 
-#: src/toolbar.py:114 src/share.py:459 src/widget.py:969
-msgid "Share"
-msgstr "Paylaş"
+#: ../src/share.py:527
+msgid "Picture does not exist."
+msgstr "Resim yok"
 
-#: src/share.py:636 src/share.py:657
-msgid "Share to"
-msgstr "Paylaş"
+#: ../src/share.py:538
+msgid "Please choose at least one platform to share on"
+msgstr "Paylaşmak için bir platform seçin"
 
-#: src/share.py:73
-msgid "Share to social networks"
-msgstr "Sosyal ağlar ile paylaş."
-
-#: src/share.py:639
-msgid "Successful"
-msgstr "Başarılı"
-
-#: src/screenshot.py:96
-msgid "Take a screenshot after NUM seconds"
-msgstr "NUM saniye sonra ekran görüntüsünü yakala"
-
-#: src/screenshot.py:94
-msgid "Take a screenshot of full screen"
-msgstr "Ekranın görüntüsünü yakala"
-
-#: src/screenshot.py:95
-msgid "Take a screenshot of the window"
-msgstr "Pencerenin görüntüsünü yakala"
-
-#: src/main.py:154
-msgid "The width or height of selected area cannot be 0"
-msgstr "Seçilen alanın genişliği veya yüksekliği 0 olamaz"
-
-#: src/share.py:186
-msgid "Unable to load page"
-msgstr "Sayfa yüklenemedi"
-
-#: src/toolbar.py:88 src/widget.py:951
-msgid "Undo"
-msgstr "Geri al"
-
-#: src/share.py:670
-msgid "Unknown reason"
-msgstr "Bilinmeyen bir nedenle"
-
-#: src/share.py:555
+#: ../src/share.py:555
 msgid "Uploading"
 msgstr "Yükleniyor"
 
-#: src/share.py:566
+#: ../src/share.py:566
 msgid "from Deepin Screenshot"
 msgstr "Deepin Ekran görüntüsü'n den"
 
-#: src/screenshot.py:99
-msgid "run a new process"
-msgstr "yeni görev çalıştır"
+#: ../src/share.py:613
+msgid "Follow"
+msgstr "Takip et"
 
-#: src/screenshot.py:98
-msgid "run as a subprocess"
-msgstr "alt işlem olarak çalıştır"
+#: ../src/share.py:636 ../src/share.py:657
+msgid "Share to"
+msgstr "Paylaş"
 
-#: src/screenshot.py:97
-msgid "save screenshot to FILE"
-msgstr "ekran görüntüsünü FILE kaydet"
+#: ../src/share.py:639
+msgid "Successful"
+msgstr "Başarılı"
 
-#: src/screenshot.py:108
-msgid "show program's version number and exit"
-msgstr "program versiyonunu göster ve çık"
+#: ../src/share.py:662
+msgid "Failed"
+msgstr "Başarısız"
 
-#: src/screenshot.py:107
-msgid "show this help message and exit"
-msgstr "yardım mesajını göster ve çık"
+#: ../src/share.py:670
+msgid "Unknown reason"
+msgstr "Bilinmeyen bir nedenle"

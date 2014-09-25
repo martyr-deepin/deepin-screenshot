@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-03 10:42+0800\n"
-"PO-Revision-Date: 2014-07-16 02:41+0000\n"
+"POT-Creation-Date: 2014-09-04 17:29+0800\n"
+"PO-Revision-Date: 2014-09-24 10:22+0000\n"
 "Last-Translator: grognak <alex-_88@hotmail.com>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/projects/p/deepin-screenshot/language/nb/)\n"
 "MIME-Version: 1.0\n"
@@ -18,189 +18,189 @@ msgstr ""
 "Language: nb\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/toolbar.py:111 src/widget.py:962
+#: ../src/toolbar.py:82 ../src/widget.py:930
+msgid "Draw Rectangle"
+msgstr "Tegn Rektangel "
+
+#: ../src/toolbar.py:83 ../src/widget.py:934
+msgid "Draw Ellipse"
+msgstr "Tegn Ellipse "
+
+#: ../src/toolbar.py:84 ../src/widget.py:938
+msgid "Draw Arrow"
+msgstr "Tegn Pil"
+
+#: ../src/toolbar.py:85 ../src/widget.py:942
+msgid "Draw Line"
+msgstr "Tegn Linje"
+
+#: ../src/toolbar.py:86 ../src/widget.py:946
+msgid "Draw Text"
+msgstr "Tegn Tekst "
+
+#: ../src/toolbar.py:88 ../src/widget.py:951
+msgid "Undo"
+msgstr "Angre"
+
+#: ../src/toolbar.py:91 ../src/widget.py:955
+msgid "Save"
+msgstr "Lagre"
+
+#: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
 msgstr "Kanseller "
 
-#: src/share.py:333
-msgid "Click to login"
-msgstr "Klikk for å logge inn"
+#: ../src/toolbar.py:114 ../src/widget.py:969 ../src/share.py:459
+msgid "Share"
+msgstr "Del"
 
-#: src/share.py:315
-msgid "Click to switch user"
-msgstr "Klikk for å bytte bruker"
+#: ../src/toolbar.py:178 ../src/widget.py:915
+msgid "Save automatically"
+msgstr "Lagre automatisk "
 
-#: src/main.py:221 src/main.py:223 src/screenshot.py:60 src/screenshot.py:80
-#: src/screenshot.py:127
+#: ../src/toolbar.py:179 ../src/widget.py:916
+msgid "Save as"
+msgstr "Lagre som"
+
+#: ../src/toolbar.py:180 ../src/widget.py:917
+msgid "Save to clipboard"
+msgstr "Legge til utklippstavle "
+
+#: ../src/toolbar.py:181 ../src/widget.py:918
+msgid "Save automatically to file and clipboard"
+msgstr "Lagre automatisk til fil og utklippstavle  "
+
+#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
+msgid "Picture has been saved to file"
+msgstr "Bildet har blitt lagret til fil"
+
+#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
+#: ../src/main.py:221 ../src/main.py:223
 msgid "DScreenshot"
 msgstr "DSkjermbilde"
 
-#: src/screenshot.py:128
+#: ../src/screenshot.py:94
+msgid "Take a screenshot of full screen"
+msgstr "Ta et skjermbilde av fullskjerm"
+
+#: ../src/screenshot.py:95
+msgid "Take a screenshot of the window"
+msgstr "Ta et skjermbilde av vinduet"
+
+#: ../src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr "Ta et skjermbilde etter ANTALL sekunder "
+
+#: ../src/screenshot.py:97
+msgid "save screenshot to FILE"
+msgstr "lagre skjermbilde til FIL"
+
+#: ../src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "kjør en subprosess   "
+
+#: ../src/screenshot.py:99
+msgid "run a new process"
+msgstr "kjør en ny prosess "
+
+#: ../src/screenshot.py:107
+msgid "show this help message and exit"
+msgstr "vis denne hjelp beskjeden og avslutt"
+
+#: ../src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "vis programmets versjon nummer og avslutt"
+
+#: ../src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
 msgstr "Deepin Skjermbilde vil starte om %d sekunder."
 
-#: src/widget.py:289
+#: ../src/widget.py:289
 msgid "Drag to select area"
 msgstr "Dra til valgt område "
 
-#: src/toolbar.py:84 src/widget.py:938
-msgid "Draw Arrow"
-msgstr "Tegn Pil"
+#: ../src/main.py:154
+msgid "The width or height of selected area cannot be 0"
+msgstr "Vidden og høyden av det valgte området kan ikke være 0"
 
-#: src/toolbar.py:83 src/widget.py:934
-msgid "Draw Ellipse"
-msgstr "Tegn Ellipse "
-
-#: src/toolbar.py:85 src/widget.py:942
-msgid "Draw Line"
-msgstr "Tegn Linje"
-
-#: src/toolbar.py:82 src/widget.py:930
-msgid "Draw Rectangle"
-msgstr "Tegn Rektangel "
-
-#: src/toolbar.py:86 src/widget.py:946
-msgid "Draw Text"
-msgstr "Tegn Tekst "
-
-#: src/share.py:527 src/share.py:538
-msgid "Error"
-msgstr "Feil"
-
-#: src/share.py:662
-msgid "Failed"
-msgstr "Mislyktes"
-
-#: src/main.py:182
+#: ../src/main.py:182
 msgid "Failed to save the picture"
 msgstr "Feilet å lagre bildet"
 
-#: src/share.py:613
-msgid "Follow"
-msgstr "Følg"
-
-#: src/share.py:448
-msgid "Loading"
-msgstr "Laster"
-
-#: src/main.py:224
-msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "Neste gang kan du bare trykke Ctrl+Alt+A for å starte."
-
-#: src/share.py:527
-msgid "Picture does not exist."
-msgstr "Bildet eksistere ikke."
-
-#: src/main.py:199
+#: ../src/main.py:199
 msgid "Picture has been saved to clipboard"
 msgstr "Bildet har blitt lagt til utklippstavle "
 
-#: src/main.py:162 src/screenshot.py:58 src/screenshot.py:78
-msgid "Picture has been saved to file"
-msgstr "Bildet har blitt lagret til fil"
+#: ../src/main.py:224
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "Neste gang kan du bare trykke Ctrl+Alt+A for å starte."
 
-#: src/share.py:538
-msgid "Please choose at least one platform to share on"
-msgstr "Velg minst en tjenest å dele på"
+#: ../src/share.py:73
+msgid "Share to social networks"
+msgstr "Del på sosiale medier"
 
-#: src/share.py:501
-msgid "Please input text here"
-msgstr "Vennligst skriv her"
+#: ../src/share.py:186
+msgid "Unable to load page"
+msgstr "Får ikke lastet side"
 
-#: src/share.py:187
+#: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "Et problem oppstod når URL '%s' skulle lastes"
 
-#: src/toolbar.py:91 src/widget.py:955
-msgid "Save"
-msgstr "Lagre"
+#: ../src/share.py:315
+msgid "Click to switch user"
+msgstr "Klikk for å bytte bruker"
 
-#: src/toolbar.py:179 src/widget.py:916
-msgid "Save as"
-msgstr "Lagre som"
+#: ../src/share.py:333
+msgid "Click to login"
+msgstr "Klikk for å logge inn"
 
-#: src/toolbar.py:178 src/widget.py:915
-msgid "Save automatically"
-msgstr "Lagre automatisk "
+#: ../src/share.py:448
+msgid "Loading"
+msgstr "Laster"
 
-#: src/toolbar.py:181 src/widget.py:918
-msgid "Save automatically to file and clipboard"
-msgstr "Lagre automatisk til fil og utklippstavle  "
+#: ../src/share.py:501
+msgid "Please input text here"
+msgstr "Vennligst skriv her"
 
-#: src/toolbar.py:180 src/widget.py:917
-msgid "Save to clipboard"
-msgstr "Legge til utklippstavle "
+#: ../src/share.py:527 ../src/share.py:538
+msgid "Error"
+msgstr "Feil"
 
-#: src/toolbar.py:114 src/share.py:459 src/widget.py:969
-msgid "Share"
-msgstr "Del"
+#: ../src/share.py:527
+msgid "Picture does not exist."
+msgstr "Bildet eksistere ikke."
 
-#: src/share.py:636 src/share.py:657
-msgid "Share to"
-msgstr "Del til"
+#: ../src/share.py:538
+msgid "Please choose at least one platform to share on"
+msgstr "Velg minst en tjenest å dele på"
 
-#: src/share.py:73
-msgid "Share to social networks"
-msgstr "Del på sosiale medier"
-
-#: src/share.py:639
-msgid "Successful"
-msgstr "Vellykket"
-
-#: src/screenshot.py:96
-msgid "Take a screenshot after NUM seconds"
-msgstr "Ta et skjermbilde etter ANTALL sekunder "
-
-#: src/screenshot.py:94
-msgid "Take a screenshot of full screen"
-msgstr "Ta et skjermbilde av fullskjerm"
-
-#: src/screenshot.py:95
-msgid "Take a screenshot of the window"
-msgstr "Ta et skjermbilde av vinduet"
-
-#: src/main.py:154
-msgid "The width or height of selected area cannot be 0"
-msgstr "Vidden og høyden av det valgte området kan ikke være 0"
-
-#: src/share.py:186
-msgid "Unable to load page"
-msgstr "Får ikke lastet side"
-
-#: src/toolbar.py:88 src/widget.py:951
-msgid "Undo"
-msgstr "Angre"
-
-#: src/share.py:670
-msgid "Unknown reason"
-msgstr "Ukjent grunn"
-
-#: src/share.py:555
+#: ../src/share.py:555
 msgid "Uploading"
 msgstr "Laster opp"
 
-#: src/share.py:566
+#: ../src/share.py:566
 msgid "from Deepin Screenshot"
 msgstr "fra Deepin Skjermbilde"
 
-#: src/screenshot.py:99
-msgid "run a new process"
-msgstr "kjør en ny prosess "
+#: ../src/share.py:613
+msgid "Follow"
+msgstr "Følg"
 
-#: src/screenshot.py:98
-msgid "run as a subprocess"
-msgstr "kjør en subprosess   "
+#: ../src/share.py:636 ../src/share.py:657
+msgid "Share to"
+msgstr "Del til"
 
-#: src/screenshot.py:97
-msgid "save screenshot to FILE"
-msgstr "lagre skjermbilde til FIL"
+#: ../src/share.py:639
+msgid "Successful"
+msgstr "Vellykket"
 
-#: src/screenshot.py:108
-msgid "show program's version number and exit"
-msgstr "vis programmets versjon nummer og avslutt"
+#: ../src/share.py:662
+msgid "Failed"
+msgstr "Mislyktes"
 
-#: src/screenshot.py:107
-msgid "show this help message and exit"
-msgstr "vis denne hjelp beskjeden og avslutt"
+#: ../src/share.py:670
+msgid "Unknown reason"
+msgstr "Ukjent grunn"

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-03 10:42+0800\n"
-"PO-Revision-Date: 2014-07-16 02:41+0000\n"
+"POT-Creation-Date: 2014-09-04 17:29+0800\n"
+"PO-Revision-Date: 2014-09-24 10:22+0000\n"
 "Last-Translator: Serge Kukharski\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/deepin-screenshot/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -20,189 +20,189 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: src/toolbar.py:111 src/widget.py:962
+#: ../src/toolbar.py:82 ../src/widget.py:930
+msgid "Draw Rectangle"
+msgstr "Рисовать прямоугольник"
+
+#: ../src/toolbar.py:83 ../src/widget.py:934
+msgid "Draw Ellipse"
+msgstr "Рисовать эллипс"
+
+#: ../src/toolbar.py:84 ../src/widget.py:938
+msgid "Draw Arrow"
+msgstr "Рисовать стрелку"
+
+#: ../src/toolbar.py:85 ../src/widget.py:942
+msgid "Draw Line"
+msgstr "Рисовать линию"
+
+#: ../src/toolbar.py:86 ../src/widget.py:946
+msgid "Draw Text"
+msgstr "Нанести текст"
+
+#: ../src/toolbar.py:88 ../src/widget.py:951
+msgid "Undo"
+msgstr "Обнулить"
+
+#: ../src/toolbar.py:91 ../src/widget.py:955
+msgid "Save"
+msgstr "Сохранить"
+
+#: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
 msgstr "Отмена"
 
-#: src/share.py:333
-msgid "Click to login"
-msgstr "Нажать для входа"
+#: ../src/toolbar.py:114 ../src/widget.py:969 ../src/share.py:459
+msgid "Share"
+msgstr "Раздать"
 
-#: src/share.py:315
-msgid "Click to switch user"
-msgstr "Нажать для смены пользователя"
+#: ../src/toolbar.py:178 ../src/widget.py:915
+msgid "Save automatically"
+msgstr "Сохранять автоматически"
 
-#: src/main.py:221 src/main.py:223 src/screenshot.py:60 src/screenshot.py:80
-#: src/screenshot.py:127
+#: ../src/toolbar.py:179 ../src/widget.py:916
+msgid "Save as"
+msgstr "Сохранить как"
+
+#: ../src/toolbar.py:180 ../src/widget.py:917
+msgid "Save to clipboard"
+msgstr "Сохранить в буфер обмена"
+
+#: ../src/toolbar.py:181 ../src/widget.py:918
+msgid "Save automatically to file and clipboard"
+msgstr "Сохранить автоматически в файл и буфер обмена"
+
+#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
+msgid "Picture has been saved to file"
+msgstr "Изображение сохранено в файл"
+
+#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
+#: ../src/main.py:221 ../src/main.py:223
 msgid "DScreenshot"
 msgstr "Скриншот"
 
-#: src/screenshot.py:128
+#: ../src/screenshot.py:94
+msgid "Take a screenshot of full screen"
+msgstr "Сделать снимок всего экрана"
+
+#: ../src/screenshot.py:95
+msgid "Take a screenshot of the window"
+msgstr "Сделать снимок окна"
+
+#: ../src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr "Сделать скриншот после NUM секунд"
+
+#: ../src/screenshot.py:97
+msgid "save screenshot to FILE"
+msgstr "сохранить скриншот в FILE"
+
+#: ../src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "выполнять в фоне"
+
+#: ../src/screenshot.py:99
+msgid "run a new process"
+msgstr "запустить новый процесс"
+
+#: ../src/screenshot.py:107
+msgid "show this help message and exit"
+msgstr "показать это сообщение справки и выйти"
+
+#: ../src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "показать версию программы и выйти"
+
+#: ../src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
 msgstr "Снимок экрана через %d секунд"
 
-#: src/widget.py:289
+#: ../src/widget.py:289
 msgid "Drag to select area"
 msgstr "Перетащите в выбранную область"
 
-#: src/toolbar.py:84 src/widget.py:938
-msgid "Draw Arrow"
-msgstr "Рисовать стрелку"
+#: ../src/main.py:154
+msgid "The width or height of selected area cannot be 0"
+msgstr "Ширина или высота выбранной области не может ровняться 0"
 
-#: src/toolbar.py:83 src/widget.py:934
-msgid "Draw Ellipse"
-msgstr "Рисовать эллипс"
-
-#: src/toolbar.py:85 src/widget.py:942
-msgid "Draw Line"
-msgstr "Рисовать линию"
-
-#: src/toolbar.py:82 src/widget.py:930
-msgid "Draw Rectangle"
-msgstr "Рисовать прямоугольник"
-
-#: src/toolbar.py:86 src/widget.py:946
-msgid "Draw Text"
-msgstr "Нанести текст"
-
-#: src/share.py:527 src/share.py:538
-msgid "Error"
-msgstr "Ошибка"
-
-#: src/share.py:662
-msgid "Failed"
-msgstr "Неудача"
-
-#: src/main.py:182
+#: ../src/main.py:182
 msgid "Failed to save the picture"
 msgstr "Не удалось сохранить изображение"
 
-#: src/share.py:613
-msgid "Follow"
-msgstr "Следовать"
-
-#: src/share.py:448
-msgid "Loading"
-msgstr "Загрузка"
-
-#: src/main.py:224
-msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "В будущем просто нажмите Ctrl+Alt+A, чтобы начать."
-
-#: src/share.py:527
-msgid "Picture does not exist."
-msgstr "Изображение отсутствует"
-
-#: src/main.py:199
+#: ../src/main.py:199
 msgid "Picture has been saved to clipboard"
 msgstr "Изображение сохранено в буфер обмена"
 
-#: src/main.py:162 src/screenshot.py:58 src/screenshot.py:78
-msgid "Picture has been saved to file"
-msgstr "Изображение сохранено в файл"
+#: ../src/main.py:224
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "В будущем просто нажмите Ctrl+Alt+A, чтобы начать."
 
-#: src/share.py:538
-msgid "Please choose at least one platform to share on"
-msgstr "Выберите по крайней мере, одну платформу распространения"
+#: ../src/share.py:73
+msgid "Share to social networks"
+msgstr "Поделиться в социальных сетях"
 
-#: src/share.py:501
-msgid "Please input text here"
-msgstr "Введите текст здесь"
+#: ../src/share.py:186
+msgid "Unable to load page"
+msgstr "Невозможно загрузить страницу"
 
-#: src/share.py:187
+#: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "Проблема при загрузке URL '%s'"
 
-#: src/toolbar.py:91 src/widget.py:955
-msgid "Save"
-msgstr "Сохранить"
+#: ../src/share.py:315
+msgid "Click to switch user"
+msgstr "Нажать для смены пользователя"
 
-#: src/toolbar.py:179 src/widget.py:916
-msgid "Save as"
-msgstr "Сохранить как"
+#: ../src/share.py:333
+msgid "Click to login"
+msgstr "Нажать для входа"
 
-#: src/toolbar.py:178 src/widget.py:915
-msgid "Save automatically"
-msgstr "Сохранять автоматически"
+#: ../src/share.py:448
+msgid "Loading"
+msgstr "Загрузка"
 
-#: src/toolbar.py:181 src/widget.py:918
-msgid "Save automatically to file and clipboard"
-msgstr "Сохранить автоматически в файл и буфер обмена"
+#: ../src/share.py:501
+msgid "Please input text here"
+msgstr "Введите текст здесь"
 
-#: src/toolbar.py:180 src/widget.py:917
-msgid "Save to clipboard"
-msgstr "Сохранить в буфер обмена"
+#: ../src/share.py:527 ../src/share.py:538
+msgid "Error"
+msgstr "Ошибка"
 
-#: src/toolbar.py:114 src/share.py:459 src/widget.py:969
-msgid "Share"
-msgstr "Раздать"
+#: ../src/share.py:527
+msgid "Picture does not exist."
+msgstr "Изображение отсутствует"
 
-#: src/share.py:636 src/share.py:657
-msgid "Share to"
-msgstr "Поделиться"
+#: ../src/share.py:538
+msgid "Please choose at least one platform to share on"
+msgstr "Выберите по крайней мере, одну платформу распространения"
 
-#: src/share.py:73
-msgid "Share to social networks"
-msgstr "Поделиться в социальных сетях"
-
-#: src/share.py:639
-msgid "Successful"
-msgstr "Успешно"
-
-#: src/screenshot.py:96
-msgid "Take a screenshot after NUM seconds"
-msgstr "Сделать скриншот после NUM секунд"
-
-#: src/screenshot.py:94
-msgid "Take a screenshot of full screen"
-msgstr "Сделать снимок всего экрана"
-
-#: src/screenshot.py:95
-msgid "Take a screenshot of the window"
-msgstr "Сделать снимок окна"
-
-#: src/main.py:154
-msgid "The width or height of selected area cannot be 0"
-msgstr "Ширина или высота выбранной области не может ровняться 0"
-
-#: src/share.py:186
-msgid "Unable to load page"
-msgstr "Невозможно загрузить страницу"
-
-#: src/toolbar.py:88 src/widget.py:951
-msgid "Undo"
-msgstr "Обнулить"
-
-#: src/share.py:670
-msgid "Unknown reason"
-msgstr "Причина неизвестна"
-
-#: src/share.py:555
+#: ../src/share.py:555
 msgid "Uploading"
 msgstr "Отправка"
 
-#: src/share.py:566
+#: ../src/share.py:566
 msgid "from Deepin Screenshot"
 msgstr "из Скриншотера Deepin"
 
-#: src/screenshot.py:99
-msgid "run a new process"
-msgstr "запустить новый процесс"
+#: ../src/share.py:613
+msgid "Follow"
+msgstr "Следовать"
 
-#: src/screenshot.py:98
-msgid "run as a subprocess"
-msgstr "выполнять в фоне"
+#: ../src/share.py:636 ../src/share.py:657
+msgid "Share to"
+msgstr "Поделиться"
 
-#: src/screenshot.py:97
-msgid "save screenshot to FILE"
-msgstr "сохранить скриншот в FILE"
+#: ../src/share.py:639
+msgid "Successful"
+msgstr "Успешно"
 
-#: src/screenshot.py:108
-msgid "show program's version number and exit"
-msgstr "показать версию программы и выйти"
+#: ../src/share.py:662
+msgid "Failed"
+msgstr "Неудача"
 
-#: src/screenshot.py:107
-msgid "show this help message and exit"
-msgstr "показать это сообщение справки и выйти"
+#: ../src/share.py:670
+msgid "Unknown reason"
+msgstr "Причина неизвестна"

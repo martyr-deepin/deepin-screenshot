@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-03 10:42+0800\n"
-"PO-Revision-Date: 2014-08-18 07:30+0000\n"
+"POT-Creation-Date: 2014-09-04 17:29+0800\n"
+"PO-Revision-Date: 2014-09-24 10:22+0000\n"
 "Last-Translator: JimSp472000 <jimspentzos2000@gmail.com>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/projects/p/deepin-screenshot/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
@@ -18,189 +18,189 @@ msgstr ""
 "Language: el_GR\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/toolbar.py:111 src/widget.py:962
+#: ../src/toolbar.py:82 ../src/widget.py:930
+msgid "Draw Rectangle"
+msgstr "Σχεδιασμός Ορθογωνίου"
+
+#: ../src/toolbar.py:83 ../src/widget.py:934
+msgid "Draw Ellipse"
+msgstr "Σχεδιασμός Έλλειψης"
+
+#: ../src/toolbar.py:84 ../src/widget.py:938
+msgid "Draw Arrow"
+msgstr "Σχεδιασμός Βέλους"
+
+#: ../src/toolbar.py:85 ../src/widget.py:942
+msgid "Draw Line"
+msgstr "Σχεδιασμός Γραμμής"
+
+#: ../src/toolbar.py:86 ../src/widget.py:946
+msgid "Draw Text"
+msgstr "Σχεδιασμός Κειμένου"
+
+#: ../src/toolbar.py:88 ../src/widget.py:951
+msgid "Undo"
+msgstr "Αναίρεση"
+
+#: ../src/toolbar.py:91 ../src/widget.py:955
+msgid "Save"
+msgstr "Αποθήκευση"
+
+#: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
 msgstr "Ακύρωση"
 
-#: src/share.py:333
-msgid "Click to login"
-msgstr "Κάντε κλικ για είσοδο"
+#: ../src/toolbar.py:114 ../src/widget.py:969 ../src/share.py:459
+msgid "Share"
+msgstr "Κοινή χρήση"
 
-#: src/share.py:315
-msgid "Click to switch user"
-msgstr "Κάντε κλικ για αλλαγή χρήστη"
+#: ../src/toolbar.py:178 ../src/widget.py:915
+msgid "Save automatically"
+msgstr "Αυτόματη αποθήκευση"
 
-#: src/main.py:221 src/main.py:223 src/screenshot.py:60 src/screenshot.py:80
-#: src/screenshot.py:127
+#: ../src/toolbar.py:179 ../src/widget.py:916
+msgid "Save as"
+msgstr "Αποθήκευση ως"
+
+#: ../src/toolbar.py:180 ../src/widget.py:917
+msgid "Save to clipboard"
+msgstr "Αποθήκευση στο πρόχειρο"
+
+#: ../src/toolbar.py:181 ../src/widget.py:918
+msgid "Save automatically to file and clipboard"
+msgstr "Αυτόματη αποθήκευση σε αρχείο και πρόχειρο"
+
+#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
+msgid "Picture has been saved to file"
+msgstr "Η εικόνα έχει αποθηκευτεί σε αρχείο"
+
+#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
+#: ../src/main.py:221 ../src/main.py:223
 msgid "DScreenshot"
 msgstr "DScreenshot"
 
-#: src/screenshot.py:128
+#: ../src/screenshot.py:94
+msgid "Take a screenshot of full screen"
+msgstr "Λήψη στιγμιότυπου ολόκληρης της οθόνης"
+
+#: ../src/screenshot.py:95
+msgid "Take a screenshot of the window"
+msgstr "Λήψη στιγμιότυπου του παραθύρου"
+
+#: ../src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr "Λήψη στιγμιότυπου μετά από NUM δευτερόλπετα"
+
+#: ../src/screenshot.py:97
+msgid "save screenshot to FILE"
+msgstr "αποθήκευση στιγμιότυπου οθόνης σε ΑΡΧΕΙΟ"
+
+#: ../src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "εκτέλεση ως υπό-διεργασία"
+
+#: ../src/screenshot.py:99
+msgid "run a new process"
+msgstr "εκτέλεση νέας διεργασίας"
+
+#: ../src/screenshot.py:107
+msgid "show this help message and exit"
+msgstr "προβολή αυτού του μηνύματος βοήθειας και έξοδος"
+
+#: ../src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "προβολή αριθμού έκδοσης του πρόγραμμα και έξοδος"
+
+#: ../src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
 msgstr "Το Στιγμιότυπο Οθόνης Deepin θα ξεκινήσει σε %d δευτερόλεπτα."
 
-#: src/widget.py:289
+#: ../src/widget.py:289
 msgid "Drag to select area"
 msgstr "Σύρετε για να επιλέξτε περιοχή"
 
-#: src/toolbar.py:84 src/widget.py:938
-msgid "Draw Arrow"
-msgstr "Σχεδιασμός Βέλους"
+#: ../src/main.py:154
+msgid "The width or height of selected area cannot be 0"
+msgstr "Το πλάτος ή το ύψος της επιλεγμένης περιοχής δεν μπορούν να είναι 0"
 
-#: src/toolbar.py:83 src/widget.py:934
-msgid "Draw Ellipse"
-msgstr "Σχεδιασμός Έλλειψης"
-
-#: src/toolbar.py:85 src/widget.py:942
-msgid "Draw Line"
-msgstr "Σχεδιασμός Γραμμής"
-
-#: src/toolbar.py:82 src/widget.py:930
-msgid "Draw Rectangle"
-msgstr "Σχεδιασμός Ορθογωνίου"
-
-#: src/toolbar.py:86 src/widget.py:946
-msgid "Draw Text"
-msgstr "Σχεδιασμός Κειμένου"
-
-#: src/share.py:527 src/share.py:538
-msgid "Error"
-msgstr "Σφάλμα"
-
-#: src/share.py:662
-msgid "Failed"
-msgstr "Αποτυχία"
-
-#: src/main.py:182
+#: ../src/main.py:182
 msgid "Failed to save the picture"
 msgstr "Αποτυχία αποθήκευσης της εικόνας"
 
-#: src/share.py:613
-msgid "Follow"
-msgstr "Ακολουθήστε"
-
-#: src/share.py:448
-msgid "Loading"
-msgstr "Φόρτωση"
-
-#: src/main.py:224
-msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "Την επόμενη φορά μπορείτε απλά να πατήσετε Ctrl+Alt+A για έναρξη."
-
-#: src/share.py:527
-msgid "Picture does not exist."
-msgstr "Η εικόνα δεν υπάρχει."
-
-#: src/main.py:199
+#: ../src/main.py:199
 msgid "Picture has been saved to clipboard"
 msgstr "Η εικόνα έχει αποθηκευτεί στο πρόχειρο"
 
-#: src/main.py:162 src/screenshot.py:58 src/screenshot.py:78
-msgid "Picture has been saved to file"
-msgstr "Η εικόνα έχει αποθηκευτεί σε αρχείο"
+#: ../src/main.py:224
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "Την επόμενη φορά μπορείτε απλά να πατήσετε Ctrl+Alt+A για έναρξη."
 
-#: src/share.py:538
-msgid "Please choose at least one platform to share on"
-msgstr "Παρακαλώ επιλέξτε τουλάχιστον μια πλατφόρμα για κοινή χρήση σε"
+#: ../src/share.py:73
+msgid "Share to social networks"
+msgstr "Κοινή χρήση σε κοινωνικά δίκτυα"
 
-#: src/share.py:501
-msgid "Please input text here"
-msgstr "Παρακαλώ εισάγετε κείμενο εδώ"
+#: ../src/share.py:186
+msgid "Unable to load page"
+msgstr "Αδυναμία φόρτωσης σελίδας"
 
-#: src/share.py:187
+#: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "Προέκυψε πρόβλημα κατά τη φόρτωση του URL '%s'"
 
-#: src/toolbar.py:91 src/widget.py:955
-msgid "Save"
-msgstr "Αποθήκευση"
+#: ../src/share.py:315
+msgid "Click to switch user"
+msgstr "Κάντε κλικ για αλλαγή χρήστη"
 
-#: src/toolbar.py:179 src/widget.py:916
-msgid "Save as"
-msgstr "Αποθήκευση ως"
+#: ../src/share.py:333
+msgid "Click to login"
+msgstr "Κάντε κλικ για είσοδο"
 
-#: src/toolbar.py:178 src/widget.py:915
-msgid "Save automatically"
-msgstr "Αυτόματη αποθήκευση"
+#: ../src/share.py:448
+msgid "Loading"
+msgstr "Φόρτωση"
 
-#: src/toolbar.py:181 src/widget.py:918
-msgid "Save automatically to file and clipboard"
-msgstr "Αυτόματη αποθήκευση σε αρχείο και πρόχειρο"
+#: ../src/share.py:501
+msgid "Please input text here"
+msgstr "Παρακαλώ εισάγετε κείμενο εδώ"
 
-#: src/toolbar.py:180 src/widget.py:917
-msgid "Save to clipboard"
-msgstr "Αποθήκευση στο πρόχειρο"
+#: ../src/share.py:527 ../src/share.py:538
+msgid "Error"
+msgstr "Σφάλμα"
 
-#: src/toolbar.py:114 src/share.py:459 src/widget.py:969
-msgid "Share"
-msgstr "Κοινή χρήση"
+#: ../src/share.py:527
+msgid "Picture does not exist."
+msgstr "Η εικόνα δεν υπάρχει."
 
-#: src/share.py:636 src/share.py:657
-msgid "Share to"
-msgstr "Κοινή χρήση σε"
+#: ../src/share.py:538
+msgid "Please choose at least one platform to share on"
+msgstr "Παρακαλώ επιλέξτε τουλάχιστον μια πλατφόρμα για κοινή χρήση σε"
 
-#: src/share.py:73
-msgid "Share to social networks"
-msgstr "Κοινή χρήση σε κοινωνικά δίκτυα"
-
-#: src/share.py:639
-msgid "Successful"
-msgstr "Επιτυχία"
-
-#: src/screenshot.py:96
-msgid "Take a screenshot after NUM seconds"
-msgstr "Λήψη στιγμιότυπου μετά από NUM δευτερόλπετα"
-
-#: src/screenshot.py:94
-msgid "Take a screenshot of full screen"
-msgstr "Λήψη στιγμιότυπου ολόκληρης της οθόνης"
-
-#: src/screenshot.py:95
-msgid "Take a screenshot of the window"
-msgstr "Λήψη στιγμιότυπου του παραθύρου"
-
-#: src/main.py:154
-msgid "The width or height of selected area cannot be 0"
-msgstr "Το πλάτος ή το ύψος της επιλεγμένης περιοχής δεν μπορούν να είναι 0"
-
-#: src/share.py:186
-msgid "Unable to load page"
-msgstr "Αδυναμία φόρτωσης σελίδας"
-
-#: src/toolbar.py:88 src/widget.py:951
-msgid "Undo"
-msgstr "Αναίρεση"
-
-#: src/share.py:670
-msgid "Unknown reason"
-msgstr "Άγνωστος λόγος "
-
-#: src/share.py:555
+#: ../src/share.py:555
 msgid "Uploading"
 msgstr "Μεταφόρτωση"
 
-#: src/share.py:566
+#: ../src/share.py:566
 msgid "from Deepin Screenshot"
 msgstr "από το Στιγμιότυπο Οθόνης Deepin"
 
-#: src/screenshot.py:99
-msgid "run a new process"
-msgstr "εκτέλεση νέας διεργασίας"
+#: ../src/share.py:613
+msgid "Follow"
+msgstr "Ακολουθήστε"
 
-#: src/screenshot.py:98
-msgid "run as a subprocess"
-msgstr "εκτέλεση ως υπό-διεργασία"
+#: ../src/share.py:636 ../src/share.py:657
+msgid "Share to"
+msgstr "Κοινή χρήση σε"
 
-#: src/screenshot.py:97
-msgid "save screenshot to FILE"
-msgstr "αποθήκευση στιγμιότυπου οθόνης σε ΑΡΧΕΙΟ"
+#: ../src/share.py:639
+msgid "Successful"
+msgstr "Επιτυχία"
 
-#: src/screenshot.py:108
-msgid "show program's version number and exit"
-msgstr "προβολή αριθμού έκδοσης του πρόγραμμα και έξοδος"
+#: ../src/share.py:662
+msgid "Failed"
+msgstr "Αποτυχία"
 
-#: src/screenshot.py:107
-msgid "show this help message and exit"
-msgstr "προβολή αυτού του μηνύματος βοήθειας και έξοδος"
+#: ../src/share.py:670
+msgid "Unknown reason"
+msgstr "Άγνωστος λόγος "

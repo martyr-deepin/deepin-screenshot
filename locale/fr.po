@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-03 10:42+0800\n"
-"PO-Revision-Date: 2014-08-09 13:32+0000\n"
+"POT-Creation-Date: 2014-09-04 17:29+0800\n"
+"PO-Revision-Date: 2014-09-24 10:22+0000\n"
 "Last-Translator: 4goodapp <4goodapp@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/deepin-screenshot/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -20,189 +20,189 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/toolbar.py:111 src/widget.py:962
+#: ../src/toolbar.py:82 ../src/widget.py:930
+msgid "Draw Rectangle"
+msgstr "Tracer un rectangle"
+
+#: ../src/toolbar.py:83 ../src/widget.py:934
+msgid "Draw Ellipse"
+msgstr "Tracer une ellipse"
+
+#: ../src/toolbar.py:84 ../src/widget.py:938
+msgid "Draw Arrow"
+msgstr "Tracer une flèche "
+
+#: ../src/toolbar.py:85 ../src/widget.py:942
+msgid "Draw Line"
+msgstr "Tracer une ligne"
+
+#: ../src/toolbar.py:86 ../src/widget.py:946
+msgid "Draw Text"
+msgstr "Tracer un texte"
+
+#: ../src/toolbar.py:88 ../src/widget.py:951
+msgid "Undo"
+msgstr "Annuler l'action"
+
+#: ../src/toolbar.py:91 ../src/widget.py:955
+msgid "Save"
+msgstr "Sauvegarder"
+
+#: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/share.py:333
-msgid "Click to login"
-msgstr "Cliquer pour se connecter"
+#: ../src/toolbar.py:114 ../src/widget.py:969 ../src/share.py:459
+msgid "Share"
+msgstr "Partager"
 
-#: src/share.py:315
-msgid "Click to switch user"
-msgstr "Cliquer pour changer d'utilisateur"
+#: ../src/toolbar.py:178 ../src/widget.py:915
+msgid "Save automatically"
+msgstr "Sauvegarde automatiquement"
 
-#: src/main.py:221 src/main.py:223 src/screenshot.py:60 src/screenshot.py:80
-#: src/screenshot.py:127
+#: ../src/toolbar.py:179 ../src/widget.py:916
+msgid "Save as"
+msgstr "Enregistrer sous"
+
+#: ../src/toolbar.py:180 ../src/widget.py:917
+msgid "Save to clipboard"
+msgstr "Enregistrer dans le presse-papiers"
+
+#: ../src/toolbar.py:181 ../src/widget.py:918
+msgid "Save automatically to file and clipboard"
+msgstr "sauvegarder automatiquement dans le fichier et dans le presse-papiers"
+
+#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
+msgid "Picture has been saved to file"
+msgstr "L'image a été sauvegardée dans le fichier"
+
+#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
+#: ../src/main.py:221 ../src/main.py:223
 msgid "DScreenshot"
 msgstr "DScreenshot"
 
-#: src/screenshot.py:128
+#: ../src/screenshot.py:94
+msgid "Take a screenshot of full screen"
+msgstr "Prendre une capture de l'écran entier"
+
+#: ../src/screenshot.py:95
+msgid "Take a screenshot of the window"
+msgstr "Prendre une capture d'écran de la fenêtre"
+
+#: ../src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr "Prendre une capture d'écran après NUM secondes "
+
+#: ../src/screenshot.py:97
+msgid "save screenshot to FILE"
+msgstr "Sauvegarder la capture d'écran dans FILE"
+
+#: ../src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "Exécuter dans un sous-processus "
+
+#: ../src/screenshot.py:99
+msgid "run a new process"
+msgstr "exécuter un nouveau processus"
+
+#: ../src/screenshot.py:107
+msgid "show this help message and exit"
+msgstr "afficher ce message d'aide et quitter"
+
+#: ../src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "Afficher la version du programme et quitter"
+
+#: ../src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
 msgstr "Deepin Screenshot va démarrer dans %d secondes."
 
-#: src/widget.py:289
+#: ../src/widget.py:289
 msgid "Drag to select area"
 msgstr "Faites glisser pour sélectionner la zone"
 
-#: src/toolbar.py:84 src/widget.py:938
-msgid "Draw Arrow"
-msgstr "Tracer une flèche "
+#: ../src/main.py:154
+msgid "The width or height of selected area cannot be 0"
+msgstr "La largeur ou la hauteur de la zone sélectionnée ne peut pas être 0"
 
-#: src/toolbar.py:83 src/widget.py:934
-msgid "Draw Ellipse"
-msgstr "Tracer une ellipse"
-
-#: src/toolbar.py:85 src/widget.py:942
-msgid "Draw Line"
-msgstr "Tracer une ligne"
-
-#: src/toolbar.py:82 src/widget.py:930
-msgid "Draw Rectangle"
-msgstr "Tracer un rectangle"
-
-#: src/toolbar.py:86 src/widget.py:946
-msgid "Draw Text"
-msgstr "Tracer un texte"
-
-#: src/share.py:527 src/share.py:538
-msgid "Error"
-msgstr "Erreur"
-
-#: src/share.py:662
-msgid "Failed"
-msgstr "Échec"
-
-#: src/main.py:182
+#: ../src/main.py:182
 msgid "Failed to save the picture"
 msgstr "Échec de la sauvegarde de l'image"
 
-#: src/share.py:613
-msgid "Follow"
-msgstr "Suis"
-
-#: src/share.py:448
-msgid "Loading"
-msgstr "Chargement"
-
-#: src/main.py:224
-msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "Vous pouvez aussi faire simplement Ctrl+Alt+A pour démarrer."
-
-#: src/share.py:527
-msgid "Picture does not exist."
-msgstr "L'image n'existe pas"
-
-#: src/main.py:199
+#: ../src/main.py:199
 msgid "Picture has been saved to clipboard"
 msgstr "L'image a été sauvegardée dans le presse-papiers"
 
-#: src/main.py:162 src/screenshot.py:58 src/screenshot.py:78
-msgid "Picture has been saved to file"
-msgstr "L'image a été sauvegardée dans le fichier"
+#: ../src/main.py:224
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "Vous pouvez aussi faire simplement Ctrl+Alt+A pour démarrer."
 
-#: src/share.py:538
-msgid "Please choose at least one platform to share on"
-msgstr "Choisissez au moins un service sur lequel partager"
+#: ../src/share.py:73
+msgid "Share to social networks"
+msgstr "Partager vers des réseaux sociaux"
 
-#: src/share.py:501
-msgid "Please input text here"
-msgstr "Insérer du texte ici"
+#: ../src/share.py:186
+msgid "Unable to load page"
+msgstr "Impossible de charger la page"
 
-#: src/share.py:187
+#: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "Problème pendant le chargement du lien '%s'"
 
-#: src/toolbar.py:91 src/widget.py:955
-msgid "Save"
-msgstr "Sauvegarder"
+#: ../src/share.py:315
+msgid "Click to switch user"
+msgstr "Cliquer pour changer d'utilisateur"
 
-#: src/toolbar.py:179 src/widget.py:916
-msgid "Save as"
-msgstr "Enregistrer sous"
+#: ../src/share.py:333
+msgid "Click to login"
+msgstr "Cliquer pour se connecter"
 
-#: src/toolbar.py:178 src/widget.py:915
-msgid "Save automatically"
-msgstr "Sauvegarde automatiquement"
+#: ../src/share.py:448
+msgid "Loading"
+msgstr "Chargement"
 
-#: src/toolbar.py:181 src/widget.py:918
-msgid "Save automatically to file and clipboard"
-msgstr "sauvegarder automatiquement dans le fichier et dans le presse-papiers"
+#: ../src/share.py:501
+msgid "Please input text here"
+msgstr "Insérer du texte ici"
 
-#: src/toolbar.py:180 src/widget.py:917
-msgid "Save to clipboard"
-msgstr "Enregistrer dans le presse-papiers"
+#: ../src/share.py:527 ../src/share.py:538
+msgid "Error"
+msgstr "Erreur"
 
-#: src/toolbar.py:114 src/share.py:459 src/widget.py:969
-msgid "Share"
-msgstr "Partager"
+#: ../src/share.py:527
+msgid "Picture does not exist."
+msgstr "L'image n'existe pas"
 
-#: src/share.py:636 src/share.py:657
-msgid "Share to"
-msgstr "Partager vers"
+#: ../src/share.py:538
+msgid "Please choose at least one platform to share on"
+msgstr "Choisissez au moins un service sur lequel partager"
 
-#: src/share.py:73
-msgid "Share to social networks"
-msgstr "Partager vers des réseaux sociaux"
-
-#: src/share.py:639
-msgid "Successful"
-msgstr "Avec succès"
-
-#: src/screenshot.py:96
-msgid "Take a screenshot after NUM seconds"
-msgstr "Prendre une capture d'écran après NUM secondes "
-
-#: src/screenshot.py:94
-msgid "Take a screenshot of full screen"
-msgstr "Prendre une capture de l'écran entier"
-
-#: src/screenshot.py:95
-msgid "Take a screenshot of the window"
-msgstr "Prendre une capture d'écran de la fenêtre"
-
-#: src/main.py:154
-msgid "The width or height of selected area cannot be 0"
-msgstr "La largeur ou la hauteur de la zone sélectionnée ne peut pas être 0"
-
-#: src/share.py:186
-msgid "Unable to load page"
-msgstr "Impossible de charger la page"
-
-#: src/toolbar.py:88 src/widget.py:951
-msgid "Undo"
-msgstr "Annuler l'action"
-
-#: src/share.py:670
-msgid "Unknown reason"
-msgstr "Raison inconnue"
-
-#: src/share.py:555
+#: ../src/share.py:555
 msgid "Uploading"
 msgstr "Envoi en cours"
 
-#: src/share.py:566
+#: ../src/share.py:566
 msgid "from Deepin Screenshot"
 msgstr "depuis Deepin Screenshot"
 
-#: src/screenshot.py:99
-msgid "run a new process"
-msgstr "exécuter un nouveau processus"
+#: ../src/share.py:613
+msgid "Follow"
+msgstr "Suis"
 
-#: src/screenshot.py:98
-msgid "run as a subprocess"
-msgstr "Exécuter dans un sous-processus "
+#: ../src/share.py:636 ../src/share.py:657
+msgid "Share to"
+msgstr "Partager vers"
 
-#: src/screenshot.py:97
-msgid "save screenshot to FILE"
-msgstr "Sauvegarder la capture d'écran dans FILE"
+#: ../src/share.py:639
+msgid "Successful"
+msgstr "Avec succès"
 
-#: src/screenshot.py:108
-msgid "show program's version number and exit"
-msgstr "Afficher la version du programme et quitter"
+#: ../src/share.py:662
+msgid "Failed"
+msgstr "Échec"
 
-#: src/screenshot.py:107
-msgid "show this help message and exit"
-msgstr "afficher ce message d'aide et quitter"
+#: ../src/share.py:670
+msgid "Unknown reason"
+msgstr "Raison inconnue"

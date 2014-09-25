@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-03 10:42+0800\n"
-"PO-Revision-Date: 2014-07-16 02:41+0000\n"
+"POT-Creation-Date: 2014-09-04 17:29+0800\n"
+"PO-Revision-Date: 2014-09-24 10:22+0000\n"
 "Last-Translator: mousewis <mousewis@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/deepin-screenshot/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -18,189 +18,189 @@ msgstr ""
 "Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/toolbar.py:111 src/widget.py:962
+#: ../src/toolbar.py:82 ../src/widget.py:930
+msgid "Draw Rectangle"
+msgstr "Vẽ hình chữ nhật"
+
+#: ../src/toolbar.py:83 ../src/widget.py:934
+msgid "Draw Ellipse"
+msgstr "Vẽ hình Eclipse"
+
+#: ../src/toolbar.py:84 ../src/widget.py:938
+msgid "Draw Arrow"
+msgstr "Vẽ mũi tên"
+
+#: ../src/toolbar.py:85 ../src/widget.py:942
+msgid "Draw Line"
+msgstr "Vẽ đường thẳng"
+
+#: ../src/toolbar.py:86 ../src/widget.py:946
+msgid "Draw Text"
+msgstr "Vẽ chữ"
+
+#: ../src/toolbar.py:88 ../src/widget.py:951
+msgid "Undo"
+msgstr "Hoàn tác"
+
+#: ../src/toolbar.py:91 ../src/widget.py:955
+msgid "Save"
+msgstr "Lưu"
+
+#: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
 msgstr "Hủy"
 
-#: src/share.py:333
-msgid "Click to login"
-msgstr "Click để đăng nhập"
+#: ../src/toolbar.py:114 ../src/widget.py:969 ../src/share.py:459
+msgid "Share"
+msgstr "Chia sẻ"
 
-#: src/share.py:315
-msgid "Click to switch user"
-msgstr "Click để thay đổi người dùng"
+#: ../src/toolbar.py:178 ../src/widget.py:915
+msgid "Save automatically"
+msgstr "Lưu tự động"
 
-#: src/main.py:221 src/main.py:223 src/screenshot.py:60 src/screenshot.py:80
-#: src/screenshot.py:127
+#: ../src/toolbar.py:179 ../src/widget.py:916
+msgid "Save as"
+msgstr "Lưu như"
+
+#: ../src/toolbar.py:180 ../src/widget.py:917
+msgid "Save to clipboard"
+msgstr "Lưu vào clipboard"
+
+#: ../src/toolbar.py:181 ../src/widget.py:918
+msgid "Save automatically to file and clipboard"
+msgstr "Lưu tự động vào tệp tin và clipboard"
+
+#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
+msgid "Picture has been saved to file"
+msgstr "Hình ảnh đã được lưu vào tệp tin"
+
+#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
+#: ../src/main.py:221 ../src/main.py:223
 msgid "DScreenshot"
 msgstr "DScreenshot"
 
-#: src/screenshot.py:128
+#: ../src/screenshot.py:94
+msgid "Take a screenshot of full screen"
+msgstr "Chụp ảnh toàn màn hình"
+
+#: ../src/screenshot.py:95
+msgid "Take a screenshot of the window"
+msgstr "Chụp ảnh cửa sổ"
+
+#: ../src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr "Chụp ảnh sau NUM giây"
+
+#: ../src/screenshot.py:97
+msgid "save screenshot to FILE"
+msgstr "lưu ảnh chụp màn hình tệp tin"
+
+#: ../src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "chạy như một tiến trình ngầm"
+
+#: ../src/screenshot.py:99
+msgid "run a new process"
+msgstr "chạy một tiến trình mới"
+
+#: ../src/screenshot.py:107
+msgid "show this help message and exit"
+msgstr "Hiện thông báo này và thoát ra"
+
+#: ../src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "hiện phiên bản của chương trình và thoát ra"
+
+#: ../src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
 msgstr "Deepin Screenshot sẽ bắt đầu trong %d giây."
 
-#: src/widget.py:289
+#: ../src/widget.py:289
 msgid "Drag to select area"
 msgstr "Kéo để lựa chọn khu vực"
 
-#: src/toolbar.py:84 src/widget.py:938
-msgid "Draw Arrow"
-msgstr "Vẽ mũi tên"
+#: ../src/main.py:154
+msgid "The width or height of selected area cannot be 0"
+msgstr "Chiều rộng hoặc chiều dài của khu vực đã lựa chọn không thể là 0"
 
-#: src/toolbar.py:83 src/widget.py:934
-msgid "Draw Ellipse"
-msgstr "Vẽ hình Eclipse"
-
-#: src/toolbar.py:85 src/widget.py:942
-msgid "Draw Line"
-msgstr "Vẽ đường thẳng"
-
-#: src/toolbar.py:82 src/widget.py:930
-msgid "Draw Rectangle"
-msgstr "Vẽ hình chữ nhật"
-
-#: src/toolbar.py:86 src/widget.py:946
-msgid "Draw Text"
-msgstr "Vẽ chữ"
-
-#: src/share.py:527 src/share.py:538
-msgid "Error"
-msgstr "Lỗi"
-
-#: src/share.py:662
-msgid "Failed"
-msgstr "Thất bại"
-
-#: src/main.py:182
+#: ../src/main.py:182
 msgid "Failed to save the picture"
 msgstr "Thất bại khi lưu hình ảnh"
 
-#: src/share.py:613
-msgid "Follow"
-msgstr "Theo dõi"
-
-#: src/share.py:448
-msgid "Loading"
-msgstr "Đang tải"
-
-#: src/main.py:224
-msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "Lần tới bạn có thể nhấn Ctrl+Alt+A để bắt đầu."
-
-#: src/share.py:527
-msgid "Picture does not exist."
-msgstr "Hình ảnh không tồn tại."
-
-#: src/main.py:199
+#: ../src/main.py:199
 msgid "Picture has been saved to clipboard"
 msgstr "Hình ảnh đã được lưu vào bộ nhớ clipboard"
 
-#: src/main.py:162 src/screenshot.py:58 src/screenshot.py:78
-msgid "Picture has been saved to file"
-msgstr "Hình ảnh đã được lưu vào tệp tin"
+#: ../src/main.py:224
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "Lần tới bạn có thể nhấn Ctrl+Alt+A để bắt đầu."
 
-#: src/share.py:538
-msgid "Please choose at least one platform to share on"
-msgstr "Chọn ít nhất một nền tảng để chia sẻ"
+#: ../src/share.py:73
+msgid "Share to social networks"
+msgstr "Chia sẻ lên mạng xã hội"
 
-#: src/share.py:501
-msgid "Please input text here"
-msgstr "Nhập kí tự ở đây"
+#: ../src/share.py:186
+msgid "Unable to load page"
+msgstr "Không thể tải trang"
 
-#: src/share.py:187
+#: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "Vấn đề xảy ra khi tải URL '%s'"
 
-#: src/toolbar.py:91 src/widget.py:955
-msgid "Save"
-msgstr "Lưu"
+#: ../src/share.py:315
+msgid "Click to switch user"
+msgstr "Click để thay đổi người dùng"
 
-#: src/toolbar.py:179 src/widget.py:916
-msgid "Save as"
-msgstr "Lưu như"
+#: ../src/share.py:333
+msgid "Click to login"
+msgstr "Click để đăng nhập"
 
-#: src/toolbar.py:178 src/widget.py:915
-msgid "Save automatically"
-msgstr "Lưu tự động"
+#: ../src/share.py:448
+msgid "Loading"
+msgstr "Đang tải"
 
-#: src/toolbar.py:181 src/widget.py:918
-msgid "Save automatically to file and clipboard"
-msgstr "Lưu tự động vào tệp tin và clipboard"
+#: ../src/share.py:501
+msgid "Please input text here"
+msgstr "Nhập kí tự ở đây"
 
-#: src/toolbar.py:180 src/widget.py:917
-msgid "Save to clipboard"
-msgstr "Lưu vào clipboard"
+#: ../src/share.py:527 ../src/share.py:538
+msgid "Error"
+msgstr "Lỗi"
 
-#: src/toolbar.py:114 src/share.py:459 src/widget.py:969
-msgid "Share"
-msgstr "Chia sẻ"
+#: ../src/share.py:527
+msgid "Picture does not exist."
+msgstr "Hình ảnh không tồn tại."
 
-#: src/share.py:636 src/share.py:657
-msgid "Share to"
-msgstr "Chia sẻ với"
+#: ../src/share.py:538
+msgid "Please choose at least one platform to share on"
+msgstr "Chọn ít nhất một nền tảng để chia sẻ"
 
-#: src/share.py:73
-msgid "Share to social networks"
-msgstr "Chia sẻ lên mạng xã hội"
-
-#: src/share.py:639
-msgid "Successful"
-msgstr "Thành công"
-
-#: src/screenshot.py:96
-msgid "Take a screenshot after NUM seconds"
-msgstr "Chụp ảnh sau NUM giây"
-
-#: src/screenshot.py:94
-msgid "Take a screenshot of full screen"
-msgstr "Chụp ảnh toàn màn hình"
-
-#: src/screenshot.py:95
-msgid "Take a screenshot of the window"
-msgstr "Chụp ảnh cửa sổ"
-
-#: src/main.py:154
-msgid "The width or height of selected area cannot be 0"
-msgstr "Chiều rộng hoặc chiều dài của khu vực đã lựa chọn không thể là 0"
-
-#: src/share.py:186
-msgid "Unable to load page"
-msgstr "Không thể tải trang"
-
-#: src/toolbar.py:88 src/widget.py:951
-msgid "Undo"
-msgstr "Hoàn tác"
-
-#: src/share.py:670
-msgid "Unknown reason"
-msgstr "Không rõ nguyên nhân"
-
-#: src/share.py:555
+#: ../src/share.py:555
 msgid "Uploading"
 msgstr "Đang tải lên"
 
-#: src/share.py:566
+#: ../src/share.py:566
 msgid "from Deepin Screenshot"
 msgstr "từ Deepin Screenshot"
 
-#: src/screenshot.py:99
-msgid "run a new process"
-msgstr "chạy một tiến trình mới"
+#: ../src/share.py:613
+msgid "Follow"
+msgstr "Theo dõi"
 
-#: src/screenshot.py:98
-msgid "run as a subprocess"
-msgstr "chạy như một tiến trình ngầm"
+#: ../src/share.py:636 ../src/share.py:657
+msgid "Share to"
+msgstr "Chia sẻ với"
 
-#: src/screenshot.py:97
-msgid "save screenshot to FILE"
-msgstr "lưu ảnh chụp màn hình tệp tin"
+#: ../src/share.py:639
+msgid "Successful"
+msgstr "Thành công"
 
-#: src/screenshot.py:108
-msgid "show program's version number and exit"
-msgstr "hiện phiên bản của chương trình và thoát ra"
+#: ../src/share.py:662
+msgid "Failed"
+msgstr "Thất bại"
 
-#: src/screenshot.py:107
-msgid "show this help message and exit"
-msgstr "Hiện thông báo này và thoát ra"
+#: ../src/share.py:670
+msgid "Unknown reason"
+msgstr "Không rõ nguyên nhân"

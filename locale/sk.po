@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-03 10:42+0800\n"
-"PO-Revision-Date: 2014-07-31 20:51+0000\n"
+"POT-Creation-Date: 2014-09-04 17:29+0800\n"
+"PO-Revision-Date: 2014-09-24 10:22+0000\n"
 "Last-Translator: Microtus <hrabosmartin@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/deepin-screenshot/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -19,189 +19,189 @@ msgstr ""
 "Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: src/toolbar.py:111 src/widget.py:962
+#: ../src/toolbar.py:82 ../src/widget.py:930
+msgid "Draw Rectangle"
+msgstr "Nakresliť obdĺžnik"
+
+#: ../src/toolbar.py:83 ../src/widget.py:934
+msgid "Draw Ellipse"
+msgstr "Nakresliť elipsu"
+
+#: ../src/toolbar.py:84 ../src/widget.py:938
+msgid "Draw Arrow"
+msgstr "Nakresliť šípku"
+
+#: ../src/toolbar.py:85 ../src/widget.py:942
+msgid "Draw Line"
+msgstr "Nakresliť čiaru"
+
+#: ../src/toolbar.py:86 ../src/widget.py:946
+msgid "Draw Text"
+msgstr "Nakresliť text"
+
+#: ../src/toolbar.py:88 ../src/widget.py:951
+msgid "Undo"
+msgstr "Späť"
+
+#: ../src/toolbar.py:91 ../src/widget.py:955
+msgid "Save"
+msgstr "Uložiť"
+
+#: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
 msgstr "Zrušiť"
 
-#: src/share.py:333
-msgid "Click to login"
-msgstr "Kliknite pre prihlásenie"
+#: ../src/toolbar.py:114 ../src/widget.py:969 ../src/share.py:459
+msgid "Share"
+msgstr "Zdieľať"
 
-#: src/share.py:315
-msgid "Click to switch user"
-msgstr "Kliknite pre prepnutie používateľa"
+#: ../src/toolbar.py:178 ../src/widget.py:915
+msgid "Save automatically"
+msgstr "Automaticky uložiť"
 
-#: src/main.py:221 src/main.py:223 src/screenshot.py:60 src/screenshot.py:80
-#: src/screenshot.py:127
+#: ../src/toolbar.py:179 ../src/widget.py:916
+msgid "Save as"
+msgstr "Uložiť ako"
+
+#: ../src/toolbar.py:180 ../src/widget.py:917
+msgid "Save to clipboard"
+msgstr "Uložiť do schránky"
+
+#: ../src/toolbar.py:181 ../src/widget.py:918
+msgid "Save automatically to file and clipboard"
+msgstr "Automaticky uložiť do schránky a súboru."
+
+#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
+msgid "Picture has been saved to file"
+msgstr "Obrázok bol uložený do súboru"
+
+#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
+#: ../src/main.py:221 ../src/main.py:223
 msgid "DScreenshot"
 msgstr "DScreenshot"
 
-#: src/screenshot.py:128
+#: ../src/screenshot.py:94
+msgid "Take a screenshot of full screen"
+msgstr "Urobiť snímku celej obrazovky"
+
+#: ../src/screenshot.py:95
+msgid "Take a screenshot of the window"
+msgstr "Urobiť snímku okna"
+
+#: ../src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr "Urobiť snímku obrazovky po určitom počtu sekúnd"
+
+#: ../src/screenshot.py:97
+msgid "save screenshot to FILE"
+msgstr "Uložiť snímok obrazovky do súboru"
+
+#: ../src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "Spustiť ako podproces"
+
+#: ../src/screenshot.py:99
+msgid "run a new process"
+msgstr "Spustiť nový proces"
+
+#: ../src/screenshot.py:107
+msgid "show this help message and exit"
+msgstr "Ukázať túto správu s nápovedou a ukončiť"
+
+#: ../src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "Ukázať číslo s verziou programu a ukončiť"
+
+#: ../src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
 msgstr "Deepin Screenshot začne o %d sekúnd."
 
-#: src/widget.py:289
+#: ../src/widget.py:289
 msgid "Drag to select area"
 msgstr "Presúvajte pre zmenenie oblasti"
 
-#: src/toolbar.py:84 src/widget.py:938
-msgid "Draw Arrow"
-msgstr "Nakresliť šípku"
+#: ../src/main.py:154
+msgid "The width or height of selected area cannot be 0"
+msgstr "Šírka alebo výška vybranej oblasti nemôže byť 0"
 
-#: src/toolbar.py:83 src/widget.py:934
-msgid "Draw Ellipse"
-msgstr "Nakresliť elipsu"
-
-#: src/toolbar.py:85 src/widget.py:942
-msgid "Draw Line"
-msgstr "Nakresliť čiaru"
-
-#: src/toolbar.py:82 src/widget.py:930
-msgid "Draw Rectangle"
-msgstr "Nakresliť obdĺžnik"
-
-#: src/toolbar.py:86 src/widget.py:946
-msgid "Draw Text"
-msgstr "Nakresliť text"
-
-#: src/share.py:527 src/share.py:538
-msgid "Error"
-msgstr "Chyba"
-
-#: src/share.py:662
-msgid "Failed"
-msgstr "Zlyhanie"
-
-#: src/main.py:182
+#: ../src/main.py:182
 msgid "Failed to save the picture"
 msgstr "Nepodarilo sa uložiť súbor"
 
-#: src/share.py:613
-msgid "Follow"
-msgstr "Sledovať"
-
-#: src/share.py:448
-msgid "Loading"
-msgstr "Načítavanie"
-
-#: src/main.py:224
-msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "Nabudúce stačí, aby ste k spusteniu stlačili Ctrl+Alt+A."
-
-#: src/share.py:527
-msgid "Picture does not exist."
-msgstr "Obrázok neexistuje."
-
-#: src/main.py:199
+#: ../src/main.py:199
 msgid "Picture has been saved to clipboard"
 msgstr "Obrázok bol uložený do schránky"
 
-#: src/main.py:162 src/screenshot.py:58 src/screenshot.py:78
-msgid "Picture has been saved to file"
-msgstr "Obrázok bol uložený do súboru"
+#: ../src/main.py:224
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "Nabudúce stačí, aby ste k spusteniu stlačili Ctrl+Alt+A."
 
-#: src/share.py:538
-msgid "Please choose at least one platform to share on"
-msgstr "Vyberte prosím aspoň jeden systém, na ktorom sa má zdieľať"
+#: ../src/share.py:73
+msgid "Share to social networks"
+msgstr "Zdieľať do sociálnych sietí"
 
-#: src/share.py:501
-msgid "Please input text here"
-msgstr "Zadajte text tu, prosím"
+#: ../src/share.py:186
+msgid "Unable to load page"
+msgstr "Nepodarilo sa nahrať stránku"
 
-#: src/share.py:187
+#: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "Pri nahrávaní URL adresy '%s' sa vyskytli problémy"
 
-#: src/toolbar.py:91 src/widget.py:955
-msgid "Save"
-msgstr "Uložiť"
+#: ../src/share.py:315
+msgid "Click to switch user"
+msgstr "Kliknite pre prepnutie používateľa"
 
-#: src/toolbar.py:179 src/widget.py:916
-msgid "Save as"
-msgstr "Uložiť ako"
+#: ../src/share.py:333
+msgid "Click to login"
+msgstr "Kliknite pre prihlásenie"
 
-#: src/toolbar.py:178 src/widget.py:915
-msgid "Save automatically"
-msgstr "Automaticky uložiť"
+#: ../src/share.py:448
+msgid "Loading"
+msgstr "Načítavanie"
 
-#: src/toolbar.py:181 src/widget.py:918
-msgid "Save automatically to file and clipboard"
-msgstr "Automaticky uložiť do schránky a súboru."
+#: ../src/share.py:501
+msgid "Please input text here"
+msgstr "Zadajte text tu, prosím"
 
-#: src/toolbar.py:180 src/widget.py:917
-msgid "Save to clipboard"
-msgstr "Uložiť do schránky"
+#: ../src/share.py:527 ../src/share.py:538
+msgid "Error"
+msgstr "Chyba"
 
-#: src/toolbar.py:114 src/share.py:459 src/widget.py:969
-msgid "Share"
-msgstr "Zdieľať"
+#: ../src/share.py:527
+msgid "Picture does not exist."
+msgstr "Obrázok neexistuje."
 
-#: src/share.py:636 src/share.py:657
-msgid "Share to"
-msgstr "Zdieľať s"
+#: ../src/share.py:538
+msgid "Please choose at least one platform to share on"
+msgstr "Vyberte prosím aspoň jeden systém, na ktorom sa má zdieľať"
 
-#: src/share.py:73
-msgid "Share to social networks"
-msgstr "Zdieľať do sociálnych sietí"
-
-#: src/share.py:639
-msgid "Successful"
-msgstr "Úspech"
-
-#: src/screenshot.py:96
-msgid "Take a screenshot after NUM seconds"
-msgstr "Urobiť snímku obrazovky po určitom počtu sekúnd"
-
-#: src/screenshot.py:94
-msgid "Take a screenshot of full screen"
-msgstr "Urobiť snímku celej obrazovky"
-
-#: src/screenshot.py:95
-msgid "Take a screenshot of the window"
-msgstr "Urobiť snímku okna"
-
-#: src/main.py:154
-msgid "The width or height of selected area cannot be 0"
-msgstr "Šírka alebo výška vybranej oblasti nemôže byť 0"
-
-#: src/share.py:186
-msgid "Unable to load page"
-msgstr "Nepodarilo sa nahrať stránku"
-
-#: src/toolbar.py:88 src/widget.py:951
-msgid "Undo"
-msgstr "Späť"
-
-#: src/share.py:670
-msgid "Unknown reason"
-msgstr "Neznámy dôvod"
-
-#: src/share.py:555
+#: ../src/share.py:555
 msgid "Uploading"
 msgstr "Nahrávanie"
 
-#: src/share.py:566
+#: ../src/share.py:566
 msgid "from Deepin Screenshot"
 msgstr "z Deepin Screenshot"
 
-#: src/screenshot.py:99
-msgid "run a new process"
-msgstr "Spustiť nový proces"
+#: ../src/share.py:613
+msgid "Follow"
+msgstr "Sledovať"
 
-#: src/screenshot.py:98
-msgid "run as a subprocess"
-msgstr "Spustiť ako podproces"
+#: ../src/share.py:636 ../src/share.py:657
+msgid "Share to"
+msgstr "Zdieľať s"
 
-#: src/screenshot.py:97
-msgid "save screenshot to FILE"
-msgstr "Uložiť snímok obrazovky do súboru"
+#: ../src/share.py:639
+msgid "Successful"
+msgstr "Úspech"
 
-#: src/screenshot.py:108
-msgid "show program's version number and exit"
-msgstr "Ukázať číslo s verziou programu a ukončiť"
+#: ../src/share.py:662
+msgid "Failed"
+msgstr "Zlyhanie"
 
-#: src/screenshot.py:107
-msgid "show this help message and exit"
-msgstr "Ukázať túto správu s nápovedou a ukončiť"
+#: ../src/share.py:670
+msgid "Unknown reason"
+msgstr "Neznámy dôvod"

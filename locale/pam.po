@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-03 10:42+0800\n"
-"PO-Revision-Date: 2014-09-22 13:11+0000\n"
+"POT-Creation-Date: 2014-09-04 17:29+0800\n"
+"PO-Revision-Date: 2014-09-24 10:22+0000\n"
 "Last-Translator: aliperus <aliperus@gmail.com>\n"
 "Language-Team: Kapampangan (http://www.transifex.com/projects/p/deepin-screenshot/language/pam/)\n"
 "MIME-Version: 1.0\n"
@@ -18,189 +18,189 @@ msgstr ""
 "Language: pam\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/toolbar.py:111 src/widget.py:962
+#: ../src/toolbar.py:82 ../src/widget.py:930
+msgid "Draw Rectangle"
+msgstr "Gawang Rectangle"
+
+#: ../src/toolbar.py:83 ../src/widget.py:934
+msgid "Draw Ellipse"
+msgstr "Gawang Ellipse"
+
+#: ../src/toolbar.py:84 ../src/widget.py:938
+msgid "Draw Arrow"
+msgstr "Gawang Arrow"
+
+#: ../src/toolbar.py:85 ../src/widget.py:942
+msgid "Draw Line"
+msgstr "Gawang Linya"
+
+#: ../src/toolbar.py:86 ../src/widget.py:946
+msgid "Draw Text"
+msgstr "Gawang Text"
+
+#: ../src/toolbar.py:88 ../src/widget.py:951
+msgid "Undo"
+msgstr "Ibalik"
+
+#: ../src/toolbar.py:91 ../src/widget.py:955
+msgid "Save"
+msgstr "Isinup"
+
+#: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
 msgstr "I-cancel"
 
-#: src/share.py:333
-msgid "Click to login"
-msgstr "Pindutan ban makapag-login"
+#: ../src/toolbar.py:114 ../src/widget.py:969 ../src/share.py:459
+msgid "Share"
+msgstr "Pamie"
 
-#: src/share.py:315
-msgid "Click to switch user"
-msgstr "Pindutan ban mamalit user"
+#: ../src/toolbar.py:178 ../src/widget.py:915
+msgid "Save automatically"
+msgstr "Isinup antimanu"
 
-#: src/main.py:221 src/main.py:223 src/screenshot.py:60 src/screenshot.py:80
-#: src/screenshot.py:127
+#: ../src/toolbar.py:179 ../src/widget.py:916
+msgid "Save as"
+msgstr "Isinup bilang"
+
+#: ../src/toolbar.py:180 ../src/widget.py:917
+msgid "Save to clipboard"
+msgstr "Isinup king clipboard"
+
+#: ../src/toolbar.py:181 ../src/widget.py:918
+msgid "Save automatically to file and clipboard"
+msgstr "Isinup antimanu keng file at clipboard"
+
+#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
+msgid "Picture has been saved to file"
+msgstr "Mesinup ne ing larawan king file"
+
+#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
+#: ../src/main.py:221 ../src/main.py:223
 msgid "DScreenshot"
 msgstr "DScreenshot"
 
-#: src/screenshot.py:128
+#: ../src/screenshot.py:94
+msgid "Take a screenshot of full screen"
+msgstr "Kumang screenshot a full screen"
+
+#: ../src/screenshot.py:95
+msgid "Take a screenshot of the window"
+msgstr "Kumang screenshot ning awang"
+
+#: ../src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr "Kumang screenshot kaibat ning NUM a segundu"
+
+#: ../src/screenshot.py:97
+msgid "save screenshot to FILE"
+msgstr "isinup ing screenshot king FILE"
+
+#: ../src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "mag paganang sub process"
+
+#: ../src/screenshot.py:99
+msgid "run a new process"
+msgstr "mag pagana bayung prosesu"
+
+#: ../src/screenshot.py:107
+msgid "show this help message and exit"
+msgstr "ipalto ing saup a mensayi at lumwal"
+
+#: ../src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "ipalto ing bersyon a numeru ning program at lumwal"
+
+#: ../src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
 msgstr "Mag umpisa yang Deepin Screenshot king %d a segundu."
 
-#: src/widget.py:289
+#: ../src/widget.py:289
 msgid "Drag to select area"
 msgstr "Abitan ban makapamiling area"
 
-#: src/toolbar.py:84 src/widget.py:938
-msgid "Draw Arrow"
-msgstr "Gawang Arrow"
+#: ../src/main.py:154
+msgid "The width or height of selected area cannot be 0"
+msgstr "Ing lapad at katas ning mepiling area eya magsilbing 0"
 
-#: src/toolbar.py:83 src/widget.py:934
-msgid "Draw Ellipse"
-msgstr "Gawang Ellipse"
-
-#: src/toolbar.py:85 src/widget.py:942
-msgid "Draw Line"
-msgstr "Gawang Linya"
-
-#: src/toolbar.py:82 src/widget.py:930
-msgid "Draw Rectangle"
-msgstr "Gawang Rectangle"
-
-#: src/toolbar.py:86 src/widget.py:946
-msgid "Draw Text"
-msgstr "Gawang Text"
-
-#: src/share.py:527 src/share.py:538
-msgid "Error"
-msgstr "Kamalian"
-
-#: src/share.py:662
-msgid "Failed"
-msgstr "Eya milyari"
-
-#: src/main.py:182
+#: ../src/main.py:182
 msgid "Failed to save the picture"
 msgstr "Eya milyari ing pamag sinup king larawan"
 
-#: src/share.py:613
-msgid "Follow"
-msgstr "Talukian"
-
-#: src/share.py:448
-msgid "Loading"
-msgstr "Mag-load ne"
-
-#: src/main.py:224
-msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "Keng tutuki maliari meng pindutan ing Ctrl+Alt+A ban mag umpisa."
-
-#: src/share.py:527
-msgid "Picture does not exist."
-msgstr "Ala ya ing larawan."
-
-#: src/main.py:199
+#: ../src/main.py:199
 msgid "Picture has been saved to clipboard"
 msgstr "Mesinup ne ing larawan keng clipboard"
 
-#: src/main.py:162 src/screenshot.py:58 src/screenshot.py:78
-msgid "Picture has been saved to file"
-msgstr "Mesinup ne ing larawan king file"
+#: ../src/main.py:224
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "Keng tutuki maliari meng pindutan ing Ctrl+Alt+A ban mag umpisa."
 
-#: src/share.py:538
-msgid "Please choose at least one platform to share on"
-msgstr "Mamili ka gang metung mung platform nung non ka mamie"
+#: ../src/share.py:73
+msgid "Share to social networks"
+msgstr "Ipamie kareng social networks"
 
-#: src/share.py:501
-msgid "Please input text here"
-msgstr "Maglage keng text keni"
+#: ../src/share.py:186
+msgid "Unable to load page"
+msgstr "Ali miya a load ing bulung"
 
-#: src/share.py:187
+#: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "Ating problemang milyari kang lo-load miya ing URL a '%s'"
 
-#: src/toolbar.py:91 src/widget.py:955
-msgid "Save"
-msgstr "Isinup"
+#: ../src/share.py:315
+msgid "Click to switch user"
+msgstr "Pindutan ban mamalit user"
 
-#: src/toolbar.py:179 src/widget.py:916
-msgid "Save as"
-msgstr "Isinup bilang"
+#: ../src/share.py:333
+msgid "Click to login"
+msgstr "Pindutan ban makapag-login"
 
-#: src/toolbar.py:178 src/widget.py:915
-msgid "Save automatically"
-msgstr "Isinup antimanu"
+#: ../src/share.py:448
+msgid "Loading"
+msgstr "Mag-load ne"
 
-#: src/toolbar.py:181 src/widget.py:918
-msgid "Save automatically to file and clipboard"
-msgstr "Isinup antimanu keng file at clipboard"
+#: ../src/share.py:501
+msgid "Please input text here"
+msgstr "Maglage keng text keni"
 
-#: src/toolbar.py:180 src/widget.py:917
-msgid "Save to clipboard"
-msgstr "Isinup king clipboard"
+#: ../src/share.py:527 ../src/share.py:538
+msgid "Error"
+msgstr "Kamalian"
 
-#: src/toolbar.py:114 src/share.py:459 src/widget.py:969
-msgid "Share"
-msgstr "Pamie"
+#: ../src/share.py:527
+msgid "Picture does not exist."
+msgstr "Ala ya ing larawan."
 
-#: src/share.py:636 src/share.py:657
-msgid "Share to"
-msgstr "Ipamie king"
+#: ../src/share.py:538
+msgid "Please choose at least one platform to share on"
+msgstr "Mamili ka gang metung mung platform nung non ka mamie"
 
-#: src/share.py:73
-msgid "Share to social networks"
-msgstr "Ipamie kareng social networks"
-
-#: src/share.py:639
-msgid "Successful"
-msgstr "Milyari ya"
-
-#: src/screenshot.py:96
-msgid "Take a screenshot after NUM seconds"
-msgstr "Kumang screenshot kaibat ning NUM a segundu"
-
-#: src/screenshot.py:94
-msgid "Take a screenshot of full screen"
-msgstr "Kumang screenshot a full screen"
-
-#: src/screenshot.py:95
-msgid "Take a screenshot of the window"
-msgstr "Kumang screenshot ning awang"
-
-#: src/main.py:154
-msgid "The width or height of selected area cannot be 0"
-msgstr "Ing lapad at katas ning mepiling area eya magsilbing 0"
-
-#: src/share.py:186
-msgid "Unable to load page"
-msgstr "Ali miya a load ing bulung"
-
-#: src/toolbar.py:88 src/widget.py:951
-msgid "Undo"
-msgstr "Ibalik"
-
-#: src/share.py:670
-msgid "Unknown reason"
-msgstr "Ali mi balung sankan"
-
-#: src/share.py:555
+#: ../src/share.py:555
 msgid "Uploading"
 msgstr "Mag upload ne"
 
-#: src/share.py:566
+#: ../src/share.py:566
 msgid "from Deepin Screenshot"
 msgstr "menibat king Deepin Screenshot"
 
-#: src/screenshot.py:99
-msgid "run a new process"
-msgstr "mag pagana bayung prosesu"
+#: ../src/share.py:613
+msgid "Follow"
+msgstr "Talukian"
 
-#: src/screenshot.py:98
-msgid "run as a subprocess"
-msgstr "mag paganang sub process"
+#: ../src/share.py:636 ../src/share.py:657
+msgid "Share to"
+msgstr "Ipamie king"
 
-#: src/screenshot.py:97
-msgid "save screenshot to FILE"
-msgstr "isinup ing screenshot king FILE"
+#: ../src/share.py:639
+msgid "Successful"
+msgstr "Milyari ya"
 
-#: src/screenshot.py:108
-msgid "show program's version number and exit"
-msgstr "ipalto ing bersyon a numeru ning program at lumwal"
+#: ../src/share.py:662
+msgid "Failed"
+msgstr "Eya milyari"
 
-#: src/screenshot.py:107
-msgid "show this help message and exit"
-msgstr "ipalto ing saup a mensayi at lumwal"
+#: ../src/share.py:670
+msgid "Unknown reason"
+msgstr "Ali mi balung sankan"
