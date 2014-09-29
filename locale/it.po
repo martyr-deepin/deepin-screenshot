@@ -4,14 +4,14 @@
 # 
 # Translators:
 # massimo.carofano <massimo.carofano@gmail.com>, 2014
-# Maxximo88 <real.massimo@hotmail.it>, 2014
+# Massimo Antonio Carofano <real.massimo@hotmail.it>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-04 17:29+0800\n"
 "PO-Revision-Date: 2014-09-24 10:22+0000\n"
-"Last-Translator: Maxximo88 <real.massimo@hotmail.it>\n"
+"Last-Translator: Massimo Antonio Carofano <real.massimo@hotmail.it>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/deepin-screenshot/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-04 17:29+0800\n"
-"PO-Revision-Date: 2014-09-24 10:22+0000\n"
+"PO-Revision-Date: 2014-10-20 14:51+0000\n"
 "Last-Translator: JimSp472000 <jimspentzos2000@gmail.com>\n"
 "Language-Team: Greek (Greece) (http://www.transifex.com/projects/p/deepin-screenshot/language/el_GR/)\n"
 "MIME-Version: 1.0\n"
@@ -175,7 +175,7 @@ msgstr "Η εικόνα δεν υπάρχει."
 
 #: ../src/share.py:538
 msgid "Please choose at least one platform to share on"
-msgstr "Παρακαλώ επιλέξτε τουλάχιστον μια πλατφόρμα για κοινή χρήση σε"
+msgstr "Παρακαλώ επιλέξτε τουλάχιστον μια πλατφόρμα για κοινή χρήση"
 
 #: ../src/share.py:555
 msgid "Uploading"
