@@ -10,6 +10,7 @@ Canvas {
     property string shapeName: ""
     property point startPoint: Qt.point(0, 0)
     property point endPoint: Qt.point(0, 0)
+    property color colorPaint: "red"
     property var points:[]
 
     function isEmpty() {
@@ -75,9 +76,14 @@ Canvas {
         ctx.save()
 
         ctx.lineWidth = 1
-        ctx.strokeStyle = "red"
-        ctx.fillStyle = "transparent"
+        ctx.strokeStyle = shapeCanvas.colorPaint
+        // ctx.strokeStyle = "red"
+
+        print(ctx.fillStyle)
+        // ctx.fillStyle = shapeCanvas.colorPaint
         ctx.beginPath()
+
+
         switch(shapeName)  {
             case "rect": {
                 ctx.rect(Math.min(startPoint.x, endPoint.x), Math.min(startPoint.y, endPoint.y), Math.abs(endPoint.x - startPoint.x), Math.abs(endPoint.y - startPoint.y))
@@ -90,8 +96,6 @@ Canvas {
             case "arrow": {
                 ctx.moveTo(startPoint.x, startPoint.y)
                 ctx.lineTo(endPoint.x, endPoint.y)
-
-                ctx.strokeStyle = "red"
                 ctx.stroke()
 
                 ctx.translate(endPoint.x, endPoint.y)
@@ -99,36 +103,37 @@ Canvas {
 
                  if (endPoint.x - startPoint.x > 0 && endPoint.y - startPoint.y < 0)
                 {
+                    ctx.fillStyle = "red"
                     ctx.rotate(-angle)
-                    ctx.lineTo(-15*Math.cos(Math.PI/9), -15*Math.sin(Math.PI/9))
+                    ctx.lineTo(-15*Math.cos(Math.PI/8), -15*Math.sin(Math.PI/8))
                     ctx.lineTo(-10, 0)
                     ctx.moveTo(0, 0)
-                    ctx.lineTo(-15*Math.cos(Math.PI/9), 15*Math.sin(Math.PI/9))
+                    ctx.lineTo(-15*Math.cos(Math.PI/8), 15*Math.sin(Math.PI/8))
                     ctx.lineTo(-10,0)
                 }
                 else if (endPoint.x - startPoint.x <= 0 && endPoint.y - startPoint.y <= 0)
                 {
                     ctx.rotate(angle)
-                    ctx.lineTo(15*Math.cos(Math.PI/9), -15*Math.sin(Math.PI/9))
+                    ctx.lineTo(15*Math.cos(Math.PI/8), -15*Math.sin(Math.PI/8))
 
                     ctx.moveTo(0, 0)
-                    ctx.lineTo(15*Math.cos(Math.PI/9), 15*Math.sin(Math.PI/9))
+                    ctx.lineTo(15*Math.cos(Math.PI/8), 15*Math.sin(Math.PI/8))
                 }
                 else if (endPoint.x - startPoint.x <= 0 && endPoint.y - startPoint.y > 0)
                 {
                     ctx.rotate(-angle)
-                    ctx.lineTo(15*Math.cos(Math.PI/9), -15*Math.sin(Math.PI/9))
+                    ctx.lineTo(15*Math.cos(Math.PI/8), -15*Math.sin(Math.PI/8))
 
                     ctx.moveTo(0, 0)
-                    ctx.lineTo(15*Math.cos(Math.PI/9), 15*Math.sin(Math.PI/9))
+                    ctx.lineTo(15*Math.cos(Math.PI/8), 15*Math.sin(Math.PI/8))
                 }
                 else
                 {
                     ctx.rotate(angle)
-                    ctx.lineTo(-15*Math.cos(Math.PI/9), -15*Math.sin(Math.PI/9))
+                    ctx.lineTo(-15*Math.cos(Math.PI/8), -15*Math.sin(Math.PI/8))
 
                     ctx.moveTo(0, 0)
-                    ctx.lineTo(-15*Math.cos(Math.PI/9), 15*Math.sin(Math.PI/9))
+                    ctx.lineTo(-15*Math.cos(Math.PI/8), 15*Math.sin(Math.PI/8))
                 }
                 break
             }
@@ -148,11 +153,11 @@ Canvas {
 
     }
 
-    Rectangle {
-        id: ccc
-        anchors.fill: parent
-        color: Qt.rgba(0,1,1,0.1)
-    }
+    // Rectangle {
+    //     anchors.fill: parent
+    //     color: "white"
+
+    // }
 
     MouseArea {
         id: markPaint
@@ -174,6 +179,7 @@ Canvas {
 
             var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:shapeCanvas.shapeName }',  shapeCanvas.parent, "shaperect")
             shape.movePaint = Qt.binding(function () {  return shapeCanvas.movePaint })
+            shape.colorPaint = shapeCanvas.colorPaint
         }
 
         onPositionChanged: {

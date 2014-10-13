@@ -7,7 +7,7 @@ Rectangle {
 	property point startPoint: Qt.point(0, 0)
 	property point seClikPoint: Qt.point(0, 0)
 	property bool firstClicked: false
-
+	property bool moveText: false
 
 	function isEmpty() {
         if (startPoint == Qt.point(0,0) && seClikPoint == Qt.point(0,0)) {
@@ -139,7 +139,7 @@ Rectangle {
 				textRect._thirdmapRect()
 			}
 
-		drag.target: textRect
+		drag.target: textRect.moveText ? textRect : null
 		drag.axis: Drag.XAndYAxis
 		drag.minimumX: 0
 		drag.maximumX: textRect.parent.width - textDistract.width

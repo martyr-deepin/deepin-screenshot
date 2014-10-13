@@ -1,99 +1,168 @@
 import QtQuick 2.1
-
+import QtQuick.Dialogs 1.0
 Item {
-    id: toolButton
-    width: 34
-    height: 32
+	id: toolButton
+	width: 34
+	height: 32
 
-    property string imageName: ""
-    property bool clicked: false
-    property alias selectArea: selectArea
+	property string imageName: ""
+	property bool clicked: false
+	property alias selectArea: selectArea
 
-    Rectangle {
-        id: selectArea
-        anchors.centerIn: parent
-        width: 35
-        height: 20
-        radius: 2
-        visible: false
+	Rectangle {
+		id: selectArea
+		anchors.centerIn: parent
+		width: 35
+		height: 20
+		radius: 2
+		visible: false
 
-        color: "white"
-        opacity: 0.2
-    }
+		color: "white"
+		opacity: 0.2
+	}
 
-    Row {
-        id: pathList
-        anchors.centerIn: parent
-        Image {
-            anchors.verticalCenter: parent.verticalCenter
-            source: "../image/action_menu/save_normal.png"
-        }
+	Row {
+		id: pathList
+		anchors.centerIn: parent
+		Image {
+			anchors.verticalCenter: parent.verticalCenter
+			source: "../image/action_menu/save_normal.png"
+		}
 
-        Image {
-            anchors.verticalCenter: parent.verticalCenter
-            source: "../image/action_menu/list_normal.png"
-        }
+		Image {
+			anchors.verticalCenter: parent.verticalCenter
+			source: "../image/action_menu/list_normal.png"
+		}
 
-    }
+	}
 
-    Rectangle {
-            id: pathSelect
-            anchors.left: toolButton.right
-            anchors.top: toolButton.bottom
-            width: 100
-            height: 200
-            visible: false
-            color: "white"
+	Rectangle {
+			id: pathSelect
+			width: 150
+			height: 88
+			anchors.left: toolButton.right
+			anchors.top: toolButton.bottom
 
-            ListView {
-                anchors.fill: parent
-                anchors.margins: 2
 
-                clip: true
+			color: "white"
+			visible: false
+			radius: 3
+			ListView {
+				id: listView
+				width: 200
+				height: childrenRect.height
 
-                model: 4
+				clip: true
+				model: listModel
+				orientation: ListView.Vertical
+				delegate: numberDelegate
 
-                orientation: ListView.Vertical
+				interactive: false
+				highlight: highlightBar
+				highlightFollowsCurrentItem: false
 
-                delegate: numberDelegate
-                focus: true
+				focus: true
 
-            }
+			}
+			ListModel {
+				id: listModel
 
-            Component {
-                id: numberDelegate
+				ListElement {
+					eleId: "auto_save"
+					name: "自动保存"
+				}
+				ListElement {
+					eleId: "save_to_dir"
+					name: "保存到指定目录"
+				}
+				ListElement {
+					eleId: "save_to_ClipBoard"
+					name: "复制到剪贴板"
+				}
+				ListElement {
+					eleId: "auto_save&_ClipBoard"
+					name: "自动保存并复制到剪贴板"
+				}
+			}
 
-                Rectangle {
-                    width: 100
-                    height: 50
+			Component {
+				id: numberDelegate
+				Item {
+					id: wrapper
+					width: 150
+					height: 22
+					property url directory: ""
 
-                    color: ListView.isCurrentItem ? "Green" : "lightGreen"
+					Rectangle {
+						id: imageRect
+						anchors.left: parent.left
+						width: 22
+						height:22
+						visible: false
+						Image {
+							id: image
+							width: 20
+							height: 20
+							anchors.left: parent.left
+							source: "../image/select.png"
+						}
+					}
 
-                    Text {
-                        anchors.centerIn: parent
-                        font.pixelSize: 10
-                        text: index
-                    }
-                }
-            }
-        }
+					Text {
+						anchors.left: imageRect.right
+						anchors.leftMargin: 2
+						anchors.top: parent.top
+						anchors.topMargin: 3
+						font.pixelSize: 11
+						text: name
+					}
 
-    MouseArea {
-        anchors.fill: parent
-        hoverEnabled: true
 
-        onEntered: {
-            selectArea.visible = true
-        }
+				MouseArea {
+						anchors.fill: parent
+						onClicked: {
+							wrapper.ListView.view.currentIndex = index
+							windowView.save_screenshot(eleId)
+						}
+					}
 
-        onExited: {
-            selectArea.visible = false
-        }
+					states: State {
+							name: "select"
+							when: wrapper.ListView.isCurrentItem
+							PropertyChanges {  target: imageRect; visible: true }
+						}
+				}
+			}
 
-        onPressed: {
-            pathSelect.visible = true
-        }
-    }
+			Component {
+				id: highlightBar
+				Rectangle {
+					width: 150
+					height: 22
+					color: "steelblue"
+					y: listView.currentItem.y;
+
+				}
+			}
+
+		}
+
+	MouseArea {
+		anchors.fill: parent
+		hoverEnabled: true
+
+		onEntered: {
+			selectArea.visible = true
+		}
+
+		onExited: {
+			selectArea.visible = false
+		}
+
+		onPressed: {
+			pathSelect.visible = true
+		}
+	}
 
 
 }

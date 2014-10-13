@@ -51,6 +51,8 @@ Item {
 					selectArea.handleRelease(pos)
 				}
 			}
+
+			// windowView.get_screensize(selectArea.x, selectArea.y, selectArea.width, selectArea.height)
 		}
 
 		onPositionChanged: {
@@ -106,6 +108,7 @@ Item {
 	Rectangle {
 		anchors.fill: screen
 		color: "black"
+		visible: true
 		opacity: 0.5
 	}
 	Rectangle {
@@ -357,7 +360,6 @@ Item {
 			ctx.closePath()
 			ctx.fill()
 			ctx.stroke()
-
 			ctx.restore()
 		}
 
@@ -521,8 +523,10 @@ Item {
 
 					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectFrame, "shaperect")
 					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
+					colorTool._specialColor()
+					shape.colorPaint = colorTool.color
+					fillType.imageName = "rect"
 
-					print(shape.startPoint,shape.endPoint)
 				}
 			}
 
@@ -539,6 +543,9 @@ Item {
 
 					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectFrame, "shapeellipse")
 					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
+					colorTool._specialColor()
+					shape.colorPaint = colorTool.color
+					fillType.imageName = "ellipse"
 				}
 			}
 
@@ -555,6 +562,8 @@ Item {
 
 					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectFrame, "shapearrow")
 					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
+					colorTool._specialColor()
+					shape.colorPaint = colorTool.color
 					print(shape.startPoint,shape.endPoint)
 
 				}
@@ -573,6 +582,8 @@ Item {
 					row._destroyCanvas()
 					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectFrame, "shapearrow")
 					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
+					colorTool._specialColor()
+					shape.colorPaint = colorTool.color
 					print(shape.startPoint,shape.endPoint)
 				}
 			}
@@ -591,6 +602,7 @@ Item {
                     var text = Qt.createQmlObject('import QtQuick 2.1; TextRect {}',selectFrame,"Text")
 					text.width = selectFrame.width
 					text.height = selectFrame.height
+					text.moveText = Qt.binding(function () { return toolbar.moveCanvas })
 					print(text.color)
 				}
 			}
@@ -631,9 +643,9 @@ Item {
 				onPressed: {
 					toolbar.toggleToolbar("normal")
 				}
-		   }
+			}
 
-		   ToolButton {
+			ToolButton {
 				id: setbutton3
 				group: setlinewidth
 				imageName:"big"
@@ -642,7 +654,13 @@ Item {
 				onPressed: {
 					toolbar.toggleToolbar("big")
 				}
-		   }
+			}
+
+			FillShape {
+				id: fillType
+				imageName: "rect"
+			}
+
 		}
 
 
@@ -671,13 +689,167 @@ Item {
 
 			}
 
-			ToolButton {
-				imageName: "color"
+			BigColor {
+				id: colorTool
+				anchors.top: parent.top
+				anchors.topMargin: 8
+				anchors.bottom: parent.bottom
+				anchors.bottomMargin: 8
+				imageName: "red"
 
-				onPressed: {
-					toolbar.toggleToolbar("color")
+				property color color: imageName
+
+				Rectangle {
+					id: colorChange
+					width: 160
+					height: 35
+
+					anchors.left: parent.left
+					anchors.leftMargin: - 80
+					anchors.top: parent.bottom
+					anchors.topMargin: 10
+
+					color:"white"
+					visible: false
+					Grid {
+						id:colorGrid
+						columns: 8
+						spacing: 6
+						ColorButton{
+							id: black
+							imageName: "black"
+						}
+						ColorButton{
+							id: gray_dark
+							imageName: "gray_dark"
+
+						}
+						ColorButton{
+							id: red
+							imageName: "red"
+						}
+						ColorButton{
+							id: yellow_dark
+							imageName: "yellow_dark"
+
+						}
+						ColorButton{
+							id: yellow
+							imageName: "yellow"
+						}
+						ColorButton{
+							id: green
+							imageName: "green"
+						}
+						ColorButton{
+							id: green_dark
+							imageName: "green_dark"
+
+						}
+						ColorButton{
+							id: wathet_dark
+							imageName: "wathet_dark"
+
+						}
+						ColorButton{
+							id: white
+							imageName: "white"
+						}
+						ColorButton{
+							id: gray
+							imageName: "gray"
+						}
+
+						ColorButton{
+							id: red_dark
+							imageName: "red_dark"
+
+						}
+						ColorButton{
+							id: pink
+							imageName: "pink"
+						}
+						ColorButton{
+							id: pink_dark
+							imageName: "pink_dark"
+
+						}
+						ColorButton{
+							id: blue_dark
+							imageName: "blue_dark"
+
+						}
+						ColorButton{
+							id: blue
+							imageName: "blue"
+						}
+						ColorButton{
+							id: wathet
+							imageName: "wathet"
+
+						}
+
+					}
+					Rectangle {
+						anchors.top: parent.top
+						anchors.topMargin: -1
+						anchors.bottom: parent.bottom
+						anchors.bottomMargin: -1
+						anchors.left: parent.left
+						anchors.leftMargin: -1
+						anchors.right: parent.right
+						anchors.rightMargin: -1
+						color: "transparent"
+
+						border.width: 1
+						border.color: "#00A0E9"
+					}
+
+
 				}
+				function _specialColor() {
+					switch(colorTool.imageName) {
+						case "gray_dark": {
+							colorTool.color = "dimgray"
+							break
+						}
+						case "yellow_dark": {
+							colorTool.color = "darkorange"
+							break
+						}
+						case "green_dark": {
+							colorTool.color = "darkgreen"
+							break
+						}
+						case "wathet_dark": {
+							colorTool.color = "lightseagreen"
+							break
+						}
+						case "red_dark": {
+							colorTool.color = "darkred"
+							break
+						}
+						case "pink_dark": {
+							colorTool.color = "deeppink"
+							break
+						}
+						case "blue_dark": {
+							colorTool.color = "darkblue"
+							break
+						}
+						case "wathet": {
+							colorTool.color = "dodgerblue"
+							break
+						}
+
+					}
+				}
+
+
+			onPressed: {
+				colorChange.visible = colorChange.visible == false ? true : false
 			}
+		}
 
 			ToolButton {
 				imageName: "undo"
@@ -687,7 +859,6 @@ Item {
 			}
 
 			SaveButton {
-
 			}
 
 			ToolButton {
@@ -698,8 +869,10 @@ Item {
 			   }
 			}
 
+
 			ToolButton {
 				imageName: "share"
+
 			}
 		}
 	}
@@ -726,8 +899,6 @@ Item {
 			x = pos.x + width + cursorWidth > screenWidth ? pos.x - width : pos.x + cursorWidth
 			y = pos.y + height + cursorHeight > screenHeight ? pos.y - height : pos.y + cursorHeight
 		}
-
-
 	}
 
 	Item {

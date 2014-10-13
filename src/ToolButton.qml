@@ -75,9 +75,9 @@ Item {
         }
 
         onPressed:{
-           toolButton.state = toolButton.state == "on" ? "off" : "on"
+            toolButton.state = toolButton.state == "on" ? "off" : "on"
             toolButton.pressed()
-           if (toolButton.group&&toolButton.state == "on")
+            if (toolButton.group&&toolButton.state == "on")
                group.checkState(toolButton)
         }
 
