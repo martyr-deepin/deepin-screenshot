@@ -70,94 +70,95 @@ Canvas {
 
     onPaint: {
         if(startPoint == Qt.point(0, 0) && endPoint == Qt.point(0, 0))
-            return
+        return
         var ctx = getContext("2d")
         ctx.clearRect(0, 0, width, height)
         ctx.save()
 
         ctx.lineWidth = 1
-        ctx.strokeStyle = shapeCanvas.colorPaint
-        // ctx.strokeStyle = "red"
-
-        print(ctx.fillStyle)
-        // ctx.fillStyle = shapeCanvas.colorPaint
-        ctx.beginPath()
-
+        ctx.strokeStyle = "red" // shapeCanvas.colorPaint
 
         switch(shapeName)  {
             case "rect": {
+                ctx.beginPath()
                 ctx.rect(Math.min(startPoint.x, endPoint.x), Math.min(startPoint.y, endPoint.y), Math.abs(endPoint.x - startPoint.x), Math.abs(endPoint.y - startPoint.y))
+                ctx.closePath()
+                ctx.stroke()
                 break
             }
             case "ellipse": {
+                ctx.beginPath()
                 ctx.ellipse(Math.min(startPoint.x,endPoint.x), Math.min(startPoint.y,endPoint.y), Math.abs(endPoint.x - startPoint.x), Math.abs(endPoint.y - startPoint.y))
+                ctx.closePath()
+                ctx.stroke()
                 break
             }
             case "arrow": {
+                ctx.beginPath()
                 ctx.moveTo(startPoint.x, startPoint.y)
                 ctx.lineTo(endPoint.x, endPoint.y)
+                ctx.closePath()
+
                 ctx.stroke()
-
-                ctx.translate(endPoint.x, endPoint.y)
+                ctx.fillStyle = "red"
+                ctx.beginPath()
                 var angle = Math.atan2(Math.abs(endPoint.y - startPoint.y), Math.abs(endPoint.x - startPoint.x))
-
-                 if (endPoint.x - startPoint.x > 0 && endPoint.y - startPoint.y < 0)
+                var leftx, lefty, rightx, righty
+                if (endPoint.x - startPoint.x > 0 && endPoint.y - startPoint.y < 0)
                 {
-                    ctx.fillStyle = "red"
-                    ctx.rotate(-angle)
-                    ctx.lineTo(-15*Math.cos(Math.PI/8), -15*Math.sin(Math.PI/8))
-                    ctx.lineTo(-10, 0)
-                    ctx.moveTo(0, 0)
-                    ctx.lineTo(-15*Math.cos(Math.PI/8), 15*Math.sin(Math.PI/8))
-                    ctx.lineTo(-10,0)
+                    leftx = endPoint.x + 15*Math.cos( Math.PI + angle - Math.PI/8)
+                    lefty = endPoint.y -15*Math.sin(Math.PI + angle - Math.PI/8)
+                    rightx = endPoint.x + 15*Math.cos( Math.PI + angle + Math.PI/8)
+                    righty = endPoint.y - 15*Math.sin(Math.PI + angle + Math.PI/8)
+
                 }
                 else if (endPoint.x - startPoint.x <= 0 && endPoint.y - startPoint.y <= 0)
                 {
-                    ctx.rotate(angle)
-                    ctx.lineTo(15*Math.cos(Math.PI/8), -15*Math.sin(Math.PI/8))
-
-                    ctx.moveTo(0, 0)
-                    ctx.lineTo(15*Math.cos(Math.PI/8), 15*Math.sin(Math.PI/8))
+                    leftx = endPoint.x - 15*Math.cos( Math.PI + angle - Math.PI/8)
+                    lefty = endPoint.y -15*Math.sin(Math.PI + angle - Math.PI/8)
+                    rightx = endPoint.x - 15*Math.cos( Math.PI + angle + Math.PI/8)
+                    righty = endPoint.y - 15*Math.sin(Math.PI + angle + Math.PI/8)
                 }
                 else if (endPoint.x - startPoint.x <= 0 && endPoint.y - startPoint.y > 0)
                 {
-                    ctx.rotate(-angle)
-                    ctx.lineTo(15*Math.cos(Math.PI/8), -15*Math.sin(Math.PI/8))
-
-                    ctx.moveTo(0, 0)
-                    ctx.lineTo(15*Math.cos(Math.PI/8), 15*Math.sin(Math.PI/8))
+                    leftx = endPoint.x - 15*Math.cos( Math.PI + angle - Math.PI/8)
+                    lefty = endPoint.y + 15*Math.sin(Math.PI + angle - Math.PI/8)
+                    rightx = endPoint.x - 15*Math.cos( Math.PI + angle + Math.PI/8)
+                    righty = endPoint.y + 15*Math.sin(Math.PI + angle + Math.PI/8)
                 }
                 else
                 {
-                    ctx.rotate(angle)
-                    ctx.lineTo(-15*Math.cos(Math.PI/8), -15*Math.sin(Math.PI/8))
-
-                    ctx.moveTo(0, 0)
-                    ctx.lineTo(-15*Math.cos(Math.PI/8), 15*Math.sin(Math.PI/8))
+                    leftx = endPoint.x + 15*Math.cos( Math.PI + angle - Math.PI/8)
+                    lefty = endPoint.y + 15*Math.sin(Math.PI + angle - Math.PI/8)
+                    rightx = endPoint.x + 15*Math.cos( Math.PI + angle + Math.PI/8)
+                    righty = endPoint.y + 15*Math.sin(Math.PI + angle + Math.PI/8)
                 }
+                ctx.moveTo(endPoint.x,endPoint.y)
+                ctx.lineTo(leftx, lefty)
+                ctx.lineTo( (endPoint.x + (leftx + rightx)/2)/2, (endPoint.y +(lefty + righty)/2)/2)
+                ctx.lineTo(rightx,righty)
+                ctx.lineTo(endPoint.x,endPoint.y)
+                ctx.closePath()
+                ctx.fill()
+                ctx.stroke()
+                ctx.fill()
                 break
             }
             case "line": {
+                ctx.beginPath()
                 ctx.moveTo(startPoint.x, startPoint.y)
                 for (var i=0;i<points.length;i++) {
                     ctx.lineTo(points[i].x, points[i].y)
                 }
                 ctx.lineTo(endPoint.x, endPoint.y)
+                ctx.closePath()
+                ctx.stroke()
                 break
             }
         }
+    ctx.restore()
 
-        ctx.stroke()
-        ctx.closePath()
-        ctx.restore()
-
-    }
-
-    // Rectangle {
-    //     anchors.fill: parent
-    //     color: "white"
-
-    // }
+}
 
     MouseArea {
         id: markPaint
@@ -165,7 +166,6 @@ Canvas {
 
 
         onPressed: {
-            print(shapeCanvas)
             if (shapeCanvas.movePaint)  return
             shapeCanvas.startPoint = Qt.point(mouse.x,mouse.y)
 

@@ -3,20 +3,20 @@
 
 # Copyright (C) 2011 ~ 2014 Deepin, Inc.
 #               2011 ~ 2014 Andy Stewart
-# 
+#
 # Author:     Andy Stewart <lazycat.manatee@gmail.com>
 # Maintainer: Andy Stewart <lazycat.manatee@gmail.com>
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -32,24 +32,24 @@ class WindowInfo(object):
         self.wnck_screen = wnck.screen_get_default()         # wnck.Screen
         self.wnck_screen.force_update()                      # update wnc.Screen
         self.wnck_workspace = self.wnck_screen.get_active_workspace() # current workspace
-        
+
         self.screen_rect = QGuiApplication.primaryScreen().geometry()
         self.screen_x = self.screen_rect.x()
         self.screen_y = self.screen_rect.y()
         self.screen_width = self.screen_rect.width()
         self.screen_height = self.screen_rect.height()
-    
+
         self.windows_info = self.get_windows_info()
-        
-    @pyqtSlot(result="QVariant")    
+
+    @pyqtSlot(result="QVariant")
     def get_window_info_at_pointer(self):
-        cursor_pos = QtGui.QCursor.pos()        
+        cursor_pos = QtGui.QCursor.pos()
         for (x, y, w, h) in self.windows_info:
             if x <= cursor_pos.x() <= x + w and y <= cursor_pos.y() <= y + h:
                 return [x, y, w, h]
-            
-        return [self.screen_x, self.screen_y, self.screen_width, self.screen_height]    
-    
+
+        return [self.screen_x, self.screen_y, self.screen_width, self.screen_height]
+
     def get_windows_info(self):
         '''
         @return: all windows' coordinate in this workspace
@@ -72,28 +72,28 @@ class WindowInfo(object):
             except:
                 pass
             (x, y, width, height) = w.get_geometry()                # with frame
-            
+
             # Get shadow value for deepin-ui window.
             deepin_window_shadow_value = get_window_property_by_id(w.get_xid(), "DEEPIN_WINDOW_SHADOW")
             if deepin_window_shadow_value:
                 deepin_window_shadow_size = int(deepin_window_shadow_value)
             else:
                 deepin_window_shadow_size = 0
-                
+
             if w.get_window_type() == wnck.WINDOW_DOCK and\
                     width >= self.screen_width and height >= self.screen_height:
                 continue
-    
+
             (wx, wy, ww, wh) = self.convert_coord(
-                x + deepin_window_shadow_size, 
-                y + deepin_window_shadow_size, 
-                width - deepin_window_shadow_size * 2, 
+                x + deepin_window_shadow_size,
+                y + deepin_window_shadow_size,
+                width - deepin_window_shadow_size * 2,
                 height - deepin_window_shadow_size * 2)
-            
+
             if ww != 0 and wh != 0:
               screenshot_window_info.insert(0, (wx, wy, ww, wh))
         return screenshot_window_info
-    
+
     def convert_coord(self, x, y, width, height):
         '''
         cut out overstep the monitor

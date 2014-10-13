@@ -36,7 +36,7 @@ from PyQt5 import QtCore, QtQuick
 
 import sys
 from PyQt5.QtWidgets import QApplication, qApp, QFileDialog
-from PyQt5.QtCore import pyqtSlot, QStandardPaths,  QEvent
+from PyQt5.QtCore import pyqtSlot, QStandardPaths
 
 import signal
 from window_info import WindowInfo
@@ -74,12 +74,6 @@ class Window(QQuickView):
     def get_cursor_pos(self):
         return QtGui.QCursor.pos()
 
-    # @pyqtSlot(int,int,int,int,result="QVariant")
-    # def get_screensize(self,x,y,width,height):
-    #     q = QPixmap.fromImage(self.grabWindow())
-    #     q = q.copy(x,y,width,height)
-    #     return q
-
     @pyqtSlot(str)
     def save_screenshot(self, filename):
         p = self.get_screensize()
@@ -92,11 +86,6 @@ class Window(QQuickView):
             path = QFileDialog.getExistingDirectory()
 
         elif filename == "auto_save&_ClipBoard":
-
-            # clipboard =  QApplication.clipboard()
-            # clipboard.setPixmap(QPixmap(p))
-            # event = QEvent(QEvent.Clipboard)
-            # QApplication.sendEvent(clipboard, event)
             clipboard = QApplication.clipboard()
             clipboard.setPixmap(QPixmap(p))
             path = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
