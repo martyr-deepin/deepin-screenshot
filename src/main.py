@@ -35,6 +35,7 @@ from PyQt5.QtGui import (QSurfaceFormat, QColor, QGuiApplication,
 from PyQt5 import QtCore, QtQuick
 
 import sys
+import gtk
 from PyQt5.QtWidgets import QApplication, qApp, QFileDialog
 from PyQt5.QtCore import pyqtSlot, QStandardPaths
 
@@ -76,7 +77,7 @@ class Window(QQuickView):
 
     @pyqtSlot(str)
     def save_screenshot(self, filename):
-        p = self.get_screensize()
+
         p = QPixmap.fromImage(self.grabWindow())
         name = "%s%s" % (self.title(), time.strftime("%Y%m%d%H%M%S", time.localtime()))
         path = ""
@@ -90,8 +91,11 @@ class Window(QQuickView):
             clipboard.setPixmap(QPixmap(p))
             path = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
         else :
-            clipboard = QApplication.clipboard()
-            clipboard.setPixmap(QPixmap(p))
+            p.save(os.path.join("/tmp/","DeepinScreenshot2014.png"))
+            image_path = "/tmp/DeepinScreenshot2014.png"
+            clipboard = gtk.Clipboard()
+            clipboard.set_image(gtk.gdk.pixbuf_new_from_file(image_path))
+            clipboard.store()
         if path != "" :
             path = path + "/"
             p.save(os.path.join(path, "DeepinScreenshot%s.png" %name))

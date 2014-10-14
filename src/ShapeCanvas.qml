@@ -76,7 +76,7 @@ Canvas {
         ctx.save()
 
         ctx.lineWidth = 1
-        ctx.strokeStyle = "red" // shapeCanvas.colorPaint
+        ctx.strokeStyle =  shapeCanvas.colorPaint
 
         switch(shapeName)  {
             case "rect": {
@@ -102,7 +102,7 @@ Canvas {
                 ctx.closePath()
 
                 ctx.stroke()
-                ctx.fillStyle = "red"
+                ctx.fillStyle = shapeCanvas.colorPaint
                 ctx.beginPath()
                 var angle = Math.atan2(Math.abs(endPoint.y - startPoint.y), Math.abs(endPoint.x - startPoint.x))
                 var leftx, lefty, rightx, righty

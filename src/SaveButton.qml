@@ -123,6 +123,7 @@ Item {
 						onClicked: {
 							wrapper.ListView.view.currentIndex = index
 							windowView.save_screenshot(eleId)
+							windowView.close()
 						}
 					}
 

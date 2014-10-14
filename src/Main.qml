@@ -399,6 +399,8 @@ Item {
 		property bool bExtense: height == 64
 		property bool moveCanvas: false
 		property string paintShape:""
+		// property var linewidth: ""
+
 		property color stop1Color: Qt.rgba(0, 0, 0, 0.6)
 		property color stop2Color: Qt.rgba(0, 0, 0, 0.675)
 		property color stop3Color: Qt.rgba(0, 0, 0, 0.676)
@@ -620,9 +622,10 @@ Item {
 				group: setlinewidth
 				imageName:"small"
 				dirImage: dirSizeImage
-
+				state: "on"
 				onPressed: {
 					toolbar.toggleToolbar("small")
+
 				}
 		   }
 
