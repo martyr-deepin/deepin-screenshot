@@ -362,7 +362,6 @@ Item {
 			ctx.stroke()
 			ctx.restore()
 		}
-
 	}
 
 

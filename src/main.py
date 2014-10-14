@@ -87,9 +87,12 @@ class Window(QQuickView):
             path = QFileDialog.getExistingDirectory()
 
         elif filename == "auto_save&_ClipBoard":
-            clipboard = QApplication.clipboard()
-            clipboard.setPixmap(QPixmap(p))
             path = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
+            p.save(os.path.join("/tmp/","DeepinScreenshot2014.png"))
+            image_path = "/tmp/DeepinScreenshot2014.png"
+            clipboard = gtk.Clipboard()
+            clipboard.set_image(gtk.gdk.pixbuf_new_from_file(image_path))
+            clipboard.store()
         else :
             p.save(os.path.join("/tmp/","DeepinScreenshot2014.png"))
             image_path = "/tmp/DeepinScreenshot2014.png"
