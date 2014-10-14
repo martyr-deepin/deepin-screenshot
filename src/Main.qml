@@ -486,9 +486,6 @@ Item {
 
 			function _destroyCanvas() {
 					var theTopChild = selectFrame.children[selectFrame.children.length - 1]
-					for (var i=0;i<selectFrame.children.length;i++) {
-						print(selectFrame.children[i])
-					}
 
 					if (theTopChild != undefined && theTopChild.isEmpty()) {
 						theTopChild.destroy()
@@ -501,7 +498,6 @@ Item {
 				dirImage: dirSizeImage
 
 				onPressed: {
-					print(toolbar.moveCanvas)
 					toolbar.moveCanvas = !toolbar.moveCanvas
 					toolbar.toggleToolbar("")
 					row._destroyCanvas()
@@ -564,8 +560,6 @@ Item {
 					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
 					colorTool._specialColor()
 					shape.colorPaint = colorTool.color
-					print(shape.startPoint,shape.endPoint)
-
 				}
 			}
 
@@ -584,7 +578,6 @@ Item {
 					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
 					colorTool._specialColor()
 					shape.colorPaint = colorTool.color
-					print(shape.startPoint,shape.endPoint)
 				}
 			}
 
@@ -603,7 +596,6 @@ Item {
 					text.width = selectFrame.width
 					text.height = selectFrame.height
 					text.moveText = Qt.binding(function () { return toolbar.moveCanvas })
-					print(text.color)
 				}
 			}
 		}

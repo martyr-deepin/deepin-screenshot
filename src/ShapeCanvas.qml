@@ -84,6 +84,8 @@ Canvas {
                 ctx.rect(Math.min(startPoint.x, endPoint.x), Math.min(startPoint.y, endPoint.y), Math.abs(endPoint.x - startPoint.x), Math.abs(endPoint.y - startPoint.y))
                 ctx.closePath()
                 ctx.stroke()
+                // ctx.fillStyle = "red"
+                // ctx.fill()
                 break
             }
             case "ellipse": {

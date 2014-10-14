@@ -75,7 +75,6 @@ Rectangle {
 
 						 textRect._remapRect()
 				} else if (!_calculateIntext(seClikPoint.x, seClikPoint.y) && text.text == "") {
-						print(text.text)
 						textDistract.visible = false
 				}
 			}
