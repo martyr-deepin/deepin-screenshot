@@ -122,7 +122,7 @@ Item {
 						anchors.fill: parent
 						onClicked: {
 							wrapper.ListView.view.currentIndex = index
-							windowView.save_screenshot(eleId)
+							windowView.save_screenshot(eleId,selectFrame.x+1,selectFrame.y+1,selectFrame.width-2,selectFrame.height-2)
 							windowView.close()
 						}
 					}

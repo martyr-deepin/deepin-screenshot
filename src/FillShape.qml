@@ -14,7 +14,7 @@ Item {
                     PropertyChanges {
                         target: imageShape
                         source: "../image/size/" + fillShape.imageName + "_fill_hover.png"
-                     }
+                    }
             },
             State {
                     name : "off"
@@ -27,15 +27,15 @@ Item {
 
 
     Rectangle {
-       id: selectArea
-       anchors.centerIn: parent
-       width: 24
-       height: 20
-       radius: 2
+        id: selectArea
+        anchors.centerIn: parent
+        width: 24
+        height: 20
+        radius: 2
 
-       visible: false
-       color: "yellow"
-       opacity: 0.2
+        visible: false
+        color: "yellow"
+        opacity: 0.2
     }
 
     Image {

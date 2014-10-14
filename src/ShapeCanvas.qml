@@ -59,7 +59,6 @@ Canvas {
             }
         }
         else {
-
             startPoint.x = startPoint.x - rect.x
             startPoint.y = startPoint.y - rect.y
             endPoint.x = endPoint.x - rect.x
@@ -112,7 +111,6 @@ Canvas {
                     lefty = endPoint.y -15*Math.sin(Math.PI + angle - Math.PI/8)
                     rightx = endPoint.x + 15*Math.cos( Math.PI + angle + Math.PI/8)
                     righty = endPoint.y - 15*Math.sin(Math.PI + angle + Math.PI/8)
-
                 }
                 else if (endPoint.x - startPoint.x <= 0 && endPoint.y - startPoint.y <= 0)
                 {

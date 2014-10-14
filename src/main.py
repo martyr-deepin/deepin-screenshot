@@ -75,10 +75,10 @@ class Window(QQuickView):
     def get_cursor_pos(self):
         return QtGui.QCursor.pos()
 
-    @pyqtSlot(str)
-    def save_screenshot(self, filename):
-
+    @pyqtSlot(str,int,int,int,int)
+    def save_screenshot(self, filename,x,y,width,height):
         p = QPixmap.fromImage(self.grabWindow())
+        p = p.copy(x,y,width,height)
         name = "%s%s" % (self.title(), time.strftime("%Y%m%d%H%M%S", time.localtime()))
         path = ""
         if filename == "auto_save" :
