@@ -51,8 +51,6 @@ Item {
 					selectArea.handleRelease(pos)
 				}
 			}
-
-			// windowView.get_screensize(selectArea.x, selectArea.y, selectArea.width, selectArea.height)
 		}
 
 		onPositionChanged: {
@@ -522,6 +520,9 @@ Item {
 					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
 					colorTool._specialColor()
 					shape.colorPaint = colorTool.color
+					// print(shape.linewidth)
+					// shape.linewidth = Qt.binding(function() { return setlw.linewidth })
+					// print(shape.linewidth,setlw.lineWidth)
 					fillType.imageName = "rect"
 
 				}
@@ -602,14 +603,14 @@ Item {
 		}
 
 		Row {
-			id: setlinewidth
+			id: setlw
 			visible:toolbar.bExtense
 			anchors.left: row.left
 			anchors.bottom: parent.bottom
-
+			property var lineWidth: 1
 			function checkState(id) {
-				for (var i=0; i<setlinewidth.children.length; i++) {
-					var childButton = setlinewidth.children[i]
+				for (var i=0; i<setlw.children.length; i++) {
+					var childButton = setlw.children[i]
 					if (childButton.imageName != id.imageName) {
 						childButton.state = "off"
 					}
@@ -618,36 +619,29 @@ Item {
 
 			ToolButton {
 				id: setbutton1
-				group: setlinewidth
+				group: setlw
 				imageName:"small"
 				dirImage: dirSizeImage
 				state: "on"
-				onPressed: {
-					toolbar.toggleToolbar("small")
 
-				}
 		   }
 
 		   ToolButton {
 				id: setbutton2
-				group: setlinewidth
+				group: setlw
 				imageName:"normal"
 				dirImage: dirSizeImage
 
-				onPressed: {
-					toolbar.toggleToolbar("normal")
-				}
+				onPressed: setlw.lineWidth = 2
 			}
 
 			ToolButton {
 				id: setbutton3
-				group: setlinewidth
+				group: setlw
 				imageName:"big"
 				dirImage: dirSizeImage
 
-				onPressed: {
-					toolbar.toggleToolbar("big")
-				}
+				onPressed: setlw.linewidth = 3
 			}
 
 			FillShape {
@@ -692,6 +686,9 @@ Item {
 				imageName: "red"
 
 				property color color: imageName
+				onImageNameChanged: {
+					colorTool.color = colorTool.imageName
+				}
 
 				Rectangle {
 					id: colorChange

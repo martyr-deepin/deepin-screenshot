@@ -11,6 +11,7 @@ Canvas {
     property point startPoint: Qt.point(0, 0)
     property point endPoint: Qt.point(0, 0)
     property color colorPaint: "red"
+    property var linewidth: 1
     property var points:[]
 
     function isEmpty() {
@@ -73,8 +74,8 @@ Canvas {
         var ctx = getContext("2d")
         ctx.clearRect(0, 0, width, height)
         ctx.save()
-
-        ctx.lineWidth = 1
+        ctx.strokeStyle = Qt.binding(function() { return colorTool.color })
+        ctx.lineWidth = shapeCanvas.linewidth
         ctx.strokeStyle =  shapeCanvas.colorPaint
 
         switch(shapeName)  {

@@ -76,32 +76,32 @@ class Window(QQuickView):
         return QtGui.QCursor.pos()
 
     @pyqtSlot(str,int,int,int,int)
-    def save_screenshot(self, filename,x,y,width,height):
+    def save_screenshot(self, saveId,x,y,width,height):
         p = QPixmap.fromImage(self.grabWindow())
         p = p.copy(x,y,width,height)
         name = "%s%s" % (self.title(), time.strftime("%Y%m%d%H%M%S", time.localtime()))
-        path = ""
-        if filename == "auto_save" :
-            path = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
-        elif filename == "save_to_dir":
-            path = QFileDialog.getExistingDirectory()
+        saveDir = ""
+        if saveId == "auto_save" :
+            saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
+        elif saveId == "save_to_dir":
+            saveDir = QFileDialog.getExistingDirectory()
 
-        elif filename == "auto_save&_ClipBoard":
-            path = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
-            p.save(os.path.join("/tmp/","DeepinScreenshot2014.png"))
-            image_path = "/tmp/DeepinScreenshot2014.png"
+        elif saveId == "auto_save&_ClipBoard":
+            image_dir = "/tmp/DeepinScreenshot%s.png" %name
+            p.save(os.path.join(image_dir))
             clipboard = gtk.Clipboard()
-            clipboard.set_image(gtk.gdk.pixbuf_new_from_file(image_path))
+            clipboard.set_image(gtk.gdk.pixbuf_new_from_file(image_dir))
             clipboard.store()
+            saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
         else :
-            p.save(os.path.join("/tmp/","DeepinScreenshot2014.png"))
-            image_path = "/tmp/DeepinScreenshot2014.png"
+            image_dir = "/tmp/DeepinScreenshot%s.png" %name
+            p.save(os.path.join(image_dir))
             clipboard = gtk.Clipboard()
-            clipboard.set_image(gtk.gdk.pixbuf_new_from_file(image_path))
+            clipboard.set_image(gtk.gdk.pixbuf_new_from_file(image_dir))
             clipboard.store()
-        if path != "" :
-            path = path + "/"
-            p.save(os.path.join(path, "DeepinScreenshot%s.png" %name))
+        if saveDir != "" :
+            saveDir = saveDir + "/"
+            p.save(os.path.join(saveDir, "DeepinScreenshot%s.png" %name))
 
 
     @pyqtSlot()
