@@ -516,13 +516,14 @@ Item {
 
 					row._destroyCanvas()
 
-					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectFrame, "shaperect")
+					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }', selectFrame, "xxxxxxxxxxx")
 					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
-					colorTool._specialColor()
-					shape.colorPaint = colorTool.color
-					// print(shape.linewidth)
-					// shape.linewidth = Qt.binding(function() { return setlw.linewidth })
-					// print(shape.linewidth,setlw.lineWidth)
+
+					shape.colorPaint = Qt.binding(function() {
+						colorTool._specialColor()
+						return colorTool.color
+					})
+					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 					fillType.imageName = "rect"
 
 				}
@@ -541,8 +542,7 @@ Item {
 
 					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectFrame, "shapeellipse")
 					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
-					colorTool._specialColor()
-					shape.colorPaint = colorTool.color
+					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 					fillType.imageName = "ellipse"
 				}
 			}
@@ -560,8 +560,7 @@ Item {
 
 					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectFrame, "shapearrow")
 					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
-					colorTool._specialColor()
-					shape.colorPaint = colorTool.color
+					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 				}
 			}
 
@@ -578,8 +577,7 @@ Item {
 					row._destroyCanvas()
 					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectFrame, "shapearrow")
 					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
-					colorTool._specialColor()
-					shape.colorPaint = colorTool.color
+					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 				}
 			}
 
@@ -593,7 +591,6 @@ Item {
 					toolbar.toggleToolbar("text")
 
 					row._destroyCanvas()
-
                     var text = Qt.createQmlObject('import QtQuick 2.1; TextRect {}',selectFrame,"Text")
 					text.width = selectFrame.width
 					text.height = selectFrame.height
@@ -632,7 +629,7 @@ Item {
 				imageName:"normal"
 				dirImage: dirSizeImage
 
-				onPressed: setlw.lineWidth = 2
+				onPressed: setlw.lineWidth = 3
 			}
 
 			ToolButton {
@@ -641,7 +638,7 @@ Item {
 				imageName:"big"
 				dirImage: dirSizeImage
 
-				onPressed: setlw.linewidth = 3
+				onPressed: setlw.lineWidth = 5
 			}
 
 			FillShape {
@@ -686,9 +683,6 @@ Item {
 				imageName: "red"
 
 				property color color: imageName
-				onImageNameChanged: {
-					colorTool.color = colorTool.imageName
-				}
 
 				Rectangle {
 					id: colorChange
@@ -696,7 +690,7 @@ Item {
 					height: 35
 
 					anchors.left: parent.left
-					anchors.leftMargin: - 80
+					anchors.leftMargin: -80
 					anchors.top: parent.bottom
 					anchors.topMargin: 10
 
@@ -735,12 +729,10 @@ Item {
 						ColorButton{
 							id: green_dark
 							imageName: "green_dark"
-
 						}
 						ColorButton{
 							id: wathet_dark
 							imageName: "wathet_dark"
-
 						}
 						ColorButton{
 							id: white
@@ -763,7 +755,6 @@ Item {
 						ColorButton{
 							id: pink_dark
 							imageName: "pink_dark"
-
 						}
 						ColorButton{
 							id: blue_dark

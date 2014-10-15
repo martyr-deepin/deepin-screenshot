@@ -1,6 +1,5 @@
 import QtQuick 2.1
 
-
 Canvas {
     id: shapeCanvas
     width: parent.width
@@ -74,7 +73,6 @@ Canvas {
         var ctx = getContext("2d")
         ctx.clearRect(0, 0, width, height)
         ctx.save()
-        ctx.strokeStyle = Qt.binding(function() { return colorTool.color })
         ctx.lineWidth = shapeCanvas.linewidth
         ctx.strokeStyle =  shapeCanvas.colorPaint
 
@@ -84,8 +82,6 @@ Canvas {
                 ctx.rect(Math.min(startPoint.x, endPoint.x), Math.min(startPoint.y, endPoint.y), Math.abs(endPoint.x - startPoint.x), Math.abs(endPoint.y - startPoint.y))
                 ctx.closePath()
                 ctx.stroke()
-                // ctx.fillStyle = "red"
-                // ctx.fill()
                 break
             }
             case "ellipse": {
@@ -152,7 +148,6 @@ Canvas {
                     ctx.lineTo(points[i].x, points[i].y)
                 }
                 ctx.lineTo(endPoint.x, endPoint.y)
-                ctx.closePath()
                 ctx.stroke()
                 break
             }
@@ -178,9 +173,10 @@ Canvas {
             shapeCanvas.requestPaint()
             shapeCanvas.remap()
 
-            var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:shapeCanvas.shapeName }',  shapeCanvas.parent, "shaperect")
+            var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:shapeCanvas.shapeName }', shapeCanvas.parent, "shaperect")
             shape.movePaint = Qt.binding(function () {  return shapeCanvas.movePaint })
-            shape.colorPaint = shapeCanvas.colorPaint
+            shape.colorPaint = Qt.binding(function() { return shapeCanvas.colorPaint})
+            shape.linewidth = Qt.binding(function() { return shapeCanvas.linewidth})
         }
 
         onPositionChanged: {

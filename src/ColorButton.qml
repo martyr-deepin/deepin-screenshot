@@ -40,6 +40,7 @@ Item {
 
         onClicked:{
             colorTool.imageName = imageName
+            colorTool.color = imageName
         }
 
     }
