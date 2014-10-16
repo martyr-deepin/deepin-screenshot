@@ -8,6 +8,7 @@ Item {
 
     property string imageName: ""
 
+    signal clicked()
     states: [
             State {
                     name : "on"
@@ -34,7 +35,7 @@ Item {
         radius: 2
 
         visible: false
-        color: "yellow"
+        color: "grey"
         opacity: 0.2
     }
 
@@ -57,7 +58,7 @@ Item {
         }
 
         onClicked:{
-
+            fillShape.clicked()
         }
 
     }

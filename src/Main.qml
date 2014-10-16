@@ -1,4 +1,5 @@
 import QtQuick 2.1
+import QtGraphicalEffects 1.0
 
 Item {
 	id: screen
@@ -276,6 +277,18 @@ Item {
 		visible: firstMove
 	}
 
+	// FastBlur {
+	// 	id:fastBlur
+	// 	source: selectFrame.children
+	// 	radius: 32
+
+	// 	anchors.fill: selectFrame.children
+	// 	anchors.leftMargin: 100
+	// 	anchors.rightMargin: 200
+	// 	anchors.topMargin: 100
+	// 	anchors.bottomMargin: 100
+	// }
+
 	Canvas  {
 		id: selectResizeCanvas
 		visible: false
@@ -516,7 +529,7 @@ Item {
 
 					row._destroyCanvas()
 
-					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }', selectFrame, "xxxxxxxxxxx")
+					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }', selectFrame, "shaperect")
 					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
 
 					shape.colorPaint = Qt.binding(function() {
@@ -641,9 +654,16 @@ Item {
 				onPressed: setlw.lineWidth = 5
 			}
 
+
 			FillShape {
 				id: fillType
 				imageName: "rect"
+
+				onClicked: {
+					screenArea.enabled = false
+					row._destroyCanvas()
+					var blur = Qt.createQmlObject('import QtQuick 2.1; BlurShape {}',  selectFrame, "shapeblur")
+				}
 			}
 
 		}

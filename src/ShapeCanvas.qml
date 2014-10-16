@@ -71,6 +71,7 @@ Canvas {
         if(startPoint == Qt.point(0, 0) && endPoint == Qt.point(0, 0))
         return
         var ctx = getContext("2d")
+
         ctx.clearRect(0, 0, width, height)
         ctx.save()
         ctx.lineWidth = shapeCanvas.linewidth
@@ -155,6 +156,11 @@ Canvas {
     ctx.restore()
 
 }
+    Rectangle {
+        id:ret
+        anchors.fill: parent
+        color:Qt.rgba(1,0,0,0.2)
+    }
 
     MouseArea {
         id: markPaint
@@ -198,5 +204,5 @@ Canvas {
 
     }
 
-
 }
+
