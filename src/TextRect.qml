@@ -110,7 +110,7 @@ Rectangle {
 		Rectangle {
 			id:textQuilt
 			anchors.fill:parent
-			color: "blue"
+			color: "#00A0E9"
 			opacity: 0.2
 			visible:false
 		}

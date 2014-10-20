@@ -6,6 +6,7 @@ Canvas {
     height: parent.height
 
     property bool movePaint: false
+    property bool paint: false
     property string shapeName: ""
     property point startPoint: Qt.point(0, 0)
     property point endPoint: Qt.point(0, 0)
@@ -67,6 +68,31 @@ Canvas {
         requestPaint()
     }
 
+
+    function bigDistract(p1, p2) {
+        if( p1 >= Math.min(startPoint.x, endPoint.x) - 4*linewidth && p1 <= Math.max(startPoint.x, endPoint.x) + 4*linewidth
+        && p2 >= Math.min(startPoint.y, endPoint.y) - 4*linewidth && p2 <= Math.max(startPoint.y, endPoint.y) + 4*linewidth )
+                return true
+
+        else
+            return false
+    }
+    function smallDistract(p1, p2) {
+        if( p1 >= Math.min(startPoint.x, endPoint.x) + 4*linewidth && p1 <= Math.max(startPoint.x, endPoint.x) - 4*linewidth
+        && p2 >= Math.min(startPoint.y, endPoint.y) + 4*linewidth && p2 <= Math.max(startPoint.y, endPoint.y) - 4*linewidth )
+            return true
+
+        else
+            return false
+    }
+
+    function moveDistract(p1,p2) {
+        if(bigDistract(p1, p2) && !smallDistract(p1, p2))
+            return true
+        else
+            return false
+    }
+
     onPaint: {
         if(startPoint == Qt.point(0, 0) && endPoint == Qt.point(0, 0))
         return
@@ -75,6 +101,7 @@ Canvas {
         ctx.clearRect(0, 0, width, height)
         ctx.save()
         ctx.lineWidth = shapeCanvas.linewidth
+
         ctx.strokeStyle =  shapeCanvas.colorPaint
 
         switch(shapeName)  {
@@ -168,25 +195,29 @@ Canvas {
 
 
         onPressed: {
-            if (shapeCanvas.movePaint)  return
+            if (shapeCanvas.paint)  return
             shapeCanvas.startPoint = Qt.point(mouse.x,mouse.y)
 
         }
 
         onReleased: {
-            if (shapeCanvas.movePaint)  return
+            if (shapeCanvas.paint)  return
             shapeCanvas.endPoint = Qt.point(mouse.x,mouse.y)
             shapeCanvas.requestPaint()
             shapeCanvas.remap()
-
-            var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:shapeCanvas.shapeName }', shapeCanvas.parent, "shaperect")
-            shape.movePaint = Qt.binding(function () {  return shapeCanvas.movePaint })
-            shape.colorPaint = Qt.binding(function() { return shapeCanvas.colorPaint})
-            shape.linewidth = Qt.binding(function() { return shapeCanvas.linewidth})
+            shapeCanvas.paint = true
+            // var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:shapeCanvas.shapeName }', shapeCanvas.parent, "shaperect")
+            // shape.movePaint = Qt.binding(function () {  return shapeCanvas.movePaint })
+            // shape.colorPaint = Qt.binding(function() { return shapeCanvas.colorPaint})
+            // shape.linewidth = Qt.binding(function() { return shapeCanvas.linewidth})
         }
 
         onPositionChanged: {
-            if (shapeCanvas.movePaint) return
+            if (moveDistract(mouseX,mouseY))
+                shapeCanvas.movePaint = true
+            else
+            shapeCanvas.movePaint = false
+            if (shapeCanvas.paint) return
 
             if (shapeName == "line") {
                 points.push(Qt.point(mouse.x,mouse.y))

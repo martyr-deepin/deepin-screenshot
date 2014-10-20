@@ -276,19 +276,10 @@ Item {
 		border.width: 1
 		visible: firstMove
 	}
-
-	// FastBlur {
-	// 	id:fastBlur
-	// 	source: selectFrame.children
-	// 	radius: 32
-
-	// 	anchors.fill: selectFrame.children
-	// 	anchors.leftMargin: 100
-	// 	anchors.rightMargin: 200
-	// 	anchors.topMargin: 100
-	// 	anchors.bottomMargin: 100
-	// }
-
+	Item {
+		id: blurItem
+		anchors.fill: selectFrame
+	}
 	Canvas  {
 		id: selectResizeCanvas
 		visible: false
@@ -497,9 +488,9 @@ Item {
 			}
 
 			function _destroyCanvas() {
-					var theTopChild = selectFrame.children[selectFrame.children.length - 1]
+					var theTopChild = selectArea.children[selectArea.children.length - 1]
 
-					if (theTopChild != undefined && theTopChild.isEmpty()) {
+					if (theTopChild != undefined && theTopChild.isEmpty && theTopChild.isEmpty()) {
 						theTopChild.destroy()
 					}
 			}
@@ -528,9 +519,9 @@ Item {
 					toolbar.paintShape = "rect"
 
 					row._destroyCanvas()
-
-					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }', selectFrame, "shaperect")
-					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
+					// toolbar.moveCanvas = false
+					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }', selectArea, "shaperect")
+					// shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
 
 					shape.colorPaint = Qt.binding(function() {
 						colorTool._specialColor()
@@ -553,7 +544,7 @@ Item {
 					toolbar.paintShape = "ellipse"
 					row._destroyCanvas()
 
-					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectFrame, "shapeellipse")
+					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectArea, "shapeellipse")
 					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
 					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 					fillType.imageName = "ellipse"
@@ -571,7 +562,7 @@ Item {
 					toolbar.paintShape = "arrow"
 					row._destroyCanvas()
 
-					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectFrame, "shapearrow")
+					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectArea, "shapearrow")
 					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
 					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 				}
@@ -588,7 +579,7 @@ Item {
 					toolbar.paintShape = "line"
 
 					row._destroyCanvas()
-					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectFrame, "shapearrow")
+					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectArea, "shapearrow")
 					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
 					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 				}
@@ -604,9 +595,9 @@ Item {
 					toolbar.toggleToolbar("text")
 
 					row._destroyCanvas()
-                    var text = Qt.createQmlObject('import QtQuick 2.1; TextRect {}',selectFrame,"Text")
-					text.width = selectFrame.width
-					text.height = selectFrame.height
+                    var text = Qt.createQmlObject('import QtQuick 2.1; TextRect {}',selectArea,"Text")
+					text.width = selectArea.width
+					text.height = selectArea.height
 					text.moveText = Qt.binding(function () { return toolbar.moveCanvas })
 				}
 			}
@@ -662,7 +653,7 @@ Item {
 				onClicked: {
 					screenArea.enabled = false
 					row._destroyCanvas()
-					var blur = Qt.createQmlObject('import QtQuick 2.1; BlurShape {}',  selectFrame, "shapeblur")
+					var blur = Qt.createQmlObject('import QtQuick 2.1; BlurShape { blurStyle: "line" }', blurItem, "shapeblur")
 				}
 			}
 
