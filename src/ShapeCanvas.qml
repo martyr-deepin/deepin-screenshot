@@ -68,26 +68,10 @@ Canvas {
         requestPaint()
     }
 
-
-    function bigDistract(p1, p2) {
-        if( p1 >= Math.min(startPoint.x, endPoint.x) - 4*linewidth && p1 <= Math.max(startPoint.x, endPoint.x) + 4*linewidth
-        && p2 >= Math.min(startPoint.y, endPoint.y) - 4*linewidth && p2 <= Math.max(startPoint.y, endPoint.y) + 4*linewidth )
-                return true
-
-        else
-            return false
-    }
-    function smallDistract(p1, p2) {
-        if( p1 >= Math.min(startPoint.x, endPoint.x) + 4*linewidth && p1 <= Math.max(startPoint.x, endPoint.x) - 4*linewidth
-        && p2 >= Math.min(startPoint.y, endPoint.y) + 4*linewidth && p2 <= Math.max(startPoint.y, endPoint.y) - 4*linewidth )
-            return true
-
-        else
-            return false
-    }
-
     function moveDistract(p1,p2) {
-        if(bigDistract(p1, p2) && !smallDistract(p1, p2))
+        var rect = _measureRect()
+        if(p1 >= rect.x - 8*linewidth && p1 <= rect.x + 8*linewidth + rect.width
+        && p2 >= rect.y - 8*linewidth && p2 <= rect.y + 8*linewidth + rect.height)
             return true
         else
             return false
@@ -96,12 +80,16 @@ Canvas {
     onPaint: {
         if(startPoint == Qt.point(0, 0) && endPoint == Qt.point(0, 0))
         return
-        var ctx = getContext("2d")
 
+        onXChanged: requestPaint()
+        onYChanged: requestPaint()
+        onWidthChanged: requestPaint()
+        onHeightChanged: requestPaint()
+
+        var ctx = getContext("2d")
         ctx.clearRect(0, 0, width, height)
         ctx.save()
         ctx.lineWidth = shapeCanvas.linewidth
-
         ctx.strokeStyle =  shapeCanvas.colorPaint
 
         switch(shapeName)  {
@@ -181,8 +169,87 @@ Canvas {
             }
         }
     ctx.restore()
+    }
+    Canvas {
+    id: selectResizeShape
+    anchors.fill: shapeCanvas
+    visible: false
 
-}
+    property int bigPointRadius: 4
+    property int smallPointRadius: 3
+
+    x: shapeCanvas.x - bigPointRadius
+    y: shapeCanvas.y - bigPointRadius
+    width: shapeCanvas.width + bigPointRadius * 2
+    height: shapeCanvas.height + bigPointRadius * 2
+
+        onPaint: {
+            var ctx = getContext("2d")
+            ctx.save()
+            ctx.clearRect(0, 0, width, height)
+
+            ctx.lineWidth = 1
+            ctx.strokeStyle = "width"
+            ctx.fillStyle = "white"
+
+            /* Top left */
+            ctx.beginPath()
+            ctx.arc(selectResizeShape.bigPointRadius, selectResizeShape.bigPointRadius, selectResizeShape.bigPointRadius, 0, Math.PI * 2, false)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+
+            /* Top right */
+            ctx.beginPath()
+            ctx.arc(width - selectResizeShape.bigPointRadius, selectResizeShape.bigPointRadius, selectResizeShape.bigPointRadius, 0, Math.PI * 2, false)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+
+            /* Bottom left */
+            ctx.beginPath()
+            ctx.arc(selectResizeShape.bigPointRadius, height - selectResizeShape.bigPointRadius, selectResizeShape.bigPointRadius, 0, Math.PI * 2, false)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+
+            /* Bottom right */
+            ctx.beginPath()
+            ctx.arc(width - selectResizeShape.bigPointRadius, height - selectResizeShape.bigPointRadius, selectResizeShape.bigPointRadius, 0, Math.PI * 2, false)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+
+            /* Top */
+            ctx.beginPath()
+            ctx.arc(width / 2, selectResizeShape.bigPointRadius, selectResizeShape.smallPointRadius, 0, Math.PI * 2, false)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+
+            /* Bottom */
+            ctx.beginPath()
+            ctx.arc(width / 2, height - selectResizeShape.bigPointRadius, selectResizeShape.smallPointRadius, 0, Math.PI * 2, false)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+
+            /* Left */
+            ctx.beginPath()
+            ctx.arc(selectResizeShape.bigPointRadius, height / 2, selectResizeShape.smallPointRadius, 0, Math.PI * 2, false)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+
+            /* Right */
+            ctx.beginPath()
+            ctx.arc(width - selectResizeShape.bigPointRadius, height / 2, selectResizeShape.smallPointRadius, 0, Math.PI * 2, false)
+            ctx.closePath()
+            ctx.fill()
+            ctx.stroke()
+            ctx.restore()
+        }
+    }
     Rectangle {
         id:ret
         anchors.fill: parent
@@ -206,17 +273,22 @@ Canvas {
             shapeCanvas.requestPaint()
             shapeCanvas.remap()
             shapeCanvas.paint = true
-            // var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:shapeCanvas.shapeName }', shapeCanvas.parent, "shaperect")
-            // shape.movePaint = Qt.binding(function () {  return shapeCanvas.movePaint })
-            // shape.colorPaint = Qt.binding(function() { return shapeCanvas.colorPaint})
-            // shape.linewidth = Qt.binding(function() { return shapeCanvas.linewidth})
+
         }
 
         onPositionChanged: {
-            if (moveDistract(mouseX,mouseY))
+
+            if (moveDistract(mouseX,mouseY) || drag.actives) {
                 shapeCanvas.movePaint = true
-            else
-            shapeCanvas.movePaint = false
+                selectResizeShape.visible = true
+                markPaint.cursorShape = Qt.CrossCursor
+            }
+            else {
+                shapeCanvas.movePaint = false
+                selectResizeShape.visible = false
+                markPaint.cursorShape = Qt.ArrowCursor
+            }
+
             if (shapeCanvas.paint) return
 
             if (shapeName == "line") {
@@ -224,6 +296,9 @@ Canvas {
             }
             shapeCanvas.endPoint = Qt.point(mouse.x,mouse.y)
             shapeCanvas.requestPaint()
+        }
+        onDoubleClicked: {
+            shapeCanvas.paint = false
         }
 
         drag.target: shapeCanvas.movePaint ? shapeCanvas : null
@@ -236,4 +311,6 @@ Canvas {
     }
 
 }
+
+
 
