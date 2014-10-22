@@ -11,8 +11,13 @@ Canvas {
     property point startPoint: Qt.point(0, 0)
     property point endPoint: Qt.point(0, 0)
     property color colorPaint: "red"
+
     property var linewidth: 1
     property var points:[]
+    property int dndSize: 5
+    property int minSize: 10
+    property int bigPointRadius: 4
+    property int smallPointRadius: 3
 
     function isEmpty() {
         if (startPoint == Qt.point(0, 0) && endPoint == Qt.point(0, 0)) {
@@ -27,10 +32,10 @@ Canvas {
     }
 
     function _measureRect() {
-        var xmin = Math.min(startPoint.x, endPoint.x) - 3
-        var ymin = Math.min(startPoint.y, endPoint.y) - 4
-        var xmax = Math.max(startPoint.x, endPoint.x) + 15
-        var ymax = Math.max(startPoint.y, endPoint.y) + 15
+        var xmin = Math.min(startPoint.x, endPoint.x) //- 3
+        var ymin = Math.min(startPoint.y, endPoint.y) //- 4
+        var xmax = Math.max(startPoint.x, endPoint.x) //+ 15
+        var ymax = Math.max(startPoint.y, endPoint.y) //+ 15
         for(var i=0;i<points.length;i++) {
             xmin = Math.min(xmin, points[i].x)
             ymin = Math.min(ymin, points[i].y)
@@ -70,8 +75,8 @@ Canvas {
 
     function moveDistract(p1,p2) {
         var rect = _measureRect()
-        if(p1 >= rect.x - 8*linewidth && p1 <= rect.x + 8*linewidth + rect.width
-        && p2 >= rect.y - 8*linewidth && p2 <= rect.y + 8*linewidth + rect.height)
+        if(p1 >= rect.x + 13 && p1 <= rect.x - 13 + rect.width
+        && p2 >= rect.y + 13 && p2 <= rect.y - 13 + rect.height)
             return true
         else
             return false
@@ -80,11 +85,6 @@ Canvas {
     onPaint: {
         if(startPoint == Qt.point(0, 0) && endPoint == Qt.point(0, 0))
         return
-
-        onXChanged: requestPaint()
-        onYChanged: requestPaint()
-        onWidthChanged: requestPaint()
-        onHeightChanged: requestPaint()
 
         var ctx = getContext("2d")
         ctx.clearRect(0, 0, width, height)
@@ -121,14 +121,14 @@ Canvas {
                 if (endPoint.x - startPoint.x > 0 && endPoint.y - startPoint.y < 0)
                 {
                     leftx = endPoint.x + 15*Math.cos( Math.PI + angle - Math.PI/8)
-                    lefty = endPoint.y -15*Math.sin(Math.PI + angle - Math.PI/8)
+                    lefty = endPoint.y - 15*Math.sin(Math.PI + angle - Math.PI/8)
                     rightx = endPoint.x + 15*Math.cos( Math.PI + angle + Math.PI/8)
                     righty = endPoint.y - 15*Math.sin(Math.PI + angle + Math.PI/8)
                 }
                 else if (endPoint.x - startPoint.x <= 0 && endPoint.y - startPoint.y <= 0)
                 {
                     leftx = endPoint.x - 15*Math.cos( Math.PI + angle - Math.PI/8)
-                    lefty = endPoint.y -15*Math.sin(Math.PI + angle - Math.PI/8)
+                    lefty = endPoint.y - 15*Math.sin(Math.PI + angle - Math.PI/8)
                     rightx = endPoint.x - 15*Math.cos( Math.PI + angle + Math.PI/8)
                     righty = endPoint.y - 15*Math.sin(Math.PI + angle + Math.PI/8)
                 }
@@ -171,17 +171,22 @@ Canvas {
     ctx.restore()
     }
     Canvas {
-    id: selectResizeShape
-    anchors.fill: shapeCanvas
-    visible: false
+        id: selectResizeShape
+        anchors.fill: shapeCanvas
+        visible: false
 
-    property int bigPointRadius: 4
-    property int smallPointRadius: 3
+        property int bigPointRadius: 4
+        property int smallPointRadius: 3
 
-    x: shapeCanvas.x - bigPointRadius
-    y: shapeCanvas.y - bigPointRadius
-    width: shapeCanvas.width + bigPointRadius * 2
-    height: shapeCanvas.height + bigPointRadius * 2
+        x: shapeCanvas.x //- bigPointRadius
+        y: shapeCanvas.y //- bigPointRadius
+        width: shapeCanvas.width //+ bigPointRadius * 2
+        height: shapeCanvas.height// + bigPointRadius * 2
+
+        onXChanged: requestPaint()
+        onYChanged: requestPaint()
+        onWidthChanged: requestPaint()
+        onHeightChanged: requestPaint()
 
         onPaint: {
             var ctx = getContext("2d")
@@ -251,15 +256,102 @@ Canvas {
         }
     }
     Rectangle {
-        id:ret
+        id: ret
         anchors.fill: parent
-        color:Qt.rgba(1,0,0,0.2)
+        color: Qt.rgba(1,0,1,0.2)
     }
 
     MouseArea {
         id: markPaint
         anchors.fill: parent
 
+        property int dndSize: 5
+        property int minSize: 10
+        property bool hasPress: false
+        property bool pressAtCenter: false
+        property bool pressAtLeft: false
+        property bool pressAtRight: false
+        property bool pressAtTop: false
+        property bool pressAtBottom: false
+        property bool pressAtTopLeft: false
+        property bool pressAtTopRight: false
+        property bool pressAtBottomLeft: false
+        property bool pressAtBottomRight: false
+
+        function distract(p1,p2) {
+            var width = Math.abs(startPoint.x - endPoint.x)
+            var height = Math.abs(startPoint.y - endPoint.y)
+            var startX = Math.min(shapeCanvas.startPoint.x, shapeCanvas.endPoint.x)
+            var startY = Math.min(shapeCanvas.startPoint.y, shapeCanvas.endPoint.y)
+            var startWidth = width
+            var startHeight = height
+            var pressX = p1
+            var pressY = p2
+
+            if ( p1 >= startX && p1 <= startX + width&& p2 >= startY && p2 <= startY + height) {
+                hasPress = true
+                print("hasPress")
+                if (p1 > startX + dndSize && p1 < startX + width - dndSize && p2 > startY + dndSize && p2 < startY + height - dndSize) {
+                    pressAtCenter = true
+                    print("pressAtCenter")
+                } else if ( p1 <= startX + dndSize) {
+                    if (startY + dndSize >= p2) {
+                        pressAtTopLeft = true
+                        print("pressAtTopLeft")
+                    } else if(startY + height - dndSize <= p2) {
+                        pressAtBottomLeft
+                        print("pressAtBottomLeft")
+                    } else {
+                        pressAtLeft = true
+                        print("pressAtLeft")
+                    }
+                } else if ( p1 >= startX + width - dndSize) {
+                    if (startY + dndSize >= p2) {
+                        pressAtTopRight = true
+                        print("pressAtTopRight")
+                    } else if (startY + height - dndSize <= p2) {
+                        pressAtBottomRight = true
+                        print("pressAtBottomRight")
+                    } else {
+                        pressAtRight = true
+                        print("pressAtRight")
+                    }
+                } else if ( startY + dndSize >= p2) {
+                    pressAtTop = true
+                    print("pressAtTop")
+                } else if ( startY + height - dndSize <= p2) {
+                    pressAtBottom = true
+                    print("pressAtBottom")
+                }
+            }
+
+            if (hasPress) {
+                if (pressAtCenter) {
+
+                } else {
+                    if (pressAtLeft || pressAtTopLeft || pressAtBottomLeft) {
+                        shapeCanvas.x = Math.min(p1, startX + startWidth - minSize)
+                        shapeCanvas.width = Math.max(startWidth + startX - p1, minSize)
+                    }
+
+                    if (pressAtRight || pressAtTopRight || pressAtBottomRight) {
+                        shapeCanvas.width = Math.max(p1 - startX, minSize)
+                        shapeCanvas.x = Math.max(p1 - width, startX)
+                    }
+
+                    if (pressAtTop || pressAtTopLeft || pressAtTopRight) {
+                        shapeCanvas.y = Math.min(p2, startY + startHeight - minSize)
+                        shapeCanvas.height = Math.max(startHeight + startY - p2, minSize)
+                    }
+
+                    if (pressAtBottom || pressAtBottomLeft || pressAtBottomRight) {
+                        shapeCanvas.height = Math.max(p2 - startY, minSize)
+                        shapeCanvas.y = Math.max(p2 - height, startY)
+                    }
+                }
+            }
+
+        }
 
         onPressed: {
             if (shapeCanvas.paint)  return
@@ -274,19 +366,24 @@ Canvas {
             shapeCanvas.remap()
             shapeCanvas.paint = true
 
+            // var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:shapeCanvas.shapeName }', shapeCanvas.parent, "shaperect")
+            // shape.movePaint = Qt.binding(function () {  return shapeCanvas.movePaint })
+            // shape.colorPaint = Qt.binding(function() { return shapeCanvas.colorPaint})
+            // shape.linewidth = Qt.binding(function() { return shapeCanvas.linewidth})
         }
 
         onPositionChanged: {
-
-            if (moveDistract(mouseX,mouseY) || drag.actives) {
+            distract(mouseX,mouseY)
+            if (moveDistract(mouseX,mouseY) || drag.active) {
                 shapeCanvas.movePaint = true
-                selectResizeShape.visible = true
-                markPaint.cursorShape = Qt.CrossCursor
+                selectResizeShape.visible = false
+                markPaint.cursorShape = Qt.OpenHandCursor
             }
             else {
                 shapeCanvas.movePaint = false
-                selectResizeShape.visible = false
-                markPaint.cursorShape = Qt.ArrowCursor
+                selectResizeShape.visible = true
+                markPaint.cursorShape = Qt.CrossCursor
+
             }
 
             if (shapeCanvas.paint) return
@@ -296,10 +393,9 @@ Canvas {
             }
             shapeCanvas.endPoint = Qt.point(mouse.x,mouse.y)
             shapeCanvas.requestPaint()
+
         }
-        onDoubleClicked: {
-            shapeCanvas.paint = false
-        }
+
 
         drag.target: shapeCanvas.movePaint ? shapeCanvas : null
         drag.axis: Drag.XAndYAxis

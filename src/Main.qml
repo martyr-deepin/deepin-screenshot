@@ -366,7 +366,6 @@ Item {
 		}
 	}
 
-
 	Rectangle {
 		id: selectSizeTooltip
 		x: Math.min(screenWidth - width - padding, selectFrame.x + padding)
@@ -519,10 +518,7 @@ Item {
 					toolbar.paintShape = "rect"
 
 					row._destroyCanvas()
-					// toolbar.moveCanvas = false
 					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }', selectArea, "shaperect")
-					// shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
-
 					shape.colorPaint = Qt.binding(function() {
 						colorTool._specialColor()
 						return colorTool.color
@@ -797,7 +793,6 @@ Item {
 						border.width: 1
 						border.color: "#00A0E9"
 					}
-
 
 				}
 				function _specialColor() {

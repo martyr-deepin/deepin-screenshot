@@ -103,7 +103,6 @@ class Window(QQuickView):
             saveDir = saveDir + "/"
             p.save(os.path.join(saveDir, "DeepinScreenshot%s.png" %name))
 
-
     @pyqtSlot()
     def enable_zone(self):
         try:
