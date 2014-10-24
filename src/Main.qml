@@ -399,7 +399,7 @@ Item {
 		property bool bExtense: height == 64
 		property bool moveCanvas: false
 		property string paintShape:""
-		// property var linewidth: ""
+		property var linewidth: ""
 
 		property color stop1Color: Qt.rgba(0, 0, 0, 0.6)
 		property color stop2Color: Qt.rgba(0, 0, 0, 0.675)
