@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-04 17:29+0800\n"
-"PO-Revision-Date: 2014-10-20 10:21+0000\n"
+"PO-Revision-Date: 2014-10-25 08:00+0000\n"
 "Last-Translator: Ivica  Kolić <ikoli@yahoo.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/deepin-screenshot/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -77,19 +77,19 @@ msgstr "Slika je spremljena u datoteku"
 #: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
 #: ../src/main.py:221 ../src/main.py:223
 msgid "DScreenshot"
-msgstr ""
+msgstr "DSnimka zaslona"
 
 #: ../src/screenshot.py:94
 msgid "Take a screenshot of full screen"
-msgstr "Napravite sliku zaslona cijeloga zaslona"
+msgstr "Napravite snimku zaslona cijeloga zaslona"
 
 #: ../src/screenshot.py:95
 msgid "Take a screenshot of the window"
-msgstr "Napravite sliku zaslona prozora"
+msgstr "Napravite snimku zaslona prozora"
 
 #: ../src/screenshot.py:96
 msgid "Take a screenshot after NUM seconds"
-msgstr ""
+msgstr "Napravite snimku nakom BROJ sekunda"
 
 #: ../src/screenshot.py:97
 msgid "save screenshot to FILE"
@@ -114,15 +114,15 @@ msgstr "pokaži broj verzije programa i izađi"
 #: ../src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
-msgstr ""
+msgstr "Deepin Snimka zaslona će se pokrenuti za %d sekundi."
 
 #: ../src/widget.py:289
 msgid "Drag to select area"
-msgstr ""
+msgstr "Privuci na odabrano područje"
 
 #: ../src/main.py:154
 msgid "The width or height of selected area cannot be 0"
-msgstr ""
+msgstr "Dužina ili visina odabranoga područja ne može biti 0"
 
 #: ../src/main.py:182
 msgid "Failed to save the picture"
@@ -183,7 +183,7 @@ msgstr "Šaljem"
 
 #: ../src/share.py:566
 msgid "from Deepin Screenshot"
-msgstr ""
+msgstr "iz Deepin Snimke zaslona"
 
 #: ../src/share.py:613
 msgid "Follow"
