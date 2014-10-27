@@ -2,7 +2,7 @@ import QtQuick 2.1
 
 Item {
     id: colorButton
-    width: 15
+    width: 13
     height: 15
 
 
@@ -13,9 +13,9 @@ Item {
     Rectangle {
        id: selectArea
        anchors.centerIn: parent
-       width: 13
+       width: 11
        height: 13
-       radius: 2
+       radius: 4
 
        visible: false
        color: "white"
@@ -24,6 +24,7 @@ Item {
 
     Image {
         id:colorImage
+        anchors.centerIn: parent
         source: "../image/color/" + colorButton.imageName + ".png"
     }
 

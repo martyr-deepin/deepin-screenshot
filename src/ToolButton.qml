@@ -2,8 +2,8 @@ import QtQuick 2.1
 
 Item {
     id: toolButton
-    width: 32
-    height: 32
+    width: 30
+    height: 28
     state: "off"
 
     property url dirAction: "../image/action/"

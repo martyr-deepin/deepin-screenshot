@@ -2,7 +2,7 @@ import QtQuick 2.1
 import QtQuick.Dialogs 1.0
 Item {
 	id: toolButton
-	width: 34
+	width: 40
 	height: 32
 
 	property string imageName: ""
@@ -13,7 +13,7 @@ Item {
 		id: selectArea
 		anchors.centerIn: parent
 		width: 35
-		height: 20
+		height: 22
 		radius: 2
 		visible: false
 

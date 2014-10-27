@@ -391,13 +391,13 @@ Item {
 		id: toolbar
 		x: Math.max(selectFrame.x + selectFrame.width - width - padding, padding)
 		y: selectFrame.y + selectFrame.height > screen.height - height * 2 ? (selectFrame.y < height * 1.5 ? selectFrame.y + padding : selectFrame.y - height - padding) : selectFrame.y + selectFrame.height + padding
-		width: 365
-		height: 32
+		width: 288
+		height: 28
 
-		radius: 3
+		radius: 4
 
-		property bool bExtense: height == 64
-		property bool moveCanvas: false
+		property bool bExtense: height == 56
+
 		property string paintShape:""
 		property var linewidth: ""
 
@@ -445,7 +445,7 @@ Item {
 		}
 
 		function expandToolbar() {
-			toolbar.height = 64
+			toolbar.height = 56
 			toolbar.stop1Color = Qt.rgba(0, 0, 0, 0.6)
 			toolbar.stop2Color = Qt.rgba(0, 0, 0, 0.75)
 			toolbar.stop3Color = Qt.rgba(1, 1, 1, 0.1)
@@ -455,7 +455,7 @@ Item {
 		}
 
 		function shrinkToolbar() {
-			toolbar.height = 32
+			toolbar.height = 28
 			toolbar.stop1Color = Qt.rgba(0, 0, 0, 0.6)
 			toolbar.stop2Color = Qt.rgba(0, 0, 0, 0.675)
 			toolbar.stop3Color = Qt.rgba(0, 0, 0, 0.676)
@@ -475,7 +475,7 @@ Item {
 		Row {
 			id: row
 			anchors.left: parent.left
-			anchors.leftMargin: 8
+			anchors.leftMargin: 4
 
 			function checkState(id) {
 				for (var i=0; i<row.children.length; i++) {
@@ -488,22 +488,9 @@ Item {
 
 			function _destroyCanvas() {
 					var theTopChild = selectArea.children[selectArea.children.length - 1]
-
 					if (theTopChild != undefined && theTopChild.isEmpty && theTopChild.isEmpty()) {
 						theTopChild.destroy()
 					}
-			}
-
-			ToolButton {
-				id: button0
-				imageName:"move"
-				dirImage: dirSizeImage
-
-				onPressed: {
-					toolbar.moveCanvas = !toolbar.moveCanvas
-					toolbar.toggleToolbar("")
-					row._destroyCanvas()
-				}
 			}
 
 			ToolButton {
@@ -525,7 +512,6 @@ Item {
 					})
 					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 					fillType.imageName = "rect"
-
 				}
 			}
 
@@ -541,7 +527,6 @@ Item {
 					row._destroyCanvas()
 
 					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectArea, "shapeellipse")
-					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
 					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 					fillType.imageName = "ellipse"
 				}
@@ -559,7 +544,6 @@ Item {
 					row._destroyCanvas()
 
 					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectArea, "shapearrow")
-					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
 					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 				}
 			}
@@ -576,7 +560,6 @@ Item {
 
 					row._destroyCanvas()
 					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectArea, "shapearrow")
-					shape.movePaint = Qt.binding(function () { return toolbar.moveCanvas })
 					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 				}
 			}
@@ -594,207 +577,16 @@ Item {
                     var text = Qt.createQmlObject('import QtQuick 2.1; TextRect {}',selectArea,"Text")
 					text.width = selectArea.width
 					text.height = selectArea.height
-					text.moveText = Qt.binding(function () { return toolbar.moveCanvas })
+					fontRect.visible = fontRect.visible == false ? true : false
 				}
-			}
-		}
-
-		Row {
-			id: setlw
-			visible:toolbar.bExtense
-			anchors.left: row.left
-			anchors.bottom: parent.bottom
-			property var lineWidth: 1
-			function checkState(id) {
-				for (var i=0; i<setlw.children.length; i++) {
-					var childButton = setlw.children[i]
-					if (childButton.imageName != id.imageName) {
-						childButton.state = "off"
-					}
-				}
-			}
-
-			ToolButton {
-				id: setbutton1
-				group: setlw
-				imageName:"small"
-				dirImage: dirSizeImage
-				state: "on"
-
-		   }
-
-		   ToolButton {
-				id: setbutton2
-				group: setlw
-				imageName:"normal"
-				dirImage: dirSizeImage
-
-				onPressed: setlw.lineWidth = 3
-			}
-
-			ToolButton {
-				id: setbutton3
-				group: setlw
-				imageName:"big"
-				dirImage: dirSizeImage
-
-				onPressed: setlw.lineWidth = 5
-			}
-
-
-			FillShape {
-				id: fillType
-				imageName: "rect"
-
-				onClicked: {
-					screenArea.enabled = false
-					row._destroyCanvas()
-					var blur = Qt.createQmlObject('import QtQuick 2.1; BlurShape { blurStyle: "line" }', blurItem, "shapeblur")
-				}
-			}
-
-		}
-
-
-		Row {
-			id: setTool
-			anchors.right: parent.right
-			anchors.rightMargin: 8
-
-			function _undo() {
-				var theTopChild = selectFrame.children[selectFrame.children.length - 1]
-				if (selectFrame.children[0] == undefined) {
-					screen.firstMove = false
-					screen.firstPress = false
-					screen.firstRelease = false
-					screen.firstEdit = false
-					selectResizeCanvas.visible = false
-				} else if (theTopChild != undefined && theTopChild.shapeName != undefined) {
-
-							theTopChild.destroy()
-							theTopChild = selectFrame.children[selectFrame.children.length - 2]
-							theTopChild.destroy()
-
-				} else if(theTopChild != undefined) {
-						theTopChild.destroy()
-				}
-
 			}
 
 			BigColor {
 				id: colorTool
-				anchors.top: parent.top
-				anchors.topMargin: 8
-				anchors.bottom: parent.bottom
-				anchors.bottomMargin: 8
-				imageName: "red"
 
+				imageName: "red"
 				property color color: imageName
 
-				Rectangle {
-					id: colorChange
-					width: 160
-					height: 35
-
-					anchors.left: parent.left
-					anchors.leftMargin: -80
-					anchors.top: parent.bottom
-					anchors.topMargin: 10
-
-					color:"white"
-					visible: false
-					Grid {
-						id:colorGrid
-						columns: 8
-						spacing: 6
-						ColorButton{
-							id: black
-							imageName: "black"
-						}
-						ColorButton{
-							id: gray_dark
-							imageName: "gray_dark"
-
-						}
-						ColorButton{
-							id: red
-							imageName: "red"
-						}
-						ColorButton{
-							id: yellow_dark
-							imageName: "yellow_dark"
-
-						}
-						ColorButton{
-							id: yellow
-							imageName: "yellow"
-						}
-						ColorButton{
-							id: green
-							imageName: "green"
-						}
-						ColorButton{
-							id: green_dark
-							imageName: "green_dark"
-						}
-						ColorButton{
-							id: wathet_dark
-							imageName: "wathet_dark"
-						}
-						ColorButton{
-							id: white
-							imageName: "white"
-						}
-						ColorButton{
-							id: gray
-							imageName: "gray"
-						}
-
-						ColorButton{
-							id: red_dark
-							imageName: "red_dark"
-
-						}
-						ColorButton{
-							id: pink
-							imageName: "pink"
-						}
-						ColorButton{
-							id: pink_dark
-							imageName: "pink_dark"
-						}
-						ColorButton{
-							id: blue_dark
-							imageName: "blue_dark"
-
-						}
-						ColorButton{
-							id: blue
-							imageName: "blue"
-						}
-						ColorButton{
-							id: wathet
-							imageName: "wathet"
-
-						}
-
-					}
-					Rectangle {
-						anchors.top: parent.top
-						anchors.topMargin: -1
-						anchors.bottom: parent.bottom
-						anchors.bottomMargin: -1
-						anchors.left: parent.left
-						anchors.leftMargin: -1
-						anchors.right: parent.right
-						anchors.rightMargin: -1
-						color: "transparent"
-
-						border.width: 1
-						border.color: "#00A0E9"
-					}
-
-				}
 				function _specialColor() {
 					switch(colorTool.imageName) {
 						case "gray_dark": {
@@ -829,45 +621,282 @@ Item {
 							colorTool.color = "dodgerblue"
 							break
 						}
-
 					}
 				}
 
-
-			onPressed: {
-				colorChange.visible = colorChange.visible == false ? true : false
-			}
-		}
-
-			ToolButton {
-				imageName: "undo"
 				onPressed: {
-					setTool._undo()
+					toolbar.toggleToolbar("color")
+					colorChange.colorVisible = colorChange.colorVisible == false ? true : false
 				}
-			}
 
+			}
 			SaveButton {
 			}
-
 			ToolButton {
 			   imageName: "cancel"
-
 			   onPressed: {
 					windowView.close()
 			   }
 			}
-
-
 			ToolButton {
 				imageName: "share"
-
 			}
 		}
+
+		Rectangle {
+			id: fontRect
+			anchors.left: row.left
+			anchors.top: row.bottom
+			width: 80
+			height: 18
+
+			radius: 4
+			opacity: 0.2
+			color: "transparent"
+
+			border.width:1
+			border.color: "white"
+			visible: false
+			Rectangle {
+				id: fontSize
+				width: 40
+				height: 18
+				anchors.left: parent.left
+				anchors.top: parent.top
+				color: "transparent"
+				border.width:1
+				border.color: "white"
+				radius: 4
+				opacity: 0.2
+				TextInput {
+					anchors.left: parent.left
+					anchors.leftMargin: 10
+					text: "12"
+					color: "white"
+
+				}
+			}
+			Rectangle {
+				id:fontSizeminus
+				width: 20
+				height: 18
+				anchors.left: fontSize.right
+
+				border.width: 1
+				border.color: "white"
+
+				color: "transparent"
+				opacity: 0.2
+				signal pressed()
+				TextInput {
+					anchors.left: parent.left
+					anchors.leftMargin: width / 2 + 2
+					text: "-"
+					color: "white"
+					opacity: 1
+					readOnly: true
+
+				}
+				MouseArea {
+					anchors.fill: parent
+					onPressed: {
+						fontSizeminus.pressed()
+					}
+
+				}
+			}
+			Rectangle {
+				id: fontSizeAdd
+				width: 20
+				height: 18
+				anchors.left: fontSizeminus.right
+
+				border.width: 1
+				border.color: "black"
+
+				color: "transparent"
+				opacity: 0.2
+				signal pressed()
+				TextInput {
+					anchors.left: parent.left
+					anchors.leftMargin: width / 2 + 2
+					text: "+"
+					color: "white"
+					readOnly: true
+
+				}
+				MouseArea {
+					anchors.fill: parent
+					onPressed: {
+						fontSizeAdd.pressed()
+					}
+				}
+			}
+		}
+
+
+
+		Rectangle {
+			id: colorChange
+			anchors.left: row.left
+			anchors.bottom: row.bottom
+			color:"black"
+			property bool colorVisible: false
+			visible:colorVisible
+			Row {
+				id:colorGrid
+				spacing: 4
+				ColorButton{
+					id: black
+					imageName: "black"
+				}
+				ColorButton{
+					id: gray_dark
+					imageName: "gray_dark"
+				}
+				ColorButton{
+					id: red
+					imageName: "red"
+				}
+				ColorButton{
+					id: yellow_dark
+					imageName: "yellow_dark"
+				}
+				ColorButton{
+					id: yellow
+					imageName: "yellow"
+				}
+				ColorButton{
+					id: green
+					imageName: "green"
+				}
+				ColorButton{
+					id: green_dark
+					imageName: "green_dark"
+				}
+				ColorButton{
+					id: wathet_dark
+					imageName: "wathet_dark"
+				}
+				ColorButton{
+					id: white
+					imageName: "white"
+				}
+				ColorButton{
+					id: gray
+					imageName: "gray"
+				}
+
+				ColorButton{
+					id: red_dark
+					imageName: "red_dark"
+				}
+				ColorButton{
+					id: pink
+					imageName: "pink"
+				}
+				ColorButton{
+					id: pink_dark
+					imageName: "pink_dark"
+				}
+				ColorButton{
+					id: blue_dark
+					imageName: "blue_dark"
+				}
+				ColorButton{
+					id: blue
+					imageName: "blue"
+				}
+				ColorButton{
+					id: wathet
+					imageName: "wathet"
+				}
+
+			}
+			Rectangle {
+				anchors.top: parent.top
+				anchors.topMargin: -1
+				anchors.bottom: parent.bottom
+				anchors.bottomMargin: -1
+				anchors.left: parent.left
+				anchors.leftMargin: -1
+				anchors.right: parent.right
+				anchors.rightMargin: -1
+				color: "transparent"
+
+				border.width: 1
+				border.color: "#00A0E9"
+			}
+		}
+
+		Row {
+
+			id: setlw
+
+			anchors.top: row.top
+			anchors.topMargin: 28
+			anchors.left: parent.left
+			anchors.leftMargin: 2
+			anchors.bottom: parent.bottom
+
+			visible:toolbar.bExtense && !colorChange.colorVisible && !fontRect.visible
+			property var lineWidth: 1
+
+			function checkState(id) {
+				for (var i=0; i<setlw.children.length; i++) {
+					var childButton = setlw.children[i]
+					if (childButton.imageName != id.imageName) {
+						childButton.state = "off"
+					}
+				}
+			}
+
+			ToolButton {
+				id: setbutton1
+
+				group: setlw
+				imageName:"small"
+				dirImage: dirSizeImage
+				state: "on"
+
+		   }
+
+		   ToolButton {
+				id: setbutton2
+				group: setlw
+				imageName:"normal"
+				dirImage: dirSizeImage
+
+				onPressed: setlw.lineWidth = 3
+			}
+
+			ToolButton {
+				id: setbutton3
+				group: setlw
+				imageName:"big"
+				dirImage: dirSizeImage
+				onPressed: setlw.lineWidth = 5
+			}
+
+
+			FillShape {
+				id: fillType
+				imageName: "rect"
+
+				onClicked: {
+					screenArea.enabled = false
+					row._destroyCanvas()
+					var blur = Qt.createQmlObject('import QtQuick 2.1; BlurShape { blurStyle: "line" }', blurItem, "shapeblur")
+				}
+			}
+		}
+
+
 	}
 
 	Rectangle {
 		id: zoomIndicator
-		visible: firstMove && !firstRelease
+		visible: firstMove && !firstRelease && !fontRect.visible
 
 		width: 130
 		height: 130
