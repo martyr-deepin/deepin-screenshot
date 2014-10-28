@@ -448,10 +448,10 @@ Item {
 			toolbar.height = 56
 			toolbar.stop1Color = Qt.rgba(0, 0, 0, 0.6)
 			toolbar.stop2Color = Qt.rgba(0, 0, 0, 0.75)
-			toolbar.stop3Color = Qt.rgba(1, 1, 1, 0.1)
-			toolbar.stop4Color = Qt.rgba(1, 1, 1, 0.1)
-			toolbar.stop5Color = Qt.rgba(0.1, 0.1, 0.1, 0.8)
-			toolbar.stop6Color = Qt.rgba(0.1, 0.1, 0.1, 0.8)
+			toolbar.stop3Color = Qt.rgba(1, 1, 1, 0.5)
+			toolbar.stop4Color = Qt.rgba(1, 1, 1, 0.5)
+			toolbar.stop5Color = Qt.rgba(0, 0, 0, 0.75)
+			toolbar.stop6Color = Qt.rgba(0, 0, 0, 0.6)
 		}
 
 		function shrinkToolbar() {
@@ -502,6 +502,14 @@ Item {
 				{
 					screenArea.enabled = false
 					toolbar.toggleToolbar("rect")
+
+					if (toolbar.bExtense) {
+						fillType.visible = true
+						setlw.visible = true
+						colorChange.colorVisible = false
+						fontRect.visible = false
+						save_toolbar.visible = false
+ 					}
 					toolbar.paintShape = "rect"
 
 					row._destroyCanvas()
@@ -523,6 +531,13 @@ Item {
 				onPressed: {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("ellipse")
+					if (toolbar.bExtense) {
+						fillType.visible = true
+						setlw.visible = true
+						colorChange.colorVisible = false
+						fontRect.visible = false
+						save_toolbar.visible = false
+ 					}
 					toolbar.paintShape = "ellipse"
 					row._destroyCanvas()
 
@@ -540,6 +555,13 @@ Item {
 				onPressed: {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("arrow")
+					if (toolbar.bExtense) {
+						fillType.visible = false
+						setlw.visible = true
+						colorChange.colorVisible = false
+						fontRect.visible = false
+						save_toolbar.visible = false
+ 					}
 					toolbar.paintShape = "arrow"
 					row._destroyCanvas()
 
@@ -556,6 +578,13 @@ Item {
 				onPressed: {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("line")
+					if (toolbar.bExtense) {
+						fillType.visible = false
+						setlw.visible = true
+						colorChange.colorVisible = false
+						fontRect.visible = false
+						save_toolbar.visible = false
+ 					}
 					toolbar.paintShape = "line"
 
 					row._destroyCanvas()
@@ -577,7 +606,29 @@ Item {
                     var text = Qt.createQmlObject('import QtQuick 2.1; TextRect {}',selectArea,"Text")
 					text.width = selectArea.width
 					text.height = selectArea.height
+					text.fontSIZE = Qt.binding( function() { return fontText.font_size})
 					fontRect.visible = fontRect.visible == false ? true : false
+					if (fontRect.visible) {
+						setlw.visible = false
+						colorChange.colorVisible = false
+						save_toolbar.visible = false
+					}
+
+				}
+			}
+
+			function _ColorXLineXText() {
+				if (setlw.visible) {
+					fontRect.visible = false
+					colorChange.colorVisible = false
+				}
+				else if(colorChange.colorVisible) {
+					fontRect.visible = false
+					setlw.visible = false
+				}
+				else if(fontRect.visible) {
+					colorChange.colorVisible = false
+					setlw.visible = false
 				}
 			}
 
@@ -626,13 +677,31 @@ Item {
 
 				onPressed: {
 					toolbar.toggleToolbar("color")
+					fontRect.visible = false
+
 					colorChange.colorVisible = colorChange.colorVisible == false ? true : false
+					if (colorChange.colorVisible) {
+						setlw.visible = false
+						fontRect.visible = false
+						save_toolbar.visible = false
+					}
 				}
 
 			}
 			SaveButton {
+				onListView: {
+					save_toolbar.visible = save_toolbar.visible == false ? true : false
+					if (save_toolbar.visible) {
+						setlw.visible = false
+						colorChange.colorVisible = false
+						fontRect.visible = false
+					}
+					toolbar.toggleToolbar("saveAction")
+				}
+
 			}
 			ToolButton {
+
 			   imageName: "cancel"
 			   onPressed: {
 					windowView.close()
@@ -647,6 +716,7 @@ Item {
 			id: fontRect
 			anchors.left: row.left
 			anchors.top: row.bottom
+			anchors.topMargin: 4
 			width: 80
 			height: 18
 
@@ -665,13 +735,15 @@ Item {
 				anchors.top: parent.top
 				color: "transparent"
 				border.width:1
-				border.color: "white"
+				border.color: Qt.rgba(1,1,1,0.2)
 				radius: 4
-				opacity: 0.2
+
 				TextInput {
+					id:fontText
 					anchors.left: parent.left
 					anchors.leftMargin: 10
-					text: "12"
+					property int font_size: 12
+					text: font_size
 					color: "white"
 
 				}
@@ -681,26 +753,28 @@ Item {
 				width: 20
 				height: 18
 				anchors.left: fontSize.right
-
-				border.width: 1
-				border.color: "white"
-
 				color: "transparent"
-				opacity: 0.2
-				signal pressed()
+				border.width: 1
+				border.color: Qt.rgba(1,1,1,0.2)
+
+
 				TextInput {
 					anchors.left: parent.left
 					anchors.leftMargin: width / 2 + 2
 					text: "-"
 					color: "white"
-					opacity: 1
 					readOnly: true
 
 				}
 				MouseArea {
 					anchors.fill: parent
 					onPressed: {
-						fontSizeminus.pressed()
+						if (fontText.font_size <= 8) {
+							return
+						}
+						else {
+							fontText.font_size = fontText.font_size - 1
+						}
 					}
 
 				}
@@ -710,13 +784,9 @@ Item {
 				width: 20
 				height: 18
 				anchors.left: fontSizeminus.right
-
-				border.width: 1
-				border.color: "black"
-
 				color: "transparent"
-				opacity: 0.2
-				signal pressed()
+				border.width: 1
+				border.color: Qt.rgba(1,1,1,0.2)
 				TextInput {
 					anchors.left: parent.left
 					anchors.leftMargin: width / 2 + 2
@@ -728,7 +798,12 @@ Item {
 				MouseArea {
 					anchors.fill: parent
 					onPressed: {
-						fontSizeAdd.pressed()
+						if (fontText.font_size >=72) {
+							return
+						}
+						else {
+							fontText.font_size = fontText.font_size + 1
+						}
 					}
 				}
 			}
@@ -739,7 +814,8 @@ Item {
 		Rectangle {
 			id: colorChange
 			anchors.left: row.left
-			anchors.bottom: row.bottom
+			anchors.top: row.bottom
+			anchors.topMargin: 6
 			color:"black"
 			property bool colorVisible: false
 			visible:colorVisible
@@ -830,16 +906,14 @@ Item {
 		}
 
 		Row {
-
 			id: setlw
-
 			anchors.top: row.top
 			anchors.topMargin: 28
 			anchors.left: parent.left
 			anchors.leftMargin: 2
 			anchors.bottom: parent.bottom
 
-			visible:toolbar.bExtense && !colorChange.colorVisible && !fontRect.visible
+			visible: toolbar.bExtense
 			property var lineWidth: 1
 
 			function checkState(id) {
@@ -853,7 +927,6 @@ Item {
 
 			ToolButton {
 				id: setbutton1
-
 				group: setlw
 				imageName:"small"
 				dirImage: dirSizeImage
@@ -878,16 +951,66 @@ Item {
 				onPressed: setlw.lineWidth = 5
 			}
 
-
 			FillShape {
 				id: fillType
 				imageName: "rect"
-
+				visible: true
 				onClicked: {
 					screenArea.enabled = false
 					row._destroyCanvas()
 					var blur = Qt.createQmlObject('import QtQuick 2.1; BlurShape { blurStyle: "line" }', blurItem, "shapeblur")
 				}
+			}
+		}
+		Row {
+			id: save_toolbar
+			anchors.top: row.top
+			anchors.topMargin: 28
+			anchors.left: parent.left
+			anchors.leftMargin: 2
+			anchors.bottom: parent.bottom
+			visible: false
+			property string savePath:"auto_save"
+
+			ToolButton {
+				id: auto_save
+
+				imageName:"auto_save"
+				dirImage: dirSave
+				state: "on"
+
+				onPressed: {
+					save_toolbar.savePath = "auto_save"
+				}
+			}
+			ToolButton {
+				id: save_to_dir
+
+				imageName:"save_to_dir"
+				dirImage: dirSave
+
+				onPressed: {
+					save_toolbar.savePath = "auto_to_dir"
+				}
+			}
+			ToolButton {
+				id: save_ClipBoard
+
+				imageName:"save_ClipBoard"
+				dirImage: dirSave
+				onPressed: {
+					save_toolbar.savePath = "save_ClipBoard"
+				}
+			}
+			ToolButton {
+				id: auto_save_ClipBoard
+
+				imageName:"auto_save_ClipBoard"
+				dirImage: dirSave
+				onPressed: {
+					save_toolbar.savePath = "auto_save_ClipBoard"
+				}
+
 			}
 		}
 

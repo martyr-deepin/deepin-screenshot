@@ -11,6 +11,7 @@ Item {
     property url dirSizeImage: "../image/size/"
     property url dirColor_big: "../image/color_big/"
     property url dirShareImage:"../image/share/"
+    property url dirSave: "../image/save/"
 
     property string imageName: ""
     property string dirImage:dirAction

@@ -5,9 +5,7 @@ Item {
     width: 13
     height: 15
 
-
     property string imageName: ""
-
     signal clicked()
 
     Rectangle {

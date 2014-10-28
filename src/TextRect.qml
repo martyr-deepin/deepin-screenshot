@@ -7,6 +7,7 @@ Rectangle {
 	property point startPoint: Qt.point(0, 0)
 	property point seClikPoint: Qt.point(0, 0)
 	property bool firstClicked: false
+	property color textColor: "red"
 	property int fontSIZE: 12
 
 	function isEmpty() {
@@ -99,7 +100,7 @@ Rectangle {
 			width: Math.floor((textRect.width - textDistract.x)/font.pixelSize)*font.pixelSize
 		 	height: Math.floor((textRect.height - textDistract.y)/font.pixelSize)*font.pixelSize
 			clip: true
-			color:"red"
+			color:textRect.textColor
 			font.pointSize: textRect.fontSIZE
 			wrapMode: TextEdit.Wrap
 			anchors.margins: 0.1

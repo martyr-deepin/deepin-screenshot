@@ -3,17 +3,19 @@ import QtQuick.Dialogs 1.0
 Item {
 	id: toolButton
 	width: 40
-	height: 32
+	height: 28
 
 	property string imageName: ""
 	property bool clicked: false
 	property alias selectArea: selectArea
 
+	signal saveView()
+	signal listView()
 	Rectangle {
 		id: selectArea
 		anchors.centerIn: parent
 		width: 35
-		height: 22
+		height: 24
 		radius: 2
 		visible: false
 
@@ -25,145 +27,76 @@ Item {
 		id: pathList
 		anchors.centerIn: parent
 		Image {
+			id: saveImage
+			width: 22
+			height: 22
 			anchors.verticalCenter: parent.verticalCenter
 			source: "../image/action_menu/save_normal.png"
+			MouseArea {
+				anchors.fill: saveImage
+				hoverEnabled: true
+				onEntered: {
+					selectArea.visible = true
+					saveImage.source = "../image/action_menu/save" + "_hover.png"
+					listImage.source = "../image/action_menu/list" + "_hover.png"
+				}
+				onExited: {
+					selectArea.visible = false
+					saveImage.source = "../image/action_menu/save" + "_normal.png"
+					listImage.source = "../image/action_menu/list" + "_normal.png"
+				}
+				onPressed: {
+					toolButton.saveView()
+					saveImage.source = "../image/action_menu/save" + "_press.png"
+				}
+			}
 		}
 
 		Image {
+			id:listImage
+			width: 11
+			height: 22
 			anchors.verticalCenter: parent.verticalCenter
 			source: "../image/action_menu/list_normal.png"
+			MouseArea {
+				anchors.fill: listImage
+				hoverEnabled: true
+				onEntered: {
+					selectArea.visible = true
+					saveImage.source = "../image/action_menu/save" + "_hover.png"
+					listImage.source = "../image/action_menu/list" + "_hover.png"
+				}
+				onExited: {
+					selectArea.visible = false
+					saveImage.source = "../image/action_menu/save" + "_normal.png"
+					listImage.source = "../image/action_menu/list" + "_normal.png"
+				}
+				onPressed : {
+					toolButton.listView()
+					listImage.source = "../image/action_menu/list" + "_press.png"
+				}
+
+			}
 		}
 
 	}
 
-	Rectangle {
-			id: pathSelect
-			width: 150
-			height: 88
-			anchors.left: toolButton.right
-			anchors.top: toolButton.bottom
 
+	// MouseArea {
+	// 	anchors.fill: parent
+	// 	hoverEnabled: true
 
-			color: "white"
-			visible: false
-			radius: 3
-			ListView {
-				id: listView
-				width: 200
-				height: childrenRect.height
+	// 	onEntered: {
+	// 		selectArea.visible = true
+	// 		saveImage.source = "../image/action_menu/save" + "_hover.png"
+	// 		listImage.source = "../image/action_menu/list" + "_hover.png"
+	// 	}
 
-				clip: true
-				model: listModel
-				orientation: ListView.Vertical
-				delegate: numberDelegate
+	// 	onExited: {
+	// 		selectArea.visible = false
+	// 		saveImage.source = "../image/action_menu/save" + "_normal.png"
+	// 		listImage.source = "../image/action_menu/list" + "_normal.png"
+	// 	}
 
-				interactive: false
-				highlight: highlightBar
-				highlightFollowsCurrentItem: false
-
-				focus: true
-
-			}
-			ListModel {
-				id: listModel
-
-				ListElement {
-					eleId: "auto_save"
-					name: "自动保存"
-				}
-				ListElement {
-					eleId: "save_to_dir"
-					name: "保存到指定目录"
-				}
-				ListElement {
-					eleId: "save_to_ClipBoard"
-					name: "复制到剪贴板"
-				}
-				ListElement {
-					eleId: "auto_save&_ClipBoard"
-					name: "自动保存并复制到剪贴板"
-				}
-			}
-
-			Component {
-				id: numberDelegate
-				Item {
-					id: wrapper
-					width: 150
-					height: 22
-					property url directory: ""
-
-					Rectangle {
-						id: imageRect
-						anchors.left: parent.left
-						width: 22
-						height:22
-						visible: false
-						Image {
-							id: image
-							width: 20
-							height: 20
-							anchors.left: parent.left
-							source: "../image/select.png"
-						}
-					}
-
-					Text {
-						anchors.left: imageRect.right
-						anchors.leftMargin: 2
-						anchors.top: parent.top
-						anchors.topMargin: 3
-						font.pixelSize: 11
-						text: name
-					}
-
-
-				MouseArea {
-						anchors.fill: parent
-						onClicked: {
-							wrapper.ListView.view.currentIndex = index
-							windowView.save_screenshot(eleId,selectFrame.x+1,selectFrame.y+1,selectFrame.width-2,selectFrame.height-2)
-							windowView.close()
-						}
-					}
-
-					states: State {
-							name: "select"
-							when: wrapper.ListView.isCurrentItem
-							PropertyChanges {  target: imageRect; visible: true }
-						}
-				}
-			}
-
-			Component {
-				id: highlightBar
-				Rectangle {
-					width: 150
-					height: 22
-					color: "steelblue"
-					y: listView.currentItem.y;
-
-				}
-			}
-
-		}
-
-	MouseArea {
-		anchors.fill: parent
-		hoverEnabled: true
-
-		onEntered: {
-			selectArea.visible = true
-		}
-
-		onExited: {
-			selectArea.visible = false
-		}
-
-		onPressed: {
-			pathSelect.visible = true
-		}
-	}
-
-
+	// }
 }

@@ -305,6 +305,7 @@ Canvas {
                 startHeight = shapeCanvas.height
                 pressX = p1
                 pressY = p2
+
                 if (p1 + startX > startX + dndSize && p1 + startX < startX + startWidth - dndSize && p2 + startY > startY + dndSize && p2 + startY < startY + startHeight - dndSize) {
                     pressAtCenter = true
                 } else if ( p1 + startX <= startX + dndSize) {
@@ -393,8 +394,6 @@ Canvas {
                 if (shapeCanvas.paint)  return
                 shapeCanvas.startPoint = Qt.point(mouse.x,mouse.y)
             }
-
-
         }
 
         onReleased: {
@@ -409,10 +408,6 @@ Canvas {
                     shapeCanvas.paint = true
             }
 
-            // var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:shapeCanvas.shapeName }', shapeCanvas.parent, "shaperect")
-            // shape.movePaint = Qt.binding(function () {  return shapeCanvas.movePaint })
-            // shape.colorPaint = Qt.binding(function() { return shapeCanvas.colorPaint})
-            // shape.linewidth = Qt.binding(function() { return shapeCanvas.linewidth})
         }
 
         onPositionChanged: {
@@ -421,7 +416,7 @@ Canvas {
             }
             else {
                 if (moveDistract(mouseX,mouseY) || drag.active) {
-                //shapeCanvas.movePaint = true
+                shapeCanvas.movePaint = true
                 selectResizeShape.visible = false
                 markPaint.cursorShape = Qt.OpenHandCursor
             }
