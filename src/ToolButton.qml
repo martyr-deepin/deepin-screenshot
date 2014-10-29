@@ -20,7 +20,8 @@ Item {
 
     signal clicked()
     signal pressed()
-
+    signal entered()
+    signal exited()
     states: [
             State {
                     name : "on"
@@ -64,15 +65,17 @@ Item {
         onEntered: {
             selectArea.visible = true
             toolImage.source = toolButton.dirImage + toolButton.imageName + "_hover.png"
+            toolButton.entered()
         }
 
         onExited: {
             selectArea.visible = false
             if (toolButton.state == "on") {
                toolImage.source = toolButton.dirImage + toolButton.imageName + "_press.png"
-           } else {
+            } else {
                toolImage.source = toolButton.dirImage + toolButton.imageName+".png"
-           }
+            }
+            toolButton.exited()
         }
 
         onPressed:{

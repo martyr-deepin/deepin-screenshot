@@ -9,8 +9,8 @@ Item {
 	property bool clicked: false
 	property alias selectArea: selectArea
 
-	signal saveView()
-	signal listView()
+	signal saveIcon()
+	signal listIcon()
 	Rectangle {
 		id: selectArea
 		anchors.centerIn: parent
@@ -46,7 +46,7 @@ Item {
 					listImage.source = "../image/action_menu/list" + "_normal.png"
 				}
 				onPressed: {
-					toolButton.saveView()
+					toolButton.saveIcon()
 					saveImage.source = "../image/action_menu/save" + "_press.png"
 				}
 			}
@@ -72,7 +72,7 @@ Item {
 					listImage.source = "../image/action_menu/list" + "_normal.png"
 				}
 				onPressed : {
-					toolButton.listView()
+					toolButton.listIcon()
 					listImage.source = "../image/action_menu/list" + "_press.png"
 				}
 
@@ -81,22 +81,4 @@ Item {
 
 	}
 
-
-	// MouseArea {
-	// 	anchors.fill: parent
-	// 	hoverEnabled: true
-
-	// 	onEntered: {
-	// 		selectArea.visible = true
-	// 		saveImage.source = "../image/action_menu/save" + "_hover.png"
-	// 		listImage.source = "../image/action_menu/list" + "_hover.png"
-	// 	}
-
-	// 	onExited: {
-	// 		selectArea.visible = false
-	// 		saveImage.source = "../image/action_menu/save" + "_normal.png"
-	// 		listImage.source = "../image/action_menu/list" + "_normal.png"
-	// 	}
-
-	// }
 }

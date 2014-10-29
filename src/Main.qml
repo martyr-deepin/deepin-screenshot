@@ -108,7 +108,7 @@ Item {
 		anchors.fill: screen
 		color: "black"
 		visible: true
-		opacity: 0.5
+		opacity: 0.8
 	}
 	Rectangle {
 		id: selectArea
@@ -474,7 +474,7 @@ Item {
 
 		Row {
 			id: row
-			anchors.left: parent.left
+			anchors.left: savetooltip.visible ? savetooltip.right:parent.left
 			anchors.leftMargin: 4
 
 			function checkState(id) {
@@ -574,7 +574,7 @@ Item {
 				id:button4
 				group:row
 				imageName: "line"
-
+				//visible: !savetooltip.visible
 				onPressed: {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("line")
@@ -597,7 +597,7 @@ Item {
 				group:row
 				id:button5
 				imageName: "text"
-
+				visible: !savetooltip.visible
 				onPressed: {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("text")
@@ -637,7 +637,7 @@ Item {
 
 				imageName: "red"
 				property color color: imageName
-
+				visible:!savetooltip.visible
 				function _specialColor() {
 					switch(colorTool.imageName) {
 						case "gray_dark": {
@@ -689,7 +689,12 @@ Item {
 
 			}
 			SaveButton {
-				onListView: {
+				visible: !savetooltip.visible
+				onSaveIcon: {
+					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
+					windowView.close()
+				}
+				onListIcon: {
 					save_toolbar.visible = save_toolbar.visible == false ? true : false
 					if (save_toolbar.visible) {
 						setlw.visible = false
@@ -701,13 +706,14 @@ Item {
 
 			}
 			ToolButton {
-
-			   imageName: "cancel"
-			   onPressed: {
+				visible: !savetooltip.visible
+			   	imageName: "cancel"
+			   	onPressed: {
 					windowView.close()
-			   }
+			   	}
 			}
 			ToolButton {
+				visible: !savetooltip.visible
 				imageName: "share"
 			}
 		}
@@ -742,7 +748,7 @@ Item {
 					id:fontText
 					anchors.left: parent.left
 					anchors.leftMargin: 10
-					property int font_size: 12
+					property int font_size: 18
 					text: font_size
 					color: "white"
 
@@ -962,6 +968,9 @@ Item {
 				}
 			}
 		}
+		SaveToolTip {
+			id: savetooltip
+		}
 		Row {
 			id: save_toolbar
 			anchors.top: row.top
@@ -970,7 +979,7 @@ Item {
 			anchors.leftMargin: 2
 			anchors.bottom: parent.bottom
 			visible: false
-			property string savePath:"auto_save"
+			property string saveId:"auto_save"
 
 			ToolButton {
 				id: auto_save
@@ -978,9 +987,17 @@ Item {
 				imageName:"auto_save"
 				dirImage: dirSave
 				state: "on"
-
+				onEntered: {
+					savetooltip.visible = true
+					savetooltip.text = "Auto Save"
+				}
+				onExited: {
+					savetooltip.visible = false
+				}
 				onPressed: {
-					save_toolbar.savePath = "auto_save"
+					save_toolbar.saveId = "auto_save"
+					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
+					windowView.close()
 				}
 			}
 			ToolButton {
@@ -988,9 +1005,17 @@ Item {
 
 				imageName:"save_to_dir"
 				dirImage: dirSave
-
+				onEntered: {
+					savetooltip.visible = true
+					savetooltip.text = "Save as"
+				}
+				onExited: {
+					savetooltip.visible = false
+				}
 				onPressed: {
-					save_toolbar.savePath = "auto_to_dir"
+					save_toolbar.saveId = "save_to_dir"
+					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2 ,selectFrame.height - 2)
+					windowView.close()
 				}
 			}
 			ToolButton {
@@ -998,8 +1023,17 @@ Item {
 
 				imageName:"save_ClipBoard"
 				dirImage: dirSave
+				onEntered: {
+					savetooltip.visible = true
+					savetooltip.text = "Save to Clipboard"
+				}
+				onExited: {
+					savetooltip.visible = false
+				}
 				onPressed: {
-					save_toolbar.savePath = "save_ClipBoard"
+					save_toolbar.saveId = "save_ClipBoard"
+					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
+					windowView.close()
 				}
 			}
 			ToolButton {
@@ -1007,13 +1041,21 @@ Item {
 
 				imageName:"auto_save_ClipBoard"
 				dirImage: dirSave
-				onPressed: {
-					save_toolbar.savePath = "auto_save_ClipBoard"
+				onEntered: {
+					savetooltip.visible = true
+					savetooltip.text = "Auto Save and Save to Clipboard"
 				}
-
+				onExited: {
+					savetooltip.visible = false
+				}
+				onPressed: {
+					save_toolbar.saveId = "auto_save_ClipBoard"
+					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
+					windowView.close()
+				}
 			}
-		}
 
+		}
 
 	}
 

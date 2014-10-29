@@ -86,7 +86,7 @@ class Window(QQuickView):
         elif saveId == "save_to_dir":
             saveDir = QFileDialog.getExistingDirectory()
 
-        elif saveId == "auto_save&_ClipBoard":
+        elif saveId == "auto_save_ClipBoard":
             image_dir = "/tmp/DeepinScreenshot%s.png" %name
             p.save(os.path.join(image_dir))
             clipboard = gtk.Clipboard()
