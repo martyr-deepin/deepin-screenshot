@@ -497,7 +497,7 @@ Item {
 				id:button1
 				group: row
 				imageName: "rect"
-
+				visible: ((button1.width + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
 				onPressed:
 				{
 					screenArea.enabled = false
@@ -527,6 +527,7 @@ Item {
 				id:button2
 				group: row
 				imageName: "ellipse"
+				visible: ((button1.width*2 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
 
 				onPressed: {
 					screenArea.enabled = false
@@ -551,7 +552,7 @@ Item {
 				id:button3
 				group: row
 				imageName: "arrow"
-
+				visible: ((button1.width*3 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
 				onPressed: {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("arrow")
@@ -574,7 +575,7 @@ Item {
 				id:button4
 				group:row
 				imageName: "line"
-				//visible: !savetooltip.visible
+				visible: ((button1.width*4 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
 				onPressed: {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("line")
@@ -597,7 +598,7 @@ Item {
 				group:row
 				id:button5
 				imageName: "text"
-				visible: !savetooltip.visible
+				visible: ((button1.width*5 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
 				onPressed: {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("text")
@@ -637,7 +638,7 @@ Item {
 
 				imageName: "red"
 				property color color: imageName
-				visible:!savetooltip.visible
+				visible: ((button1.width*6 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
 				function _specialColor() {
 					switch(colorTool.imageName) {
 						case "gray_dark": {
@@ -689,7 +690,7 @@ Item {
 
 			}
 			SaveButton {
-				visible: !savetooltip.visible
+				visible: ((button1.width*7 +10 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
 				onSaveIcon: {
 					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
 					windowView.close()
@@ -733,74 +734,52 @@ Item {
 			border.width:1
 			border.color: "white"
 			visible: false
-			Rectangle {
-				id: fontSize
-				width: 40
-				height: 18
+
+			TextInput {
+				id:fontText
 				anchors.left: parent.left
-				anchors.top: parent.top
-				color: "transparent"
-				border.width:1
-				border.color: Qt.rgba(1,1,1,0.2)
-				radius: 4
+				anchors.leftMargin: 10
+				width: parent.width/2 - 10
+				height: parent.height
+				property int font_size: 16
+				text: font_size
+				color: "white"
 
-				TextInput {
-					id:fontText
-					anchors.left: parent.left
-					anchors.leftMargin: 10
-					property int font_size: 18
-					text: font_size
-					color: "white"
-
-				}
 			}
 			Rectangle {
 				id:fontSizeminus
 				width: 20
 				height: 18
-				anchors.left: fontSize.right
+				anchors.left: fontText.right
 				color: "transparent"
 				border.width: 1
 				border.color: Qt.rgba(1,1,1,0.2)
-
-
 				TextInput {
 					anchors.left: parent.left
-					anchors.leftMargin: width / 2 + 2
+					anchors.leftMargin: 8
 					text: "-"
 					color: "white"
 					readOnly: true
+					MouseArea {
+						anchors.fill: parent
+						onPressed: {
+							if (fontText.font_size <= 8) {
+								return
+							}
+							else {
+								fontText.font_size = fontText.font_size - 1
+							}
+						}
 
-				}
-				MouseArea {
-					anchors.fill: parent
-					onPressed: {
-						if (fontText.font_size <= 8) {
-							return
-						}
-						else {
-							fontText.font_size = fontText.font_size - 1
-						}
 					}
-
 				}
 			}
-			Rectangle {
-				id: fontSizeAdd
-				width: 20
-				height: 18
+			TextInput {
 				anchors.left: fontSizeminus.right
-				color: "transparent"
-				border.width: 1
-				border.color: Qt.rgba(1,1,1,0.2)
-				TextInput {
-					anchors.left: parent.left
-					anchors.leftMargin: width / 2 + 2
-					text: "+"
-					color: "white"
-					readOnly: true
-
-				}
+				anchors.leftMargin: 4
+				text: "+"
+				color: "white"
+				readOnly: true
 				MouseArea {
 					anchors.fill: parent
 					onPressed: {
@@ -970,6 +949,8 @@ Item {
 		}
 		SaveToolTip {
 			id: savetooltip
+			visible: false
+			//width:
 		}
 		Row {
 			id: save_toolbar
