@@ -1,4 +1,4 @@
-import QtQuick 2.1
+ import QtQuick 2.1
 import QtGraphicalEffects 1.0
 
 Item {
@@ -506,7 +506,7 @@ Item {
 					if (toolbar.bExtense) {
 						fillType.visible = true
 						setlw.visible = true
-						colorChange.colorVisible = false
+						colorChange.visible = false
 						fontRect.visible = false
 						save_toolbar.visible = false
  					}
@@ -514,10 +514,7 @@ Item {
 
 					row._destroyCanvas()
 					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }', selectArea, "shaperect")
-					shape.colorPaint = Qt.binding(function() {
-						colorTool._specialColor()
-						return colorTool.color
-					})
+					shape.colorPaint = Qt.binding(function() { return colorTool.colorStyle })
 					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 					fillType.imageName = "rect"
 				}
@@ -535,7 +532,7 @@ Item {
 					if (toolbar.bExtense) {
 						fillType.visible = true
 						setlw.visible = true
-						colorChange.colorVisible = false
+						colorChange.visible= false
 						fontRect.visible = false
 						save_toolbar.visible = false
  					}
@@ -559,7 +556,7 @@ Item {
 					if (toolbar.bExtense) {
 						fillType.visible = false
 						setlw.visible = true
-						colorChange.colorVisible = false
+						colorChange.visible = false
 						fontRect.visible = false
 						save_toolbar.visible = false
  					}
@@ -582,7 +579,7 @@ Item {
 					if (toolbar.bExtense) {
 						fillType.visible = false
 						setlw.visible = true
-						colorChange.colorVisible = false
+						colorChange.visible= false
 						fontRect.visible = false
 						save_toolbar.visible = false
  					}
@@ -611,7 +608,7 @@ Item {
 					fontRect.visible = fontRect.visible == false ? true : false
 					if (fontRect.visible) {
 						setlw.visible = false
-						colorChange.colorVisible = false
+						colorChange.visible = false
 						save_toolbar.visible = false
 					}
 
@@ -621,67 +618,30 @@ Item {
 			function _ColorXLineXText() {
 				if (setlw.visible) {
 					fontRect.visible = false
-					colorChange.colorVisible = false
+					colorChange.visible = false
 				}
-				else if(colorChange.colorVisible) {
+				else if(colorChange.visible) {
 					fontRect.visible = false
 					setlw.visible = false
 				}
 				else if(fontRect.visible) {
-					colorChange.colorVisible = false
+					colorChange.visible = false
 					setlw.visible = false
 				}
 			}
 
 			BigColor {
 				id: colorTool
+				colorStyle: "red"
 
-				imageName: "red"
-				property color color: imageName
 				visible: ((button1.width*6 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
-				function _specialColor() {
-					switch(colorTool.imageName) {
-						case "gray_dark": {
-							colorTool.color = "dimgray"
-							break
-						}
-						case "yellow_dark": {
-							colorTool.color = "darkorange"
-							break
-						}
-						case "green_dark": {
-							colorTool.color = "darkgreen"
-							break
-						}
-						case "wathet_dark": {
-							colorTool.color = "lightseagreen"
-							break
-						}
-						case "red_dark": {
-							colorTool.color = "darkred"
-							break
-						}
-						case "pink_dark": {
-							colorTool.color = "deeppink"
-							break
-						}
-						case "blue_dark": {
-							colorTool.color = "darkblue"
-							break
-						}
-						case "wathet": {
-							colorTool.color = "dodgerblue"
-							break
-						}
-					}
-				}
 
 				onPressed: {
 					toolbar.toggleToolbar("color")
 					fontRect.visible = false
 
-					colorChange.colorVisible = colorChange.colorVisible == false ? true : false
-					if (colorChange.colorVisible) {
+					colorChange.visible = colorChange.visible == false ? true : false
+					if (colorChange.visible) {
 						setlw.visible = false
 						fontRect.visible = false
 						save_toolbar.visible = false
@@ -699,7 +659,7 @@ Item {
 					save_toolbar.visible = save_toolbar.visible == false ? true : false
 					if (save_toolbar.visible) {
 						setlw.visible = false
-						colorChange.colorVisible = false
+						colorChange.visible = false
 						fontRect.visible = false
 					}
 					toolbar.toggleToolbar("saveAction")
@@ -799,94 +759,81 @@ Item {
 		Rectangle {
 			id: colorChange
 			anchors.left: row.left
+			anchors.leftMargin: 4
 			anchors.top: row.bottom
 			anchors.topMargin: 6
 			color:"black"
-			property bool colorVisible: false
-			visible:colorVisible
+
+			visible: false
 			Row {
 				id:colorGrid
 				spacing: 4
 				ColorButton{
 					id: black
-					imageName: "black"
+					colorStyle: "#FFD903"
 				}
 				ColorButton{
 					id: gray_dark
-					imageName: "gray_dark"
+					colorStyle: "#FF5E1A"
 				}
 				ColorButton{
 					id: red
-					imageName: "red"
+					colorStyle: "#FF3305"
 				}
 				ColorButton{
 					id: yellow_dark
-					imageName: "yellow_dark"
+					colorStyle:"#FF1C49"
 				}
 				ColorButton{
 					id: yellow
-					imageName: "yellow"
+					colorStyle: "#FB00FF"
 				}
 				ColorButton{
 					id: green
-					imageName: "green"
+					colorStyle: "#7700ED"
 				}
 				ColorButton{
 					id: green_dark
-					imageName: "green_dark"
+					colorStyle: "#3D08FF"
 				}
 				ColorButton{
 					id: wathet_dark
-					imageName: "wathet_dark"
+					colorStyle: "#3468FF"
 				}
 				ColorButton{
 					id: white
-					imageName: "white"
+					colorStyle: "#00AAFF"
 				}
+
 				ColorButton{
 					id: gray
-					imageName: "gray"
+					colorStyle: "#08FF77"
 				}
 
 				ColorButton{
 					id: red_dark
-					imageName: "red_dark"
+					colorStyle: "#03A60E"
 				}
 				ColorButton{
 					id: pink
-					imageName: "pink"
+					colorStyle: "#3C7D00"
 				}
 				ColorButton{
 					id: pink_dark
-					imageName: "pink_dark"
+					colorStyle: "#FFFFFF"
 				}
 				ColorButton{
 					id: blue_dark
-					imageName: "blue_dark"
+					colorStyle: "#666666"
 				}
 				ColorButton{
 					id: blue
-					imageName: "blue"
+					colorStyle: "#2B2B2B"
 				}
 				ColorButton{
 					id: wathet
-					imageName: "wathet"
+					colorStyle: "#000000"
 				}
-
-			}
-			Rectangle {
-				anchors.top: parent.top
-				anchors.topMargin: -1
-				anchors.bottom: parent.bottom
-				anchors.bottomMargin: -1
-				anchors.left: parent.left
-				anchors.leftMargin: -1
-				anchors.right: parent.right
-				anchors.rightMargin: -1
-				color: "transparent"
-
-				border.width: 1
-				border.color: "#00A0E9"
 			}
 		}
 

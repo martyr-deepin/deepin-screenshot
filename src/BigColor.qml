@@ -5,7 +5,7 @@ Item {
     width: 30
     height: 28
 
-    property string imageName: ""
+    property string colorStyle: "red"
     signal pressed()
 
     Rectangle {
@@ -15,34 +15,26 @@ Item {
         height: 22
         radius: 4
 
-        visible: false
-        color: "white"
-        opacity: 0.2
+        color: bigColor.colorStyle
+        border.color: Qt.rgba(1,1,1,0.2)
     }
 
-    Image {
-        id:colorImage
-        anchors.centerIn: parent
-
-        width: 18
-        height: 18
-        source: "../image/color_big/" + bigColor.imageName + ".png"
-    }
 
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
 
         onEntered: {
-            selectArea.visible = true
+            selectArea.border.color = Qt.rgba(1,1,1,0.6)
         }
 
         onExited: {
-            selectArea.visible = false
+            selectArea.border.color = Qt.rgba(1,1,1,0.2)
         }
 
         onPressed:{
             bigColor.pressed()
+            selectArea.border.color = Qt.rgba(1,1,1,1)
         }
 
     }

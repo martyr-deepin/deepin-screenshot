@@ -1,4 +1,4 @@
-import QtQuick 2.1
+ import QtQuick 2.1
 import QtGraphicalEffects 1.0
 Rectangle {
 	id:textRect
@@ -59,7 +59,6 @@ Rectangle {
 			if(!firstClicked) {
 
 				startPoint = Qt.point(mouse.x, mouse.y)
-				var limit = startPoint.y
 				textDistract.visible = true
 				firstClicked = true
 			}
@@ -97,7 +96,7 @@ Rectangle {
 			onPaint: {
 
 				var ctx = getContext("2d")
-				//print(selectArea.height,height,textDistract.y)
+
 				ctx.strokeStyle = "white"
 				ctx.lineWidth = 1
 				ctx.beginPath()
@@ -141,12 +140,7 @@ Rectangle {
 
 			}
 		}
-		// Glow {
-		// 	anchors.fill: textDistract
-		// 	radius: 3
-		// 	color: Qt.rgba(0,0,0,0.5)
-		// 	source: textDistract
-		// }
+
 		TextEdit {
 			id:text
 			width: Math.floor((selectArea.width - startPoint.x)/font.pixelSize)*font.pixelSize
@@ -156,9 +150,9 @@ Rectangle {
 			wrapMode: TextEdit.Wrap
 			anchors.margins: 3
 			onTextChanged: {
-				if(text.text.length>=(selectArea.height - startPoint.y)/font.pixelSize*(selectArea.width-startPoint.x)/font.pixelSize)
-				// height = selectArea.height - startPoint.y
-				 print(height,selectArea.height,startPoint.y)
+				if(text.length>=(selectArea.height - startPoint.y)/font.pixelSize*(selectArea.width-startPoint.x)/font.pixelSize) {
+					readOnly = true
+				}
 			}
 			Component.onCompleted: forceActiveFocus()
 		}
@@ -208,4 +202,3 @@ Rectangle {
 	}
 
 }
-

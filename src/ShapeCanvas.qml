@@ -157,15 +157,15 @@ Canvas {
                     rightx = endPoint.x + 15*Math.cos( Math.PI + angle + Math.PI/8)
                     righty = endPoint.y + 15*Math.sin(Math.PI + angle + Math.PI/8)
                 }
-                ctx.moveTo(endPoint.x,endPoint.y)
-                ctx.lineTo(leftx, lefty)
-                ctx.lineTo( (endPoint.x + (leftx + rightx)/2)/2, (endPoint.y +(lefty + righty)/2)/2)
-                ctx.lineTo(rightx,righty)
-                ctx.lineTo(endPoint.x,endPoint.y)
-                ctx.closePath()
-                ctx.fill()
-                ctx.stroke()
-                ctx.fill()
+                // ctx.moveTo(endPoint.x,endPoint.y)
+                // ctx.lineTo(leftx, lefty)
+                // ctx.lineTo( (endPoint.x + (leftx + rightx)/2)/2, (endPoint.y +(lefty + righty)/2)/2)
+                // ctx.lineTo(rightx,righty)
+                // ctx.lineTo(endPoint.x,endPoint.y)
+                // ctx.closePath()
+                // ctx.fill()
+                // ctx.stroke()
+                // ctx.fill()
                 break
             }
             case "line": {
