@@ -20,8 +20,6 @@
         border.color: Qt.rgba(1,1,1,0.2)
     }
 
-
-
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true

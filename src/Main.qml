@@ -1,4 +1,4 @@
- import QtQuick 2.1
+import QtQuick 2.1
 import QtGraphicalEffects 1.0
 
 Item {
@@ -28,16 +28,26 @@ Item {
 			var pos = windowView.get_cursor_pos()
 			pressX = pos.x
 			pressY = pos.y
-
+			var count =0
 			if (!firstPress) {
 				firstPress = true
+				count = 1
 			}
 
 			if (firstRelease) {
 				if (!firstEdit) {
 					selectArea.handlePress(pos)
+
 				}
 			}
+
+			if (count==1) {
+				count = count + 1
+				var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName: toolbar.paintShape }', selectArea, "shaperect")
+				shape.colorPaint = Qt.binding(function() { return colorTool.colorStyle })
+				shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
+			}
+
 		}
 
 		onReleased: {
@@ -488,7 +498,9 @@ Item {
 
 			function _destroyCanvas() {
 					var theTopChild = selectArea.children[selectArea.children.length - 1]
-					if (theTopChild != undefined && theTopChild.isEmpty && theTopChild.isEmpty()) {
+
+					if (theTopChild != undefined && theTopChild.firstPress ) {
+
 						theTopChild.destroy()
 					}
 			}
@@ -513,9 +525,9 @@ Item {
 					toolbar.paintShape = "rect"
 
 					row._destroyCanvas()
-					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }', selectArea, "shaperect")
-					shape.colorPaint = Qt.binding(function() { return colorTool.colorStyle })
-					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
+					// var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName: toolbar.paintShape }', selectArea, "shaperect")
+					// shape.colorPaint = Qt.binding(function() { return colorTool.colorStyle })
+					// shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 					fillType.imageName = "rect"
 				}
 			}
