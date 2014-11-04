@@ -4,14 +4,17 @@
 # 
 # Translators:
 # Antisound <antisound@gmail.com>, 2014
+# Antisound <antisound@gmail.com>, 2014
 # corEr <baracus.de@gmail.com>, 2014
+# corEr <baracus.de@gmail.com>, 2014
+# Eduard Gotwig <eduardgotwig@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-04 17:29+0800\n"
-"PO-Revision-Date: 2014-10-17 06:02+0000\n"
-"Last-Translator: cxbii <chenxiangbang@linuxdeepin.com>\n"
+"PO-Revision-Date: 2014-10-28 09:36+0000\n"
+"Last-Translator: szd_liufei <liufei@linuxdeepin.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/deepin-screenshot/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -78,7 +81,7 @@ msgstr "Bild wurde als Datei gespeichert"
 #: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
 #: ../src/main.py:221 ../src/main.py:223
 msgid "DScreenshot"
-msgstr ""
+msgstr "DBildschirmfoto"
 
 #: ../src/screenshot.py:94
 msgid "Take a screenshot of full screen"
@@ -86,19 +89,19 @@ msgstr "Ein Bildschirmfoto vom gesamten Bildschirm aufnehmen"
 
 #: ../src/screenshot.py:95
 msgid "Take a screenshot of the window"
-msgstr ""
+msgstr "Ein Bildschirmfoto vom Fensters aufnehmen"
 
 #: ../src/screenshot.py:96
 msgid "Take a screenshot after NUM seconds"
-msgstr "Ein Bildschirmfoto nach NUM Sekunden"
+msgstr "Ein Bildschirmfoto nach NUM Sekunden aufnehmen"
 
 #: ../src/screenshot.py:97
 msgid "save screenshot to FILE"
-msgstr "speichere Bildschirmfoto in DATEI"
+msgstr "Bildschirmfoto in DATEI speichern"
 
 #: ../src/screenshot.py:98
 msgid "run as a subprocess"
-msgstr "als Unterprozess laufen lassen"
+msgstr "Als Unterprozess laufen lassen"
 
 #: ../src/screenshot.py:99
 msgid "run a new process"
@@ -106,16 +109,16 @@ msgstr "Neuen Prozess starten"
 
 #: ../src/screenshot.py:107
 msgid "show this help message and exit"
-msgstr "Zeige diese Hilfenachricht und schließe"
+msgstr "Hilfenachricht anzeigen und beenden"
 
 #: ../src/screenshot.py:108
 msgid "show program's version number and exit"
-msgstr "Zeige die Programmversionsnummer und schließe"
+msgstr "Programmversionsnummer anzeigen und beenden"
 
 #: ../src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
-msgstr ""
+msgstr "Deepin Bildschirmfoto wird in %d Sekunden ausgelöst."
 
 #: ../src/widget.py:289
 msgid "Drag to select area"
@@ -127,7 +130,7 @@ msgstr "Die Breite oder Höhe des ausgewählten Bereichs kann nicht 0 sein"
 
 #: ../src/main.py:182
 msgid "Failed to save the picture"
-msgstr "Konnte das Bild nicht speichern"
+msgstr "Bild konnte nicht gespeichert werden"
 
 #: ../src/main.py:199
 msgid "Picture has been saved to clipboard"
@@ -135,11 +138,11 @@ msgstr "Das Bild wurde in die Zwischenablage gespeichert"
 
 #: ../src/main.py:224
 msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "Nächstes mal können Sie einfach Strg+Alt+A drücken um zu starten."
+msgstr "Nächstes mal kann Strg+Alt+A zum Starten benutzt werden."
 
 #: ../src/share.py:73
 msgid "Share to social networks"
-msgstr ""
+msgstr "Mit Sozialen Netzwerken teilen"
 
 #: ../src/share.py:186
 msgid "Unable to load page"
@@ -152,15 +155,15 @@ msgstr "Problem beim Laden der URL '%s'"
 
 #: ../src/share.py:315
 msgid "Click to switch user"
-msgstr "Klicken um Benutzer zu wechseln"
+msgstr "Zum Benutzerwechsel klicken"
 
 #: ../src/share.py:333
 msgid "Click to login"
-msgstr "Klicken zum Login"
+msgstr "Zum Anmelden klicken"
 
 #: ../src/share.py:448
 msgid "Loading"
-msgstr ""
+msgstr "Laden"
 
 #: ../src/share.py:501
 msgid "Please input text here"
@@ -176,7 +179,7 @@ msgstr "Das Foto ist nicht vorhanden."
 
 #: ../src/share.py:538
 msgid "Please choose at least one platform to share on"
-msgstr "Bitte mindestens eine Plattform zum teilen auswählen"
+msgstr "Bitte mindestens eine Plattform zum Teilen auswählen"
 
 #: ../src/share.py:555
 msgid "Uploading"
@@ -184,7 +187,7 @@ msgstr "Hochladen"
 
 #: ../src/share.py:566
 msgid "from Deepin Screenshot"
-msgstr ""
+msgstr "von Deepin Bildschirmfoto"
 
 #: ../src/share.py:613
 msgid "Follow"
@@ -192,11 +195,11 @@ msgstr "Folgen"
 
 #: ../src/share.py:636 ../src/share.py:657
 msgid "Share to"
-msgstr ""
+msgstr "Teilen mit"
 
 #: ../src/share.py:639
 msgid "Successful"
-msgstr ""
+msgstr "Erfolgreich"
 
 #: ../src/share.py:662
 msgid "Failed"
@@ -204,4 +207,4 @@ msgstr "Fehlgeschlagen"
 
 #: ../src/share.py:670
 msgid "Unknown reason"
-msgstr ""
+msgstr "Unbekannter Grund"

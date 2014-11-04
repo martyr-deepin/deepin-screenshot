@@ -3,208 +3,205 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Automatically generated, 2012
-# freddy4212 <freddy4212@gmail.com>, 2013-2014
-# Catherinelin <linhongxia@linuxdeepin.com>, 2014
-# Peter Dave Hello <hsu@peterdavehello.org>, 2014
-# Peter Dave Hello <hsu@peterdavehello.org>, 2014
+# ambiya <ambiya90@gmail.com>, 2014
+# Aril Apria Susanto <awriel@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-04 17:29+0800\n"
-"PO-Revision-Date: 2014-11-03 10:41+0000\n"
-"Last-Translator: Catherinelin <linhongxia@linuxdeepin.com>\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/deepin-screenshot/language/zh_TW/)\n"
+"PO-Revision-Date: 2014-10-29 06:01+0000\n"
+"Last-Translator: szd_liufei <liufei@linuxdeepin.com>\n"
+"Language-Team: Indonesian (http://www.transifex.com/projects/p/deepin-screenshot/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_TW\n"
+"Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../src/toolbar.py:82 ../src/widget.py:930
 msgid "Draw Rectangle"
-msgstr "矩形工具"
+msgstr "Menggambar bentuk kotak"
 
 #: ../src/toolbar.py:83 ../src/widget.py:934
 msgid "Draw Ellipse"
-msgstr "橢圓工具"
+msgstr "Menggambar bentuk elips"
 
 #: ../src/toolbar.py:84 ../src/widget.py:938
 msgid "Draw Arrow"
-msgstr "箭頭工具"
+msgstr "Menggambar panah"
 
 #: ../src/toolbar.py:85 ../src/widget.py:942
 msgid "Draw Line"
-msgstr "線條工具"
+msgstr "Menggambar garis"
 
 #: ../src/toolbar.py:86 ../src/widget.py:946
 msgid "Draw Text"
-msgstr "文字工具"
+msgstr "Menggambar text"
 
 #: ../src/toolbar.py:88 ../src/widget.py:951
 msgid "Undo"
-msgstr "復原"
+msgstr "Batalkan"
 
 #: ../src/toolbar.py:91 ../src/widget.py:955
 msgid "Save"
-msgstr "儲存"
+msgstr "Simpan"
 
 #: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
-msgstr "取消螢幕截圖"
+msgstr "Batal"
 
 #: ../src/toolbar.py:114 ../src/widget.py:969 ../src/share.py:459
 msgid "Share"
-msgstr "分享"
+msgstr "Bagikan"
 
 #: ../src/toolbar.py:178 ../src/widget.py:915
 msgid "Save automatically"
-msgstr "自動儲存"
+msgstr "Simpan secara otomatis"
 
 #: ../src/toolbar.py:179 ../src/widget.py:916
 msgid "Save as"
-msgstr "另存新檔"
+msgstr "Simpan sebagai"
 
 #: ../src/toolbar.py:180 ../src/widget.py:917
 msgid "Save to clipboard"
-msgstr "複製到剪貼簿"
+msgstr "Simpan ke papan klip"
 
 #: ../src/toolbar.py:181 ../src/widget.py:918
 msgid "Save automatically to file and clipboard"
-msgstr "自動儲存並複製到剪貼簿"
+msgstr "Simpan otomatis ke berkas dan papan klip"
 
 #: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
 msgid "Picture has been saved to file"
-msgstr "圖片已儲存到檔案"
+msgstr "Gambar telah disimpan ke berkas"
 
 #: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
 #: ../src/main.py:221 ../src/main.py:223
 msgid "DScreenshot"
-msgstr "深度截圖"
+msgstr "DScreenshot"
 
 #: ../src/screenshot.py:94
 msgid "Take a screenshot of full screen"
-msgstr "拍下全螢幕的截圖"
+msgstr "Ambil tangkapan layar penuh"
 
 #: ../src/screenshot.py:95
 msgid "Take a screenshot of the window"
-msgstr "拍下視窗的截圖"
+msgstr "Ambil tangkapan layar jendela"
 
 #: ../src/screenshot.py:96
 msgid "Take a screenshot after NUM seconds"
-msgstr "將會在 NUM 秒後啟動螢幕截圖"
+msgstr "Ambil tangkapan layar setelah NUM detik"
 
 #: ../src/screenshot.py:97
 msgid "save screenshot to FILE"
-msgstr "儲存螢幕截圖到檔案 \"FILE\""
+msgstr "simpan tangkapan ayar pada BERKAS"
 
 #: ../src/screenshot.py:98
 msgid "run as a subprocess"
-msgstr "以子程序方式執行"
+msgstr "jalankan sebagai subproses"
 
 #: ../src/screenshot.py:99
 msgid "run a new process"
-msgstr "啟動一個新的程序"
+msgstr "jalankan proses baru"
 
 #: ../src/screenshot.py:107
 msgid "show this help message and exit"
-msgstr "顯示該幫助說明訊息並結束"
+msgstr "tampilkan pesan bantuan ini dan keluar"
 
 #: ../src/screenshot.py:108
 msgid "show program's version number and exit"
-msgstr "顯示程式的版本號並結束"
+msgstr "jalankan nomor versi program dan keluar"
 
 #: ../src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
-msgstr "深度截圖將在 %d 秒內啟動。"
+msgstr "Tangkapan layar Deepin akan mulai dalam %d detik."
 
 #: ../src/widget.py:289
 msgid "Drag to select area"
-msgstr "拖曳可自由選區"
+msgstr "Seret untuk memilih area"
 
 #: ../src/main.py:154
 msgid "The width or height of selected area cannot be 0"
-msgstr "選取區域的寬度或高度不能設為 0"
+msgstr "Lebar atau tinggi yang dipilih tidak boleh 0"
 
 #: ../src/main.py:182
 msgid "Failed to save the picture"
-msgstr "圖片儲存失敗"
+msgstr "Gagal menyimpan gambar"
 
 #: ../src/main.py:199
 msgid "Picture has been saved to clipboard"
-msgstr "圖片已儲存到剪貼簿"
+msgstr "Gambar telah disimpan ke papan klip"
 
 #: ../src/main.py:224
 msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "下次可以直接按 Ctrl+Alt+A 啟動。"
+msgstr "Selanjutnya Anda hanya dapat menekan Ctrl+Alt+A untuk memulai"
 
 #: ../src/share.py:73
 msgid "Share to social networks"
-msgstr "分享至社群網站"
+msgstr "Bagikan ke jaringan sosial"
 
 #: ../src/share.py:186
 msgid "Unable to load page"
-msgstr "無法載入頁面"
+msgstr "Gagal memuat halaman"
 
 #: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
-msgstr "載入網址 \"%s\" 時發生錯誤"
+msgstr "Terjadi masalah ketika memuat URL '%s'"
 
 #: ../src/share.py:315
 msgid "Click to switch user"
-msgstr "點此切換使用者"
+msgstr "Klik untuk ubah pengguna"
 
 #: ../src/share.py:333
 msgid "Click to login"
-msgstr "點此登入"
+msgstr "Klik untuk masuk"
 
 #: ../src/share.py:448
 msgid "Loading"
-msgstr "正在載入"
+msgstr "Sedang memuat"
 
 #: ../src/share.py:501
 msgid "Please input text here"
-msgstr "請在此處輸入文字"
+msgstr "Harap masukkan teks di sini"
 
 #: ../src/share.py:527 ../src/share.py:538
 msgid "Error"
-msgstr "錯誤"
+msgstr "Galat"
 
 #: ../src/share.py:527
 msgid "Picture does not exist."
-msgstr "圖片不存在。"
+msgstr "Gambar tidak tersedia"
 
 #: ../src/share.py:538
 msgid "Please choose at least one platform to share on"
-msgstr "請選擇至少一個平臺進行分享"
+msgstr "Pilih platform terakhir untuk membagikan"
 
 #: ../src/share.py:555
 msgid "Uploading"
-msgstr "正在分享"
+msgstr "Mengunggah"
 
 #: ../src/share.py:566
 msgid "from Deepin Screenshot"
-msgstr "來自深度截圖"
+msgstr "dari Tangkapan Layar Deepin"
 
 #: ../src/share.py:613
 msgid "Follow"
-msgstr "關注"
+msgstr "Ikuti"
 
 #: ../src/share.py:636 ../src/share.py:657
 msgid "Share to"
-msgstr "分享至"
+msgstr "Bagikan ke"
 
 #: ../src/share.py:639
 msgid "Successful"
-msgstr "成功"
+msgstr "Berhasil"
 
 #: ../src/share.py:662
 msgid "Failed"
-msgstr "失敗"
+msgstr "Gagal"
 
 #: ../src/share.py:670
 msgid "Unknown reason"
-msgstr "未知原因"
+msgstr "alasan tidak diketahui"
