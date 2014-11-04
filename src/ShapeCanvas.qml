@@ -1,8 +1,8 @@
 import QtQuick 2.1
 
-Item {
+Rectangle {
     id: shapeItem
-
+    color: Qt.rgba(1,0,0,0.1)
     width: parent.width
     height: parent.height
     property bool firstMove: false
@@ -29,10 +29,13 @@ Item {
         return Qt.rect(x, y, width, height)
     }
     function remap() {
-
+        selectshape.x = selectshape.x
+        selectshape.y = selectshape.y
+        selectshape.width = selectshape.width
+        selectshape.height = selectshape.height
         var rect =  _calculateRect()
-        shapeItem.x = rect.x
-        shapeItem.y = rect.y
+        shapeItem.x = shapeItem.x + rect.x
+        shapeItem.y = shapeItem.y + rect.y
         shapeItem.width = rect.width
         shapeItem.height = rect.height
 
@@ -42,9 +45,10 @@ Item {
     MouseArea {
         id: shapeArea
         anchors.fill: parent
-
+        propagateComposedEvents: true
         property int pressX: 0
         property int pressY: 0
+
 
         onPressed: {
             shapeItem.startPoint = Qt.point(mouse.x, mouse.y)
@@ -59,7 +63,16 @@ Item {
             if (firstRelease) {
                 if (!firstEdit) {
                     selectshape.handlePress(shapeItem.startPoint)
+                    var i = 1
                 }
+            }
+
+            if (i == 1)  {
+                mouse.accepted = false
+                // var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName: toolbar.paintShape }', shapeItem.parent, "shaperect")
+                // shape.colorPaint = Qt.binding(function() { return colorTool.colorStyle })
+                // shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
+
             }
         }
         onReleased: {
@@ -73,12 +86,9 @@ Item {
                 if (!firstEdit) {
                     selectshape.handleRelease(shapeItem.endPoint)
 
-                    shapeItem.remap()
-                    // var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName: toolbar.paintShape }', shapeItem.parent, "shaperect")
-                    // shape.colorPaint = Qt.binding(function() { return colorTool.colorStyle })
-                    // shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                 }
             }
+
         }
         onPositionChanged: {
             shapeItem.endPoint = Qt.point(mouse.x,mouse.y)
@@ -101,7 +111,7 @@ Item {
                 if (!firstRelease) {
                     if (shapeItem.endPoint.x != shapeArea.pressX && shapeItem.endPoint.y != shapeArea.pressY) {
                         selectshape.x = Math.min(shapeItem.endPoint.x, shapeArea.pressX)
-                        selectshape.y = Math.min(shapeItem.endPoint.y, shapeArea.pressY)
+                        selectshape.y = Math.min(shapeItem .endPoint.y, shapeArea.pressY)
                         selectshape.width = Math.abs(shapeItem.endPoint.x - shapeArea.pressX)
                         selectshape.height = Math.abs(shapeItem.endPoint.y - shapeArea.pressY)
                     }
@@ -113,9 +123,9 @@ Item {
                     selectshape.handlePositionChange(shapeItem.endPoint)
                 }
             }
+
         }
     }
-
     Rectangle {
         id: selectshape
         clip: true
@@ -290,7 +300,7 @@ Item {
             switch(shapeItem.shapeName) {
                 case "rect": {
                    ctx.beginPath()
-                   //ctx.rect(shapeItem.startPoint.x, shapeItem.startPoint.y, shapeItem.endPoint.x - shapeItem.startPoint.x, shapeItem.endPoint.y - shapeItem.startPoint.y)
+
                    ctx.rect(0, 0, width, height)
                    ctx.closePath()
                    ctx.fill()
@@ -401,8 +411,4 @@ Item {
             ctx.restore()
         }
     }
-
-
-
-
 }
