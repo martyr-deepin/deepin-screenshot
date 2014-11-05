@@ -1,143 +1,316 @@
 import QtQuick 2.1
-
-Rectangle {
-    id: shapeItem
-    color: Qt.rgba(1,0,0,0.1)
+Canvas {
+    id: shapeCanvas
     width: parent.width
     height: parent.height
-    property bool firstMove: false
+
+    property bool movePaint: false
+    property bool paint: false
+    property bool reSize: false
+    property bool select: false
     property bool firstPress: false
-    property bool firstRelease: false
+    property bool firstReleased: false
     property bool firstEdit: false
-
-    property alias selectshape: selectshape
-    property alias selectResizeShape: selectResizeShape
-
     property string shapeName: ""
-    property int linewidth: 1
-    property string colorPaint: "red"
-
     property point startPoint: Qt.point(0, 0)
     property point endPoint: Qt.point(0, 0)
+    property color colorPaint: "red"
 
-    function _calculateRect() {
-        var x = selectshape.x - selectResizeShape.bigPointRadius / 2
-        var y = selectshape.y - selectResizeShape.bigPointRadius / 2
-        var width = selectshape.width + selectResizeShape.bigPointRadius
-        var height = selectshape.height + selectResizeShape.bigPointRadius
+    property var linewidth: 3
+    property var points:[]
+    property int bigPointRadius: 6
+    property int smallPointRadius: 4
+    property int dndSize: 5
+    property int minSize: 10
 
-        return Qt.rect(x, y, width, height)
+    property int enDWidth: 0
+    property int enDHeight: 0
+    property int endWidth: 0
+    property int endHeight: 0
+
+    function isEmpty() {
+        if (startPoint == Qt.point(0, 0) && endPoint == Qt.point(0, 0)) {
+            return true
+        }
+        else if (startPoint == endPoint) {
+            return true
+        }
+        else {
+            return false
+        }
     }
+
+    function _measureRect() {
+        var xmin = Math.min(startPoint.x, endPoint.x) - bigPointRadius
+        var ymin = Math.min(startPoint.y, endPoint.y)  - bigPointRadius
+        var xmax = Math.max(startPoint.x, endPoint.x) + bigPointRadius
+        var ymax = Math.max(startPoint.y, endPoint.y) + bigPointRadius
+        for(var i=0;i<points.length;i++) {
+            xmin = Math.min(xmin, points[i].x)
+            ymin = Math.min(ymin, points[i].y)
+            xmax = Math.max(xmax, points[i].x)
+            ymax = Math.max(ymax,points[i].y)
+        }
+        var width = xmax - xmin
+        var height = ymax - ymin
+        return Qt.rect(xmin, ymin, width, height)
+    }
+
     function remap() {
-        selectshape.x = selectshape.x
-        selectshape.y = selectshape.y
-        selectshape.width = selectshape.width
-        selectshape.height = selectshape.height
-        var rect =  _calculateRect()
-        shapeItem.x = shapeItem.x + rect.x
-        shapeItem.y = shapeItem.y + rect.y
-        shapeItem.width = rect.width
-        shapeItem.height = rect.height
 
+        var rect = _measureRect()
+        x = rect.x
+        y = rect.y
+        width = rect.width
+        height = rect.height
+        if (shapeName == "line") {
+            startPoint.x = startPoint.x - rect.x
+            startPoint.y = startPoint.y - rect.y
+            endPoint.x = endPoint.x - rect.x
+            endPoint.y = endPoint.y - rect.y
 
+            for(var i=0;i<points.length;i++) {
+                points[i].x = points[i].x - rect.x
+                points[i].y = points[i].y - rect.y
+            }
+        }
+        else {
+            startPoint.x = startPoint.x - rect.x
+            startPoint.y = startPoint.y - rect.y
+            endPoint.x = endPoint.x - rect.x
+            endPoint.y = endPoint.y- rect.y
+        }
+        requestPaint()
+        shapeCanvas.reSize = true
+        enDWidth = rect.x
+        enDHeight = rect.y
+        endWidth = shapeCanvas.width + rect.x
+        endHeight = shapeCanvas.height + rect.y
+    }
+
+    function moveDistract(p1,p2) {
+        var rect = _measureRect()
+        if(p1 >= rect.x + 13 && p1 <= rect.x - 13 + rect.width
+        && p2 >= rect.y + 13 && p2 <= rect.y - 13 + rect.height)
+            return true
+        else
+            return false
+    }
+    function _InImage(p1,p2) {
+
+        if (p1 >= Math.min(startPoint.x, endPoint.x) - bigPointRadius && p1 <= Math.min(startPoint.x, endPoint.x) + Math.abs(startPoint.x - endPoint.x) + bigPointRadius &&
+            p2 >= Math.min(startPoint.y, endPoint.y) - bigPointRadius && p2 <= Math.min(startPoint.y, endPoint.y) + Math.abs(startPoint.y - endPoint.y) + bigPointRadius) {
+            return true
+        } else {
+            return false
+        }
+    }
+    function _OutImage(p1,p2) {
+        if ( p1 >= Math.min(startPoint.x, endPoint.x) + bigPointRadius &&p1 <= Math.min(startPoint.x, endPoint.x) + Math.abs(startPoint.x - endPoint.x) &&
+             p2 >= Math.min(startPoint.y, endPoint.y) + bigPointRadius && p2 <= Math.min(startPoint.y, endPoint.y) + Math.abs(startPoint.y - endPoint.y)) {
+            return true
+        } else {
+            return false
+        }
+    }
+    function click_onImage(p1,p2) {
+        if (_InImage(p1,p2)&&!_OutImage(p1,p2)) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    onPaint: {
+        if(startPoint == Qt.point(0, 0) && endPoint == Qt.point(0, 0))
+        return
+
+        var ctx = getContext("2d")
+        ctx.clearRect(0, 0, width, height)
+        ctx.save()
+        ctx.lineWidth = linewidth
+        ctx.strokeStyle = colorPaint
+        ctx.shadowColor = select? "grey":"transparent"
+        ctx.shadowBlur = select?1:0
+        switch(shapeName)  {
+            case "rect": {
+                ctx.beginPath()
+                ctx.rect(Math.min(startPoint.x, endPoint.x), Math.min(startPoint.y, endPoint.y), Math.abs(endPoint.x - startPoint.x), Math.abs(endPoint.y - startPoint.y))
+                ctx.closePath()
+                ctx.stroke()
+                break
+            }
+            case "ellipse": {
+                ctx.beginPath()
+                ctx.ellipse(Math.min(startPoint.x,endPoint.x), Math.min(startPoint.y,endPoint.y), Math.abs(endPoint.x - startPoint.x), Math.abs(endPoint.y - startPoint.y))
+                ctx.closePath()
+                ctx.stroke()
+                break
+            }
+            case "arrow": {
+                ctx.beginPath()
+                ctx.moveTo(startPoint.x, startPoint.y)
+                ctx.lineTo(endPoint.x, endPoint.y)
+                ctx.closePath()
+
+                ctx.stroke()
+                ctx.fillStyle = shapeCanvas.colorPaint
+                ctx.beginPath()
+                var angle = Math.atan2(Math.abs(endPoint.y - startPoint.y), Math.abs(endPoint.x - startPoint.x))
+                var leftx, lefty, rightx, righty
+                if (endPoint.x - startPoint.x > 0 && endPoint.y - startPoint.y < 0)
+                {
+                    leftx = endPoint.x + 15*Math.cos( Math.PI + angle - Math.PI/8)
+                    lefty = endPoint.y - 15*Math.sin(Math.PI + angle - Math.PI/8)
+                    rightx = endPoint.x + 15*Math.cos( Math.PI + angle + Math.PI/8)
+                    righty = endPoint.y - 15*Math.sin(Math.PI + angle + Math.PI/8)
+                }
+                else if (endPoint.x - startPoint.x <= 0 && endPoint.y - startPoint.y <= 0)
+                {
+                    leftx = endPoint.x - 15*Math.cos( Math.PI + angle - Math.PI/8)
+                    lefty = endPoint.y - 15*Math.sin(Math.PI + angle - Math.PI/8)
+                    rightx = endPoint.x - 15*Math.cos( Math.PI + angle + Math.PI/8)
+                    righty = endPoint.y - 15*Math.sin(Math.PI + angle + Math.PI/8)
+                }
+                else if (endPoint.x - startPoint.x <= 0 && endPoint.y - startPoint.y > 0)
+                {
+                    leftx = endPoint.x - 15*Math.cos( Math.PI + angle - Math.PI/8)
+                    lefty = endPoint.y + 15*Math.sin(Math.PI + angle - Math.PI/8)
+                    rightx = endPoint.x - 15*Math.cos( Math.PI + angle + Math.PI/8)
+                    righty = endPoint.y + 15*Math.sin(Math.PI + angle + Math.PI/8)
+                }
+                else
+                {
+                    leftx = endPoint.x + 15*Math.cos( Math.PI + angle - Math.PI/8)
+                    lefty = endPoint.y + 15*Math.sin(Math.PI + angle - Math.PI/8)
+                    rightx = endPoint.x + 15*Math.cos( Math.PI + angle + Math.PI/8)
+                    righty = endPoint.y + 15*Math.sin(Math.PI + angle + Math.PI/8)
+                }
+                ctx.moveTo(endPoint.x,endPoint.y)
+                ctx.lineTo(leftx, lefty)
+                ctx.lineTo( (endPoint.x + (leftx + rightx)/2)/2, (endPoint.y +(lefty + righty)/2)/2)
+                ctx.lineTo(rightx,righty)
+                ctx.lineTo(endPoint.x,endPoint.y)
+                ctx.closePath()
+                ctx.fill()
+                ctx.stroke()
+                ctx.fill()
+                break
+            }
+            case "line": {
+                ctx.beginPath()
+                ctx.moveTo(startPoint.x, startPoint.y)
+                for (var i=0;i<points.length;i++) {
+                    ctx.lineTo(points[i].x, points[i].y)
+                }
+                ctx.lineTo(endPoint.x, endPoint.y)
+                ctx.stroke()
+                break
+            }
+        }
+
+        ctx.lineWidth = 1
+        ctx.strokeStyle = select ? "yellow":"transparent"
+        ctx.fillStyle = select ? "grey":"transparent"
+
+        var canvasX = Math.min(startPoint.x, endPoint.x)
+        var canvasY = Math.min(startPoint.y, endPoint.y)
+        var canvasWidth =  Math.abs(startPoint.x - endPoint.x)
+        var canvasHeight = Math.abs(startPoint.y - endPoint.y)
+        /* Top left */
+        ctx.beginPath()
+        ctx.arc(canvasX, canvasY, shapeCanvas.bigPointRadius, 0, Math.PI * 2, false)
+        ctx.closePath()
+        ctx.fill()
+        ctx.stroke()
+
+        /* Top right */
+        ctx.beginPath()
+        ctx.arc(canvasX + canvasWidth, canvasY, shapeCanvas.bigPointRadius, 0, Math.PI * 2, false)
+        ctx.closePath()
+        ctx.fill()
+        ctx.stroke()
+
+        /* Bottom left */
+        ctx.beginPath()
+        ctx.arc(canvasX, canvasY + canvasHeight, shapeCanvas.bigPointRadius, 0, Math.PI * 2, false)
+        ctx.closePath()
+        ctx.fill()
+        ctx.stroke()
+
+        /* Bottom right */
+        ctx.beginPath()
+        ctx.arc(canvasX + canvasWidth, canvasY + canvasHeight, shapeCanvas.bigPointRadius, 0, Math.PI * 2, false)
+        ctx.closePath()
+        ctx.fill()
+        ctx.stroke()
+
+        /* Top */
+        ctx.beginPath()
+        ctx.arc(canvasX + canvasWidth / 2, canvasY, shapeCanvas.smallPointRadius, 0, Math.PI * 2, false)
+        ctx.closePath()
+        ctx.fill()
+        ctx.stroke()
+
+        /* Bottom */
+        ctx.beginPath()
+        ctx.arc(canvasX + canvasWidth  / 2, canvasY + canvasHeight, shapeCanvas.smallPointRadius, 0, Math.PI * 2, false)
+        ctx.closePath()
+        ctx.fill()
+        ctx.stroke()
+
+        /* Left */
+        ctx.beginPath()
+        ctx.arc(canvasX , canvasY + canvasHeight / 2,shapeCanvas.smallPointRadius, 0, Math.PI * 2, false)
+        ctx.closePath()
+        ctx.fill()
+        ctx.stroke()
+
+        /* Right */
+        ctx.beginPath()
+        ctx.arc(canvasX + canvasWidth, canvasY + canvasHeight / 2, shapeCanvas.smallPointRadius, 0, Math.PI * 2, false)
+        ctx.closePath()
+        ctx.fill()
+        ctx.stroke()
+        ctx.restore()
+    ctx.restore()
+    }
+
+    function moveCanvas() {
+        if (pressAtLeft || pressAtTopLeft || pressAtBottomLeft) {
+            x = Math.min(pos.x, startX + startWidth - minSize)
+            width = Math.max(startWidth + startX - pos.x, minSize)
+        }
+
+        if (pressAtRight || pressAtTopRight || pressAtBottomRight) {
+            width = Math.max(pos.x - startX, minSize)
+            x = Math.max(pos.x - width, startX)
+        }
+
+        if (pressAtTop || pressAtTopLeft || pressAtTopRight) {
+            y = Math.min(pos.y, startY + startHeight - minSize)
+            height = Math.max(startHeight + startY - pos.y, minSize)
+        }
+
+        if (pressAtBottom || pressAtBottomLeft || pressAtBottomRight) {
+            height = Math.max(pos.y - startY, minSize)
+            y = Math.max(pos.y - height, startY)
+        }
     }
 
     MouseArea {
-        id: shapeArea
+        id: markPaint
         anchors.fill: parent
-        propagateComposedEvents: true
-        property int pressX: 0
-        property int pressY: 0
+        property int dndSize: 5
+        property int minSize: 10
 
-
-        onPressed: {
-            shapeItem.startPoint = Qt.point(mouse.x, mouse.y)
-            pressX = shapeItem.startPoint.x
-            pressY = shapeItem.startPoint.y
-
-            if (!firstPress) {
-                firstPress = true
-                hoverEnabled = true
-            }
-
-            if (firstRelease) {
-                if (!firstEdit) {
-                    selectshape.handlePress(shapeItem.startPoint)
-                    var i = 1
-                }
-            }
-
-            if (i == 1)  {
-                mouse.accepted = false
-                // var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName: toolbar.paintShape }', shapeItem.parent, "shaperect")
-                // shape.colorPaint = Qt.binding(function() { return colorTool.colorStyle })
-                // shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
-
-            }
-        }
-        onReleased: {
-            shapeItem.endPoint = Qt.point(mouse.x,mouse.y)
-
-            if (!firstRelease) {
-                firstRelease = true
-            }
-
-            if (firstRelease) {
-                if (!firstEdit) {
-                    selectshape.handleRelease(shapeItem.endPoint)
-
-                }
-            }
-
-        }
-        onPositionChanged: {
-            shapeItem.endPoint = Qt.point(mouse.x,mouse.y)
-
-            if (!firstMove) {
-                firstMove = true
-            }
-
-            if (!firstPress) {
-                var window_info = windowView.get_window_info_at_pointer()
-                if (window_info != undefined) {
-                    selectshape.x = window_info[0]
-                    selectshape.y = window_info[1]
-                    selectshape.width = window_info[2]
-                    selectshape.height = window_info[3]
-                }
-            }
-
-            if (firstPress) {
-                if (!firstRelease) {
-                    if (shapeItem.endPoint.x != shapeArea.pressX && shapeItem.endPoint.y != shapeArea.pressY) {
-                        selectshape.x = Math.min(shapeItem.endPoint.x, shapeArea.pressX)
-                        selectshape.y = Math.min(shapeItem .endPoint.y, shapeArea.pressY)
-                        selectshape.width = Math.abs(shapeItem.endPoint.x - shapeArea.pressX)
-                        selectshape.height = Math.abs(shapeItem.endPoint.y - shapeArea.pressY)
-                    }
-                }
-            }
-
-            if (firstRelease) {
-                if (!firstEdit) {
-                    selectshape.handlePositionChange(shapeItem.endPoint)
-                }
-            }
-
-        }
-    }
-    Rectangle {
-        id: selectshape
-        clip: true
-        visible: false
         property int startX: 0
         property int startY: 0
         property int startWidth: 0
         property int startHeight: 0
         property int pressX: 0
         property int pressY: 0
-        property int dndSize: 5
-        property int minSize: 10
+
         property bool hasPress: false
         property bool pressAtCenter: false
         property bool pressAtLeft: false
@@ -148,267 +321,132 @@ Rectangle {
         property bool pressAtTopRight: false
         property bool pressAtBottomLeft: false
         property bool pressAtBottomRight: false
-        border.width: 4
-        border.color: "red"
-        function handlePress(pos) {
-            if (x <= pos.x && pos.x <= x + width && y <= pos.y && pos.y <= y + height) {
-                hasPress = true
-                startX = x
-                startY = y
-                startWidth = width
-                startHeight = height
-                pressX = pos.x
-                pressY = pos.y
 
-                if (x + dndSize < pos.x && pos.x < x + width - dndSize && y + dndSize < pos.y && pos.y < y + height - dndSize) {
+        function handlePress(p1,p2) {
+            if ( p1 + startX >= startX && p1 + startX <= startX + shapeCanvas.width&& p2 + startY >= startY && p2 + startY <= startY + shapeCanvas.height) {
+                hasPress = true
+                startX = shapeCanvas.x
+                startY = shapeCanvas.y
+                startWidth = shapeCanvas.width
+                startHeight = shapeCanvas.height
+                pressX = p1
+                pressY = p2
+
+                if (p1 + startX > startX + dndSize && p1 + startX < startX + startWidth - dndSize && p2 + startY > startY + dndSize && p2 + startY < startY + startHeight - dndSize) {
                     pressAtCenter = true
-                } else if (x + dndSize >= pos.x) {
-                    if (y + dndSize >= pos.y) {
+                } else if ( p1 + startX <= startX + dndSize) {
+                    if (dndSize + startY >= p2) {
                         pressAtTopLeft = true
-                    } else if (y + height - dndSize <= pos.y) {
-                        pressAtBottomLeft = true
+                    } else if(startHeight + startY - dndSize <= p2 + startY) {
+                        pressAtBottomLeft
                     } else {
-                      pressAtLeft = true
+                        pressAtLeft = true
                     }
-                } else if (x + width - dndSize <= pos.x) {
-                    if (y + dndSize >= pos.y) {
+                } else if ( p1 + startX >= startX + startWidth - dndSize) {
+                    if (dndSize + startY >= p2) {
                         pressAtTopRight = true
-                    } else if (y + height - dndSize <= pos.y) {
+                    } else if (startY + startHeight - dndSize <= startY + p2) {
                         pressAtBottomRight = true
                     } else {
-                      pressAtRight = true
+                        pressAtRight = true
                     }
-                } else if (y + dndSize >= pos.y) {
+                } else if (dndSize + startY >= p2 + startY) {
                     pressAtTop = true
-                } else if (y + height - dndSize <= pos.y) {
+                } else if (startHeight + startY - dndSize <= p2 + startY) {
                     pressAtBottom = true
                 }
             }
         }
 
-        function handlePositionChange(pos) {
+        function handlePositionChange(p1, p2) {
             if (hasPress) {
-                if (pressAtCenter) {
-                    x = Math.max(Math.min(startX + pos.x - pressX, screenWidth - width), 0)
-                    y = Math.max(Math.min(startY + pos.y - pressY, screenHeight - height), 0)
 
-                    shapeArea.cursorShape = Qt.ClosedHandCursor
-                } else {
                     if (pressAtLeft || pressAtTopLeft || pressAtBottomLeft) {
-                        x = Math.min(pos.x, startX + startWidth - minSize)
-                         width = Math.max(startWidth + startX - pos.x, minSize)
+                        if ( shapeCanvas.x < 0 || p1 > shapeCanvas.x + shapeCanvas.width- minSize) {}
+                        else {
+                            shapeCanvas.x = Math.max(shapeCanvas.x + p1, 0)
+                            shapeCanvas.width = Math.max(Math.min(shapeCanvas.width + shapeCanvas.x - p1,shapeCanvas.endWidth), minSize)
+                        }
                     }
-
                     if (pressAtRight || pressAtTopRight || pressAtBottomRight) {
-                        width = Math.max(pos.x - startX, minSize)
-                        x = Math.max(pos.x - width, startX)
+                        if (shapeCanvas.x + shapeCanvas.width > selectArea.width) {}
+                        else {
+                            shapeCanvas.width = Math.max(Math.min(p1 - shapeCanvas.x,selectArea.width - enDWidth), minSize)
+                            shapeCanvas.x = Math.max(shapeCanvas.x,0)
+                        }
                     }
-
                     if (pressAtTop || pressAtTopLeft || pressAtTopRight) {
-                        y = Math.min(pos.y, startY + startHeight - minSize)
-                        height = Math.max(startHeight + startY - pos.y, minSize)
+                        if (shapeCanvas.y < 0) {}
+                        else {
+                            shapeCanvas.y = Math.max(shapeCanvas.y + p2 , 0)
+                            shapeCanvas.height = Math.max(Math.min(shapeCanvas.height + shapeCanvas.y - p2  ,shapeCanvas.endHeight), minSize)
+                        }
                     }
-
                     if (pressAtBottom || pressAtBottomLeft || pressAtBottomRight) {
-                        height = Math.max(pos.y - startY, minSize)
-                        y = Math.max(pos.y - height, startY)
+                        if (shapeCanvas.y + shapeCanvas.height > selectArea.height) {}
+                        else {
+                            shapeCanvas.height = Math.max(Math.min( p2 - shapeCanvas.y,selectArea.height - enDHeight),minSize)
+                            shapeCanvas.y = Math.max(shapeCanvas.y + p2,0)
+                        }
                     }
-                }
-            } else {
-                if (x <= pos.x && pos.x <= x + width && y <= pos.y && pos.y <= y + height) {
-                    if (x + dndSize < pos.x && pos.x < x + width - dndSize && y + dndSize < pos.y && pos.y < y + height - dndSize) {
-                        shapeArea.cursorShape = Qt.OpenHandCursor
-                        selectResizeShape.visible = false
-                } else if (x + dndSize >= pos.x) {
-                    if (y + dndSize >= pos.y) {
-                        shapeArea.cursorShape = Qt.SizeFDiagCursor
-                    } else if (y + height - dndSize <= pos.y) {
-                        shapeArea.cursorShape = Qt.SizeBDiagCursor
-                    } else {
-                        shapeArea.cursorShape = Qt.SizeHorCursor
-                    }
-
-                    selectResizeShape.visible = true
-                } else if (x + width - dndSize <= pos.x) {
-                    if (y + dndSize >= pos.y) {
-                        shapeArea.cursorShape = Qt.SizeBDiagCursor
-                    } else if (y + height - dndSize <= pos.y) {
-                        shapeArea.cursorShape = Qt.SizeFDiagCursor
-                    } else {
-                        shapeArea.cursorShape = Qt.SizeHorCursor
-                    }
-
-                        selectResizeShape.visible = true
-                    } else {
-                        shapeArea.cursorShape = Qt.SizeVerCursor
-                        selectResizeShape.visible = true
-                    }
-                } else {
-                    shapeArea.cursorShape = Qt.ArrowCursor
-                    selectResizeShape.visible = false
-                }
             }
+
         }
-        function handleRelease(pos) {
+        function handleRelease(p1,p2) {
+
             if (hasPress) {
-                hasPress = false
-                pressAtCenter = false
-                pressAtLeft = false
-                pressAtRight = false
-                pressAtTop = false
-                pressAtBottom = false
-                pressAtTopLeft = false
-                pressAtTopRight = false
-                pressAtBottomLeft = false
-                pressAtBottomRight = false
-                startX = 0
-                startY = 0
-                startWidth = 0
-                startHeight = 0
-                pressX = 0
-                pressY = 0
+                startWidth: 0
+                startHeight: 0
+                pressX: 0
+                pressY: 0
 
-                if (x <= pos.x && pos.x <= x + width && y <= pos.y && pos.y <= y + height) {
-                    if (x + dndSize < pos.x && pos.x < x + width - dndSize && y + dndSize < pos.y && pos.y < y + height - dndSize) {
-                        shapeArea.cursorShape = Qt.OpenHandCursor
-                    }
-                }
+                hasPress: false
+                pressAtCenter: false
+                pressAtLeft: false
+                pressAtRight: false
+                pressAtTop: false
+                pressAtBottom: false
+                pressAtTopLeft: false
+                pressAtTopRight: false
+                pressAtBottomLeft: false
+                pressAtBottomRight: false
             }
         }
-    }
-    Canvas {
-        id: shapeCanvas
-        x: selectshape.x
-        y: selectshape.y
-        width: selectshape.width
-        height: selectshape.height
-        visible: true
-        onXChanged: requestPaint()
-        onYChanged: requestPaint()
-        onWidthChanged: requestPaint()
-        onHeightChanged: requestPaint()
 
-        onPaint: {
-            var ctx = getContext("2d")
-            ctx.save()
-            ctx.clearRect(0, 0, width, height)
-
-            ctx.lineWidth = shapeItem.linewidth
-            ctx.strokeStyle = shapeItem.colorPaint
-            ctx.fillStyle = "transparent"
-
-            switch(shapeItem.shapeName) {
-                case "rect": {
-                   ctx.beginPath()
-
-                   ctx.rect(0, 0, width, height)
-                   ctx.closePath()
-                   ctx.fill()
-                   ctx.stroke()
-                    break
-                }
-                case "ellipse": {
-                    ctx.beginPath()
-                    ctx.ellipse(0,0, width, height)
-                    ctx.closePath()
-                    ctx.fill()
-                    ctx.stroke()
-                    break
-                }
-                case "arrow": {
-                    break
-                }
-                case "line": {
-                    break
-                }
-
+        onPressed: {
+            if (!firstPress) {
+                startPoint = Qt.point(mouse.x, mouse.y)
+                firstPress = true
             }
-        ctx.restore()
+            if (firstPress && firstReleased &&click_onImage(mouseX,mouseY)) {
+                select = select == false ? true : false
+            }
         }
-    }
-    Canvas  {
-        id: selectResizeShape
-        visible: false
-
-        property int bigPointRadius: 4
-        property int smallPointRadius: 3
-
-        x: selectshape.x - bigPointRadius
-        y: selectshape.y - bigPointRadius
-        width: selectshape.width + bigPointRadius * 2
-        height: selectshape.height + bigPointRadius * 2
-
-        onXChanged: requestPaint()
-        onYChanged: requestPaint()
-        onWidthChanged: requestPaint()
-        onHeightChanged: requestPaint()
-
-        onPaint: {
-            var ctx = getContext("2d")
-            ctx.save()
-            ctx.clearRect(0, 0, width, height)
-
-            ctx.lineWidth = 1
-            //ctx.strokeStyle = "#00A0E9"
-            ctx.strokeStyle = "yellow"
-            ctx.fillStyle = "white"
-
-            /* Top left */
-            ctx.beginPath()
-            ctx.arc(selectResizeShape.bigPointRadius, selectResizeShape.bigPointRadius, selectResizeShape.bigPointRadius, 0, Math.PI * 2, false)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
-
-            /* Top right */
-            ctx.beginPath()
-            ctx.arc(width - selectResizeShape.bigPointRadius, selectResizeShape.bigPointRadius, selectResizeShape.bigPointRadius, 0, Math.PI * 2, false)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
-
-            /* Bottom left */
-            ctx.beginPath()
-            ctx.arc(selectResizeShape.bigPointRadius, height - selectResizeShape.bigPointRadius, selectResizeShape.bigPointRadius, 0, Math.PI * 2, false)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
-
-            /* Bottom right */
-            ctx.beginPath()
-            ctx.arc(width - selectResizeShape.bigPointRadius, height - selectResizeShape.bigPointRadius, selectResizeShape.bigPointRadius, 0, Math.PI * 2, false)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
-
-            /* Top */
-            ctx.beginPath()
-            ctx.arc(width / 2, selectResizeShape.bigPointRadius, selectResizeShape.smallPointRadius, 0, Math.PI * 2, false)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
-
-            /* Bottom */
-            ctx.beginPath()
-            ctx.arc(width / 2, height - selectResizeShape.bigPointRadius, selectResizeShape.smallPointRadius, 0, Math.PI * 2, false)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
-
-            /* Left */
-            ctx.beginPath()
-            ctx.arc(selectResizeShape.bigPointRadius, height / 2, selectResizeShape.smallPointRadius, 0, Math.PI * 2, false)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
-
-            /* Right */
-            ctx.beginPath()
-            ctx.arc(width - selectResizeShape.bigPointRadius, height / 2, selectResizeShape.smallPointRadius, 0, Math.PI * 2, false)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
-            ctx.restore()
+        onReleased: {
+            if (firstPress) {
+                if(!firstReleased) {
+                    endPoint = Qt.point(mouse.x, mouse.y)
+                    firstReleased = true
+                }
+            }
+            requestPaint()
         }
+        onPositionChanged: {
+            if (firstPress) {
+                if(!firstEdit) {
+                    endPoint = Qt.point(mouse.x, mouse.y)
+                }
+            }
+            requestPaint()
+        }
+        drag.target: shapeCanvas.movePaint ? shapeCanvas : null
+        drag.axis: Drag.XAndYAxis
+        drag.minimumX: 0
+        drag.maximumX: shapeCanvas.parent.width - shapeCanvas.width
+        drag.minimumY: 0
+        drag.maximumY: shapeCanvas.parent.height - shapeCanvas.height
     }
+
 }
+
+

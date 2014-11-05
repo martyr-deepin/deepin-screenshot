@@ -20,7 +20,6 @@ Rectangle {
         }
     }
 	function _calculateIntext(p1,p2) {
-
 		if(p1 >= textDistract.x && p1 <= textDistract.x + textDistract.width
 		&& p2 >= textDistract.y && p2 <= textDistract.y + textDistract.height) {
 			return true

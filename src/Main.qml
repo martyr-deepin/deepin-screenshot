@@ -525,9 +525,9 @@ Item {
 					toolbar.paintShape = "rect"
 
 					row._destroyCanvas()
-					// var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName: toolbar.paintShape }', selectArea, "shaperect")
-					// shape.colorPaint = Qt.binding(function() { return colorTool.colorStyle })
-					// shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
+					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName: toolbar.paintShape }', selectArea, "shaperect")
+					shape.colorPaint = Qt.binding(function() { return colorTool.colorStyle })
+					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 					fillType.imageName = "rect"
 				}
 			}
@@ -902,7 +902,7 @@ Item {
 				onClicked: {
 					screenArea.enabled = false
 					row._destroyCanvas()
-					var blur = Qt.createQmlObject('import QtQuick 2.1; BlurShape { blurStyle: "line" }', blurItem, "shapeblur")
+					var blur = Qt.createQmlObject('import QtQuick 2.1; BlurShape { blurStyle: fillType.imageName }', blurItem, "shapeblur")
 				}
 			}
 		}
