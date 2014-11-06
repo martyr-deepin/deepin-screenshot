@@ -40,14 +40,6 @@ Item {
 
 				}
 			}
-
-			if (count==1) {
-				count = count + 1
-				var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName: toolbar.paintShape }', selectArea, "shaperect")
-				shape.colorPaint = Qt.binding(function() { return colorTool.colorStyle })
-				shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
-			}
-
 		}
 
 		onReleased: {
@@ -525,7 +517,7 @@ Item {
 					toolbar.paintShape = "rect"
 
 					row._destroyCanvas()
-					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName: toolbar.paintShape }', selectArea, "shaperect")
+					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { }', selectArea, "shaperect")
 					shape.colorPaint = Qt.binding(function() { return colorTool.colorStyle })
 					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 					fillType.imageName = "rect"
@@ -551,7 +543,7 @@ Item {
 					toolbar.paintShape = "ellipse"
 					row._destroyCanvas()
 
-					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectArea, "shapeellipse")
+					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}',  selectArea, "shapeellipse")
 					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 					fillType.imageName = "ellipse"
 				}
@@ -575,7 +567,7 @@ Item {
 					toolbar.paintShape = "arrow"
 					row._destroyCanvas()
 
-					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectArea, "shapearrow")
+					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}',  selectArea, "shapearrow")
 					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 				}
 			}
@@ -598,7 +590,7 @@ Item {
 					toolbar.paintShape = "line"
 
 					row._destroyCanvas()
-					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { shapeName:toolbar.paintShape }',  selectArea, "shapearrow")
+					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}',  selectArea, "shapearrow")
 					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 				}
 			}
@@ -909,7 +901,6 @@ Item {
 		SaveToolTip {
 			id: savetooltip
 			visible: false
-			//width:
 		}
 		Row {
 			id: save_toolbar
