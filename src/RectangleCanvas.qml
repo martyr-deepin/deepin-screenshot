@@ -24,43 +24,43 @@ Item {
 	function _inEightPointsCheck(point, rect) {
 		/*Top Left*/
 		if (point.x >= rect.x - bigPointRadius / 2 && point.x <= rect.x + bigPointRadius / 2 &&
-			point.y <= rect.y - bigPointRadius / 2 && point.y <= rect.y + bigPointRadius / 2) {
+			point.y >= rect.y - bigPointRadius / 2 && point.y <= rect.y + bigPointRadius / 2) {
 			topLeftLocal = true
 		}
 		/*Top Right*/
-		else if (point.x >= rect.x + rect.width - bigPointRadius / 2 && point.x <= rect.x + rect.width + bigPointRadius / 2 &&
-			point.y <= rect.y - bigPointRadius / 2 && point.y <= rect.y + bigPointRadius / 2) {
+		if (point.x >= rect.x + rect.width - bigPointRadius / 2 && point.x <= rect.x + rect.width + bigPointRadius / 2 &&
+			point.y >= rect.y - bigPointRadius / 2 && point.y <= rect.y + bigPointRadius / 2) {
 			topRightLocal = true
 		}
 		/*Bottom Left*/
-		else if (point.x >= rect.x - bigPointRadius / 2 && point.x <= rect.x + bigPointRadius / 2 &&
-			point.y <= rect.y + rect.height - bigPointRadius / 2 && point.y <= rect.y + rect.height + bigPointRadius / 2) {
-			topLeftLocal = true
+		if (point.x >= rect.x - bigPointRadius / 2 && point.x <= rect.x + bigPointRadius / 2 &&
+			point.y >= rect.y + rect.height - bigPointRadius / 2 && point.y <= rect.y + rect.height + bigPointRadius / 2) {
+			bottomLeftLocal = true
 		}
 		/*Bottom Right*/
-		else if (point.x >= rect.x + rect.width - bigPointRadius / 2 && point.x <= rect.x + rect.width + bigPointRadius / 2 &&
-			point.y <= rect.y + rect.height - bigPointRadius / 2 && point.y <= rect.y + rect.height + bigPointRadius / 2) {
-			topRightLocal = true
+		if (point.x >= rect.x + rect.width - bigPointRadius / 2 && point.x <= rect.x + rect.width + bigPointRadius / 2 &&
+			point.y >= rect.y + rect.height - bigPointRadius / 2 && point.y <= rect.y + rect.height + bigPointRadius / 2) {
+			bottomRightLocal = true
 		}
 		/* Top */
 		if (point.x >= rect.x + rect.width / 2 - bigPointRadius / 2 && point.x <= rect.x + rect.width / 2 + bigPointRadius / 2 &&
-			point.y <= rect.y - bigPointRadius / 2 && point.y <= rect.y + bigPointRadius / 2) {
-			topLeftLocal = true
+			point.y >= rect.y - bigPointRadius / 2 && point.y <= rect.y + bigPointRadius / 2) {
+			topLocal = true
 		}
 		/* Bottom */
-		else if (point.x >= rect.x + rect.width / 2 - bigPointRadius / 2 && point.x <= rect.x + rect.width / 2 + bigPointRadius / 2 &&
-			point.y <= rect.y + rect.height - bigPointRadius / 2 && point.y <= rect.y + rect.height + bigPointRadius / 2) {
-			topRightLocal = true
+		if (point.x >= rect.x + rect.width / 2 - bigPointRadius / 2 && point.x <= rect.x + rect.width / 2 + bigPointRadius / 2 &&
+			point.y >= rect.y + rect.height - bigPointRadius / 2 && point.y <= rect.y + rect.height + bigPointRadius / 2) {
+			bottomLocal = true
 		}
 		/* Left */
 		if (point.x >= rect.x - bigPointRadius / 2 && point.x <= rect.x + bigPointRadius / 2 &&
-			point.y <= rect.y + rect.height / 2 - bigPointRadius / 2 && point.y <= rect.y + rect.height / 2 + bigPointRadius / 2) {
-			topLeftLocal = true
+			point.y >= rect.y + rect.height / 2 - bigPointRadius / 2 && point.y <= rect.y + rect.height / 2 + bigPointRadius / 2) {
+			leftLocal = true
 		}
 		/* Right */
-		else if (point.x >= rect.x + rect.width - bigPointRadius / 2 && point.x <= rect.x + rect.width + bigPointRadius / 2 &&
-			point.y <= rect.y + rect.height / 2 - bigPointRadius / 2 && point.y <= rect.y + rect.height / 2 + bigPointRadius / 2) {
-			topRightLocal = true
+		if (point.x >= rect.x + rect.width - bigPointRadius / 2 && point.x <= rect.x + rect.width + bigPointRadius / 2 &&
+			point.y >= rect.y + rect.height / 2 - bigPointRadius / 2 && point.y <= rect.y + rect.height / 2 + bigPointRadius / 2) {
+			rightLocal = true
 		}
 		if (topRightLocal || topLeftLocal || bottomLeftLocal || bottomRightLocal || topLocal || bottomLocal || leftLocal || rightLocal) {
 			return true
@@ -71,19 +71,19 @@ Item {
 	function draw(ctx) {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
+		var leftX = Math.min(startPoint.x, endPoint.x)
+		var leftY = Math.min(startPoint.y, endPoint.y)
+		var pWidth = Math.abs(startPoint.x - endPoint.x)
+		var pHeight = Math.abs(startPoint.y - endPoint.y)
 
 	    ctx.save()
 	    ctx.beginPath()
-	    ctx.roundedRect(startPoint.x, startPoint.y, endPoint.x - startPoint.x, endPoint.y - startPoint.y, 0, 0)
+	    ctx.roundedRect(leftX, leftY, pWidth, pHeight, 0, 0)
 	    ctx.closePath()
 	    ctx.stroke()
-	    if (selected) {
+	    if (selected||reSized) {
 	    	ctx.strokeStyle = "#00A0E9"
 	    	ctx.fillStyle = "white"
-	    	var leftX = Math.min(startPoint.x, endPoint.x)
-	    	var leftY = Math.min(startPoint.y, endPoint.y)
-	    	var pWidth = Math.abs(startPoint.x - endPoint.x)
-	    	var pHeight = Math.abs(startPoint.y - endPoint.y)
 
 	    	/* Top left */
 	    	ctx.beginPath()
@@ -141,14 +141,14 @@ Item {
 	    	ctx.stroke()
 	    }
 	    ctx.restore()
-	    return Qt.rect(startPoint.x, startPoint.y, endPoint.x - startPoint.x, endPoint.y - startPoint.y)
+	    return Qt.rect(startPoint.x, startPoint.y, Math.abs(endPoint.x - startPoint.x), Math.abs(endPoint.y - startPoint.y))
 	}
 	function clickOnPoint(p) {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
 
-		var result = _inRectCheck(p, Qt.rect(startPoint.x - 5, startPoint.y - 5, endPoint.x - startPoint.x + 10, endPoint.y - startPoint.y + 10))
-					&& !_inRectCheck(p, Qt.rect(startPoint.x + 5, startPoint.y + 5, endPoint.x - startPoint.x - 10, endPoint.y - startPoint.y - 10))
+		var result = _inRectCheck(p, Qt.rect(startPoint.x - 5, startPoint.y - 5, Math.abs(endPoint.x - startPoint.x) + 10, Math.abs(endPoint.y - startPoint.y) + 10))
+					&& !_inRectCheck(p, Qt.rect(startPoint.x + 5, startPoint.y + 5, Math.abs(endPoint.x - startPoint.x) - 10, Math.abs(endPoint.y - startPoint.y) - 10))
 		selected = result
 		clickedPoint = p
 
@@ -167,14 +167,48 @@ Item {
 	function resizeOnPoint(p) {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
-		var local = _inEightPointsCheck(p,Qt.rect(startPoint.x - bigPointRadius,startPoint.y - bigPointRadius,endPoint.x - startPoint.x + 2*bigPointRadius, endPoint.y - startPoint.y + 2*bigPointRadius))
+		var local = _inEightPointsCheck(p,Qt.rect(Math.min(startPoint.x, endPoint.x),Math.min(startPoint.y, endPoint.y),Math.abs(endPoint.x - startPoint.x), Math.abs(endPoint.y - startPoint.y)))
 		reSized = local
+		print("reSized:",reSized)
 		clickedPoint = p
 	}
-	function handleResize(p,rect) {
+	function handleResize(p) {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
-		if (topLeftLocal||leftLocal) {}
+		var leftX = Math.min(startPoint.x, endPoint.x)
+		var leftY = Math.min(startPoint.y, endPoint.y)
+		var pWidth = Math.abs(startPoint.x - endPoint.x)
+		var pHeight = Math.abs(startPoint.y - endPoint.y)
+		var xq = leftX, yq = leftY, widthq = pWidth, heightq = pHeight
+		if (topLeftLocal||leftLocal||bottomLeftLocal) {
+			xq = Math.min(p.x, leftX + pWidth - smallPointRadius)
+			widthq = Math.max(leftX + pWidth - p.x, smallPointRadius)
+		}
+		if (topRightLocal||rightLocal||bottomRightLocal) {
+			widthq = Math.max(p.x - leftX, smallPointRadius)
+		}
+		if (topRightLocal||topLocal||topLeftLocal) {
+			yq = Math.min(p.y, leftY + pHeight - smallPointRadius)
+			heightq = Math.max(pHeight + leftY - p.y, smallPointRadius)
+		}
+		if (bottomRightLocal||bottomLocal||bottomLeftLocal) {
+			heightq = Math.max(p.y - leftY, smallPointRadius)
+		}
+		points[0] = Qt.point(xq, yq)
+		points[points.length - 1] = Qt.point(xq + widthq, yq + heightq)
+
+	}
+	function rollBack() {
+		selected = false
+		reSized = false
+		topRightLocal = false
+		topLeftLocal = false
+		bottomLeftLocal = false
+		bottomRightLocal = false
+		topLocal = false
+		bottomLocal = false
+		leftLocal = false
+		rightLocal = false
 	}
 
 }
