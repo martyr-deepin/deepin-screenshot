@@ -178,6 +178,7 @@ Item {
 		var endPoint = points[points.length - 1]
 		var local = _inEightPointsCheck(p,Qt.rect(Math.min(startPoint.x, endPoint.x),Math.min(startPoint.y, endPoint.y),Math.abs(endPoint.x - startPoint.x), Math.abs(endPoint.y - startPoint.y)))
 		reSized = local
+		print("reSized:",reSized)
 		clickedPoint = p
 	}
 	function handleResize(p) {

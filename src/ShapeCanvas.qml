@@ -22,6 +22,7 @@ Canvas {
     function clickOnPoint(p) {
         var selectedShape = null
         for (var i = 0; i < shapes.length; i++) {
+<<<<<<< HEAD
             if (shapes[i].clickOnPoint(p)){
                 selectedShape = i
             }
@@ -37,12 +38,30 @@ Canvas {
     function resizeOnPoint(p) {
         for (var i = 0; i < shapes.length; i++) {
             if (shapes[i].resizeOnPoint(p)) {
+=======
+            if (!shapes[i].clickOnPoint(p)){
+                shapes[i].rollBack()
+            } else {
+                var selectedShape = i
+>>>>>>> 47356361663cc2bf3d88ac4dabc8245bbb5d8626
                 return true
             }
         }
         return false
     }
-
+    function resizeOnPoint(p) {
+        for (var i = 0; i < shapes.length; i++) {
+            if (shapes[i].resizeOnPoint(p)) {
+                return true
+            }
+        }
+        return false
+    }
+    function rollBack() {
+        for (var i = 0; i < shapes.length && i != selectedShape; i++) {
+            shapes[i].rollBack()
+        }
+    }
     Component {
         id: rect_component
         RectangleCanvas {}
@@ -61,7 +80,13 @@ Canvas {
                 canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
                 canvas.shapes.push(canvas.currenRecordingShape)
             } else {
+<<<<<<< HEAD
                 canvas.resizeOnPoint(Qt.point(mouse.x, mouse.y))
+=======
+
+                canvas.resizeOnPoint(Qt.point(mouse.x, mouse.y))
+
+>>>>>>> 47356361663cc2bf3d88ac4dabc8245bbb5d8626
             }
             canvas.requestPaint()
 
@@ -72,6 +97,10 @@ Canvas {
                 canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
                 canvas.recording = false
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 47356361663cc2bf3d88ac4dabc8245bbb5d8626
              canvas.requestPaint()
         }
 
@@ -85,7 +114,11 @@ Canvas {
                         selectedShape = i
                         adjustedShape = canvas.shapes[i]
                     }
+<<<<<<< HEAD
                     if (canvas.shapes[i].selected) {
+=======
+                    else if (canvas.shapes[i].selected) {
+>>>>>>> 47356361663cc2bf3d88ac4dabc8245bbb5d8626
                         selectedShape = i
                         selectedShape = canvas.shapes[i]
                     }
