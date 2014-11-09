@@ -518,8 +518,7 @@ Item {
 
 					row._destroyCanvas()
 					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { }', selectArea, "shaperect")
-					shape.colorPaint = Qt.binding(function() { return colorTool.colorStyle })
-					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
+
 					fillType.imageName = "rect"
 				}
 			}
