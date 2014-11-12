@@ -5,14 +5,12 @@ Item {
     id:blurShape
     anchors.fill: blurItem
 
-
     property point startPoint: Qt.point(0, 0)
     property point endPoint: Qt.point(0, 0)
     property var points:[]
 
     property bool firstPressed: false
     property bool firstReleased: false
-
     property string blurStyle:""
 
     Item {
@@ -30,7 +28,6 @@ Item {
     		id: mask_source
     		anchors.fill: parent
             clip: true
-
     		Canvas {
     			id: blurCanvas
     			width: parent.width
@@ -116,9 +113,7 @@ Item {
     				}
     				ctx.save()
     			}
-
     			MouseArea {
-
     				anchors.fill: parent
     				onPressed: {
     					if (firstPressed) return
@@ -126,12 +121,10 @@ Item {
     					blurShape.startPoint = Qt.point(mouse.x,mouse.y)
     					blurShape.endPoint = blurShape.startPoint
     					firstPressed = true
-
     				}
 
     				onReleased: {
     					if (firstReleased) return
-
     					blurShape.endPoint = Qt.point(mouse.x,mouse.y)
     					firstReleased = true
     					blurCanvas.requestPaint()
@@ -146,7 +139,6 @@ Item {
                         if (blurStyle == "line") {
                             points.push(Qt.point(mouse.x,mouse.y))
                         }
-
     					blurShape.endPoint = Qt.point(mouse.x,mouse.y)
     					blurCanvas.requestPaint()
     				}
@@ -156,9 +148,7 @@ Item {
     				drag.minimumX: 0
     				drag.maximumX:  blurCanvas.parent.width - blurCanvas.width
     			}
-
     		}
-
     	}
 
         OpacityMask {
@@ -166,7 +156,5 @@ Item {
             maskSource: mask_source
             anchors.fill: mask_source
         }
-
-
     }
 }

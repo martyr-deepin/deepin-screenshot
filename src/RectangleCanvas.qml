@@ -7,8 +7,12 @@ Item {
 	property point clickedPoint
 
 	property var points: []
+	property point leftpoint
+	property point rightpoint
+	property point centerInPoint
 	property int bigPointRadius: 6
 	property int smallPointRadius: 4
+
 
 	property bool topRightLocal: false
 	property bool topLeftLocal: false
@@ -85,10 +89,19 @@ Item {
 		var leftY = Math.min(startPoint.y, endPoint.y)
 		var pWidth = Math.abs(startPoint.x - endPoint.x)
 		var pHeight = Math.abs(startPoint.y - endPoint.y)
-
+		startPoint = Qt.point(leftX, leftY)
+		endPoint = Qt.point(leftX + pWidth, leftY + pHeight)
+		leftpoint = Qt.point(startPoint.x, endPoint.y)
+		rightpoint = Qt.point(endPoint.x, startPoint.y)
+		centerInPoint = Qt.point((startPoint.x + endPoint.x) / 2, (startPoint.y + endPoint.y) / 2)
 	    ctx.save()
 	    ctx.beginPath()
-	    ctx.roundedRect(leftX, leftY, pWidth, pHeight, 0, 0)
+	    ctx.moveTo(startPoint.x, startPoint.y)
+	    ctx.lineTo(rightpoint.x, rightpoint.y)
+	    ctx.lineTo(endPoint.x, endPoint.y)
+	    ctx.lineTo(leftpoint.x, leftpoint.y)
+	    ctx.lineTo(startPoint.x, startPoint.y)
+	    //ctx.roundedRect(leftX, leftY, pWidth, pHeight, 0, 0)
 	    ctx.closePath()
 	    ctx.stroke()
 	    if (selected||reSized||rotated) {
@@ -158,8 +171,8 @@ Item {
 	    	ctx.fill()
 	    	ctx.stroke()
 	    }
+
 	    ctx.restore()
-	    return Qt.rect(startPoint.x, startPoint.y, Math.abs(endPoint.x - startPoint.x), Math.abs(endPoint.y - startPoint.y))
 	}
 	function clickOnPoint(p) {
 		var startPoint = points[0]
@@ -187,8 +200,9 @@ Item {
 		var endPoint = points[points.length - 1]
 		var result = _inEightPointsCheck(p,Qt.rect(Math.min(startPoint.x, endPoint.x),Math.min(startPoint.y, endPoint.y),Math.abs(endPoint.x - startPoint.x), Math.abs(endPoint.y - startPoint.y)))
 		reSized = result
-
 		clickedPoint = p
+
+		return result
 	}
 	function handleResize(p) {
 		var startPoint = points[0]
@@ -222,11 +236,11 @@ Item {
 		var leftY = Math.min(startPoint.y, endPoint.y)
 		var pWidth = Math.abs(startPoint.x - endPoint.x)
 		var pHeight = Math.abs(startPoint.y - endPoint.y)
-		var result = _inRectCheck(p,Qt.rect(leftX + pWidth / 2 - smallPointRadius / 2 , leftY - 5*bigPointRadius - smallPointRadius / 2 , bigPointRadius, bigPointRadius))
-
+		var result = _inRectCheck(p,Qt.rect(leftX + pWidth / 2 - smallPointRadius, leftY - 5*bigPointRadius - smallPointRadius, smallPointRadius * 2, smallPointRadius * 2 ))
 		rotated = result
-
 		clickedPoint = p
+
+		return result
 	}
 	function square(p) {
 		return ((p)*(p))
@@ -235,24 +249,28 @@ Item {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
 		var centerInPoint = Qt.point((startPoint.x + endPoint.x) / 2, (startPoint.y + endPoint.y) / 2)
-		var angle = acos((square(clickedPoint.x - centerInPoint.x) + square(clickedPoint.y - centerInPoint.y) + square(p.x - centerInPoint.x) + square(p.y - centerInPoint.y) -
-				square(p.x - clickedPoint.x) - square(p.y - clickedPoint.y))/ 2 * Math.sqrt(square(clickedPoint.x - centerInPoint.x) + square(clickedPoint.y - centerInPoint.y))*Math.sqrt(square(p.x - centerInPoint.x) + square(p.y - centerInPoint.y)))
-
+		var a = square(clickedPoint.y - centerInPoint.y) + square(clickedPoint.x - centerInPoint.x)
+		var b = square(centerInPoint.x - p.x) + square(centerInPoint.y - p.y)
+		var c = square(clickedPoint.x - p.x) + square(clickedPoint.y - p.y)
+		var angle = Math.max(Math.acos((a + b - c)/(2*Math.sqrt(a)*Math.sqrt(b))), 0)
 		clickedPoint = p
-		return angele
+		return angle
 	}
 	function pointRotate(point1,point2,angele) {
-		var middlePoint = (point2.x - point1.x, point2.y - point1.y)
-		var tmpPoint = (middlePoint.x * cos(angele) - middlePoint.y * sin(angele), middlePoint.x * sin(angle) + middlePoint.y * cos(angele))
-		var point3 = (tmpPoint.x + point1.x, tmpPoint.y + point1.y)
+		var middlePoint = Qt.point(point2.x - point1.x, point2.y - point1.y)
+		var tmpPoint = Qt.point(middlePoint.x * Math.cos(angele) - middlePoint.y * Math.sin(angele), middlePoint.x * Math.sin(angele) + middlePoint.y * Math.cos(angele))
+		var point3 = Qt.point(tmpPoint.x + point1.x, tmpPoint.y + point1.y)
 		return point3
 	}
 	function handleRotate(p) {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
-		var angle = rotateAngle(p)
-		points[0] = pointRotate(Qt.point((startPoint.x+endPoint.x) / 2, (startPoint.y+endPoint.y) / 2),startPoint,angle)
-		points[points.length - 1] = pointRotate(Qt.point((startPoint.x+endPoint.x) / 2, (startPoint.y+endPoint.y) / 2),endPoint,angle)
+		var angle = Math.PI/6 //rotateAngle(p)
+		points[0] = pointRotate(centerInPoint,startPoint,angle)
+		points[points.length - 1] = pointRotate(centerInPoint,endPoint,angle)
+		leftpoint = pointRotate(centerInPoint, leftpoint, angle)
+		rightpoint = pointRotate(centerInPoint, rightpoint, angle)
+		clickedPoint = p
 	}
 
 }
