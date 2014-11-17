@@ -3,76 +3,76 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Ricardo Simões <xmcorporation@gmail.com>, 2014
+# Yuri Chornoivan <yurchor@ukr.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-04 17:29+0800\n"
-"PO-Revision-Date: 2014-11-14 17:01+0000\n"
-"Last-Translator: Ricardo Simões <xmcorporation@gmail.com>\n"
-"Language-Team: Portuguese (http://www.transifex.com/projects/p/deepin-screenshot/language/pt/)\n"
+"PO-Revision-Date: 2014-12-01 14:49+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"Language-Team: Ukrainian (http://www.transifex.com/projects/p/deepin-screenshot/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: uk\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../src/toolbar.py:82 ../src/widget.py:930
 msgid "Draw Rectangle"
-msgstr "Desenhar Retângulo"
+msgstr "Намалювати прямокутник"
 
 #: ../src/toolbar.py:83 ../src/widget.py:934
 msgid "Draw Ellipse"
-msgstr "Desenhar Elípse"
+msgstr "Намалювати еліпс"
 
 #: ../src/toolbar.py:84 ../src/widget.py:938
 msgid "Draw Arrow"
-msgstr "Desenhar Seta"
+msgstr "Намалювати стрілку"
 
 #: ../src/toolbar.py:85 ../src/widget.py:942
 msgid "Draw Line"
-msgstr "Desenhar Linha"
+msgstr "Намалювати пряму"
 
 #: ../src/toolbar.py:86 ../src/widget.py:946
 msgid "Draw Text"
-msgstr "Desenhar Texto"
+msgstr "Додати текст"
 
 #: ../src/toolbar.py:88 ../src/widget.py:951
 msgid "Undo"
-msgstr "Desfazer"
+msgstr "Вернути"
 
 #: ../src/toolbar.py:91 ../src/widget.py:955
 msgid "Save"
-msgstr "Guardar"
+msgstr "Зберегти"
 
 #: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Скасувати"
 
 #: ../src/toolbar.py:114 ../src/widget.py:969 ../src/share.py:459
 msgid "Share"
-msgstr "Partilhar"
+msgstr "Оприлюднити"
 
 #: ../src/toolbar.py:178 ../src/widget.py:915
 msgid "Save automatically"
-msgstr "Guardar automaticamente"
+msgstr "Зберігати автоматично"
 
 #: ../src/toolbar.py:179 ../src/widget.py:916
 msgid "Save as"
-msgstr "Guardar como"
+msgstr "Зберегти як"
 
 #: ../src/toolbar.py:180 ../src/widget.py:917
 msgid "Save to clipboard"
-msgstr "Guardar para o clipboard"
+msgstr "Зберегти до буфера обміну"
 
 #: ../src/toolbar.py:181 ../src/widget.py:918
 msgid "Save automatically to file and clipboard"
-msgstr "Guardar automaticamente para ficheiro e clipboard"
+msgstr "Зберігати автоматично до файла та буфера обміну"
 
 #: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
 msgid "Picture has been saved to file"
-msgstr "A imagem foi guardada para ficheiro"
+msgstr "Зображення було збережено до файла"
 
 #: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
 #: ../src/main.py:221 ../src/main.py:223
@@ -81,126 +81,126 @@ msgstr "DScreenshot"
 
 #: ../src/screenshot.py:94
 msgid "Take a screenshot of full screen"
-msgstr "Capturar imagem de ecrã inteiro"
+msgstr "Зробити знімок усього екрана"
 
 #: ../src/screenshot.py:95
 msgid "Take a screenshot of the window"
-msgstr "Capturar imagem da janela"
+msgstr "Зробити знімок вікна"
 
 #: ../src/screenshot.py:96
 msgid "Take a screenshot after NUM seconds"
-msgstr "Capturar imagem depois de NUM segundos"
+msgstr "Зробити знімок за вказану кількість секунд"
 
 #: ../src/screenshot.py:97
 msgid "save screenshot to FILE"
-msgstr "guardar captura de ecrã para ficheiro"
+msgstr "зберегти знімок до вказаного файла"
 
 #: ../src/screenshot.py:98
 msgid "run as a subprocess"
-msgstr "correr como um subprocesso"
+msgstr "запустити як підпроцес"
 
 #: ../src/screenshot.py:99
 msgid "run a new process"
-msgstr "correr um novo processo"
+msgstr "запустити як новий процес"
 
 #: ../src/screenshot.py:107
 msgid "show this help message and exit"
-msgstr "mostrar esta mensagem de ajuda e sair"
+msgstr "показати це довідкове повідомлення і завершити роботу"
 
 #: ../src/screenshot.py:108
 msgid "show program's version number and exit"
-msgstr "mostrar a versão do programa e sair"
+msgstr "показати дані щодо версії програми і завершити роботу"
 
 #: ../src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
-msgstr "Captura de Ecrã Deepin iniciará dentro de %d segundos."
+msgstr "Засіб створення знімків Deepin буде запущено за %d секунд."
 
 #: ../src/widget.py:289
 msgid "Drag to select area"
-msgstr "Arraste para selecionar área"
+msgstr "Перетягніть, щоб позначити область"
 
 #: ../src/main.py:154
 msgid "The width or height of selected area cannot be 0"
-msgstr "A largura ou altura da área selecionada não pode ser 0"
+msgstr "Ширина і висота позначеної області не можуть бути нульовими"
 
 #: ../src/main.py:182
 msgid "Failed to save the picture"
-msgstr "Falha ao guardar a imagem"
+msgstr "Не вдалося зберегти зображення"
 
 #: ../src/main.py:199
 msgid "Picture has been saved to clipboard"
-msgstr "A imagem foi guardada para o clipboard"
+msgstr "Зображення було збережено до буфера обміну"
 
 #: ../src/main.py:224
 msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "Da próxima vez pode carregar apenas em Ctrl+Alt+A para iniciar."
+msgstr "Наступного разу ви можете просто натиснути комбінацію клавіш Ctrl+Alt+A, щоб запустити програму."
 
 #: ../src/share.py:73
 msgid "Share to social networks"
-msgstr "Partilhar nas redes sociais"
+msgstr "Поділитися у соціальних мережах"
 
 #: ../src/share.py:186
 msgid "Unable to load page"
-msgstr "Não foi possível carregar a página"
+msgstr "Не вдалося завантажити сторінку"
 
 #: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
-msgstr "Ocorreu um erro ao carregar o endereço '%s'"
+msgstr "Під час завантаження адреси «%s» виникли проблеми"
 
 #: ../src/share.py:315
 msgid "Click to switch user"
-msgstr "Clique para mudar de utilizador"
+msgstr "Натисніть, щоб перемкнути користувача"
 
 #: ../src/share.py:333
 msgid "Click to login"
-msgstr "Clique para iniciar sessão"
+msgstr "Натисніть, щоб увійти"
 
 #: ../src/share.py:448
 msgid "Loading"
-msgstr "A carregar"
+msgstr "Завантаження"
 
 #: ../src/share.py:501
 msgid "Please input text here"
-msgstr "Por favor, introduza o texto aqui"
+msgstr "Будь ласка, введіть сюди якийсь текст"
 
 #: ../src/share.py:527 ../src/share.py:538
 msgid "Error"
-msgstr "Erro"
+msgstr "Помилка"
 
 #: ../src/share.py:527
 msgid "Picture does not exist."
-msgstr "A imagem não existe."
+msgstr "Зображення не існує."
 
 #: ../src/share.py:538
 msgid "Please choose at least one platform to share on"
-msgstr "Por favor, escolha pelo menos uma plataforma onde partilhar"
+msgstr "Будь ласка, виберіть якусь платформу для оприлюднення."
 
 #: ../src/share.py:555
 msgid "Uploading"
-msgstr "A enviar"
+msgstr "Вивантаження"
 
 #: ../src/share.py:566
 msgid "from Deepin Screenshot"
-msgstr "de Captura de Ecrã Deepin"
+msgstr "із Засобу створення знімків екрана Deepin"
 
 #: ../src/share.py:613
 msgid "Follow"
-msgstr "Seguir"
+msgstr "Стежити"
 
 #: ../src/share.py:636 ../src/share.py:657
 msgid "Share to"
-msgstr "Partilhar para"
+msgstr "Поділитися"
 
 #: ../src/share.py:639
 msgid "Successful"
-msgstr "Bem sucedido"
+msgstr "Успішно"
 
 #: ../src/share.py:662
 msgid "Failed"
-msgstr "Falhou"
+msgstr "Помилка"
 
 #: ../src/share.py:670
 msgid "Unknown reason"
-msgstr "Razão desconhecida"
+msgstr "Невідома причина"

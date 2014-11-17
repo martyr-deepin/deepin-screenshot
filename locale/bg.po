@@ -3,76 +3,76 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Ricardo Simões <xmcorporation@gmail.com>, 2014
+# Kiril Kirilov <cybercop_montana@abv.bg>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-04 17:29+0800\n"
-"PO-Revision-Date: 2014-11-14 17:01+0000\n"
-"Last-Translator: Ricardo Simões <xmcorporation@gmail.com>\n"
-"Language-Team: Portuguese (http://www.transifex.com/projects/p/deepin-screenshot/language/pt/)\n"
+"PO-Revision-Date: 2014-12-02 11:20+0000\n"
+"Last-Translator: Kiril Kirilov <cybercop_montana@abv.bg>\n"
+"Language-Team: Bulgarian (http://www.transifex.com/projects/p/deepin-screenshot/language/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt\n"
+"Language: bg\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/toolbar.py:82 ../src/widget.py:930
 msgid "Draw Rectangle"
-msgstr "Desenhar Retângulo"
+msgstr "Начертай правоъгълник"
 
 #: ../src/toolbar.py:83 ../src/widget.py:934
 msgid "Draw Ellipse"
-msgstr "Desenhar Elípse"
+msgstr "Начертай елипса"
 
 #: ../src/toolbar.py:84 ../src/widget.py:938
 msgid "Draw Arrow"
-msgstr "Desenhar Seta"
+msgstr "Начертай стрелка"
 
 #: ../src/toolbar.py:85 ../src/widget.py:942
 msgid "Draw Line"
-msgstr "Desenhar Linha"
+msgstr "Начертай линия"
 
 #: ../src/toolbar.py:86 ../src/widget.py:946
 msgid "Draw Text"
-msgstr "Desenhar Texto"
+msgstr "Начертай текст"
 
 #: ../src/toolbar.py:88 ../src/widget.py:951
 msgid "Undo"
-msgstr "Desfazer"
+msgstr "Отмяна"
 
 #: ../src/toolbar.py:91 ../src/widget.py:955
 msgid "Save"
-msgstr "Guardar"
+msgstr "Запазване"
 
 #: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Отмяна"
 
 #: ../src/toolbar.py:114 ../src/widget.py:969 ../src/share.py:459
 msgid "Share"
-msgstr "Partilhar"
+msgstr "Споделяне"
 
 #: ../src/toolbar.py:178 ../src/widget.py:915
 msgid "Save automatically"
-msgstr "Guardar automaticamente"
+msgstr "Запази автоматично"
 
 #: ../src/toolbar.py:179 ../src/widget.py:916
 msgid "Save as"
-msgstr "Guardar como"
+msgstr "Запази като"
 
 #: ../src/toolbar.py:180 ../src/widget.py:917
 msgid "Save to clipboard"
-msgstr "Guardar para o clipboard"
+msgstr "Запази в системният буфер"
 
 #: ../src/toolbar.py:181 ../src/widget.py:918
 msgid "Save automatically to file and clipboard"
-msgstr "Guardar automaticamente para ficheiro e clipboard"
+msgstr "Запази автоматично като файл в системният буфер"
 
 #: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
 msgid "Picture has been saved to file"
-msgstr "A imagem foi guardada para ficheiro"
+msgstr "Снимката да бъде запазена във файл"
 
 #: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
 #: ../src/main.py:221 ../src/main.py:223
@@ -81,126 +81,126 @@ msgstr "DScreenshot"
 
 #: ../src/screenshot.py:94
 msgid "Take a screenshot of full screen"
-msgstr "Capturar imagem de ecrã inteiro"
+msgstr "Направи снимка на цял екран"
 
 #: ../src/screenshot.py:95
 msgid "Take a screenshot of the window"
-msgstr "Capturar imagem da janela"
+msgstr "Направи снимка на прозореца"
 
 #: ../src/screenshot.py:96
 msgid "Take a screenshot after NUM seconds"
-msgstr "Capturar imagem depois de NUM segundos"
+msgstr "Направи снимка след БРОЙ секунди"
 
 #: ../src/screenshot.py:97
 msgid "save screenshot to FILE"
-msgstr "guardar captura de ecrã para ficheiro"
+msgstr "запази снимката във ФАЙЛ"
 
 #: ../src/screenshot.py:98
 msgid "run as a subprocess"
-msgstr "correr como um subprocesso"
+msgstr "стартирай като подпроцес"
 
 #: ../src/screenshot.py:99
 msgid "run a new process"
-msgstr "correr um novo processo"
+msgstr "стартирай нов процес"
 
 #: ../src/screenshot.py:107
 msgid "show this help message and exit"
-msgstr "mostrar esta mensagem de ajuda e sair"
+msgstr "покажи това помощно съобщение и напусни"
 
 #: ../src/screenshot.py:108
 msgid "show program's version number and exit"
-msgstr "mostrar a versão do programa e sair"
+msgstr "покажи версията на програмата и напусни"
 
 #: ../src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
-msgstr "Captura de Ecrã Deepin iniciará dentro de %d segundos."
+msgstr "Deepin Снимка на екрана ще стартира след %d секунди."
 
 #: ../src/widget.py:289
 msgid "Drag to select area"
-msgstr "Arraste para selecionar área"
+msgstr "Плъзни в избраната зона"
 
 #: ../src/main.py:154
 msgid "The width or height of selected area cannot be 0"
-msgstr "A largura ou altura da área selecionada não pode ser 0"
+msgstr "Широчината и височината на избраната област не могат да бъдат 0"
 
 #: ../src/main.py:182
 msgid "Failed to save the picture"
-msgstr "Falha ao guardar a imagem"
+msgstr "Снимката не може да бъде запазена"
 
 #: ../src/main.py:199
 msgid "Picture has been saved to clipboard"
-msgstr "A imagem foi guardada para o clipboard"
+msgstr "Снимката ще бъде запазена в системният буфер"
 
 #: ../src/main.py:224
 msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr "Da próxima vez pode carregar apenas em Ctrl+Alt+A para iniciar."
+msgstr "Следващият път може да натиснете Ctrl+Alt+A за да стартирате."
 
 #: ../src/share.py:73
 msgid "Share to social networks"
-msgstr "Partilhar nas redes sociais"
+msgstr "Споделяне в социалните мрежи"
 
 #: ../src/share.py:186
 msgid "Unable to load page"
-msgstr "Não foi possível carregar a página"
+msgstr "Не може да се зареди страницата"
 
 #: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
-msgstr "Ocorreu um erro ao carregar o endereço '%s'"
+msgstr "Възникна проблем при зареждане на URL '%s'"
 
 #: ../src/share.py:315
 msgid "Click to switch user"
-msgstr "Clique para mudar de utilizador"
+msgstr "Кликни за смяна на потребител"
 
 #: ../src/share.py:333
 msgid "Click to login"
-msgstr "Clique para iniciar sessão"
+msgstr "Кликни за влизане"
 
 #: ../src/share.py:448
 msgid "Loading"
-msgstr "A carregar"
+msgstr "Зареждане"
 
 #: ../src/share.py:501
 msgid "Please input text here"
-msgstr "Por favor, introduza o texto aqui"
+msgstr "Моля, въведете текста тук"
 
 #: ../src/share.py:527 ../src/share.py:538
 msgid "Error"
-msgstr "Erro"
+msgstr "Грешка"
 
 #: ../src/share.py:527
 msgid "Picture does not exist."
-msgstr "A imagem não existe."
+msgstr "Снимката не съществува"
 
 #: ../src/share.py:538
 msgid "Please choose at least one platform to share on"
-msgstr "Por favor, escolha pelo menos uma plataforma onde partilhar"
+msgstr "Моля, изберете някоя платформа за споделяне"
 
 #: ../src/share.py:555
 msgid "Uploading"
-msgstr "A enviar"
+msgstr "Качване"
 
 #: ../src/share.py:566
 msgid "from Deepin Screenshot"
-msgstr "de Captura de Ecrã Deepin"
+msgstr "от Deepin Снимка на екрана"
 
 #: ../src/share.py:613
 msgid "Follow"
-msgstr "Seguir"
+msgstr "Следвай"
 
 #: ../src/share.py:636 ../src/share.py:657
 msgid "Share to"
-msgstr "Partilhar para"
+msgstr "Сподели в"
 
 #: ../src/share.py:639
 msgid "Successful"
-msgstr "Bem sucedido"
+msgstr "Успешно"
 
 #: ../src/share.py:662
 msgid "Failed"
-msgstr "Falhou"
+msgstr "Неуспешно"
 
 #: ../src/share.py:670
 msgid "Unknown reason"
-msgstr "Razão desconhecida"
+msgstr "Неизвестна причина"

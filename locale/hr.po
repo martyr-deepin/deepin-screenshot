@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-04 17:29+0800\n"
-"PO-Revision-Date: 2014-10-25 08:00+0000\n"
+"PO-Revision-Date: 2014-12-01 11:00+0000\n"
 "Last-Translator: Ivica  Kolić <ikoli@yahoo.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/deepin-screenshot/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "Nacrtaj tekst"
 
 #: ../src/toolbar.py:88 ../src/widget.py:951
 msgid "Undo"
-msgstr ""
+msgstr "Poništi"
 
 #: ../src/toolbar.py:91 ../src/widget.py:955
 msgid "Save"
@@ -97,7 +97,7 @@ msgstr "spremi snimku zaslona u DATOTEKU"
 
 #: ../src/screenshot.py:98
 msgid "run as a subprocess"
-msgstr ""
+msgstr "pokreni kao podproces"
 
 #: ../src/screenshot.py:99
 msgid "run a new process"
