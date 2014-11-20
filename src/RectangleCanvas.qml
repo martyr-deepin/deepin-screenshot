@@ -1,4 +1,5 @@
 import QtQuick 2.1
+import "calculateRect.js" as CalcEngine
 
 Item {
 	property bool selected: false
@@ -7,13 +8,14 @@ Item {
 	property point clickedPoint
 
 	property var points: []
+	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 	property point leftpoint
 	property point rightpoint
 	property point centerInPoint
 	property int bigPointRadius: 6
 	property int smallPointRadius: 4
 
-
+	property bool firstDraw: false
 	property bool topRightLocal: false
 	property bool topLeftLocal: false
 	property bool bottomLeftLocal: false
@@ -26,82 +28,45 @@ Item {
 	function _inRectCheck(point, rect) {
 	    return rect.x <= point.x && point.x <= rect.x + rect.width && rect.y <= point.y && point.y <= rect.y + rect.height
 	}
-	function _inEightPointsCheck(point, rect) {
-		reSized = false
-		topRightLocal = false
-		topLeftLocal = false
-		bottomLeftLocal = false
-		bottomRightLocal = false
-		topLocal = false
-		bottomLocal = false
-		leftLocal = false
-		rightLocal = false
-		/*Top Left*/
-		if (point.x >= rect.x - bigPointRadius / 2 && point.x <= rect.x + bigPointRadius / 2 &&
-			point.y >= rect.y - bigPointRadius / 2 && point.y <= rect.y + bigPointRadius / 2) {
-			topLeftLocal = true
-		}
-		/*Top Right*/
-		if (point.x >= rect.x + rect.width - bigPointRadius / 2 && point.x <= rect.x + rect.width + bigPointRadius / 2 &&
-			point.y >= rect.y - bigPointRadius / 2 && point.y <= rect.y + bigPointRadius / 2) {
-			topRightLocal = true
-		}
-		/*Bottom Left*/
-		if (point.x >= rect.x - bigPointRadius / 2 && point.x <= rect.x + bigPointRadius / 2 &&
-			point.y >= rect.y + rect.height - bigPointRadius / 2 && point.y <= rect.y + rect.height + bigPointRadius / 2) {
-			bottomLeftLocal = true
-		}
-		/*Bottom Right*/
-		if (point.x >= rect.x + rect.width - bigPointRadius / 2 && point.x <= rect.x + rect.width + bigPointRadius / 2 &&
-			point.y >= rect.y + rect.height - bigPointRadius / 2 && point.y <= rect.y + rect.height + bigPointRadius / 2) {
-			bottomRightLocal = true
-		}
-		/* Top */
-		if (point.x >= rect.x + rect.width / 2 - bigPointRadius / 2 && point.x <= rect.x + rect.width / 2 + bigPointRadius / 2 &&
-			point.y >= rect.y - bigPointRadius / 2 && point.y <= rect.y + bigPointRadius / 2) {
-			topLocal = true
-		}
-		/* Bottom */
-		if (point.x >= rect.x + rect.width / 2 - bigPointRadius / 2 && point.x <= rect.x + rect.width / 2 + bigPointRadius / 2 &&
-			point.y >= rect.y + rect.height - bigPointRadius / 2 && point.y <= rect.y + rect.height + bigPointRadius / 2) {
-			bottomLocal = true
-		}
-		/* Left */
-		if (point.x >= rect.x - bigPointRadius / 2 && point.x <= rect.x + bigPointRadius / 2 &&
-			point.y >= rect.y + rect.height / 2 - bigPointRadius / 2 && point.y <= rect.y + rect.height / 2 + bigPointRadius / 2) {
-			leftLocal = true
-		}
-		/* Right */
-		if (point.x >= rect.x + rect.width - bigPointRadius / 2 && point.x <= rect.x + rect.width + bigPointRadius / 2 &&
-			point.y >= rect.y + rect.height / 2 - bigPointRadius / 2 && point.y <= rect.y + rect.height / 2 + bigPointRadius / 2) {
-			rightLocal = true
-		}
-		if (topRightLocal || topLeftLocal || bottomLeftLocal || bottomRightLocal || topLocal || bottomLocal || leftLocal || rightLocal) {
-			return true
-		} else {
-			return false
-		}
-	}
-	function draw(ctx) {
+	function _getMainPoints() {
+
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
+		print(startPoint, points[points.length - 1])
 		var leftX = Math.min(startPoint.x, endPoint.x)
 		var leftY = Math.min(startPoint.y, endPoint.y)
 		var pWidth = Math.abs(startPoint.x - endPoint.x)
 		var pHeight = Math.abs(startPoint.y - endPoint.y)
-		startPoint = Qt.point(leftX, leftY)
-		endPoint = Qt.point(leftX + pWidth, leftY + pHeight)
-		leftpoint = Qt.point(startPoint.x, endPoint.y)
-		rightpoint = Qt.point(endPoint.x, startPoint.y)
-		centerInPoint = Qt.point((startPoint.x + endPoint.x) / 2, (startPoint.y + endPoint.y) / 2)
+		mainPoints[0] = Qt.point(leftX, leftY)
+		mainPoints[1] = Qt.point(leftX + pWidth, leftY)
+		mainPoints[2] = Qt.point(leftX, pHeight + leftY)
+		mainPoints[3] = Qt.point(leftX + pWidth, leftY + pHeight)
+		print(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+		var tmpPoints = CalcEngine.fourPoint_dir(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+		return tmpPoints
+	}
+	function _inEightPointsCheck(p) {
+		var tmp = CalcEngine.resizePointOnClick(point1, point2, point3, point4, p)
+		if (tmp != 0) {
+			reSized = true
+		} else {
+			reSized = false
+		}
+		return reSized
+ 	}
+	function draw(ctx) {
+		if (!firstDraw) {
+			mainPoints = _getMainPoints()
+		}
+
 	    ctx.save()
 	    ctx.beginPath()
-	    ctx.moveTo(startPoint.x, startPoint.y)
-	    ctx.lineTo(rightpoint.x, rightpoint.y)
-	    ctx.lineTo(endPoint.x, endPoint.y)
-	    ctx.lineTo(leftpoint.x, leftpoint.y)
-	    ctx.lineTo(startPoint.x, startPoint.y)
-	    //ctx.roundedRect(leftX, leftY, pWidth, pHeight, 0, 0)
+	    ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
+	    ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
+	    ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
+	    ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
+	    ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
+
 	    ctx.closePath()
 	    ctx.stroke()
 	    if (selected||reSized||rotated) {
@@ -109,8 +74,9 @@ Item {
 	    	ctx.fillStyle = "yellow"
 
 	    	/* Rotate */
+	    	var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 	    	ctx.beginPath()
-	    	ctx.arc(leftX + pWidth / 2, leftY - 5*bigPointRadius, smallPointRadius, 0, Math.PI * 2, false)
+	    	ctx.arc(rotatePoint.x, rotatePoint.y, smallPointRadius, 0, Math.PI * 2, false)
 	    	ctx.closePath()
 	    	ctx.fill()
 	    	ctx.stroke()
@@ -118,27 +84,27 @@ Item {
 	    	ctx.fillStyle = "white"
 	    	/* Top left */
 	    	ctx.beginPath()
-	    	ctx.arc(leftX, leftY, bigPointRadius, 0, Math.PI * 2, false)
+	    	ctx.arc(mainPoints[1].x, mainPoints[1].y, bigPointRadius, 0, Math.PI * 2, false)
 	    	ctx.closePath()
 	    	ctx.fill()
 	    	ctx.stroke()
 	    	/* Top right */
 	    	ctx.beginPath()
-	    	ctx.arc(leftX + pWidth, leftY, bigPointRadius, 0, Math.PI * 2, false)
+	    	ctx.arc(mainPoints[3].x, mainPoints[3].y, bigPointRadius, 0, Math.PI * 2, false)
 	    	ctx.closePath()
 	    	ctx.fill()
 	    	ctx.stroke()
 
 	    	/* Bottom left */
 	    	ctx.beginPath()
-	    	ctx.arc(leftX, leftY + pHeight, bigPointRadius, 0, Math.PI * 2, false)
+	    	ctx.arc(mainPoints[0].x, mainPoints[0].y, bigPointRadius, 0, Math.PI * 2, false)
 	    	ctx.closePath()
 	    	ctx.fill()
 	    	ctx.stroke()
 
 	    	/* Bottom right */
 	    	ctx.beginPath()
-	    	ctx.arc(leftX + pWidth, leftY + pHeight, bigPointRadius, 0, Math.PI * 2, false)
+	    	ctx.arc(mainPoints[2].x, mainPoints[2].y, bigPointRadius, 0, Math.PI * 2, false)
 	    	ctx.closePath()
 	    	ctx.fill()
 	    	ctx.stroke()
@@ -173,13 +139,14 @@ Item {
 	    }
 
 	    ctx.restore()
+		}
 	}
 	function clickOnPoint(p) {
-		var startPoint = points[0]
-		var endPoint = points[points.length - 1]
-
-		var result = _inRectCheck(p, Qt.rect(startPoint.x - 5, startPoint.y - 5, Math.abs(endPoint.x - startPoint.x) + 10, Math.abs(endPoint.y - startPoint.y) + 10))
-					&& !_inRectCheck(p, Qt.rect(startPoint.x + 5, startPoint.y + 5, Math.abs(endPoint.x - startPoint.x) - 10, Math.abs(endPoint.y - startPoint.y) - 10))
+		print(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], "p:", p)
+		if (CalcEngine.pointOnLine(mainPoints[0], mainPoints[1], p) || CalcEngine.pointOnLine(mainPoints[1], mainPoints[3], p) ||
+		CalcEngine.pointOnLine(mainPoints[2], mainPoints[3], p) || CalcEngine.pointOnLine(mainPoints[0], mainPoints[2])) {
+			var result = true
+		}
 		selected = result
 		clickedPoint = p
 
@@ -189,88 +156,55 @@ Item {
 	function handleDrag(p) {
 	    var delX = p.x - clickedPoint.x
 	    var delY = p.y - clickedPoint.y
-	    for (var i = 0; i < points.length; i++) {
-	    	points[i] = Qt.point(points[i].x + delX, points[i].y + delY)
+	    for (var i = 0; i < mainPoints.length; i++) {
+	    	mainPoints[i] = Qt.point(mainPoints[i].x + delX, mainPoints[i].y + delY)
 	    }
 
 	    clickedPoint = p
 	}
 	function resizeOnPoint(p) {
-		var startPoint = points[0]
-		var endPoint = points[points.length - 1]
-		var result = _inEightPointsCheck(p,Qt.rect(Math.min(startPoint.x, endPoint.x),Math.min(startPoint.y, endPoint.y),Math.abs(endPoint.x - startPoint.x), Math.abs(endPoint.y - startPoint.y)))
-		reSized = result
-		clickedPoint = p
+		var result = CalcEngine.resizePointOnClick(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p)
+		if (result != 0) {
+			reSized = true
+		} else {
+			reSized = false
+		}
 
-		return result
+		clickedPoint = p
+		return reSized
 	}
 	function handleResize(p) {
-		var startPoint = points[0]
-		var endPoint = points[points.length - 1]
-		var leftX = Math.min(startPoint.x, endPoint.x)
-		var leftY = Math.min(startPoint.y, endPoint.y)
-		var pWidth = Math.abs(startPoint.x - endPoint.x)
-		var pHeight = Math.abs(startPoint.y - endPoint.y)
-		var xq = leftX, yq = leftY, widthq = pWidth, heightq = pHeight
-		if (topLeftLocal||leftLocal||bottomLeftLocal) {
-			xq = Math.min(p.x, leftX + pWidth - smallPointRadius)
-			widthq = Math.max(leftX + pWidth - p.x, smallPointRadius)
+		if (reSized) {
+			CalcEngine.handlePointResize(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, clickedPoint)
 		}
-		if (topRightLocal||rightLocal||bottomRightLocal) {
-			widthq = Math.max(p.x - leftX, smallPointRadius)
-		}
-		if (topRightLocal||topLocal||topLeftLocal) {
-			yq = Math.min(p.y, leftY + pHeight - smallPointRadius)
-			heightq = Math.max(pHeight + leftY - p.y, smallPointRadius)
-		}
-		if (bottomRightLocal||bottomLocal||bottomLeftLocal) {
-			heightq = Math.max(p.y - leftY, smallPointRadius)
-		}
-		points[0] = Qt.point(xq, yq)
-		points[points.length - 1] = Qt.point(xq + widthq, yq + heightq)
+		clickedPoint = p
 	}
 	function rotateOnPoint(p) {
-		var startPoint = points[0]
-		var endPoint = points[points.length - 1]
-		var leftX = Math.min(startPoint.x, endPoint.x)
-		var leftY = Math.min(startPoint.y, endPoint.y)
-		var pWidth = Math.abs(startPoint.x - endPoint.x)
-		var pHeight = Math.abs(startPoint.y - endPoint.y)
-		var result = _inRectCheck(p,Qt.rect(leftX + pWidth / 2 - smallPointRadius, leftY - 5*bigPointRadius - smallPointRadius, smallPointRadius * 2, smallPointRadius * 2 ))
-		rotated = result
-		clickedPoint = p
+		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+		if (p.x >= rotateOnPoint.x - 5 && p.x <= rotateOnPoint.x &&
+			p.y >= rotateOnPoint.y - 5 && p.y <= rotateOnPoint.y) {
+			rotated = true
 
-		return result
-	}
-	function square(p) {
-		return ((p)*(p))
-	}
-	function rotateAngle(p) {
-		var startPoint = points[0]
-		var endPoint = points[points.length - 1]
-		var centerInPoint = Qt.point((startPoint.x + endPoint.x) / 2, (startPoint.y + endPoint.y) / 2)
-		var a = square(clickedPoint.y - centerInPoint.y) + square(clickedPoint.x - centerInPoint.x)
-		var b = square(centerInPoint.x - p.x) + square(centerInPoint.y - p.y)
-		var c = square(clickedPoint.x - p.x) + square(clickedPoint.y - p.y)
-		var angle = Math.max(Math.acos((a + b - c)/(2*Math.sqrt(a)*Math.sqrt(b))), 0)
+		} else {
+			rotate = false
+		}
 		clickedPoint = p
-		return angle
+		return rotated
 	}
-	function pointRotate(point1,point2,angele) {
-		var middlePoint = Qt.point(point2.x - point1.x, point2.y - point1.y)
-		var tmpPoint = Qt.point(middlePoint.x * Math.cos(angele) - middlePoint.y * Math.sin(angele), middlePoint.x * Math.sin(angele) + middlePoint.y * Math.cos(angele))
-		var point3 = Qt.point(tmpPoint.x + point1.x, tmpPoint.y + point1.y)
-		return point3
-	}
+
 	function handleRotate(p) {
-		var startPoint = points[0]
-		var endPoint = points[points.length - 1]
-		var angle = Math.PI/6 //rotateAngle(p)
-		points[0] = pointRotate(centerInPoint,startPoint,angle)
-		points[points.length - 1] = pointRotate(centerInPoint,endPoint,angle)
-		leftpoint = pointRotate(centerInPoint, leftpoint, angle)
-		rightpoint = pointRotate(centerInPoint, rightpoint, angle)
+		var centerInPoint = Qt.point((mainPoints[0].x + mainPoints[3].x) / 2, (mainPoints[0].y + mainPoints[3].y) / 2)
+		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+		rotated = rotateResult[0]
+		var rotatePoint = rotateResult[1]
+		var angle = (rotatePoint, p, centerInPoint)
+
+		mainPoints[0] = CalcEngine.pointRotate(centerInPoint, mainPoints[0], angle)
+		mainPoints[1] = CalcEngine.pointRotate(centerInPoint, mainPoints[1], angle)
+		mainPoints[2] = CalcEngine.pointRotate(centerInPoint, mainPoints[2], angle)
+		mainPoints[3] = CalcEngine.pointRotate(centerInPoint, mainPoints[3], angle)
 		clickedPoint = p
 	}
+
 
 }
