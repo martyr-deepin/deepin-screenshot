@@ -9,7 +9,7 @@ Canvas {
     property bool wellPaint: false
     property var shapes: []
     property var currenRecordingShape
-    property bool roll: false/*test*/
+
     onPaint: {
         var ctx = canvas.getContext("2d")
         ctx.clearRect(x, y, width, height)
@@ -20,17 +20,25 @@ Canvas {
     }
 
     function clickOnPoint(p) {
-        var selectedShape = null
+        // var selectedShape = null
         for (var i = 0; i < shapes.length; i++) {
             if (shapes[i].clickOnPoint(p)){
-                selectedShape = i
+                var selectedShape = i
             }
         }
         if (selectedShape != null ) {
-            for (var i = 0; i < shapes.length && i != selectedShape; i++)
+            for (var i = 0; i < shapes.length && i != selectedShape; i++) {
                 shapes[i].selected = false
+                shapes[i].reSized = false
+                shapes[i].rotated = false
+            }
             return true
         } else {
+            for (var i = 0; i < shapes.length; i++) {
+                shapes[i].selected = false
+                shapes[i].reSized = false
+                shapes[i].rotated = false
+            }
             return false
         }
     }
@@ -45,7 +53,6 @@ Canvas {
     function rotateOnPoint(p) {
         for (var i = 0; i < shapes.length; i++) {
             if (shapes[i].rotateOnPoint(p)) {
-                print("can rotate")
                 return true
             }
         }
@@ -69,7 +76,6 @@ Canvas {
                     canvas.currenRecordingShape = rect_component.createObject(canvas, {})
                     canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
                     canvas.shapes.push(canvas.currenRecordingShape)
-
             }
             canvas.requestPaint()
         }
@@ -79,7 +85,7 @@ Canvas {
                 canvas.currenRecordingShape.firstDraw = true
                 canvas.recording = false
             }
-            print(canvas.currenRecordingShape.points[0], canvas.currenRecordingShape.points[canvas.currenRecordingShape.points.length - 1])
+
             canvas.requestPaint()
         }
 
@@ -87,12 +93,23 @@ Canvas {
             if (canvas.recording) {
                 canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
             } else {
-                var selectedShape = null,adjustedShape = null,rotatedShape = null
+                var selectedShape = null,reSizedShape = null,rotatedShape = null
                 for (var i = 0; i < canvas.shapes.length; i++) {
+                    if (canvas.shapes[i].reSized)  reSizedShape = canvas.shapes[i]
+                    print("canvas.shapes[i].reSized", i, canvas.shapes[i].reSized)
+                    if (canvas.shapes[i].rotated) rotated = canvas.shapes[i]
                     if (canvas.shapes[i].selected)  selectedShape = canvas.shapes[i]
                 }
-                selectedShape.handleDrag(Qt.point(mouse.x, mouse.y))
-
+                if (selectedShape != null) {
+                    selectedShape.handleDrag(Qt.point(mouse.x, mouse.y))
+                }
+                if (reSizedShape != null) {
+                    print("*******************")
+                    reSizedShape.handleResize(Qt.point(mouse.x, mouse.y))
+                }
+                if (rotatedShape != null) {
+                    rotatedShape.handleRotate(Qt.point(mouse.x, mouse.y))
+                }
             }
             canvas.requestPaint()
         }

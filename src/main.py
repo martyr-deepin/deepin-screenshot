@@ -85,7 +85,8 @@ class Window(QQuickView):
             saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
         elif saveId == "save_to_dir":
             saveDir = QFileDialog.getExistingDirectory()
-
+        elif saveId == "save_to_desktop":
+            saveDir = QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
         elif saveId == "auto_save_ClipBoard":
             image_dir = "/tmp/DeepinScreenshot%s.png" %name
             p.save(os.path.join(image_dir))

@@ -8,6 +8,7 @@ Item {
 	property point clickedPoint
 
 	property var points: []
+	property var rotatePoint: Qt.point(0, 0)
 	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 	property point leftpoint
 	property point rightpoint
@@ -32,7 +33,6 @@ Item {
 
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
-		print(startPoint, points[points.length - 1])
 		var leftX = Math.min(startPoint.x, endPoint.x)
 		var leftY = Math.min(startPoint.y, endPoint.y)
 		var pWidth = Math.abs(startPoint.x - endPoint.x)
@@ -41,19 +41,11 @@ Item {
 		mainPoints[1] = Qt.point(leftX + pWidth, leftY)
 		mainPoints[2] = Qt.point(leftX, pHeight + leftY)
 		mainPoints[3] = Qt.point(leftX + pWidth, leftY + pHeight)
-		print(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+
 		var tmpPoints = CalcEngine.fourPoint_dir(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 		return tmpPoints
 	}
-	function _inEightPointsCheck(p) {
-		var tmp = CalcEngine.resizePointOnClick(point1, point2, point3, point4, p)
-		if (tmp != 0) {
-			reSized = true
-		} else {
-			reSized = false
-		}
-		return reSized
- 	}
+
 	function draw(ctx) {
 		if (!firstDraw) {
 			mainPoints = _getMainPoints()
@@ -109,48 +101,63 @@ Item {
 	    	ctx.fill()
 	    	ctx.stroke()
 
-	    	/* Top */
-	    	ctx.beginPath()
-	    	ctx.arc(leftX + pWidth / 2, leftY, smallPointRadius, 0, Math.PI * 2, false)
-	    	ctx.closePath()
-	    	ctx.fill()
-	    	ctx.stroke()
+	    	// /* Top */
+	    	// ctx.beginPath()
+	    	// ctx.arc(leftX + pWidth / 2, leftY, smallPointRadius, 0, Math.PI * 2, false)
+	    	// ctx.closePath()
+	    	// ctx.fill()
+	    	// ctx.stroke()
 
-	    	/* Bottom */
-	    	ctx.beginPath()
-	    	ctx.arc(leftX + pWidth / 2, leftY + pHeight, smallPointRadius, 0, Math.PI * 2, false)
-	    	ctx.closePath()
-	    	ctx.fill()
-	    	ctx.stroke()
+	    	// /* Bottom */
+	    	// ctx.beginPath()
+	    	// ctx.arc(leftX + pWidth / 2, leftY + pHeight, smallPointRadius, 0, Math.PI * 2, false)
+	    	// ctx.closePath()
+	    	// ctx.fill()
+	    	// ctx.stroke()
 
-	    	/* Left */
-	    	ctx.beginPath()
-	    	ctx.arc(leftX, leftY + pHeight / 2, smallPointRadius, 0, Math.PI * 2, false)
-	    	ctx.closePath()
-	    	ctx.fill()
-	    	ctx.stroke()
+	    	// /* Left */
+	    	// ctx.beginPath()
+	    	// ctx.arc(leftX, leftY + pHeight / 2, smallPointRadius, 0, Math.PI * 2, false)
+	    	// ctx.closePath()
+	    	// ctx.fill()
+	    	// ctx.stroke()
 
-	    	/* Right */
-	    	ctx.beginPath()
-	    	ctx.arc(leftX + pWidth, leftY + pHeight / 2, smallPointRadius, 0, Math.PI * 2, false)
-	    	ctx.closePath()
-	    	ctx.fill()
-	    	ctx.stroke()
+	    	// /* Right */
+	    	// ctx.beginPath()
+	    	// ctx.arc(leftX + pWidth, leftY + pHeight / 2, smallPointRadius, 0, Math.PI * 2, false)
+	    	// ctx.closePath()
+	    	// ctx.fill()
+	    	// ctx.stroke()
 	    }
 
 	    ctx.restore()
-		}
+
 	}
 	function clickOnPoint(p) {
-		print(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], "p:", p)
-		if (CalcEngine.pointOnLine(mainPoints[0], mainPoints[1], p) || CalcEngine.pointOnLine(mainPoints[1], mainPoints[3], p) ||
-		CalcEngine.pointOnLine(mainPoints[2], mainPoints[3], p) || CalcEngine.pointOnLine(mainPoints[0], mainPoints[2])) {
-			var result = true
+		selected = false
+		reSized = false
+		rotated = false
+		clickedPoint = Qt.point(0, 0)
+		if (CalcEngine.pointClickIn(mainPoints[0], p) || CalcEngine.pointClickIn(mainPoints[1], p) ||
+		CalcEngine.pointClickIn(mainPoints[2], p) || CalcEngine.pointClickIn(mainPoints[3], p)) {
+			var result =  true
+			reSized = result
+			clickedPoint = p
+			return result
 		}
-		selected = result
-		clickedPoint = p
-
-		return result
+		if (rotateOnPoint(p)) {
+			var result = true
+			rotated = true
+			clickedPoint = p
+			return result
+		}
+		if (CalcEngine.pointOnLine(mainPoints[0], mainPoints[1], p) || CalcEngine.pointOnLine(mainPoints[1], mainPoints[3], p) ||
+		CalcEngine.pointOnLine(mainPoints[3], mainPoints[2], p) || CalcEngine.pointOnLine(mainPoints[2], mainPoints[0], p)) {
+			var result = true
+			selected = result
+			clickedPoint = p
+			return result
+		}
 	}
 
 	function handleDrag(p) {
@@ -175,8 +182,13 @@ Item {
 	}
 	function handleResize(p) {
 		if (reSized) {
-			CalcEngine.handlePointResize(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, clickedPoint)
+			var key = CalcEngine.resizePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p)
+			var points = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key)
+			for (var i = 0; i < points.length; i ++) {
+				mainPoints[i] = points[i]
+			}
 		}
+
 		clickedPoint = p
 	}
 	function rotateOnPoint(p) {
@@ -186,9 +198,8 @@ Item {
 			rotated = true
 
 		} else {
-			rotate = false
+			rotated = false
 		}
-		clickedPoint = p
 		return rotated
 	}
 

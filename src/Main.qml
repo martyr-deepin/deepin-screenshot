@@ -1,4 +1,5 @@
 import QtQuick 2.1
+import QtMultimedia 5.0
 import QtGraphicalEffects 1.0
 
 Item {
@@ -653,7 +654,9 @@ Item {
 
 			}
 			SaveButton {
+				id: saveButton
 				visible: ((button1.width*7 +10 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
+
 				onSaveIcon: {
 					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
 					windowView.close()
@@ -911,6 +914,19 @@ Item {
 			visible: false
 			property string saveId:"auto_save"
 
+			SoundEffect {
+				id: cameraSound
+				source: "../sound/camera.wav"
+			}
+			Timer {
+				id: count
+				interval: 500
+				running: false
+				onTriggered: {
+					running = false
+					windowView.close()
+				}
+			}
 			ToolButton {
 				id: auto_save
 
@@ -927,7 +943,28 @@ Item {
 				onPressed: {
 					save_toolbar.saveId = "auto_save"
 					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
-					windowView.close()
+					count.running = true
+					cameraSound.play()
+				}
+			}
+			ToolButton {
+				id: save_to_desktop
+
+				imageName:"save_to_desktop"
+				dirImage: dirSave
+				state: "on"
+				onEntered: {
+					savetooltip.visible = true
+					savetooltip.text = "Save to Desktop"
+				}
+				onExited: {
+					savetooltip.visible = false
+				}
+				onPressed: {
+					save_toolbar.saveId = "save_to_desktop"
+					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
+					cameraSound.play()
+					count.running = true
 				}
 			}
 			ToolButton {
@@ -945,7 +982,8 @@ Item {
 				onPressed: {
 					save_toolbar.saveId = "save_to_dir"
 					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2 ,selectFrame.height - 2)
-					windowView.close()
+					count.running = true
+					cameraSound.play()
 				}
 			}
 			ToolButton {
@@ -963,7 +1001,8 @@ Item {
 				onPressed: {
 					save_toolbar.saveId = "save_ClipBoard"
 					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
-					windowView.close()
+					count.running = true
+					cameraSound.play()
 				}
 			}
 			ToolButton {
@@ -981,7 +1020,8 @@ Item {
 				onPressed: {
 					save_toolbar.saveId = "auto_save_ClipBoard"
 					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
-					windowView.close()
+					count.running = true
+					cameraSound.play()
 				}
 			}
 
