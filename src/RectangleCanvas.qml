@@ -186,9 +186,9 @@ Item {
 		if (reSized) {
 			var key = CalcEngine.resizePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p)
 			var points = [mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3]]
+			/* if the mouse is not in the Resize point, points is undefined */
 			points = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key)
 			for (var i = 0; i < 4; i ++) { mainPoints[i] = points[i] }
-
 		}
 
 		clickedPoint = p
@@ -203,7 +203,6 @@ Item {
 
 			rotated = false
 		}
-
 		clickedPoint = rotatePoint
 		return rotated
 	}
@@ -213,7 +212,6 @@ Item {
 		var centerInPoint = Qt.point((mainPoints[0].x + mainPoints[3].x) / 2, (mainPoints[0].y + mainPoints[3].y) / 2)
 		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 		var angle = CalcEngine.calcutateAngle(clickedPoint, p, centerInPoint)
-
 		mainPoints[0] = CalcEngine.pointRotate(centerInPoint, mainPoints[0], angle)
 		mainPoints[1] = CalcEngine.pointRotate(centerInPoint, mainPoints[1], angle)
 		mainPoints[2] = CalcEngine.pointRotate(centerInPoint, mainPoints[2], angle)
