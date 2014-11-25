@@ -20,17 +20,22 @@ Canvas {
     }
 
     function clickOnPoint(p) {
-        // var selectedShape = null
+        for (var i = 0; i < shapes.length; i++) {
+            if (shapes[i].selected || shapes[i].reSized) {
+                shapes[i].rotateOnPoint(p)
+            }
+        }
+
         for (var i = 0; i < shapes.length; i++) {
             if (shapes[i].clickOnPoint(p)){
                 var selectedShape = i
             }
         }
+
         if (selectedShape != null ) {
             for (var i = 0; i < shapes.length && i != selectedShape; i++) {
                 shapes[i].selected = false
                 shapes[i].reSized = false
-                shapes[i].rotated = false
             }
             return true
         } else {
@@ -53,7 +58,6 @@ Canvas {
     function rotateOnPoint(p) {
         for (var i = 0; i < shapes.length; i++) {
             if (shapes[i].rotateOnPoint(p)) {
-                print("can rotated")
                 return true
             }
         }
@@ -97,7 +101,7 @@ Canvas {
                 var selectedShape = null,reSizedShape = null,rotatedShape = null
                 for (var i = 0; i < canvas.shapes.length; i++) {
                     if (canvas.shapes[i].reSized)  reSizedShape = canvas.shapes[i]
-                    if (canvas.shapes[i].rotated) rotated = canvas.shapes[i]
+                    if (canvas.shapes[i].rotated) rotatedShape = canvas.shapes[i]
                     if (canvas.shapes[i].selected)  selectedShape = canvas.shapes[i]
                 }
                 if (selectedShape != null) {

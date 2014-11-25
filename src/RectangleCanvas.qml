@@ -66,7 +66,9 @@ Item {
 	    	ctx.fillStyle = "yellow"
 
 	    	/* Rotate */
+
 	    	var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+
 	    	ctx.beginPath()
 	    	ctx.arc(rotatePoint.x, rotatePoint.y, smallPointRadius, 0, Math.PI * 2, false)
 	    	ctx.closePath()
@@ -193,22 +195,24 @@ Item {
 	}
 	function rotateOnPoint(p) {
 		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-		if (p.x >= rotateOnPoint.x - 5 && p.x <= rotateOnPoint.x &&
-			p.y >= rotateOnPoint.y - 5 && p.y <= rotateOnPoint.y) {
-			rotated = true
+		if (p.x >= rotatePoint.x - 5 && p.x <= rotatePoint.x + 5 &&
+			p.y >= rotatePoint.y - 5 && p.y <= rotatePoint.y + 5) {
 
+			rotated = true
 		} else {
+
 			rotated = false
 		}
+
+		clickedPoint = rotatePoint
 		return rotated
 	}
 
 	function handleRotate(p) {
+
 		var centerInPoint = Qt.point((mainPoints[0].x + mainPoints[3].x) / 2, (mainPoints[0].y + mainPoints[3].y) / 2)
 		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-		rotated = rotateResult[0]
-		var rotatePoint = rotateResult[1]
-		var angle = (rotatePoint, p, centerInPoint)
+		var angle = CalcEngine.calcutateAngle(clickedPoint, p, centerInPoint)
 
 		mainPoints[0] = CalcEngine.pointRotate(centerInPoint, mainPoints[0], angle)
 		mainPoints[1] = CalcEngine.pointRotate(centerInPoint, mainPoints[1], angle)

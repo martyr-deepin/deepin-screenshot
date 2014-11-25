@@ -967,34 +967,43 @@ function pointRotate(point1, point2, angele) {
 }
 function getRotatePoint(point1, point2, point3, point4) {
 	var d = 30
+	var leftpoint = Qt.point(0, 0)
+	var rightpoint = Qt.point(0, 0)
 	/*   first position */
 	if (point2.x - point4.x <= 0 && point2.y - point4.y >= 0 ) {
 		var add = pointSplid(point1, point2, d)
-		var leftpoint = Qt.point(point1.x - add[0], point1.y - add[1])
+		leftpoint = Qt.point(point1.x - add[0], point1.y - add[1])
 		add = pointSplid(point3, point4, d)
-		var rightpoint = Qt.point(point3.x - add[0], point3.y - add[1])
+		rightpoint = Qt.point(point3.x - add[0], point3.y - add[1])
+		var rotatePoint = Qt.point((leftpoint.x + rightpoint.x) / 2, (leftpoint.y + rightpoint.y) / 2)
+		return rotatePoint
 	}
 	/* second position */
-	if (point2.x - point4.x >= 0 && point2.y - point4.y >= 0) {
+	if (point2.x - point4.x > 0 && point2.y - point4.y > 0) {
 		var add = pointSplid(point1, point2, d)
-		var leftpoint = Qt.point(point1.x - add[0], point1.y + add[1])
+		leftpoint = Qt.point(point1.x - add[0], point1.y + add[1])
 		add = pointSplid(point3, point4, d)
-		var rightpoint = Qt.point(point3.x - add[0], point3.y + add[1])
+		rightpoint = Qt.point(point3.x - add[0], point3.y + add[1])
+		var rotatePoint = Qt.point((leftpoint.x + rightpoint.x) / 2, (leftpoint.y + rightpoint.y) / 2)
+		return rotatePoint
 	}
 	/* third position */
-	if (point2.x - point4.x <= 0 && point2.y - point4.y <= 0) {
+	if (point2.x - point4.x < 0 && point2.y - point4.y < 0) {
 		var add = pointSplid(point1, point2, d)
-		var leftpoint = Qt.point(point1.x + add[0], point1.y - add[1])
+		leftpoint = Qt.point(point1.x + add[0], point1.y - add[1])
 		add = pointSplid(point3, point4, d)
-		var rightpoint = Qt.point(point3.x + add[0], point3.y - add[1])
+		rightpoint = Qt.point(point3.x + add[0], point3.y - add[1])
+		var rotatePoint = Qt.point((leftpoint.x + rightpoint.x) / 2, (leftpoint.y + rightpoint.y) / 2)
+		return rotatePoint
 	}
 	/* fourth position */
-	if (point2.x - point4.x >= 0 && point2.y - point4.y <= 0) {
+	if (point2.x - point4.x > 0 && point2.y - point4.y < 0) {
 		var add = pointSplid(point1, point2, d)
 		var leftpoint = Qt.point(point1.x + add[0], point1.y + add[1])
 		add = pointSplid(point3, point4, d)
 		var rightpoint = Qt.point(point3.x + add[0], point3.y + add[1])
+		var rotatePoint = Qt.point((leftpoint.x + rightpoint.x) / 2, (leftpoint.y + rightpoint.y) / 2)
+		return rotatePoint
 	}
-	var rotatePoint = Qt.point((leftpoint.x + rightpoint.x) / 2, (leftpoint.y + rightpoint.y) / 2)
-	return rotatePoint
+
 }
