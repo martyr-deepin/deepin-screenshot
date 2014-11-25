@@ -183,10 +183,10 @@ Item {
 	function handleResize(p) {
 		if (reSized) {
 			var key = CalcEngine.resizePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p)
-			var points = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key)
-			for (var i = 0; i < points.length; i ++) {
-				mainPoints[i] = points[i]
-			}
+			var points = [mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3]]
+			points = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key)
+			for (var i = 0; i < 4; i ++) { mainPoints[i] = points[i] }
+
 		}
 
 		clickedPoint = p

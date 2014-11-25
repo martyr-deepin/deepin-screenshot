@@ -53,6 +53,7 @@ Canvas {
     function rotateOnPoint(p) {
         for (var i = 0; i < shapes.length; i++) {
             if (shapes[i].rotateOnPoint(p)) {
+                print("can rotated")
                 return true
             }
         }
@@ -96,7 +97,6 @@ Canvas {
                 var selectedShape = null,reSizedShape = null,rotatedShape = null
                 for (var i = 0; i < canvas.shapes.length; i++) {
                     if (canvas.shapes[i].reSized)  reSizedShape = canvas.shapes[i]
-                    print("canvas.shapes[i].reSized", i, canvas.shapes[i].reSized)
                     if (canvas.shapes[i].rotated) rotated = canvas.shapes[i]
                     if (canvas.shapes[i].selected)  selectedShape = canvas.shapes[i]
                 }
@@ -104,7 +104,6 @@ Canvas {
                     selectedShape.handleDrag(Qt.point(mouse.x, mouse.y))
                 }
                 if (reSizedShape != null) {
-                    print("*******************")
                     reSizedShape.handleResize(Qt.point(mouse.x, mouse.y))
                 }
                 if (rotatedShape != null) {
