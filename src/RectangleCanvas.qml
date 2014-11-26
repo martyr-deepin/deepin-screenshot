@@ -10,6 +10,7 @@ Item {
 	property var points: []
 	property var rotatePoint: Qt.point(0, 0)
 	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
+	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 	property point leftpoint
 	property point rightpoint
 	property point centerInPoint
@@ -103,33 +104,34 @@ Item {
 	    	ctx.fill()
 	    	ctx.stroke()
 
-	    	// /* Top */
-	    	// ctx.beginPath()
-	    	// ctx.arc(leftX + pWidth / 2, leftY, smallPointRadius, 0, Math.PI * 2, false)
-	    	// ctx.closePath()
-	    	// ctx.fill()
-	    	// ctx.stroke()
+	    	minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+	    	/* Top */
+	    	ctx.beginPath()
+	    	ctx.arc(minorPoints[0].x, minorPoints[0].y, smallPointRadius, 0, Math.PI * 2, false)
+	    	ctx.closePath()
+	    	ctx.fill()
+	    	ctx.stroke()
 
-	    	// /* Bottom */
-	    	// ctx.beginPath()
-	    	// ctx.arc(leftX + pWidth / 2, leftY + pHeight, smallPointRadius, 0, Math.PI * 2, false)
-	    	// ctx.closePath()
-	    	// ctx.fill()
-	    	// ctx.stroke()
+	    	/* Bottom */
+	    	ctx.beginPath()
+	    	ctx.arc(minorPoints[1].x, minorPoints[1].y, smallPointRadius, 0, Math.PI * 2, false)
+	    	ctx.closePath()
+	    	ctx.fill()
+	    	ctx.stroke()
 
-	    	// /* Left */
-	    	// ctx.beginPath()
-	    	// ctx.arc(leftX, leftY + pHeight / 2, smallPointRadius, 0, Math.PI * 2, false)
-	    	// ctx.closePath()
-	    	// ctx.fill()
-	    	// ctx.stroke()
+	    	/* Left */
+	    	ctx.beginPath()
+	    	ctx.arc(minorPoints[2].x, minorPoints[2].y, smallPointRadius, 0, Math.PI * 2, false)
+	    	ctx.closePath()
+	    	ctx.fill()
+	    	ctx.stroke()
 
-	    	// /* Right */
-	    	// ctx.beginPath()
-	    	// ctx.arc(leftX + pWidth, leftY + pHeight / 2, smallPointRadius, 0, Math.PI * 2, false)
-	    	// ctx.closePath()
-	    	// ctx.fill()
-	    	// ctx.stroke()
+	    	/* Right */
+	    	ctx.beginPath()
+	    	ctx.arc(minorPoints[3].x, minorPoints[3].y, smallPointRadius, 0, Math.PI * 2, false)
+	    	ctx.closePath()
+	    	ctx.fill()
+	    	ctx.stroke()
 	    }
 
 	    ctx.restore()
@@ -141,7 +143,9 @@ Item {
 		rotated = false
 		clickedPoint = Qt.point(0, 0)
 		if (CalcEngine.pointClickIn(mainPoints[0], p) || CalcEngine.pointClickIn(mainPoints[1], p) ||
-		CalcEngine.pointClickIn(mainPoints[2], p) || CalcEngine.pointClickIn(mainPoints[3], p)) {
+		CalcEngine.pointClickIn(mainPoints[2], p) || CalcEngine.pointClickIn(mainPoints[3], p) ||
+		CalcEngine.pointClickIn(minorPoints[0], p) || CalcEngine.pointClickIn(minorPoints[1], p) ||
+		CalcEngine.pointClickIn(minorPoints[2], p) || CalcEngine.pointClickIn(minorPoints[3], p)) {
 			var result =  true
 			reSized = result
 			clickedPoint = p
@@ -171,24 +175,15 @@ Item {
 
 	    clickedPoint = p
 	}
-	function resizeOnPoint(p) {
-		var result = CalcEngine.resizePointOnClick(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p)
-		if (result != 0) {
-			reSized = true
-		} else {
-			reSized = false
-		}
-
-		clickedPoint = p
-		return reSized
-	}
 	function handleResize(p) {
 		if (reSized) {
 			var key = CalcEngine.resizePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p)
-			var points = [mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3]]
-			/* if the mouse is not in the Resize point, points is undefined */
-			points = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key)
-			for (var i = 0; i < 4; i ++) { mainPoints[i] = points[i] }
+			if (key == 0) { key = CalcEngine.resizeAnotherPoint(minorPoints[0], minorPoints[1],minorPoints[2],minorPoints[3], p) }
+			if (key != 0) {
+				/* if the mouse is not in the Resize point, points is undefined */
+				var points = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key)
+				for (var i = 0; i < 4; i ++) { mainPoints[i] = points[i] }
+			}
 		}
 
 		clickedPoint = p
@@ -208,7 +203,6 @@ Item {
 	}
 
 	function handleRotate(p) {
-
 		var centerInPoint = Qt.point((mainPoints[0].x + mainPoints[3].x) / 2, (mainPoints[0].y + mainPoints[3].y) / 2)
 		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 		var angle = CalcEngine.calcutateAngle(clickedPoint, p, centerInPoint)
@@ -218,6 +212,4 @@ Item {
 		mainPoints[3] = CalcEngine.pointRotate(centerInPoint, mainPoints[3], angle)
 		clickedPoint = p
 	}
-
-
 }
