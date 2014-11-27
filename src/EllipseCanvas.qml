@@ -8,9 +8,13 @@ Item {
 	property point clickedPoint
 
 	property var points: []
- 	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
-	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 
+	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
+	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
+	property var point11; property var point12
+	property var point21; property var point22
+	property var point31; property var point32
+	property var point41; property var point42
 	property int bigPointRadius: 6
 	property int smallPointRadius: 4
 
@@ -48,17 +52,17 @@ Item {
 		if (!firstDraw) {
 			mainPoints = _getMainPoints()
 		}
+		minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+	    var points1 = CalcEngine.getEightControlPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+		ctx.beginPath();
+		ctx.moveTo(minorPoints[0].x, minorPoints[0].y);
+		ctx.bezierCurveTo(points1[0].x, points1[0].y, points1[1].x, points1[1].y, minorPoints[1].x, minorPoints[1].y);
+		ctx.bezierCurveTo(points1[4].x, points1[4].y, points1[5].x, points1[5].y , minorPoints[2].x, minorPoints[2].y );
+		ctx.bezierCurveTo(points1[6].x, points1[6].y, points1[7].x, points1[7].y, minorPoints[3].x, minorPoints[3].y);
+		ctx.bezierCurveTo(points1[3].x, points1[3].y, points1[2].x, points1[2].y, minorPoints[0].x, minorPoints[0].y);
+		ctx.closePath();
+		ctx.stroke();
 
-	    ctx.save()
-	    ctx.beginPath()
-	    ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
-	    ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
-	    ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
-	    ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
-	    ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
-
-	    ctx.closePath()
-	    ctx.stroke()
 	    if (selected||reSized||rotated) {
 	    	ctx.strokeStyle = "#00A0E9"
 	    	ctx.fillStyle = "yellow"
@@ -101,7 +105,7 @@ Item {
 	    	ctx.fill()
 	    	ctx.stroke()
 
-	    	minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+
 	    	/* Top */
 	    	ctx.beginPath()
 	    	ctx.arc(minorPoints[0].x, minorPoints[0].y, smallPointRadius, 0, Math.PI * 2, false)
@@ -154,8 +158,8 @@ Item {
 			clickedPoint = p
 			return result
 		}
-		if (CalcEngine.pointOnLine(mainPoints[0], mainPoints[1], p) || CalcEngine.pointOnLine(mainPoints[1], mainPoints[3], p) ||
-		CalcEngine.pointOnLine(mainPoints[3], mainPoints[2], p) || CalcEngine.pointOnLine(mainPoints[2], mainPoints[0], p)) {
+
+		if (CalcEngine.pointOnEllipse(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p)) {
 			var result = true
 			selected = result
 			clickedPoint = p

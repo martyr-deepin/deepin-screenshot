@@ -65,7 +65,7 @@ Canvas {
     }
     Component {
         id: rect_component
-        RectangleCanvas {}
+        EllipseCanvas {}
     }
     Rectangle {
         anchors.fill: parent
