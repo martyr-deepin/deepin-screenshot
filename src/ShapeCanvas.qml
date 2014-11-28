@@ -6,7 +6,7 @@ Canvas {
     height: parent.height
 
     property bool recording: false
-    property bool wellPaint: false
+    property string shapeName: ""
     property var shapes: []
     property var currenRecordingShape
 
@@ -65,7 +65,15 @@ Canvas {
     }
     Component {
         id: rect_component
+        RectangleCanvas {}
+    }
+    Component {
+        id: ellipse_component
         EllipseCanvas {}
+    }
+    Component {
+        id: arrow_component
+        ArrowCanvas {}
     }
     Rectangle {
         anchors.fill: parent
@@ -76,9 +84,18 @@ Canvas {
         anchors.fill: parent
 
         onPressed: {
+
             if (!canvas.clickOnPoint(Qt.point(mouse.x, mouse.y))) {
                     canvas.recording = true
-                    canvas.currenRecordingShape = rect_component.createObject(canvas, {})
+                    if (canvas.shapeName == "rect") {
+                        canvas.currenRecordingShape = rect_component.createObject(canvas, {})
+                    }
+                    if (canvas.shapeName == "ellipse") {
+                        canvas.currenRecordingShape = ellipse_component.createObject(canvas, {})
+                    }
+                    if (canvas.shapeName == "arrow") {
+                        canvas.currenRecordingShape = arrow_component.createObject(canvas, {})
+                    }
                     canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
                     canvas.shapes.push(canvas.currenRecordingShape)
             }
@@ -100,9 +117,9 @@ Canvas {
             } else {
                 var selectedShape = null,reSizedShape = null,rotatedShape = null
                 for (var i = 0; i < canvas.shapes.length; i++) {
-                    if (canvas.shapes[i].reSized)  reSizedShape = canvas.shapes[i]
-                    if (canvas.shapes[i].rotated) rotatedShape = canvas.shapes[i]
-                    if (canvas.shapes[i].selected)  selectedShape = canvas.shapes[i]
+                    if (canvas.shapes[i].reSized||drag.active)  reSizedShape = canvas.shapes[i]
+                    if (canvas.shapes[i].rotated||drag.active) rotatedShape = canvas.shapes[i]
+                    if (canvas.shapes[i].selected||drag.active)  selectedShape = canvas.shapes[i]
                 }
                 if (selectedShape != null) {
                     selectedShape.handleDrag(Qt.point(mouse.x, mouse.y))
@@ -116,5 +133,8 @@ Canvas {
             }
             canvas.requestPaint()
         }
+    }
+    Keys.onDeletePressed: {
+
     }
 }

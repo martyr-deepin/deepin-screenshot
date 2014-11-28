@@ -5,8 +5,9 @@ Item {
 	property bool selected: false
 	property bool reSized: false
 	property bool rotated: false
-	property point clickedPoint
+	property bool firstDraw: false
 
+	property point clickedPoint
 	property var points: []
  	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
@@ -14,19 +15,6 @@ Item {
 	property int bigPointRadius: 6
 	property int smallPointRadius: 4
 
-	property bool firstDraw: false
-	property bool topRightLocal: false
-	property bool topLeftLocal: false
-	property bool bottomLeftLocal: false
-	property bool bottomRightLocal: false
-	property bool topLocal: false
-	property bool bottomLocal: false
-	property bool leftLocal: false
-	property bool rightLocal: false
-
-	function _inRectCheck(point, rect) {
-	    return rect.x <= point.x && point.x <= rect.x + rect.width && rect.y <= point.y && point.y <= rect.y + rect.height
-	}
 	function _getMainPoints() {
 
 		var startPoint = points[0]
@@ -187,8 +175,7 @@ Item {
 	}
 	function rotateOnPoint(p) {
 		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-		if (p.x >= rotatePoint.x - 5 && p.x <= rotatePoint.x + 5 &&
-			p.y >= rotatePoint.y - 5 && p.y <= rotatePoint.y + 5) {
+		if (p.x >= rotatePoint.x - 5 && p.x <= rotatePoint.x + 5 && p.y >= rotatePoint.y - 5 && p.y <= rotatePoint.y + 5) {
 
 			rotated = true
 		} else {
@@ -203,10 +190,10 @@ Item {
 		var centerInPoint = Qt.point((mainPoints[0].x + mainPoints[3].x) / 2, (mainPoints[0].y + mainPoints[3].y) / 2)
 		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 		var angle = CalcEngine.calcutateAngle(clickedPoint, p, centerInPoint)
-		mainPoints[0] = CalcEngine.pointRotate(centerInPoint, mainPoints[0], angle)
-		mainPoints[1] = CalcEngine.pointRotate(centerInPoint, mainPoints[1], angle)
-		mainPoints[2] = CalcEngine.pointRotate(centerInPoint, mainPoints[2], angle)
-		mainPoints[3] = CalcEngine.pointRotate(centerInPoint, mainPoints[3], angle)
+		for (var i = 0; i < 4; i++) {
+			mainPoints[i] = CalcEngine.pointRotate(centerInPoint, mainPoints[i], angle)
+		}
+
 		clickedPoint = p
 	}
 }

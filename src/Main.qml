@@ -400,8 +400,8 @@ Item {
 		radius: 4
 
 		property bool bExtense: height == 56
-
-		property string paintShape:""
+		property bool hasShapeCanvas: false
+		property var shape
 		property var linewidth: ""
 
 		property color stop1Color: Qt.rgba(0, 0, 0, 0.6)
@@ -515,10 +515,15 @@ Item {
 						fontRect.visible = false
 						save_toolbar.visible = false
  					}
-					toolbar.paintShape = "rect"
 
-					row._destroyCanvas()
-					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas { }', selectArea, "shaperect")
+
+					if (!toolbar.hasShapeCanvas) {
+						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
+						toolbar.shape.shapeName = "rect"
+						toolbar.hasShapeCanvas = true
+					} else {
+						toolbar.shape.shapeName = "rect"
+					}
 
 					fillType.imageName = "rect"
 				}
@@ -540,11 +545,13 @@ Item {
 						fontRect.visible = false
 						save_toolbar.visible = false
  					}
-					toolbar.paintShape = "ellipse"
-					row._destroyCanvas()
-
-					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}',  selectArea, "shapeellipse")
-					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
+					if (!toolbar.hasShapeCanvas) {
+						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
+						toolbar.shape.shapeName = "ellipse"
+						toolbar.hasShapeCanvas = true
+					} else {
+						toolbar.shape.shapeName = "ellipse"
+					}
 					fillType.imageName = "ellipse"
 				}
 			}
@@ -564,11 +571,15 @@ Item {
 						fontRect.visible = false
 						save_toolbar.visible = false
  					}
-					toolbar.paintShape = "arrow"
-					row._destroyCanvas()
 
-					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}',  selectArea, "shapearrow")
-					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
+					if (!toolbar.hasShapeCanvas) {
+						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
+						toolbar.shape.shapeName = "arrow"
+						toolbar.hasShapeCanvas = true
+					} else {
+						toolbar.shape.shapeName = "arrow"
+					}
+
 				}
 			}
 
@@ -589,7 +600,7 @@ Item {
  					}
 					toolbar.paintShape = "line"
 
-					row._destroyCanvas()
+
 					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}',  selectArea, "shapearrow")
 					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 				}
@@ -604,7 +615,7 @@ Item {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("text")
 
-					row._destroyCanvas()
+
                     var text = Qt.createQmlObject('import QtQuick 2.1; TextRect {}',selectArea,"Text")
 					text.width = selectArea.width
 					text.height = selectArea.height
@@ -895,7 +906,7 @@ Item {
 				visible: true
 				onClicked: {
 					screenArea.enabled = false
-					row._destroyCanvas()
+
 					var blur = Qt.createQmlObject('import QtQuick 2.1; BlurShape { blurStyle: fillType.imageName }', blurItem, "shapeblur")
 				}
 			}
@@ -1162,5 +1173,19 @@ Item {
 	focus: true
 	Keys.onEscapePressed: {
 		windowView.close()
+	}
+	Keys.onDeletePressed: {
+	    print("&&&&&&&&&&")
+	    // var canvas = toolbar.
+	    // for (var i = 0; i < canvas.shapes.length; i++) {
+	    //     if (canvas.shapes[i].reSized || canvas.shapes[i].rotated || canvas.shapes[i].selected) {
+	    //         var d = i
+	    //     }
+	    // }
+	    // if (d != "undefined") {
+	    //     for (var i = 0; i < canvas.shapes[d].points.length; i++) {
+	    //         canvas.shapes[d].points.pop()
+	    //     }
+	    // }
 	}
 }
