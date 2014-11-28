@@ -306,6 +306,22 @@ function reSizePointPosititon(point1, point2, point3, point4, p, K) {
 				points = point8Resize1(point1, point2, point3, point4, p)
 				return points
 			}
+			if (point1.x - point2.x < 0 && point1.y - point2.y > 0 &&
+			point1.x - point3.x > 0 && point1.y - point3.y > 0) {
+				points = point8Resize2(point1, point2, point3, point4, p)
+				return points
+			}
+			if (point1.x - point2.x > 0 && point1.y - point2.y < 0 &&
+			point1.x - point3.x < 0 && point1.y - point3.y < 0) {
+				points = point8Resize3(point1, point2, point3, point4, p)
+				return points
+			}
+			if (point1.x - point2.x > 0 && point1.y - point2.y > 0 &&
+			point1.x - point3.x > 0 && point1.y - point3.y < 0) {
+				points = point8Resize4(point1, point2, point3, point4, p)
+				return points
+			}
+			break
 		}
 	}
 }
@@ -1518,7 +1534,7 @@ function point7Resize4(point1, point2, point3, point4, p) {
 		return points
 	}
 }
-/* point8 in the fourth position */
+/* point8 in the first position */
 function point8Resize1(point1, point2, point3, point4, p) {
 	if (pointLineDir(point2, point4, p) == 1) {
 		var distance = pointTolineDistance(point2, point4, p)
@@ -1534,6 +1550,66 @@ function point8Resize1(point1, point2, point3, point4, p) {
 		point2 = Qt.point(point2.x - add[0], point2.y - add[1])
 		add = pointSplid(point3, point4, distance)
 		point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+		points = [point1, point2, point3, point4]
+		return points
+	}
+}
+/* point8 in the second position */
+function point8Resize2(point1, point2, point3, point4, p) {
+	if (pointLineDir(point2, point4, p) == -1) {
+		var distance = pointTolineDistance(point2, point4, p)
+		var add = pointSplid(point1, point2, distance)
+		point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+		add = pointSplid(point3, point4, distance)
+		point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+		points = [point1, point2, point3, point4]
+		return points
+	} else {
+		var distance = pointTolineDistance(point2, point4, p)
+		var add = pointSplid(point1, point2, distance)
+		point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+		add = pointSplid(point3, point4, distance)
+		point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+		points = [point1, point2, point3, point4]
+		return points
+	}
+}
+/* point8 in the third position */
+function point8Resize3(point1, point2, point3, point4, p) {
+	if (pointLineDir(point2, point4, p) == -1) {
+		var distance = pointTolineDistance(point2, point4, p)
+		var add = pointSplid(point1, point2, distance)
+		point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+		add = pointSplid(point3, point4, distance)
+		point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+		points = [point1, point2, point3, point4]
+		return points
+	} else {
+		var distance = pointTolineDistance(point2, point4, p)
+		var add = pointSplid(point1, point2, distance)
+		point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+		add = pointSplid(point3, point4, distance)
+		point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+		points = [point1, point2, point3, point4]
+		return points
+	}
+}
+/* point8 in the fourth position */
+function point8Resize4(point1, point2, point3, point4, p) {
+	if (pointLineDir(point2, point4, p) == -1) {
+		var distance = pointTolineDistance(point2, point4, p)
+		var add = pointSplid(point1, point2, distance)
+		point2 = Qt.point(point2.x - add[0], point2.y - add[1])
+		add = pointSplid(point3, point4, distance)
+		point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+		points = [point1, point2, point3, point4]
+		return points
+	} else {
+		var distance = pointTolineDistance(point2, point4, p)
+		var add = pointSplid(point1, point2, distance)
+		point2 = Qt.point(point2.x + add[0], point2.y + add[1])
+		add = pointSplid(point3, point4, distance)
+		point4 = Qt.point(point4.x + add[0], point4.y + add[1])
 		points = [point1, point2, point3, point4]
 		return points
 	}
@@ -1587,31 +1663,22 @@ function getEightControlPoint(point1, point2, point3, point4) {
 /* judge whether the clickOnPoint is on the bezier */
 /* 0 <= p.x <= 1*/
 function pointOnBezier(p0, p1, p2, p3, p) {
-	if (p3.x == p0.x && p3.y ==p0.y) {
-		return
-	} else {
-		var t = Math.sqrt(square(p.x - p0.x) + square(p.y - p0.y)) / Math.sqrt(square(p3.x - p0.x) + square(p3.y - p0.y))
-		print("t", t)
-		if (t > 1) {
-			return false
-		} else {
 
-			if (p.x >= p0.x*(1-t)*square(1-t) + 3*p1.x*t*square(1-t) + 3*p2.x*square(t)*(1-t) + p3.x*t*square(t) - 5 &&
-			p.x <= p0.x*(1-t)*square(1-t) + 3*p1.x*t*square(1-t) + 3*p2.x*square(t)*(1-t) + p3.x*t*square(t) + 5 &&
-			p.y >= p0.y*(1-t)*square(1-t) + 3*p1.y*t*square(1-t) + 3*p2.y*square(t)*(1-t) + p3.y*t*square(t) - 5 &&
-			p.y <= p0.y*(1-t)*square(1-t) + 3*p1.y*t*square(1-t) + 3*p2.y*square(t)*(1-t) + p3.y*t*square(t) + 5) {
-				print("tttttttttttttt:", t*t*t)
-				return true
-			} else {
-				return false
-			}
+	for (var t = 0; t <= 1; t = t + 0.01) {
+
+		var bx = p0.x*(1-t)*square(1-t) + 3*p1.x*t*square(1-t) + 3*p2.x*square(t)*(1-t) + p3.x*t*square(t)
+		var by = p0.y*(1-t)*square(1-t) + 3*p1.y*t*square(1-t) + 3*p2.y*square(t)*(1-t) + p3.y*t*square(t)
+		if (p.x >= bx - 5 && p.x <= bx + 5 && p.y >= by - 5 && p.y <= by + 5) {
+			return true
 		}
 	}
+	return false
 }
 /* judge whether the clickOnPoint is on the ellipse*/
 function pointOnEllipse(point1, point2, point3, point4, p) {
 	var points = getAnotherFourPoint(point1, point2, point3, point4)
 	var point5 = points[0]
+
 	var point6 = points[1]
 	var point7 = points[2]
 	var point8 = points[3]

@@ -162,6 +162,7 @@ Item {
 		if (CalcEngine.pointOnEllipse(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p)) {
 			var result = true
 			selected = result
+
 			clickedPoint = p
 			return result
 		}
