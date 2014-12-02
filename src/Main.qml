@@ -910,6 +910,21 @@ Item {
 					var blur = Qt.createQmlObject('import QtQuick 2.1; BlurShape { blurStyle: fillType.imageName }', blurItem, "shapeblur")
 				}
 			}
+			FillShape {
+				id: masicType
+				visible: true
+				imageName: "masic"
+				onClicked: {
+					screenArea.enabled = false
+					if (!toolbar.hasShapeCanvas) {
+						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
+						toolbar.shape.shapeName = "mosaic"
+						toolbar.hasShapeCanvas = true
+					} else {
+						toolbar.shape.shapeName = "mosaic"
+					}
+				}
+			}
 		}
 		SaveToolTip {
 			id: savetooltip
@@ -1175,17 +1190,15 @@ Item {
 		windowView.close()
 	}
 	Keys.onDeletePressed: {
-	    print("&&&&&&&&&&")
-	    // var canvas = toolbar.
-	    // for (var i = 0; i < canvas.shapes.length; i++) {
-	    //     if (canvas.shapes[i].reSized || canvas.shapes[i].rotated || canvas.shapes[i].selected) {
-	    //         var d = i
-	    //     }
-	    // }
-	    // if (d != "undefined") {
-	    //     for (var i = 0; i < canvas.shapes[d].points.length; i++) {
-	    //         canvas.shapes[d].points.pop()
-	    //     }
-	    // }
+
+		var canvas = toolbar.shape
+		for (var i = 0; i < canvas.shapes.length; i++) {
+			if (canvas.shapes[i].selected == true || canvas.shapes[i].reSized == true
+				|| canvas.shapes[i].rotated == true) {
+				for (var j = 0; j < canvas.shapes[i].points.length; j++)
+				canvas.shapes[i].destroy()
+			}
+		}
+		canvas.requestPaint()
 	}
 }

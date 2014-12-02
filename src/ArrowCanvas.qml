@@ -13,6 +13,7 @@ Item {
 
 	property int bigPointRadius: 6
 	property int smallPointRadius: 4
+	property int clickedKey: 0
 
 	property bool firstDraw: false
 
@@ -20,14 +21,114 @@ Item {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
 
-		ctx.lineWidth = 7
+		ctx.lineWidth = 5
 	    ctx.save()
-
 	    ctx.beginPath()
 		ctx.moveTo(startPoint.x, startPoint.y)
 		ctx.lineTo(endPoint.x, endPoint.y)
 		ctx.stroke()
 	    ctx.closePath()
+
+	    if (endPoint.x - startPoint.x > 0 && endPoint.y - startPoint.y < 0)
+	    {
+	    	var add = CalcEngine.pointSplid(startPoint, endPoint, 3*ctx.lineWidth)
+	    	var pointA = Qt.point(endPoint.x - add[0], endPoint.y + add[1])
+	    	var angle = 20/180*Math.PI
+	    	var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
+	    	var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
+	    	var splidistance = Math.sqrt(CalcEngine.square(3*ctx.lineWidth) - CalcEngine.square(distance))
+	    	add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
+	    	var pointC = Qt.point(endPoint.x - add[0], endPoint.y + add[1])
+	    	var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
+	    	var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
+
+	    	ctx.fillStyle = "red"
+	    	ctx.beginPath()
+
+	    	ctx.moveTo(endPoint.x, endPoint.y)
+	    	ctx.lineTo(pointB.x, pointB.y)
+	    	ctx.lineTo(pointE.x, pointE.y)
+	    	ctx.lineTo(pointD.x, pointD.y)
+	    	ctx.lineTo(endPoint.x, endPoint.y)
+	    	ctx.closePath()
+	    	ctx.stroke()
+	    	ctx.fill()
+
+	    }
+	    else if (endPoint.x - startPoint.x <= 0 && endPoint.y - startPoint.y <= 0)
+	    {
+	    	var add = CalcEngine.pointSplid(startPoint, endPoint, 20)
+	    	var pointA = Qt.point(endPoint.x + add[0], endPoint.y + add[1])
+	    	var angle = 20/180*Math.PI
+	    	var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
+	    	var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
+	    	var splidistance = Math.sqrt(CalcEngine.square(20) - CalcEngine.square(distance))
+	    	add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
+	    	var pointC = Qt.point(endPoint.x + add[0], endPoint.y + add[1])
+	    	var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
+	    	var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
+
+	    	ctx.fillStyle = "red"
+	    	ctx.beginPath()
+
+	    	ctx.moveTo(endPoint.x, endPoint.y)
+	    	ctx.lineTo(pointB.x, pointB.y)
+	    	ctx.lineTo(pointE.x, pointE.y)
+	    	ctx.lineTo(pointD.x, pointD.y)
+	    	ctx.lineTo(endPoint.x, endPoint.y)
+	    	ctx.closePath()
+	    	ctx.stroke()
+	    	ctx.fill()
+	    }
+	    else if (endPoint.x - startPoint.x <= 0 && endPoint.y - startPoint.y > 0)
+	    {var add = CalcEngine.pointSplid(startPoint, endPoint, 20)
+	    	var pointA = Qt.point(endPoint.x + add[0], endPoint.y - add[1])
+	    	var angle = 20/180*Math.PI
+	    	var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
+	    	var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
+	    	var splidistance = Math.sqrt(CalcEngine.square(20) - CalcEngine.square(distance))
+	    	add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
+	    	var pointC = Qt.point(endPoint.x + add[0], endPoint.y - add[1])
+	    	var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
+	    	var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
+
+	    	ctx.fillStyle = "red"
+	    	ctx.beginPath()
+
+	    	ctx.moveTo(endPoint.x, endPoint.y)
+	    	ctx.lineTo(pointB.x, pointB.y)
+	    	ctx.lineTo(pointE.x, pointE.y)
+	    	ctx.lineTo(pointD.x, pointD.y)
+	    	ctx.lineTo(endPoint.x, endPoint.y)
+	    	ctx.closePath()
+	    	ctx.stroke()
+	    	ctx.fill()
+	    }
+	    else
+	    {
+	    	var add = CalcEngine.pointSplid(startPoint, endPoint, 20)
+	    	var pointA = Qt.point(endPoint.x - add[0], endPoint.y - add[1])
+	    	var angle = 20/180*Math.PI
+	    	var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
+	    	var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
+	    	var splidistance = Math.sqrt(CalcEngine.square(20) - CalcEngine.square(distance))
+	    	add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
+	    	var pointC = Qt.point(endPoint.x - add[0], endPoint.y - add[1])
+	    	var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
+	    	var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
+
+	    	ctx.fillStyle = "red"
+	    	ctx.beginPath()
+
+	    	ctx.moveTo(endPoint.x, endPoint.y)
+	    	ctx.lineTo(pointB.x, pointB.y)
+	    	ctx.lineTo(pointE.x, pointE.y)
+	    	ctx.lineTo(pointD.x, pointD.y)
+	    	ctx.lineTo(endPoint.x, endPoint.y)
+	    	ctx.closePath()
+	    	ctx.stroke()
+	    	ctx.fill()
+	    }
 
 	    if (selected||reSized||rotated) {
 	    	ctx.strokeStyle = "#00A0E9"
@@ -57,13 +158,23 @@ Item {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
 
-		if (CalcEngine.pointClickIn(startPoint, p) || CalcEngine.pointClickIn(endPoint, p)) {
+		if (CalcEngine.pointClickIn(startPoint, p)) {
 			var result =  true
 			reSized = result
 			rotated = result
+			clickedKey = 1
 			clickedPoint = p
 			return result
 		}
+		if (CalcEngine.pointClickIn(endPoint, p)) {
+			var result =  true
+			reSized = result
+			rotated = result
+			clickedKey = 2
+			clickedPoint = p
+			return result
+		}
+
 		if (CalcEngine.pointOnLine(startPoint, endPoint, p)) {
 			var result = true
 			selected = result
@@ -82,19 +193,19 @@ Item {
 
 		clickedPoint = p
 	}
-	function handleResize(p) {
+	function handleResize(p, key) {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
-		if (reSized) {
-			if (CalcEngine.pointClickIn(startPoint, p)) {
+
+			if (key == 1) {
 				startPoint = p
 			}
-			if (CalcEngine.pointClickIn(endPoint, p)) {
+			if (key == 2) {
 				endPoint = p
 			}
 			points[0] = startPoint
 			points[points.length - 1] = endPoint
-		}
+
 		clickedPoint = p
 	}
 	function rotateOnPoint(p) {
@@ -104,7 +215,7 @@ Item {
 		return rotated
 	}
 
-	function handleRotate(p) {
+	function handleRotate(p, key) {
 		handleResize(p)
 	}
 }

@@ -14,6 +14,7 @@ Item {
 
 	property int bigPointRadius: 6
 	property int smallPointRadius: 4
+	property int clickedKey: 0
 
 	function _getMainPoints() {
 
@@ -89,7 +90,6 @@ Item {
 	    	ctx.fill()
 	    	ctx.stroke()
 
-
 	    	/* Top */
 	    	ctx.beginPath()
 	    	ctx.arc(minorPoints[0].x, minorPoints[0].y, smallPointRadius, 0, Math.PI * 2, false)
@@ -127,12 +127,59 @@ Item {
 		reSized = false
 		rotated = false
 		clickedPoint = Qt.point(0, 0)
-		if (CalcEngine.pointClickIn(mainPoints[0], p) || CalcEngine.pointClickIn(mainPoints[1], p) ||
-		CalcEngine.pointClickIn(mainPoints[2], p) || CalcEngine.pointClickIn(mainPoints[3], p) ||
-		CalcEngine.pointClickIn(minorPoints[0], p) || CalcEngine.pointClickIn(minorPoints[1], p) ||
-		CalcEngine.pointClickIn(minorPoints[2], p) || CalcEngine.pointClickIn(minorPoints[3], p)) {
+		if (CalcEngine.pointClickIn(mainPoints[0], p)) {
 			var result =  true
 			reSized = result
+			clickedKey = 1
+			clickedPoint = p
+			return result
+		}
+		if (CalcEngine.pointClickIn(mainPoints[1], p)) {
+			var result =  true
+			reSized = result
+			clickedKey = 2
+			clickedPoint = p
+			return result
+		}
+		if (CalcEngine.pointClickIn(mainPoints[2], p)) {
+			var result =  true
+			reSized = result
+			clickedKey = 3
+			clickedPoint = p
+			return result
+		}
+		if (CalcEngine.pointClickIn(mainPoints[3], p)) {
+			var result =  true
+			reSized = result
+			clickedKey = 4
+			clickedPoint = p
+			return result
+		}
+		if (CalcEngine.pointClickIn(minorPoints[0], p)) {
+			var result =  true
+			reSized = result
+			clickedKey = 5
+			clickedPoint = p
+			return result
+		}
+		if (CalcEngine.pointClickIn(minorPoints[1], p)) {
+			var result =  true
+			reSized = result
+			clickedKey = 6
+			clickedPoint = p
+			return result
+		}
+		if (CalcEngine.pointClickIn(minorPoints[2], p)) {
+			var result =  true
+			reSized = result
+			clickedKey = 7
+			clickedPoint = p
+			return result
+		}
+		if (CalcEngine.pointClickIn(minorPoints[3], p)) {
+			var result =  true
+			reSized = result
+			clickedKey = 8
 			clickedPoint = p
 			return result
 		}
@@ -161,18 +208,14 @@ Item {
 
 	    clickedPoint = p
 	}
-	function handleResize(p) {
-		if (reSized) {
-			var key = CalcEngine.resizePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p)
-			if (key == 0) { key = CalcEngine.resizeAnotherPoint(minorPoints[0], minorPoints[1],minorPoints[2],minorPoints[3], p) }
-			if (key != 0) {
-				/* if the mouse is not in the Resize point, points is undefined */
-				var points = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key)
-				for (var i = 0; i < 4; i ++) { mainPoints[i] = points[i] }
-			}
-		}
+	function handleResize(p, key) {
 
+		if (reSized) {
+			var points = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key)
+			for (var i = 0; i < 4; i ++) { mainPoints[i] = points[i] }
+		}
 		clickedPoint = p
+
 	}
 	function rotateOnPoint(p) {
 		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])

@@ -68,6 +68,10 @@ Canvas {
         RectangleCanvas {}
     }
     Component {
+        id: mosaic_component
+        MosaicCanvas {}
+    }
+    Component {
         id: ellipse_component
         EllipseCanvas {}
     }
@@ -96,6 +100,9 @@ Canvas {
                     if (canvas.shapeName == "arrow") {
                         canvas.currenRecordingShape = arrow_component.createObject(canvas, {})
                     }
+                    if (canvas.shapeName == "mosaic") {
+                        canvas.currenRecordingShape = mosaic_component.createObject(canvas, {})
+                    }
                     canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
                     canvas.shapes.push(canvas.currenRecordingShape)
             }
@@ -121,11 +128,12 @@ Canvas {
                     if (canvas.shapes[i].rotated||drag.active) rotatedShape = canvas.shapes[i]
                     if (canvas.shapes[i].selected||drag.active)  selectedShape = canvas.shapes[i]
                 }
+                print("reSizedShape", reSizedShape)
                 if (selectedShape != null) {
                     selectedShape.handleDrag(Qt.point(mouse.x, mouse.y))
                 }
                 if (reSizedShape != null) {
-                    reSizedShape.handleResize(Qt.point(mouse.x, mouse.y))
+                    reSizedShape.handleResize(Qt.point(mouse.x, mouse.y), reSizedShape.clickedKey)
                 }
                 if (rotatedShape != null) {
                     rotatedShape.handleRotate(Qt.point(mouse.x, mouse.y))
@@ -133,8 +141,9 @@ Canvas {
             }
             canvas.requestPaint()
         }
-    }
-    Keys.onDeletePressed: {
+
 
     }
+
+
 }

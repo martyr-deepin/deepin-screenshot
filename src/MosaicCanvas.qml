@@ -15,7 +15,7 @@ Item {
 	property int bigPointRadius: 6
 	property int smallPointRadius: 4
 	property int clickedKey: 0
-
+	property real hua: 0.0
 	function _getMainPoints() {
 
 		var startPoint = points[0]
@@ -45,9 +45,25 @@ Item {
 	    ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
 	    ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
 	    ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
-
 	    ctx.closePath()
 	    ctx.stroke()
+
+	    var masic={x:5, y:5}
+
+	    for(var i = mainPoints[0].x; i <= mainPoints[2].x - masic.x; i = i + masic.x) {
+	    	for(var j = mainPoints[0].y; j <= mainPoints[1].y - masic.y;  j = j + masic.y) {
+	    		hua = Math.random()%0.4 + 0.2
+	    		ctx.fillStyle = Qt.rgba(1, 1, 1, hua)
+	    		ctx.beginPath()
+	    		ctx.moveTo(i,j)
+	    		ctx.lineTo(i + masic.x, j)
+	    		ctx.lineTo(i + masic.x, j + masic.y)
+	    		ctx.lineTo(i,j + masic.y)
+	    		ctx.lineTo(i,j)
+	    		ctx.closePath()
+	    		ctx.fill()
+	    	}
+	    }
 	    if (selected||reSized||rotated) {
 	    	ctx.strokeStyle = "#00A0E9"
 	    	ctx.fillStyle = "yellow"
@@ -118,7 +134,6 @@ Item {
 	    	ctx.fill()
 	    	ctx.stroke()
 	    }
-
 	    ctx.restore()
 
 	}
@@ -183,6 +198,7 @@ Item {
 			clickedPoint = p
 			return result
 		}
+
 		if (rotateOnPoint(p)) {
 			var result = true
 			rotated = true
@@ -213,8 +229,8 @@ Item {
 			var points = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key)
 			for (var i = 0; i < 4; i ++) { mainPoints[i] = points[i] }
 		}
-
 		clickedPoint = p
+
 	}
 
 

@@ -6,7 +6,7 @@ Item {
     height: 32
     state: "off"
 
-    property string imageName: ""
+    property string imageName: "rect"
 
     signal clicked()
     states: [
@@ -14,16 +14,16 @@ Item {
                     name : "on"
                     PropertyChanges {
                         target: imageShape
-                        source: "../image/size/" + fillShape.imageName + "_fill_hover.png"
+                        source: "../image/size/" + fillShape.imageName + "_hover.png"
                     }
             },
             State {
                     name : "off"
                     PropertyChanges {
                         target: imageShape
-                        source: "../image/size/" + fillShape.imageName + "_fill.png"
+                        source: "../image/size/" + fillShape.imageName + ".png"
                     }
-        }
+            }
     ]
 
 

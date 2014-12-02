@@ -323,7 +323,13 @@ function reSizePointPosititon(point1, point2, point3, point4, p, K) {
 			}
 			break
 		}
+		case 0: {
+			return points
+		}
+		default:
+			return points
 	}
+	return points
 }
 /* first point1 */
 /* point1 in the first position */
@@ -1479,17 +1485,17 @@ function point7Resize2(point1, point2, point3, point4, p) {
 	if (pointLineDir(point3, point4, p) == -1) {
 		var distance = pointTolineDistance(point3, point4, p)
 		var add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x + add[0], point3.y - add[1])
+		point3 = Qt.point(point3.x - add[0], point3.y - add[1])
 		add = pointSplid(point2, point4, distance)
-		point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+		point4 = Qt.point(point4.x - add[0], point4.y - add[1])
 		points = [point1, point2, point3, point4]
 		return points
 	} else {
 		var distance = pointTolineDistance(point3, point4, p)
 		var add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x - add[0], point3.y + add[1])
+		point3 = Qt.point(point3.x + add[0], point3.y + add[1])
 		add = pointSplid(point2, point4, distance)
-		point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+		point4 = Qt.point(point4.x + add[0], point4.y + add[1])
 		points = [point1, point2, point3, point4]
 		return points
 	}
@@ -1743,13 +1749,14 @@ function getRotatePoint(point1, point2, point3, point4) {
 	var d = 30
 	var leftpoint = Qt.point(0, 0)
 	var rightpoint = Qt.point(0, 0)
+	var rotatepoint = Qt.point(0, 0)
 	/*   first position */
 	if (point2.x - point4.x <= 0 && point2.y - point4.y >= 0 ) {
 		var add = pointSplid(point1, point2, d)
 		leftpoint = Qt.point(point1.x - add[0], point1.y - add[1])
 		add = pointSplid(point3, point4, d)
 		rightpoint = Qt.point(point3.x - add[0], point3.y - add[1])
-		var rotatePoint = Qt.point((leftpoint.x + rightpoint.x) / 2, (leftpoint.y + rightpoint.y) / 2)
+		rotatePoint = Qt.point((leftpoint.x + rightpoint.x) / 2, (leftpoint.y + rightpoint.y) / 2)
 		return rotatePoint
 	}
 	/* second position */
@@ -1779,5 +1786,5 @@ function getRotatePoint(point1, point2, point3, point4) {
 		var rotatePoint = Qt.point((leftpoint.x + rightpoint.x) / 2, (leftpoint.y + rightpoint.y) / 2)
 		return rotatePoint
 	}
-
+	return rotatepoint
 }
