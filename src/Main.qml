@@ -401,7 +401,12 @@ Item {
 
 		property bool bExtense: height == 56
 		property bool hasShapeCanvas: false
+		property bool hasMosaicCanvas: false
+		property bool hasBlurCanvas: false
+
 		property var shape
+		property var mosaic
+		property var blur
 		property var linewidth: ""
 
 		property color stop1Color: Qt.rgba(0, 0, 0, 0.6)
@@ -524,7 +529,8 @@ Item {
 					} else {
 						toolbar.shape.shapeName = "rect"
 					}
-
+					toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
+					toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
 					fillType.imageName = "rect"
 				}
 			}
@@ -552,6 +558,8 @@ Item {
 					} else {
 						toolbar.shape.shapeName = "ellipse"
 					}
+					toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
+					toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
 					fillType.imageName = "ellipse"
 				}
 			}
@@ -580,6 +588,8 @@ Item {
 						toolbar.shape.shapeName = "arrow"
 					}
 
+					toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
+					toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
 				}
 			}
 
@@ -863,7 +873,7 @@ Item {
 			anchors.bottom: parent.bottom
 
 			visible: toolbar.bExtense
-			property var lineWidth: 1
+			property var lineWidth: 3
 
 			function checkState(id) {
 				for (var i=0; i<setlw.children.length; i++) {
@@ -880,7 +890,7 @@ Item {
 				imageName:"small"
 				dirImage: dirSizeImage
 				state: "on"
-
+				onPressed: setlw.lineWidth = 3
 		   }
 
 		   ToolButton {
@@ -889,7 +899,7 @@ Item {
 				imageName:"normal"
 				dirImage: dirSizeImage
 
-				onPressed: setlw.lineWidth = 3
+				onPressed: setlw.lineWidth = 5
 			}
 
 			ToolButton {
@@ -897,7 +907,7 @@ Item {
 				group: setlw
 				imageName:"big"
 				dirImage: dirSizeImage
-				onPressed: setlw.lineWidth = 5
+				onPressed: setlw.lineWidth = 7
 			}
 
 			FillShape {
@@ -906,23 +916,30 @@ Item {
 				visible: true
 				onClicked: {
 					screenArea.enabled = false
-
-					var blur = Qt.createQmlObject('import QtQuick 2.1; BlurShape { blurStyle: fillType.imageName }', blurItem, "shapeblur")
+					if (!toolbar.hasBlurCanvas) {
+						toolbar.blur = Qt.createQmlObject('import QtQuick 2.1; BlurShape {}', blurItem, "shapeblur")
+						toolbar.blur.blurStyle = "rect"
+						toolbar.hasBlurCanvas = true
+					} else {
+						toolbar.blur.blurStyle = "rect"
+					}
 				}
 			}
 			FillShape {
 				id: masicType
 				visible: true
-				imageName: "masic"
+				imageName: "mosaic"
 				onClicked: {
 					screenArea.enabled = false
-					if (!toolbar.hasShapeCanvas) {
-						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
-						toolbar.shape.shapeName = "mosaic"
-						toolbar.hasShapeCanvas = true
+
+					if (!toolbar.hasMosaicCanvas) {
+						toolbar.mosaic = Qt.createQmlObject('import QtQuick 2.1; MosaicCanvas {}', blurItem, "shapemosaic")
+						toolbar.mosaic.mosaicStyle = "rect"
+						toolbar.hasMosaicCanvas = true
 					} else {
-						toolbar.shape.shapeName = "mosaic"
+						toolbar.mosaic.mosaicStyle = "rect"
 					}
+
 				}
 			}
 		}
@@ -1050,9 +1067,7 @@ Item {
 					cameraSound.play()
 				}
 			}
-
 		}
-
 	}
 
 	Rectangle {

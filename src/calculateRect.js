@@ -335,90 +335,93 @@ function reSizePointPosititon(point1, point2, point3, point4, p, K) {
 /* point1 in the first position */
 function point1Resize1(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-	if (point1.x == point2.x ) {
-		if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == -1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point2, point4,distance)
-			point2 = Qt.point(point2.x - add[0], point2.y + add[1])
-			distance = pointTolineDistance(point1, point3, p)
-			add = pointSplid(point3, point4, distance)
-			point3 = Qt.point(point3.x - add[0], point3.y - add[1])
-			var points = [p, point2, point3, point4]
+	if (p.x >= point3.x || p.y >point2.y) {
 			return points
-		}
-
-		if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == 1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point2, point4,distance)
-			point2 = Qt.point(point2.x + add[0], point2.y - add[1])
-			distance = pointTolineDistance(point1, point3, p)
-			add = pointSplid(point3, point4, distance)
-			point3 = Qt.point(point3.x - add[0], point3.y - add[1])
-			var points = [p, point2, point3, point4]
-			return points
-		}
-		if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == 1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point2, point4,distance)
-			point2 = Qt.point(point2.x + add[0], point2.y - add[1])
-			distance = pointTolineDistance(point1, point3, p)
-			add = pointSplid(point3, point4, distance)
-			point3 = Qt.point(point3.x + add[0], point3.y + add[1])
-			var points = [p, point2, point3, point4]
-			return points
-		}
-		if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == -1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point2, point4,distance)
-			point2 = Qt.point(point2.x - add[0], point2.y + add[1])
-			distance = pointTolineDistance(point1, point3, p)
-			add = pointSplid(point3, point4, distance)
-			point3 = Qt.point(point3.x + add[0], point3.y + add[1])
-			var points = [p, point2, point3, point4]
-			return points
-		}
 	} else {
+		if (point1.x == point2.x ) {
+			if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == -1) {
 
-		if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == 1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point2, point4,distance)
-			point2 = Qt.point(point2.x - add[0], point2.y + add[1])
-			distance = pointTolineDistance(point1, point3, p)
-			add = pointSplid(point3, point4, distance)
-			point3 = Qt.point(point3.x - add[0], point3.y - add[1])
-			var points = [p, point2, point3, point4]
-			return points
-		}
-
-		if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == -1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point2, point4,distance)
-			point2 = Qt.point(point2.x + add[0], point2.y - add[1])
-			distance = pointTolineDistance(point1, point3, p)
-			add = pointSplid(point3, point4, distance)
-			point3 = Qt.point(point3.x - add[0], point3.y - add[1])
-			var points = [p, point2, point3, point4]
-			return points
-		}
-		if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == -1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point2, point4,distance)
-			point2 = Qt.point(point2.x + add[0], point2.y - add[1])
-			distance = pointTolineDistance(point1, point3, p)
-			add = pointSplid(point3, point4, distance)
-			point3 = Qt.point(point3.x + add[0], point3.y + add[1])
-			var points = [p, point2, point3, point4]
-			return points
-		}
-		if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == 1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point2, point4,distance)
-			point2 = Qt.point(point2.x - add[0], point2.y + add[1])
-			distance = pointTolineDistance(point1, point3, p)
-			add = pointSplid(point3, point4, distance)
-			point3 = Qt.point(point3.x + add[0], point3.y + add[1])
-			var points = [p, point2, point3, point4]
-			return points
+				var distance = pointTolineDistance(point1, point2, p)
+				print("distance:", distance)
+				var add = pointSplid(point2, point4,distance)
+				point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+				distance = pointTolineDistance(point1, point3, p)
+				add = pointSplid(point3, point4, distance)
+				point3 = Qt.point(point3.x - add[0], point3.y - add[1])
+				var points = [p, point2, point3, point4]
+				return points
+			}
+			if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == 1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point2, point4,distance)
+				point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+				distance = pointTolineDistance(point1, point3, p)
+				add = pointSplid(point3, point4, distance)
+				point3 = Qt.point(point3.x - add[0], point3.y - add[1])
+				var points = [p, point2, point3, point4]
+				return points
+			}
+			if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == 1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point2, point4,distance)
+				point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+				distance = pointTolineDistance(point1, point3, p)
+				add = pointSplid(point3, point4, distance)
+				point3 = Qt.point(point3.x + add[0], point3.y + add[1])
+				var points = [p, point2, point3, point4]
+				return points
+			}
+			if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == -1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point2, point4,distance)
+				point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+				distance = pointTolineDistance(point1, point3, p)
+				add = pointSplid(point3, point4, distance)
+				point3 = Qt.point(point3.x + add[0], point3.y + add[1])
+				var points = [p, point2, point3, point4]
+				return points
+			}
+		} else {
+			if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == 1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point2, point4,distance)
+				point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+				distance = pointTolineDistance(point1, point3, p)
+				add = pointSplid(point3, point4, distance)
+				point3 = Qt.point(point3.x - add[0], point3.y - add[1])
+				var points = [p, point2, point3, point4]
+				return points
+			}
+			if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == -1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point2, point4,distance)
+				point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+				distance = pointTolineDistance(point1, point3, p)
+				add = pointSplid(point3, point4, distance)
+				point3 = Qt.point(point3.x - add[0], point3.y - add[1])
+				var points = [p, point2, point3, point4]
+				return points
+			}
+			if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == -1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point2, point4,distance)
+				point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+				distance = pointTolineDistance(point1, point3, p)
+				add = pointSplid(point3, point4, distance)
+				point3 = Qt.point(point3.x + add[0], point3.y + add[1])
+				var points = [p, point2, point3, point4]
+				return points
+			}
+			if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == 1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point2, point4,distance)
+				point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+				distance = pointTolineDistance(point1, point3, p)
+				add = pointSplid(point3, point4, distance)
+				point3 = Qt.point(point3.x + add[0], point3.y + add[1])
+				var points = [p, point2, point3, point4]
+				return points
+			}
 		}
 	}
 	//return points
@@ -426,808 +429,856 @@ function point1Resize1(point1, point2, point3, point4, p) {
 /* point1 in the second position */
 function point1Resize2(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
+	if (p.x >= point2.x || p.y <= point3.y) {
+		return points
+	} else {
+		if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == 1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point2, point4,distance)
+			point2 = Qt.point(point2.x + add[0], point2.y + add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point3, point4, distance)
+			point3 = Qt.point(point3.x - add[0], point3.y + add[1])
+			var points = [p, point2, point3, point4]
+			return points
+		}
 
-	if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == 1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point2, point4,distance)
-		point2 = Qt.point(point2.x + add[0], point2.y + add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point3, point4, distance)
-		point3 = Qt.point(point3.x - add[0], point3.y + add[1])
-		var points = [p, point2, point3, point4]
-		return points
-	}
+		if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == -1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point2, point4,distance)
+			point2 = Qt.point(point2.x - add[0], point2.y - add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point3, point4, distance)
+			point3 = Qt.point(point3.x - add[0], point3.y + add[1])
+			var points = [p, point2, point3, point4]
+			return points
+		}
 
-	if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == -1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point2, point4,distance)
-		point2 = Qt.point(point2.x - add[0], point2.y - add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point3, point4, distance)
-		point3 = Qt.point(point3.x - add[0], point3.y + add[1])
-		var points = [p, point2, point3, point4]
-		return points
-	}
-	if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == -1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point2, point4,distance)
-		point2 = Qt.point(point2.x - add[0], point2.y - add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point3, point4, distance)
-		point3 = Qt.point(point3.x + add[0], point3.y - add[1])
-		var points = [p, point2, point3, point4]
-		return points
-	}
-	if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == 1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point2, point4,distance)
-		point2 = Qt.point(point2.x + add[0], point2.y + add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point3, point4, distance)
-		point3 = Qt.point(point3.x + add[0], point3.y - add[1])
-		var points = [p, point2, point3, point4]
-		return points
+		if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == -1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point2, point4,distance)
+			point2 = Qt.point(point2.x - add[0], point2.y - add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point3, point4, distance)
+			point3 = Qt.point(point3.x + add[0], point3.y - add[1])
+			var points = [p, point2, point3, point4]
+			return points
+		}
+		if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == 1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point2, point4,distance)
+			point2 = Qt.point(point2.x + add[0], point2.y + add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point3, point4, distance)
+			point3 = Qt.point(point3.x + add[0], point3.y - add[1])
+			var points = [p, point2, point3, point4]
+			return points
+		}
 	}
 }
 /* point1 in the third position */
 function point1Resize3(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
+	if (p.x <= point2.x || p.y >= point3.y) {
+		return points
+	} else {
+		if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == -1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point2, point4,distance)
+			point2 = Qt.point(point2.x - add[0], point2.y - add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point3, point4, distance)
+			point3 = Qt.point(point3.x + add[0], point3.y - add[1])
+			var points = [p, point2, point3, point4]
+			return points
+		}
 
-	if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == -1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point2, point4,distance)
-		point2 = Qt.point(point2.x - add[0], point2.y - add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point3, point4, distance)
-		point3 = Qt.point(point3.x + add[0], point3.y - add[1])
-		var points = [p, point2, point3, point4]
-		return points
-	}
-
-	if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == 1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point2, point4,distance)
-		point2 = Qt.point(point2.x + add[0], point2.y + add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point3, point4, distance)
-		point3 = Qt.point(point3.x + add[0], point3.y - add[1])
-		var points = [p, point2, point3, point4]
-		return points
-	}
-	if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == 1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point2, point4,distance)
-		point2 = Qt.point(point2.x + add[0], point2.y + add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point3, point4, distance)
-		point3 = Qt.point(point3.x - add[0], point3.y + add[1])
-		var points = [p, point2, point3, point4]
-		return points
-	}
-	if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == -1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point2, point4,distance)
-		point2 = Qt.point(point2.x - add[0], point2.y - add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point3, point4, distance)
-		point3 = Qt.point(point3.x - add[0], point3.y + add[1])
-		var points = [p, point2, point3, point4]
-		return points
+		if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == 1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point2, point4,distance)
+			point2 = Qt.point(point2.x + add[0], point2.y + add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point3, point4, distance)
+			point3 = Qt.point(point3.x + add[0], point3.y - add[1])
+			var points = [p, point2, point3, point4]
+			return points
+		}
+		if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == 1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point2, point4,distance)
+			point2 = Qt.point(point2.x + add[0], point2.y + add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point3, point4, distance)
+			point3 = Qt.point(point3.x - add[0], point3.y + add[1])
+			var points = [p, point2, point3, point4]
+			return points
+		}
+		if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == -1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point2, point4,distance)
+			point2 = Qt.point(point2.x - add[0], point2.y - add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point3, point4, distance)
+			point3 = Qt.point(point3.x - add[0], point3.y + add[1])
+			var points = [p, point2, point3, point4]
+			return points
+		}
 	}
 }
 /* point1 in the fourth position */
 function point1Resize4(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
+	if (p.x <= point2.x || p.y >= point3.y) {
+		return points
+	} else {
+		if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == -1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point2, point4,distance)
+			point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point3, point4, distance)
+			point3 = Qt.point(point3.x + add[0], point3.y + add[1])
+			var points = [p, point2, point3, point4]
+			return points
+		}
 
-	if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == -1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point2, point4,distance)
-		point2 = Qt.point(point2.x + add[0], point2.y - add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point3, point4, distance)
-		point3 = Qt.point(point3.x + add[0], point3.y + add[1])
-		var points = [p, point2, point3, point4]
-		return points
-	}
-
-	if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == -1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point2, point4,distance)
-		point2 = Qt.point(point2.x + add[0], point2.y - add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point3, point4, distance)
-		point3 = Qt.point(point3.x - add[0], point3.y - add[1])
-		var points = [p, point2, point3, point4]
-		return points
-	}
-	if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == 1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point2, point4,distance)
-		point2 = Qt.point(point2.x - add[0], point2.y + add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point3, point4, distance)
-		point3 = Qt.point(point3.x - add[0], point3.y - add[1])
-		var points = [p, point2, point3, point4]
-		return points
-	}
-	if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == 1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point2, point4,distance)
-		point2 = Qt.point(point2.x - add[0], point2.y + add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point3, point4, distance)
-		point3 = Qt.point(point3.x + add[0], point3.y + add[1])
-		var points = [p, point2, point3, point4]
-		return points
+		if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == -1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point2, point4,distance)
+			point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point3, point4, distance)
+			point3 = Qt.point(point3.x - add[0], point3.y - add[1])
+			var points = [p, point2, point3, point4]
+			return points
+		}
+		if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == 1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point2, point4,distance)
+			point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point3, point4, distance)
+			point3 = Qt.point(point3.x - add[0], point3.y - add[1])
+			var points = [p, point2, point3, point4]
+			return points
+		}
+		if (pointLineDir(point1, point3, p) == 1 && pointLineDir(point1, point2, p) == 1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point2, point4,distance)
+			point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point3, point4, distance)
+			point3 = Qt.point(point3.x + add[0], point3.y + add[1])
+			var points = [p, point2, point3, point4]
+			return points
+		}
 	}
 }
 /* point2 */
 /* point2 in the first position */
 function point2Resize1(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-
-	if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point1, point2, p) == -1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point1, point3,distance)
-		point1 = Qt.point(point1.x - add[0], point1.y - add[1])
-		distance = pointTolineDistance(point2, point4, p)
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x - add[0], point4.y + add[1])
-		var points = [point1, p, point3, point4]
+	if (p.x >= point1.x || p.y >= point4.y) {
 		return points
-	}
-	if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point1, point2, p) == -1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point1, point3,distance)
-		point1 = Qt.point(point1.x - add[0], point1.y - add[1])
-		distance = pointTolineDistance(point2, point4, p)
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x + add[0], point4.y - add[1])
-		var points = [point1, p, point3, point4]
-		return points
-	}
-	if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point1, point2, p) == 1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point1, point3,distance)
-		point1 = Qt.point(point1.x + add[0], point1.y + add[1])
-		distance = pointTolineDistance(point2, point4, p)
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x + add[0], point4.y - add[1])
-		var points = [point1, p, point3, point4]
-		return points
-	}
-	if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point1, point2, p) == 1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point1, point3,distance)
-		point1 = Qt.point(point1.x + add[0], point1.y + add[1])
-		distance = pointTolineDistance(point2, point4, p)
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x - add[0], point4.y + add[1])
-		var points = [point1, p, point3, point4]
-		return points
+	} else {
+		if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point1, point2, p) == -1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point1, point3,distance)
+			point1 = Qt.point(point1.x - add[0], point1.y - add[1])
+			distance = pointTolineDistance(point2, point4, p)
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+			var points = [point1, p, point3, point4]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point1, point2, p) == -1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point1, point3,distance)
+			point1 = Qt.point(point1.x - add[0], point1.y - add[1])
+			distance = pointTolineDistance(point2, point4, p)
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+			var points = [point1, p, point3, point4]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point1, point2, p) == 1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point1, point3,distance)
+			point1 = Qt.point(point1.x + add[0], point1.y + add[1])
+			distance = pointTolineDistance(point2, point4, p)
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+			var points = [point1, p, point3, point4]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point1, point2, p) == 1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point1, point3,distance)
+			point1 = Qt.point(point1.x + add[0], point1.y + add[1])
+			distance = pointTolineDistance(point2, point4, p)
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+			var points = [point1, p, point3, point4]
+			return points
+		}
 	}
 }
 /* point2 in the second position */
 function point2Resize2(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-	if (point1.x == point2.x) {
-		if (pointLineDir(point1, point2, p) == -1 && pointLineDir(point2, point4, p) == 1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point1, point3,distance)
-			point1 = Qt.point(point1.x - add[0], point1.y + add[1])
-			distance = pointTolineDistance(point2, point4, p)
-			add = pointSplid(point3, point4, distance)
-			point4 = Qt.point(point4.x + add[0], point4.y + add[1])
-			var points = [point1, p, point3, point4]
-			return points
-		}
-		if (pointLineDir(point1, point2, p) == -1 && pointLineDir(point2, point4, p) == -1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point1, point3,distance)
-			point1 = Qt.point(point1.x - add[0], point1.y + add[1])
-			distance = pointTolineDistance(point2, point4, p)
-			add = pointSplid(point3, point4, distance)
-			point4 = Qt.point(point4.x - add[0], point4.y - add[1])
-			var points = [point1, p, point3, point4]
-			return points
-		}
-		if (pointLineDir(point1, point2, p) == 1 && pointLineDir(point2, point4, p) == -1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point1, point3,distance)
-			point1 = Qt.point(point1.x + add[0], point1.y - add[1])
-			distance = pointTolineDistance(point2, point4, p)
-			add = pointSplid(point3, point4, distance)
-			point4 = Qt.point(point4.x - add[0], point4.y - add[1])
-			var points = [point1, p, point3, point4]
-			return points
-		}
-		if (pointLineDir(point1, point2, p) == 1 && pointLineDir(point2, point4, p) == 1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point1, point3,distance)
-			point1 = Qt.point(point1.x + add[0], point1.y - add[1])
-			distance = pointTolineDistance(point2, point4, p)
-			add = pointSplid(point3, point4, distance)
-			point4 = Qt.point(point4.x + add[0], point4.y + add[1])
-			var points = [point1, p, point3, point4]
-			return points
-		}
+	if (p.x >= point4.x || p.y <= point1.y ) {
+		return points
 	} else {
-		if (pointLineDir(point1, point2, p) == 1 && pointLineDir(point2, point4, p) == 1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point1, point3,distance)
-			point1 = Qt.point(point1.x - add[0], point1.y + add[1])
-			distance = pointTolineDistance(point2, point4, p)
-			add = pointSplid(point3, point4, distance)
-			point4 = Qt.point(point4.x + add[0], point4.y + add[1])
-			var points = [point1, p, point3, point4]
-			return points
-		}
-		if (pointLineDir(point1, point2, p) == 1 && pointLineDir(point2, point4, p) == -1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point1, point3,distance)
-			point1 = Qt.point(point1.x - add[0], point1.y + add[1])
-			distance = pointTolineDistance(point2, point4, p)
-			add = pointSplid(point3, point4, distance)
-			point4 = Qt.point(point4.x - add[0], point4.y - add[1])
-			var points = [point1, p, point3, point4]
-			return points
-		}
-		if (pointLineDir(point1, point2, p) == -1 && pointLineDir(point2, point4, p) == -1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point1, point3,distance)
-			point1 = Qt.point(point1.x + add[0], point1.y - add[1])
-			distance = pointTolineDistance(point2, point4, p)
-			add = pointSplid(point3, point4, distance)
-			point4 = Qt.point(point4.x - add[0], point4.y - add[1])
-			var points = [point1, p, point3, point4]
-			return points
-		}
-		if (pointLineDir(point1, point2, p) == -1 && pointLineDir(point2, point4, p) == 1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point1, point3,distance)
-			point1 = Qt.point(point1.x + add[0], point1.y - add[1])
-			distance = pointTolineDistance(point2, point4, p)
-			add = pointSplid(point3, point4, distance)
-			point4 = Qt.point(point4.x + add[0], point4.y + add[1])
-			var points = [point1, p, point3, point4]
-			return points
+		if (point1.x == point2.x) {
+			if (pointLineDir(point1, point2, p) == -1 && pointLineDir(point2, point4, p) == 1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point1, point3,distance)
+				point1 = Qt.point(point1.x - add[0], point1.y + add[1])
+				distance = pointTolineDistance(point2, point4, p)
+				add = pointSplid(point3, point4, distance)
+				point4 = Qt.point(point4.x + add[0], point4.y + add[1])
+				var points = [point1, p, point3, point4]
+				return points
+			}
+			if (pointLineDir(point1, point2, p) == -1 && pointLineDir(point2, point4, p) == -1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point1, point3,distance)
+				point1 = Qt.point(point1.x - add[0], point1.y + add[1])
+				distance = pointTolineDistance(point2, point4, p)
+				add = pointSplid(point3, point4, distance)
+				point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+				var points = [point1, p, point3, point4]
+				return points
+			}
+			if (pointLineDir(point1, point2, p) == 1 && pointLineDir(point2, point4, p) == -1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point1, point3,distance)
+				point1 = Qt.point(point1.x + add[0], point1.y - add[1])
+				distance = pointTolineDistance(point2, point4, p)
+				add = pointSplid(point3, point4, distance)
+				point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+				var points = [point1, p, point3, point4]
+				return points
+			}
+			if (pointLineDir(point1, point2, p) == 1 && pointLineDir(point2, point4, p) == 1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point1, point3,distance)
+				point1 = Qt.point(point1.x + add[0], point1.y - add[1])
+				distance = pointTolineDistance(point2, point4, p)
+				add = pointSplid(point3, point4, distance)
+				point4 = Qt.point(point4.x + add[0], point4.y + add[1])
+				var points = [point1, p, point3, point4]
+				return points
+			}
+		} else {
+			if (pointLineDir(point1, point2, p) == 1 && pointLineDir(point2, point4, p) == 1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point1, point3,distance)
+				point1 = Qt.point(point1.x - add[0], point1.y + add[1])
+				distance = pointTolineDistance(point2, point4, p)
+				add = pointSplid(point3, point4, distance)
+				point4 = Qt.point(point4.x + add[0], point4.y + add[1])
+				var points = [point1, p, point3, point4]
+				return points
+			}
+			if (pointLineDir(point1, point2, p) == 1 && pointLineDir(point2, point4, p) == -1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point1, point3,distance)
+				point1 = Qt.point(point1.x - add[0], point1.y + add[1])
+				distance = pointTolineDistance(point2, point4, p)
+				add = pointSplid(point3, point4, distance)
+				point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+				var points = [point1, p, point3, point4]
+				return points
+			}
+			if (pointLineDir(point1, point2, p) == -1 && pointLineDir(point2, point4, p) == -1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point1, point3,distance)
+				point1 = Qt.point(point1.x + add[0], point1.y - add[1])
+				distance = pointTolineDistance(point2, point4, p)
+				add = pointSplid(point3, point4, distance)
+				point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+				var points = [point1, p, point3, point4]
+				return points
+			}
+			if (pointLineDir(point1, point2, p) == -1 && pointLineDir(point2, point4, p) == 1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point1, point3,distance)
+				point1 = Qt.point(point1.x + add[0], point1.y - add[1])
+				distance = pointTolineDistance(point2, point4, p)
+				add = pointSplid(point3, point4, distance)
+				point4 = Qt.point(point4.x + add[0], point4.y + add[1])
+				var points = [point1, p, point3, point4]
+				return points
+			}
 		}
 	}
 }
 /* point2 in the third position */
 function point2Resize3(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-
-	if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point1, point2, p) == 1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point1, point3,distance)
-		point1 = Qt.point(point1.x - add[0], point1.y + add[1])
-		distance = pointTolineDistance(point2, point4, p)
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x + add[0], point4.y + add[1])
-		var points = [point1, p, point3, point4]
+	if (p.x >= point1.x || p.y >= point4.y) {
 		return points
-	}
-	if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point1, point2, p) == 1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point1, point3,distance)
-		point1 = Qt.point(point1.x - add[0], point1.y + add[1])
-		distance = pointTolineDistance(point2, point4, p)
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x - add[0], point4.y - add[1])
-		var points = [point1, p, point3, point4]
-		return points
-	}
-	if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point1, point2, p) == -1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point1, point3,distance)
-		point1 = Qt.point(point1.x + add[0], point1.y - add[1])
-		distance = pointTolineDistance(point2, point4, p)
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x + add[0], point4.y + add[1])
-		var points = [point1, p, point3, point4]
-		return points
-	}
-	if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point1, point2, p) == -1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point1, point3,distance)
-		point1 = Qt.point(point1.x + add[0], point1.y - add[1])
-		distance = pointTolineDistance(point2, point4, p)
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x - add[0], point4.y - add[1])
-		var points = [point1, p, point3, point4]
-		return points
+	} else {
+		if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point1, point2, p) == 1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point1, point3,distance)
+			point1 = Qt.point(point1.x - add[0], point1.y + add[1])
+			distance = pointTolineDistance(point2, point4, p)
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x + add[0], point4.y + add[1])
+			var points = [point1, p, point3, point4]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point1, point2, p) == 1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point1, point3,distance)
+			point1 = Qt.point(point1.x - add[0], point1.y + add[1])
+			distance = pointTolineDistance(point2, point4, p)
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+			var points = [point1, p, point3, point4]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point1, point2, p) == -1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point1, point3,distance)
+			point1 = Qt.point(point1.x + add[0], point1.y - add[1])
+			distance = pointTolineDistance(point2, point4, p)
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x + add[0], point4.y + add[1])
+			var points = [point1, p, point3, point4]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point1, point2, p) == -1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point1, point3,distance)
+			point1 = Qt.point(point1.x + add[0], point1.y - add[1])
+			distance = pointTolineDistance(point2, point4, p)
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+			var points = [point1, p, point3, point4]
+			return points
+		}
 	}
 }
 /* point2 in the fourth position */
 function point2Resize4(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-
-	if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point1, point2, p) == 1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point1, point3,distance)
-		point1 = Qt.point(point1.x + add[0], point1.y + add[1])
-		distance = pointTolineDistance(point2, point4, p)
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x + add[0], point4.y - add[1])
-		var points = [point1, p, point3, point4]
+	if (p.x <= point1.x || p.y <= point4.y) {
 		return points
-	}
-	if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point1, point2, p) == 1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point1, point3,distance)
-		point1 = Qt.point(point1.x + add[0], point1.y + add[1])
-		distance = pointTolineDistance(point2, point4, p)
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x - add[0], point4.y + add[1])
-		var points = [point1, p, point3, point4]
-		return points
-	}
-	if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point1, point2, p) == -1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point1, point3,distance)
-		point1 = Qt.point(point1.x - add[0], point1.y - add[1])
-		distance = pointTolineDistance(point2, point4, p)
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x - add[0], point4.y + add[1])
-		var points = [point1, p, point3, point4]
-		return points
-	}
-	if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point1, point2, p) == -1) {
-		var distance = pointTolineDistance(point1, point2, p)
-		var add = pointSplid(point1, point3,distance)
-		point1 = Qt.point(point1.x - add[0], point1.y - add[1])
-		distance = pointTolineDistance(point2, point4, p)
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x + add[0], point4.y - add[1])
-		var points = [point1, p, point3, point4]
-		return points
+	} else {
+		if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point1, point2, p) == 1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point1, point3,distance)
+			point1 = Qt.point(point1.x + add[0], point1.y + add[1])
+			distance = pointTolineDistance(point2, point4, p)
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+			var points = [point1, p, point3, point4]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point1, point2, p) == 1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point1, point3,distance)
+			point1 = Qt.point(point1.x + add[0], point1.y + add[1])
+			distance = pointTolineDistance(point2, point4, p)
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+			var points = [point1, p, point3, point4]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point1, point2, p) == -1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point1, point3,distance)
+			point1 = Qt.point(point1.x - add[0], point1.y - add[1])
+			distance = pointTolineDistance(point2, point4, p)
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+			var points = [point1, p, point3, point4]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point1, point2, p) == -1) {
+			var distance = pointTolineDistance(point1, point2, p)
+			var add = pointSplid(point1, point3,distance)
+			point1 = Qt.point(point1.x - add[0], point1.y - add[1])
+			distance = pointTolineDistance(point2, point4, p)
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+			var points = [point1, p, point3, point4]
+			return points
+		}
 	}
 }
 /* point3*/
 /* point3 in the first position */
 function point3Resize1(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-
-	if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == 1) {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point2, point4,distance)
-		point4 = Qt.point(point4.x - add[0], point4.y - add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point1, point2, distance)
-		point1 = Qt.point(point1.x - add[0], point1.y + add[1])
-		var points = [point1, point2, p, point4]
+	if (p.x >= point4.x || p.y >= point1.y) {
 		return points
-	}
-	if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == -1)  {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point2, point4,distance)
-		point4 = Qt.point(point4.x - add[0], point4.y - add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point1, point2, distance)
-		point1 = Qt.point(point1.x + add[0], point1.y - add[1])
-		var points = [point1, point2, p, point4]
-		return points
-	}
-	if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == -1)  {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point2, point4,distance)
-		point4 = Qt.point(point4.x + add[0], point4.y + add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point1, point2, distance)
-		point1 = Qt.point(point1.x + add[0], point1.y - add[1])
-		var points = [point1, point2, p, point4]
-		return points
-	}
-	if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == 1) {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point2, point4,distance)
-		point4 = Qt.point(point4.x + add[0], point4.y + add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point1, point2, distance)
-		point1 = Qt.point(point1.x - add[0], point1.y + add[1])
-		var points = [point1, point2, p, point4]
-		return points
+	} else {
+		if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == 1) {
+			var distance = pointTolineDistance(point3, point4, p)
+			var add = pointSplid(point2, point4,distance)
+			point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point1, point2, distance)
+			point1 = Qt.point(point1.x - add[0], point1.y + add[1])
+			var points = [point1, point2, p, point4]
+			return points
+		}
+		if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == -1)  {
+			var distance = pointTolineDistance(point3, point4, p)
+			var add = pointSplid(point2, point4,distance)
+			point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point1, point2, distance)
+			point1 = Qt.point(point1.x + add[0], point1.y - add[1])
+			var points = [point1, point2, p, point4]
+			return points
+		}
+		if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == -1)  {
+			var distance = pointTolineDistance(point3, point4, p)
+			var add = pointSplid(point2, point4,distance)
+			point4 = Qt.point(point4.x + add[0], point4.y + add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point1, point2, distance)
+			point1 = Qt.point(point1.x + add[0], point1.y - add[1])
+			var points = [point1, point2, p, point4]
+			return points
+		}
+		if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == 1) {
+			var distance = pointTolineDistance(point3, point4, p)
+			var add = pointSplid(point2, point4,distance)
+			point4 = Qt.point(point4.x + add[0], point4.y + add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point1, point2, distance)
+			point1 = Qt.point(point1.x - add[0], point1.y + add[1])
+			var points = [point1, point2, p, point4]
+			return points
+		}
 	}
 }
 /* point3 in the second position */
 function point3Resize2(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-
-	if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == 1) {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point2, point4,distance)
-		point4 = Qt.point(point4.x - add[0], point4.y + add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point1, point2, distance)
-		point1 = Qt.point(point1.x + add[0], point1.y + add[1])
-		var points = [point1, point2, p, point4]
+	if (p.x <= point4.x || p.y <= point1.y) {
 		return points
-	}
-	if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == 1) {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point2, point4,distance)
-		point4 = Qt.point(point4.x + add[0], point4.y - add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point1, point2, distance)
-		point1 = Qt.point(point1.x + add[0], point1.y + add[1])
-		var points = [point1, point2, p, point4]
-		return points
-	}
-	if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == -1) {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point2, point4,distance)
-		point4 = Qt.point(point4.x + add[0], point4.y - add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point1, point2, distance)
-		point1 = Qt.point(point1.x - add[0], point1.y - add[1])
-		var points = [point1, point2, p, point4]
-		return points
-	}
-	if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == -1) {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point2, point4,distance)
-		point4 = Qt.point(point4.x - add[0], point4.y + add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point1, point2, distance)
-		point1 = Qt.point(point1.x - add[0], point1.y - add[1])
-		var points = [point1, point2, p, point4]
-		return points
+	} else {
+		if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == 1) {
+			var distance = pointTolineDistance(point3, point4, p)
+			var add = pointSplid(point2, point4,distance)
+			point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point1, point2, distance)
+			point1 = Qt.point(point1.x + add[0], point1.y + add[1])
+			var points = [point1, point2, p, point4]
+			return points
+		}
+		if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == 1) {
+			var distance = pointTolineDistance(point3, point4, p)
+			var add = pointSplid(point2, point4,distance)
+			point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point1, point2, distance)
+			point1 = Qt.point(point1.x + add[0], point1.y + add[1])
+			var points = [point1, point2, p, point4]
+			return points
+		}
+		if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == -1) {
+			var distance = pointTolineDistance(point3, point4, p)
+			var add = pointSplid(point2, point4,distance)
+			point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point1, point2, distance)
+			point1 = Qt.point(point1.x - add[0], point1.y - add[1])
+			var points = [point1, point2, p, point4]
+			return points
+		}
+		if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == -1) {
+			var distance = pointTolineDistance(point3, point4, p)
+			var add = pointSplid(point2, point4,distance)
+			point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point1, point2, distance)
+			point1 = Qt.point(point1.x - add[0], point1.y - add[1])
+			var points = [point1, point2, p, point4]
+			return points
+		}
 	}
 }
 /* point3 in the third position */
 function point3Resize3(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-
-	if (point1.x == point2.x) {
-		if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == -1) {
-			var distance = pointTolineDistance(point3, point4, p)
-			var add = pointSplid(point2, point4,distance)
-			point4 = Qt.point(point4.x + add[0], point4.y - add[1])
-			distance = pointTolineDistance(point1, point3, p)
-			add = pointSplid(point1, point2, distance)
-			point1 = Qt.point(point1.x - add[0], point1.y - add[1])
-			var points = [point1, point2, p, point4]
-			return points
-		}
-		if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == -1) {
-			var distance = pointTolineDistance(point3, point4, p)
-			var add = pointSplid(point2, point4,distance)
-			point4 = Qt.point(point4.x - add[0], point4.y + add[1])
-			distance = pointTolineDistance(point1, point3, p)
-			add = pointSplid(point1, point2, distance)
-			point1 = Qt.point(point1.x - add[0], point1.y - add[1])
-			var points = [point1, point2, p, point4]
-			return points
-		}
-		if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == 1) {
-			var distance = pointTolineDistance(point3, point4, p)
-			var add = pointSplid(point2, point4,distance)
-			point4 = Qt.point(point4.x - add[0], point4.y + add[1])
-			distance = pointTolineDistance(point1, point3, p)
-			add = pointSplid(point1, point2, distance)
-			point1 = Qt.point(point1.x + add[0], point1.y + add[1])
-			var points = [point1, point2, p, point4]
-			return points
-		}
-		if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == 1) {
-			var distance = pointTolineDistance(point3, point4, p)
-			var add = pointSplid(point2, point4,distance)
-			point4 = Qt.point(point4.x + add[0], point4.y - add[1])
-			distance = pointTolineDistance(point1, point3, p)
-			add = pointSplid(point1, point2, distance)
-			point1 = Qt.point(point1.x + add[0], point1.y + add[1])
-			var points = [point1, point2, p, point4]
-			return points
-		}
+	if (p.x <= point1.x || p.y >= point4.y) {
+		return points
 	} else {
-		if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == -1) {
-			var distance = pointTolineDistance(point3, point4, p)
-			var add = pointSplid(point2, point4,distance)
-			point4 = Qt.point(point4.x + add[0], point4.y - add[1])
-			distance = pointTolineDistance(point1, point3, p)
-			add = pointSplid(point1, point2, distance)
-			point1 = Qt.point(point1.x - add[0], point1.y - add[1])
-			var points = [point1, point2, p, point4]
-			return points
-		}
-		if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == -1) {
-			var distance = pointTolineDistance(point3, point4, p)
-			var add = pointSplid(point2, point4,distance)
-			point4 = Qt.point(point4.x - add[0], point4.y + add[1])
-			distance = pointTolineDistance(point1, point3, p)
-			add = pointSplid(point1, point2, distance)
-			point1 = Qt.point(point1.x - add[0], point1.y - add[1])
-			var points = [point1, point2, p, point4]
-			return points
-		}
-		if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == 1) {
-			var distance = pointTolineDistance(point3, point4, p)
-			var add = pointSplid(point2, point4,distance)
-			point4 = Qt.point(point4.x - add[0], point4.y + add[1])
-			distance = pointTolineDistance(point1, point3, p)
-			add = pointSplid(point1, point2, distance)
-			point1 = Qt.point(point1.x + add[0], point1.y + add[1])
-			var points = [point1, point2, p, point4]
-			return points
-		}
-		if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == 1) {
-			var distance = pointTolineDistance(point3, point4, p)
-			var add = pointSplid(point2, point4,distance)
-			point4 = Qt.point(point4.x + add[0], point4.y - add[1])
-			distance = pointTolineDistance(point1, point3, p)
-			add = pointSplid(point1, point2, distance)
-			point1 = Qt.point(point1.x + add[0], point1.y + add[1])
-			var points = [point1, point2, p, point4]
-			return points
+		if (point1.x == point2.x) {
+			if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == -1) {
+				var distance = pointTolineDistance(point3, point4, p)
+				var add = pointSplid(point2, point4,distance)
+				point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+				distance = pointTolineDistance(point1, point3, p)
+				add = pointSplid(point1, point2, distance)
+				point1 = Qt.point(point1.x - add[0], point1.y - add[1])
+				var points = [point1, point2, p, point4]
+				return points
+			}
+			if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == -1) {
+				var distance = pointTolineDistance(point3, point4, p)
+				var add = pointSplid(point2, point4,distance)
+				point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+				distance = pointTolineDistance(point1, point3, p)
+				add = pointSplid(point1, point2, distance)
+				point1 = Qt.point(point1.x - add[0], point1.y - add[1])
+				var points = [point1, point2, p, point4]
+				return points
+			}
+			if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == 1) {
+				var distance = pointTolineDistance(point3, point4, p)
+				var add = pointSplid(point2, point4,distance)
+				point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+				distance = pointTolineDistance(point1, point3, p)
+				add = pointSplid(point1, point2, distance)
+				point1 = Qt.point(point1.x + add[0], point1.y + add[1])
+				var points = [point1, point2, p, point4]
+				return points
+			}
+			if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == 1) {
+				var distance = pointTolineDistance(point3, point4, p)
+				var add = pointSplid(point2, point4,distance)
+				point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+				distance = pointTolineDistance(point1, point3, p)
+				add = pointSplid(point1, point2, distance)
+				point1 = Qt.point(point1.x + add[0], point1.y + add[1])
+				var points = [point1, point2, p, point4]
+				return points
+			}
+		} else {
+			if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == -1) {
+				var distance = pointTolineDistance(point3, point4, p)
+				var add = pointSplid(point2, point4,distance)
+				point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+				distance = pointTolineDistance(point1, point3, p)
+				add = pointSplid(point1, point2, distance)
+				point1 = Qt.point(point1.x - add[0], point1.y - add[1])
+				var points = [point1, point2, p, point4]
+				return points
+			}
+			if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == -1) {
+				var distance = pointTolineDistance(point3, point4, p)
+				var add = pointSplid(point2, point4,distance)
+				point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+				distance = pointTolineDistance(point1, point3, p)
+				add = pointSplid(point1, point2, distance)
+				point1 = Qt.point(point1.x - add[0], point1.y - add[1])
+				var points = [point1, point2, p, point4]
+				return points
+			}
+			if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == 1) {
+				var distance = pointTolineDistance(point3, point4, p)
+				var add = pointSplid(point2, point4,distance)
+				point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+				distance = pointTolineDistance(point1, point3, p)
+				add = pointSplid(point1, point2, distance)
+				point1 = Qt.point(point1.x + add[0], point1.y + add[1])
+				var points = [point1, point2, p, point4]
+				return points
+			}
+			if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == 1) {
+				var distance = pointTolineDistance(point3, point4, p)
+				var add = pointSplid(point2, point4,distance)
+				point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+				distance = pointTolineDistance(point1, point3, p)
+				add = pointSplid(point1, point2, distance)
+				point1 = Qt.point(point1.x + add[0], point1.y + add[1])
+				var points = [point1, point2, p, point4]
+				return points
+			}
 		}
 	}
 }
 /* point3 in the fourth position */
 function point3Resize4(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-
-	if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == -1) {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point2, point4,distance)
-		point4 = Qt.point(point4.x + add[0], point4.y + add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point1, point2, distance)
-		point1 = Qt.point(point1.x + add[0], point1.y - add[1])
-		var points = [point1, point2, p, point4]
+	if (p.x <= point4.x || p.y <= point1.y) {
 		return points
-	}
-	if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == -1) {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point2, point4,distance)
-		point4 = Qt.point(point4.x - add[0], point4.y - add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point1, point2, distance)
-		point1 = Qt.point(point1.x + add[0], point1.y - add[1])
-		var points = [point1, point2, p, point4]
-		return points
-	}
-	if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == 1) {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point2, point4,distance)
-		point4 = Qt.point(point4.x - add[0], point4.y - add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point1, point2, distance)
-		point1 = Qt.point(point1.x - add[0], point1.y + add[1])
-		var points = [point1, point2, p, point4]
-		return points
-	}
-	if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == 1) {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point2, point4,distance)
-		point4 = Qt.point(point4.x + add[0], point4.y + add[1])
-		distance = pointTolineDistance(point1, point3, p)
-		add = pointSplid(point1, point2, distance)
-		point1 = Qt.point(point1.x - add[0], point1.y + add[1])
-		var points = [point1, point2, p, point4]
-		return points
+	} else {
+		if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == -1) {
+			var distance = pointTolineDistance(point3, point4, p)
+			var add = pointSplid(point2, point4,distance)
+			point4 = Qt.point(point4.x + add[0], point4.y + add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point1, point2, distance)
+			point1 = Qt.point(point1.x + add[0], point1.y - add[1])
+			var points = [point1, point2, p, point4]
+			return points
+		}
+		if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == -1) {
+			var distance = pointTolineDistance(point3, point4, p)
+			var add = pointSplid(point2, point4,distance)
+			point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point1, point2, distance)
+			point1 = Qt.point(point1.x + add[0], point1.y - add[1])
+			var points = [point1, point2, p, point4]
+			return points
+		}
+		if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point1, point3, p) == 1) {
+			var distance = pointTolineDistance(point3, point4, p)
+			var add = pointSplid(point2, point4,distance)
+			point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point1, point2, distance)
+			point1 = Qt.point(point1.x - add[0], point1.y + add[1])
+			var points = [point1, point2, p, point4]
+			return points
+		}
+		if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point1, point3, p) == 1) {
+			var distance = pointTolineDistance(point3, point4, p)
+			var add = pointSplid(point2, point4,distance)
+			point4 = Qt.point(point4.x + add[0], point4.y + add[1])
+			distance = pointTolineDistance(point1, point3, p)
+			add = pointSplid(point1, point2, distance)
+			point1 = Qt.point(point1.x - add[0], point1.y + add[1])
+			var points = [point1, point2, p, point4]
+			return points
+		}
 	}
 }
 /* point4 */
 /* point4 in the first position */
 function point4Resize1(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-
-	if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point3, point4, p) == 1) {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2,distance)
-		point2 = Qt.point(point2.x - add[0], point2.y - add[1])
-		distance = pointTolineDistance(point3, point4, p)
-		add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x - add[0], point3.y + add[1])
-		var points = [point1, point2, point3, p]
+	if (p.x >= point3.x || p.y <= point2.y) {
 		return points
-	}
-	if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point3, point4, p) == -1) {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2,distance)
-		point2 = Qt.point(point2.x - add[0], point2.y - add[1])
-		distance = pointTolineDistance(point3, point4, p)
-		add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x + add[0], point3.y - add[1])
-		var points = [point1, point2, point3, p]
-		return points
-	}
-	if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point3, point4, p) == -1) {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2,distance)
-		point2 = Qt.point(point2.x + add[0], point2.y + add[1])
-		distance = pointTolineDistance(point3, point4, p)
-		add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x + add[0], point3.y - add[1])
-		var points = [point1, point2, point3, p]
-		return points
-	}
-	if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point3, point4, p) == 1) {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2,distance)
-		point2 = Qt.point(point2.x + add[0], point2.y + add[1])
-		distance = pointTolineDistance(point3, point4, p)
-		add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x - add[0], point3.y + add[1])
-		var points = [point1, point2, point3, p]
-		return points
+	} else {
+		if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point3, point4, p) == 1) {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2,distance)
+			point2 = Qt.point(point2.x - add[0], point2.y - add[1])
+			distance = pointTolineDistance(point3, point4, p)
+			add = pointSplid(point1, point3, distance)
+			point3 = Qt.point(point3.x - add[0], point3.y + add[1])
+			var points = [point1, point2, point3, p]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point3, point4, p) == -1) {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2,distance)
+			point2 = Qt.point(point2.x - add[0], point2.y - add[1])
+			distance = pointTolineDistance(point3, point4, p)
+			add = pointSplid(point1, point3, distance)
+			point3 = Qt.point(point3.x + add[0], point3.y - add[1])
+			var points = [point1, point2, point3, p]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point3, point4, p) == -1) {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2,distance)
+			point2 = Qt.point(point2.x + add[0], point2.y + add[1])
+			distance = pointTolineDistance(point3, point4, p)
+			add = pointSplid(point1, point3, distance)
+			point3 = Qt.point(point3.x + add[0], point3.y - add[1])
+			var points = [point1, point2, point3, p]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point3, point4, p) == 1) {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2,distance)
+			point2 = Qt.point(point2.x + add[0], point2.y + add[1])
+			distance = pointTolineDistance(point3, point4, p)
+			add = pointSplid(point1, point3, distance)
+			point3 = Qt.point(point3.x - add[0], point3.y + add[1])
+			var points = [point1, point2, point3, p]
+			return points
+		}
 	}
 }
 /* point4 in the second position */
 function point4Resize2(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-
-	if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point3, point4, p) == 1) {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2,distance)
-		point2 = Qt.point(point2.x - add[0], point2.y + add[1])
-		distance = pointTolineDistance(point3, point4, p)
-		add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x + add[0], point3.y + add[1])
-		var points = [point1, point2, point3, p]
+	if (p.x >= point3.x || p.y <= point2.y) {
 		return points
-	}
-	if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point3, point4, p) == -1) {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2,distance)
-		point2 = Qt.point(point2.x - add[0], point2.y + add[1])
-		distance = pointTolineDistance(point3, point4, p)
-		add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x - add[0], point3.y - add[1])
-		var points = [point1, point2, point3, p]
-		return points
-	}
-	if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point3, point4, p) == -1) {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2,distance)
-		point2 = Qt.point(point2.x + add[0], point2.y - add[1])
-		distance = pointTolineDistance(point3, point4, p)
-		add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x - add[0], point3.y - add[1])
-		var points = [point1, point2, point3, p]
-		return points
-	}
-	if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point3, point4, p) == 1) {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2,distance)
-		point2 = Qt.point(point2.x + add[0], point2.y - add[1])
-		distance = pointTolineDistance(point3, point4, p)
-		add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x + add[0], point3.y + add[1])
-		var points = [point1, point2, point3, p]
-		return points
+	} else {
+		if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point3, point4, p) == 1) {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2,distance)
+			point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+			distance = pointTolineDistance(point3, point4, p)
+			add = pointSplid(point1, point3, distance)
+			point3 = Qt.point(point3.x + add[0], point3.y + add[1])
+			var points = [point1, point2, point3, p]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point3, point4, p) == -1) {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2,distance)
+			point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+			distance = pointTolineDistance(point3, point4, p)
+			add = pointSplid(point1, point3, distance)
+			point3 = Qt.point(point3.x - add[0], point3.y - add[1])
+			var points = [point1, point2, point3, p]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point3, point4, p) == -1) {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2,distance)
+			point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+			distance = pointTolineDistance(point3, point4, p)
+			add = pointSplid(point1, point3, distance)
+			point3 = Qt.point(point3.x - add[0], point3.y - add[1])
+			var points = [point1, point2, point3, p]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point3, point4, p) == 1) {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2,distance)
+			point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+			distance = pointTolineDistance(point3, point4, p)
+			add = pointSplid(point1, point3, distance)
+			point3 = Qt.point(point3.x + add[0], point3.y + add[1])
+			var points = [point1, point2, point3, p]
+			return points
+		}
 	}
 }
 /* point4 in the third position */
 function point4Resize3(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-
-	if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point3, point4, p) == 1) {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2,distance)
-		point2 = Qt.point(point2.x - add[0], point2.y + add[1])
-		distance = pointTolineDistance(point3, point4, p)
-		add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x + add[0], point3.y + add[1])
-		var points = [point1, point2, point3, p]
+	if (p.x <= point3.x || p.y >= point2.y) {
 		return points
-	}
-	if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point3, point4, p) == -1) {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2,distance)
-		point2 = Qt.point(point2.x - add[0], point2.y + add[1])
-		distance = pointTolineDistance(point3, point4, p)
-		add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x - add[0], point3.y - add[1])
-		var points = [point1, point2, point3, p]
-		return points
-	}
-	if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point3, point4, p) == -1) {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2,distance)
-		point2 = Qt.point(point2.x + add[0], point2.y - add[1])
-		distance = pointTolineDistance(point3, point4, p)
-		add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x - add[0], point3.y - add[1])
-		var points = [point1, point2, point3, p]
-		return points
-	}
-	if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point3, point4, p) == 1) {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2,distance)
-		point2 = Qt.point(point2.x + add[0], point2.y - add[1])
-		distance = pointTolineDistance(point3, point4, p)
-		add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x + add[0], point3.y + add[1])
-		var points = [point1, point2, point3, p]
-		return points
+	} else {
+		if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point3, point4, p) == 1) {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2,distance)
+			point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+			distance = pointTolineDistance(point3, point4, p)
+			add = pointSplid(point1, point3, distance)
+			point3 = Qt.point(point3.x + add[0], point3.y + add[1])
+			var points = [point1, point2, point3, p]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == 1 && pointLineDir(point3, point4, p) == -1) {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2,distance)
+			point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+			distance = pointTolineDistance(point3, point4, p)
+			add = pointSplid(point1, point3, distance)
+			point3 = Qt.point(point3.x - add[0], point3.y - add[1])
+			var points = [point1, point2, point3, p]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point3, point4, p) == -1) {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2,distance)
+			point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+			distance = pointTolineDistance(point3, point4, p)
+			add = pointSplid(point1, point3, distance)
+			point3 = Qt.point(point3.x - add[0], point3.y - add[1])
+			var points = [point1, point2, point3, p]
+			return points
+		}
+		if (pointLineDir(point2, point4, p) == -1 && pointLineDir(point3, point4, p) == 1) {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2,distance)
+			point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+			distance = pointTolineDistance(point3, point4, p)
+			add = pointSplid(point1, point3, distance)
+			point3 = Qt.point(point3.x + add[0], point3.y + add[1])
+			var points = [point1, point2, point3, p]
+			return points
+		}
 	}
 }
 /* point4 in the fourth position */
 function point4Resize4(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-	if (point1.x == point2.x) {
-		if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point2, point4, p) == 1) {
-			var distance = pointTolineDistance(point2, point4, p)
-			var add = pointSplid(point1, point2,distance)
-			point2 = Qt.point(point2.x + add[0], point2.y + add[1])
-			distance = pointTolineDistance(point3, point4, p)
-			add = pointSplid(point1, point3, distance)
-			point3 = Qt.point(point3.x + add[0], point3.y - add[1])
-			var points = [point1, point2, point3, p]
-			return points
-		}
-		if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point2, point4, p) == 1) {
-			var distance = pointTolineDistance(point2, point4, p)
-			var add = pointSplid(point1, point2,distance)
-			point2 = Qt.point(point2.x + add[0], point2.y + add[1])
-			distance = pointTolineDistance(point3, point4, p)
-			add = pointSplid(point1, point3, distance)
-			point3 = Qt.point(point3.x - add[0], point3.y + add[1])
-			var points = [point1, point2, point3, p]
-			return points
-		}
-		if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point2, point4, p) == -1) {
-			var distance = pointTolineDistance(point2, point4, p)
-			var add = pointSplid(point1, point2,distance)
-			point2 = Qt.point(point2.x - add[0], point2.y - add[1])
-			distance = pointTolineDistance(point3, point4, p)
-			add = pointSplid(point1, point3, distance)
-			point3 = Qt.point(point3.x - add[0], point3.y + add[1])
-			var points = [point1, point2, point3, p]
-			return points
-		}
-		if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point2, point4, p) == -1) {
-			var distance = pointTolineDistance(point2, point4, p)
-			var add = pointSplid(point1, point2,distance)
-			point2 = Qt.point(point2.x - add[0], point2.y - add[1])
-			distance = pointTolineDistance(point3, point4, p)
-			add = pointSplid(point1, point3, distance)
-			point3 = Qt.point(point3.x + add[0], point3.y - add[1])
-			var points = [point1, point2, point3, p]
-			return points
-		}
+	if (p.x <= point2.x || p.y <= point3.y) {
+		return points
 	} else {
-		if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point2, point4, p) == 1) {
-			var distance = pointTolineDistance(point2, point4, p)
-			var add = pointSplid(point1, point2,distance)
-			point2 = Qt.point(point2.x + add[0], point2.y + add[1])
-			distance = pointTolineDistance(point3, point4, p)
-			add = pointSplid(point1, point3, distance)
-			point3 = Qt.point(point3.x + add[0], point3.y - add[1])
-			var points = [point1, point2, point3, p]
-			return points
-		}
-		if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point2, point4, p) == -1) {
-			var distance = pointTolineDistance(point2, point4, p)
-			var add = pointSplid(point1, point2,distance)
-			point2 = Qt.point(point2.x - add[0], point2.y - add[1])
-			distance = pointTolineDistance(point3, point4, p)
-			add = pointSplid(point1, point3, distance)
-			point3 = Qt.point(point3.x + add[0], point3.y - add[1])
-			var points = [point1, point2, point3, p]
-			return points
-		}
-		if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point2, point4, p) == -1) {
-			var distance = pointTolineDistance(point2, point4, p)
-			var add = pointSplid(point1, point2,distance)
-			point2 = Qt.point(point2.x - add[0], point2.y - add[1])
-			distance = pointTolineDistance(point3, point4, p)
-			add = pointSplid(point1, point3, distance)
-			point3 = Qt.point(point3.x - add[0], point3.y + add[1])
-			var points = [point1, point2, point3, p]
-			return points
-		}
-		if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point2, point4, p) == 1) {
-			var distance = pointTolineDistance(point2, point4, p)
-			var add = pointSplid(point1, point2,distance)
-			point2 = Qt.point(point2.x + add[0], point2.y + add[1])
-			distance = pointTolineDistance(point3, point4, p)
-			add = pointSplid(point1, point3, distance)
-			point3 = Qt.point(point3.x - add[0], point3.y + add[1])
-			var points = [point1, point2, point3, p]
-			return points
+		if (point1.x == point2.x) {
+			if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point2, point4, p) == 1) {
+				var distance = pointTolineDistance(point2, point4, p)
+				var add = pointSplid(point1, point2,distance)
+				point2 = Qt.point(point2.x + add[0], point2.y + add[1])
+				distance = pointTolineDistance(point3, point4, p)
+				add = pointSplid(point1, point3, distance)
+				point3 = Qt.point(point3.x + add[0], point3.y - add[1])
+				var points = [point1, point2, point3, p]
+				return points
+			}
+			if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point2, point4, p) == 1) {
+				var distance = pointTolineDistance(point2, point4, p)
+				var add = pointSplid(point1, point2,distance)
+				point2 = Qt.point(point2.x + add[0], point2.y + add[1])
+				distance = pointTolineDistance(point3, point4, p)
+				add = pointSplid(point1, point3, distance)
+				point3 = Qt.point(point3.x - add[0], point3.y + add[1])
+				var points = [point1, point2, point3, p]
+				return points
+			}
+			if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point2, point4, p) == -1) {
+				var distance = pointTolineDistance(point2, point4, p)
+				var add = pointSplid(point1, point2,distance)
+				point2 = Qt.point(point2.x - add[0], point2.y - add[1])
+				distance = pointTolineDistance(point3, point4, p)
+				add = pointSplid(point1, point3, distance)
+				point3 = Qt.point(point3.x - add[0], point3.y + add[1])
+				var points = [point1, point2, point3, p]
+				return points
+			}
+			if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point2, point4, p) == -1) {
+				var distance = pointTolineDistance(point2, point4, p)
+				var add = pointSplid(point1, point2,distance)
+				point2 = Qt.point(point2.x - add[0], point2.y - add[1])
+				distance = pointTolineDistance(point3, point4, p)
+				add = pointSplid(point1, point3, distance)
+				point3 = Qt.point(point3.x + add[0], point3.y - add[1])
+				var points = [point1, point2, point3, p]
+				return points
+			}
+		} else {
+			if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point2, point4, p) == 1) {
+				var distance = pointTolineDistance(point2, point4, p)
+				var add = pointSplid(point1, point2,distance)
+				point2 = Qt.point(point2.x + add[0], point2.y + add[1])
+				distance = pointTolineDistance(point3, point4, p)
+				add = pointSplid(point1, point3, distance)
+				point3 = Qt.point(point3.x + add[0], point3.y - add[1])
+				var points = [point1, point2, point3, p]
+				return points
+			}
+			if (pointLineDir(point3, point4, p) == -1 && pointLineDir(point2, point4, p) == -1) {
+				var distance = pointTolineDistance(point2, point4, p)
+				var add = pointSplid(point1, point2,distance)
+				point2 = Qt.point(point2.x - add[0], point2.y - add[1])
+				distance = pointTolineDistance(point3, point4, p)
+				add = pointSplid(point1, point3, distance)
+				point3 = Qt.point(point3.x + add[0], point3.y - add[1])
+				var points = [point1, point2, point3, p]
+				return points
+			}
+			if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point2, point4, p) == -1) {
+				var distance = pointTolineDistance(point2, point4, p)
+				var add = pointSplid(point1, point2,distance)
+				point2 = Qt.point(point2.x - add[0], point2.y - add[1])
+				distance = pointTolineDistance(point3, point4, p)
+				add = pointSplid(point1, point3, distance)
+				point3 = Qt.point(point3.x - add[0], point3.y + add[1])
+				var points = [point1, point2, point3, p]
+				return points
+			}
+			if (pointLineDir(point3, point4, p) == 1 && pointLineDir(point2, point4, p) == 1) {
+				var distance = pointTolineDistance(point2, point4, p)
+				var add = pointSplid(point1, point2,distance)
+				point2 = Qt.point(point2.x + add[0], point2.y + add[1])
+				distance = pointTolineDistance(point3, point4, p)
+				add = pointSplid(point1, point3, distance)
+				point3 = Qt.point(point3.x - add[0], point3.y + add[1])
+				var points = [point1, point2, point3, p]
+				return points
+			}
 		}
 	}
 	return points
@@ -1237,48 +1288,54 @@ function point4Resize4(point1, point2, point3, point4, p) {
 /* point5 in the first position*/
 function point5Resize1(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-	if (point1.x == point2.x) {
-		if (pointLineDir(point1, point2, p) == -1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point1, point3, distance)
-			point1 = Qt.point(point1.x - add[0], point1.y + add[1])
-			add = pointSplid(point2, point4, distance)
-			point2 = Qt.point(point2.x - add[0], point2.y + add[1])
-			points = [point1, point2, point3, point4]
-			return points
-		} else {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point1, point3, distance)
-			point1 = Qt.point(point1.x + add[0], point1.y - add[1])
-			add = pointSplid(point2, point4, distance)
-			point2 = Qt.point(point2.x + add[0], point2.y - add[1])
-			points = [point1, point2, point3, point4]
-			return points
-		}
+	if (p.x >= (point3.x + point4.x) / 2 || p.y <= (point3.y + point4.y) / 2) {
+		return points
 	} else {
-		if (pointLineDir(point1, point2, p) == 1) {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point1, point3, distance)
-			point1 = Qt.point(point1.x - add[0], point1.y + add[1])
-			add = pointSplid(point2, point4, distance)
-			point2 = Qt.point(point2.x - add[0], point2.y + add[1])
-			points = [point1, point2, point3, point4]
-			return points
+		if (point1.x == point2.x) {
+			if (pointLineDir(point1, point2, p) == -1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point1, point3, distance)
+				point1 = Qt.point(point1.x - add[0], point1.y + add[1])
+				add = pointSplid(point2, point4, distance)
+				point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+				points = [point1, point2, point3, point4]
+				return points
+			} else {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point1, point3, distance)
+				point1 = Qt.point(point1.x + add[0], point1.y - add[1])
+				add = pointSplid(point2, point4, distance)
+				point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+				points = [point1, point2, point3, point4]
+				return points
+			}
 		} else {
-			var distance = pointTolineDistance(point1, point2, p)
-			var add = pointSplid(point1, point3, distance)
-			point1 = Qt.point(point1.x + add[0], point1.y - add[1])
-			add = pointSplid(point2, point4, distance)
-			point2 = Qt.point(point2.x + add[0], point2.y - add[1])
-			points = [point1, point2, point3, point4]
-			return points
+			if (pointLineDir(point1, point2, p) == 1) {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point1, point3, distance)
+				point1 = Qt.point(point1.x - add[0], point1.y + add[1])
+				add = pointSplid(point2, point4, distance)
+				point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+				points = [point1, point2, point3, point4]
+				return points
+			} else {
+				var distance = pointTolineDistance(point1, point2, p)
+				var add = pointSplid(point1, point3, distance)
+				point1 = Qt.point(point1.x + add[0], point1.y - add[1])
+				add = pointSplid(point2, point4, distance)
+				point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+				points = [point1, point2, point3, point4]
+				return points
+			}
 		}
 	}
 }
 /* point5 in the second position*/
 function point5Resize2(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-
+	if (p.x <= (point3.x + point4.x) / 2 || p.y <= (point3.y + point4.y) / 2) {
+		return points
+	} else {
 		if (pointLineDir(point1, point2, p) == 1) {
 			var distance = pointTolineDistance(point1, point2, p)
 			var add = pointSplid(point1, point3, distance)
@@ -1296,10 +1353,14 @@ function point5Resize2(point1, point2, point3, point4, p) {
 			points = [point1, point2, point3, point4]
 			return points
 		}
+	}
 }
 /* point5 in the third position*/
 function point5Resize3(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
+	if (p.x >= (point3.x + point4.x) / 2 || p.y >= (point3.y + point4.y) / 2) {
+		return points
+	} else {
 		if (pointLineDir(point1, point2, p) == 1) {
 			var distance = pointTolineDistance(point1, point2, p)
 			var add = pointSplid(point1, point3, distance)
@@ -1317,11 +1378,14 @@ function point5Resize3(point1, point2, point3, point4, p) {
 			points = [point1, point2, point3, point4]
 			return points
 		}
+	}
 }
 /* point5 in the fourth position*/
 function point5Resize4(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-
+	if (p.x <= (point3.x + point4.x) / 2 || p.y >= (point3.y + point4.y) / 2) {
+		return points
+	} else {
 		if (pointLineDir(point1, point2, p) == -1) {
 			var distance = pointTolineDistance(point1, point2, p)
 			var add = pointSplid(point1, point3, distance)
@@ -1339,28 +1403,58 @@ function point5Resize4(point1, point2, point3, point4, p) {
 			points = [point1, point2, point3, point4]
 			return points
 		}
+	}
 }
 /* point6 in the first position */
 function point6Resize1(point1, point2, point3, point4, p) {
 	var points = [point1, point2, point3, point4]
-	if (point1.x == point2.x) {
-		if (pointLineDir(point1, point3, p) == -1) {
-			var distance = pointTolineDistance(point1, point3, p)
-			var add = pointSplid(point1, point2, distance)
-			point1 = Qt.point(point1.x - add[0], point1.y - add[1])
-			add = pointSplid(point3, point4, distance)
-			point3 = Qt.point(point3.x - add[0], point3.y - add[1])
-			points = [point1, point2, point3, point4]
-			return points
+	if (p.x >= (point2.x + point4.x) / 2 || p.y >= (point2.y + point4.y) / 2) {
+		return points
+	} else {
+		if (point1.x == point2.x) {
+			if (pointLineDir(point1, point3, p) == -1) {
+				var distance = pointTolineDistance(point1, point3, p)
+				var add = pointSplid(point1, point2, distance)
+				point1 = Qt.point(point1.x - add[0], point1.y - add[1])
+				add = pointSplid(point3, point4, distance)
+				point3 = Qt.point(point3.x - add[0], point3.y - add[1])
+				points = [point1, point2, point3, point4]
+				return points
+			} else {
+				var distance = pointTolineDistance(point1, point3, p)
+				var add = pointSplid(point1, point2, distance)
+				point1 = Qt.point(point1.x + add[0], point1.y + add[1])
+				add = pointSplid(point3, point4, distance)
+				point3 = Qt.point(point3.x + add[0], point3.y + add[1])
+				points = [point1, point2, point3, point4]
+				return points
+			}
 		} else {
-			var distance = pointTolineDistance(point1, point3, p)
-			var add = pointSplid(point1, point2, distance)
-			point1 = Qt.point(point1.x + add[0], point1.y + add[1])
-			add = pointSplid(point3, point4, distance)
-			point3 = Qt.point(point3.x + add[0], point3.y + add[1])
-			points = [point1, point2, point3, point4]
-			return points
+			if (pointLineDir(point1, point3, p) == 1) {
+				var distance = pointTolineDistance(point1, point3, p)
+				var add = pointSplid(point1, point2, distance)
+				point1 = Qt.point(point1.x + add[0], point1.y + add[1])
+				add = pointSplid(point3, point4, distance)
+				point3 = Qt.point(point3.x + add[0], point3.y + add[1])
+				points = [point1, point2, point3, point4]
+				return points
+			} else {
+				var distance = pointTolineDistance(point1, point3, p)
+				var add = pointSplid(point1, point2, distance)
+				point1 = Qt.point(point1.x - add[0], point1.y - add[1])
+				add = pointSplid(point3, point4, distance)
+				point3 = Qt.point(point3.x - add[0], point3.y - add[1])
+				points = [point1, point2, point3, point4]
+				return points
+			}
 		}
+	}
+
+}
+function point6Resize2(point1, point2, point3, point4, p) {
+	var points = [point1, point2, point3, point4]
+	if (p.x >= (point2.x + point4.x) / 2 || p.y <= (point2.y + point4.y) / 2) {
+		return points
 	} else {
 		if (pointLineDir(point1, point3, p) == 1) {
 			var distance = pointTolineDistance(point1, point3, p)
@@ -1380,28 +1474,12 @@ function point6Resize1(point1, point2, point3, point4, p) {
 			return points
 		}
 	}
-
-}
-function point6Resize2(point1, point2, point3, point4, p) {
-	if (pointLineDir(point1, point3, p) == 1) {
-			var distance = pointTolineDistance(point1, point3, p)
-			var add = pointSplid(point1, point2, distance)
-			point1 = Qt.point(point1.x + add[0], point1.y + add[1])
-			add = pointSplid(point3, point4, distance)
-			point3 = Qt.point(point3.x + add[0], point3.y + add[1])
-			points = [point1, point2, point3, point4]
-			return points
-		} else {
-			var distance = pointTolineDistance(point1, point3, p)
-			var add = pointSplid(point1, point2, distance)
-			point1 = Qt.point(point1.x - add[0], point1.y - add[1])
-			add = pointSplid(point3, point4, distance)
-			point3 = Qt.point(point3.x - add[0], point3.y - add[1])
-			points = [point1, point2, point3, point4]
-			return points
-		}
 }
 function point6Resize3(point1, point2, point3, point4, p) {
+	var points = [point1, point2, point3, point4]
+	if (p.x <= (point2.x + point4.x) / 2 || p.y >= (point2.y + point4.y) / 2) {
+		return points
+	} else {
 	if (pointLineDir(point1, point3, p) == -1) {
 			var distance = pointTolineDistance(point1, point3, p)
 			var add = pointSplid(point1, point2, distance)
@@ -1419,9 +1497,14 @@ function point6Resize3(point1, point2, point3, point4, p) {
 			points = [point1, point2, point3, point4]
 			return points
 		}
+	}
 }
 /* check ?*/
 function point6Resize4(point1, point2, point3, point4, p) {
+	var points = [point1, point2, point3, point4]
+	if (p.x <= (point2.x + point4.x) / 2 || p.y <= (point2.y + point4.y) / 2) {
+		return points
+	} else {
 	if (pointLineDir(point1, point3, p) == -1) {
 			var distance = pointTolineDistance(point1, point3, p)
 			var add = pointSplid(point1, point2, distance)
@@ -1439,27 +1522,108 @@ function point6Resize4(point1, point2, point3, point4, p) {
 			points = [point1, point2, point3, point4]
 			return points
 		}
+	}
 }
 /* point7 in the first position */
 function point7Resize1(point1, point2, point3, point4, p) {
-	if (point1.x == point2.x) {
-		if (pointLineDir(point3, point4, p) == 1) {
+	var points = [point1, point2, point3, point4]
+	if (p.x < (point1.x + point2.x) / 2 || p.y > (point1.y + point2.y) / 2) {
+		return points
+	} else {
+		if (point1.x == point2.x) {
+			if (pointLineDir(point3, point4, p) == 1) {
+				var distance = pointTolineDistance(point3, point4, p)
+				var add = pointSplid(point1, point3, distance)
+				point3 = Qt.point(point3.x + add[0], point3.y - add[1])
+				add = pointSplid(point2, point4, distance)
+				point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+				points = [point1, point2, point3, point4]
+				return points
+			} else {
+				var distance = pointTolineDistance(point3, point4, p)
+				var add = pointSplid(point1, point3, distance)
+				point3 = Qt.point(point3.x - add[0], point3.y + add[1])
+				add = pointSplid(point2, point4, distance)
+				point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+				points = [point1, point2, point3, point4]
+				return points
+			}
+		} else {
+			if (pointLineDir(point3, point4, p) == -1) {
+				var distance = pointTolineDistance(point3, point4, p)
+				var add = pointSplid(point1, point3, distance)
+				point3 = Qt.point(point3.x + add[0], point3.y - add[1])
+				add = pointSplid(point2, point4, distance)
+				point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+				points = [point1, point2, point3, point4]
+				return points
+			} else {
+				var distance = pointTolineDistance(point3, point4, p)
+				var add = pointSplid(point1, point3, distance)
+				point3 = Qt.point(point3.x - add[0], point3.y + add[1])
+				add = pointSplid(point2, point4, distance)
+				point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+				points = [point1, point2, point3, point4]
+				return points
+			}
+		}
+	}
+}
+/* point7 in the second position */
+function point7Resize2(point1, point2, point3, point4, p) {
+	var points = [point1, point2, point3, point4]
+	if (p.x >= (point1.x + point2.x) / 2 || p.y >= (point1.y + point2.y) / 2) {
+		return points
+	} else {
+		if (pointLineDir(point3, point4, p) == -1) {
 			var distance = pointTolineDistance(point3, point4, p)
 			var add = pointSplid(point1, point3, distance)
-			point3 = Qt.point(point3.x + add[0], point3.y - add[1])
+			point3 = Qt.point(point3.x - add[0], point3.y - add[1])
 			add = pointSplid(point2, point4, distance)
-			point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+			point4 = Qt.point(point4.x - add[0], point4.y - add[1])
 			points = [point1, point2, point3, point4]
 			return points
 		} else {
 			var distance = pointTolineDistance(point3, point4, p)
 			var add = pointSplid(point1, point3, distance)
-			point3 = Qt.point(point3.x - add[0], point3.y + add[1])
+			point3 = Qt.point(point3.x + add[0], point3.y + add[1])
 			add = pointSplid(point2, point4, distance)
-			point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+			point4 = Qt.point(point4.x + add[0], point4.y + add[1])
 			points = [point1, point2, point3, point4]
 			return points
 		}
+	}
+}
+/* point7 in the third position */
+function point7Resize3(point1, point2, point3, point4, p) {
+	var points = [point1, point2, point3, point4]
+	if (p.x <= (point1.x + point2.x) / 2 || p.y <= (point1.y + point2.y) / 2) {
+		return points
+	} else {
+		if (pointLineDir(point3, point4, p) == 1) {
+			var distance = pointTolineDistance(point3, point4, p)
+			var add = pointSplid(point1, point3, distance)
+			point3 = Qt.point(point3.x + add[0], point3.y + add[1])
+			add = pointSplid(point2, point4, distance)
+			point4 = Qt.point(point4.x + add[0], point4.y + add[1])
+			points = [point1, point2, point3, point4]
+			return points
+		} else {
+			var distance = pointTolineDistance(point3, point4, p)
+			var add = pointSplid(point1, point3, distance)
+			point3 = Qt.point(point3.x - add[0], point3.y - add[1])
+			add = pointSplid(point2, point4, distance)
+			point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+			points = [point1, point2, point3, point4]
+			return points
+		}
+	}
+}
+/* point7 in the fourth position */
+function point7Resize4(point1, point2, point3, point4, p) {
+	var points = [point1, point2, point3, point4]
+	if (p.x >= (point1.x + point2.x) / 2 || p.y <= (point1.y + point2.y) / 2) {
+		return points
 	} else {
 		if (pointLineDir(point3, point4, p) == -1) {
 			var distance = pointTolineDistance(point3, point4, p)
@@ -1480,144 +1644,123 @@ function point7Resize1(point1, point2, point3, point4, p) {
 		}
 	}
 }
-/* point7 in the second position */
-function point7Resize2(point1, point2, point3, point4, p) {
-	if (pointLineDir(point3, point4, p) == -1) {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x - add[0], point3.y - add[1])
-		add = pointSplid(point2, point4, distance)
-		point4 = Qt.point(point4.x - add[0], point4.y - add[1])
-		points = [point1, point2, point3, point4]
-		return points
-	} else {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x + add[0], point3.y + add[1])
-		add = pointSplid(point2, point4, distance)
-		point4 = Qt.point(point4.x + add[0], point4.y + add[1])
-		points = [point1, point2, point3, point4]
-		return points
-	}
-}
-/* point7 in the third position */
-function point7Resize3(point1, point2, point3, point4, p) {
-	if (pointLineDir(point3, point4, p) == 1) {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x + add[0], point3.y + add[1])
-		add = pointSplid(point2, point4, distance)
-		point4 = Qt.point(point4.x + add[0], point4.y + add[1])
-		points = [point1, point2, point3, point4]
-		return points
-	} else {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x - add[0], point3.y - add[1])
-		add = pointSplid(point2, point4, distance)
-		point4 = Qt.point(point4.x - add[0], point4.y - add[1])
-		points = [point1, point2, point3, point4]
-		return points
-	}
-}
-/* point7 in the fourth position */
-function point7Resize4(point1, point2, point3, point4, p) {
-	if (pointLineDir(point3, point4, p) == -1) {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x + add[0], point3.y - add[1])
-		add = pointSplid(point2, point4, distance)
-		point4 = Qt.point(point4.x + add[0], point4.y - add[1])
-		points = [point1, point2, point3, point4]
-		return points
-	} else {
-		var distance = pointTolineDistance(point3, point4, p)
-		var add = pointSplid(point1, point3, distance)
-		point3 = Qt.point(point3.x - add[0], point3.y + add[1])
-		add = pointSplid(point2, point4, distance)
-		point4 = Qt.point(point4.x - add[0], point4.y + add[1])
-		points = [point1, point2, point3, point4]
-		return points
-	}
-}
 /* point8 in the first position */
 function point8Resize1(point1, point2, point3, point4, p) {
-	if (pointLineDir(point2, point4, p) == 1) {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2, distance)
-		point2 = Qt.point(point2.x + add[0], point2.y + add[1])
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x + add[0], point4.y + add[1])
-		points = [point1, point2, point3, point4]
+	var points = [point1, point2, point3, point4]
+	if (p.y <= (point1.y + point3.y) / 2) {
 		return points
 	} else {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2, distance)
-		point2 = Qt.point(point2.x - add[0], point2.y - add[1])
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x - add[0], point4.y - add[1])
-		points = [point1, point2, point3, point4]
-		return points
+		if (point1.x == point2.x) {
+			if (pointLineDir(point2, point4, p) == 1) {
+				var distance = pointTolineDistance(point2, point4, p)
+				var add = pointSplid(point1, point2, distance)
+				point2 = Qt.point(point2.x + add[0], point2.y + add[1])
+				add = pointSplid(point3, point4, distance)
+				point4 = Qt.point(point4.x + add[0], point4.y + add[1])
+				points = [point1, point2, point3, point4]
+				return points
+			} else {
+				var distance = pointTolineDistance(point2, point4, p)
+				var add = pointSplid(point1, point2, distance)
+				point2 = Qt.point(point2.x - add[0], point2.y - add[1])
+				add = pointSplid(point3, point4, distance)
+				point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+				points = [point1, point2, point3, point4]
+				return points
+			}
+		} else {
+			if (pointLineDir(point2, point4, p) == 1) {
+				var distance = pointTolineDistance(point2, point4, p)
+				var add = pointSplid(point1, point2, distance)
+				point2 = Qt.point(point2.x + add[0], point2.y + add[1])
+				add = pointSplid(point3, point4, distance)
+				point4 = Qt.point(point4.x + add[0], point4.y + add[1])
+				points = [point1, point2, point3, point4]
+				return points
+			} else {
+				var distance = pointTolineDistance(point2, point4, p)
+				var add = pointSplid(point1, point2, distance)
+				point2 = Qt.point(point2.x - add[0], point2.y - add[1])
+				add = pointSplid(point3, point4, distance)
+				point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+				points = [point1, point2, point3, point4]
+				return points
+			}
+		}
 	}
 }
 /* point8 in the second position */
 function point8Resize2(point1, point2, point3, point4, p) {
-	if (pointLineDir(point2, point4, p) == -1) {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2, distance)
-		point2 = Qt.point(point2.x + add[0], point2.y - add[1])
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x + add[0], point4.y - add[1])
-		points = [point1, point2, point3, point4]
+	var points = [point1, point2, point3, point4]
+	if (p.x <= (point1.x + point3.x) / 2 || p.y >= (point1.y + point3.y) / 2) {
 		return points
 	} else {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2, distance)
-		point2 = Qt.point(point2.x - add[0], point2.y + add[1])
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x - add[0], point4.y + add[1])
-		points = [point1, point2, point3, point4]
-		return points
+		if (pointLineDir(point2, point4, p) == -1) {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2, distance)
+			point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+			points = [point1, point2, point3, point4]
+			return points
+		} else {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2, distance)
+			point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+			points = [point1, point2, point3, point4]
+			return points
+		}
 	}
 }
 /* point8 in the third position */
 function point8Resize3(point1, point2, point3, point4, p) {
-	if (pointLineDir(point2, point4, p) == -1) {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2, distance)
-		point2 = Qt.point(point2.x + add[0], point2.y - add[1])
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x + add[0], point4.y - add[1])
-		points = [point1, point2, point3, point4]
+	var points = [point1, point2, point3, point4]
+	if (p.x >= (point1.x + point3.x) / 2 || p.y <= (point1.y + point3.y) / 2) {
 		return points
 	} else {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2, distance)
-		point2 = Qt.point(point2.x - add[0], point2.y + add[1])
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x - add[0], point4.y + add[1])
-		points = [point1, point2, point3, point4]
-		return points
+		if (pointLineDir(point2, point4, p) == -1) {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2, distance)
+			point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+			points = [point1, point2, point3, point4]
+			return points
+		} else {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2, distance)
+			point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+			points = [point1, point2, point3, point4]
+			return points
+		}
 	}
 }
 /* point8 in the fourth position */
 function point8Resize4(point1, point2, point3, point4, p) {
-	if (pointLineDir(point2, point4, p) == -1) {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2, distance)
-		point2 = Qt.point(point2.x - add[0], point2.y - add[1])
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x - add[0], point4.y - add[1])
-		points = [point1, point2, point3, point4]
+	if (p.x >= (point1.x + point3.x) / 2 || p.y >= (point1.y + point3.y) / 2) {
 		return points
 	} else {
-		var distance = pointTolineDistance(point2, point4, p)
-		var add = pointSplid(point1, point2, distance)
-		point2 = Qt.point(point2.x + add[0], point2.y + add[1])
-		add = pointSplid(point3, point4, distance)
-		point4 = Qt.point(point4.x + add[0], point4.y + add[1])
-		points = [point1, point2, point3, point4]
-		return points
+		if (pointLineDir(point2, point4, p) == -1) {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2, distance)
+			point2 = Qt.point(point2.x - add[0], point2.y - add[1])
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+			points = [point1, point2, point3, point4]
+			return points
+		} else {
+			var distance = pointTolineDistance(point2, point4, p)
+			var add = pointSplid(point1, point2, distance)
+			point2 = Qt.point(point2.x + add[0], point2.y + add[1])
+			add = pointSplid(point3, point4, distance)
+			point4 = Qt.point(point4.x + add[0], point4.y + add[1])
+			points = [point1, point2, point3, point4]
+			return points
+		}
 	}
 }
 /* Top / Bottom / Left / Right */
@@ -1724,7 +1867,7 @@ function  pointDir(point1, point2, point3, point4) {
 	point1.x - point3.x >= 0 && point1.y - point3.y >= 0) {
 		return 4
 	}
- }
+}
 
 /* the angle in point3 */
 function calcutateAngle(point1, point2, point3) {
@@ -1734,6 +1877,26 @@ function calcutateAngle(point1, point2, point3) {
 	var c = square(point1.x - point2.x) + square(point1.y - point2.y)
 
 	var angle = Math.acos((a + b - c) / (2*Math.sqrt(a)*Math.sqrt(b)))
+	if (point1.x <= point3.x && point1.y < point3.y) {
+		if (point2.x < point1.x || point2.y > point1.y) {
+			angle = - angle
+		}
+	}
+	if (point1.x < point3.x && point1.y >= point3.y) {
+		if (point2.x > point1.x || point2.y > point1.y) {
+			angle = - angle
+		}
+	}
+	if (point1.x >= point3.x && point1.y > point3.y) {
+		if (point2.x > point1.x || point2.y < point1.y) {
+			angle = - angle
+		}
+	}
+	if (point1.x > point3.x && point1.y <= point3.y) {
+		if (point2.x < point1.x || point2.y < point1.y) {
+			angle = - angle
+		}
+	}
 	return angle
 }
 /* point2 is the rotatePoint, point1 is the centerPoint, point3 is point2 who rotate */

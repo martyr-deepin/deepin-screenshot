@@ -5,23 +5,26 @@ Item {
 	property bool selected: false
 	property bool reSized: false
 	property bool rotated: false
+	property bool firstDraw: false
 	property point clickedPoint
 
 	property var points: []
  	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 
-	property int bigPointRadius: 6
-	property int smallPointRadius: 4
+	property var bigPointRadius: 3
+	property var smallPointRadius: 2
 	property int clickedKey: 0
+	property int linewidth: 3
+	property color drawColor: "red"
 
-	property bool firstDraw: false
 
 	function draw(ctx) {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
 
-		ctx.lineWidth = 5
+		ctx.lineWidth = linewidth
+		ctx.strokeStyle = drawColor
 	    ctx.save()
 	    ctx.beginPath()
 		ctx.moveTo(startPoint.x, startPoint.y)
@@ -42,7 +45,8 @@ Item {
 	    	var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
 	    	var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
 
-	    	ctx.fillStyle = "red"
+	    	ctx.fillStyle =  drawColor
+	    	ctx.strokeStyle = drawColor
 	    	ctx.beginPath()
 
 	    	ctx.moveTo(endPoint.x, endPoint.y)
@@ -68,7 +72,8 @@ Item {
 	    	var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
 	    	var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
 
-	    	ctx.fillStyle = "red"
+	    	ctx.fillStyle =  drawColor
+	    	ctx.strokeStyle = drawColor
 	    	ctx.beginPath()
 
 	    	ctx.moveTo(endPoint.x, endPoint.y)
@@ -92,7 +97,8 @@ Item {
 	    	var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
 	    	var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
 
-	    	ctx.fillStyle = "red"
+	    	ctx.fillStyle =  drawColor
+	    	ctx.strokeStyle = drawColor
 	    	ctx.beginPath()
 
 	    	ctx.moveTo(endPoint.x, endPoint.y)
@@ -117,7 +123,8 @@ Item {
 	    	var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
 	    	var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
 
-	    	ctx.fillStyle = "red"
+	    	ctx.fillStyle =  drawColor
+	    	ctx.strokeStyle = drawColor
 	    	ctx.beginPath()
 
 	    	ctx.moveTo(endPoint.x, endPoint.y)
@@ -131,18 +138,19 @@ Item {
 	    }
 
 	    if (selected||reSized||rotated) {
-	    	ctx.strokeStyle = "#00A0E9"
+	    	ctx.lineWidth = 1
+	    	ctx.strokeStyle = "white"
 	    	ctx.fillStyle = "white"
 
 	    	/* Top left */
 	    	ctx.beginPath()
-	    	ctx.arc(startPoint.x, startPoint.y, smallPointRadius, 0, Math.PI * 2, false)
+	    	ctx.arc(startPoint.x, startPoint.y, smallPointRadius + linewidth/2, 0, Math.PI * 2, false)
 	    	ctx.closePath()
 	    	ctx.fill()
 	    	ctx.stroke()
 	    	/* Top right */
 	    	ctx.beginPath()
-	    	ctx.arc(endPoint.x, endPoint.y, smallPointRadius, 0, Math.PI * 2, false)
+	    	ctx.arc(endPoint.x, endPoint.y, smallPointRadius + linewidth/2, 0, Math.PI * 2, false)
 	    	ctx.closePath()
 	    	ctx.fill()
 	    	ctx.stroke()

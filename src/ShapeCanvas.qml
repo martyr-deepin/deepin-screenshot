@@ -6,9 +6,11 @@ Canvas {
     height: parent.height
 
     property bool recording: false
-    property string shapeName: ""
+    property string shapeName: "rect"
     property var shapes: []
     property var currenRecordingShape
+    property var linewidth: 3
+    property color paintColor: "red"
 
     onPaint: {
         var ctx = canvas.getContext("2d")
@@ -67,10 +69,10 @@ Canvas {
         id: rect_component
         RectangleCanvas {}
     }
-    Component {
-        id: mosaic_component
-        MosaicCanvas {}
-    }
+    // Component {
+    //     id: mosaic_component
+    //     MosaicCanvas {}
+    // }
     Component {
         id: ellipse_component
         EllipseCanvas {}
@@ -78,10 +80,6 @@ Canvas {
     Component {
         id: arrow_component
         ArrowCanvas {}
-    }
-    Rectangle {
-        anchors.fill: parent
-        color: Qt.rgba(0,1,1,0.2)
     }
     MouseArea {
         id: canvasArea
@@ -93,16 +91,18 @@ Canvas {
                     canvas.recording = true
                     if (canvas.shapeName == "rect") {
                         canvas.currenRecordingShape = rect_component.createObject(canvas, {})
+
                     }
                     if (canvas.shapeName == "ellipse") {
                         canvas.currenRecordingShape = ellipse_component.createObject(canvas, {})
+
                     }
                     if (canvas.shapeName == "arrow") {
                         canvas.currenRecordingShape = arrow_component.createObject(canvas, {})
                     }
-                    if (canvas.shapeName == "mosaic") {
-                        canvas.currenRecordingShape = mosaic_component.createObject(canvas, {})
-                    }
+
+                    canvas.currenRecordingShape.linewidth = canvas.linewidth
+                    canvas.currenRecordingShape.drawColor = canvas.paintColor
                     canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
                     canvas.shapes.push(canvas.currenRecordingShape)
             }

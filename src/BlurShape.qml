@@ -72,7 +72,7 @@ Item {
 					blurShape.startPoint.y = blurShape.startPoint.y - rect.y
 					blurShape.endPoint.x = blurShape.endPoint.x - rect.x
 					blurShape.endPoint.y = blurShape.endPoint.y- rect.y
-					requestPaint()
+					//requestPaint()
 				}
 
 				onPaint: {
@@ -117,31 +117,31 @@ Item {
 					anchors.fill: parent
 
 					onPressed: {
-						if (firstPressed) return
+						if (blurShape.firstReleased) return
 
 						blurShape.startPoint = Qt.point(mouse.x,mouse.y)
-						blurShape.endPoint = blurShape.startPoint
-						firstPressed = true
+						blurShape.firstPressed = true
 					}
 
 					onReleased: {
-						if (firstReleased) return
+						if (blurShape.firstReleased) return
 						blurShape.endPoint = Qt.point(mouse.x,mouse.y)
-						firstReleased = true
+						blurShape.firstReleased = true
 						blurCanvas.requestPaint()
 						blurCanvas.remap()
-
-						var blur = Qt.createQmlObject('import QtQuick 2.1; BlurShape { blurStyle: blurShape.blurStyle }', blurShape.parent, "blurrect")
 					}
 
 					onPositionChanged: {
-			   			if (firstReleased) return
-
-			   			if (blurStyle == "line") {
-							points.push(Qt.point(mouse.x,mouse.y))
-						}
+			   			if (blurShape.firstReleased) return
+			   			else {
+			   				if (blurStyle == "line") {
+								points.push(Qt.point(mouse.x,mouse.y))
+							}
 							blurShape.endPoint = Qt.point(mouse.x,mouse.y)
 							blurCanvas.requestPaint()
+			   			}
+
+
 					}
 
 					drag.target:  blurShape.firstReleased ? blurCanvas : null

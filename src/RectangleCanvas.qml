@@ -6,15 +6,18 @@ Item {
 	property bool reSized: false
 	property bool rotated: false
 	property bool firstDraw: false
+	property bool mosaicX: false
 
 	property point clickedPoint
 	property var points: []
  	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 
-	property int bigPointRadius: 6
-	property int smallPointRadius: 4
+	property var bigPointRadius: 3
+	property var smallPointRadius: 2
 	property int clickedKey: 0
+	property int linewidth: 3
+	property color drawColor: "red"
 
 	function _getMainPoints() {
 
@@ -37,30 +40,35 @@ Item {
 		if (!firstDraw) {
 			mainPoints = _getMainPoints()
 		}
+		ctx.fillStyle = mosaicX ? "white" : "transparent"
 
-	    ctx.save()
+		ctx.lineWidth = linewidth
+		ctx.strokeStyle = drawColor
 	    ctx.beginPath()
 	    ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
 	    ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
 	    ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
 	    ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
 	    ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
-
 	    ctx.closePath()
+	    ctx.fill()
 	    ctx.stroke()
 	    if (selected||reSized||rotated) {
-	    	ctx.strokeStyle = "#00A0E9"
+	    	ctx.lineWidth = 1
+	    	ctx.strokeStyle = "black"
 	    	ctx.fillStyle = "yellow"
 
 	    	/* Rotate */
 	    	var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 
 	    	ctx.beginPath()
-	    	ctx.arc(rotatePoint.x, rotatePoint.y, smallPointRadius, 0, Math.PI * 2, false)
+	    	ctx.arc(rotatePoint.x, rotatePoint.y, bigPointRadius + linewidth/2, 0, Math.PI * 2, false)
 	    	ctx.closePath()
 	    	ctx.fill()
 	    	ctx.stroke()
 
+	    	ctx.lineWidth = linewidth
+	    	ctx.strokeStyle = "white"
 	    	ctx.fillStyle = "white"
 	    	/* Top left */
 	    	ctx.beginPath()
@@ -118,9 +126,7 @@ Item {
 	    	ctx.fill()
 	    	ctx.stroke()
 	    }
-
 	    ctx.restore()
-
 	}
 	function clickOnPoint(p) {
 		selected = false

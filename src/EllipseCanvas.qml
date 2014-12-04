@@ -12,9 +12,11 @@ Item {
 	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 
-	property int bigPointRadius: 6
-	property int smallPointRadius: 4
+	property int bigPointRadius: 3
+	property int smallPointRadius: 2
 	property int clickedKey: 0
+	property int linewidth: 3
+	property color drawColor: "red"
 
 	function _getMainPoints() {
 
@@ -39,17 +41,23 @@ Item {
 		}
 		minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 	    var points1 = CalcEngine.getEightControlPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-		ctx.beginPath();
+
+
+
+	    ctx.lineWidth = linewidth
+	    ctx.strokeStyle = "red"
+		ctx.beginPath()
 		ctx.moveTo(minorPoints[0].x, minorPoints[0].y);
 		ctx.bezierCurveTo(points1[0].x, points1[0].y, points1[1].x, points1[1].y, minorPoints[1].x, minorPoints[1].y);
 		ctx.bezierCurveTo(points1[4].x, points1[4].y, points1[5].x, points1[5].y , minorPoints[2].x, minorPoints[2].y );
 		ctx.bezierCurveTo(points1[6].x, points1[6].y, points1[7].x, points1[7].y, minorPoints[3].x, minorPoints[3].y);
 		ctx.bezierCurveTo(points1[3].x, points1[3].y, points1[2].x, points1[2].y, minorPoints[0].x, minorPoints[0].y);
-		ctx.closePath();
-		ctx.stroke();
+		ctx.closePath()
+		ctx.stroke()
 
 	    if (selected||reSized||rotated) {
-	    	ctx.strokeStyle = "#00A0E9"
+	    	ctx.lineWidth = 1
+	    	ctx.strokeStyle = "black"
 	    	ctx.fillStyle = "yellow"
 
 	    	/* Rotate */
@@ -57,11 +65,13 @@ Item {
 	    	var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 
 	    	ctx.beginPath()
-	    	ctx.arc(rotatePoint.x, rotatePoint.y, smallPointRadius, 0, Math.PI * 2, false)
+	    	ctx.arc(rotatePoint.x, rotatePoint.y, bigPointRadius + linewidth/2, 0, Math.PI * 2, false)
 	    	ctx.closePath()
 	    	ctx.fill()
 	    	ctx.stroke()
 
+	    	ctx.lineWidth = linewidth
+	    	ctx.strokeStyle = "white"
 	    	ctx.fillStyle = "white"
 	    	/* Top left */
 	    	ctx.beginPath()
@@ -117,7 +127,19 @@ Item {
 	    	ctx.closePath()
 	    	ctx.fill()
 	    	ctx.stroke()
+
+	    	ctx.lineWidth = 0.5
+	    	ctx.strokeStyle = "white"
+	    	ctx.beginPath()
+	    	ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
+	    	ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
+	    	ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
+	    	ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
+	    	ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
+	    	ctx.closePath()
+	    	ctx.stroke()
 	    }
+
 
 	    ctx.restore()
 
