@@ -342,7 +342,6 @@ function point1Resize1(point1, point2, point3, point4, p) {
 			if (pointLineDir(point1, point3, p) == -1 && pointLineDir(point1, point2, p) == -1) {
 
 				var distance = pointTolineDistance(point1, point2, p)
-				print("distance:", distance)
 				var add = pointSplid(point2, point4,distance)
 				point2 = Qt.point(point2.x - add[0], point2.y + add[1])
 				distance = pointTolineDistance(point1, point3, p)

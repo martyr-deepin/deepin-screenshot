@@ -1,218 +1,269 @@
 import QtQuick 2.1
-import QtGraphicalEffects 1.0
+import "calculateRect.js" as CalcEngine
 
 Item {
-	id:mosaicShape
-	anchors.fill: blurItem
-	property string mosaicStyle: "rect"
-	Item {
-		id: background
-		anchors.fill: parent
-		visible: false
-		Canvas {
-			id: canvas
-			anchors.fill: parent
-			property url imageUrl: "/tmp/deepin-screenshot.png"
+	property bool selected: false
+	property bool reSized: false
+	property bool rotated: false
+	property bool firstDraw: false
+	property bool mosaicX: false
 
-			Component.onCompleted: loadImage(imageUrl)
-			onImageLoaded: requestPaint()
+	property point clickedPoint
+	property var points: []
+ 	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
+	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 
-			onPaint: {
-				if (!isImageLoaded(imageUrl)) return
+	property var bigPointRadius: 3
+	property var smallPointRadius: 2
+	property int clickedKey: 0
+	property int linewidth: 3
+	property color drawColor: "red"
 
-				var ctx = canvas.getContext("2d")
-				var imageData = ctx.createImageData("/tmp/deepin-screenshot.png")
+	function _getMainPoints() {
+
+		var startPoint = points[0]
+		var endPoint = points[points.length - 1]
+		var leftX = Math.min(startPoint.x, endPoint.x)
+		var leftY = Math.min(startPoint.y, endPoint.y)
+		var pWidth = Math.abs(startPoint.x - endPoint.x)
+		var pHeight = Math.abs(startPoint.y - endPoint.y)
+		mainPoints[0] = Qt.point(leftX, leftY)
+		mainPoints[1] = Qt.point(leftX + pWidth, leftY)
+		mainPoints[2] = Qt.point(leftX, pHeight + leftY)
+		mainPoints[3] = Qt.point(leftX + pWidth, leftY + pHeight)
+
+		var tmpPoints = CalcEngine.fourPoint_dir(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+		return tmpPoints
+	}
+
+	function draw(ctx) {
+		if (!firstDraw) {
+			mainPoints = _getMainPoints()
+		}
+		ctx.lineWidth = linewidth
+		ctx.strokeStyle = drawColor
+		ctx.save()
+	    ctx.beginPath()
+	    ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
+	    ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
+	    ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
+	    ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
+	    ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
+	    ctx.closePath()
+	    ctx.clip()
+
+	    var imageData = ctx.createImageData("/tmp/deepin-screenshot.png")
 				var mosaic = { x:5, y:5 }
-				var image = { width: parent.width, height: parent.height }
+				var image = { width: Math.abs(mainPoints[0].x - mainPoints[3].x), height: Math.abs(mainPoints[0].y - mainPoints[3].y)}
 				var pixelArray = imageData.data
 
-				/* pixel assignment */
-				for(var i = 0; i < image.height; i+= mosaic.y) {
-					for(var j = 0; j < image.width; j+= mosaic.x) {
-						var num = Math.random()
-						var randomPixel = { x: Math.floor(num*mosaic.x+i), y: Math.floor(num*mosaic.y+j) }
-
-						for(var k = j; k < j + mosaic.x; k++) {
-							for( var l=i; l < i+mosaic.y; l++) {
-								pixelArray[( l*image.width + k)*4] = pixelArray[( randomPixel.x*image.width + randomPixel.y)*4]
-								pixelArray[( l*image.width + k)*4 + 1] = pixelArray[( randomPixel.x*image.width + randomPixel.y)*4 + 1]
-								pixelArray[( l*image.width + k)*4 + 2] = pixelArray[( randomPixel.x*image.width + randomPixel.y)*4 + 2]
-								pixelArray[( l*image.width + k)*4 + 3] = pixelArray[( randomPixel.x*image.width + randomPixel.y)*4 + 3]
-							}
-						}
-					}
-				}
-				ctx.putImageData(imageData, 0, 0)
 				/* fill the mosaic rectangle */
-				for(var i = 0; i < image.height; i+= mosaic.y) {
-					for(var j = 0;j < image.width; j+=mosaic.x) {
+				ctx.putImageData(imageData, 0, 0)
+				for(var i = parent.x; i < parent.width; i+= mosaic.x) {
+					for(var j = parent.y;j < parent.height; j+=mosaic.y) {
 						var num = Math.random();
 						var randomPixel = {x: Math.floor(num*mosaic.x+i), y: Math.floor(num*mosaic.y+j)}
 
 						ctx.fillStyle = "rgba(" + pixelArray[( randomPixel.x*image.width + randomPixel.y )*4] + ","+
 						pixelArray[( randomPixel.x*image.width + randomPixel.y )*4 + 1] + "," + pixelArray[(randomPixel.x*image.width+randomPixel.y)*4 + 2]
 						+ "," + pixelArray[(randomPixel.x*image.width+randomPixel.y)*4 + 3] + ")"
-						ctx.fillRect( j, i, mosaic.x, mosaic.y)
+						ctx.fillRect( i, j, mosaic.x, mosaic.y)
 
 					}
 				}
-			}
+
+	    if (selected||reSized||rotated) {
+	    	ctx.lineWidth = 1
+	    	ctx.strokeStyle = "black"
+	    	ctx.fillStyle = "yellow"
+
+	    	/* Rotate */
+	    	var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+
+	    	ctx.beginPath()
+	    	ctx.arc(rotatePoint.x, rotatePoint.y, bigPointRadius + linewidth/2, 0, Math.PI * 2, false)
+	    	ctx.closePath()
+	    	ctx.fill()
+	    	ctx.stroke()
+	    	ctx.clip()
+
+	    	ctx.lineWidth = linewidth
+	    	ctx.strokeStyle = "white"
+	    	ctx.fillStyle = "white"
+	    	/* Top left */
+	    	ctx.beginPath()
+	    	ctx.arc(mainPoints[1].x, mainPoints[1].y, bigPointRadius, 0, Math.PI * 2, false)
+	    	ctx.closePath()
+	    	ctx.fill()
+	    	ctx.stroke()
+	    	/* Top right */
+	    	ctx.beginPath()
+	    	ctx.arc(mainPoints[3].x, mainPoints[3].y, bigPointRadius, 0, Math.PI * 2, false)
+	    	ctx.closePath()
+	    	ctx.fill()
+	    	ctx.stroke()
+
+	    	/* Bottom left */
+	    	ctx.beginPath()
+	    	ctx.arc(mainPoints[0].x, mainPoints[0].y, bigPointRadius, 0, Math.PI * 2, false)
+	    	ctx.closePath()
+	    	ctx.fill()
+	    	ctx.stroke()
+
+	    	/* Bottom right */
+	    	ctx.beginPath()
+	    	ctx.arc(mainPoints[2].x, mainPoints[2].y, bigPointRadius, 0, Math.PI * 2, false)
+	    	ctx.closePath()
+	    	ctx.fill()
+	    	ctx.stroke()
+
+	    	minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+	    	/* Top */
+	    	ctx.beginPath()
+	    	ctx.arc(minorPoints[0].x, minorPoints[0].y, smallPointRadius, 0, Math.PI * 2, false)
+	    	ctx.closePath()
+	    	ctx.fill()
+	    	ctx.stroke()
+
+	    	/* Bottom */
+	    	ctx.beginPath()
+	    	ctx.arc(minorPoints[1].x, minorPoints[1].y, smallPointRadius, 0, Math.PI * 2, false)
+	    	ctx.closePath()
+	    	ctx.fill()
+	    	ctx.stroke()
+
+	    	/* Left */
+	    	ctx.beginPath()
+	    	ctx.arc(minorPoints[2].x, minorPoints[2].y, smallPointRadius, 0, Math.PI * 2, false)
+	    	ctx.closePath()
+	    	ctx.fill()
+	    	ctx.stroke()
+
+	    	/* Right */
+	    	ctx.beginPath()
+	    	ctx.arc(minorPoints[3].x, minorPoints[3].y, smallPointRadius, 0, Math.PI * 2, false)
+	    	ctx.closePath()
+	    	ctx.fill()
+	    	ctx.stroke()
+	    }
+	    ctx.restore()
+	}
+	function clickOnPoint(p) {
+		selected = false
+		reSized = false
+		rotated = false
+		clickedPoint = Qt.point(0, 0)
+		if (CalcEngine.pointClickIn(mainPoints[0], p)) {
+			var result =  true
+			reSized = result
+			clickedKey = 1
+			clickedPoint = p
+			return result
+		}
+		if (CalcEngine.pointClickIn(mainPoints[1], p)) {
+			var result =  true
+			reSized = result
+			clickedKey = 2
+			clickedPoint = p
+			return result
+		}
+		if (CalcEngine.pointClickIn(mainPoints[2], p)) {
+			var result =  true
+			reSized = result
+			clickedKey = 3
+			clickedPoint = p
+			return result
+		}
+		if (CalcEngine.pointClickIn(mainPoints[3], p)) {
+			var result =  true
+			reSized = result
+			clickedKey = 4
+			clickedPoint = p
+			return result
+		}
+		if (CalcEngine.pointClickIn(minorPoints[0], p)) {
+			var result =  true
+			reSized = result
+			clickedKey = 5
+			clickedPoint = p
+			return result
+		}
+		if (CalcEngine.pointClickIn(minorPoints[1], p)) {
+			var result =  true
+			reSized = result
+			clickedKey = 6
+			clickedPoint = p
+			return result
+		}
+		if (CalcEngine.pointClickIn(minorPoints[2], p)) {
+			var result =  true
+			reSized = result
+			clickedKey = 7
+			clickedPoint = p
+			return result
+		}
+		if (CalcEngine.pointClickIn(minorPoints[3], p)) {
+			var result =  true
+			reSized = result
+			clickedKey = 8
+			clickedPoint = p
+			return result
+		}
+		if (rotateOnPoint(p)) {
+			var result = true
+			rotated = true
+			clickedPoint = p
+			return result
+		}
+		if (CalcEngine.pointOnLine(mainPoints[0], mainPoints[1], p) || CalcEngine.pointOnLine(mainPoints[1], mainPoints[3], p) ||
+		CalcEngine.pointOnLine(mainPoints[3], mainPoints[2], p) || CalcEngine.pointOnLine(mainPoints[2], mainPoints[0], p)) {
+			var result = true
+			selected = result
+			clickedPoint = p
+			return result
 		}
 	}
-	Item {
-		id: mask_source
-		anchors.fill: parent
-		clip: true
-		Canvas {
-			id: mosaicCanvas
-			width: parent.width
-			height: parent.height
-			   property bool recording: false
-    property string shapeName: "rect"
-    property var shapes: []
-    property var currenRecordingShape
 
-    onPaint: {
-        var ctx = mosaicCanvas.getContext("2d")
-        ctx.clearRect(x, y, width, height)
-        ctx.strokeStyle = "red"
-        for (var i = 0; i < shapes.length; i++) {
-            shapes[i].draw(ctx)
-        }
-    }
+	function handleDrag(p) {
+	    var delX = p.x - clickedPoint.x
+	    var delY = p.y - clickedPoint.y
+	    for (var i = 0; i < mainPoints.length; i++) {
+	    	mainPoints[i] = Qt.point(mainPoints[i].x + delX, mainPoints[i].y + delY)
+	    }
 
-    function clickOnPoint(p) {
-        for (var i = 0; i < shapes.length; i++) {
-            if (shapes[i].selected || shapes[i].reSized) {
-                shapes[i].rotateOnPoint(p)
-            }
-        }
-
-        for (var i = 0; i < shapes.length; i++) {
-            if (shapes[i].clickOnPoint(p)){
-                var selectedShape = i
-            }
-        }
-
-        if (selectedShape != null ) {
-            for (var i = 0; i < shapes.length && i != selectedShape; i++) {
-                shapes[i].selected = false
-                shapes[i].reSized = false
-            }
-            return true
-        } else {
-            for (var i = 0; i < shapes.length; i++) {
-                shapes[i].selected = false
-                shapes[i].reSized = false
-                shapes[i].rotated = false
-            }
-            return false
-        }
-    }
-    function resizeOnPoint(p) {
-        for (var i = 0; i < shapes.length; i++) {
-            if (shapes[i].resizeOnPoint(p)) {
-                return true
-            }
-        }
-        return false
-    }
-    function rotateOnPoint(p) {
-        for (var i = 0; i < shapes.length; i++) {
-            if (shapes[i].rotateOnPoint(p)) {
-                return true
-            }
-        }
-        return false
-    }
-    Component {
-        id: rect_component
-        RectangleCanvas {}
-    }
-    // Component {
-    //     id: mosaic_component
-    //     MosaicCanvas {}
-    // }
-    Component {
-        id: ellipse_component
-        EllipseCanvas {}
-    }
-    Component {
-        id: arrow_component
-        ArrowCanvas {}
-    }
-    // Rectangle {
-    //     anchors.fill: parent
-    //     color: Qt.rgba(0,1,1,0.2)
-    // }
-    MouseArea {
-        id: canvasArea
-        anchors.fill: parent
-
-        onPressed: {
-
-            if (!mosaicCanvas.clickOnPoint(Qt.point(mouse.x, mouse.y))) {
-                    mosaicCanvas.recording = true
-                    if (mosaicCanvas.shapeName == "rect") {
-                        mosaicCanvas.currenRecordingShape = rect_component.createObject(canvas, {})
-
-                    }
-                    if (mosaicCanvas.shapeName == "ellipse") {
-                        mosaicCanvas.currenRecordingShape = ellipse_component.createObject(canvas, {})
-                    }
-                    if (mosaicCanvas.shapeName == "arrow") {
-                        mosaicCanvas.currenRecordingShape = arrow_component.createObject(canvas, {})
-                    }
-                    // if (canvas.shapeName == "mosaic") {
-                    //     canvas.currenRecordingShape = mosaic_component.createObject(canvas, {})
-                    // }
-                    mosaicCanvas.currenRecordingShape.mosaicX = true
-                    mosaicCanvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
-                    mosaicCanvas.shapes.push(mosaicCanvas.currenRecordingShape)
-            }
-            mosaicCanvas.requestPaint()
-        }
-        onReleased: {
-            if (mosaicCanvas.recording) {
-                mosaicCanvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
-                mosaicCanvas.currenRecordingShape.firstDraw = true
-                mosaicCanvas.recording = false
-            }
-
-            mosaicCanvas.requestPaint()
-        }
-
-        onPositionChanged: {
-            if (mosaicCanvas.recording) {
-                mosaicCanvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
-            } else {
-                var selectedShape = null,reSizedShape = null,rotatedShape = null
-                for (var i = 0; i < mosaicCanvas.shapes.length; i++) {
-                    if (mosaicCanvas.shapes[i].reSized||drag.active)  reSizedShape = mosaicCanvas.shapes[i]
-                    if (mosaicCanvas.shapes[i].rotated||drag.active) rotatedShape = mosaicCanvas.shapes[i]
-                    if (mosaicCanvas.shapes[i].selected||drag.active)  selectedShape = mosaicCanvas.shapes[i]
-                }
-
-                if (selectedShape != null) {
-                    selectedShape.handleDrag(Qt.point(mouse.x, mouse.y))
-                }
-                if (reSizedShape != null) {
-                    reSizedShape.handleResize(Qt.point(mouse.x, mouse.y), reSizedShape.clickedKey)
-                }
-                if (rotatedShape != null) {
-                    rotatedShape.handleRotate(Qt.point(mouse.x, mouse.y))
-                }
-            }
-            mosaicCanvas.requestPaint()
-        }
-
-
-    }
-		}
+	    clickedPoint = p
 	}
-	OpacityMask {
-		source: background
-		maskSource: mask_source
-		anchors.fill: mask_source
+	function handleResize(p, key) {
+
+		if (reSized) {
+			var points = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key)
+			for (var i = 0; i < 4; i ++) { mainPoints[i] = points[i] }
+		}
+
+		clickedPoint = p
+	}
+
+
+
+	function rotateOnPoint(p) {
+		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+		if (p.x >= rotatePoint.x - 5 && p.x <= rotatePoint.x + 5 && p.y >= rotatePoint.y - 5 && p.y <= rotatePoint.y + 5) {
+			rotated = true
+		} else {
+			rotated = false
+		}
+		clickedPoint = rotatePoint
+		return rotated
+	}
+
+	function handleRotate(p) {
+		var centerInPoint = Qt.point((mainPoints[0].x + mainPoints[3].x) / 2, (mainPoints[0].y + mainPoints[3].y) / 2)
+		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+		var angle = CalcEngine.calcutateAngle(clickedPoint, p, centerInPoint)
+		for (var i = 0; i < 4; i++) {
+			mainPoints[i] = CalcEngine.pointRotate(centerInPoint, mainPoints[i], angle)
+		}
+
+		clickedPoint = p
 	}
 }

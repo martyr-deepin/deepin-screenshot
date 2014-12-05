@@ -405,8 +405,6 @@ Item {
 		property bool hasBlurCanvas: false
 
 		property var shape
-		property var mosaic
-		property var blur
 		property var linewidth: ""
 
 		property color stop1Color: Qt.rgba(0, 0, 0, 0.6)
@@ -514,7 +512,7 @@ Item {
 					toolbar.toggleToolbar("rect")
 
 					if (toolbar.bExtense) {
-						fillType.visible = true
+						blurType.visible = true
 						setlw.visible = true
 						colorChange.visible = false
 						fontRect.visible = false
@@ -524,14 +522,12 @@ Item {
 
 					if (!toolbar.hasShapeCanvas) {
 						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
-						toolbar.shape.shapeName = "rect"
 						toolbar.hasShapeCanvas = true
-					} else {
-						toolbar.shape.shapeName = "rect"
 					}
+					toolbar.shape.shapeName = "rect"
 					toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 					toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
-					fillType.imageName = "rect"
+
 				}
 			}
 
@@ -545,7 +541,7 @@ Item {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("ellipse")
 					if (toolbar.bExtense) {
-						fillType.visible = true
+						blurType.visible = true
 						setlw.visible = true
 						colorChange.visible= false
 						fontRect.visible = false
@@ -553,14 +549,12 @@ Item {
  					}
 					if (!toolbar.hasShapeCanvas) {
 						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
-						toolbar.shape.shapeName = "ellipse"
 						toolbar.hasShapeCanvas = true
-					} else {
-						toolbar.shape.shapeName = "ellipse"
 					}
+					toolbar.shape.shapeName = "ellipse"
 					toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 					toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
-					fillType.imageName = "ellipse"
+
 				}
 			}
 
@@ -573,7 +567,7 @@ Item {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("arrow")
 					if (toolbar.bExtense) {
-						fillType.visible = false
+						blurType.visible = false
 						setlw.visible = true
 						colorChange.visible = false
 						fontRect.visible = false
@@ -582,12 +576,9 @@ Item {
 
 					if (!toolbar.hasShapeCanvas) {
 						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
-						toolbar.shape.shapeName = "arrow"
 						toolbar.hasShapeCanvas = true
-					} else {
-						toolbar.shape.shapeName = "arrow"
 					}
-
+					toolbar.shape.shapeName = "ellipse"
 					toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 					toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
 				}
@@ -602,7 +593,7 @@ Item {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("line")
 					if (toolbar.bExtense) {
-						fillType.visible = false
+						blurType.visible = false
 						setlw.visible = true
 						colorChange.visible= false
 						fontRect.visible = false
@@ -911,35 +902,29 @@ Item {
 			}
 
 			FillShape {
-				id: fillType
+				id: blurType
 				imageName: "rect"
 				visible: true
 				onClicked: {
 					screenArea.enabled = false
 					if (!toolbar.hasBlurCanvas) {
-						toolbar.blur = Qt.createQmlObject('import QtQuick 2.1; BlurShape {}', blurItem, "shapeblur")
-						toolbar.blur.blurStyle = "rect"
-						toolbar.hasBlurCanvas = true
-					} else {
-						toolbar.blur.blurStyle = "rect"
+						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shapeblur")
+						toolbar.shape.shapeName = "blur"
 					}
+
 				}
 			}
 			FillShape {
 				id: masicType
 				visible: true
-				imageName: "mosaic"
+				imageName: "rectMosaic"
 				onClicked: {
 					screenArea.enabled = false
-
 					if (!toolbar.hasMosaicCanvas) {
-						toolbar.mosaic = Qt.createQmlObject('import QtQuick 2.1; MosaicCanvas {}', blurItem, "shapemosaic")
-						toolbar.mosaic.mosaicStyle = "rect"
+						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', blurItem, "shapemosaic")
 						toolbar.hasMosaicCanvas = true
-					} else {
-						toolbar.mosaic.mosaicStyle = "rect"
 					}
-
+					toolbar.shape.shapeName = "rect"//"toolbar.shape.shapeName"
 				}
 			}
 		}

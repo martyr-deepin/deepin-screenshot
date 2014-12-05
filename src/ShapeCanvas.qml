@@ -69,10 +69,6 @@ Canvas {
         id: rect_component
         RectangleCanvas {}
     }
-    // Component {
-    //     id: mosaic_component
-    //     MosaicCanvas {}
-    // }
     Component {
         id: ellipse_component
         EllipseCanvas {}
@@ -81,10 +77,18 @@ Canvas {
         id: arrow_component
         ArrowCanvas {}
     }
+    Component {
+        id: blur_component
+        BlurCanvas {}
+    }
+    Component {
+        id: mosaic_component
+        MosaicCanvas {}
+    }
     MouseArea {
         id: canvasArea
         anchors.fill: parent
-
+        propagateComposedEvents: true
         onPressed: {
 
             if (!canvas.clickOnPoint(Qt.point(mouse.x, mouse.y))) {
@@ -100,12 +104,19 @@ Canvas {
                     if (canvas.shapeName == "arrow") {
                         canvas.currenRecordingShape = arrow_component.createObject(canvas, {})
                     }
-
+                    if (canvas.shapeName == "blur") {
+                        print("blurblurblurblur")
+                        canvas.currenRecordingShape = blur_component.createObject(canvas, {})
+                    }
+                    if (canvas.shapeName == "mosaic") {
+                        canvas.currenRecordingShape = mosaic_component.createObject(canvas, {})
+                    }
                     canvas.currenRecordingShape.linewidth = canvas.linewidth
                     canvas.currenRecordingShape.drawColor = canvas.paintColor
                     canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
                     canvas.shapes.push(canvas.currenRecordingShape)
             }
+            print("*****")
             canvas.requestPaint()
         }
         onReleased: {
@@ -128,7 +139,7 @@ Canvas {
                     if (canvas.shapes[i].rotated||drag.active) rotatedShape = canvas.shapes[i]
                     if (canvas.shapes[i].selected||drag.active)  selectedShape = canvas.shapes[i]
                 }
-                print("reSizedShape", reSizedShape)
+
                 if (selectedShape != null) {
                     selectedShape.handleDrag(Qt.point(mouse.x, mouse.y))
                 }
@@ -141,8 +152,6 @@ Canvas {
             }
             canvas.requestPaint()
         }
-
-
     }
 
 

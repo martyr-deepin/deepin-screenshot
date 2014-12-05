@@ -51,7 +51,7 @@ Item {
 	    ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
 	    ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
 	    ctx.closePath()
-	    ctx.fill()
+	    //ctx.fill()
 	    ctx.stroke()
 	    if (selected||reSized||rotated) {
 	    	ctx.lineWidth = 1

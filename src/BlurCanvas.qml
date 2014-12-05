@@ -1,7 +1,9 @@
 import QtQuick 2.1
+import QtGraphicalEffects 1.0
 import "calculateRect.js" as CalcEngine
 
 Item {
+
 	property bool selected: false
 	property bool reSized: false
 	property bool rotated: false
@@ -10,14 +12,31 @@ Item {
 
 	property point clickedPoint
 	property var points: []
-	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
+ 	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 
-	property int bigPointRadius: 3
-	property int smallPointRadius: 2
+	property var bigPointRadius: 3
+	property var smallPointRadius: 2
 	property int clickedKey: 0
 	property int linewidth: 3
 	property color drawColor: "red"
+	// clip: true
+	Image {
+			id: image
+			source: "/tmp/deepin-screenshot.png"
+			visible: false
+			clip: true
+		}
+	Item {
+		anchors.fill: image
+		FastBlur {
+			id: blur
+			anchors.fill: parent
+			visible: false
+			radius: 32
+			source: image
+		}
+	}
 
 	function _getMainPoints() {
 
@@ -40,23 +59,18 @@ Item {
 		if (!firstDraw) {
 			mainPoints = _getMainPoints()
 		}
-		minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-	    var points1 = CalcEngine.getEightControlPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-
-
-
-	    ctx.lineWidth = linewidth
-	    ctx.strokeStyle = drawColor
-	    ctx.fillStyle = mosaicX ? "white" : "transparent"
-		ctx.beginPath()
-		ctx.moveTo(minorPoints[0].x, minorPoints[0].y);
-		ctx.bezierCurveTo(points1[0].x, points1[0].y, points1[1].x, points1[1].y, minorPoints[1].x, minorPoints[1].y);
-		ctx.bezierCurveTo(points1[4].x, points1[4].y, points1[5].x, points1[5].y , minorPoints[2].x, minorPoints[2].y );
-		ctx.bezierCurveTo(points1[6].x, points1[6].y, points1[7].x, points1[7].y, minorPoints[3].x, minorPoints[3].y);
-		ctx.bezierCurveTo(points1[3].x, points1[3].y, points1[2].x, points1[2].y, minorPoints[0].x, minorPoints[0].y);
-		ctx.closePath()
-		ctx.fill()
-		ctx.stroke()
+		ctx.lineWidth = linewidth
+		ctx.strokeStyle = drawColor
+		ctx.save()
+	    ctx.beginPath()
+	    ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
+	    ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
+	    ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
+	    ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
+	    ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
+	    ctx.closePath()
+	    ctx.stroke()
+	    // ctx.clip()
 
 	    if (selected||reSized||rotated) {
 	    	ctx.lineWidth = 1
@@ -64,7 +78,6 @@ Item {
 	    	ctx.fillStyle = "yellow"
 
 	    	/* Rotate */
-
 	    	var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 
 	    	ctx.beginPath()
@@ -72,6 +85,7 @@ Item {
 	    	ctx.closePath()
 	    	ctx.fill()
 	    	ctx.stroke()
+	    	// ctx.clip()
 
 	    	ctx.lineWidth = linewidth
 	    	ctx.strokeStyle = "white"
@@ -103,6 +117,7 @@ Item {
 	    	ctx.fill()
 	    	ctx.stroke()
 
+	    	minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 	    	/* Top */
 	    	ctx.beginPath()
 	    	ctx.arc(minorPoints[0].x, minorPoints[0].y, smallPointRadius, 0, Math.PI * 2, false)
@@ -130,22 +145,8 @@ Item {
 	    	ctx.closePath()
 	    	ctx.fill()
 	    	ctx.stroke()
-
-	    	ctx.lineWidth = 0.5
-	    	ctx.strokeStyle = "white"
-	    	ctx.beginPath()
-	    	ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
-	    	ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
-	    	ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
-	    	ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
-	    	ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
-	    	ctx.closePath()
-	    	ctx.stroke()
 	    }
-
-
 	    ctx.restore()
-
 	}
 	function clickOnPoint(p) {
 		selected = false
@@ -214,11 +215,10 @@ Item {
 			clickedPoint = p
 			return result
 		}
-
-		if (CalcEngine.pointOnEllipse(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p)) {
+		if (CalcEngine.pointOnLine(mainPoints[0], mainPoints[1], p) || CalcEngine.pointOnLine(mainPoints[1], mainPoints[3], p) ||
+		CalcEngine.pointOnLine(mainPoints[3], mainPoints[2], p) || CalcEngine.pointOnLine(mainPoints[2], mainPoints[0], p)) {
 			var result = true
 			selected = result
-
 			clickedPoint = p
 			return result
 		}
@@ -239,17 +239,17 @@ Item {
 			var points = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key)
 			for (var i = 0; i < 4; i ++) { mainPoints[i] = points[i] }
 		}
-		clickedPoint = p
 
+		clickedPoint = p
 	}
+
+
+
 	function rotateOnPoint(p) {
 		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-		if (p.x >= rotatePoint.x - 5 && p.x <= rotatePoint.x + 5 &&
-			p.y >= rotatePoint.y - 5 && p.y <= rotatePoint.y + 5) {
-
+		if (p.x >= rotatePoint.x - 5 && p.x <= rotatePoint.x + 5 && p.y >= rotatePoint.y - 5 && p.y <= rotatePoint.y + 5) {
 			rotated = true
 		} else {
-
 			rotated = false
 		}
 		clickedPoint = rotatePoint
