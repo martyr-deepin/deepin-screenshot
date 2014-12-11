@@ -289,7 +289,7 @@ Item {
 
 		property int bigPointRadius: 4
 		property int smallPointRadius: 3
-
+		property string system: system
 		x: selectArea.x - bigPointRadius
 		y: selectArea.y - bigPointRadius
 		width: selectArea.width + bigPointRadius * 2
@@ -366,6 +366,7 @@ Item {
 			ctx.fill()
 			ctx.stroke()
 			ctx.restore()
+			windowView.save_overload("system", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
 		}
 	}
 
@@ -525,6 +526,10 @@ Item {
 						toolbar.hasShapeCanvas = true
 					}
 					toolbar.shape.shapeName = "rect"
+					toolbar.shape.isBlur = false
+					toolbar.shape.isMosaic = false
+					toolbar.shape.processBlur = false
+					toolbar.shape.processMosaic = false
 					toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 					toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
 
@@ -552,6 +557,10 @@ Item {
 						toolbar.hasShapeCanvas = true
 					}
 					toolbar.shape.shapeName = "ellipse"
+					toolbar.shape.isBlur = false
+					toolbar.shape.isMosaic = false
+					toolbar.shape.processBlur = false
+					toolbar.shape.processMosaic = false
 					toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 					toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
 
@@ -903,28 +912,24 @@ Item {
 
 			FillShape {
 				id: blurType
-				imageName: "rect"
+				imageName: toolbar.shape.shapeName + "Blur"
 				visible: true
 				onClicked: {
 					screenArea.enabled = false
-					if (!toolbar.hasBlurCanvas) {
-						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shapeblur")
-						toolbar.shape.shapeName = "blur"
-					}
-
+					windowView.save_overload("blur", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
+					toolbar.shape.isBlur = true
+					toolbar.shape.processBlur = true
 				}
 			}
 			FillShape {
 				id: masicType
 				visible: true
-				imageName: "rectMosaic"
+				imageName: toolbar.shape.shapeName + "Mosaic"
 				onClicked: {
 					screenArea.enabled = false
-					if (!toolbar.hasMosaicCanvas) {
-						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', blurItem, "shapemosaic")
-						toolbar.hasMosaicCanvas = true
-					}
-					toolbar.shape.shapeName = "rect"//"toolbar.shape.shapeName"
+					windowView.save_overload("mosaic", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
+					toolbar.shape.isMosaic = true
+					toolbar.shape.processMosaic = true
 				}
 			}
 		}

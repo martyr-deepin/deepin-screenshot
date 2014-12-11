@@ -2,6 +2,7 @@ import QtQuick 2.1
 import "calculateRect.js" as CalcEngine
 
 Item {
+
 	property bool selected: false
 	property bool reSized: false
 	property bool rotated: false
@@ -10,11 +11,12 @@ Item {
 
 	property point clickedPoint
 	property var points: []
- 	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
+	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 
 	property var bigPointRadius: 3
 	property var smallPointRadius: 2
+
 	property int clickedKey: 0
 	property int linewidth: 3
 	property color drawColor: "red"
@@ -40,93 +42,108 @@ Item {
 		if (!firstDraw) {
 			mainPoints = _getMainPoints()
 		}
-		ctx.fillStyle = mosaicX ? "white" : "transparent"
-
 		ctx.lineWidth = linewidth
+		ctx.fillStyle = "transparent"
 		ctx.strokeStyle = drawColor
-	    ctx.beginPath()
-	    ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
-	    ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
-	    ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
-	    ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
-	    ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
-	    ctx.closePath()
-	    //ctx.fill()
-	    ctx.stroke()
-	    if (selected||reSized||rotated) {
-	    	ctx.lineWidth = 1
-	    	ctx.strokeStyle = "black"
-	    	ctx.fillStyle = "yellow"
+		ctx.save()
+		ctx.beginPath()
+		ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
+		ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
+		ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
+		ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
+		ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
+		ctx.closePath()
+		if (processBlur||processMosaic) {
+			ctx.fill()
+			ctx.stroke()
+			ctx.clip()
+			if (processBlur) {
+				ctx.putImageData(parent.blurImageData, 0, 0)
+			} else {
+				ctx.putImageData(parent.mosaicImageData, 0, 0)
+			}
+			ctx.restore()
+		} else {
+			ctx.stroke()
+		}
 
-	    	/* Rotate */
-	    	var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+		if (selected||reSized||rotated) {
+			ctx.lineWidth = 1
+			ctx.strokeStyle = "black"
+			ctx.fillStyle = "yellow"
+			/* Rotate */
+			var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 
-	    	ctx.beginPath()
-	    	ctx.arc(rotatePoint.x, rotatePoint.y, bigPointRadius + linewidth/2, 0, Math.PI * 2, false)
-	    	ctx.closePath()
-	    	ctx.fill()
-	    	ctx.stroke()
+			ctx.beginPath()
+			ctx.arc(rotatePoint.x, rotatePoint.y, bigPointRadius + linewidth/2, 0, Math.PI * 2, false)
+			ctx.closePath()
+			ctx.fill()
+			ctx.stroke()
 
-	    	ctx.lineWidth = linewidth
-	    	ctx.strokeStyle = "white"
-	    	ctx.fillStyle = "white"
-	    	/* Top left */
-	    	ctx.beginPath()
-	    	ctx.arc(mainPoints[1].x, mainPoints[1].y, bigPointRadius, 0, Math.PI * 2, false)
-	    	ctx.closePath()
-	    	ctx.fill()
-	    	ctx.stroke()
-	    	/* Top right */
-	    	ctx.beginPath()
-	    	ctx.arc(mainPoints[3].x, mainPoints[3].y, bigPointRadius, 0, Math.PI * 2, false)
-	    	ctx.closePath()
-	    	ctx.fill()
-	    	ctx.stroke()
+			ctx.lineWidth = linewidth
+			ctx.strokeStyle = "white"
+			ctx.fillStyle = "white"
+			/* Top left */
+			ctx.beginPath()
+			ctx.arc(mainPoints[1].x, mainPoints[1].y, bigPointRadius, 0, Math.PI * 2, false)
+			ctx.closePath()
+			ctx.fill()
+			ctx.stroke()
 
-	    	/* Bottom left */
-	    	ctx.beginPath()
-	    	ctx.arc(mainPoints[0].x, mainPoints[0].y, bigPointRadius, 0, Math.PI * 2, false)
-	    	ctx.closePath()
-	    	ctx.fill()
-	    	ctx.stroke()
+			/* Top right */
+			ctx.beginPath()
+			ctx.arc(mainPoints[3].x, mainPoints[3].y, bigPointRadius, 0, Math.PI * 2, false)
+			ctx.closePath()
+			ctx.fill()
+			ctx.stroke()
 
-	    	/* Bottom right */
-	    	ctx.beginPath()
-	    	ctx.arc(mainPoints[2].x, mainPoints[2].y, bigPointRadius, 0, Math.PI * 2, false)
-	    	ctx.closePath()
-	    	ctx.fill()
-	    	ctx.stroke()
+			/* Bottom left */
+			ctx.beginPath()
+			ctx.arc(mainPoints[0].x, mainPoints[0].y, bigPointRadius, 0, Math.PI * 2, false)
+			ctx.closePath()
+			ctx.fill()
+			ctx.stroke()
 
-	    	minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-	    	/* Top */
-	    	ctx.beginPath()
-	    	ctx.arc(minorPoints[0].x, minorPoints[0].y, smallPointRadius, 0, Math.PI * 2, false)
-	    	ctx.closePath()
-	    	ctx.fill()
-	    	ctx.stroke()
+			/* Bottom right */
+			ctx.beginPath()
+			ctx.arc(mainPoints[2].x, mainPoints[2].y, bigPointRadius, 0, Math.PI * 2, false)
+			ctx.closePath()
+			ctx.fill()
+			ctx.stroke()
 
-	    	/* Bottom */
-	    	ctx.beginPath()
-	    	ctx.arc(minorPoints[1].x, minorPoints[1].y, smallPointRadius, 0, Math.PI * 2, false)
-	    	ctx.closePath()
-	    	ctx.fill()
-	    	ctx.stroke()
+			minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+			/* Top */
+			ctx.beginPath()
+			ctx.arc(minorPoints[0].x, minorPoints[0].y, smallPointRadius, 0, Math.PI * 2, false)
+			ctx.closePath()
+			ctx.fill()
+			ctx.stroke()
 
-	    	/* Left */
-	    	ctx.beginPath()
-	    	ctx.arc(minorPoints[2].x, minorPoints[2].y, smallPointRadius, 0, Math.PI * 2, false)
-	    	ctx.closePath()
-	    	ctx.fill()
-	    	ctx.stroke()
+			/* Bottom */
+			ctx.beginPath()
+			ctx.arc(minorPoints[1].x, minorPoints[1].y, smallPointRadius, 0, Math.PI * 2, false)
+			ctx.closePath()
+			ctx.fill()
+			ctx.stroke()
 
-	    	/* Right */
-	    	ctx.beginPath()
-	    	ctx.arc(minorPoints[3].x, minorPoints[3].y, smallPointRadius, 0, Math.PI * 2, false)
-	    	ctx.closePath()
-	    	ctx.fill()
-	    	ctx.stroke()
-	    }
-	    ctx.restore()
+			/* Left */
+			ctx.beginPath()
+			ctx.arc(minorPoints[2].x, minorPoints[2].y, smallPointRadius, 0, Math.PI * 2, false)
+			ctx.closePath()
+			ctx.fill()
+			ctx.stroke()
+
+			/* Right */
+			ctx.beginPath()
+			ctx.arc(minorPoints[3].x, minorPoints[3].y, smallPointRadius, 0, Math.PI * 2, false)
+			ctx.closePath()
+			ctx.fill()
+			ctx.stroke()
+		}
+		if (!(processBlur||processMosaic)) {
+			ctx.restore()
+		}
+
 	}
 	function clickOnPoint(p) {
 		selected = false
@@ -205,13 +222,13 @@ Item {
 	}
 
 	function handleDrag(p) {
-	    var delX = p.x - clickedPoint.x
-	    var delY = p.y - clickedPoint.y
-	    for (var i = 0; i < mainPoints.length; i++) {
-	    	mainPoints[i] = Qt.point(mainPoints[i].x + delX, mainPoints[i].y + delY)
-	    }
+		var delX = p.x - clickedPoint.x
+		var delY = p.y - clickedPoint.y
+		for (var i = 0; i < mainPoints.length; i++) {
+			mainPoints[i] = Qt.point(mainPoints[i].x + delX, mainPoints[i].y + delY)
+		}
 
-	    clickedPoint = p
+		clickedPoint = p
 	}
 	function handleResize(p, key) {
 

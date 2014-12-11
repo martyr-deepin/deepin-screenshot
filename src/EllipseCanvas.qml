@@ -6,7 +6,7 @@ Item {
 	property bool reSized: false
 	property bool rotated: false
 	property bool firstDraw: false
-	property bool mosaicX: false
+
 
 	property point clickedPoint
 	property var points: []
@@ -47,7 +47,8 @@ Item {
 
 	    ctx.lineWidth = linewidth
 	    ctx.strokeStyle = drawColor
-	    ctx.fillStyle = mosaicX ? "white" : "transparent"
+	    ctx.fillStyle = "transparent"
+	    ctx.save()
 		ctx.beginPath()
 		ctx.moveTo(minorPoints[0].x, minorPoints[0].y);
 		ctx.bezierCurveTo(points1[0].x, points1[0].y, points1[1].x, points1[1].y, minorPoints[1].x, minorPoints[1].y);
@@ -55,9 +56,20 @@ Item {
 		ctx.bezierCurveTo(points1[6].x, points1[6].y, points1[7].x, points1[7].y, minorPoints[3].x, minorPoints[3].y);
 		ctx.bezierCurveTo(points1[3].x, points1[3].y, points1[2].x, points1[2].y, minorPoints[0].x, minorPoints[0].y);
 		ctx.closePath()
-		ctx.fill()
-		ctx.stroke()
 
+		if (processBlur||processMosaic) {
+			ctx.fill()
+			ctx.stroke()
+			ctx.clip()
+			if (processBlur) {
+				ctx.putImageData(parent.blurImageData, 0, 0)
+			} else {
+				ctx.putImageData(parent.mosaicImageData, 0, 0)
+			}
+			ctx.restore()
+		} else {
+			ctx.stroke()
+		}
 	    if (selected||reSized||rotated) {
 	    	ctx.lineWidth = 1
 	    	ctx.strokeStyle = "black"
@@ -143,9 +155,9 @@ Item {
 	    	ctx.stroke()
 	    }
 
-
-	    ctx.restore()
-
+		if (!(processBlur||processMosaic)) {
+			ctx.restore()
+		}
 	}
 	function clickOnPoint(p) {
 		selected = false

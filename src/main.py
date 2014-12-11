@@ -76,6 +76,13 @@ class Window(QQuickView):
         return QtGui.QCursor.pos()
 
     @pyqtSlot(str,int,int,int,int)
+    def save_overload(self, style, x,y,width,height):
+        p = QPixmap.fromImage(self.grabWindow())
+        p = p.copy(x,y,width,height)
+        image_dir = "/tmp/deepin-screenshot-%s.png" %style
+        p.save(os.path.join(image_dir))
+
+    @pyqtSlot(str,int,int,int,int)
     def save_screenshot(self, saveId,x,y,width,height):
         p = QPixmap.fromImage(self.grabWindow())
         p = p.copy(x,y,width,height)

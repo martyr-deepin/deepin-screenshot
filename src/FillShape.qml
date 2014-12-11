@@ -6,7 +6,7 @@ Item {
     height: 32
     state: "off"
 
-    property string imageName: "rect"
+    property string imageName: "rectMosaic"
 
     signal clicked()
     states: [
