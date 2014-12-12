@@ -8,16 +8,6 @@ Name=Deepin Screenshot
 StartupNotify=false
 Type=Application
 
-[Delay_Screenshot Shortcut Group]
-Exec=deepin-screenshot -d 5
-Name=Delay 5 seconds
-
-[Full_Screenshot Shortcut Group]
-Exec=deepin-screenshot -f
-Name=Full Screenshot
-
-
-
 # Translations
 Comment[am]=መመልከቻውን ፎቶ ማንሻ መተግበሪያ
 GenericName[am]=መመልከቻውን ፎቶ ማንሻ መተግበሪያ
@@ -160,3 +150,12 @@ Name[en_AU]=Deepin Screenshot
 Comment[es_ES]=Capturador de Pantalla
 GenericName[es_ES]=Capturador de Pantalla
 Name[es_ES]=Captura de Pantalla de Deepin
+
+[Delay_Screenshot Shortcut Group]
+Exec=deepin-screenshot -d 5
+Name=Delay 5 seconds
+
+[Full_Screenshot Shortcut Group]
+Exec=deepin-screenshot -f
+Name=Full Screenshot
+
