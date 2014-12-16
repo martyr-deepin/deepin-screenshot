@@ -18,7 +18,6 @@ Item {
 
     property var group: null
 
-    signal clicked()
     signal pressed()
     signal entered()
     signal exited()
@@ -44,7 +43,7 @@ Item {
         anchors.centerIn: parent
         width: 24
         height: 20
-        radius: 2
+        radius: 4
         visible: false
 
         color: "white"

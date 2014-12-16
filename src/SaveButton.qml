@@ -15,9 +15,9 @@ Item {
 	Rectangle {
 		id: selectArea
 		anchors.centerIn: parent
-		width: 35
+		width: 30
 		height: 24
-		radius: 2
+		radius: 4
 		visible: false
 
 		color: "white"
@@ -32,7 +32,7 @@ Item {
 			width: 22
 			height: 22
 			anchors.verticalCenter: parent.verticalCenter
-			source: "../image/action_menu/save_normal.png"
+			source: "../image/save/save.png"
 			SoundEffect {
 				id: cameraSound
 				source: "../sound/camera.wav"
@@ -52,16 +52,16 @@ Item {
 				hoverEnabled: true
 				onEntered: {
 					selectArea.visible = true
-					saveImage.source = "../image/action_menu/save" + "_hover.png"
-					listImage.source = "../image/action_menu/list" + "_hover.png"
+					saveImage.source = "../image/save/save" + "_hover.png"
+					listImage.source = "../image/save/list" + "_hover.png"
 				}
 				onExited: {
 					selectArea.visible = false
-					saveImage.source = "../image/action_menu/save" + "_normal.png"
-					listImage.source = "../image/action_menu/list" + "_normal.png"
+					saveImage.source = "../image/save/save" + ".png"
+					listImage.source = "../image/save/list" + ".png"
 				}
 				onPressed: {
-					saveImage.source = "../image/action_menu/save" + "_press.png"
+					saveImage.source = "../image/save/save" + "_press.png"
 					count.running = true
 					cameraSound.play()
 				}
@@ -74,23 +74,23 @@ Item {
 			width: 11
 			height: 22
 			anchors.verticalCenter: parent.verticalCenter
-			source: "../image/action_menu/list_normal.png"
+			source: "../image/save/list.png"
 			MouseArea {
 				anchors.fill: listImage
 				hoverEnabled: true
 				onEntered: {
 					selectArea.visible = true
-					saveImage.source = "../image/action_menu/save" + "_hover.png"
-					listImage.source = "../image/action_menu/list" + "_hover.png"
+					saveImage.source = "../image/save/save" + "_hover.png"
+					listImage.source = "../image/save/list" + "_hover.png"
 				}
 				onExited: {
 					selectArea.visible = false
-					saveImage.source = "../image/action_menu/save" + "_normal.png"
-					listImage.source = "../image/action_menu/list" + "_normal.png"
+					saveImage.source = "../image/save/save" + ".png"
+					listImage.source = "../image/save/list" + ".png"
 				}
 				onPressed : {
 					toolButton.listIcon()
-					listImage.source = "../image/action_menu/list" + "_press.png"
+					listImage.source = "../image/save/list" + "_press.png"
 				}
 
 			}

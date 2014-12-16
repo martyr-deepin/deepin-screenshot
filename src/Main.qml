@@ -9,7 +9,6 @@ Item {
 	property bool firstRelease: false
 	property bool firstEdit: false
 
-	property alias pointColor: pointColor
 	property alias pointColorRect: pointColorRect
 	property alias selectArea: selectArea
 	property alias selectResizeCanvas: selectResizeCanvas
@@ -55,6 +54,13 @@ Item {
 					selectArea.handleRelease(pos)
 				}
 			}
+			if (selectArea.x == 0 && selectArea.y == 0 && selectArea.width == screenWidth - 1 && selectArea.height == screenHeight - 1) {
+				selectSizeTooltip.visible = false
+				toolbar.visible = false
+			} else {
+				selectSizeTooltip.visible = true
+				toolbar.visible = true
+			}
 		}
 
 		onPositionChanged: {
@@ -95,9 +101,17 @@ Item {
 				zoomIndicator.updatePosition(pos)
 
 				var rgb = windowView.get_color_at_point(pos.x, pos.y)
-				pointColor.text = "[" + rgb[0] + ", " + rgb[1] + ", " + rgb[2] + "]"
 				pointColorRect.color = Qt.rgba(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, 1)
 			}
+
+		}
+		onDoubleClicked: {
+			save_toolbar.saveId = "auto_save"
+			toolbar.visible = false
+			selectSizeTooltip.visible = false
+			windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
+			count.running = true
+			cameraSound.play()
 		}
 	}
 
@@ -275,7 +289,7 @@ Item {
 		clip: true
 		anchors.fill: selectArea
 		color: "transparent"
-		border.color: "#00A0E9"
+		border.color: "#01bdff"
 		border.width: 1
 		visible: firstMove
 	}
@@ -307,12 +321,15 @@ Item {
 			ctx.clearRect(0, 0, width, height)
 
 			ctx.lineWidth = 1
-			ctx.strokeStyle = "#00A0E9"
+			ctx.strokeStyle = "white"
 			ctx.fillStyle = "white"
 
 			/* Top left */
 			ctx.beginPath()
 			ctx.arc(selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, 0, Math.PI * 2, false)
+			ctx.shadowOffsetY = 1
+			ctx.shadowBlur = 2
+			ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
 			ctx.closePath()
 			ctx.fill()
 			ctx.stroke()
@@ -320,6 +337,9 @@ Item {
 			/* Top right */
 			ctx.beginPath()
 			ctx.arc(width - selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, 0, Math.PI * 2, false)
+			ctx.shadowOffsetY = 1
+			ctx.shadowBlur = 2
+			ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
 			ctx.closePath()
 			ctx.fill()
 			ctx.stroke()
@@ -327,6 +347,9 @@ Item {
 			/* Bottom left */
 			ctx.beginPath()
 			ctx.arc(selectResizeCanvas.bigPointRadius, height - selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, 0, Math.PI * 2, false)
+			ctx.shadowOffsetY = 1
+			ctx.shadowBlur = 2
+			ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
 			ctx.closePath()
 			ctx.fill()
 			ctx.stroke()
@@ -334,6 +357,9 @@ Item {
 			/* Bottom right */
 			ctx.beginPath()
 			ctx.arc(width - selectResizeCanvas.bigPointRadius, height - selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, 0, Math.PI * 2, false)
+			ctx.shadowOffsetY = 1
+			ctx.shadowBlur = 2
+			ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
 			ctx.closePath()
 			ctx.fill()
 			ctx.stroke()
@@ -341,6 +367,9 @@ Item {
 			/* Top */
 			ctx.beginPath()
 			ctx.arc(width / 2, selectResizeCanvas.bigPointRadius, selectResizeCanvas.smallPointRadius, 0, Math.PI * 2, false)
+			ctx.shadowOffsetY = 1
+			ctx.shadowBlur = 2
+			ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
 			ctx.closePath()
 			ctx.fill()
 			ctx.stroke()
@@ -348,6 +377,9 @@ Item {
 			/* Bottom */
 			ctx.beginPath()
 			ctx.arc(width / 2, height - selectResizeCanvas.bigPointRadius, selectResizeCanvas.smallPointRadius, 0, Math.PI * 2, false)
+			ctx.shadowOffsetY = 1
+			ctx.shadowBlur = 2
+			ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
 			ctx.closePath()
 			ctx.fill()
 			ctx.stroke()
@@ -355,6 +387,9 @@ Item {
 			/* Left */
 			ctx.beginPath()
 			ctx.arc(selectResizeCanvas.bigPointRadius, height / 2, selectResizeCanvas.smallPointRadius, 0, Math.PI * 2, false)
+			ctx.shadowOffsetY = 1
+			ctx.shadowBlur = 2
+			ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
 			ctx.closePath()
 			ctx.fill()
 			ctx.stroke()
@@ -362,6 +397,9 @@ Item {
 			/* Right */
 			ctx.beginPath()
 			ctx.arc(width - selectResizeCanvas.bigPointRadius, height / 2, selectResizeCanvas.smallPointRadius, 0, Math.PI * 2, false)
+			ctx.shadowOffsetY = 1
+			ctx.shadowBlur = 2
+			ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
 			ctx.closePath()
 			ctx.fill()
 			ctx.stroke()
@@ -374,13 +412,14 @@ Item {
 		id: selectSizeTooltip
 		x: Math.min(screenWidth - width - padding, selectFrame.x + padding)
 		y: selectFrame.y < height * 1.5 ? selectFrame.y + padding : selectFrame.y - height - padding
-		color: "black"
-		opacity: 0.7
 		width: 100
 		height: 32
+
+		color: Qt.rgba(0, 0, 0, 0.5)
 		radius: 3
 		visible: firstMove
-
+		border.width: 1
+		border.color: Qt.rgba(1, 1, 1, 0.2)
 		property int padding: 4
 
 		Text {
@@ -388,6 +427,7 @@ Item {
 			anchors.centerIn: parent
 			color: "white"
 			text: selectArea.width + "x" + selectArea.height
+			font.pixelSize: 12
 		}
 	}
 
@@ -518,7 +558,7 @@ Item {
 						colorChange.visible = false
 						fontRect.visible = false
 						save_toolbar.visible = false
- 					}
+					}
 
 
 					if (!toolbar.hasShapeCanvas) {
@@ -551,7 +591,7 @@ Item {
 						colorChange.visible= false
 						fontRect.visible = false
 						save_toolbar.visible = false
- 					}
+					}
 					if (!toolbar.hasShapeCanvas) {
 						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
 						toolbar.hasShapeCanvas = true
@@ -581,13 +621,13 @@ Item {
 						colorChange.visible = false
 						fontRect.visible = false
 						save_toolbar.visible = false
- 					}
+					}
 
 					if (!toolbar.hasShapeCanvas) {
 						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
 						toolbar.hasShapeCanvas = true
 					}
-					toolbar.shape.shapeName = "ellipse"
+					toolbar.shape.shapeName = "arrow"
 					toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 					toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
 				}
@@ -607,12 +647,15 @@ Item {
 						colorChange.visible= false
 						fontRect.visible = false
 						save_toolbar.visible = false
- 					}
-					toolbar.paintShape = "line"
+					}
+					if (!toolbar.hasShapeCanvas) {
+						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
+						toolbar.hasShapeCanvas = true
+					}
+					toolbar.shape.shapeName = "line"
+					toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
+					toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
 
-
-					var shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}',  selectArea, "shapearrow")
-					shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
 				}
 			}
 
@@ -626,7 +669,7 @@ Item {
 					toolbar.toggleToolbar("text")
 
 
-                    var text = Qt.createQmlObject('import QtQuick 2.1; TextRect {}',selectArea,"Text")
+					var text = Qt.createQmlObject('import QtQuick 2.1; TextRect {}',selectArea,"Text")
 					text.width = selectArea.width
 					text.height = selectArea.height
 					text.fontSIZE = Qt.binding( function() { return fontText.font_size})
@@ -657,7 +700,7 @@ Item {
 
 			BigColor {
 				id: colorTool
-				colorStyle: "red"
+				colorStyle: "#FF3305"
 
 				visible: ((button1.width*6 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
 
@@ -679,6 +722,8 @@ Item {
 				visible: ((button1.width*7 +10 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
 
 				onSaveIcon: {
+					toolbar.visible = false
+					selectSizeTooltip.visible = false
 					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
 					windowView.close()
 				}
@@ -695,10 +740,10 @@ Item {
 			}
 			ToolButton {
 				visible: !savetooltip.visible
-			   	imageName: "cancel"
-			   	onPressed: {
+				imageName: "cancel"
+				onPressed: {
 					windowView.close()
-			   	}
+				}
 			}
 			ToolButton {
 				visible: !savetooltip.visible
@@ -869,7 +914,7 @@ Item {
 			anchors.top: row.top
 			anchors.topMargin: 28
 			anchors.left: parent.left
-			anchors.leftMargin: 2
+			anchors.leftMargin: 4
 			anchors.bottom: parent.bottom
 
 			visible: toolbar.bExtense
@@ -891,9 +936,9 @@ Item {
 				dirImage: dirSizeImage
 				state: "on"
 				onPressed: setlw.lineWidth = 3
-		   }
+		   	}
 
-		   ToolButton {
+		   	ToolButton {
 				id: setbutton2
 				group: setlw
 				imageName:"normal"
@@ -909,23 +954,32 @@ Item {
 				dirImage: dirSizeImage
 				onPressed: setlw.lineWidth = 7
 			}
-
-			FillShape {
+			Rectangle {
+				id: dividingLine
+				x: 5
+				y: 5
+				width: 1
+				height: 18
+				color: Qt.rgba(1, 1, 1, 0.1)
+			}
+			ToolButton {
 				id: blurType
-				imageName: toolbar.shape.shapeName + "Blur"
+				dirImage: dirSizeImage
+				imageName: "blur"
 				visible: true
-				onClicked: {
+				onPressed: {
 					screenArea.enabled = false
 					windowView.save_overload("blur", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
 					toolbar.shape.isBlur = true
 					toolbar.shape.processBlur = true
 				}
 			}
-			FillShape {
+			ToolButton {
 				id: masicType
 				visible: true
-				imageName: toolbar.shape.shapeName + "Mosaic"
-				onClicked: {
+				dirImage: dirSizeImage
+				imageName:"mosaic"// toolbar.shape.shapeName + "Mosaic"
+				onPressed: {
 					screenArea.enabled = false
 					windowView.save_overload("mosaic", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
 					toolbar.shape.isMosaic = true
@@ -961,26 +1015,6 @@ Item {
 				}
 			}
 			ToolButton {
-				id: auto_save
-
-				imageName:"auto_save"
-				dirImage: dirSave
-				state: "on"
-				onEntered: {
-					savetooltip.visible = true
-					savetooltip.text = "Auto Save"
-				}
-				onExited: {
-					savetooltip.visible = false
-				}
-				onPressed: {
-					save_toolbar.saveId = "auto_save"
-					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
-					count.running = true
-					cameraSound.play()
-				}
-			}
-			ToolButton {
 				id: save_to_desktop
 
 				imageName:"save_to_desktop"
@@ -995,9 +1029,33 @@ Item {
 				}
 				onPressed: {
 					save_toolbar.saveId = "save_to_desktop"
+					toolbar.visible = false
+					selectSizeTooltip.visible = false
 					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
 					cameraSound.play()
 					count.running = true
+				}
+			}
+			ToolButton {
+				id: auto_save
+
+				imageName:"auto_save"
+				dirImage: dirSave
+				state: "on"
+				onEntered: {
+					savetooltip.visible = true
+					savetooltip.text = "Auto Save"
+				}
+				onExited: {
+					savetooltip.visible = false
+				}
+				onPressed: {
+					save_toolbar.saveId = "auto_save"
+					toolbar.visible = false
+					selectSizeTooltip.visible = false
+					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
+					count.running = true
+					cameraSound.play()
 				}
 			}
 			ToolButton {
@@ -1014,6 +1072,8 @@ Item {
 				}
 				onPressed: {
 					save_toolbar.saveId = "save_to_dir"
+					toolbar.visible = false
+					selectSizeTooltip.visible = false
 					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2 ,selectFrame.height - 2)
 					count.running = true
 					cameraSound.play()
@@ -1033,6 +1093,8 @@ Item {
 				}
 				onPressed: {
 					save_toolbar.saveId = "save_ClipBoard"
+					toolbar.visible = false
+					selectSizeTooltip.visible = false
 					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
 					count.running = true
 					cameraSound.play()
@@ -1052,6 +1114,8 @@ Item {
 				}
 				onPressed: {
 					save_toolbar.saveId = "auto_save_ClipBoard"
+					toolbar.visible = false
+					selectSizeTooltip.visible = false
 					windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
 					count.running = true
 					cameraSound.play()
@@ -1064,17 +1128,26 @@ Item {
 		id: zoomIndicator
 		visible: firstMove && !firstRelease && !fontRect.visible
 
-		width: 130
-		height: 130
-		color: "black"
-		opacity: 0.7
-
+		width: 49
+		height: 49
+		color: Qt.rgba(1, 1, 1, 0)
+		radius: 4
+		border.width:2
+		border.color: Qt.rgba(1, 1, 1, 0.3)
 		property int cursorWidth: 8
 		property int cursorHeight: 18
 
 		property int cursorX: 0
 		property int cursorY: 0
-
+		DropShadow {
+			anchors.fill: parent
+			horizontalOffset: 0
+			verticalOffset: 1
+			radius: 10
+			samples: 16
+			color: Qt.rgba(0, 0, 0, 0.2)
+			source: parent
+		}
 		function updatePosition(pos) {
 			cursorX = pos.x
 			cursorY = pos.y
@@ -1085,6 +1158,7 @@ Item {
 	}
 
 	Item {
+		id: zoomIndicatorItem
 		anchors.fill: zoomIndicator
 		visible: zoomIndicator.visible
 
@@ -1093,12 +1167,11 @@ Item {
 
 			anchors.fill: parent
 			anchors.margins: marginValue
-
 			property int marginValue: 3
 
 			Rectangle {
 				width: parent.width
-				height: 68
+				height: 35
 
 				Rectangle {
 					id: zoomIndicatorClip
@@ -1121,72 +1194,40 @@ Item {
 						smooth: false
 					}
 				}
-
 				Rectangle {
-					color: "black"
-					opacity: 0.5
-					height: 1
-					width: parent.width
-					x: parent.x
-					y: parent.y + parent.height / 2
-				}
-				Rectangle {
-					color: "white"
-					opacity: 0.5
-					height: 1
-					width: parent.width
-					x: parent.x
-					y: parent.y + parent.height / 2 + 1
-				}
 
-				Rectangle {
-					color: "black"
-					opacity: 0.5
-					width: 1
-					height: parent.height
-					x: parent.x + parent.width / 2
-					y: parent.y
-				}
-				Rectangle {
-					color: "white"
-					opacity: 0.5
-					width: 1
-					height: parent.height
-					x: parent.x + parent.width / 2 + 1
-					y: parent.y
-				}
-			}
-
-
-			Text {
-				text: "(" + zoomIndicator.cursorX + ", " + zoomIndicator.cursorY + ")"
+				x: (zoomIndicator.width - width) / 2 - 2
+				y:  (zoomIndicator.height - height) / 2
+				width: 12
+				height: width
 				color: "white"
-			}
-
-			Text {
-				id: pointColor
-				color: "white"
-				width: parent.width
 
 				Rectangle {
-					width: 12
-					height: width
-					x: parent.width - width
-					y: (parent.height - height) / 2
-					color: "grey"
-
-					Rectangle {
-						id: pointColorRect
+					id: pointColorRect
+					anchors.fill: parent
+					anchors.margins: 1
+					DropShadow {
 						anchors.fill: parent
-						anchors.margins: 1
+						horizontalOffset: 0
+						verticalOffset: 1
+						radius: 10
+						samples: 16
+						color: Qt.rgba(0, 0, 0, 0.2)
+						source: parent
 					}
 				}
 			}
 
+			}
+
 			Text {
-				text: "拖动可自由选区"
+				x:  (parent.width - width) / 2
+				text:zoomIndicator.cursorX + ", " + zoomIndicator.cursorY
+				font.pixelSize: 8
 				color: "white"
 			}
+
+
 		}
 	}
 
@@ -1194,6 +1235,7 @@ Item {
 	Keys.onEscapePressed: {
 		windowView.close()
 	}
+
 	Keys.onDeletePressed: {
 
 		var canvas = toolbar.shape

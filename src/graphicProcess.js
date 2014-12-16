@@ -112,8 +112,8 @@ function gaussianBlur(imgData, amount) {
 		var pixels = imgData;
 		if (pixels) {
 			var pixelArray = imgData.data
-			for (var i = 0; i < width; i+= radius) {
-				for (var j = 0; j < height; j+= radius) {
+			for (var i = 0; i < height; i+= radius) {
+				for (var j = 0; j < width; j+= radius) {
 					var num = Math.random()
 					var randomPixel = { x: Math.floor(num*radius + i), y: Math.floor(num*radius + j)}
 

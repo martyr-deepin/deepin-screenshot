@@ -1,7 +1,7 @@
 /* calculateRect.js */
 
 function square(p) {
-    return ((p)*(p))
+	return ((p)*(p))
 }
 
 /* calculate the four points position */
@@ -63,6 +63,7 @@ function pointTolineDistance(point1, point2, point3) {
 		var b = point1.y - point1.x*k
 		var distance = Math.abs(point3.x * k + b - point3.y) / Math.sqrt(square(k) + 1)
 	}
+
 	return distance
 }
 /* get the point who splid a distance on a line */
@@ -1458,17 +1459,17 @@ function point6Resize2(point1, point2, point3, point4, p) {
 		if (pointLineDir(point1, point3, p) == 1) {
 			var distance = pointTolineDistance(point1, point3, p)
 			var add = pointSplid(point1, point2, distance)
-			point1 = Qt.point(point1.x + add[0], point1.y + add[1])
+			point1 = Qt.point(point1.x - add[0], point1.y + add[1])
 			add = pointSplid(point3, point4, distance)
-			point3 = Qt.point(point3.x + add[0], point3.y + add[1])
+			point3 = Qt.point(point3.x - add[0], point3.y + add[1])
 			points = [point1, point2, point3, point4]
 			return points
 		} else {
 			var distance = pointTolineDistance(point1, point3, p)
 			var add = pointSplid(point1, point2, distance)
-			point1 = Qt.point(point1.x - add[0], point1.y - add[1])
+			point1 = Qt.point(point1.x + add[0], point1.y - add[1])
 			add = pointSplid(point3, point4, distance)
-			point3 = Qt.point(point3.x - add[0], point3.y - add[1])
+			point3 = Qt.point(point3.x + add[0], point3.y - add[1])
 			points = [point1, point2, point3, point4]
 			return points
 		}
@@ -1949,4 +1950,71 @@ function getRotatePoint(point1, point2, point3, point4) {
 		return rotatePoint
 	}
 	return rotatepoint
+}
+
+/* Resize the arbitrary line */
+function relativePostion(point1, point2, point3, point4, pointX) {
+	/* the distance of the pointi to the line12(point1, point2)*/
+	var firstRelaPosit, secondRelaPosit, relativePosit
+	// print(point1, point2, point3, point4, "!", pointX)
+	var distance12 = pointTolineDistance(point1, point2, pointX)
+	var distance34 = pointTolineDistance(point3, point4, pointX)
+	var distance13 = pointTolineDistance(point1, point3, pointX)
+	var distance24 = pointTolineDistance(point2, point4, pointX)
+	// print(distance12, distance34,distance13,distance24)
+	if (distance34 == 0) {
+		firstRelaPosit = -2
+	} else {
+		firstRelaPosit = distance12/ distance34
+
+	}
+	if (distance24 == 0) {
+		secondRelaPosit = -2
+
+	} else {
+		secondRelaPosit = distance13/ distance24
+
+	}
+
+	relativePosit = [firstRelaPosit, secondRelaPosit]
+	return relativePosit
+}
+
+function getNewPostion(point1, point2, point3, point4, re) {
+
+	var changeY
+	var changeX
+	if (re[0] == -2) {
+		changeX = point3.x
+		changeY = (point1.y + re[1]*point2.y)/(1 + re[1])
+	}
+	if (re[1] == -2) {
+		changeX = (point2.x + re[0]*point4.x)/(1 + re[0])
+		changeY = point2.y
+	}
+	if (re[0] != -2 && re[1] != -2) {
+		var pointi = [(point2.x + re[0]*point4.x)/(1 + re[0]), (point2.y + re[0]*point4.y)/(1 + re[0])]
+		var pointj = [(point1.x + re[1]*point2.x)/(1 + re[1]), (point1.y + re[1]*point2.y)/(1 + re[1])]
+		if (point1.x == point2.x) {
+			changeX = pointi[0]
+			changeY = pointj[1]
+		}
+		if (point1.x == point3.x) {
+			changeX = pointj[0]
+			changeY = pointi[1]
+		}
+		if (point1.x != point2.x && point1.x != point3.x) {
+			var k1 = (point1.y - point2.y) / (point1.x - point2.x)
+			var b1 = pointi.y - k1*pointi.x
+
+			var k2 = (point1.y - point3.y) / (point1.x - point3.x)
+			var b2 = pointi.y - k1*pointi.x
+
+			changeY = (b1 - b2) / (k2 - k1)
+			changeX = ((b1 - b2) / (k2 - k1) - b1) / k1
+		}
+	}
+
+	var pointX = Qt.point(changeX, changeY)
+	return pointX
 }

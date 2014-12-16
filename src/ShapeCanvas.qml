@@ -77,6 +77,7 @@ Canvas {
 		}
 
 		for (var i = 0; i < shapes.length; i++) {
+
 			if (shapes[i].clickOnPoint(p)){
 				var selectedShape = i
 			}
@@ -125,7 +126,10 @@ Canvas {
 		id: arrow_component
 		ArrowCanvas {}
 	}
-
+	Component {
+		id: line_component
+		LineCanvas {}
+	}
 	MouseArea {
 		id: canvasArea
 		anchors.fill: parent
@@ -144,7 +148,9 @@ Canvas {
 					if (canvas.shapeName == "arrow") {
 						canvas.currenRecordingShape = arrow_component.createObject(canvas, {})
 					}
-
+					if (canvas.shapeName == "line") {
+						canvas.currenRecordingShape = line_component.createObject(canvas, {})
+					}
 					canvas.currenRecordingShape.linewidth = canvas.linewidth
 					canvas.currenRecordingShape.drawColor = canvas.paintColor
 					canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
@@ -188,6 +194,7 @@ Canvas {
 			}
 			canvas.requestPaint()
 		}
+
 	}
 
 
