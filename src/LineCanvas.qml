@@ -6,9 +6,11 @@ Item {
 	property bool reSized: false
 	property bool rotated: false
 	property bool firstDraw: false
+	property bool firstRelativeCalculate: false
 	property point clickedPoint
 
 	property var points: []
+	property var portion: []
 	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 
@@ -55,7 +57,7 @@ Item {
 		ctx.save()
 		ctx.beginPath()
 		ctx.moveTo(points[0].x, points[0].y)
-		print("points[0]: ", points[0])
+
 		for(var i = 1; i < points.length; i++) {
 			ctx.lineTo(points[i].x, points[i].y)
 		}
@@ -256,19 +258,20 @@ Item {
 	function handleResize(p, key) {
 
 		if (reSized) {
-			var portion = []
+			if (!firstRelativeCalculate) {
+				for(var i = 0; i < points.length; i++) {
+					portion.push(CalcEngine.relativePostion(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], points[i]))
 
-			for(var i = 0; i < points.length; i++) {
-				portion.push(CalcEngine.relativePostion(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], points[i]))
+				}
+				firstRelativeCalculate = true
 			}
 			var points1 = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key)
 			for (var i = 0; i < 4; i ++) { mainPoints[i] = points1[i] }
 
 			for (var i = 0; i < points.length; i++) {
-					points[i] = CalcEngine.getNewPostion(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], portion[i])
-				}
-
+				points[i] = CalcEngine.getNewPostion(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], portion[i])
 			}
+		}
 
 		clickedPoint = p
 	}

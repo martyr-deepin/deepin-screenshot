@@ -1956,24 +1956,24 @@ function getRotatePoint(point1, point2, point3, point4) {
 function relativePostion(point1, point2, point3, point4, pointX) {
 	/* the distance of the pointi to the line12(point1, point2)*/
 	var firstRelaPosit, secondRelaPosit, relativePosit
-	// print(point1, point2, point3, point4, "!", pointX)
+
 	var distance12 = pointTolineDistance(point1, point2, pointX)
 	var distance34 = pointTolineDistance(point3, point4, pointX)
 	var distance13 = pointTolineDistance(point1, point3, pointX)
 	var distance24 = pointTolineDistance(point2, point4, pointX)
-	// print(distance12, distance34,distance13,distance24)
+
 	if (distance34 == 0) {
 		firstRelaPosit = -2
 	} else {
+
 		firstRelaPosit = distance12/ distance34
 
 	}
 	if (distance24 == 0) {
 		secondRelaPosit = -2
-
 	} else {
-		secondRelaPosit = distance13/ distance24
 
+		secondRelaPosit = distance13/ distance24
 	}
 
 	relativePosit = [firstRelaPosit, secondRelaPosit]
@@ -2004,17 +2004,17 @@ function getNewPostion(point1, point2, point3, point4, re) {
 			changeY = pointi[1]
 		}
 		if (point1.x != point2.x && point1.x != point3.x) {
+
 			var k1 = (point1.y - point2.y) / (point1.x - point2.x)
-			var b1 = pointi.y - k1*pointi.x
+			var b1 = pointi[1] - k1*pointi[0]
 
 			var k2 = (point1.y - point3.y) / (point1.x - point3.x)
-			var b2 = pointi.y - k1*pointi.x
+			var b2 = pointj[1] - k2*pointj[0]
 
-			changeY = (b1 - b2) / (k2 - k1)
-			changeX = ((b1 - b2) / (k2 - k1) - b1) / k1
+			changeX = (b1 - b2) / (k2 - k1)
+			changeY = changeX*k1 + b1
 		}
 	}
-
 	var pointX = Qt.point(changeX, changeY)
 	return pointX
 }
