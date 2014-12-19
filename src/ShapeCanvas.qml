@@ -116,28 +116,26 @@ Canvas {
 	}
 	function mouse_style(shape,paint) {
 		switch (shape) {
-			case "rect": { return windowView.set_cursor_shape("../image/mouse_style/shape/rect_mouse.png")}
-			case "ellipse": { return windowView.set_cursor_shape("../image/mouse_style/shape/ellipse_mouse.png")}
-			case "arrow": { return windowView.set_cursor_shape("../image/mouse_style/shape/arrow_mouse.png")}
+			case "rect": { return windowView.set_cursor_shape("../image/mouse_style/shape/rect_mouse.png", 5, 5)}
+			case "ellipse": { return windowView.set_cursor_shape("../image/mouse_style/shape/ellipse_mouse.png", 5, 5)}
+			case "arrow": { return windowView.set_cursor_shape("../image/mouse_style/shape/arrow_mouse.png", 5, 5)}
             case "line": {
-               print(paint) 
                 if(paint == "#ffd903")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/yellow.png")}
-                  if(paint == "#ff5e1a")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/orange.png")}
-                       if(paint == "#ff3305")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/dark_orange.png")}
-                      if(paint ==  "#ff1c49")   { print("ddd");return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/pink_red.png")}
-                       if(paint == "#fb00ff")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/light_purple.png")}
-                      if(paint == "#7700ed")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/purple.png")}
-                      if(paint == "#3d08ff")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/dark_blue.png")}
-                      if(paint == "#3468ff")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/blue.png")}
-                      if(paint == "#00aaff")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/light_blue.png")}
-                      if(paint == "#08ff77")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/light_green.png")}
-                      if(paint == "#03a60e")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/grass_green.png")}
-                      if(paint == "#3c7d00")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/dark_green.png")}
-                      if(paint == "#ffffff")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/white.png")}
-                      if(paint == "#666666")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/grey.png")}
-                      if(paint == "#2b2b2b")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/dark_grey.png")}
-                      if(paint == "#000000")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/black.png")}
-                    print("linelineline")
+                if(paint == "#ff5e1a")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/orange.png")}
+                if(paint == "#ff3305")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/dark_orange.png")}
+                if(paint ==  "#ff1c49")  {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/pink_red.png")}
+                if(paint == "#fb00ff")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/light_purple.png")}
+                if(paint == "#7700ed")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/purple.png")}
+                if(paint == "#3d08ff")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/dark_blue.png")}
+                if(paint == "#3468ff")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/blue.png")}
+                if(paint == "#00aaff")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/light_blue.png")}
+                if(paint == "#08ff77")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/light_green.png")}
+                if(paint == "#03a60e")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/grass_green.png")}
+                if(paint == "#3c7d00")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/dark_green.png")}
+                if(paint == "#ffffff")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/white.png")}
+                if(paint == "#666666")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/grey.png")}
+                if(paint == "#2b2b2b")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/dark_grey.png")}
+                if(paint == "#000000")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/black.png")}
             }
         }
     }

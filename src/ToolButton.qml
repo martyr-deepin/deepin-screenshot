@@ -58,7 +58,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
-        cursorShape: windowView.set_cursor_shape("../image/mouse_style/shape/arrow_mouse.png")
+        cursorShape: windowView.set_cursor_shape("../image/mouse_style/shape/arrow_mouse.png", -1, -1)
         onEntered: {
             selectArea.visible = true
             toolImage.source = toolButton.dirImage + toolButton.imageName + "_hover.png"

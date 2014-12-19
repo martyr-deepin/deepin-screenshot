@@ -23,7 +23,7 @@ Item {
 		hoverEnabled: true
 		property int pressX: 0
 		property int pressY: 0
-		cursorShape: windowView.set_cursor_shape("../image/mouse_style/shape/start_cursor.png")
+		cursorShape: windowView.set_cursor_shape("../image/mouse_style/shape/start_cursor.png", -1, -1)
 
 		onPressed: {
 			var pos = windowView.get_cursor_pos()
@@ -47,7 +47,7 @@ Item {
 
 			if (!firstRelease) {
 				firstRelease = true
-				screenArea.cursorShape = windowView.set_cursor_shape("../image/mouse_style/shape/rect_mouse.png")//Qt.ArrowCursor
+				screenArea.cursorShape = Qt.ArrowCursor
 			}
 
 			if (firstRelease) {
@@ -555,12 +555,20 @@ Item {
 
 					if (toolbar.bExtense) {
 						blurType.visible = true
-						setlw.visible = true
+                        mosaicType.visible = true
+                        setlw.visible = true
+                        dividingLine.visible = true
 						colorChange.visible = false
 						fontRect.visible = false
 						save_toolbar.visible = false
-					}
-
+					} else {
+                        blurType.visible = false
+                        mosaicType.visible = false
+                        setlw.visible = false
+						colorChange.visible = false
+						fontRect.visible = false
+						save_toolbar.visible = false
+                    }
 
 					if (!toolbar.hasShapeCanvas) {
 						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
@@ -587,12 +595,22 @@ Item {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("ellipse")
 					if (toolbar.bExtense) {
-						blurType.visible = true
+                        blurType.visible = true
+                        mosaicType.visible = true
 						setlw.visible = true
+                        dividingLine.visible = true 
+                        colorChange.visible= false
+						fontRect.visible = false
+						save_toolbar.visible = false
+                    } else {
+                        blurType.visible = false
+                        mosaicType.visible = false
+						setlw.visible = false
 						colorChange.visible= false
 						fontRect.visible = false
 						save_toolbar.visible = false
-					}
+ 
+                    }
 					if (!toolbar.hasShapeCanvas) {
 						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
 						toolbar.hasShapeCanvas = true
@@ -617,12 +635,16 @@ Item {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("arrow")
 					if (toolbar.bExtense) {
-						blurType.visible = false
-						setlw.visible = true
+                        blurType.visible = false
+                        mosaicType.visible = false
+                        setlw.visible = true
+                        dividingLine.visible = false
 						colorChange.visible = false
 						fontRect.visible = false
 						save_toolbar.visible = false
-					}
+                    } else {
+                        setlw.visible = false
+                    }
 
 					if (!toolbar.hasShapeCanvas) {
 						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
@@ -643,12 +665,18 @@ Item {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("line")
 					if (toolbar.bExtense) {
-						blurType.visible = false
+                        blurType.visible = true
+                        mosaicType.visible = true
 						setlw.visible = true
-						colorChange.visible= false
+                        dividingLine.visible = true
+                        colorChange.visible= false
 						fontRect.visible = false
 						save_toolbar.visible = false
-					}
+                    } else {
+                        blurType.visible = false
+                        mosaicType.visible = false
+                        setlw.visible = false
+                    }
 					if (!toolbar.hasShapeCanvas) {
 						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
 						toolbar.hasShapeCanvas = true
@@ -668,6 +696,18 @@ Item {
 				onPressed: {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("text")
+                    if (toolbar.bExtense) {
+                        blurType.visible = false
+                        mosaicType.visible = false
+						setlw.visible = false
+						colorChange.visible= false
+						fontRect.visible = false
+						save_toolbar.visible = false
+                    } else {
+                        blurType.visible = false
+                        mosaicType.visible = false
+                        setlw.visible = false
+                    }
 
 
 					var text = Qt.createQmlObject('import QtQuick 2.1; TextRect {}',selectArea,"Text")
@@ -913,8 +953,7 @@ Item {
 
 		Row {
 			id: setlw
-			anchors.top: row.top
-			anchors.topMargin: 28
+			anchors.top: row.bottom
 			anchors.left: parent.left
 			anchors.leftMargin: 4
 			anchors.bottom: parent.bottom
@@ -955,40 +994,63 @@ Item {
 				imageName:"big"
 				dirImage: dirSizeImage
 				onPressed: setlw.lineWidth = 7
+            }
+        	Rectangle {
+                id: dividingLine
+                x: 5
+                y: 5
+			    width: 1
+			    height: 20
+                color: Qt.rgba(1, 1, 1, 0.1)
+            }
+
+        }
+	        Row {
+            id: shapeEffect
+            anchors.top: row.bottom
+			anchors.left: setlw.right
+			anchors.leftMargin: 4
+			anchors.bottom: parent.bottom
+            property string imageName: "blur"
+            function checkState(id) {
+				for (var i=0; i<shapeEffect.children.length; i++) {
+					var childButton = shapeEffect.children[i]
+					if (childButton.imageName != id.imageName) {
+						childButton.state = "off"
+					}
+				}
 			}
-			Rectangle {
-				id: dividingLine
-				x: 5
-				y: 5
-				width: 1
-				height: 18
-				color: Qt.rgba(1, 1, 1, 0.1)
-			}
-			ToolButton {
-				id: blurType
+
+
+		    ToolButton {
+                id: blurType
+                group: shapeEffect
 				dirImage: dirSizeImage
 				imageName: "blur"
-				visible: true
+				visible: false
 				onPressed: {
-					screenArea.enabled = false
+                    screenArea.enabled = false
+                    shapeEffect.imageName = "blur"
 					windowView.save_overload("blur", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
 					toolbar.shape.isBlur = true
 					toolbar.shape.processBlur = true
 				}
 			}
 			ToolButton {
-				id: masicType
-				visible: true
+                id: mosaicType
+                group: shapeEffect
 				dirImage: dirSizeImage
-				imageName:"mosaic"// toolbar.shape.shapeName + "Mosaic"
+                imageName:"mosaic"
+				visible: false
 				onPressed: {
 					screenArea.enabled = false
-					windowView.save_overload("mosaic", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
+                    shapeEffect.imageName = "mosaic"
+                    windowView.save_overload("mosaic", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
 					toolbar.shape.isMosaic = true
 					toolbar.shape.processMosaic = true
 				}
 			}
-		}
+        }
 		SaveToolTip {
 			id: savetooltip
 			visible: false
