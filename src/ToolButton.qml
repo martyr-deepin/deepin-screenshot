@@ -37,7 +37,6 @@ Item {
                     }
         }
     ]
-
     Rectangle {
         id: selectArea
         anchors.centerIn: parent
@@ -49,7 +48,6 @@ Item {
         color: "white"
         opacity: 0.2
     }
-
     Image {
         id: toolImage
         width: 22
@@ -60,7 +58,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
-
+        cursorShape: windowView.set_cursor_shape("../image/mouse_style/shape/arrow_mouse.png")
         onEntered: {
             selectArea.visible = true
             toolImage.source = toolButton.dirImage + toolButton.imageName + "_hover.png"

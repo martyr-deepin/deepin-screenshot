@@ -52,6 +52,7 @@ class Window(QQuickView):
 		surface_format = QSurfaceFormat()
 		surface_format.setAlphaBufferSize(8)
 
+		self.set_cursor_shape("../image/start_cursor.png")
 		self.setColor(QColor(0, 0, 0, 0))
 		self.setFlags(QtCore.Qt.FramelessWindowHint)
 		self.setResizeMode(QtQuick.QQuickView.SizeRootObjectToView)
@@ -75,6 +76,18 @@ class Window(QQuickView):
 	@pyqtSlot(result="QVariant")
 	def get_cursor_pos(self):
 		return QtGui.QCursor.pos()
+
+	@pyqtSlot(str)
+	def set_cursor_shape(self, image):
+		p = QPixmap(image)
+		cur = QtGui.QCursor(p)
+		self.setCursor(cur)
+
+	@pyqtSlot(str)
+	def set_colorpen_cursor_shape(self, image):
+		p = QPixmap(image)
+		cur = QtGui.QCursor(p, hotX = 0, hotY = p.height())
+		self.setCursor(cur)
 
 	@pyqtSlot(str,int,int,int,int)
 	def save_overload(self, style, x,y,width,height):
@@ -111,7 +124,6 @@ class Window(QQuickView):
 		if saveDir != "" :
 			saveDir = saveDir + "/"
 			p.save(os.path.join(saveDir, "DeepinScreenshot%s.png" %name))
-
 		screenShotInterface.notify("深度截图", saveDir + "DeepinScreenshot%s.png" %name)
 
 	@pyqtSlot()

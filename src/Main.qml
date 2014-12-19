@@ -23,15 +23,15 @@ Item {
 		hoverEnabled: true
 		property int pressX: 0
 		property int pressY: 0
+		cursorShape: windowView.set_cursor_shape("../image/mouse_style/shape/start_cursor.png")
 
 		onPressed: {
 			var pos = windowView.get_cursor_pos()
 			pressX = pos.x
 			pressY = pos.y
-			var count =0
+
 			if (!firstPress) {
 				firstPress = true
-				count = 1
 			}
 
 			if (firstRelease) {
@@ -47,6 +47,7 @@ Item {
 
 			if (!firstRelease) {
 				firstRelease = true
+				screenArea.cursorShape = windowView.set_cursor_shape("../image/mouse_style/shape/rect_mouse.png")//Qt.ArrowCursor
 			}
 
 			if (firstRelease) {
@@ -700,7 +701,7 @@ Item {
 
 			BigColor {
 				id: colorTool
-				colorStyle: "#FF3305"
+				colorStyle: "#FF1C49"
 
 				visible: ((button1.width*6 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
 
@@ -740,20 +741,21 @@ Item {
 			}
 			ToolButton {
 				visible: !savetooltip.visible
+				imageName: "share"
+			}
+			ToolButton {
+				visible: !savetooltip.visible
 				imageName: "cancel"
 				onPressed: {
 					windowView.close()
 				}
-			}
-			ToolButton {
-				visible: !savetooltip.visible
-				imageName: "share"
 			}
 		}
 
 		Rectangle {
 			id: fontRect
 			anchors.left: row.left
+			anchors.leftMargin: 4
 			anchors.top: row.bottom
 			anchors.topMargin: 4
 			width: 80
@@ -773,7 +775,7 @@ Item {
 				anchors.leftMargin: 10
 				width: parent.width/2 - 10
 				height: parent.height
-				property int font_size: 16
+				property int font_size: 18
 				text: font_size
 				color: "white"
 

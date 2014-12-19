@@ -8,7 +8,7 @@ Rectangle {
 	property point seClikPoint: Qt.point(0, 0)
 	property bool firstClicked: false
 	property color textColor: "red"
-	property int fontSIZE: 16
+	property int fontSIZE: 18
 
 	function isEmpty() {
         if (startPoint == Qt.point(0,0) && seClikPoint == Qt.point(0,0)) {

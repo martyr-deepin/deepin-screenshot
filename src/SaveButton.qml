@@ -71,8 +71,8 @@ Item {
 
 		Image {
 			id:listImage
-			width: 11
-			height: 22
+			width: 10
+			height: 10
 			anchors.verticalCenter: parent.verticalCenter
 			source: "../image/save/list.png"
 			MouseArea {

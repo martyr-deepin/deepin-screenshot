@@ -37,7 +37,7 @@ Canvas {
 		if (isMosaic) {
 			mosaicing = true
 		}
-			requestPaint()
+		requestPaint()
 	}
 	onPaint: {
 
@@ -114,6 +114,14 @@ Canvas {
 		}
 		return false
 	}
+	function mouse_style(shape) {
+		switch (shape) {
+			case "rect": { return windowView.set_cursor_shape("../image/mouse_style/shape/rect_mouse.png")}
+			case "ellipse": { return windowView.set_cursor_shape("../image/mouse_style/shape/ellipse_mouse.png")}
+			case "arrow": { return windowView.set_cursor_shape("../image/mouse_style/shape/arrow_mouse.png")}
+			case "line": { return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/grass_green.png")}
+		}
+	}
 	Component {
 		id: rect_component
 		RectangleCanvas {}
@@ -133,14 +141,13 @@ Canvas {
 	MouseArea {
 		id: canvasArea
 		anchors.fill: parent
-
+		cursorShape: canvas.mouse_style(canvas.shapeName)
 		onPressed: {
 
 			if (!canvas.clickOnPoint(Qt.point(mouse.x, mouse.y))) {
 					canvas.recording = true
 					if (canvas.shapeName == "rect") {
 						canvas.currenRecordingShape = rect_component.createObject(canvas, {})
-
 					}
 					if (canvas.shapeName == "ellipse") {
 						canvas.currenRecordingShape = ellipse_component.createObject(canvas, {})

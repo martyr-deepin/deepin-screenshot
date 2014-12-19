@@ -34,7 +34,7 @@ function gaussianBlur(imgData, amount) {
 
 
 		// horizontal
-		for (var c = 0; c <  3; c++) {
+		for (var c = 0; c <  30; c++) {
 			for (var y = 0; y < height; y++) {
 				// forward
 				var index = y * width4 + c;
@@ -69,7 +69,7 @@ function gaussianBlur(imgData, amount) {
 			}
 
 		// vertical
-		for (var c = 0; c <  3; c++) {
+		for (var c = 0; c <  30; c++) {
 			for (var x = 0; x < width; x++) {
 				// forward
 				var index = (x << 2) + c;

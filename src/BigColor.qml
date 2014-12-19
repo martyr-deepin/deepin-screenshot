@@ -20,11 +20,13 @@ Item {
 	Rectangle {
 		id: colorRect
 		anchors.centerIn: parent
-		width: 20
-		height: 20
+		width: 16
+		height: 16
 		radius: 4
 		color: bigColor.colorStyle
 
+		border.width: 1
+        border.color: Qt.rgba(1,1,1,0.2)
 	}
 	MouseArea {
 		anchors.fill: parent
@@ -32,13 +34,16 @@ Item {
 
 		onEntered: {
 			selectArea.visible = true
+			colorRect.border.color = Qt.rgba(1,1,1,0.6)
 		}
 
 		onExited: {
 			selectArea.visible = false
+			colorRect.border.color = Qt.rgba(1,1,1,0.2)
 		}
 
 		onPressed:{
+			colorRect.border.color = Qt.rgba(1,1,1,1)
 			bigColor.pressed()
 		}
 	}

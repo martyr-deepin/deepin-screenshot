@@ -2,7 +2,7 @@ import QtQuick 2.1
 import QtGraphicalEffects 1.0
 import "calculateRect.js" as CalcEngine
 import "graphicProcess.js" as CalcGraphic
-import "gsBlur.js" as CalcGraf
+
 Item {
 
 	property bool selected: false

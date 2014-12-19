@@ -9,26 +9,30 @@
     signal clicked()
 
     Rectangle {
-        id: selectArea
+        id: selectcolor
         anchors.centerIn: parent
         width: 13
-        height: 13
-
-
+        height: 15
         color: colorButton.colorStyle
-        border.width: 1
-        border.color: Qt.rgba(1,1,1,0.2)
-    }
 
+    }
+    Rectangle {
+        id: selectArea
+        width: 13
+        height: 14
+        color: "transparent"
+        border.width: 2
+        border.color: Qt.rgba(1,1,1,0.3)
+    }
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
 
         onEntered: {
-            selectArea.border.color = Qt.rgba(1,1,1,0.6)
+            selectArea.border.color = Qt.rgba(1,1,1,0.7)
         }
         onExited: {
-            selectArea.border.color = Qt.rgba(1,1,1,0.2)
+            selectArea.border.color = Qt.rgba(1,1,1,0.3)
         }
 
         onClicked:{
