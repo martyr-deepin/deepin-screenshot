@@ -50,8 +50,8 @@ Item {
     }
     Image {
         id: toolImage
-        width: 22
-        height: 22
+        width: 24
+        height: 24
         anchors.centerIn: parent
     }
 

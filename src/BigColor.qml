@@ -5,7 +5,7 @@ Item {
 	width: 30
 	height: 28
 
-	property string colorStyle: "red"
+	property string colorStyle: "#FF1C49"
 	signal pressed()
 
 	Rectangle {

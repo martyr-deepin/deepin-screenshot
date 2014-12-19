@@ -29,8 +29,8 @@ Item {
 		anchors.centerIn: parent
 		Image {
 			id: saveImage
-			width: 22
-			height: 22
+			width: 24
+			height: 24
 			anchors.verticalCenter: parent.verticalCenter
 			source: "../image/save/save.png"
 			SoundEffect {
