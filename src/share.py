@@ -44,6 +44,7 @@ import threading
 import time
 import pango
 import pangocairo
+import webbrowser
 
 gtk.gdk.threads_init()
 
@@ -609,7 +610,9 @@ class ShareToWeibo(object):
         res_vbox.pack_start(tmp_img, False, False)
 
         follow_tip_hbox = gtk.HBox(False)
-        img = gtk.image_new_from_file(app_theme.get_theme_file_path("image/share/deepin_logo.png"))
+        img = gtk.image_new_from_icon_name("deepin-logo", 16)
+        if img.get_pixel_size() == -1:
+            img = gtk.image_new_from_file(app_theme.get_theme_file_path("image/share/deepin_logo.png"))
         follow_tip_hbox.pack_start(img, False, False, 5)
         follow_tip_hbox.pack_start(
             Label("%s %s" % (_("Follow"), "Linux Deepin"),
@@ -624,7 +627,6 @@ class ShareToWeibo(object):
             vbox.pack_start(error_box, False, False)
             if self.to_share_weibo_res[weibo][0]:   # upload succeed
                 img = gtk.image_new_from_file(app_theme.get_theme_file_path("image/share/share_succeed.png"))
-                #link = LinkButton(_(weibo.t_type), text_size=13, self.to_share_weibo_res[weibo][1])
                 link = Label(_(weibo.t_type), text_size=12,
                     text_color=app_theme.get_color("link_text"))
                 #, enable_gaussian=True, gaussian_radious=1, border_radious=0)
@@ -729,7 +731,7 @@ class ShareToWeibo(object):
         #print "goto weibo button clicked", weibo.t_type, "xdg-open %s" % self.to_share_weibo_res[weibo][1]
         if weibo in self.to_share_weibo_res:
             if self.to_share_weibo_res[weibo][1]:
-                utils.run_command("xdg-open %s" % self.to_share_weibo_res[weibo][1])
+                webbrowser.open(self.to_share_weibo_res[weibo][1])
 
     def friendships_add_button_clicked(self, widget, weibo, box):
         '''add friendships'''
