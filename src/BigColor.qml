@@ -7,43 +7,48 @@ Item {
 
 	property string colorStyle: "#FF1C49"
 	signal pressed()
-
-	Rectangle {
-		id: selectArea
-		anchors.centerIn: parent
-		width: 24
-		height: 22
-		radius: 4
-		visible: false
-		opacity: 0.2
-	}
+    signal entered()
+    signal exited()
 	Rectangle {
 		id: colorRect
 		anchors.centerIn: parent
 		width: 16
 		height: 16
-		radius: 4
+		radius: 2
 		color: bigColor.colorStyle
 
-		border.width: 1
-        border.color: Qt.rgba(1,1,1,0.2)
-	}
+        border.width: 2
+        border.color: "transparent"
+    }
+	Rectangle {
+		id: selectArea
+		anchors.centerIn: parent
+		width: 14
+		height: 14
+        color: "transparent"
+        radius: 2
+
+        border.width: 1 
+        border.color: Qt.rgba(1, 1, 1, 0.3)
+    }
+
 	MouseArea {
 		anchors.fill: parent
-		hoverEnabled: true
-
-		onEntered: {
-			selectArea.visible = true
-			colorRect.border.color = Qt.rgba(1,1,1,0.6)
+        hoverEnabled: true 
+        onEntered: {
+            colorRect.border.color = "#01bdff"
+            selectArea.border.color = Qt.rgba(1,1,1,0.7)
+            bigColor.entered()
 		}
 
-		onExited: {
-			selectArea.visible = false
-			colorRect.border.color = Qt.rgba(1,1,1,0.2)
-		}
+        onExited: {
+            colorRect.border.color = "transparent"
+			selectArea.border.color = Qt.rgba(1,1,1,0.3)
+            bigColor.exited()
+        }
 
 		onPressed:{
-			colorRect.border.color = Qt.rgba(1,1,1,1)
+			selectArea.border.color = Qt.rgba(1,1,1,1)
 			bigColor.pressed()
 		}
 	}

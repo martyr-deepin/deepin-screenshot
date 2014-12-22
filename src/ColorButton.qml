@@ -2,7 +2,7 @@
 
  Item {
     id: colorButton
-    width: 13
+    width: 12
     height: 15
 
     property string colorStyle: "red"
@@ -11,27 +11,31 @@
     Rectangle {
         id: selectcolor
         anchors.centerIn: parent
-        width: 13
-        height: 15
+        width: 14
+        height: 14
         color: colorButton.colorStyle
-
+        
+        border.width: 1
+        border.color: "transparent"
     }
     Rectangle {
         id: selectArea
-        width: 13
-        height: 14
+        anchors.centerIn: parent
+        width: 12
+        height: 12
         color: "transparent"
-        border.width: 2
+        border.width: 1 
         border.color: Qt.rgba(1,1,1,0.3)
     }
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
-
         onEntered: {
+            selectcolor.border.color = "#01bdff"
             selectArea.border.color = Qt.rgba(1,1,1,0.7)
         }
         onExited: {
+            selectcolor.border.color = "transparent"
             selectArea.border.color = Qt.rgba(1,1,1,0.3)
         }
 

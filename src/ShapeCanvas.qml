@@ -11,7 +11,8 @@ Canvas {
 	property var shapes: []
 	property var currenRecordingShape
 	property var linewidth: 3
-	property color paintColor: "red"
+    property color paintColor: "red"
+    property alias canvasArea: canvasArea
 	property url imageUrl: "/tmp/deepin-screenshot.png"
 	property string blurImage:"/tmp/deepin-screenshot-blur.png"
 	property string mosaicImage: "/tmp/deepin-screenshot-mosaic.png"

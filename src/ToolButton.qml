@@ -26,14 +26,14 @@ Item {
                     name : "on"
                     PropertyChanges {
                         target:toolImage
-                        source: toolButton.dirImage + toolButton.imageName + "_press.png"
+                        source: toolButton.dirImage + toolButton.imageName + "_press.svg"
                      }
             },
             State {
                     name : "off"
                     PropertyChanges {
                         target:toolImage
-                        source: toolButton.dirImage + toolButton.imageName + ".png"
+                        source: toolButton.dirImage + toolButton.imageName + ".svg"
                     }
         }
     ]
@@ -61,16 +61,16 @@ Item {
         cursorShape: windowView.set_cursor_shape("../image/mouse_style/shape/arrow_mouse.png", -1, -1)
         onEntered: {
             selectArea.visible = true
-            toolImage.source = toolButton.dirImage + toolButton.imageName + "_hover.png"
+            toolImage.source = toolButton.dirImage + toolButton.imageName + "_hover.svg"
             toolButton.entered()
         }
 
         onExited: {
             selectArea.visible = false
             if (toolButton.state == "on") {
-               toolImage.source = toolButton.dirImage + toolButton.imageName + "_press.png"
+               toolImage.source = toolButton.dirImage + toolButton.imageName + "_press.svg"
             } else {
-               toolImage.source = toolButton.dirImage + toolButton.imageName+".png"
+               toolImage.source = toolButton.dirImage + toolButton.imageName+".svg"
             }
             toolButton.exited()
         }

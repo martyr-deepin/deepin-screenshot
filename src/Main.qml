@@ -751,7 +751,9 @@ Item {
 
 					colorChange.visible = colorChange.visible == false ? true : false
 					if (colorChange.visible) {
-						setlw.visible = false
+                        setlw.visible = false
+                        blurType.visible = false
+                        mosaicType.visible = false
 						fontRect.visible = false
 						save_toolbar.visible = false
 					}
@@ -881,7 +883,7 @@ Item {
 			visible: false
 			Row {
 				id:colorGrid
-				spacing: 4
+				spacing: 5
 				ColorButton{
 					id: black
 					colorStyle: "#FFD903"

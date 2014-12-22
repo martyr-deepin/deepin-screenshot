@@ -32,7 +32,7 @@ Item {
 			width: 24
 			height: 24
 			anchors.verticalCenter: parent.verticalCenter
-			source: "../image/save/save.png"
+			source: "../image/save/save.svg"
 			SoundEffect {
 				id: cameraSound
 				source: "../sound/camera.wav"
@@ -52,16 +52,16 @@ Item {
 				hoverEnabled: true
 				onEntered: {
 					selectArea.visible = true
-					saveImage.source = "../image/save/save" + "_hover.png"
-					listImage.source = "../image/save/list" + "_hover.png"
+					saveImage.source = "../image/save/save" + "_hover.svg"
+					listImage.source = "../image/save/list" + "_hover.svg"
 				}
 				onExited: {
 					selectArea.visible = false
-					saveImage.source = "../image/save/save" + ".png"
-					listImage.source = "../image/save/list" + ".png"
+					saveImage.source = "../image/save/save" + ".svg"
+					listImage.source = "../image/save/list" + ".svg"
 				}
 				onPressed: {
-					saveImage.source = "../image/save/save" + "_press.png"
+					saveImage.source = "../image/save/save" + "_press.svg"
 					count.running = true
 					cameraSound.play()
 				}
@@ -74,23 +74,23 @@ Item {
 			width: 10
 			height: 10
 			anchors.verticalCenter: parent.verticalCenter
-			source: "../image/save/list.png"
+			source: "../image/save/list.svg"
 			MouseArea {
 				anchors.fill: listImage
 				hoverEnabled: true
 				onEntered: {
 					selectArea.visible = true
-					saveImage.source = "../image/save/save" + "_hover.png"
-					listImage.source = "../image/save/list" + "_hover.png"
+					saveImage.source = "../image/save/save" + "_hover.svg"
+					listImage.source = "../image/save/list" + "_hover.svg"
 				}
 				onExited: {
 					selectArea.visible = false
-					saveImage.source = "../image/save/save" + ".png"
-					listImage.source = "../image/save/list" + ".png"
+					saveImage.source = "../image/save/save" + ".svg"
+					listImage.source = "../image/save/list" + ".svg"
 				}
 				onPressed : {
 					toolButton.listIcon()
-					listImage.source = "../image/save/list" + "_press.png"
+					listImage.source = "../image/save/list" + "_press.svg"
 				}
 
 			}
