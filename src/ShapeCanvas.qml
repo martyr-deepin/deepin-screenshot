@@ -114,7 +114,15 @@ Canvas {
 			}
 		}
 		return false
-	}
+    }
+    function hoverOnShape(p) {
+        for (var i = 0; i < shapes.length; i++) {
+            if (shapes[i].hoverOnShape(p)) {
+                return true
+            }
+        }
+        return false
+    }
 	function mouse_style(shape,paint) {
 		switch (shape) {
 			case "rect": { return windowView.set_cursor_shape("../image/mouse_style/shape/rect_mouse.png", 5, 5)}
@@ -158,8 +166,9 @@ Canvas {
 	}
 	MouseArea {
 		id: canvasArea
-		anchors.fill: parent
-		cursorShape: canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+        anchors.fill: parent
+        hoverEnabled: true
+        cursorShape: canvas.mouse_style(canvas.shapeName, canvas.paintColor)
 		onPressed: {
 
 			if (!canvas.clickOnPoint(Qt.point(mouse.x, mouse.y))) {
@@ -180,47 +189,64 @@ Canvas {
 					canvas.currenRecordingShape.drawColor = canvas.paintColor
 					canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
 					canvas.shapes.push(canvas.currenRecordingShape)
-
 			}
 
-			canvas.requestPaint()
+                    canvas.requestPaint()
 		}
 		onReleased: {
 			if (canvas.recording) {
 				canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
 				canvas.currenRecordingShape.firstDraw = true
 				canvas.recording = false
-			}
+                canvas.requestPaint()
 
-			canvas.requestPaint()
+            }
 
+			
 		}
 
 		onPositionChanged: {
-			if (canvas.recording) {
-				canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
-			} else {
-				var selectedShape = null,reSizedShape = null,rotatedShape = null
+			if (canvas.recording && pressed) {
+                canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
+			    canvas.requestPaint()
+			} else if(!canvas.recording && pressed) {
+               var selectedShape = null,reSizedShape = null,rotatedShape = null
 				for (var i = 0; i < canvas.shapes.length; i++) {
 					if (canvas.shapes[i].reSized||drag.active)  reSizedShape = canvas.shapes[i]
 					if (canvas.shapes[i].rotated||drag.active) rotatedShape = canvas.shapes[i]
 					if (canvas.shapes[i].selected||drag.active)  selectedShape = canvas.shapes[i]
 				}
-
-				if (selectedShape != null) {
-					selectedShape.handleDrag(Qt.point(mouse.x, mouse.y))
+				if (selectedShape != null && pressed) {
+                    selectedShape.handleDrag(Qt.point(mouse.x, mouse.y))
+                    
+			        canvas.requestPaint()
 				}
-				if (reSizedShape != null) {
+				if (reSizedShape != null && pressed) {
 					reSizedShape.handleResize(Qt.point(mouse.x, mouse.y), reSizedShape.clickedKey)
-				}
-				if (rotatedShape != null) {
-					rotatedShape.handleRotate(Qt.point(mouse.x, mouse.y))
-				}
-			}
-			canvas.requestPaint()
-		}
+                
+			        canvas.requestPaint()
+                }
+                if (rotatedShape != null && pressed) {
+                      canvasArea.cursorShape =  windowView.set_cursor_shape("../image/mouse_style/shape/rotate_mouse.png", -1, -1) 
+			       	  rotatedShape.handleRotate(Qt.point(mouse.x, mouse.y))
+			          canvas.requestPaint()
+                }
+            } else {
+                for (var i = 0; i < canvas.shapes.length;i++ ) {
 
+                    if (canvas.shapes[i].reSized || canvas.shapes[i].selected || canvas.shapes[i].rotated) {  
+                        if (canvas.shapes[i].hoverOnRotatePoint(Qt.point(mouse.x, mouse.y))) {
+                            canvasArea.cursorShape =  windowView.set_cursor_shape("../image/mouse_style/shape/rotate_mouse.png", -1, -1) 
+                        } 
+                        if (!canvas.shapes[i].hoverOnRotatePoint(Qt.point(mouse.x, mouse.y))) {
+                            canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+                        }
+                    }
+                }
+                canvas.hoverOnShape(Qt.point(mouse.x, mouse.y))
+                canvas.requestPaint()
+        }
 	}
-
+ }
 
 }

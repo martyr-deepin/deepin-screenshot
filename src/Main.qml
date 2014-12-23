@@ -12,7 +12,6 @@ Item {
 	property alias pointColorRect: pointColorRect
 	property alias selectArea: selectArea
 	property alias selectResizeCanvas: selectResizeCanvas
-
 	property alias zoomIndicator: zoomIndicator
 	property alias selectSizeTooltip: selectSizeTooltip
 	property alias toolbar: toolbar
@@ -407,7 +406,7 @@ Item {
 			ctx.restore()
 			windowView.save_overload("system", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
 		}
-	}
+        }
 
 	Rectangle {
 		id: selectSizeTooltip
@@ -774,7 +773,9 @@ Item {
 					save_toolbar.visible = save_toolbar.visible == false ? true : false
 					if (save_toolbar.visible) {
 						setlw.visible = false
-						colorChange.visible = false
+                        blurType.visible = false
+                        mosaicType.visible = false
+                        colorChange.visible = false
 						fontRect.visible = false
 					}
 					toolbar.toggleToolbar("saveAction")
@@ -1082,11 +1083,10 @@ Item {
 			}
 			ToolButton {
 				id: save_to_desktop
-
-				imageName:"save_to_desktop"
 				dirImage: dirSave
-				state: "on"
-				onEntered: {
+                imageName:"save_to_desktop"
+                state: "on"
+                onEntered: {
 					savetooltip.visible = true
 					savetooltip.text = "Save to Desktop"
 				}
@@ -1107,7 +1107,6 @@ Item {
 
 				imageName:"auto_save"
 				dirImage: dirSave
-				state: "on"
 				onEntered: {
 					savetooltip.visible = true
 					savetooltip.text = "Auto Save"

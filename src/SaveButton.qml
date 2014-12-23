@@ -15,8 +15,8 @@ Item {
 	Rectangle {
 		id: selectArea
 		anchors.centerIn: parent
-		width: 30
-		height: 24
+		width: 35
+		height: 22
 		radius: 4
 		visible: false
 

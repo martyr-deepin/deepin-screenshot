@@ -35,6 +35,8 @@ Item {
 	MouseArea {
 		anchors.fill: parent
         hoverEnabled: true 
+        cursorShape: windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/purple.png")
+
         onEntered: {
             colorRect.border.color = "#01bdff"
             selectArea.border.color = Qt.rgba(1,1,1,0.7)
