@@ -6,8 +6,9 @@ Item {
 	property bool reSized: false
 	property bool rotated: false
 	property bool firstDraw: false
-	property point clickedPoint
+    property bool isHovered: false
 
+    property point clickedPoint
 	property var points: []
  	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
@@ -136,7 +137,16 @@ Item {
 	    	ctx.stroke()
 	    	ctx.fill()
 	    }
-
+        if (isHovered) {
+        ctx.lineWidth = 1
+		ctx.strokeStyle = "#01bdff"
+	    ctx.save()
+	    ctx.beginPath()
+		ctx.moveTo(startPoint.x, startPoint.y)
+		ctx.lineTo(endPoint.x, endPoint.y)
+		ctx.stroke()
+	    ctx.closePath()
+        }
 	    if (selected||reSized||rotated) {
 	    	ctx.lineWidth = 1
 	    	ctx.strokeStyle = "white"
@@ -225,5 +235,22 @@ Item {
 
 	function handleRotate(p, key) {
 		handleResize(p)
-	}
+    }
+    function hoverOnRotatePoint(p) {
+        var result = true
+		return  result
+    }
+    function hoverOnShape(p) {
+        var result
+        var startPoint = points[0]
+		var endPoint = points[points.length - 1]
+
+    	if  (CalcEngine.pointOnLine(startPoint, endPoint, p)) {
+			result = true
+        } else {
+            result = false 
+        }
+        isHovered = result
+        return result
+    }
 }

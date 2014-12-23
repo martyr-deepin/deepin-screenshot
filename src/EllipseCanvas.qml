@@ -6,7 +6,7 @@ Item {
 	property bool reSized: false
 	property bool rotated: false
 	property bool firstDraw: false
-
+    property bool isHovered: false
 
 	property point clickedPoint
 	property var points: []
@@ -42,8 +42,6 @@ Item {
 		}
 		minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 	    var points1 = CalcEngine.getEightControlPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-
-
 
 	    ctx.lineWidth = linewidth
 	    ctx.strokeStyle = drawColor
@@ -153,7 +151,20 @@ Item {
 	    	ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
 	    	ctx.closePath()
 	    	ctx.stroke()
-	    }
+        }
+        if (isHovered) {
+        ctx.lineWidth = 1
+	    ctx.strokeStyle = "#01bdff"
+	    ctx.save()
+		ctx.beginPath()
+		ctx.moveTo(minorPoints[0].x, minorPoints[0].y);
+		ctx.bezierCurveTo(points1[0].x, points1[0].y, points1[1].x, points1[1].y, minorPoints[1].x, minorPoints[1].y);
+		ctx.bezierCurveTo(points1[4].x, points1[4].y, points1[5].x, points1[5].y , minorPoints[2].x, minorPoints[2].y );
+		ctx.bezierCurveTo(points1[6].x, points1[6].y, points1[7].x, points1[7].y, minorPoints[3].x, minorPoints[3].y);
+		ctx.bezierCurveTo(points1[3].x, points1[3].y, points1[2].x, points1[2].y, minorPoints[0].x, minorPoints[0].y);
+		ctx.closePath()
+        ctx.stroke()
+        }
 
 		if (!(processBlur||processMosaic)) {
 			ctx.restore()
@@ -277,5 +288,26 @@ Item {
 		}
 
 		clickedPoint = p
-	}
+    }
+    function hoverOnRotatePoint(p) {
+        var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+		if (p.x >= rotatePoint.x - 5 && p.x <= rotatePoint.x + 5 && p.y >= rotatePoint.y - 5 && p.y <= rotatePoint.y + 5) {
+            var result = true
+		} else {
+            var result = false
+		}
+		clickedPoint = rotatePoint
+		return  result
+    }
+    function hoverOnShape(p) {
+        var result
+    	if  (CalcEngine.pointOnEllipse(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p)) {
+			result = true
+        } else {
+            result = false 
+        }
+        isHovered = result
+        return result
+    }
+
 }

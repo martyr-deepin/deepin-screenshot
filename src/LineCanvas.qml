@@ -7,8 +7,9 @@ Item {
 	property bool rotated: false
 	property bool firstDraw: false
 	property bool firstRelativeCalculate: false
-	property point clickedPoint
-
+    property bool isHovered: false
+    
+    property point clickedPoint
 	property var points: []
 	property var portion: []
 	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
@@ -19,7 +20,6 @@ Item {
 	property int clickedKey: 0
 	property int linewidth: 3
 	property color drawColor: "red"
-
 
 	function _getMainPoints() {
 
@@ -45,8 +45,8 @@ Item {
 	}
 	function draw(ctx) {
 		if (!firstDraw) {
-			mainPoints = _getMainPoints()
-		}
+                mainPoints = _getMainPoints()
+            }
 		minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 
 		var startPoint = points[0]
@@ -61,20 +61,19 @@ Item {
 		for(var i = 1; i < points.length; i++) {
 			ctx.lineTo(points[i].x, points[i].y)
 		}
-		if (processBlur||processMosaic) {
-			ctx.fill()
-			ctx.stroke()
-			ctx.clip()
-			if (processBlur) {
-				ctx.putImageData(parent.blurImageData, 0, 0)
-			} else {
-				ctx.putImageData(parent.mosaicImageData, 0, 0)
-			}
-			ctx.restore()
-		} else {
-			ctx.stroke()
-		}
+		ctx.stroke()
+        if (isHovered) {
+        ctx.lineWidth = 1
+		ctx.strokeStyle = "#01bdff"
+		ctx.save()
+		ctx.beginPath()
+		ctx.moveTo(points[0].x, points[0].y)
 
+		for(var i = 1; i < points.length; i++) {
+			ctx.lineTo(points[i].x, points[i].y)
+		}
+		ctx.stroke()
+        }
 		if (selected||reSized||rotated) {
 			ctx.lineWidth = 1
 			ctx.strokeStyle = "black"
@@ -149,7 +148,7 @@ Item {
 			ctx.fill()
 			ctx.stroke()
 
-			ctx.lineWidth = 0.5
+			ctx.lineWidth = 1
 			ctx.strokeStyle = "white"
 			ctx.beginPath()
 			ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
@@ -159,9 +158,6 @@ Item {
 			ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
 			ctx.closePath()
 			ctx.stroke()
-		}
-		if (!(processBlur||processMosaic)) {
-			ctx.restore()
 		}
 	}
 	function clickOnPoint(p) {
@@ -301,5 +297,27 @@ Item {
 		}
 		clickedPoint = p
 	}
+
+    function hoverOnRotatePoint(p) {
+        var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+		if (p.x >= rotatePoint.x - 5 && p.x <= rotatePoint.x + 5 && p.y >= rotatePoint.y - 5 && p.y <= rotatePoint.y + 5) {
+            var result = true
+		} else {
+            var result = false
+		}
+		clickedPoint = rotatePoint
+		return  result
+    }
+    function hoverOnShape(p) {
+        var result = false
+        for (var i = 0; i < points.length; i++) {
+			if (CalcEngine.pointClickIn(points[i], p)) {
+				var result = true
+            }
+        }
+        isHovered = result
+        return result
+    }
+
 
 }

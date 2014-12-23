@@ -664,10 +664,10 @@ Item {
 					screenArea.enabled = false
 					toolbar.toggleToolbar("line")
 					if (toolbar.bExtense) {
-                        blurType.visible = true
-                        mosaicType.visible = true
+                        blurType.visible = false
+                        mosaicType.visible = false
 						setlw.visible = true
-                        dividingLine.visible = true
+                        dividingLine.visible = false
                         colorChange.visible= false
 						fontRect.visible = false
 						save_toolbar.visible = false
@@ -675,6 +675,7 @@ Item {
                         blurType.visible = false
                         mosaicType.visible = false
                         setlw.visible = false
+                        dividingLine.visible = false
                     }
 					if (!toolbar.hasShapeCanvas) {
 						toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
