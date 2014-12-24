@@ -155,13 +155,10 @@ Rectangle {
 			}
 			Component.onCompleted: forceActiveFocus()
 		}
-
-
-
 		Rectangle {
 			id:textQuilt
 			anchors.fill:parent
-			color: "steelblue"
+			color: "#01bdff"
 			border.color: "#00A0E9"
 			opacity: 0.2
 			visible:false
@@ -199,5 +196,4 @@ Rectangle {
 
 		}
 	}
-
 }

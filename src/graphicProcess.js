@@ -105,28 +105,28 @@ function gaussianBlur(imgData, amount) {
 	}
 }
 
-	function mosaic(imgData, radius) {
+function mosaic(imgData, radius) {
 
-		var width = imgData.width;
-		var height = imgData.height;
-		var pixels = imgData;
-		if (pixels) {
-			var pixelArray = imgData.data
-			for (var i = 0; i < height; i+= radius) {
-				for (var j = 0; j < width; j+= radius) {
-					var num = Math.random()
-					var randomPixel = { x: Math.floor(num*radius + i), y: Math.floor(num*radius + j)}
+	var width = imgData.width;
+	var height = imgData.height;
+	var pixels = imgData;
+	if (pixels) {
+		var pixelArray = imgData.data
+		for (var i = 0; i < height; i+= radius) {
+			for (var j = 0; j < width; j+= radius) {
+				var num = Math.random()
+				var randomPixel = { x: Math.floor(num*radius + i), y: Math.floor(num*radius + j)}
 
-					for(var k = j; k < j + radius; k++) {
-						for (var l = i; l < i + radius; l++) {
-							pixelArray[(l*width + k)*4] = pixelArray[(randomPixel.x*width + randomPixel.y)*4]
-							pixelArray[(l*width + k)*4 + 1] = pixelArray[(randomPixel.x*width + randomPixel.y)*4 + 1]
-							pixelArray[(l*width + k)*4 + 2] = pixelArray[(randomPixel.x*width + randomPixel.y)*4 + 2]
-							pixelArray[(l*width + k)*4 + 3] = pixelArray[(randomPixel.x*width + randomPixel.y)*4 + 3]
-						}
+				for(var k = j; k < j + radius; k++) {
+					for (var l = i; l < i + radius; l++) {
+						pixelArray[(l*width + k)*4] = pixelArray[(randomPixel.x*width + randomPixel.y)*4]
+						pixelArray[(l*width + k)*4 + 1] = pixelArray[(randomPixel.x*width + randomPixel.y)*4 + 1]
+						pixelArray[(l*width + k)*4 + 2] = pixelArray[(randomPixel.x*width + randomPixel.y)*4 + 2]
+						pixelArray[(l*width + k)*4 + 3] = pixelArray[(randomPixel.x*width + randomPixel.y)*4 + 3]
 					}
 				}
 			}
-			return imgData
 		}
+		return imgData
 	}
+}

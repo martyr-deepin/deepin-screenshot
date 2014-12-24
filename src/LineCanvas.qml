@@ -7,9 +7,9 @@ Item {
 	property bool rotated: false
 	property bool firstDraw: false
 	property bool firstRelativeCalculate: false
-    property bool isHovered: false
-    
-    property point clickedPoint
+	property bool isHovered: false
+
+	property point clickedPoint
 	property var points: []
 	property var portion: []
 	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
@@ -36,17 +36,17 @@ Item {
 			rightX = Math.max(rightX, points[i].x)
 			rightY = Math.max(rightY, points[i].y)
 		}
-		mainPoints[0] = Qt.point(leftX, leftY)
-		mainPoints[1] = Qt.point(rightX, leftY)
-		mainPoints[2] = Qt.point(rightX, rightY)
-		mainPoints[3] = Qt.point(leftX, rightY)
+		mainPoints[0] = Qt.point(Math.max(leftX - 5, 0), Math.max(leftY - 5, 0))
+		mainPoints[1] = Qt.point(Math.max(leftX - 5, 0), Math.min(rightY + 5, screenHeight))
+		mainPoints[2] = Qt.point(Math.min(rightX + 5, screenWidth), Math.max(leftY - 5, 0))
+		mainPoints[3] = Qt.point(Math.min(rightX + 5, screenWidth), Math.min(rightY + 5, screenHeight))
 		var tmpPoints = CalcEngine.fourPoint_dir(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 		return tmpPoints
 	}
 	function draw(ctx) {
 		if (!firstDraw) {
-                mainPoints = _getMainPoints()
-            }
+			mainPoints = _getMainPoints()
+		}
 		minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 
 		var startPoint = points[0]
@@ -62,18 +62,18 @@ Item {
 			ctx.lineTo(points[i].x, points[i].y)
 		}
 		ctx.stroke()
-        if (isHovered) {
-        ctx.lineWidth = 1
-		ctx.strokeStyle = "#01bdff"
-		ctx.save()
-		ctx.beginPath()
-		ctx.moveTo(points[0].x, points[0].y)
+		if (isHovered) {
+			ctx.lineWidth = 1
+			ctx.strokeStyle = "#01bdff"
+			ctx.save()
+			ctx.beginPath()
+			ctx.moveTo(points[0].x, points[0].y)
 
-		for(var i = 1; i < points.length; i++) {
-			ctx.lineTo(points[i].x, points[i].y)
+			for(var i = 1; i < points.length; i++) {
+				ctx.lineTo(points[i].x, points[i].y)
+			}
+			ctx.stroke()
 		}
-		ctx.stroke()
-        }
 		if (selected||reSized||rotated) {
 			ctx.lineWidth = 1
 			ctx.strokeStyle = "black"
@@ -237,7 +237,6 @@ Item {
 
 			}
 		}
-
 	}
 
 	function handleDrag(p) {
@@ -268,7 +267,6 @@ Item {
 				points[i] = CalcEngine.getNewPostion(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], portion[i])
 			}
 		}
-
 		clickedPoint = p
 	}
 
@@ -298,26 +296,24 @@ Item {
 		clickedPoint = p
 	}
 
-    function hoverOnRotatePoint(p) {
-        var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+	function hoverOnRotatePoint(p) {
+		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 		if (p.x >= rotatePoint.x - 5 && p.x <= rotatePoint.x + 5 && p.y >= rotatePoint.y - 5 && p.y <= rotatePoint.y + 5) {
-            var result = true
+			var result = true
 		} else {
-            var result = false
+			var result = false
 		}
 		clickedPoint = rotatePoint
 		return  result
-    }
-    function hoverOnShape(p) {
-        var result = false
-        for (var i = 0; i < points.length; i++) {
+	}
+	function hoverOnShape(p) {
+		var result = false
+		for (var i = 0; i < points.length; i++) {
 			if (CalcEngine.pointClickIn(points[i], p)) {
 				var result = true
-            }
-        }
-        isHovered = result
-        return result
-    }
-
-
+			}
+		}
+		isHovered = result
+		return result
+	}
 }

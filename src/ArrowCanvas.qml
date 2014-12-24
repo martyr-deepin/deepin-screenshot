@@ -6,11 +6,11 @@ Item {
 	property bool reSized: false
 	property bool rotated: false
 	property bool firstDraw: false
-    property bool isHovered: false
+	property bool isHovered: false
 
-    property point clickedPoint
+	property point clickedPoint
 	property var points: []
- 	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
+	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 
 	property var bigPointRadius: 3
@@ -26,147 +26,147 @@ Item {
 
 		ctx.lineWidth = linewidth
 		ctx.strokeStyle = drawColor
-	    ctx.save()
-	    ctx.beginPath()
+		ctx.save()
+		ctx.beginPath()
 		ctx.moveTo(startPoint.x, startPoint.y)
 		ctx.lineTo(endPoint.x, endPoint.y)
 		ctx.stroke()
-	    ctx.closePath()
+		ctx.closePath()
 
-	    if (endPoint.x - startPoint.x > 0 && endPoint.y - startPoint.y < 0)
-	    {
-	    	var add = CalcEngine.pointSplid(startPoint, endPoint, 3*ctx.lineWidth)
-	    	var pointA = Qt.point(endPoint.x - add[0], endPoint.y + add[1])
-	    	var angle = 20/180*Math.PI
-	    	var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
-	    	var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
-	    	var splidistance = Math.sqrt(CalcEngine.square(3*ctx.lineWidth) - CalcEngine.square(distance))
-	    	add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
-	    	var pointC = Qt.point(endPoint.x - add[0], endPoint.y + add[1])
-	    	var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
-	    	var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
+		if (endPoint.x - startPoint.x > 0 && endPoint.y - startPoint.y < 0)
+		{
+			var add = CalcEngine.pointSplid(startPoint, endPoint, 3*ctx.lineWidth)
+			var pointA = Qt.point(endPoint.x - add[0], endPoint.y + add[1])
+			var angle = 20/180*Math.PI
+			var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
+			var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
+			var splidistance = Math.sqrt(CalcEngine.square(3*ctx.lineWidth) - CalcEngine.square(distance))
+			add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
+			var pointC = Qt.point(endPoint.x - add[0], endPoint.y + add[1])
+			var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
+			var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
 
-	    	ctx.fillStyle =  drawColor
-	    	ctx.strokeStyle = drawColor
-	    	ctx.beginPath()
+			ctx.fillStyle =  drawColor
+			ctx.strokeStyle = drawColor
+			ctx.beginPath()
 
-	    	ctx.moveTo(endPoint.x, endPoint.y)
-	    	ctx.lineTo(pointB.x, pointB.y)
-	    	ctx.lineTo(pointE.x, pointE.y)
-	    	ctx.lineTo(pointD.x, pointD.y)
-	    	ctx.lineTo(endPoint.x, endPoint.y)
-	    	ctx.closePath()
-	    	ctx.stroke()
-	    	ctx.fill()
+			ctx.moveTo(endPoint.x, endPoint.y)
+			ctx.lineTo(pointB.x, pointB.y)
+			ctx.lineTo(pointE.x, pointE.y)
+			ctx.lineTo(pointD.x, pointD.y)
+			ctx.lineTo(endPoint.x, endPoint.y)
+			ctx.closePath()
+			ctx.stroke()
+			ctx.fill()
 
-	    }
-	    else if (endPoint.x - startPoint.x <= 0 && endPoint.y - startPoint.y <= 0)
-	    {
-	    	var add = CalcEngine.pointSplid(startPoint, endPoint, 20)
-	    	var pointA = Qt.point(endPoint.x + add[0], endPoint.y + add[1])
-	    	var angle = 20/180*Math.PI
-	    	var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
-	    	var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
-	    	var splidistance = Math.sqrt(CalcEngine.square(20) - CalcEngine.square(distance))
-	    	add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
-	    	var pointC = Qt.point(endPoint.x + add[0], endPoint.y + add[1])
-	    	var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
-	    	var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
+		}
+		else if (endPoint.x - startPoint.x <= 0 && endPoint.y - startPoint.y <= 0)
+		{
+			var add = CalcEngine.pointSplid(startPoint, endPoint, 20)
+			var pointA = Qt.point(endPoint.x + add[0], endPoint.y + add[1])
+			var angle = 20/180*Math.PI
+			var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
+			var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
+			var splidistance = Math.sqrt(CalcEngine.square(20) - CalcEngine.square(distance))
+			add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
+			var pointC = Qt.point(endPoint.x + add[0], endPoint.y + add[1])
+			var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
+			var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
 
-	    	ctx.fillStyle =  drawColor
-	    	ctx.strokeStyle = drawColor
-	    	ctx.beginPath()
+			ctx.fillStyle =  drawColor
+			ctx.strokeStyle = drawColor
+			ctx.beginPath()
 
-	    	ctx.moveTo(endPoint.x, endPoint.y)
-	    	ctx.lineTo(pointB.x, pointB.y)
-	    	ctx.lineTo(pointE.x, pointE.y)
-	    	ctx.lineTo(pointD.x, pointD.y)
-	    	ctx.lineTo(endPoint.x, endPoint.y)
-	    	ctx.closePath()
-	    	ctx.stroke()
-	    	ctx.fill()
-	    }
-	    else if (endPoint.x - startPoint.x <= 0 && endPoint.y - startPoint.y > 0)
-	    {var add = CalcEngine.pointSplid(startPoint, endPoint, 20)
-	    	var pointA = Qt.point(endPoint.x + add[0], endPoint.y - add[1])
-	    	var angle = 20/180*Math.PI
-	    	var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
-	    	var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
-	    	var splidistance = Math.sqrt(CalcEngine.square(20) - CalcEngine.square(distance))
-	    	add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
-	    	var pointC = Qt.point(endPoint.x + add[0], endPoint.y - add[1])
-	    	var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
-	    	var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
+			ctx.moveTo(endPoint.x, endPoint.y)
+			ctx.lineTo(pointB.x, pointB.y)
+			ctx.lineTo(pointE.x, pointE.y)
+			ctx.lineTo(pointD.x, pointD.y)
+			ctx.lineTo(endPoint.x, endPoint.y)
+			ctx.closePath()
+			ctx.stroke()
+			ctx.fill()
+		}
+		else if (endPoint.x - startPoint.x <= 0 && endPoint.y - startPoint.y > 0)
+		{var add = CalcEngine.pointSplid(startPoint, endPoint, 20)
+			var pointA = Qt.point(endPoint.x + add[0], endPoint.y - add[1])
+			var angle = 20/180*Math.PI
+			var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
+			var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
+			var splidistance = Math.sqrt(CalcEngine.square(20) - CalcEngine.square(distance))
+			add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
+			var pointC = Qt.point(endPoint.x + add[0], endPoint.y - add[1])
+			var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
+			var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
 
-	    	ctx.fillStyle =  drawColor
-	    	ctx.strokeStyle = drawColor
-	    	ctx.beginPath()
+			ctx.fillStyle =  drawColor
+			ctx.strokeStyle = drawColor
+			ctx.beginPath()
 
-	    	ctx.moveTo(endPoint.x, endPoint.y)
-	    	ctx.lineTo(pointB.x, pointB.y)
-	    	ctx.lineTo(pointE.x, pointE.y)
-	    	ctx.lineTo(pointD.x, pointD.y)
-	    	ctx.lineTo(endPoint.x, endPoint.y)
-	    	ctx.closePath()
-	    	ctx.stroke()
-	    	ctx.fill()
-	    }
-	    else
-	    {
-	    	var add = CalcEngine.pointSplid(startPoint, endPoint, 20)
-	    	var pointA = Qt.point(endPoint.x - add[0], endPoint.y - add[1])
-	    	var angle = 20/180*Math.PI
-	    	var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
-	    	var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
-	    	var splidistance = Math.sqrt(CalcEngine.square(20) - CalcEngine.square(distance))
-	    	add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
-	    	var pointC = Qt.point(endPoint.x - add[0], endPoint.y - add[1])
-	    	var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
-	    	var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
+			ctx.moveTo(endPoint.x, endPoint.y)
+			ctx.lineTo(pointB.x, pointB.y)
+			ctx.lineTo(pointE.x, pointE.y)
+			ctx.lineTo(pointD.x, pointD.y)
+			ctx.lineTo(endPoint.x, endPoint.y)
+			ctx.closePath()
+			ctx.stroke()
+			ctx.fill()
+		}
+		else
+		{
+			var add = CalcEngine.pointSplid(startPoint, endPoint, 20)
+			var pointA = Qt.point(endPoint.x - add[0], endPoint.y - add[1])
+			var angle = 20/180*Math.PI
+			var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
+			var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
+			var splidistance = Math.sqrt(CalcEngine.square(20) - CalcEngine.square(distance))
+			add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
+			var pointC = Qt.point(endPoint.x - add[0], endPoint.y - add[1])
+			var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
+			var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
 
-	    	ctx.fillStyle =  drawColor
-	    	ctx.strokeStyle = drawColor
-	    	ctx.beginPath()
+			ctx.fillStyle =  drawColor
+			ctx.strokeStyle = drawColor
+			ctx.beginPath()
 
-	    	ctx.moveTo(endPoint.x, endPoint.y)
-	    	ctx.lineTo(pointB.x, pointB.y)
-	    	ctx.lineTo(pointE.x, pointE.y)
-	    	ctx.lineTo(pointD.x, pointD.y)
-	    	ctx.lineTo(endPoint.x, endPoint.y)
-	    	ctx.closePath()
-	    	ctx.stroke()
-	    	ctx.fill()
-	    }
-        if (isHovered) {
-        ctx.lineWidth = 1
-		ctx.strokeStyle = "#01bdff"
-	    ctx.save()
-	    ctx.beginPath()
-		ctx.moveTo(startPoint.x, startPoint.y)
-		ctx.lineTo(endPoint.x, endPoint.y)
-		ctx.stroke()
-	    ctx.closePath()
-        }
-	    if (selected||reSized||rotated) {
-	    	ctx.lineWidth = 1
-	    	ctx.strokeStyle = "white"
-	    	ctx.fillStyle = "white"
+			ctx.moveTo(endPoint.x, endPoint.y)
+			ctx.lineTo(pointB.x, pointB.y)
+			ctx.lineTo(pointE.x, pointE.y)
+			ctx.lineTo(pointD.x, pointD.y)
+			ctx.lineTo(endPoint.x, endPoint.y)
+			ctx.closePath()
+			ctx.stroke()
+			ctx.fill()
+		}
+		if (isHovered) {
+			ctx.lineWidth = 1
+			ctx.strokeStyle = "#01bdff"
+			ctx.save()
+			ctx.beginPath()
+			ctx.moveTo(startPoint.x, startPoint.y)
+			ctx.lineTo(endPoint.x, endPoint.y)
+			ctx.stroke()
+			ctx.closePath()
+		}
+		if (selected||reSized||rotated) {
+			ctx.lineWidth = 1
+			ctx.strokeStyle = "white"
+			ctx.fillStyle = "white"
 
-	    	/* Top left */
-	    	ctx.beginPath()
-	    	ctx.arc(startPoint.x, startPoint.y, smallPointRadius + linewidth/2, 0, Math.PI * 2, false)
-	    	ctx.closePath()
-	    	ctx.fill()
-	    	ctx.stroke()
-	    	/* Top right */
-	    	ctx.beginPath()
-	    	ctx.arc(endPoint.x, endPoint.y, smallPointRadius + linewidth/2, 0, Math.PI * 2, false)
-	    	ctx.closePath()
-	    	ctx.fill()
-	    	ctx.stroke()
+			/* Top left */
+			ctx.beginPath()
+			ctx.arc(startPoint.x, startPoint.y, smallPointRadius + linewidth/2, 0, Math.PI * 2, false)
+			ctx.closePath()
+			ctx.fill()
+			ctx.stroke()
+			/* Top right */
+			ctx.beginPath()
+			ctx.arc(endPoint.x, endPoint.y, smallPointRadius + linewidth/2, 0, Math.PI * 2, false)
+			ctx.closePath()
+			ctx.fill()
+			ctx.stroke()
 
-	    }
-	    ctx.restore()
+		}
+		ctx.restore()
 	}
 	function clickOnPoint(p) {
 		selected = false
@@ -215,14 +215,14 @@ Item {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
 
-			if (key == 1) {
-				startPoint = p
-			}
-			if (key == 2) {
-				endPoint = p
-			}
-			points[0] = startPoint
-			points[points.length - 1] = endPoint
+		if (key == 1) {
+			startPoint = p
+		}
+		if (key == 2) {
+			endPoint = p
+		}
+		points[0] = startPoint
+		points[points.length - 1] = endPoint
 
 		clickedPoint = p
 	}
@@ -235,22 +235,22 @@ Item {
 
 	function handleRotate(p, key) {
 		handleResize(p)
-    }
-    function hoverOnRotatePoint(p) {
-        var result = true
+	}
+	function hoverOnRotatePoint(p) {
+		var result = true
 		return  result
-    }
-    function hoverOnShape(p) {
-        var result
-        var startPoint = points[0]
+	}
+	function hoverOnShape(p) {
+		var result
+		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
 
-    	if  (CalcEngine.pointOnLine(startPoint, endPoint, p)) {
+		if  (CalcEngine.pointOnLine(startPoint, endPoint, p)) {
 			result = true
-        } else {
-            result = false 
-        }
-        isHovered = result
-        return result
-    }
+		} else {
+			result = false
+		}
+			isHovered = result
+			return result
+	}
 }

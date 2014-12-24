@@ -8,9 +8,9 @@ Item {
 	property bool rotated: false
 	property bool firstDraw: false
 	property bool mosaicX: false
-    property bool isHovered: false
+	property bool isHovered: false
 
-    property point clickedPoint
+	property point clickedPoint
 	property var points: []
 	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
@@ -53,8 +53,8 @@ Item {
 		ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
 		ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
 		ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
-        ctx.closePath()
-       		if (processBlur||processMosaic) {
+		ctx.closePath()
+		if (processBlur||processMosaic) {
 			ctx.fill()
 			ctx.stroke()
 			ctx.clip()
@@ -67,20 +67,19 @@ Item {
 		} else {
 			ctx.stroke()
 		}
-        if (isHovered) {
-        ctx.lineWidth = 1
-		ctx.strokeStyle = "#01bdff"
-		ctx.save()
-		ctx.beginPath()
-		ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
-		ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
-		ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
-		ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
-		ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
-        ctx.closePath()
-        ctx.stroke()
-        }
-
+		if (isHovered) {
+			ctx.lineWidth = 1
+			ctx.strokeStyle = "#01bdff"
+			ctx.save()
+			ctx.beginPath()
+			ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
+			ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
+			ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
+			ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
+			ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
+			ctx.closePath()
+			ctx.stroke()
+		}
 		if (selected||reSized||rotated) {
 			ctx.lineWidth = 1
 			ctx.strokeStyle = "black"
@@ -157,7 +156,6 @@ Item {
 		if (!(processBlur||processMosaic)) {
 			ctx.restore()
 		}
-
 	}
 	function clickOnPoint(p) {
 		selected = false
@@ -227,7 +225,7 @@ Item {
 			return result
 		}
 		if (CalcEngine.pointOnLine(mainPoints[0], mainPoints[1], p) || CalcEngine.pointOnLine(mainPoints[1], mainPoints[3], p) ||
-		CalcEngine.pointOnLine(mainPoints[3], mainPoints[2], p) || CalcEngine.pointOnLine(mainPoints[2], mainPoints[0], p)) {
+			CalcEngine.pointOnLine(mainPoints[3], mainPoints[2], p) || CalcEngine.pointOnLine(mainPoints[2], mainPoints[0], p)) {
 			var result = true
 			selected = result
 			clickedPoint = p
@@ -253,11 +251,8 @@ Item {
 
 		clickedPoint = p
 	}
-
-
-
 	function rotateOnPoint(p) {
-		  var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 		if (p.x >= rotatePoint.x - 5 && p.x <= rotatePoint.x + 5 && p.y >= rotatePoint.y - 5 && p.y <= rotatePoint.y + 5) {
 			rotated = true
 		} else {
@@ -266,7 +261,6 @@ Item {
 		clickedPoint = rotatePoint
 		return rotated
 	}
-
 	function handleRotate(p) {
 		var centerInPoint = Qt.point((mainPoints[0].x + mainPoints[3].x) / 2, (mainPoints[0].y + mainPoints[3].y) / 2)
 		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
@@ -276,29 +270,26 @@ Item {
 		}
 
 		clickedPoint = p
-    }
-
+	}
 	function hoverOnRotatePoint(p) {
-        var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 		if (p.x >= rotatePoint.x - 5 && p.x <= rotatePoint.x + 5 && p.y >= rotatePoint.y - 5 && p.y <= rotatePoint.y + 5) {
-            var result = true
+			var result = true
 		} else {
-            var result = false
+			var result = false
 		}
 		clickedPoint = rotatePoint
 		return  result
-    }
-    function hoverOnShape(p) {
-        var result
-    	if (CalcEngine.pointOnLine(mainPoints[0], mainPoints[1], p) || CalcEngine.pointOnLine(mainPoints[1], mainPoints[3], p) ||
-		CalcEngine.pointOnLine(mainPoints[3], mainPoints[2], p) || CalcEngine.pointOnLine(mainPoints[2], mainPoints[0], p)) {
+	}
+	function hoverOnShape(p) {
+		var result
+		if (CalcEngine.pointOnLine(mainPoints[0], mainPoints[1], p) || CalcEngine.pointOnLine(mainPoints[1], mainPoints[3], p) ||
+			CalcEngine.pointOnLine(mainPoints[3], mainPoints[2], p) || CalcEngine.pointOnLine(mainPoints[2], mainPoints[0], p)) {
 			result = true
-        } else {
-            result = false 
-        }
-        isHovered = result
-        return result
-    }
-
-
+		} else {
+			result = false
+		}
+		isHovered = result
+		return result
+	}
 }

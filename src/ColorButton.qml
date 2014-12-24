@@ -1,6 +1,6 @@
- import QtQuick 2.1
+import QtQuick 2.1
 
- Item {
+Item {
     id: colorButton
     width: 12
     height: 15
@@ -14,7 +14,7 @@
         width: 14
         height: 14
         color: colorButton.colorStyle
-        
+
         border.width: 1
         border.color: "transparent"
     }
@@ -24,7 +24,7 @@
         width: 12
         height: 12
         color: "transparent"
-        border.width: 1 
+        border.width: 1
         border.color: Qt.rgba(1,1,1,0.3)
     }
     MouseArea {

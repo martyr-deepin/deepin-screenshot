@@ -81,7 +81,5 @@ Item {
             if (toolButton.group&&toolButton.state == "on")
                group.checkState(toolButton)
         }
-
     }
-
 }
