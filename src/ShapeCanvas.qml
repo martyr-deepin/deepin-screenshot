@@ -26,6 +26,8 @@ Canvas {
 	property bool processMosaic: false
 	property var mosaicImageData
 
+    property int fontSize
+
 	function reLoadImage(image) { unloadImage(image); loadImage(image) }
 
 	onIsBlurChanged: { if (isBlur) { reLoadImage(blurImage) } }
@@ -63,7 +65,7 @@ Canvas {
 		} else {
 			ctx.strokeStyle = "red"
 			for (var i = 0; i < shapes.length; i++) {
-				shapes[i].draw(ctx)
+                shapes[i].draw(ctx)
 			}
 		}
 	}
@@ -143,7 +145,8 @@ Canvas {
 				if(paint == "#666666")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/grey.png")}
 				if(paint == "#2b2b2b")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/dark_grey.png")}
 				if(paint == "#000000")   {return windowView.set_colorpen_cursor_shape("../image/mouse_style/color_pen/black.png")}
-			}
+            }
+            case "text": { return windowView.set_cursor_shape("../image/mouse_style/shape/text_mouse.png", 0, 0)}
 		}
 	}
 	Component {
@@ -172,11 +175,10 @@ Canvas {
 		hoverEnabled: true
 		cursorShape: canvas.mouse_style(canvas.shapeName, canvas.paintColor)
 		onPressed: {
-
 			if (!canvas.clickOnPoint(Qt.point(mouse.x, mouse.y))) {
 				canvas.recording = true
-				if (canvas.shapeName == "rect") {
-					canvas.currenRecordingShape = rect_component.createObject(canvas, {})
+                    if (canvas.shapeName == "rect") {
+                        canvas.currenRecordingShape = rect_component.createObject(canvas, {})
 				}
 				if (canvas.shapeName == "ellipse") {
 					canvas.currenRecordingShape = ellipse_component.createObject(canvas, {})
@@ -186,16 +188,33 @@ Canvas {
 				}
 				if (canvas.shapeName == "line") {
 					canvas.currenRecordingShape = line_component.createObject(canvas, {})
-				}
-				canvas.currenRecordingShape.linewidth = canvas.linewidth
+                }
+                if (canvas.shapeName == "text") {
+                    var isNotReadOnly = false
+                    for (var i = 0; i < canvas.shapes.length; i++) {
+                        if (canvas.shapes[i].isreadOnly != "undefined" && canvas.shapes[i].isreadOnly == false) {
+                            canvas.shapes[i].isreadOnly = true
+                            isNotReadOnly = true
+                        }
+                    }
+                    if (!isNotReadOnly) {
+                        canvas.currenRecordingShape = text_component.createObject(canvas, {})
+                        canvas.currenRecordingShape.curX = mouseX
+                        canvas.currenRecordingShape.curY = mouseY
+                        canvas.currenRecordingShape.fontSize = fontSize
+                    }
+                }
+                canvas.currenRecordingShape.linewidth = canvas.linewidth
 				canvas.currenRecordingShape.drawColor = canvas.paintColor
-				canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
-				canvas.shapes.push(canvas.currenRecordingShape)
+                if (canvas.shapeName != "text") {
+                    canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
+                }
+                canvas.shapes.push(canvas.currenRecordingShape)
 			}
 			canvas.requestPaint()
 		}
 		onReleased: {
-			if (canvas.recording) {
+			if (canvas.recording && canvas.shapeName != "text") {
 				canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
 				canvas.currenRecordingShape.firstDraw = true
 				canvas.recording = false

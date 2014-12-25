@@ -699,10 +699,14 @@ Item {
                         mosaicType.visible = false
                         setlw.visible = false
                     }
-                    var text = Qt.createQmlObject('import QtQuick 2.1; TextRect {}',selectArea,"Text")
-                    text.width = selectArea.width
-                    text.height = selectArea.height
-                    text.fontSIZE = Qt.binding( function() { return fontText.font_size})
+                     if (!toolbar.hasShapeCanvas) {
+                        toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
+                        toolbar.hasShapeCanvas = true
+                    }
+                    toolbar.shape.shapeName = "text"
+
+                    toolbar.shape.fontSize = Qt.binding( function() { return fontRect.fontText.font_size})
+                    toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
                     fontRect.visible = fontRect.visible == false ? true : false
                     if (fontRect.visible) {
                         setlw.visible = false
@@ -796,16 +800,16 @@ Item {
             border.width:1
             border.color: "white"
             visible: false
-
+            property alias fontText: fontText
             TextInput {
                 id:fontText
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 anchors.top: parent.top
                 anchors.topMargin: 3
-                width: parent.width/2 - 10
+                width: parent.width / 2 - 10
                 height: parent.height
-                property int font_size: 18
+                property int font_size: 12
                 text: font_size
                 font.pixelSize: 12
                 color: "white"
