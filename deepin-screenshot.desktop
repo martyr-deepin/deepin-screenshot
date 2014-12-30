@@ -126,11 +126,36 @@ Comment[es_ES]=Capturador de Pantalla
 GenericName[es_ES]=Capturador de Pantalla
 Name[es_ES]=Captura de Pantalla de Deepin
 
-[Delay_Screenshot Shortcut Group]
-Exec=deepin-screenshot -d 5
-Name=Delay 5 seconds
-
 [Full_Screenshot Shortcut Group]
 Exec=deepin-screenshot -f
 Name=Full Screenshot
+Name[ar]=أخد لقطة لكامل الشاشة
+Name[cs]=Plný snímek obrazovky
+Name[da]=Tag billede af hele skrivebordet
+Name[en]=Full Screenshot
+Name[es]=Captura de pantalla Completa
+Name[fr]=Plein écran
+Name[pt_BR]=Captura de Tela Completa
+Name[ru]=Полный скриншот
+Name[sk]=Celý snímok obrazovky
+Name[sl]=Zajem celotnega zaslona
+Name[zh_CN]=截取全屏
+Name[zh_HK]=擷取全螢幕
+Name[zh_TW]=擷取全螢幕
 
+[Delay_Screenshot Shortcut Group]
+Exec=deepin-screenshot -d 5
+Name=Delay 5 seconds
+Name[ar]=تأخير 5 ثواني
+Name[cs]=Zpoždění 5 sekund
+Name[da]=Forsinkelse 5 sekunder
+Name[en]=Delay 5 seconds
+Name[es]=Retrasar 5 segundos
+Name[fr]=Délais 5 secondes
+Name[pt_BR]=Atraso de 5 segundos
+Name[ru]=Задержка 5 секунд
+Name[sk]=Oneskorenie 5 sekúnd
+Name[sl]=Zakasni za 5 sekund
+Name[zh_CN]=延时5秒截图
+Name[zh_HK]=延時5秒擷取
+Name[zh_TW]=延時5秒擷取
