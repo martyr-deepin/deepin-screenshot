@@ -1,216 +1,205 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: Deepin Snapshot\n"
+"Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-03 10:42+0800\n"
-"PO-Revision-Date: 2014-05-08 13:42+0000\n"
-"Last-Translator: Cxbii chen <chenxiangbang@linuxdeepin.com>\n"
-"Language-Team: Romanian (http://www.transifex.com/projects/p/deepin-"
-"screenshot/language/ro/)\n"
-"Language: ro\n"
+"POT-Creation-Date: 2014-09-04 17:29+0800\n"
+"PO-Revision-Date: 2014-12-23 16:11+0000\n"
+"Last-Translator: cxbii <chenxiangbang@linuxdeepin.com>\n"
+"Language-Team: Romanian (http://www.transifex.com/projects/p/deepin-screenshot/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
-"2:1));\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
-#: src/toolbar.py:111 src/widget.py:962
+#: ../src/toolbar.py:82 ../src/widget.py:930
+msgid "Draw Rectangle"
+msgstr "Desenează dreptunghi"
+
+#: ../src/toolbar.py:83 ../src/widget.py:934
+msgid "Draw Ellipse"
+msgstr "Desenează elipsă"
+
+#: ../src/toolbar.py:84 ../src/widget.py:938
+msgid "Draw Arrow"
+msgstr "Desenează săgeată"
+
+#: ../src/toolbar.py:85 ../src/widget.py:942
+msgid "Draw Line"
+msgstr "Desenează linie"
+
+#: ../src/toolbar.py:86 ../src/widget.py:946
+msgid "Draw Text"
+msgstr "Scrie text"
+
+#: ../src/toolbar.py:88 ../src/widget.py:951
+msgid "Undo"
+msgstr "Revino"
+
+#: ../src/toolbar.py:91 ../src/widget.py:955
+msgid "Save"
+msgstr "Salvează"
+
+#: ../src/toolbar.py:111 ../src/widget.py:962
 msgid "Cancel"
 msgstr "Anulare"
 
-#: src/share.py:333
-msgid "Click to login"
-msgstr ""
+#: ../src/toolbar.py:114 ../src/widget.py:969 ../src/share.py:459
+msgid "Share"
+msgstr "Distribuie"
 
-#: src/share.py:315
-msgid "Click to switch user"
-msgstr ""
+#: ../src/toolbar.py:178 ../src/widget.py:915
+msgid "Save automatically"
+msgstr "Salvează automat"
 
-#: src/main.py:221 src/main.py:223 src/screenshot.py:60 src/screenshot.py:80
-#: src/screenshot.py:127
+#: ../src/toolbar.py:179 ../src/widget.py:916
+msgid "Save as"
+msgstr "Salvare ca"
+
+#: ../src/toolbar.py:180 ../src/widget.py:917
+msgid "Save to clipboard"
+msgstr "Salvează în memoria temporară"
+
+#: ../src/toolbar.py:181 ../src/widget.py:918
+msgid "Save automatically to file and clipboard"
+msgstr "Salvează automat în fişier şi în memoria temporară"
+
+#: ../src/screenshot.py:58 ../src/screenshot.py:78 ../src/main.py:162
+msgid "Picture has been saved to file"
+msgstr "Fotografia a fost salvată în fişier"
+
+#: ../src/screenshot.py:60 ../src/screenshot.py:80 ../src/screenshot.py:127
+#: ../src/main.py:221 ../src/main.py:223
 msgid "DScreenshot"
-msgstr ""
+msgstr "Captură de ecran D"
 
-#: src/screenshot.py:128
+#: ../src/screenshot.py:94
+msgid "Take a screenshot of full screen"
+msgstr "Fă o captură cu întreg ecranul"
+
+#: ../src/screenshot.py:95
+msgid "Take a screenshot of the window"
+msgstr "Fă o captură a ferestrei"
+
+#: ../src/screenshot.py:96
+msgid "Take a screenshot after NUM seconds"
+msgstr "Fă o captură de ecran după NUMĂR secunde"
+
+#: ../src/screenshot.py:97
+msgid "save screenshot to FILE"
+msgstr "salvează captură ecran în FIŞIER"
+
+#: ../src/screenshot.py:98
+msgid "run as a subprocess"
+msgstr "rulează ca subproces"
+
+#: ../src/screenshot.py:99
+msgid "run a new process"
+msgstr "rulează un proces nou"
+
+#: ../src/screenshot.py:107
+msgid "show this help message and exit"
+msgstr "Afișare a mesajului de ajutor și ieșire"
+
+#: ../src/screenshot.py:108
+msgid "show program's version number and exit"
+msgstr "Afișare numărului de versiune a programului și ieșire"
+
+#: ../src/screenshot.py:128
 #, python-format
 msgid "Deepin Screenshot will start in %d seconds."
-msgstr ""
+msgstr "Captura de ecran Deepin va începe în %d secunde."
 
-#: src/widget.py:289
+#: ../src/widget.py:289
 msgid "Drag to select area"
-msgstr ""
+msgstr "Trage pentru selectarea zonei"
 
-#: src/toolbar.py:84 src/widget.py:938
-msgid "Draw Arrow"
-msgstr ""
+#: ../src/main.py:154
+msgid "The width or height of selected area cannot be 0"
+msgstr "Lățimea sau înălțimea zonei selectate nu poate fi 0"
 
-#: src/toolbar.py:83 src/widget.py:934
-msgid "Draw Ellipse"
-msgstr ""
-
-#: src/toolbar.py:85 src/widget.py:942
-msgid "Draw Line"
-msgstr ""
-
-#: src/toolbar.py:82 src/widget.py:930
-msgid "Draw Rectangle"
-msgstr ""
-
-#: src/toolbar.py:86 src/widget.py:946
-msgid "Draw Text"
-msgstr ""
-
-#: src/share.py:527 src/share.py:538
-msgid "Error"
-msgstr "eroare"
-
-#: src/share.py:662
-msgid "Failed"
-msgstr "eșec"
-
-#: src/main.py:182
+#: ../src/main.py:182
 msgid "Failed to save the picture"
-msgstr ""
+msgstr "Salvarea fotografiei a eșuat"
 
-#: src/share.py:613
-msgid "Follow"
-msgstr "Urmărește"
-
-#: src/share.py:448
-msgid "Loading"
-msgstr "se încarcă"
-
-#: src/main.py:224
-msgid "Next time you can just press Ctrl+Alt+A to start."
-msgstr ""
-
-#: src/share.py:527
-msgid "Picture does not exist."
-msgstr "Imaginea nu există."
-
-#: src/main.py:199
+#: ../src/main.py:199
 msgid "Picture has been saved to clipboard"
-msgstr ""
+msgstr "Fotografia a fost salvată în memoria temporară."
 
-#: src/main.py:162 src/screenshot.py:58 src/screenshot.py:78
-msgid "Picture has been saved to file"
-msgstr ""
+#: ../src/main.py:224
+msgid "Next time you can just press Ctrl+Alt+A to start."
+msgstr "Data viitoare puteți să apăsați doar Ctrl+Alt+A pentru a începe."
 
-#: src/share.py:538
-msgid "Please choose at least one platform to share on"
-msgstr "Vă rugăm să alegeți cel puțin o platformă pentru a distribui"
+#: ../src/share.py:73
+msgid "Share to social networks"
+msgstr "Partajarea în  reţele de socializare"
 
-#: src/share.py:501
-msgid "Please input text here"
-msgstr "Introduceți textul aici"
+#: ../src/share.py:186
+msgid "Unable to load page"
+msgstr "Imposibil de încărcat pagina"
 
-#: src/share.py:187
+#: ../src/share.py:187
 #, python-format
 msgid "Problem occurred while loading the URL '%s'"
 msgstr "A apărut o problemă la încărcarea URL '%s'"
 
-#: src/toolbar.py:91 src/widget.py:955
-msgid "Save"
-msgstr ""
+#: ../src/share.py:315
+msgid "Click to switch user"
+msgstr "Apasă pentru a schimba utilizatorul"
 
-#: src/toolbar.py:179 src/widget.py:916
-msgid "Save as"
-msgstr ""
+#: ../src/share.py:333
+msgid "Click to login"
+msgstr "Apasă pentru intrare"
 
-#: src/toolbar.py:178 src/widget.py:915
-msgid "Save automatically"
-msgstr ""
+#: ../src/share.py:448
+msgid "Loading"
+msgstr "Încărcare"
 
-#: src/toolbar.py:181 src/widget.py:918
-msgid "Save automatically to file and clipboard"
-msgstr ""
+#: ../src/share.py:501
+msgid "Please input text here"
+msgstr "Introduceți textul aici"
 
-#: src/toolbar.py:180 src/widget.py:917
-msgid "Save to clipboard"
-msgstr ""
+#: ../src/share.py:527 ../src/share.py:538
+msgid "Error"
+msgstr "Eroare"
 
-#: src/toolbar.py:114 src/share.py:459 src/widget.py:969
-msgid "Share"
-msgstr "Distribuie"
+#: ../src/share.py:527
+msgid "Picture does not exist."
+msgstr "Imaginea nu există."
 
-#: src/share.py:636 src/share.py:657
+#: ../src/share.py:538
+msgid "Please choose at least one platform to share on"
+msgstr "Vă rugăm să alegeți cel puțin o platformă pentru a distribui"
+
+#: ../src/share.py:555
+msgid "Uploading"
+msgstr "Încarcă"
+
+#: ../src/share.py:566
+msgid "from Deepin Screenshot"
+msgstr "din captura de ecran Deepin"
+
+#: ../src/share.py:613
+msgid "Follow"
+msgstr "Urmărește"
+
+#: ../src/share.py:636 ../src/share.py:657
 msgid "Share to"
-msgstr "Distribuie"
+msgstr "Partajat cu"
 
-#: src/share.py:73
-msgid "Share to social networks"
-msgstr ""
-
-#: src/share.py:639
+#: ../src/share.py:639
 msgid "Successful"
-msgstr "reușită"
+msgstr "cu succes"
 
-#: src/screenshot.py:96
-msgid "Take a screenshot after NUM seconds"
-msgstr ""
+#: ../src/share.py:662
+msgid "Failed"
+msgstr "Eşuat"
 
-#: src/screenshot.py:94
-msgid "Take a screenshot of full screen"
-msgstr ""
-
-#: src/screenshot.py:95
-msgid "Take a screenshot of the window"
-msgstr ""
-
-#: src/main.py:154
-msgid "The width or height of selected area cannot be 0"
-msgstr ""
-
-#: src/share.py:186
-msgid "Unable to load page"
-msgstr "Imposibil de încărcat pagina"
-
-#: src/toolbar.py:88 src/widget.py:951
-msgid "Undo"
-msgstr ""
-
-#: src/share.py:670
+#: ../src/share.py:670
 msgid "Unknown reason"
 msgstr "Motiv necunoscut"
-
-#: src/share.py:555
-msgid "Uploading"
-msgstr "se încarcă"
-
-#: src/share.py:566
-msgid "from Deepin Screenshot"
-msgstr ""
-
-#: src/screenshot.py:99
-msgid "run a new process"
-msgstr ""
-
-#: src/screenshot.py:98
-msgid "run as a subprocess"
-msgstr ""
-
-#: src/screenshot.py:97
-msgid "save screenshot to FILE"
-msgstr ""
-
-#: src/screenshot.py:108
-msgid "show program's version number and exit"
-msgstr ""
-
-#: src/screenshot.py:107
-msgid "show this help message and exit"
-msgstr ""
-
-#~ msgid "Tweet"
-#~ msgstr "Tweet"
-
-#~ msgid "share to web"
-#~ msgstr "distribuie pe web"
-
-#~ msgid "upload to"
-#~ msgstr "încarcă pe"

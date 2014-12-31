@@ -1,6 +1,6 @@
 src /usr/share/deepin-screenshot
 theme /usr/share/deepin-screenshot
 skin /usr/share/deepin-screenshot
+hicolor /usr/share/icons
 locale/mo/* /usr/share/locale
 deepin-screenshot.desktop /usr/share/applications/
-debian/deepin-screenshot.png /usr/share/icons/hicolor/48x48/apps/
