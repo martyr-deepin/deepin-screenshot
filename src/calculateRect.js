@@ -48,7 +48,9 @@ function pointOnLine(point1, point2, point3) {
 		var k =  (point2.y - point1.y) / (point2.x - point1.x)
 		var b = point1.y - point1.x*k
 
-		if (point3.y >= k * point3.x + b - 5 && point3.y <= k * point3.x + b + 5) {
+		if ( point3.x >= Math.min(point1.x, point2.x) && point3.x <= Math.max(point1.x, point2.x)
+		&& point3.y >= k * point3.x + b - 2 && point3.y <= k * point3.x + b + 2
+		&& point3.y >= Math.min(point1.y, point2.y) &&  point3.y <= Math.max(point1.y, point2.y)) {
 			return true
 		}
 	}

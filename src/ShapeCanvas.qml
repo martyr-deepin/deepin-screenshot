@@ -3,11 +3,11 @@ import "graphicProcess.js" as CalcGraphic
 
 Canvas {
 	id: canvas
-	width: parent.width
-	height: parent.height
+	width: 800
+	height: 900
 
 	property bool recording: false
-	property string shapeName: "rect"
+	property string shapeName: "text"
 	property var shapes: []
 	property var currenRecordingShape
 	property var linewidth: 3
@@ -72,9 +72,17 @@ Canvas {
 
 	function clickOnPoint(p) {
 		for (var i = 0; i < shapes.length; i++) {
-			if (shapes[i].selected || shapes[i].reSized) {
-				shapes[i].rotateOnPoint(p)
-			}
+            if (canvas.shapeName == "text") {
+                var textRotate = false
+                textRotate = shapes[i].rotateOnPoint(p)
+                if (textRotate) {
+                return true
+                }
+            } else {
+                if (shapes[i].selected || shapes[i].reSized) {
+				    shapes[i].rotateOnPoint(p)
+			    }
+            }
 		}
 
 		for (var i = 0; i < shapes.length; i++) {
@@ -174,10 +182,11 @@ Canvas {
 		anchors.fill: parent
 		hoverEnabled: true
 		cursorShape: canvas.mouse_style(canvas.shapeName, canvas.paintColor)
-		onPressed: {
+        onPressed: {
+
 			if (!canvas.clickOnPoint(Qt.point(mouse.x, mouse.y))) {
 				canvas.recording = true
-                    if (canvas.shapeName == "rect") {
+                if (canvas.shapeName == "rect") {
                         canvas.currenRecordingShape = rect_component.createObject(canvas, {})
 				}
 				if (canvas.shapeName == "ellipse") {
@@ -190,14 +199,15 @@ Canvas {
 					canvas.currenRecordingShape = line_component.createObject(canvas, {})
                 }
                 if (canvas.shapeName == "text") {
-                    var isNotReadOnly = false
+                    var isReadOnly = false
                     for (var i = 0; i < canvas.shapes.length; i++) {
                         if (canvas.shapes[i].isreadOnly != "undefined" && canvas.shapes[i].isreadOnly == false) {
                             canvas.shapes[i].isreadOnly = true
-                            isNotReadOnly = true
+                            canvas.shapes[i].isrotatedPoint = false
+                            isReadOnly = true
                         }
                     }
-                    if (!isNotReadOnly) {
+                    if (!isReadOnly) {
                         canvas.currenRecordingShape = text_component.createObject(canvas, {})
                         canvas.currenRecordingShape.curX = mouseX
                         canvas.currenRecordingShape.curY = mouseY
@@ -210,7 +220,12 @@ Canvas {
                     canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
                 }
                 canvas.shapes.push(canvas.currenRecordingShape)
-			}
+            } else {
+                if (canvas.shapeName == "text") {
+                    canvas.recording = false
+                    canvas.currenRecordingShape.firstDraw = true
+                }
+            }
 			canvas.requestPaint()
 		}
 		onReleased: {
@@ -220,21 +235,29 @@ Canvas {
 				canvas.recording = false
 				canvas.requestPaint()
 			}
+			if (canvas.recording && canvas.shapeName == "text") {
+				for (var i = 0; i < canvas.shapes.length; i++) {
+					canvas.shapes[i].rotated = false
+					canvas.shapes[i].isRotating = false
+				}
+			}
 		}
 
 		onPositionChanged: {
-			if (canvas.recording && pressed) {
-				canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
+            if (canvas.recording && pressed) {
+                canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
 				canvas.requestPaint()
-			} else if(!canvas.recording && pressed) {
+            } else if(!canvas.recording && pressed) {
 				var selectedShape = null,reSizedShape = null,rotatedShape = null
 				for (var i = 0; i < canvas.shapes.length; i++) {
-					if (canvas.shapes[i].reSized||drag.active)  reSizedShape = canvas.shapes[i]
-					if (canvas.shapes[i].rotated||drag.active) rotatedShape = canvas.shapes[i]
+                    if (canvas.shapes[i].reSized||drag.active)  reSizedShape = canvas.shapes[i]
+					if (canvas.shapes[i].rotated||drag.active)  rotatedShape = canvas.shapes[i]
 					if (canvas.shapes[i].selected||drag.active)  selectedShape = canvas.shapes[i]
 				}
 				if (selectedShape != null && pressed) {
-					selectedShape.handleDrag(Qt.point(mouse.x, mouse.y))
+					if (canvas.shapeName != "text") {
+						selectedShape.handleDrag(Qt.point(mouse.x, mouse.y))
+					}
 					canvas.requestPaint()
 				}
 				if (reSizedShape != null && pressed) {
@@ -242,20 +265,34 @@ Canvas {
 					canvas.requestPaint()
 				}
 				if (rotatedShape != null && pressed) {
-					canvasArea.cursorShape =  windowView.set_cursor_shape("../image/mouse_style/shape/rotate_mouse.png", -1, -1)
-					rotatedShape.handleRotate(Qt.point(mouse.x, mouse.y))
+					if (canvas.shapeName == "text") {
+						rotatedShape.isRotating = true
+						canvasArea.cursorShape =windowView.set_cursor_shape("../image/mouse_style/shape/rotate_mouse.png", -1, -1)
+						rotatedShape.handleRotate(Qt.point(mouse.x, mouse.y))
+						rotatedShape.isRotating = false
+					} else {
+						canvasArea.cursorShape = windowView.set_cursor_shape("../image/mouse_style/shape/rotate_mouse.png", -1, -1)
+						rotatedShape.handleRotate(Qt.point(mouse.x, mouse.y))
+					}
 					canvas.requestPaint()
 				}
 			} else {
 				for (var i = 0; i < canvas.shapes.length;i++ ) {
-					if (canvas.shapes[i].reSized || canvas.shapes[i].selected || canvas.shapes[i].rotated) {
-						if (canvas.shapes[i].hoverOnRotatePoint(Qt.point(mouse.x, mouse.y))) {
-							canvasArea.cursorShape =  windowView.set_cursor_shape("../image/mouse_style/shape/rotate_mouse.png", -1, -1)
-						}
-						if (!canvas.shapes[i].hoverOnRotatePoint(Qt.point(mouse.x, mouse.y))) {
-							canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
-						}
-					}
+                    if (canvas.shapeName != "text") {
+                        if (canvas.shapes[i].reSized || canvas.shapes[i].selected || canvas.shapes[i].rotated) {
+						    if (canvas.shapes[i].hoverOnRotatePoint(Qt.point(mouse.x, mouse.y))) {
+							    canvasArea.cursorShape = windowView.set_cursor_shape("../image/mouse_style/shape/rotate_mouse.png", -1, -1)
+						    } else {
+							    canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+						    }
+                        }
+                    } else {
+                        if (canvas.shapes[i].hoverOnRotatePoint(Qt.point(mouse.x, mouse.y))) {
+                            canvasArea.cursorShape = windowView.set_cursor_shape("../image/mouse_style/shape/rotate_mouse.png", -1, -1)
+                        } else {
+                            canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+                        }
+                    }
 				}
 				canvas.hoverOnShape(Qt.point(mouse.x, mouse.y))
 				canvas.requestPaint()
