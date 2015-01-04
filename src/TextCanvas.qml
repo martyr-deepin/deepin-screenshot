@@ -72,22 +72,18 @@ Rectangle {
 			mainPoints[1] = mainPoints[1]
 			var add = CalcEngine.pointSplid(mainPoints[0], mainPoints[2], addWidth)
 			if (mainPoints[0].x < mainPoints[2].x && mainPoints[0].y > mainPoints[2].y) {
-				print("1")
 				mainPoints[2] = Qt.point(mainPoints[0].x + add[0], mainPoints[0].y - add[1])
 
 			}
 			if (mainPoints[0].x > mainPoints[2].x && mainPoints[0].y > mainPoints[2].y ) {
-				print("2")
 				mainPoints[2] = Qt.point(mainPoints[0].x - add[0], mainPoints[0].y - add[1])
 
 			}
 			if (mainPoints[0].x < mainPoints[2].x && mainPoints[0].y < mainPoints[2].y) {
-				print("3")
 				mainPoints[2] = Qt.point(mainPoints[0].x + add[0], mainPoints[0].y + add[1])
 
 			}
 			if (mainPoints[0].x > mainPoints[2].x && mainPoints[0].y < mainPoints[2].y) {
-				print("4")
 				mainPoints[2] = Qt.point(mainPoints[0].x - add[0], mainPoints[0].y + add[1])
 
 			}

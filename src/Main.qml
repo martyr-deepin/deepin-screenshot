@@ -1292,10 +1292,8 @@ Item {
 
         var canvas = toolbar.shape
         for (var i = 0; i < canvas.shapes.length; i++) {
-        print(i, canvas.shapes[i].selected, canvas.shapes[i].reSized, canvas.shapes[i].rotated)
             if (canvas.shapes[i].selected == true || canvas.shapes[i].reSized == true
                 || canvas.shapes[i].rotated == true) {
-                print(i, canvas.shapes[i].selected, canvas.shapes[i].reSized, canvas.shapes[i].rotated)
                 var spliceElement = canvas.shapes.splice(i, 1)
                 spliceElement[0].destroy()
             }
