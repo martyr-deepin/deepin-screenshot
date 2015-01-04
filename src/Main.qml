@@ -814,7 +814,7 @@ Item {
                 font.pixelSize: 12
                 color: "white"
             }
-            
+
             Rectangle {
                 id:fontSizeAdd
                 width: 20
@@ -837,11 +837,11 @@ Item {
                                 return
                             } else {
                                 fontText.font_size = fontText.font_size + 1
-                            }   
+                            }
                         }
                     }
                 }
-               
+
             }
             Rectangle {
                 id: fontSizeMinux
@@ -867,7 +867,7 @@ Item {
                         }
                     }
                 }
-            }           
+            }
         }
         Rectangle {
             id: colorChange
@@ -1292,10 +1292,12 @@ Item {
 
         var canvas = toolbar.shape
         for (var i = 0; i < canvas.shapes.length; i++) {
+        print(i, canvas.shapes[i].selected, canvas.shapes[i].reSized, canvas.shapes[i].rotated)
             if (canvas.shapes[i].selected == true || canvas.shapes[i].reSized == true
                 || canvas.shapes[i].rotated == true) {
-                for (var j = 0; j < canvas.shapes[i].points.length; j++)
-                canvas.shapes[i].destroy()
+                print(i, canvas.shapes[i].selected, canvas.shapes[i].reSized, canvas.shapes[i].rotated)
+                var spliceElement = canvas.shapes.splice(i, 1)
+                spliceElement[0].destroy()
             }
         }
         canvas.requestPaint()
