@@ -63,105 +63,105 @@ class Window(QQuickView):
         	self.qimage = self.qpixmap.toImage()
         	self.window_info = WindowInfo()
 
-@pyqtSlot(int, int, result="QVariant")
-def get_color_at_point(self, x, y):
-        rgb = self.qimage.pixel(x, y)
-        return [qRed(rgb), qGreen(rgb), qBlue(rgb)]
+        @pyqtSlot(int, int, result="QVariant")
+        def get_color_at_point(self, x, y):
+        	rgb = self.qimage.pixel(x, y)
+        	return [qRed(rgb), qGreen(rgb), qBlue(rgb)]
 
-@pyqtSlot(result="QVariant")
-def get_window_info_at_pointer(self):
-        return self.window_info.get_window_info_at_pointer()
+        @pyqtSlot(result="QVariant")
+        def get_window_info_at_pointer(self):
+        	return self.window_info.get_window_info_at_pointer()
 
-@pyqtSlot(result="QVariant")
-def get_cursor_pos(self):
-        return QtGui.QCursor.pos()
+        @pyqtSlot(result="QVariant")
+        def get_cursor_pos(self):
+        	return QtGui.QCursor.pos()
 
-@pyqtSlot(str, int, int)
-def set_cursor_shape(self, image, curX, curY):
-        p = QPixmap(image)
-        cur = QtGui.QCursor(p, hotX = curX, hotY = curY)
-        self.setCursor(cur)
+        @pyqtSlot(str, int, int)
+        def set_cursor_shape(self, image, curX, curY):
+        	p = QPixmap(image)
+        	cur = QtGui.QCursor(p, hotX = curX, hotY = curY)
+        	self.setCursor(cur)
 
-@pyqtSlot(str)
-def set_colorpen_cursor_shape(self, image):
-        p = QPixmap(image)
-        cur = QtGui.QCursor(p, hotX = 0, hotY = p.height())
-        self.setCursor(cur)
+        @pyqtSlot(str)
+        def set_colorpen_cursor_shape(self, image):
+        	p = QPixmap(image)
+        	cur = QtGui.QCursor(p, hotX = 0, hotY = p.height())
+        	self.setCursor(cur)
 
-@pyqtSlot(str,int,int,int,int)
-def save_overload(self, style, x,y,width,height):
-        p = QPixmap.fromImage(self.grabWindow())
-        p = p.copy(x,y,width,height)
-        image_dir = "/tmp/deepin-screenshot-%s.png" %style
-        p.save(os.path.join(image_dir))
+        @pyqtSlot(str,int,int,int,int)
+        def save_overload(self, style, x,y,width,height):
+        	p = QPixmap.fromImage(self.grabWindow())
+        	p = p.copy(x,y,width,height)
+        	image_dir = "/tmp/deepin-screenshot-%s.png" %style
+        	p.save(os.path.join(image_dir))
 
-@pyqtSlot(str,int,int,int,int)
-def save_screenshot(self, saveId,x,y,width,height):
-       p = QPixmap.fromImage(self.grabWindow())
-       p = p.copy(x,y,width,height)
-       name = "%s%s" % (self.title(), time.strftime("%Y%m%d%H%M%S", time.localtime()))
-       saveDir = ""
-        if saveId == "auto_save" :
-            saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
-        elif saveId == "save_to_dir":
-            saveDir = QFileDialog.getExistingDirectory()
-        elif saveId == "save_to_desktop":
-            saveDir = QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
-        elif saveId == "auto_save_ClipBoard":
-            image_dir = "/tmp/DeepinScreenshot%s.png" %name
-            p.save(os.path.join(image_dir))
-            clipboard = gtk.Clipboard()
-            clipboard.set_image(gtk.gdk.pixbuf_new_from_file(image_dir))
-            clipboard.store()
-            saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
-        else :
-            image_dir = "/tmp/DeepinScreenshot%s.png" %name
-            p.save(os.path.join(image_dir))
-            clipboard = gtk.Clipboard()
-            clipboard.set_image(gtk.gdk.pixbuf_new_from_file(image_dir))
-            clipboard.store()
-        if saveDir != "" :
-            saveDir = saveDir + "/"
-        p.save(os.path.join(saveDir, "DeepinScreenshot%s.png" %name))
-        screenShotInterface.notify("深度截图", saveDir + "DeepinScreenshot%s.png" %name)
+        @pyqtSlot(str,int,int,int,int)
+        def save_screenshot(self, saveId,x,y,width,height):
+        	p = QPixmap.fromImage(self.grabWindow())
+        	p = p.copy(x,y,width,height)
+        	name = "%s%s" % (self.title(), time.strftime("%Y%m%d%H%M%S", time.localtime()))
+        	saveDir = ""
+        	if saveId == "auto_save" :
+        		saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
+        	elif saveId == "save_to_dir":
+        		saveDir = QFileDialog.getExistingDirectory()
+        	elif saveId == "save_to_desktop":
+        		saveDir = QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
+        	elif saveId == "auto_save_ClipBoard":
+        		image_dir = "/tmp/DeepinScreenshot%s.png" %name
+        		p.save(os.path.join(image_dir))
+        		clipboard = gtk.Clipboard()
+        		clipboard.set_image(gtk.gdk.pixbuf_new_from_file(image_dir))
+        		clipboard.store()
+        		saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
+        	else :
+        		image_dir = "/tmp/DeepinScreenshot%s.png" %name
+        		p.save(os.path.join(image_dir))
+        		clipboard = gtk.Clipboard()
+        		clipboard.set_image(gtk.gdk.pixbuf_new_from_file(image_dir))
+        		clipboard.store()
+        		if saveDir != "" :
+        			saveDir = saveDir + "/"
+        	p.save(os.path.join(saveDir, "DeepinScreenshot%s.png" %name))
+        	screenShotInterface.notify("深度截图", saveDir + "DeepinScreenshot%s.png" %name)
 
-@pyqtSlot()
-def enable_zone(self):
-    try:
-        iface = QDBusInterface("com.deepin.daemon.Zone", "/com/deepin/daemon/Zone", '', QDBusConnection.sessionBus())
-        iface.asyncCall("EnableZoneDetected", True)
-    except:
-        pass
+        @pyqtSlot()
+        def enable_zone(self):
+        	try:
+        		iface = QDBusInterface("com.deepin.daemon.Zone", "/com/deepin/daemon/Zone", '', QDBusConnection.sessionBus())
+        		iface.asyncCall("EnableZoneDetected", True)
+        	except:
+        		pass
 
-@pyqtSlot()
-def disable_zone(self):
-    try:
-        iface = QDBusInterface("com.deepin.daemon.Zone", "/com/deepin/daemon/Zone", '', QDBusConnection.sessionBus())
-        iface.asyncCall("EnableZoneDetected", False)
-    except:
-        pass
+        @pyqtSlot()
+        def disable_zone(self):
+        	try:
+        		iface = QDBusInterface("com.deepin.daemon.Zone", "/com/deepin/daemon/Zone", '', QDBusConnection.sessionBus())
+        		iface.asyncCall("EnableZoneDetected", False)
+        	except:
+        		pass
 
-def exit_app(self):
-    self.enable_zone()
-    qApp.quit()
+        def exit_app(self):
+        	self.enable_zone()
+        	qApp.quit()
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    view = Window()
+        app = QApplication(sys.argv)
+        view = Window()
 
-    qApp.lastWindowClosed.connect(view.exit_app)
+        qApp.lastWindowClosed.connect(view.exit_app)
 
-    qml_context = view.rootContext()
-    qml_context.setContextProperty("windowView", view)
-    qml_context.setContextProperty("qApp", qApp)
-    qml_context.setContextProperty("screenWidth", view.window_info.screen_width)
-    qml_context.setContextProperty("screenHeight", view.window_info.screen_height)
+        qml_context = view.rootContext()
+        qml_context.setContextProperty("windowView", view)
+        qml_context.setContextProperty("qApp", qApp)
+        qml_context.setContextProperty("screenWidth", view.window_info.screen_width)
+        qml_context.setContextProperty("screenHeight", view.window_info.screen_height)
 
-    view.setSource(QtCore.QUrl.fromLocalFile(os.path.join(os.path.dirname(__file__), 'Main.qml')))
+        view.setSource(QtCore.QUrl.fromLocalFile(os.path.join(os.path.dirname(__file__), 'Main.qml')))
 
-    view.disable_zone()
-    view.showFullScreen()
+        view.disable_zone()
+        view.showFullScreen()
 
-    signal.signal(signal.SIGINT, signal.SIG_DFL)
-    sys.exit(app.exec_())
+        signal.signal(signal.SIGINT, signal.SIG_DFL)
+        sys.exit(app.exec_())
 
