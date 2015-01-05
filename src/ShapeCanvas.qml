@@ -3,8 +3,8 @@ import "graphicProcess.js" as CalcGraphic
 
 Canvas {
 	id: canvas
-	width: 800
-	height: 900
+	width: parent.width
+	height: parent.height
 
 	property bool recording: false
 	property string shapeName: "text"

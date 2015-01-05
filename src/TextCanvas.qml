@@ -233,26 +233,26 @@ Rectangle {
 		}
 
 	}
+	/* click on the text is difficult to handle , add an MouseArea */
 	MouseArea {
 			id: moveText
 			anchors.fill: parent
-			enabled: text.readOnly
+			enabled: true
 			hoverEnabled: true
 
 			onEntered: {
 				/* To unbind the width and height of text */
-				text.width = text.width
-				text.height = text.height
 				rect.selected = true
 				cursorShape = Qt.ClosedHandCursor
 			}
 			onPressed: {
 				clickedPoint = Qt.point(mouse.x, mouse.y)
 				rect.isrotatedPoint = true
+				rect.selected = true
 				canvas.requestPaint()
 			}
 			onPositionChanged: {
-				if (rect.selected && text.readOnly && pressed) {
+				if (rect.selected && pressed) {
 					handleDrag(Qt.point(mouse.x, mouse.y))
 				}
 				canvas.requestPaint()
@@ -262,6 +262,7 @@ Rectangle {
 				canvas.requestPaint()
 			}
 			onDoubleClicked: {
+				rect.selected = true
 				text.readOnly = false
 				text.cursorVisible = true
 			}
@@ -274,10 +275,11 @@ Rectangle {
 			mainPoints[i].x = mainPoints[i].x + delX
 			mainPoints[i].y = mainPoints[i].y + delY
 		}
-		curX = curX + delX
-		curY = curY + delY
+		var destCentralPoint = Qt.point((mainPoints[0].x + mainPoints[3].x) / 2, (mainPoints[0].y + mainPoints[3].y) / 2)
+		curX = destCentralPoint.x - rect.width / 2
+		curY = destCentralPoint.y - rect.height / 2
 
-	clickedPoint = p
+		clickedPoint = p
 	}
 	function handleResize(p, key) {}
 	function rotateOnPoint(p) {
