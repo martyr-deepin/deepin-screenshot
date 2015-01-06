@@ -12,10 +12,10 @@ Rectangle {
 	property int curY
 	property int fontSize: 12
 
-	property bool selected: false
+	property bool selected: true
 	property bool reSized: false
 	property bool rotated: false
-	property bool isrotatedPoint: true
+	// property bool isrotatedPoint: true
 	property bool isRotating: false
 	property bool afterRotated: false
 	property bool firstDraw: false
@@ -184,8 +184,7 @@ Rectangle {
 		dashLine(ctx, mainPoints[2], mainPoints[3])
 		dashLine(ctx, mainPoints[3], mainPoints[1])
 		dashLine(ctx, mainPoints[1], mainPoints[0])
-
-	   if (isrotatedPoint) {
+	   if (rect.selected || rect.rotated) {
 		ctx.lineWidth = 1
 		ctx.strokeStyle = "black"
 		ctx.fillStyle = "yellow"
@@ -200,12 +199,19 @@ Rectangle {
 	   }
 	}
 	function clickOnPoint(p) {
-		if (p.x >= curX - 5 && p.x <= curX + width &&
-		p.y >= curY - 5 && p.y <= curY + height) {
-			return true
-		} else {
-			return false
-		}
+        var result = false
+        if (CalcEngine.textClickOnPoint(p, mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])) {
+            result = true
+            selected = result
+            rotated = !result
+        }
+        if (rotateOnPoint(p)) {
+            result = true
+            rotated = result
+            selected = !result
+        }
+        clickedPoint = p
+        return result
 	}
 	Rectangle {
 		id: textRect
@@ -228,6 +234,7 @@ Rectangle {
 			wrapMode: TextEdit.Wrap
 			readOnly: isreadOnly
 			cursorVisible: !isreadOnly
+			onCursorVisibleChanged: { canvas.requestPaint()}
 			onContentWidthChanged: { canvas.requestPaint()}
 			Component.onCompleted: forceActiveFocus()
 		}
@@ -235,40 +242,40 @@ Rectangle {
 	}
 	/* click on the text is difficult to handle , add an MouseArea */
 	MouseArea {
-			id: moveText
-			anchors.fill: parent
-			enabled: true
-			hoverEnabled: true
+		id: moveText
+		anchors.fill: parent
+		hoverEnabled: true
 
-			onEntered: {
-				/* To unbind the width and height of text */
-				rect.selected = true
-				cursorShape = Qt.ClosedHandCursor
-			}
-			onPressed: {
-				clickedPoint = Qt.point(mouse.x, mouse.y)
-				rect.isrotatedPoint = true
-				rect.selected = true
-				canvas.requestPaint()
-			}
-			onPositionChanged: {
-				if (rect.selected && pressed) {
-					handleDrag(Qt.point(mouse.x, mouse.y))
-				}
-				canvas.requestPaint()
-			}
-			onReleased: {
-				rect.selected = false
-				canvas.requestPaint()
-			}
-			onDoubleClicked: {
-				rect.selected = true
-				text.readOnly = false
-				text.cursorVisible = true
-			}
+		onEntered: {
+			/* To unbind the width and height of text */
+			rect.selected = true
+			cursorShape = Qt.ClosedHandCursor
 		}
+		onPressed: {
+			clickedPoint = Qt.point(mouse.x, mouse.y)
+			rect.selected = true
+			canvas.requestPaint()
+		}
+		onPositionChanged: {
+			if (rect.selected && pressed) {
+				handleDrag(Qt.point(mouse.x, mouse.y))
+			}
+			canvas.requestPaint()
+		}
+		onReleased: {
+			canvas.requestPaint()
+		}
+		onDoubleClicked: {
+			rect.selected = true
+            rect.isreadOnly = false
+            text.readOnly = false
+			text.cursorVisible = true
+		}
+	}
 	function handleDrag(p) {
-
+    /* keep the text's width & height the same as before drag*/
+        width = width
+        height = height
 		var delX = p.x - clickedPoint.x
 		var delY = p.y - clickedPoint.y
 		for (var i = 0; i < mainPoints.length; i++) {
@@ -318,9 +325,9 @@ Rectangle {
 	}
 	function hoverOnShape(p) {
 		var result = false
-	   // result = clickOnPoint(p)
-		// isHovered = result
-			return result
+		isHovered = result
+        
+        return result
 	}
 
 }

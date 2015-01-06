@@ -2020,3 +2020,18 @@ function getNewPostion(point1, point2, point3, point4, re) {
 	var pointX = Qt.point(changeX, changeY)
 	return pointX
 }
+/* for text if the clickedPoint is in the rectangle*/
+function textClickOnPoint(p, p1, p2, p3, p4) {
+	var sumArea = Math.sqrt(square(p1.x - p2.x) + square(p1.y - p2.y))*Math.sqrt(square(p4.x - p2.x) + square(p4.y - p2.y))
+	/* p_p1_p2 the square of the triangle*/
+	var sumArea_1 = pointTolineDistance(p1, p2, p)*Math.sqrt(square(p1.x - p2.x) + square(p1.y - p2.y))/2
+	if (sumArea_1 > sumArea) { return false }
+	var sumArea_2 = pointTolineDistance(p4, p2, p)*Math.sqrt(square(p4.x - p2.x) + square(p4.y - p2.y))/2
+	if (sumArea_2 > sumArea || sumArea_2 + sumArea_1 > sumArea) { return false }
+	var sumArea_3 = pointTolineDistance(p4, p3, p)*Math.sqrt(square(p4.x - p3.x) + square(p4.y - p3.y))/2
+    if (sumArea_3 > sumArea || sumArea_3 + sumArea_2 + sumArea_1 > sumArea) { return false }
+	var sumArea_4 = pointTolineDistance(p1, p3, p)*Math.sqrt(square(p1.x - p3.x) + square(p1.y - p3.y))/2
+    if (sumArea_4 > sumArea || sumArea_4 + sumArea_3 + sumArea_2 + sumArea_1 > sumArea) { return false }
+
+	return true
+}

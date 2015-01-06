@@ -72,20 +72,6 @@ Canvas {
 
 	function clickOnPoint(p) {
 		for (var i = 0; i < shapes.length; i++) {
-            if (canvas.shapeName == "text") {
-                var textRotate = false
-                textRotate = shapes[i].rotateOnPoint(p)
-                if (textRotate) {
-                return true
-                }
-            } else {
-                if (shapes[i].selected || shapes[i].reSized) {
-				    shapes[i].rotateOnPoint(p)
-			    }
-            }
-		}
-
-		for (var i = 0; i < shapes.length; i++) {
 
 			if (shapes[i].clickOnPoint(p)){
 				var selectedShape = i
@@ -203,7 +189,6 @@ Canvas {
                     for (var i = 0; i < canvas.shapes.length; i++) {
                         if (canvas.shapes[i].isreadOnly != "undefined" && canvas.shapes[i].isreadOnly == false) {
                             canvas.shapes[i].isreadOnly = true
-                            canvas.shapes[i].isrotatedPoint = false
                             isReadOnly = true
                         }
                     }
@@ -212,18 +197,20 @@ Canvas {
                         canvas.currenRecordingShape.curX = mouseX
                         canvas.currenRecordingShape.curY = mouseY
                         canvas.currenRecordingShape.fontSize = fontSize
+                        canvas.shapes.push(canvas.currenRecordingShape)
                     }
                 }
                 canvas.currenRecordingShape.linewidth = canvas.linewidth
 				canvas.currenRecordingShape.drawColor = canvas.paintColor
                 if (canvas.shapeName != "text") {
                     canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
+                    canvas.shapes.push(canvas.currenRecordingShape)
                 }
-                canvas.shapes.push(canvas.currenRecordingShape)
             } else {
                 if (canvas.shapeName == "text") {
                     canvas.recording = false
                     canvas.currenRecordingShape.firstDraw = true
+
                 }
             }
 			canvas.requestPaint()
@@ -254,17 +241,7 @@ Canvas {
 					if (canvas.shapes[i].rotated||drag.active)  rotatedShape = canvas.shapes[i]
 					if (canvas.shapes[i].selected||drag.active)  selectedShape = canvas.shapes[i]
 				}
-				if (selectedShape != null && pressed) {
-					if (canvas.shapeName != "text") {
-						selectedShape.handleDrag(Qt.point(mouse.x, mouse.y))
-					}
-					canvas.requestPaint()
-				}
-				if (reSizedShape != null && pressed) {
-					reSizedShape.handleResize(Qt.point(mouse.x, mouse.y), reSizedShape.clickedKey)
-					canvas.requestPaint()
-				}
-				if (rotatedShape != null && pressed) {
+                if (rotatedShape != null && pressed) {
 					if (canvas.shapeName == "text") {
 						rotatedShape.isRotating = true
 						canvasArea.cursorShape =windowView.set_cursor_shape("../image/mouse_style/shape/rotate_mouse.png", -1, -1)
@@ -276,8 +253,19 @@ Canvas {
 					}
 					canvas.requestPaint()
 				}
+                if (reSizedShape != null && pressed) {
+					reSizedShape.handleResize(Qt.point(mouse.x, mouse.y), reSizedShape.clickedKey)
+					canvas.requestPaint()
+				}
+                if (selectedShape != null && pressed) {
+					if (canvas.shapeName != "text") {
+						selectedShape.handleDrag(Qt.point(mouse.x, mouse.y))
+					}
+					canvas.requestPaint()
+				}
+						
 			} else {
-				for (var i = 0; i < canvas.shapes.length;i++ ) {
+				for (var i = 0; i < canvas.shapes.length;i++) {
                     if (canvas.shapeName != "text") {
                         if (canvas.shapes[i].reSized || canvas.shapes[i].selected || canvas.shapes[i].rotated) {
 						    if (canvas.shapes[i].hoverOnRotatePoint(Qt.point(mouse.x, mouse.y))) {
@@ -294,7 +282,8 @@ Canvas {
                         }
                     }
 				}
-				canvas.hoverOnShape(Qt.point(mouse.x, mouse.y))
+
+                canvas.hoverOnShape(Qt.point(mouse.x, mouse.y))
 				canvas.requestPaint()
 			}
 		}
