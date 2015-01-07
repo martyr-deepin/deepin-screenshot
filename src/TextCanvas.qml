@@ -1,4 +1,5 @@
 import QtQuick 2.1
+import QtGraphicalEffects 1.0
 import "calculateRect.js" as CalcEngine
 
 Rectangle {
@@ -11,17 +12,17 @@ Rectangle {
 	property int curX
 	property int curY
 	property int fontSize: 12
-
+    property int numberOrder
 	property bool selected: true
 	property bool reSized: false
 	property bool rotated: false
-	// property bool isrotatedPoint: true
-	property bool isRotating: false
+    
+    property bool isRotating: false
 	property bool afterRotated: false
 	property bool firstDraw: false
 	property bool isHovered: false
 	property bool isreadOnly: false
-
+    property alias text: text
 	property point clickedPoint
 	property point convertRotatePoint
 	property point rotatePoint
@@ -33,26 +34,28 @@ Rectangle {
 	property var smallPointRadius: 2
 	property var angleGlobal: 0
 	property int clickedKey: 0
-	property int linewidth: 3
+	property int linewidth: 1
 	property var reX: 0
-	property var reY: 0
+	property var reY
 	property var relaX
 	property var relaY
 	property color drawColor: "red"
-	property int lastWidth: width
-	property int lastHeight: height
+	//property int lastHeight: height
 	transform: Rotation { origin.x: isRotating ? width/2 : reX ;origin.y: isRotating ? height/2 : reY; angle: angleGlobal/Math.PI*180;}
-	color: isreadOnly ? "transparent": Qt.rgba(1, 1, 1, 0.2)
+    color: (selected || rotated) ? Qt.rgba(1, 1, 1, 0.2) : "transparent"
+    onSelectedChanged: { if (selected) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
+    onRotatedChanged: { if (rotated) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
+    onReSizedChanged: { if (reSized) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
 
-	onWidthChanged: { mainPoints = _expandByWidth(width);}
+    onWidthChanged: { mainPoints = _expandByWidth(width);}
 	onHeightChanged: { mainPoints = _expandByHeight(height);}
 
 	function _getMainPoints() {
 
 		mainPoints[0] = Qt.point(curX, curY)
 		mainPoints[1] = Qt.point(curX, curY + height)
-		mainPoints[2] = Qt.point(curX + width, curY)
-		mainPoints[3] = Qt.point(curX + width, curY + height)
+        mainPoints[2] = Qt.point(curX + width, curY)
+        mainPoints[3] = Qt.point(curX + width, curY + height)
 
 		var tmpPoints = CalcEngine.fourPoint_dir(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 		return tmpPoints
@@ -177,15 +180,16 @@ Rectangle {
 		if (!firstDraw) {
 			mainPoints = _getMainPoints()
 		}
-		ctx.lineWidth = 1
+		if (rect.selected || rect.rotated) {
+        ctx.lineWidth = 1
 		ctx.strokeStyle = Qt.rgba(1, 1, 1, 0.5)
 
 		dashLine(ctx, mainPoints[0], mainPoints[2])
 		dashLine(ctx, mainPoints[2], mainPoints[3])
 		dashLine(ctx, mainPoints[3], mainPoints[1])
 		dashLine(ctx, mainPoints[1], mainPoints[0])
-	   if (rect.selected || rect.rotated) {
-		ctx.lineWidth = 1
+    
+        ctx.lineWidth = 1
 		ctx.strokeStyle = "black"
 		ctx.fillStyle = "yellow"
 		/* Rotate */
@@ -226,18 +230,27 @@ Rectangle {
 		TextEdit {
 			id:text
 			textMargin: 3
-			width: Math.floor((canvas.width - curX - 10) / font.pixelSize)*font.pixelSize
-			height: Math.floor((canvas.height - curY - 10) / font.pixelSize)*font.pixelSize
+		//	width: Math.floor((canvas.width - curX - 10) / font.pixelSize)*font.pixelSize
+		//	height: Math.floor((canvas.height - curY - 10) / font.pixelSize)*font.pixelSize
 			color: drawColor
-
-			font.pixelSize: fontSize
+            onColorChanged: { select(0, 0)}
+            font.pixelSize: fontSize
 			wrapMode: TextEdit.Wrap
 			readOnly: isreadOnly
 			cursorVisible: !isreadOnly
 			onCursorVisibleChanged: { canvas.requestPaint()}
 			onContentWidthChanged: { canvas.requestPaint()}
 			Component.onCompleted: forceActiveFocus()
-		}
+            DropShadow {
+                anchors.fill: parent
+                horizontalOffset: 0
+                verticalOffset: 1
+                radius: 10
+                samples: 16
+                color: Qt.rgba(0, 0, 0, 0.2)
+                source: parent
+            }
+        }
 
 	}
 	/* click on the text is difficult to handle , add an MouseArea */
@@ -248,7 +261,6 @@ Rectangle {
 
 		onEntered: {
 			/* To unbind the width and height of text */
-			rect.selected = true
 			cursorShape = Qt.ClosedHandCursor
 		}
 		onPressed: {
@@ -262,10 +274,7 @@ Rectangle {
 			}
 			canvas.requestPaint()
 		}
-		onReleased: {
-			canvas.requestPaint()
-		}
-		onDoubleClicked: {
+        onDoubleClicked: {
 			rect.selected = true
             rect.isreadOnly = false
             text.readOnly = false
@@ -326,7 +335,6 @@ Rectangle {
 	function hoverOnShape(p) {
 		var result = false
 		isHovered = result
-        
         return result
 	}
 

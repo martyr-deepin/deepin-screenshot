@@ -13,11 +13,17 @@ Item {
 	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 
+    property int numberOrder
 	property var bigPointRadius: 3
 	property var smallPointRadius: 2
 	property int clickedKey: 0
 	property int linewidth: 3
 	property color drawColor: "red"
+    
+    onSelectedChanged: { if (selected) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
+    onRotatedChanged: { if (rotated) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
+    onReSizedChanged: { if (reSized) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
+
 
 
 	function draw(ctx) {

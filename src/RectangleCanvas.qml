@@ -15,12 +15,18 @@ Item {
 	property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 
+    property int numberOrder
 	property var bigPointRadius: 3
 	property var smallPointRadius: 2
 
 	property int clickedKey: 0
 	property int linewidth: 3
 	property color drawColor: "red"
+    
+    onSelectedChanged: { if (selected) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
+    onRotatedChanged: { if (rotated) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
+    onReSizedChanged: { if (reSized) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
+
 
 	function _getMainPoints() {
 
@@ -46,14 +52,14 @@ Item {
 		ctx.lineWidth = linewidth
 		ctx.fillStyle = "transparent"
 		ctx.strokeStyle = drawColor
-		ctx.save()
 		ctx.beginPath()
 		ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
 		ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
 		ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
 		ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
 		ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
-		ctx.closePath()
+        ctx.stroke()
+        ctx.closePath()
 		if (processBlur||processMosaic) {
 			ctx.fill()
 			ctx.stroke()
@@ -70,15 +76,15 @@ Item {
 		if (isHovered) {
 			ctx.lineWidth = 1
 			ctx.strokeStyle = "#01bdff"
-			ctx.save()
 			ctx.beginPath()
 			ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
 			ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
 			ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
 			ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
 			ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
-			ctx.closePath()
-			ctx.stroke()
+            ctx.stroke()
+        	ctx.closePath()
+
 		}
 		if (selected||reSized||rotated) {
 			ctx.lineWidth = 1
