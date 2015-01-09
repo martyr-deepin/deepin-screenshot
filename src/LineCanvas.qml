@@ -59,7 +59,6 @@ Item {
 
 		ctx.lineWidth = linewidth
 		ctx.strokeStyle = drawColor
-		ctx.save()
 		ctx.beginPath()
 		ctx.moveTo(points[0].x, points[0].y)
 
@@ -70,7 +69,6 @@ Item {
 		if (isHovered) {
 			ctx.lineWidth = 1
 			ctx.strokeStyle = "#01bdff"
-			ctx.save()
 			ctx.beginPath()
 			ctx.moveTo(points[0].x, points[0].y)
 

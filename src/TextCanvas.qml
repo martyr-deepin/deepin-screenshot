@@ -40,17 +40,17 @@ Rectangle {
 	property var relaX
 	property var relaY
 	property color drawColor: "red"
-	//property int lastHeight: height
-	transform: Rotation { origin.x: isRotating ? width/2 : reX ;origin.y: isRotating ? height/2 : reY; angle: angleGlobal/Math.PI*180;}
+    property  string state: "off"
+    transform: Rotation { origin.x: isRotating ? width/2 : reX ;origin.y: isRotating ? height/2 : reY; angle: angleGlobal/Math.PI*180;}
     color: (selected || rotated) ? Qt.rgba(1, 1, 1, 0.2) : "transparent"
-    onSelectedChanged: { if (selected) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
-    onRotatedChanged: { if (rotated) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
-    onReSizedChanged: { if (reSized) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
+  //  onSelectedChanged: { if (selected) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
+  //  onRotatedChanged: { if (rotated) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
+  //  onReSizedChanged: { if (reSized) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
 
     onWidthChanged: { mainPoints = _expandByWidth(width);}
 	onHeightChanged: { mainPoints = _expandByHeight(height);}
-
-	function _getMainPoints() {
+    
+    	function _getMainPoints() {
 
 		mainPoints[0] = Qt.point(curX, curY)
 		mainPoints[1] = Qt.point(curX, curY + height)
@@ -214,6 +214,10 @@ Rectangle {
             rotated = result
             selected = !result
         }
+        if (result) {
+            canvas.selectUnique(numberOrder)
+        }
+        
         clickedPoint = p
         return result
 	}
@@ -238,18 +242,20 @@ Rectangle {
 			wrapMode: TextEdit.Wrap
 			readOnly: isreadOnly
 			cursorVisible: !isreadOnly
-			onCursorVisibleChanged: { canvas.requestPaint()}
+            onFocusChanged: { if (focus) { canvas.selectUnique(numberOrder); canvas.requestPaint()}}
+
+            onCursorVisibleChanged: { canvas.requestPaint()}
 			onContentWidthChanged: { canvas.requestPaint()}
 			Component.onCompleted: forceActiveFocus()
-            DropShadow {
-                anchors.fill: parent
-                horizontalOffset: 0
-                verticalOffset: 1
-                radius: 10
-                samples: 16
-                color: Qt.rgba(0, 0, 0, 0.2)
-                source: parent
-            }
+            // DropShadow {
+           //     anchors.fill: parent
+           //     horizontalOffset: 0
+           //     verticalOffset: 1
+           //     radius: 10
+           //     samples: 16
+           //     color: Qt.rgba(0, 0, 0, 0.2)
+           //     source: parent
+           // }
         }
 
 	}
@@ -258,19 +264,22 @@ Rectangle {
 		id: moveText
 		anchors.fill: parent
 		hoverEnabled: true
-
+        
 		onEntered: {
 			/* To unbind the width and height of text */
 			cursorShape = Qt.ClosedHandCursor
 		}
 		onPressed: {
-			clickedPoint = Qt.point(mouse.x, mouse.y)
-			rect.selected = true
+            var pos = screen.get_absolute_cursor_pos()
+            clickedPoint = Qt.point(pos.x, pos.y)
+            rect.selected = true
+            text.forceActiveFocus()
 			canvas.requestPaint()
 		}
 		onPositionChanged: {
-			if (rect.selected && pressed) {
-				handleDrag(Qt.point(mouse.x, mouse.y))
+            if (rect.selected && pressed) {
+                var pos = screen.get_absolute_cursor_pos()
+				handleDrag(Qt.point(pos.x, pos.y))
 			}
 			canvas.requestPaint()
 		}
@@ -279,12 +288,15 @@ Rectangle {
             rect.isreadOnly = false
             text.readOnly = false
 			text.cursorVisible = true
-		}
+            text.forceActiveFocus()
+            canvas.requestPaint()
+
+        }
 	}
 	function handleDrag(p) {
     /* keep the text's width & height the same as before drag*/
-        width = width
-        height = height
+       // width = width
+       // height = height
 		var delX = p.x - clickedPoint.x
 		var delY = p.y - clickedPoint.y
 		for (var i = 0; i < mainPoints.length; i++) {
@@ -316,12 +328,12 @@ Rectangle {
 
 		var centerInPoint = Qt.point((mainPoints[0].x + mainPoints[3].x) / 2, (mainPoints[0].y + mainPoints[3].y) / 2)
 		var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-		var angle = CalcEngine.calcutateAngle(clickedPoint, p, centerInPoint)
-		angleGlobal += angle
+        var angle = CalcEngine.calcutateAngle(clickedPoint, p, centerInPoint)
+        angleGlobal += angle
 		for (var i = 0; i < 4; i++) {
-			mainPoints[i] = CalcEngine.pointRotate(centerInPoint, mainPoints[i], angle)
+            mainPoints[i] = CalcEngine.pointRotate(centerInPoint, mainPoints[i], angle)
 		}
-		rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+        rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 
 		reX = width / 2
 		reY = height / 2

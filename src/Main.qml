@@ -16,6 +16,11 @@ Item {
     property alias selectSizeTooltip: selectSizeTooltip
     property alias toolbar: toolbar
 
+    function get_absolute_cursor_pos() {
+        var pos_origin = windowView.get_cursor_pos()
+        var pos_absolute = Qt.point(pos_origin.x - selectArea.x, pos_origin.y - selectArea.y)
+        return pos_absolute
+    }
     MouseArea {
         id: screenArea
         anchors.fill: parent

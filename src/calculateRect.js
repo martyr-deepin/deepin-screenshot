@@ -1873,11 +1873,14 @@ function  pointDir(point1, point2, point3, point4) {
 
 /* the angle in point3 */
 function calcutateAngle(point1, point2, point3) {
-
+    if (point1 == point2) { 
+        angle = 0
+        return angle
+    }
 	var a = square(point1.x- point3.x) + square(point1.y - point3.y)
 	var b = square(point2.x - point3.x) + square(point2.y - point3.y)
 	var c = square(point1.x - point2.x) + square(point1.y - point2.y)
-
+    
 	var angle = Math.acos((a + b - c) / (2*Math.sqrt(a)*Math.sqrt(b)))
 	if (point1.x <= point3.x && point1.y < point3.y) {
 		if (point2.x < point1.x || point2.y > point1.y) {

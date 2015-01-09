@@ -1,6 +1,6 @@
 import QtQuick 2.1
 import "graphicProcess.js" as CalcGraphic
-
+import "calculateRect.js" as CalcEngine
 Canvas {
 	id: canvas
 	width: parent.width
@@ -72,10 +72,7 @@ Canvas {
 
 	function clickOnPoint(p) {
 		for (var i = 0; i < shapes.length; i++) {
-            shapes[i].selected = false
-            shapes[i].reSized = false
-            shapes[i].rotated = false
-            if (shapes[i].clickOnPoint(p)){
+                if (shapes[i].clickOnPoint(p)){
 				var selectedShape = i
 			}
 		}
@@ -123,7 +120,13 @@ Canvas {
             shapes[i].rotated = false
             shapes[i].reSized = false
         }
-                  
+    }
+    function stateUnique(num) {
+        if (num == 0) { var h = 1}
+        else { var h = 0}
+        for (var i = h; i < shapes.length && i != num; i++) {
+            shapes[i].state = "off"
+        }
     }
 	function mouse_style(shape,paint) {
 		switch (shape) {
@@ -177,8 +180,8 @@ Canvas {
 		hoverEnabled: true
 		cursorShape: canvas.mouse_style(canvas.shapeName, canvas.paintColor)
         onPressed: {
-
-			if (!canvas.clickOnPoint(Qt.point(mouse.x, mouse.y))) {
+            var pos = screen.get_absolute_cursor_pos()
+			if (!canvas.clickOnPoint(Qt.point(pos.x, pos.y))) {
 				canvas.recording = true
                 if (canvas.shapeName == "rect") {
                         canvas.currenRecordingShape = rect_component.createObject(canvas, {})
@@ -204,9 +207,11 @@ Canvas {
                         }
                     }
                     if (!isReadOnly) {
+                        
                         canvas.currenRecordingShape = text_component.createObject(canvas, {})
-                        canvas.currenRecordingShape.curX = mouseX
-                        canvas.currenRecordingShape.curY = mouseY
+                        var pos = screen.get_absolute_cursor_pos()
+                        canvas.currenRecordingShape.curX = pos.x
+                        canvas.currenRecordingShape.curY = pos.y
                         canvas.currenRecordingShape.fontSize = fontSize
                         canvas.currenRecordingShape.numberOrder = canvas.shapes.length
                         canvas.shapes.push(canvas.currenRecordingShape)
@@ -215,7 +220,7 @@ Canvas {
                	canvas.currenRecordingShape.drawColor = Qt.binding( function () { return canvas.paintColor})
                 if (canvas.shapeName != "text") {
                     canvas.currenRecordingShape.linewidth = canvas.linewidth
-                    canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
+                    canvas.currenRecordingShape.points.push(Qt.point(pos.x, pos.y))
                     canvas.currenRecordingShape.numberOrder = canvas.shapes.length
                     canvas.shapes.push(canvas.currenRecordingShape)
                 }
@@ -223,14 +228,27 @@ Canvas {
                 if (canvas.shapeName == "text") {
                     canvas.recording = false
                     canvas.currenRecordingShape.firstDraw = true
-
+                    var pos = screen.get_absolute_cursor_pos()
+                    for (var i = 0; i < canvas.shapes.length; i++) {
+                        if (canvas.shapes[i].isreadOnly != "undefined" && canvas.shapes[i].rotateOnPoint(Qt.point(pos.x, pos.y))) {
+                            return
+                        } else if (canvas.shapes[i].isreadOnly != "undefined" && canvas.shapes[i].isreadOnly == false) {
+                            canvas.shapes[i].isreadOnly = true
+                            canvas.shapes[i].selected = false
+                            canvas.shapes[i].rotated = false
+                            canvas.shapes[i].reSized = false
+                            isReadOnly = true
+                        }
+                    }
+                   
                 }
             }
 			canvas.requestPaint()
 		}
 		onReleased: {
 			if (canvas.recording && canvas.shapeName != "text") {
-				canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
+                var pos = screen.get_absolute_cursor_pos()
+                canvas.currenRecordingShape.points.push(Qt.point(pos.x, pos.y))
 				canvas.currenRecordingShape.firstDraw = true
 				canvas.recording = false
 				canvas.requestPaint()
@@ -245,7 +263,8 @@ Canvas {
 
 		onPositionChanged: {
             if (canvas.recording && pressed) {
-                canvas.currenRecordingShape.points.push(Qt.point(mouse.x, mouse.y))
+                var pos = screen.get_absolute_cursor_pos()
+                canvas.currenRecordingShape.points.push(Qt.point(pos.x, pos.y))
 				canvas.requestPaint()
             } else if(!canvas.recording && pressed) {
 				var selectedShape = null,reSizedShape = null,rotatedShape = null
@@ -257,22 +276,26 @@ Canvas {
                 if (rotatedShape != null && pressed) {
 					if (canvas.shapeName == "text") {
 						rotatedShape.isRotating = true
-						canvasArea.cursorShape =windowView.set_cursor_shape("../image/mouse_style/shape/rotate_mouse.png", -1, -1)
-						rotatedShape.handleRotate(Qt.point(mouse.x, mouse.y))
-						rotatedShape.isRotating = false
+                        canvasArea.cursorShape =windowView.set_cursor_shape("../image/mouse_style/shape/rotate_mouse.png", -1, -1)
+                        var pos = screen.get_absolute_cursor_pos()
+                        rotatedShape.handleRotate(Qt.point(pos.x, pos.y))
+                        rotatedShape.isRotating = false
 					} else {
-						canvasArea.cursorShape = windowView.set_cursor_shape("../image/mouse_style/shape/rotate_mouse.png", -1, -1)
-						rotatedShape.handleRotate(Qt.point(mouse.x, mouse.y))
+                        	
+                        canvasArea.cursorShape = windowView.set_cursor_shape("../image/mouse_style/shape/rotate_mouse.png", -1, -1)
+                        var pos = screen.get_absolute_cursor_pos()
+                        rotatedShape.handleRotate(Qt.point(pos.x, pos.y))
 					}
 					canvas.requestPaint()
 				}
                 if (reSizedShape != null && pressed) {
-					reSizedShape.handleResize(Qt.point(mouse.x, mouse.y), reSizedShape.clickedKey)
+					reSizedShape.handleResize(Qt.point(pos.x, pos.y), reSizedShape.clickedKey)
 					canvas.requestPaint()
 				}
                 if (selectedShape != null && pressed) {
 					if (canvas.shapeName != "text") {
-						selectedShape.handleDrag(Qt.point(mouse.x, mouse.y))
+                        var pos = screen.get_absolute_cursor_pos()
+                        selectedShape.handleDrag(Qt.point(pos.x, pos.y))
 					}
 					canvas.requestPaint()
 				}
@@ -280,7 +303,8 @@ Canvas {
 			} else {
 				for (var i = 0; i < canvas.shapes.length;i++) {
                     if (canvas.shapes[i].reSized || canvas.shapes[i].selected || canvas.shapes[i].rotated) {
-				        if (canvas.shapes[i].hoverOnRotatePoint(Qt.point(mouse.x, mouse.y))) {
+                        var pos = screen.get_absolute_cursor_pos()
+                        if (canvas.shapes[i].hoverOnRotatePoint(Qt.point(pos.x, pos.y))) {
 				   	        canvasArea.cursorShape = windowView.set_cursor_shape("../image/mouse_style/shape/rotate_mouse.png", -1, -1)
 				        } else {
 				   	        canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
@@ -288,7 +312,8 @@ Canvas {
                     }
 				}
                 if (canvas.shapeName != "text") {
-                    canvas.hoverOnShape(Qt.point(mouse.x, mouse.y))
+                    var pos = screen.get_absolute_cursor_pos()
+                    canvas.hoverOnShape(Qt.point(pos.x, pos.y))
                     canvas.requestPaint()
                 }
 			}
