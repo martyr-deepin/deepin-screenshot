@@ -18,7 +18,8 @@ Rectangle {
 	property bool rotated: false
     
     property bool isRotating: false
-	property bool afterRotated: false
+    property bool isDraging: false
+    property bool afterRotated: false
 	property bool firstDraw: false
 	property bool isHovered: false
 	property bool isreadOnly: false
@@ -35,20 +36,16 @@ Rectangle {
 	property var angleGlobal: 0
 	property int clickedKey: 0
 	property int linewidth: 1
-	property var reX: 0
+	property var reX
 	property var reY
-	property var relaX
-	property var relaY
 	property color drawColor: "red"
     property  string state: "off"
-    transform: Rotation { origin.x: isRotating ? width/2 : reX ;origin.y: isRotating ? height/2 : reY; angle: angleGlobal/Math.PI*180;}
+    transform: Rotation { origin.x: (isRotating||isDraging) ? width/2 : reX ;origin.y: (isRotating||isDraging) ? height/2 : reY; angle: angleGlobal/Math.PI*180;}
     color: (selected || rotated) ? Qt.rgba(1, 1, 1, 0.2) : "transparent"
-  //  onSelectedChanged: { if (selected) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
-  //  onRotatedChanged: { if (rotated) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
-  //  onReSizedChanged: { if (reSized) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
 
     onWidthChanged: { mainPoints = _expandByWidth(width);}
 	onHeightChanged: { mainPoints = _expandByHeight(height);}
+    
     
     	function _getMainPoints() {
 
@@ -207,12 +204,10 @@ Rectangle {
         if (CalcEngine.textClickOnPoint(p, mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])) {
             result = true
             selected = result
-            rotated = !result
         }
         if (rotateOnPoint(p)) {
             result = true
             rotated = result
-            selected = !result
         }
         if (result) {
             canvas.selectUnique(numberOrder)
@@ -230,7 +225,8 @@ Rectangle {
 		anchors.topMargin: 3
 		anchors.bottomMargin: 3
 		color: "transparent"
-
+        border.width: 1
+        border.color: "#01bdff"
 		TextEdit {
 			id:text
 			textMargin: 3
@@ -279,7 +275,9 @@ Rectangle {
 		onPositionChanged: {
             if (rect.selected && pressed) {
                 var pos = screen.get_absolute_cursor_pos()
-				handleDrag(Qt.point(pos.x, pos.y))
+                isDraging = true
+                handleDrag(Qt.point(pos.x, pos.y))
+                isDraging = false
 			}
 			canvas.requestPaint()
 		}
@@ -306,7 +304,8 @@ Rectangle {
 		var destCentralPoint = Qt.point((mainPoints[0].x + mainPoints[3].x) / 2, (mainPoints[0].y + mainPoints[3].y) / 2)
 		curX = destCentralPoint.x - rect.width / 2
 		curY = destCentralPoint.y - rect.height / 2
-
+        reX = width / 2
+        reY = height / 2
 		clickedPoint = p
 	}
 	function handleResize(p, key) {}
@@ -322,7 +321,7 @@ Rectangle {
 		return rotated
 	}
 	function handleRotate(p) {
-		var beginPoint = _getbeginPoint()
+        var beginPoint = _getbeginPoint()
 		curX = beginPoint.x
 		curY = beginPoint.y
 
@@ -338,7 +337,7 @@ Rectangle {
 		reX = width / 2
 		reY = height / 2
 		clickedPoint = p
-	}
+    }
 	function hoverOnRotatePoint(p) {
 		var result =  false
 		result = rotateOnPoint(p)

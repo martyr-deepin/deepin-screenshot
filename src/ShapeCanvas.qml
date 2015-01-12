@@ -207,7 +207,6 @@ Canvas {
                         }
                     }
                     if (!isReadOnly) {
-                        
                         canvas.currenRecordingShape = text_component.createObject(canvas, {})
                         var pos = screen.get_absolute_cursor_pos()
                         canvas.currenRecordingShape.curX = pos.x
@@ -281,7 +280,6 @@ Canvas {
                         rotatedShape.handleRotate(Qt.point(pos.x, pos.y))
                         rotatedShape.isRotating = false
 					} else {
-                        	
                         canvasArea.cursorShape = windowView.set_cursor_shape("../image/mouse_style/shape/rotate_mouse.png", -1, -1)
                         var pos = screen.get_absolute_cursor_pos()
                         rotatedShape.handleRotate(Qt.point(pos.x, pos.y))
