@@ -19,7 +19,10 @@ Item {
 	property int clickedKey: 0
 	property int linewidth: 3
     property color drawColor: "red"
-    
+
+    property bool processBlur: false
+    property bool processMosaic: false
+
     onSelectedChanged: { if (selected) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
     onRotatedChanged: { if (rotated) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
     onReSizedChanged: { if (reSized) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
@@ -52,7 +55,6 @@ Item {
 	    ctx.lineWidth = linewidth
 	    ctx.strokeStyle = drawColor
 	    ctx.fillStyle = "transparent"
-	    ctx.save()
 		ctx.beginPath()
 		ctx.moveTo(minorPoints[0].x, minorPoints[0].y);
 		ctx.bezierCurveTo(points1[0].x, points1[0].y, points1[1].x, points1[1].y, minorPoints[1].x, minorPoints[1].y);
@@ -62,8 +64,7 @@ Item {
 		ctx.closePath()
 
 		if (processBlur||processMosaic) {
-			ctx.fill()
-			ctx.stroke()
+			ctx.save()
 			ctx.clip()
 			if (processBlur) {
 				ctx.putImageData(parent.blurImageData, 0, 0)
@@ -71,8 +72,6 @@ Item {
 				ctx.putImageData(parent.mosaicImageData, 0, 0)
 			}
 			ctx.restore()
-		} else {
-			ctx.stroke()
 		}
 	    if (selected||reSized||rotated) {
 	    	ctx.lineWidth = 1
@@ -159,22 +158,17 @@ Item {
 	    	ctx.stroke()
         }
         if (isHovered) {
-        ctx.lineWidth = 1
-	    ctx.strokeStyle = "#01bdff"
-	    ctx.save()
-		ctx.beginPath()
-		ctx.moveTo(minorPoints[0].x, minorPoints[0].y);
-		ctx.bezierCurveTo(points1[0].x, points1[0].y, points1[1].x, points1[1].y, minorPoints[1].x, minorPoints[1].y);
-		ctx.bezierCurveTo(points1[4].x, points1[4].y, points1[5].x, points1[5].y , minorPoints[2].x, minorPoints[2].y );
-		ctx.bezierCurveTo(points1[6].x, points1[6].y, points1[7].x, points1[7].y, minorPoints[3].x, minorPoints[3].y);
-		ctx.bezierCurveTo(points1[3].x, points1[3].y, points1[2].x, points1[2].y, minorPoints[0].x, minorPoints[0].y);
-		ctx.closePath()
-        ctx.stroke()
+	        ctx.lineWidth = 1
+		    ctx.strokeStyle = "#01bdff"
+			ctx.beginPath()
+			ctx.moveTo(minorPoints[0].x, minorPoints[0].y);
+			ctx.bezierCurveTo(points1[0].x, points1[0].y, points1[1].x, points1[1].y, minorPoints[1].x, minorPoints[1].y);
+			ctx.bezierCurveTo(points1[4].x, points1[4].y, points1[5].x, points1[5].y , minorPoints[2].x, minorPoints[2].y );
+			ctx.bezierCurveTo(points1[6].x, points1[6].y, points1[7].x, points1[7].y, minorPoints[3].x, minorPoints[3].y);
+			ctx.bezierCurveTo(points1[3].x, points1[3].y, points1[2].x, points1[2].y, minorPoints[0].x, minorPoints[0].y);
+			ctx.closePath()
+	        ctx.stroke()
         }
-
-		if (!(processBlur||processMosaic)) {
-			ctx.restore()
-		}
 	}
 	function clickOnPoint(p) {
 		selected = false
@@ -310,7 +304,7 @@ Item {
     	if  (CalcEngine.pointOnEllipse(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p)) {
 			result = true
         } else {
-            result = false 
+            result = false
         }
         isHovered = result
         return result

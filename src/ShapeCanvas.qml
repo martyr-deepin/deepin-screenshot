@@ -77,7 +77,7 @@ Canvas {
 			}
 		}
         if (selectedShape != "undefined") {
-             selectUnique(selectedShape) 
+             selectUnique(selectedShape)
          } else {
             var selectedShape = shapes.length + 1
             selectUnique(selectedShape)
@@ -184,10 +184,14 @@ Canvas {
 			if (!canvas.clickOnPoint(Qt.point(pos.x, pos.y))) {
 				canvas.recording = true
                 if (canvas.shapeName == "rect") {
-                        canvas.currenRecordingShape = rect_component.createObject(canvas, {})
+                    canvas.currenRecordingShape = rect_component.createObject(canvas, {})
+                    canvas.currenRecordingShape.processBlur = canvas.processBlur
+                    canvas.currenRecordingShape.processMosaic = canvas.processMosaic
 				}
 				if (canvas.shapeName == "ellipse") {
 					canvas.currenRecordingShape = ellipse_component.createObject(canvas, {})
+					canvas.currenRecordingShape.processBlur = canvas.processBlur
+					canvas.currenRecordingShape.processMosaic = canvas.processMosaic
 				}
 				if (canvas.shapeName == "arrow") {
 					canvas.currenRecordingShape = arrow_component.createObject(canvas, {})
@@ -239,7 +243,7 @@ Canvas {
                             isReadOnly = true
                         }
                     }
-                   
+
                 }
             }
 			canvas.requestPaint()
@@ -297,7 +301,7 @@ Canvas {
 					}
 					canvas.requestPaint()
 				}
-						
+
 			} else {
 				for (var i = 0; i < canvas.shapes.length;i++) {
                     if (canvas.shapes[i].reSized || canvas.shapes[i].selected || canvas.shapes[i].rotated) {

@@ -576,10 +576,6 @@ Item {
                         toolbar.hasShapeCanvas = true
                     }
                     toolbar.shape.shapeName = "rect"
-                    toolbar.shape.isBlur = false
-                    toolbar.shape.isMosaic = false
-                    toolbar.shape.processBlur = false
-                    toolbar.shape.processMosaic = false
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
 
@@ -615,10 +611,6 @@ Item {
                         toolbar.hasShapeCanvas = true
                     }
                     toolbar.shape.shapeName = "ellipse"
-                    toolbar.shape.isBlur = false
-                    toolbar.shape.isMosaic = false
-                    toolbar.shape.processBlur = false
-                    toolbar.shape.processMosaic = false
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
                 }
@@ -1012,6 +1004,7 @@ Item {
             anchors.leftMargin: 4
             anchors.bottom: parent.bottom
             property string imageName: "blur"
+
             function checkState(id) {
                 for (var i=0; i<shapeEffect.children.length; i++) {
                     var childButton = shapeEffect.children[i]
@@ -1020,7 +1013,6 @@ Item {
                     }
                 }
             }
-
 
             ToolButton {
                 id: blurType
@@ -1034,6 +1026,8 @@ Item {
                     windowView.save_overload("blur", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
                     toolbar.shape.isBlur = true
                     toolbar.shape.processBlur = true
+                    toolbar.shape.isMosaic = false
+                    toolbar.shape.processMosaic = false
                 }
             }
             ToolButton {
@@ -1046,6 +1040,8 @@ Item {
                     screenArea.enabled = false
                     shapeEffect.imageName = "mosaic"
                     windowView.save_overload("mosaic", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
+                    toolbar.shape.isBlur = false
+                    toolbar.shape.processBlur = false
                     toolbar.shape.isMosaic = true
                     toolbar.shape.processMosaic = true
                 }

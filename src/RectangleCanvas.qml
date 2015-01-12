@@ -22,7 +22,10 @@ Item {
 	property int clickedKey: 0
 	property int linewidth: 3
 	property color drawColor: "red"
-    
+
+	property bool processBlur: false
+	property bool processMosaic: false
+
     onSelectedChanged: { if (selected) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
     onRotatedChanged: { if (rotated) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
     onReSizedChanged: { if (reSized) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
@@ -60,9 +63,9 @@ Item {
 		ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
         ctx.stroke()
         ctx.closePath()
+
 		if (processBlur||processMosaic) {
-			ctx.fill()
-			ctx.stroke()
+			ctx.save()
 			ctx.clip()
 			if (processBlur) {
 				ctx.putImageData(parent.blurImageData, 0, 0)
@@ -70,8 +73,6 @@ Item {
 				ctx.putImageData(parent.mosaicImageData, 0, 0)
 			}
 			ctx.restore()
-		} else {
-			ctx.stroke()
 		}
 		if (isHovered) {
 			ctx.lineWidth = 1
@@ -158,9 +159,6 @@ Item {
 			ctx.closePath()
 			ctx.fill()
 			ctx.stroke()
-		}
-		if (!(processBlur||processMosaic)) {
-			ctx.restore()
 		}
 	}
 	function clickOnPoint(p) {
