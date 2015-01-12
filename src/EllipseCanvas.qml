@@ -62,6 +62,7 @@ Item {
 		ctx.bezierCurveTo(points1[6].x, points1[6].y, points1[7].x, points1[7].y, minorPoints[3].x, minorPoints[3].y);
 		ctx.bezierCurveTo(points1[3].x, points1[3].y, points1[2].x, points1[2].y, minorPoints[0].x, minorPoints[0].y);
 		ctx.closePath()
+		ctx.stroke()
 
 		if (processBlur||processMosaic) {
 			ctx.save()

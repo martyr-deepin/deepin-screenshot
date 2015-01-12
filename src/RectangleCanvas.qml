@@ -61,8 +61,8 @@ Item {
 		ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
 		ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
 		ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
-        ctx.stroke()
         ctx.closePath()
+        ctx.stroke()
 
 		if (processBlur||processMosaic) {
 			ctx.save()

@@ -27,7 +27,7 @@ Item {
         hoverEnabled: true
         property int pressX: 0
         property int pressY: 0
-        cursorShape: windowView.set_cursor_shape("../image/mouse_style/shape/start_cursor.png", -1, -1)
+        cursorShape: windowView.set_cursor_shape("shape_start_cursor")
 
         onPressed: {
             var pos = windowView.get_cursor_pos()
