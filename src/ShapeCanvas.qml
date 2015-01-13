@@ -113,22 +113,19 @@ Canvas {
         }
         return false
     }
+
     function selectUnique(num) {
-        if (num == 0) { var h = 1}
-        else { var h = 0}
-        for (var i = h; i < shapes.length && i != num; i++) {
-            shapes[i].selected = false
-            shapes[i].rotated = false
-            shapes[i].reSized = false
+        for (var i = 0; i < shapes.length; i++) {
+            if (i == num) {
+                continue
+            } else {
+                shapes[i].selected = false
+                shapes[i].rotated = false
+                shapes[i].reSized = false
+            }
         }
     }
-    function stateUnique(num) {
-        if (num == 0) { var h = 1}
-        else { var h = 0}
-        for (var i = h; i < shapes.length && i != num; i++) {
-            shapes[i].state = "off"
-        }
-    }
+
     function mouse_style(shape,paint) {
         switch (shape) {
             case "rect": { return windowView.set_cursor_shape("shape_rect_mouse") }
@@ -286,7 +283,7 @@ Canvas {
                         rotatedShape.handleRotate(Qt.point(pos.x, pos.y))
                         rotatedShape.isRotating = false
                     } else {
-                        canvasArea.cursorShape = windowView.set_cursor_shape("shape/rotate_mouse")
+                        canvasArea.cursorShape = windowView.set_cursor_shape("shape_rotate_mouse")
                         var pos = screen.get_absolute_cursor_pos()
                         rotatedShape.handleRotate(Qt.point(pos.x, pos.y))
                     }
