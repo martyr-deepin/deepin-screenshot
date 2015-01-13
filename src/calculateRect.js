@@ -80,14 +80,13 @@ function pointSplid(point1, point2, distance) {
 		var addx = 0
 		var addy = distance
 	} else {
-		var k = (point1.y - point2.y) / (point1.x - point2.x)
-		var b = point1.y - point1.x*k
 		var addx = distance*Math.cos(Math.atan2(Math.abs(point1.y - point2.y), Math.abs(point1.x - point2.x)))
 		var addy = distance*Math.sin(Math.atan2(Math.abs(point1.y - point2.y), Math.abs(point1.x - point2.x)))
 	}
 	var tmp = [addx, addy]
 	return tmp
 }
+
 function resizePoint(point1, point2, point3, point4, p) {
 
 	if (p.x >= point1.x - 5 && p.x <= point1.x + 5 &&

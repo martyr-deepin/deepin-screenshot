@@ -19,6 +19,8 @@ Item {
 	property int clickedKey: 0
 	property int linewidth: 3
 	property color drawColor: "red"
+	property int arrowSize: 16
+	property int arrowAngle: 40
 
     onSelectedChanged: { if (selected) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
     onRotatedChanged: { if (rotated) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
@@ -37,120 +39,38 @@ Item {
 		ctx.stroke()
 		ctx.closePath()
 
-		if (endPoint.x - startPoint.x > 0 && endPoint.y - startPoint.y < 0)
-		{
-			var add = CalcEngine.pointSplid(startPoint, endPoint, 3*ctx.lineWidth)
-			var pointA = Qt.point(endPoint.x - add[0], endPoint.y + add[1])
-			var angle = 20/180*Math.PI
-			var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
-			var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
-			var splidistance = Math.sqrt(CalcEngine.square(3*ctx.lineWidth) - CalcEngine.square(distance))
-			add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
-			var pointC = Qt.point(endPoint.x - add[0], endPoint.y + add[1])
-			var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
-			var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
-
-			ctx.fillStyle =  drawColor
-			ctx.strokeStyle = drawColor
-			ctx.beginPath()
-
-			ctx.moveTo(endPoint.x, endPoint.y)
-			ctx.lineTo(pointB.x, pointB.y)
-			ctx.lineTo(pointE.x, pointE.y)
-			ctx.lineTo(pointD.x, pointD.y)
-			ctx.lineTo(endPoint.x, endPoint.y)
-			ctx.closePath()
-			ctx.stroke()
-			ctx.fill()
-
-		}
-		else if (endPoint.x - startPoint.x <= 0 && endPoint.y - startPoint.y <= 0)
-		{
-			var add = CalcEngine.pointSplid(startPoint, endPoint, 20)
-			var pointA = Qt.point(endPoint.x + add[0], endPoint.y + add[1])
-			var angle = 20/180*Math.PI
-			var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
-			var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
-			var splidistance = Math.sqrt(CalcEngine.square(20) - CalcEngine.square(distance))
-			add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
-			var pointC = Qt.point(endPoint.x + add[0], endPoint.y + add[1])
-			var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
-			var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
-
-			ctx.fillStyle =  drawColor
-			ctx.strokeStyle = drawColor
-			ctx.beginPath()
-
-			ctx.moveTo(endPoint.x, endPoint.y)
-			ctx.lineTo(pointB.x, pointB.y)
-			ctx.lineTo(pointE.x, pointE.y)
-			ctx.lineTo(pointD.x, pointD.y)
-			ctx.lineTo(endPoint.x, endPoint.y)
-			ctx.closePath()
-			ctx.stroke()
-			ctx.fill()
-		}
-		else if (endPoint.x - startPoint.x <= 0 && endPoint.y - startPoint.y > 0)
-		{var add = CalcEngine.pointSplid(startPoint, endPoint, 20)
-			var pointA = Qt.point(endPoint.x + add[0], endPoint.y - add[1])
-			var angle = 20/180*Math.PI
-			var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
-			var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
-			var splidistance = Math.sqrt(CalcEngine.square(20) - CalcEngine.square(distance))
-			add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
-			var pointC = Qt.point(endPoint.x + add[0], endPoint.y - add[1])
-			var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
-			var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
-
-			ctx.fillStyle =  drawColor
-			ctx.strokeStyle = drawColor
-			ctx.beginPath()
-
-			ctx.moveTo(endPoint.x, endPoint.y)
-			ctx.lineTo(pointB.x, pointB.y)
-			ctx.lineTo(pointE.x, pointE.y)
-			ctx.lineTo(pointD.x, pointD.y)
-			ctx.lineTo(endPoint.x, endPoint.y)
-			ctx.closePath()
-			ctx.stroke()
-			ctx.fill()
-		}
-		else
-		{
-			var add = CalcEngine.pointSplid(startPoint, endPoint, 20)
-			var pointA = Qt.point(endPoint.x - add[0], endPoint.y - add[1])
-			var angle = 20/180*Math.PI
-			var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
-			var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
-			var splidistance = Math.sqrt(CalcEngine.square(20) - CalcEngine.square(distance))
-			add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
-			var pointC = Qt.point(endPoint.x - add[0], endPoint.y - add[1])
-			var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
-			var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
-
-			ctx.fillStyle =  drawColor
-			ctx.strokeStyle = drawColor
-			ctx.beginPath()
-
-			ctx.moveTo(endPoint.x, endPoint.y)
-			ctx.lineTo(pointB.x, pointB.y)
-			ctx.lineTo(pointE.x, pointE.y)
-			ctx.lineTo(pointD.x, pointD.y)
-			ctx.lineTo(endPoint.x, endPoint.y)
-			ctx.closePath()
-			ctx.stroke()
-			ctx.fill()
-		}
 		if (isHovered) {
 			ctx.lineWidth = 1
 			ctx.strokeStyle = "#01bdff"
-			ctx.save()
-			ctx.beginPath()
-			ctx.moveTo(startPoint.x, startPoint.y)
-			ctx.lineTo(endPoint.x, endPoint.y)
 			ctx.stroke()
-			ctx.closePath()
 		}
+
+		var xMultiplier = (startPoint.x - endPoint.x) / Math.abs(startPoint.x - endPoint.x)
+		var yMultiplier = (startPoint.y - endPoint.y) / Math.abs(startPoint.y - endPoint.y)
+
+		var add = CalcEngine.pointSplid(startPoint, endPoint, arrowSize)
+		var pointA = Qt.point(endPoint.x + xMultiplier * add[0], endPoint.y + yMultiplier * add[1])
+		var angle = arrowAngle / 2 / 180 * Math.PI
+		var pointB = CalcEngine.pointRotate(endPoint, pointA, angle)
+		var distance = CalcEngine.pointTolineDistance(startPoint, endPoint, pointB)
+		var splidistance = Math.sqrt(CalcEngine.square(arrowSize) - CalcEngine.square(distance))
+		add = CalcEngine.pointSplid(startPoint, endPoint, splidistance)
+		var pointC = Qt.point(endPoint.x + xMultiplier * add[0], endPoint.y + yMultiplier * add[1])
+		var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
+		var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
+
+		ctx.fillStyle =  drawColor
+		ctx.strokeStyle = drawColor
+		ctx.beginPath()
+		ctx.moveTo(endPoint.x, endPoint.y)
+		ctx.lineTo(pointB.x, pointB.y)
+		ctx.lineTo(pointE.x, pointE.y)
+		ctx.lineTo(pointD.x, pointD.y)
+		ctx.lineTo(endPoint.x, endPoint.y)
+		ctx.closePath()
+		ctx.stroke()
+		ctx.fill()
+
 		if (selected||reSized||rotated) {
 			ctx.lineWidth = 1
 			ctx.strokeStyle = "white"
@@ -170,7 +90,6 @@ Item {
 			ctx.stroke()
 
 		}
-		ctx.restore()
 	}
 	function clickOnPoint(p) {
 		selected = false
