@@ -221,9 +221,10 @@ Canvas {
                         canvas.shapes.push(canvas.currenRecordingShape)
                     }
                 }
-                canvas.currenRecordingShape.drawColor = Qt.binding( function () { return canvas.paintColor})
+                canvas.currenRecordingShape.drawColor = canvas.paintColor
                 if (canvas.shapeName != "text") {
                     canvas.currenRecordingShape.linewidth = canvas.linewidth
+                    var pos = screen.get_absolute_cursor_pos()
                     canvas.currenRecordingShape.points.push(Qt.point(pos.x, pos.y))
                     canvas.currenRecordingShape.numberOrder = canvas.shapes.length
                     canvas.shapes.push(canvas.currenRecordingShape)
