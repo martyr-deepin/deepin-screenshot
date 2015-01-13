@@ -52,7 +52,7 @@ Rectangle {
         mainPoints[2] = Qt.point(curX + width, curY)
         mainPoints[3] = Qt.point(curX + width, curY + height)
 
-        CalcEngine.changePointOrder(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+        CalcEngine.changePointsOrder(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 	}
 	function _getbeginPoint() {
 		var tmpPoint, centerInPoint

@@ -43,7 +43,7 @@ Item {
         mainPoints[2] = Qt.point(leftX, pHeight + leftY)
         mainPoints[3] = Qt.point(leftX + pWidth, leftY + pHeight)
 
-        CalcEngine.changePointOrder(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+        CalcEngine.changePointsOrder(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
     }
 
     function draw(ctx) {

@@ -47,7 +47,7 @@ Item {
 		mainPoints[2] = Qt.point(Math.min(rightX + 5, screenWidth), Math.max(leftY - 5, 0))
 		mainPoints[3] = Qt.point(Math.min(rightX + 5, screenWidth), Math.min(rightY + 5, screenHeight))
 
-		CalcEngine.changePointOrder(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+		CalcEngine.changePointsOrder(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 	}
 	function draw(ctx) {
 		if (!firstDraw) { _initMainPoints() }
