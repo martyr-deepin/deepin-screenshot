@@ -16,7 +16,7 @@ Rectangle {
 	property bool selected: true
 	property bool reSized: false
 	property bool rotated: false
-    
+
     property bool isRotating: false
     property bool isDraging: false
     property bool afterRotated: false
@@ -45,17 +45,14 @@ Rectangle {
 
     onWidthChanged: { mainPoints = _expandByWidth(width);}
 	onHeightChanged: { mainPoints = _expandByHeight(height);}
-    
-    
-    	function _getMainPoints() {
 
+	function _initMainPoints() {
 		mainPoints[0] = Qt.point(curX, curY)
 		mainPoints[1] = Qt.point(curX, curY + height)
         mainPoints[2] = Qt.point(curX + width, curY)
         mainPoints[3] = Qt.point(curX + width, curY + height)
 
-		var tmpPoints = CalcEngine.fourPoint_dir(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-		return tmpPoints
+        CalcEngine.changePointOrder(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 	}
 	function _getbeginPoint() {
 		var tmpPoint, centerInPoint
@@ -173,10 +170,8 @@ Rectangle {
 		}
 	}
 	function draw(ctx) {
+		if (!firstDraw) { _initMainPoints() }
 
-		if (!firstDraw) {
-			mainPoints = _getMainPoints()
-		}
 		if (rect.selected || rect.rotated) {
         ctx.lineWidth = 1
 		ctx.strokeStyle = Qt.rgba(1, 1, 1, 0.5)
@@ -185,7 +180,7 @@ Rectangle {
 		dashLine(ctx, mainPoints[2], mainPoints[3])
 		dashLine(ctx, mainPoints[3], mainPoints[1])
 		dashLine(ctx, mainPoints[1], mainPoints[0])
-    
+
         ctx.lineWidth = 1
 		ctx.strokeStyle = "black"
 		ctx.fillStyle = "yellow"
@@ -212,7 +207,7 @@ Rectangle {
         if (result) {
             canvas.selectUnique(numberOrder)
         }
-        
+
         clickedPoint = p
         return result
 	}
@@ -260,7 +255,7 @@ Rectangle {
 		id: moveText
 		anchors.fill: parent
 		hoverEnabled: true
-        
+
 		onEntered: {
 			/* To unbind the width and height of text */
 			cursorShape = Qt.ClosedHandCursor

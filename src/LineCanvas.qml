@@ -21,19 +21,19 @@ Item {
 	property int clickedKey: 0
 	property int linewidth: 3
 	property color drawColor: "red"
-    
+
     onSelectedChanged: { if (selected) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
     onRotatedChanged: { if (rotated) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
     onReSizedChanged: { if (reSized) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
 
-	function _getMainPoints() {
-
+	function _initMainPoints() {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
 		var leftX = points[0].x
 		var leftY = points[0].y
 		var rightX = points[0].x
 		var rightY = points[0].y
+
 		for (var i = 1; i < points.length; i++) {
 
 			leftX = Math.min(leftX, points[i].x)
@@ -41,17 +41,17 @@ Item {
 			rightX = Math.max(rightX, points[i].x)
 			rightY = Math.max(rightY, points[i].y)
 		}
+
 		mainPoints[0] = Qt.point(Math.max(leftX - 5, 0), Math.max(leftY - 5, 0))
 		mainPoints[1] = Qt.point(Math.max(leftX - 5, 0), Math.min(rightY + 5, screenHeight))
 		mainPoints[2] = Qt.point(Math.min(rightX + 5, screenWidth), Math.max(leftY - 5, 0))
 		mainPoints[3] = Qt.point(Math.min(rightX + 5, screenWidth), Math.min(rightY + 5, screenHeight))
-		var tmpPoints = CalcEngine.fourPoint_dir(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-		return tmpPoints
+
+		CalcEngine.changePointOrder(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 	}
 	function draw(ctx) {
-		if (!firstDraw) {
-			mainPoints = _getMainPoints()
-		}
+		if (!firstDraw) { _initMainPoints() }
+
 		minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 
 		var startPoint = points[0]

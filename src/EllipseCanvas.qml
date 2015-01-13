@@ -28,27 +28,24 @@ Item {
     onReSizedChanged: { if (reSized) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
 
 
-	function _getMainPoints() {
-
+	function _initMainPoints() {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
 		var leftX = Math.min(startPoint.x, endPoint.x)
 		var leftY = Math.min(startPoint.y, endPoint.y)
 		var pWidth = Math.abs(startPoint.x - endPoint.x)
 		var pHeight = Math.abs(startPoint.y - endPoint.y)
+
 		mainPoints[0] = Qt.point(leftX, leftY)
 		mainPoints[1] = Qt.point(leftX + pWidth, leftY)
 		mainPoints[2] = Qt.point(leftX, pHeight + leftY)
 		mainPoints[3] = Qt.point(leftX + pWidth, leftY + pHeight)
 
-		var tmpPoints = CalcEngine.fourPoint_dir(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-		return tmpPoints
+		CalcEngine.changePointOrder(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 	}
 
 	function draw(ctx) {
-		if (!firstDraw) {
-			mainPoints = _getMainPoints()
-		}
+		if (!firstDraw) { _initMainPoints() }
 		minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 	    var points1 = CalcEngine.getEightControlPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 

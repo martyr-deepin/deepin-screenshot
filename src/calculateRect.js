@@ -4,8 +4,14 @@ function square(p) {
 	return ((p)*(p))
 }
 
-/* calculate the four points position */
-function fourPoint_dir(point1, point2, point3, point4) {
+/* Change the order of the four points to what we want it to be:
+ * point1 to the top-left corner
+ * point2 to the bottom-left corner
+ * point3 to the top-right corner
+ * point4 to the bottom-right corner
+ * NOTE: this order will change, but not now
+ */
+function changePointsOrder(point1, point2, point3, point4) {
 	var points = [point1, point2, point3, point4]
 	for (var i = 0; i < points.length; i++) {
 		for (var j = i + 1; j < points.length; j++ ) {
@@ -1873,14 +1879,14 @@ function  pointDir(point1, point2, point3, point4) {
 
 /* the angle in point3 */
 function calcutateAngle(point1, point2, point3) {
-    if (point1 == point2) { 
+    if (point1 == point2) {
         angle = 0
         return angle
     }
 	var a = square(point1.x- point3.x) + square(point1.y - point3.y)
 	var b = square(point2.x - point3.x) + square(point2.y - point3.y)
 	var c = square(point1.x - point2.x) + square(point1.y - point2.y)
-    
+
 	var angle = Math.acos((a + b - c) / (2*Math.sqrt(a)*Math.sqrt(b)))
 	if (point1.x <= point3.x && point1.y < point3.y) {
 		if (point2.x < point1.x || point2.y > point1.y) {
