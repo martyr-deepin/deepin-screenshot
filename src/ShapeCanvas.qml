@@ -22,6 +22,7 @@ Canvas {
     property bool processBlur: false
     property var blurImageData
 
+    property bool textFocus: false
     property bool isMosaic: false
     property bool mosaicing: false
     property bool processMosaic: false
@@ -30,7 +31,36 @@ Canvas {
     property int fontSize
 
     function reLoadImage(image) { unloadImage(image); loadImage(image) }
-
+    
+    onPaintColorChanged: {
+        for (var i = 0; i < shapes.length; i++) {
+            if (shapes[i].selected || shapes[i].rotated || shapes[i].reSized) {
+                shapes[i].drawColor = paintColor
+            } 
+        }
+    }
+    onLinewidthChanged: {
+        for (var i = 0; i < shapes.length; i++) {
+            if (shapes[i].linewidth != undefined && shapes[i].selected || shapes[i].rotated || shapes[i].reSized) {
+                shapes[i].linewidth = canvas.linewidth
+            } 
+        }
+    }
+    onTextFocusChanged: {
+        for (var i = 0; i < shapes.length; i++) {
+            if (shapes[i].text != undefined && shapes[i].text.focus) {
+                selectUnique(shapes[i].numberOrder)
+            } 
+        }
+        canvas.requestPaint()
+    }
+    onFontSizeChanged: {
+        for (var i = 0; i < shapes.length; i++) {
+            if (shapes[i].isreadOnly != undefined && (shapes[i].selected || shapes[i].rotated)) {
+                shapes[i].fontSize = fontSize
+            } 
+        }
+    }
     onIsBlurChanged: { if (isBlur) { reLoadImage(blurImage) } }
     onIsMosaicChanged: { if (isMosaic) { reLoadImage(mosaicImage) } }
 
@@ -77,7 +107,7 @@ Canvas {
                 var selectedShape = i
             }
         }
-        if (selectedShape != "undefined") {
+        if (selectedShape != undefined) {
              selectUnique(selectedShape)
          } else {
             var selectedShape = shapes.length + 1
@@ -200,7 +230,7 @@ Canvas {
                 if (canvas.shapeName == "text") {
                     var isReadOnly = false
                     for (var i = 0; i < canvas.shapes.length; i++) {
-                        if (canvas.shapes[i].isreadOnly != "undefined" && canvas.shapes[i].isreadOnly == false) {
+                        if (canvas.shapes[i].isreadOnly != undefined && canvas.shapes[i].isreadOnly == false) {
                             canvas.shapes[i].isreadOnly = true
                             canvas.shapes[i].selected = false
                             canvas.shapes[i].rotated = false
@@ -232,9 +262,9 @@ Canvas {
                     canvas.currenRecordingShape.firstDraw = true
                     var pos = screen.get_absolute_cursor_pos()
                     for (var i = 0; i < canvas.shapes.length; i++) {
-                        if (canvas.shapes[i].isreadOnly != "undefined" && canvas.shapes[i].rotateOnPoint(Qt.point(pos.x, pos.y))) {
+                        if (canvas.shapes[i].isreadOnly != undefined && canvas.shapes[i].rotateOnPoint(Qt.point(pos.x, pos.y))) {
                             return
-                        } else if (canvas.shapes[i].isreadOnly != "undefined" && canvas.shapes[i].isreadOnly == false) {
+                        } else if (canvas.shapes[i].isreadOnly != undefined && canvas.shapes[i].isreadOnly == false) {
                             canvas.shapes[i].isreadOnly = true
                             canvas.shapes[i].selected = false
                             canvas.shapes[i].rotated = false
@@ -255,10 +285,12 @@ Canvas {
                 canvas.recording = false
                 canvas.requestPaint()
             }
-            if (canvas.recording && canvas.shapeName == "text") {
+            if (canvas.recording) {
                 for (var i = 0; i < canvas.shapes.length; i++) {
-                    canvas.shapes[i].rotated = false
-                    canvas.shapes[i].isRotating = false
+                    if (canvas.shapes[i].isRotating != undefined) {
+                        //canvas.shapes[i].rotated = false
+                        canvas.shapes[i].isRotating = false
+                    }
                 }
             }
         }
@@ -276,7 +308,7 @@ Canvas {
                     if (canvas.shapes[i].selected||drag.active)  selectedShape = canvas.shapes[i]
                 }
                 if (rotatedShape != null && pressed) {
-                    if (canvas.shapeName == "text") {
+                    if (rotatedShape.isreadOnly != undefined) {
                         rotatedShape.isRotating = true
                         canvasArea.cursorShape =windowView.set_cursor_shape("shape_rotate_mouse")
                         var pos = screen.get_absolute_cursor_pos()
@@ -290,11 +322,14 @@ Canvas {
                     canvas.requestPaint()
                 }
                 if (reSizedShape != null && pressed) {
+                    var pos = screen.get_absolute_cursor_pos()
                     reSizedShape.handleResize(Qt.point(pos.x, pos.y), reSizedShape.clickedKey)
                     canvas.requestPaint()
                 }
                 if (selectedShape != null && pressed) {
-                    if (canvas.shapeName != "text") {
+
+                    if (selectedShape.isreadOnly == undefined) {
+                        print("selectedShape:", selectedShape)
                         var pos = screen.get_absolute_cursor_pos()
                         selectedShape.handleDrag(Qt.point(pos.x, pos.y))
                     }
@@ -311,11 +346,11 @@ Canvas {
                             canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
                         }
                     }
-                }
-                if (canvas.shapeName != "text") {
-                    var pos = screen.get_absolute_cursor_pos()
-                    canvas.hoverOnShape(Qt.point(pos.x, pos.y))
-                    canvas.requestPaint()
+                    if (canvas.shapes[i].isreadOnly == undefined) {
+                        var pos = screen.get_absolute_cursor_pos()
+                        canvas.hoverOnShape(Qt.point(pos.x, pos.y))
+                        canvas.requestPaint()
+                    }
                 }
             }
         }
