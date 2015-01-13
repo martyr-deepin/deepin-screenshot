@@ -19,12 +19,10 @@ Item {
 	property int clickedKey: 0
 	property int linewidth: 3
 	property color drawColor: "red"
-    
+
     onSelectedChanged: { if (selected) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
     onRotatedChanged: { if (rotated) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
     onReSizedChanged: { if (reSized) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
-
-
 
 	function draw(ctx) {
 		var startPoint = points[0]

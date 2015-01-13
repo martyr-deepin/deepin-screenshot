@@ -1,5 +1,6 @@
 import QtQuick 2.1
 import "calculateRect.js" as CalcEngine
+import "drawing_utils.js" as DrawingUtils
 
 Item {
 
@@ -54,12 +55,24 @@ Item {
         ctx.strokeStyle = drawColor
         ctx.beginPath()
         ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
-        ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
-        ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
-        ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
-        ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
-        ctx.stroke()
+        if (DrawingUtils.isPointsSameX(mainPoints)) {
+            ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
+        } else if (DrawingUtils.isPointsSameY(mainPoints)) {
+            ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
+        } else {
+            ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
+            ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
+            ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
+            ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
+        }
         ctx.closePath()
+        ctx.stroke()
+
+        if (isHovered) {
+            ctx.lineWidth = 1
+            ctx.strokeStyle = "#01bdff"
+            ctx.stroke()
+        }
 
         if (processBlur||processMosaic) {
             ctx.save()
@@ -70,19 +83,6 @@ Item {
                 ctx.putImageData(parent.mosaicImageData, 0, 0)
             }
             ctx.restore()
-        }
-
-        if (isHovered) {
-            ctx.lineWidth = 1
-            ctx.strokeStyle = "#01bdff"
-            ctx.beginPath()
-            ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
-            ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
-            ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
-            ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
-            ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
-            ctx.stroke()
-            ctx.closePath()
         }
 
         if (selected||reSized||rotated) {

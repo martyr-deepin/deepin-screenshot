@@ -1,5 +1,6 @@
 import QtQuick 2.1
 import "calculateRect.js" as CalcEngine
+import "drawing_utils.js" as DrawingUtils
 
 Item {
 	property bool selected: false
@@ -53,11 +54,20 @@ Item {
 	    ctx.strokeStyle = drawColor
 	    ctx.fillStyle = "transparent"
 		ctx.beginPath()
-		ctx.moveTo(minorPoints[0].x, minorPoints[0].y);
-		ctx.bezierCurveTo(points1[0].x, points1[0].y, points1[1].x, points1[1].y, minorPoints[1].x, minorPoints[1].y);
-		ctx.bezierCurveTo(points1[4].x, points1[4].y, points1[5].x, points1[5].y , minorPoints[2].x, minorPoints[2].y );
-		ctx.bezierCurveTo(points1[6].x, points1[6].y, points1[7].x, points1[7].y, minorPoints[3].x, minorPoints[3].y);
-		ctx.bezierCurveTo(points1[3].x, points1[3].y, points1[2].x, points1[2].y, minorPoints[0].x, minorPoints[0].y);
+
+		if (DrawingUtils.isPointsSameX(mainPoints)) {
+			ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
+		    ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
+		} else if (DrawingUtils.isPointsSameY(mainPoints)) {
+		    ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
+		} else {
+		    ctx.moveTo(minorPoints[0].x, minorPoints[0].y);
+		    ctx.bezierCurveTo(points1[0].x, points1[0].y, points1[1].x, points1[1].y, minorPoints[1].x, minorPoints[1].y);
+		    ctx.bezierCurveTo(points1[4].x, points1[4].y, points1[5].x, points1[5].y , minorPoints[2].x, minorPoints[2].y );
+		    ctx.bezierCurveTo(points1[6].x, points1[6].y, points1[7].x, points1[7].y, minorPoints[3].x, minorPoints[3].y);
+		    ctx.bezierCurveTo(points1[3].x, points1[3].y, points1[2].x, points1[2].y, minorPoints[0].x, minorPoints[0].y);
+		}
+
 		ctx.closePath()
 		ctx.stroke()
 
