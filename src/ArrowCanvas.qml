@@ -22,10 +22,6 @@ Item {
 	property int arrowSize: 16
 	property int arrowAngle: 40
 
-    onSelectedChanged: { if (selected) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
-    onRotatedChanged: { if (rotated) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
-    onReSizedChanged: { if (reSized) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
-
 	function draw(ctx) {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]

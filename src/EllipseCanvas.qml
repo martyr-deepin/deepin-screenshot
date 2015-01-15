@@ -24,11 +24,6 @@ Item {
     property bool processBlur: false
     property bool processMosaic: false
 
-    onSelectedChanged: { if (selected) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
-    onRotatedChanged: { if (rotated) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
-    onReSizedChanged: { if (reSized) {canvas.selectUnique(numberOrder); canvas.requestPaint()}}
-
-
 	function _initMainPoints() {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
