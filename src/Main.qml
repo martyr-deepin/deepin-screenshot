@@ -114,7 +114,6 @@ Item {
             toolbar.visible = false
             selectSizeTooltip.visible = false
             windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
-            count.running = true
             cameraSound.play()
         }
     }
@@ -1063,17 +1062,11 @@ Item {
 
             SoundEffect {
                 id: cameraSound
+                loops: 0
                 source: "../sound/camera.wav"
+                onPlayingChanged: playing ? windowView.hide() : windowView.close()
             }
-            Timer {
-                id: count
-                interval: 500
-                running: false
-                onTriggered: {
-                    running = false
-                    windowView.close()
-                }
-            }
+
             ToolButton {
                 id: save_to_desktop
                 dirImage: dirSave
@@ -1092,7 +1085,6 @@ Item {
                     selectSizeTooltip.visible = false
                     windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
                     cameraSound.play()
-                    count.running = true
                 }
             }
             ToolButton {
@@ -1112,7 +1104,6 @@ Item {
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
                     windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
-                    count.running = true
                     cameraSound.play()
                 }
             }
@@ -1133,7 +1124,6 @@ Item {
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
                     windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2 ,selectFrame.height - 2)
-                    count.running = true
                     cameraSound.play()
                 }
             }
@@ -1154,7 +1144,6 @@ Item {
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
                     windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
-                    count.running = true
                     cameraSound.play()
                 }
             }
@@ -1175,7 +1164,6 @@ Item {
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
                     windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
-                    count.running = true
                     cameraSound.play()
                 }
             }

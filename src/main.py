@@ -27,22 +27,20 @@ from PyQt5.QtCore import QCoreApplication
 if os.name == 'posix':
     QCoreApplication.setAttribute(QtCore.Qt.AA_X11InitThreads, True)
 
-from PyQt5 import QtGui
 from PyQt5.QtQuick import QQuickView
-
 from PyQt5.QtGui import (QSurfaceFormat, QColor, QGuiApplication,
-    QPixmap,qRed, qGreen, qBlue)
-from PyQt5 import QtCore, QtQuick
+    QPixmap, QCursor, qRed, qGreen, qBlue)
+from PyQt5.QtWidgets import QApplication, qApp, QFileDialog
+from PyQt5.QtCore import pyqtSlot, QStandardPaths
+from PyQt5.QtDBus import QDBusConnection, QDBusInterface
 
 import sys
 import gtk
-from PyQt5.QtWidgets import QApplication, qApp, QFileDialog
-from PyQt5.QtCore import pyqtSlot, QStandardPaths
-
 import signal
 from window_info import WindowInfo
 from dbus_interfaces import screenShotInterface
-from PyQt5.QtDBus import QDBusConnection, QDBusInterface
+
+from shutil import copyfile
 
 def init_cursor_shape_dict():
     global cursor_shape_dict
@@ -69,6 +67,11 @@ CURSOR_SHAPE_COLOR_PEN_PREFIX = "color_pen_"
 cursor_shape_dict = {}
 init_cursor_shape_dict()
 
+def saveToClipboard(pixmap):
+    clipboard = QApplication.clipboard()
+    clipboard.clear()
+    clipboard.setPixmap(pixmap)
+
 class Window(QQuickView):
     def __init__(self):
         QQuickView.__init__(self)
@@ -79,7 +82,7 @@ class Window(QQuickView):
         self.set_cursor_shape("shape_start_cursor")
         self.setColor(QColor(0, 0, 0, 0))
         self.setFlags(QtCore.Qt.FramelessWindowHint)
-        self.setResizeMode(QtQuick.QQuickView.SizeRootObjectToView)
+        self.setResizeMode(QQuickView.SizeRootObjectToView)
         self.setFormat(surface_format)
 
         self.qml_context = self.rootContext()
@@ -99,7 +102,7 @@ class Window(QQuickView):
 
     @pyqtSlot(result="QVariant")
     def get_cursor_pos(self):
-        return QtGui.QCursor.pos()
+        return QCursor.pos()
 
     @pyqtSlot(str)
     def set_cursor_shape(self, shape):
@@ -110,9 +113,9 @@ class Window(QQuickView):
         if cursor_shape_dict.get(shape):
             pix = QPixmap(cursor_shape_dict[shape])
             if shape.startswith(CURSOR_SHAPE_COLOR_PEN_PREFIX):
-                cur = QtGui.QCursor(pix, hotX=0, hotY=pix.height())
+                cur = QCursor(pix, hotX=0, hotY=pix.height())
             else:
-                cur = QtGui.QCursor(pix)
+                cur = QCursor(pix)
             self.setCursor(cur)
 
     @pyqtSlot(str,int,int,int,int)
@@ -124,49 +127,44 @@ class Window(QQuickView):
 
     @pyqtSlot(str,int,int,int,int)
     def save_screenshot(self, saveId,x,y,width,height):
-        p = QPixmap.fromImage(self.grabWindow())
-        p = p.copy(x,y,width,height)
+        pixmap = QPixmap.fromImage(self.grabWindow())
+        pixmap = pixmap.copy(x, y, width, height)
         name = "%s%s" % (self.title(), time.strftime("%Y%m%d%H%M%S", time.localtime()))
-        saveDir = ""
+        tmpFile = "/tmp/DeepinScreenshot%s.png" % name
+        pixmap.save(tmpFile)
+
         if saveId == "auto_save" :
-                saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
+            saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
         elif saveId == "save_to_dir":
-                saveDir = QFileDialog.getExistingDirectory()
+            saveDir = QFileDialog.getExistingDirectory()
         elif saveId == "save_to_desktop":
-                saveDir = QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
+            saveDir = QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
         elif saveId == "auto_save_ClipBoard":
-                image_dir = "/tmp/DeepinScreenshot%s.png" %name
-                p.save(os.path.join(image_dir))
-                clipboard = gtk.Clipboard()
-                clipboard.set_image(gtk.gdk.pixbuf_new_from_file(image_dir))
-                clipboard.store()
-                saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
+            saveToClipboard(pixmap)
+            saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
         else :
-                image_dir = "/tmp/DeepinScreenshot%s.png" %name
-                p.save(os.path.join(image_dir))
-                clipboard = gtk.Clipboard()
-                clipboard.set_image(gtk.gdk.pixbuf_new_from_file(image_dir))
-                clipboard.store()
-                if saveDir != "" :
-                        saveDir = saveDir + "/"
-        p.save(os.path.join(saveDir, "DeepinScreenshot%s.png" %name))
+            saveToClipboard(pixmap)
+            saveDir = ""
+
+        if saveDir: copyfile(tmpFile, os.path.join(saveDir, name))
+
         screenShotInterface.notify("深度截图", saveDir + "DeepinScreenshot%s.png" %name)
 
     @pyqtSlot()
     def enable_zone(self):
         try:
-                iface = QDBusInterface("com.deepin.daemon.Zone", "/com/deepin/daemon/Zone", '', QDBusConnection.sessionBus())
-                iface.asyncCall("EnableZoneDetected", True)
+            iface = QDBusInterface("com.deepin.daemon.Zone", "/com/deepin/daemon/Zone", '', QDBusConnection.sessionBus())
+            iface.asyncCall("EnableZoneDetected", True)
         except:
-                pass
+            pass
 
     @pyqtSlot()
     def disable_zone(self):
         try:
-                iface = QDBusInterface("com.deepin.daemon.Zone", "/com/deepin/daemon/Zone", '', QDBusConnection.sessionBus())
-                iface.asyncCall("EnableZoneDetected", False)
+            iface = QDBusInterface("com.deepin.daemon.Zone", "/com/deepin/daemon/Zone", '', QDBusConnection.sessionBus())
+            iface.asyncCall("EnableZoneDetected", False)
         except:
-                pass
+            pass
 
     def exit_app(self):
         self.enable_zone()
