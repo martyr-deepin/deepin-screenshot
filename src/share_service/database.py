@@ -34,6 +34,7 @@ DATABASE_FILE = os.path.join(CONFIG_DIR, "accounts.db")
 if not os.path.exists(CONFIG_DIR): os.makedirs(CONFIG_DIR)
 
 SINAWEIBO = "sinaweibo"
+TWITTER = "twitter"
 
 class Database(object):
 
@@ -43,10 +44,11 @@ class Database(object):
         self.db_connect = sqlite3.connect(self.db_path)
         self.db_cursor = self.db_connect.cursor()
 
-        self.db_cursor.execute(
-            '''CREATE TABLE IF NOT EXISTS
-               sinaweibo (uid PRIMARY KEY, username, access_token, expires)
-            ''')
+        for _type in [SINAWEIBO, TWITTER]:
+            self.db_cursor.execute(
+                '''CREATE TABLE IF NOT EXISTS
+                   %s (uid PRIMARY KEY, username, access_token, expires)
+                ''' % _type)
 
     def fetchAccounts(self, accountType):
         self.db_cursor.execute("SELECT * FROM %s" % accountType)
