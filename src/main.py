@@ -115,7 +115,7 @@ class Window(QQuickView):
             if shape.startswith(CURSOR_SHAPE_COLOR_PEN_PREFIX):
                 cur = QCursor(pix, hotX=0, hotY=pix.height())
             else:
-                cur = QCursor(pix)
+                cur = QCursor(pix, hotX=5, hotY=5)
             self.setCursor(cur)
 
     @pyqtSlot(str,int,int,int,int)
