@@ -770,6 +770,10 @@ Item {
             ToolButton {
                 visible: !savetooltip.visible
                 imageName: "share"
+                onPressed: {
+                    var shareWindow = Qt.createQmlObject('import QtQuick 2.1; import "share_service/sources/"; Share {}', selectArea, "shareWindow")
+                    shareWindow.show()
+                }
             }
             ToolButton {
                 visible: !savetooltip.visible
