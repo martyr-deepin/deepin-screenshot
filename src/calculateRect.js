@@ -1748,7 +1748,8 @@ function point8Resize3(point1, point2, point3, point4, p) {
 }
 /* point8 in the fourth position */
 function point8Resize4(point1, point2, point3, point4, p) {
-	if (p.x >= (point1.x + point3.x) / 2 || p.y >= (point1.y + point3.y) / 2) {
+	var points = [point1, point2, point3, point4]
+    if (p.x >= (point1.x + point3.x) / 2 || p.y >= (point1.y + point3.y) / 2) {
 		return points
 	} else {
 		if (pointLineDir(point2, point4, p) == -1) {

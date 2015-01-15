@@ -84,7 +84,7 @@ Canvas {
         if(bluring || mosaicing) {
             if (bluring) {
                 var imageData = ctx.createImageData(blurImage)
-                imageData = CalcGraphic.gaussianBlur(imageData, 1)
+                imageData = CalcGraphic.gaussianBlur(imageData, 5)
                 blurImageData = imageData
                 bluring = false
             } else {
