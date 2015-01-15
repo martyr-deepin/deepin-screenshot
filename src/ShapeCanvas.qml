@@ -31,26 +31,26 @@ Canvas {
     property int fontSize
 
     function reLoadImage(image) { unloadImage(image); loadImage(image) }
-    
+
     onPaintColorChanged: {
         for (var i = 0; i < shapes.length; i++) {
             if (shapes[i].selected || shapes[i].rotated || shapes[i].reSized) {
                 shapes[i].drawColor = paintColor
-            } 
+            }
         }
     }
     onLinewidthChanged: {
         for (var i = 0; i < shapes.length; i++) {
             if (shapes[i].linewidth != undefined && shapes[i].selected || shapes[i].rotated || shapes[i].reSized) {
                 shapes[i].linewidth = canvas.linewidth
-            } 
+            }
         }
     }
     onTextFocusChanged: {
         for (var i = 0; i < shapes.length; i++) {
             if (shapes[i].text != undefined && shapes[i].text.focus) {
                 selectUnique(shapes[i].numberOrder)
-            } 
+            }
         }
         canvas.requestPaint()
     }
@@ -58,7 +58,7 @@ Canvas {
         for (var i = 0; i < shapes.length; i++) {
             if (shapes[i].isreadOnly != undefined && (shapes[i].selected || shapes[i].rotated)) {
                 shapes[i].fontSize = fontSize
-            } 
+            }
         }
     }
     onIsBlurChanged: { if (isBlur) { reLoadImage(blurImage) } }
@@ -329,7 +329,6 @@ Canvas {
                 if (selectedShape != null && pressed) {
 
                     if (selectedShape.isreadOnly == undefined) {
-                        print("selectedShape:", selectedShape)
                         var pos = screen.get_absolute_cursor_pos()
                         selectedShape.handleDrag(Qt.point(pos.x, pos.y))
                     }

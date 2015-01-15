@@ -22,7 +22,7 @@ Rectangle {
     property bool afterRotated: false
     property bool firstDraw: false
     property bool isHovered: false
-    property bool isreadOnly: false
+    property alias isreadOnly: text.readOnly
     property alias text: text
     property point clickedPoint
     property point convertRotatePoint
@@ -225,13 +225,13 @@ Rectangle {
             onColorChanged: { select(0, 0)}
             font.pixelSize: fontSize
             wrapMode: TextEdit.Wrap
-            readOnly: isreadOnly
-            cursorVisible: !isreadOnly
+            cursorVisible: !readOnly
             onFocusChanged: {
                 if (focus) {
                     canvas.selectUnique(numberOrder)
                     canvas.requestPaint()
                 } else {
+                    readOnly = true
                     rect.firstDraw = true
                 }
             }
@@ -279,9 +279,7 @@ Rectangle {
         }
         onDoubleClicked: {
             rect.selected = true
-            rect.isreadOnly = false
             text.readOnly = false
-            text.cursorVisible = true
             text.forceActiveFocus()
             canvas.requestPaint()
 
