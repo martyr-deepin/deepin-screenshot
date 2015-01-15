@@ -52,7 +52,7 @@ DDialog {
         id: row
         x: 10
         y: 220
-        spacing: 10
+        spacing: 15
         visible: isVisible
         Row {
             spacing: 5
@@ -64,12 +64,12 @@ DDialog {
                 border.color: "grey"
             }
             Rectangle {
-                width: 24
-                height: 24
+                width: 16
+                height: 16
                 color: "transparent"
                 Image {
                     anchors.fill: parent
-                    source: "../images/Sina_no.png"
+                    source: "../images/sinaweibo_small.png"
                 }
             }
         }
@@ -83,12 +83,12 @@ DDialog {
                 border.color: "grey"
            }
             Rectangle {
-                width: 24
-                height: 24
+                width: 16
+                height: 16
                 color: "transparent"
                 Image {
                     anchors.fill: parent
-                    source: "../images/Twitter_no.png"
+                    source: "../images/twitter_small.png"
                 }
             }
        }
