@@ -3,7 +3,6 @@ import QtQuick.Window 2.1
 import Deepin.Widgets 1.0
 
 Item {
-
     DDialog {
         id: dialog
         x: (Screen.desktopAvailableWidth - width) / 2
@@ -12,109 +11,52 @@ Item {
         height: 300
         visible: true
 
-        TextEdit {
-            x: parent.x + 20
-            y: 5
-            width: parent.width - 20*2
-            //height: 30
-            text: "在此输入想说的话．．．"
-            color: "grey"
-            wrapMode:TextEdit.Wrap
+        Item {
+            width: parent.width
+            height: 300
+
+            ShareContent { anchors.fill: parent }
         }
 
+        Item {
+            width: parent.width
+            height: 38
+            anchors.bottom: parent.bottom
 
-        Rectangle {
-            x: parent.x + 20
-            y: parent.y + 40
-            width: parent.width - 20*2
-            height: 1
-            color: "transparent"
-            border.width: 1
-            border.color: Qt.rgba(1, 1, 1, 0.1)
-        }
-        Rectangle {
-            x: parent.x + 20
-            y: parent.y + 45
-            width: 100
-            height: 100
-            border.width:2
-            border.color: "white"
-        }
-        Rectangle {
-            x: parent.x + 20
-            y: parent.y + 180
-            width: parent.width - 20*2
-            height: 1
-            color: "transparent"
-            border.width: 1
-            border.color: Qt.rgba(1, 1, 1, 0.1)
-        }
-        Row {
-            id: row
-            x: 10
-            y: 220
-            spacing: 15
             Row {
-                spacing: 5
-                Rectangle {
-                    width: 10
-                    height: 10
-                    color: "transparent"
-                    border.width: 1
-                    border.color: "grey"
+                id: row
+                spacing: 10
+
+                DImageCheckBox {
+                    imageSource :"../images/sinaweibo_small.png"
                 }
-                Rectangle {
-                    width: 16
-                    height: 16
-                    color: "transparent"
-                    Image {
-                        anchors.fill: parent
-                        source: "../images/sinaweibo_small.png"
-                    }
+                DImageCheckBox {
+                    imageSource :"../images/twitter_small.png"
                 }
             }
-            Row {
-                spacing: 5
-                Rectangle {
-                    width: 10
-                    height: 10
-                    color: "transparent"
-                    border.width: 1
-                    border.color: "grey"
-               }
-                Rectangle {
-                    width: 16
-                    height: 16
-                    color: "transparent"
-                    Image {
-                        anchors.fill: parent
-                        source: "../images/twitter_small.png"
-                    }
-                }
-           }
-        }
-        Rectangle {
-            id: next
-            x: 400
-            y: 220
-            width: 50
-            height: 30
-            color: "transparent"
 
-            border.width: 1
-            border.color: "grey"
-            radius: 4
             Text {
-                id: label
-                anchors.centerIn: parent
-                text: "下一步"
-                font.pixelSize: 16
+                id: light_to_select_label
+                text: "点亮图标以选择"
+                color: "#FDA825"
+                font.pixelSize: 11
+
+                anchors.left: row.right
             }
-            MouseArea {
-                anchors.fill:parent
-                onPressed: {
-                    parent.border.color = "#01bdff"
-                }
+
+            Text {
+                id: word_number_label
+                text: "129"
+                color: "#FDA825"
+                font.pixelSize: 11
+
+                anchors.right: action_button.left
+            }
+
+            DTextButton {
+                id: action_button
+                text: "下一步"
+                anchors.right: parent.right
             }
         }
     }
