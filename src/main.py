@@ -35,10 +35,10 @@ from PyQt5.QtCore import pyqtSlot, QStandardPaths
 from PyQt5.QtDBus import QDBusConnection, QDBusInterface
 
 import sys
-import gtk
 import signal
 from window_info import WindowInfo
 from dbus_interfaces import screenShotInterface
+from share_service import ShareWindow
 
 from shutil import copyfile
 
@@ -165,6 +165,12 @@ class Window(QQuickView):
             iface.asyncCall("EnableZoneDetected", False)
         except:
             pass
+
+    @pyqtSlot()
+    def share(self):
+        self._shareWindow = ShareWindow()
+        self._shareWindow.show()
+        self.hide()
 
     def exit_app(self):
         self.enable_zone()

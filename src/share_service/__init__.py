@@ -20,23 +20,4 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
-from PyQt5.QtCore import Qt, QUrl, pyqtSlot
-from PyQt5.QtQuick import QQuickView
-from PyQt5.QtGui import QSurfaceFormat, QColor
-
-class ShareWindow(QQuickView):
-    def __init__(self):
-        super(ShareWindow, self).__init__()
-
-        surface_format = QSurfaceFormat()
-        surface_format.setAlphaBufferSize(8)
-
-        self.setColor(QColor(0, 0, 0, 0))
-        self.setFlags(Qt.FramelessWindowHint)
-        self.setResizeMode(QQuickView.SizeViewToRootObject)
-        self.setFormat(surface_format)
-
-        parentDir = os.path.dirname(os.path.abspath(__file__))
-        qmlPath = os.path.join(parentDir, "sources/Share.qml")
-        self.setSource(QUrl.fromLocalFile(qmlPath))
+from share import ShareWindow
