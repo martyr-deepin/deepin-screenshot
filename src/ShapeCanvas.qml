@@ -38,6 +38,7 @@ Canvas {
                 shapes[i].drawColor = paintColor
             }
         }
+        canvas.requestPaint()
     }
     onLinewidthChanged: {
         for (var i = 0; i < shapes.length; i++) {
@@ -45,6 +46,7 @@ Canvas {
                 shapes[i].linewidth = canvas.linewidth
             }
         }
+        canvas.requestPaint()
     }
     onTextFocusChanged: {
         for (var i = 0; i < shapes.length; i++) {
