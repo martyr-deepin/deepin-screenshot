@@ -76,11 +76,17 @@ Canvas {
     onPaint: {
         var ctx = canvas.getContext("2d")
         ctx.clearRect(x, y, width, height)
-        if ( processBlur || processMosaic ) {
-            ctx.beginPath()
-            ctx.rect(x, y, width, height)
-            ctx.clip()
-        }
+
+        // clip the whole area to the stack for future usage
+        ctx.beginPath()
+        ctx.rect(x, y, width, height)
+        ctx.closePath()
+        ctx.clip()
+
+        // don't know why, but if the line below is not provided
+        // the hover states will not even appear
+        ctx.strokeStyle = "red"
+
         if(bluring || mosaicing) {
             if (bluring) {
                 var imageData = ctx.createImageData(blurImage)
