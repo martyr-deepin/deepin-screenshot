@@ -93,11 +93,10 @@ Canvas {
                 mosaicImageData = imageData
                 mosaicing = false
             }
-        } else {
-            ctx.strokeStyle = "red"
-            for (var i = 0; i < shapes.length; i++) {
-                shapes[i].draw(ctx)
-            }
+        }
+
+        for (var i = 0; i < shapes.length; i++) {
+            shapes[i].draw(ctx)
         }
     }
 
