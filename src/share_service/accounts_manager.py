@@ -20,16 +20,38 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from sina_weibo import SinaWeibo
+from accounts import SinaWeibo
+from database import db, SINAWEIBO
 
 class AccountsManager(object):
     """Manager of all the SNS accounts"""
     def __init__(self):
         super(AccountsManager, self).__init__()
-        self._sina_weibo = SinaWeibo()
+        self._sina_weibo = self.getSinaWeiboAccount()
 
-    def setWeiboAccount(self, uid):
-        self._sina_weibo.setUID(uid)
+    def hasValidAccount(self):
+        return self._sina_weibo.valid()
+
+    def getSinaWeiboAccount(self):
+        sina_weibo = SinaWeibo()
+        accounts = db.fetchAccessableAccounts(SINAWEIBO)
+        if accounts:
+            sina_weibo = SinaWeibo(*accounts[0])
+        return sina_weibo
+
+    def setSinaWeiboAccount(self, uid):
+        account = db.fetchAccountByUID(SINAWEIBO, uid)
+        if account:
+            self._sina_weibo = SinaWeibo(*account)
+
+    def getAuthorizeUrl(self, accountType):
+        if accountType == SINAWEIBO:
+            return self._sina_weibo.getAuthorizeUrl()
+
+    def handleAuthorizeCode(self, accountType, code):
+        if accountType == SINAWEIBO:
+            info = self._sina_weibo.getAccountInfoWithCode(code)
+            db.saveAccountInfo(SINAWEIBO, info)
 
     def share(self, text, pics=None):
         self._sina_weibo.enabled = True

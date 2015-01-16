@@ -23,71 +23,37 @@
 from snspy import APIClient, SinaWeiboMixin
 
 from account_base import AccountBase
-from database import db, SINAWEIBO
+
 
 APP_KEY = '3703706716'
 APP_SECRET = 'c0ecbf8644ac043070449ad0901692b8'
 CALLBACK_URL = 'http://www.linuxdeepin.com'
 
 class SinaWeibo(AccountBase):
-    def __init__(self, uid=None):
+    def __init__(self, uid='', username='', access_token='', expires=0):
         super(SinaWeibo, self).__init__()
-        self._initClient()
-        if uid: self.setUID(uid)
-
-    def _initClient(self):
         self._client = APIClient(SinaWeiboMixin,
                                  app_key = APP_KEY,
                                  app_secret = APP_SECRET,
                                  redirect_uri = CALLBACK_URL)
+        self._client.set_access_token(access_token, expires)
 
-    def setUID(self, uid):
-        self._uid = uid
-        (token, expires) = self.getAccessToken()
-        self._client.set_access_token(token, expires)
+    def valid(self):
+        return self._client.is_expires()
 
-    def getAccessToken(self):
-        account = db.fetchAccountByUID(SINAWEIBO, self._uid)
-        if account:
-            return (account[2], account[3])
-        else:
-            return '', 0.0
-
-    def _share(self, text, pic):
+    def share(self, text, pic):
         if pic:
             with open(pic) as _pic:
                 self._client.statuses.upload.post(status=text, pic=_pic)
         else:
             self._client.statuses.update.post(status=text)
 
-    def share(self, text, pic=''):
-        if not self.enabled: return
+    def getAuthorizeUrl(self):
+        return self._client.get_authorize_url()
 
-        if self._client.is_expires():
-            self._text = text
-            self._pic = pic
-            self.authorize()
-        else:
-            self._share(text, pic)
-            self._text = None
-            self._pic = None
-
-    def reshare(self):
-        if self._text:
-            self.share(self._text, self._pic)
-
-    def authorize(self):
-        url = self._client.get_authorize_url()
-
-        self._browser.setAccount(self)
-        self._browser.openUrl(url)
-
-    def authorizedCallback(self, code):
-        self._browser.hide()
-
+    def getAccountInfoWithCode(self, code):
         token_info = self._client.request_access_token(code)
         account_info = self._client.users.show.get(uid=token_info["uid"])
         info = (token_info["uid"], account_info["name"],
                 token_info["access_token"], token_info["expires"])
-        db.saveAccountInfo(SINAWEIBO, info)
-        self.reshare()
+        return info

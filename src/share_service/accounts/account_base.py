@@ -22,23 +22,11 @@
 
 from abc import abstractmethod
 
-from simple_browser import SimpleBrowser
-
 class AccountBase(object):
     """Base class all the SNS accounts should inherit"""
 
     def __init__(self):
         super(AccountBase, self).__init__()
         self._client = None
-        self._browser = SimpleBrowser()
 
         self.enabled = False
-
-    @abstractmethod
-    def share(self, text, pic): pass
-
-    @abstractmethod
-    def authorize(self): pass
-
-    @abstractmethod
-    def authorizedCallback(self, code): pass

@@ -20,4 +20,4 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from accounts_manager import AccountsManager
+from sina_weibo import SinaWeibo

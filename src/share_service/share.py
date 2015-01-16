@@ -25,9 +25,12 @@ from PyQt5.QtCore import Qt, QUrl, pyqtSlot
 from PyQt5.QtQuick import QQuickView
 from PyQt5.QtGui import QSurfaceFormat, QColor
 
+from accounts_manager import AccountsManager
+
 class ShareWindow(QQuickView):
     def __init__(self):
         super(ShareWindow, self).__init__()
+        self._accounts_manager = AccountsManager()
 
         surface_format = QSurfaceFormat()
         surface_format.setAlphaBufferSize(8)
@@ -40,3 +43,6 @@ class ShareWindow(QQuickView):
         parentDir = os.path.dirname(os.path.abspath(__file__))
         qmlPath = os.path.join(parentDir, "sources/Share.qml")
         self.setSource(QUrl.fromLocalFile(qmlPath))
+
+    def hasValidAccount(self):
+    	return self._accounts_manager.hasValidAccount()
