@@ -8,7 +8,6 @@ SlideInOutItem {
 		for (var i = 0; i < list_view.count; i++) {
 			if (i == idx) {
 				list_view.model.setProperty(idx, "itemSelected", true)
-				itemSelected(list_view.model.get(i).itemName)
 			}
 		}
 	}
@@ -17,9 +16,18 @@ SlideInOutItem {
 		for (var i = 0; i < list_view.count; i++) {
 			if (i == idx) {
 				list_view.model.setProperty(idx, "itemSelected", false)
-				itemDeselected(list_view.model.get(i).itemName)
 			}
 		}
+	}
+
+	function getEnabledAccounts() {
+		var result = []
+		for (var i = 0; i < list_view.count; i++) {
+			if (list_view.model.get(i).itemSelected) {
+				result.push(list_view.model.get(i).itemName)
+			}
+		}
+		return result
 	}
 
 	ListView {
@@ -83,6 +91,7 @@ SlideInOutItem {
 							}
 							if ("code" in query) {
 								_accounts_manager.handleAuthorizeCode(itemName, query["code"])
+								root.selectItem(index)
 								browser.destroy()
 							}
 						})

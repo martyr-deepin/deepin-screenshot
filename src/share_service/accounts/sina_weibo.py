@@ -45,6 +45,8 @@ class SinaWeibo(AccountBase):
         return not self._client.is_expires()
 
     def share(self, text, pic=None):
+        if not self.enabled: return
+
         if pic:
             with open(pic) as _pic:
                 self._client.statuses.upload.post(status=text, pic=_pic)

@@ -26,7 +26,7 @@ Item {
             PropertyChanges { target: ok_button; visible: false }
         },
         State {
-            name: "account_pick"
+            name: "accounts_list"
 
             PropertyChanges { target: row; visible: false }
             PropertyChanges { target: plz_choose_sns_label; visible: true }
@@ -48,7 +48,7 @@ Item {
             PropertyChanges { target: ok_button; visible: false }
         },
         State {
-            name: "account_manage"
+            name: "accounts_manage"
 
             PropertyChanges { target: row; visible: false }
             PropertyChanges { target: plz_choose_sns_label; visible: false }

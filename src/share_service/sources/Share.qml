@@ -3,11 +3,22 @@ import QtQuick.Window 2.1
 import Deepin.Widgets 1.0
 
 Item {
+    id: root
     width: 0
     height: 0
 
     function setScreenshot(path) {
         share_content.setScreenshot(path)
+    }
+
+    function getEnabledAccounts() {
+        if (bottom_bar.state == "share") {
+            return bottom_bar.getEnabledAccounts()
+        } else if (bottom_bar.state == "accounts_list") {
+            return accounts_list.getEnabledAccounts()
+        } else {
+            return []
+        }
     }
 
     DDialog {
@@ -64,13 +75,14 @@ Item {
             }
 
             onNextButtonClicked: {
-                bottom_bar.state = "account_pick"
+                bottom_bar.state = "accounts_list"
                 share_content.leftOut()
                 accounts_list.rightIn()
             }
 
             onShareButtonClicked: {
-                var enableAccounts = getEnabledAccounts()
+                var enableAccounts = root.getEnabledAccounts()
+                print(enableAccounts)
                 enableAccounts.forEach(function (account) {
                     _accounts_manager.enableAccount(account)
                 })
