@@ -771,6 +771,7 @@ Item {
                         mosaicType.visible = false
                         colorChange.visible = false
                         fontRect.visible = false
+                        save_toolbar.saveItem = windowView.get_save_config()
                     }
                     toolbar.toggleToolbar("saveAction")
                 }
@@ -1071,7 +1072,10 @@ Item {
             anchors.bottom: parent.bottom
             visible: false
             property string saveId:"auto_save"
-
+            property int saveItem: 0
+            function last_select_saveItem() {
+                return windowView.get_save_config()
+            }
             SoundEffect {
                 id: cameraSound
                 loops: 0
@@ -1083,7 +1087,7 @@ Item {
                 id: save_to_desktop
                 dirImage: dirSave
                 imageName:"save_to_desktop"
-                state: "on"
+                state: save_toolbar.saveItem == 0 ? "on": "off"
                 onEntered: {
                     savetooltip.visible = true
                     savetooltip.text = "Save to Desktop"
@@ -1093,6 +1097,7 @@ Item {
                 }
                 onPressed: {
                     save_toolbar.saveId = "save_to_desktop"
+                    windowView.save_config("0")
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
 
@@ -1104,6 +1109,7 @@ Item {
 
                 imageName:"auto_save"
                 dirImage: dirSave
+                state: save_toolbar.saveItem == 1 ? "on": "off"
                 onEntered: {
                     savetooltip.visible = true
                     savetooltip.text = "Auto Save"
@@ -1113,6 +1119,7 @@ Item {
                 }
                 onPressed: {
                     save_toolbar.saveId = "auto_save"
+                    windowView.save_config("1")
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
 
@@ -1124,6 +1131,7 @@ Item {
 
                 imageName:"save_to_dir"
                 dirImage: dirSave
+                state: save_toolbar.saveItem == 2 ? "on": "off"
                 onEntered: {
                     savetooltip.visible = true
                     savetooltip.text = "Save as"
@@ -1133,6 +1141,7 @@ Item {
                 }
                 onPressed: {
                     save_toolbar.saveId = "save_to_dir"
+                    windowView.save_config("2")
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
 
@@ -1144,6 +1153,7 @@ Item {
 
                 imageName:"save_ClipBoard"
                 dirImage: dirSave
+                state: save_toolbar.saveItem == 3 ? "on": "off"
                 onEntered: {
                     savetooltip.visible = true
                     savetooltip.text = "Save to Clipboard"
@@ -1153,6 +1163,7 @@ Item {
                 }
                 onPressed: {
                     save_toolbar.saveId = "save_ClipBoard"
+                    windowView.save_config("3")
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
 
@@ -1161,9 +1172,9 @@ Item {
             }
             ToolButton {
                 id: auto_save_ClipBoard
-
                 imageName:"auto_save_ClipBoard"
                 dirImage: dirSave
+                state: save_toolbar.saveItem == 4 ? "on": "off"
                 onEntered: {
                     savetooltip.visible = true
                     savetooltip.text = "Auto Save and Save to Clipboard"
@@ -1173,6 +1184,7 @@ Item {
                 }
                 onPressed: {
                     save_toolbar.saveId = "auto_save_ClipBoard"
+                    windowView.save_config("4")
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
 

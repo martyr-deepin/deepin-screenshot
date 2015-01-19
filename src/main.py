@@ -43,6 +43,8 @@ from share_service import ShareWindow
 import tempfile
 from shutil import copyfile
 
+from share_service.config import OperateConfig
+
 def init_cursor_shape_dict():
     global cursor_shape_dict
 
@@ -128,21 +130,35 @@ class Window(QQuickView):
         image_dir = "/tmp/deepin-screenshot-%s.png" %style
         p.save(os.path.join(image_dir))
 
+    @pyqtSlot(str)
+    def save_config(self, save_op_index):
+        self.__config = OperateConfig()
+        self.__config.set("save", save_op=str(save_op_index))
+
+    @pyqtSlot(result="QVariant")
+    def get_save_config(self):
+        self.__config = OperateConfig()
+        save_op = self.__config.get("save", "save_op")
+        return int(save_op)
+
     @pyqtSlot(str,int,int,int,int)
     def save_screenshot(self, saveId,x,y,width,height):
+        self.__config =  OperateConfig()
+        save_op = self.__config.get("save", "save_op")
+        save_op_index = int(save_op)
         pixmap = QPixmap.fromImage(self.grabWindow())
         pixmap = pixmap.copy(x, y, width, height)
         name = "%s%s" % (self.title(), time.strftime("%Y%m%d%H%M%S", time.localtime()))
         tmpFile = SAVE_DEST_TEMP
         pixmap.save(tmpFile)
 
-        if saveId == "auto_save" :
-            saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
-        elif saveId == "save_to_dir":
-            saveDir = QFileDialog.getExistingDirectory()
-        elif saveId == "save_to_desktop":
+        if save_op_index == 0: #saveId == "save_to_desktop":
             saveDir = QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
-        elif saveId == "auto_save_ClipBoard":
+        elif save_op_index == 1: #saveId == "auto_save" :
+            saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
+        elif save_op_index == 2: #saveId == "save_to_dir":
+            saveDir = QFileDialog.getExistingDirectory()
+        elif save_op_index == 4: #saveId == "auto_save_ClipBoard":
             saveToClipboard(pixmap)
             saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
         else :
