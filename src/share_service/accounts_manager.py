@@ -65,6 +65,6 @@ class AccountsManager(QObject):
             info = self.sina_weibo.getAccountInfoWithCode(code)
             db.saveAccountInfo(SINAWEIBO, info)
 
-    @pyqtSlot(str)
-    def share(self, text):
-        self.sina_weibo.share(text)
+    @pyqtSlot(str, str)
+    def share(self, text, pic):
+        self.sina_weibo.share(text, pic)

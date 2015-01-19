@@ -771,6 +771,7 @@ Item {
                 visible: !savetooltip.visible
                 imageName: "share"
                 onPressed: {
+                    windowView.save_screenshot(save_toolbar.saveId, selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
                     windowView.share()
                 }
             }

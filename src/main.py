@@ -40,6 +40,7 @@ from window_info import WindowInfo
 from dbus_interfaces import screenShotInterface
 from share_service import ShareWindow
 
+import tempfile
 from shutil import copyfile
 
 def init_cursor_shape_dict():
@@ -64,6 +65,8 @@ def init_cursor_shape_dict():
 
 CURSOR_SHAPE_SHAPE_PREFIX = "shape_"
 CURSOR_SHAPE_COLOR_PEN_PREFIX = "color_pen_"
+SAVE_DEST_TEMP = os.path.join(tempfile.gettempdir() or "/tmp",
+                              "DeepinScreenshot-save-tmp.png")
 cursor_shape_dict = {}
 init_cursor_shape_dict()
 
@@ -130,7 +133,7 @@ class Window(QQuickView):
         pixmap = QPixmap.fromImage(self.grabWindow())
         pixmap = pixmap.copy(x, y, width, height)
         name = "%s%s" % (self.title(), time.strftime("%Y%m%d%H%M%S", time.localtime()))
-        tmpFile = "/tmp/DeepinScreenshot%s.png" % name
+        tmpFile = SAVE_DEST_TEMP
         pixmap.save(tmpFile)
 
         if saveId == "auto_save" :
@@ -169,6 +172,7 @@ class Window(QQuickView):
     @pyqtSlot()
     def share(self):
         self._shareWindow = ShareWindow()
+        self._shareWindow.setScreenshot(SAVE_DEST_TEMP)
         self._shareWindow.show()
         self.hide()
 
