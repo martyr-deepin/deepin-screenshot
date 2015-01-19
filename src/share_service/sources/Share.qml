@@ -3,6 +3,13 @@ import QtQuick.Window 2.1
 import Deepin.Widgets 1.0
 
 Item {
+    width: 0
+    height: 0
+
+    function setScreenshot(path) {
+        share_content.setScreenshot(path)
+    }
+
     DDialog {
         id: dialog
         x: (Screen.desktopAvailableWidth - width) / 2
@@ -13,56 +20,71 @@ Item {
 
         Item {
             id: mainItem
-            anchors.top: parent.top
             width: parent.width
             height: 260
 
             ShareContent {
-                id: shareContent
-                anchors.fill: parent
-                }
+                id: share_content
+                width: parent.width
+                height: parent.height
             }
 
-        Item {
+            AccountsList {
+                id: accounts_list
+                visible: false
+                width: parent.width
+                height: parent.height
+            }
+
+            AccountsPickView {
+                id: accounts_pick_view
+                visible: false
+                parentWindow: dialog
+                width: parent.width
+                height: parent.height
+            }
+        }
+
+        ShareBottomBar {
+            id: bottom_bar
             width: parent.width
-            height: 40
-            anchors.top: mainItem.bottom
-            anchors.topMargin: 25
-            Row {
-                id: row
-                anchors.left: parent.left
-                anchors.leftMargin: 5
-                spacing: 10
-                DImageCheckBox {
-                    imageSource :"../images/sinaweibo_small.png"
-                }
-                DImageCheckBox {
-                    imageSource :"../images/twitter_small.png"
-                }
-            }
-            Text {
-                id: light_to_select_label
-                text: "点亮图标以选择"
-                color: "#FDA825"
-                font.pixelSize: 11
-                anchors.left: row.right
-                anchors.leftMargin: 5
-            }
-            Text {
-                id: word_number_label
-                property var show: (129 - shareContent.input_text.length)
-                text: show
-                color: "#FDA825"
-                font.pixelSize: 11
+            wordCount: share_content.wordCount
 
-                anchors.right: action_button.left
-                anchors.rightMargin: 10
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: -5
+
+            onStateChanged: {
+                var accounts = _accounts_manager.getCurrentAccounts()
+
+                switch(state) {
+                    case "first_time": {
+
+                    }
+                }
             }
-            DTextButton {
-                id: action_button
-                text: "下一步"
-                anchors.right: parent.right
-                anchors.rightMargin: 5
+
+            onNextButtonClicked: {
+                bottom_bar.state = "account_pick"
+                share_content.leftOut()
+                accounts_list.rightIn()
+            }
+
+            onShareButtonClicked: {
+                var enableAccounts = getEnabledAccounts()
+                enableAccounts.forEach(function (account) {
+                    _accounts_manager.enableAccount(account)
+                })
+                _accounts_manager.share(share_content.text, share_content.screenshot)
+            }
+
+            Component.onCompleted: {
+                var accounts = _accounts_manager.getCurrentAccounts()
+                var filterMap = []
+                for (var i = 0; i < accounts.length; i++) {
+                    filterMap.push(accounts[i][0] ? true : false)
+                    if (accounts[i][0]) state = "share"
+                }
+                lightUpIcons(filterMap)
             }
         }
     }

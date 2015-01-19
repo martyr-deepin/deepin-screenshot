@@ -21,7 +21,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-from PyQt5.QtCore import Qt, QUrl, pyqtSlot
+from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtQuick import QQuickView
 from PyQt5.QtGui import QSurfaceFormat, QColor
 
@@ -40,9 +40,12 @@ class ShareWindow(QQuickView):
         self.setResizeMode(QQuickView.SizeViewToRootObject)
         self.setFormat(surface_format)
 
+        self.rootContext().setContextProperty("_accounts_manager",
+                                              self._accounts_manager)
+
         parentDir = os.path.dirname(os.path.abspath(__file__))
         qmlPath = os.path.join(parentDir, "sources/Share.qml")
         self.setSource(QUrl.fromLocalFile(qmlPath))
 
-    def hasValidAccount(self):
-    	return self._accounts_manager.hasValidAccount()
+    def setScreenshot(self, path):
+        self.rootObject().setScreenshot(path)

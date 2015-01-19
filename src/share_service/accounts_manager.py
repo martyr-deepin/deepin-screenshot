@@ -23,14 +23,13 @@
 from accounts import SinaWeibo
 from database import db, SINAWEIBO
 
-class AccountsManager(object):
+from PyQt5.QtCore import QObject, pyqtSlot
+
+class AccountsManager(QObject):
     """Manager of all the SNS accounts"""
     def __init__(self):
         super(AccountsManager, self).__init__()
-        self._sina_weibo = self.getSinaWeiboAccount()
-
-    def hasValidAccount(self):
-        return self._sina_weibo.valid()
+        self.sina_weibo = self.getSinaWeiboAccount()
 
     def getSinaWeiboAccount(self):
         sina_weibo = SinaWeibo()
@@ -42,17 +41,30 @@ class AccountsManager(object):
     def setSinaWeiboAccount(self, uid):
         account = db.fetchAccountByUID(SINAWEIBO, uid)
         if account:
-            self._sina_weibo = SinaWeibo(*account)
+            self.sina_weibo = SinaWeibo(*account)
 
+    @pyqtSlot(str)
+    def enableAccount(self, accountType):
+        if accountType == SINAWEIBO:
+            self.sina_weibo.enabled = True
+
+    @pyqtSlot(result="QVariant")
+    def getCurrentAccounts(self):
+        result = []
+        result.append([self.sina_weibo.uid, self.sina_weibo.username])
+        return result
+
+    @pyqtSlot(str, result=str)
     def getAuthorizeUrl(self, accountType):
         if accountType == SINAWEIBO:
-            return self._sina_weibo.getAuthorizeUrl()
+            return self.sina_weibo.getAuthorizeUrl()
 
+    @pyqtSlot(str, str)
     def handleAuthorizeCode(self, accountType, code):
         if accountType == SINAWEIBO:
-            info = self._sina_weibo.getAccountInfoWithCode(code)
+            info = self.sina_weibo.getAccountInfoWithCode(code)
             db.saveAccountInfo(SINAWEIBO, info)
 
-    def share(self, text, pics=None):
-        self._sina_weibo.enabled = True
-        self._sina_weibo.share(text, pics)
+    @pyqtSlot(str)
+    def share(self, text):
+        self.sina_weibo.share(text)

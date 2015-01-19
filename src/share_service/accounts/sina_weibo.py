@@ -32,6 +32,9 @@ CALLBACK_URL = 'http://www.linuxdeepin.com'
 class SinaWeibo(AccountBase):
     def __init__(self, uid='', username='', access_token='', expires=0):
         super(SinaWeibo, self).__init__()
+        self.uid = uid
+        self.username = username
+
         self._client = APIClient(SinaWeiboMixin,
                                  app_key = APP_KEY,
                                  app_secret = APP_SECRET,
@@ -39,9 +42,9 @@ class SinaWeibo(AccountBase):
         self._client.set_access_token(access_token, expires)
 
     def valid(self):
-        return self._client.is_expires()
+        return not self._client.is_expires()
 
-    def share(self, text, pic):
+    def share(self, text, pic=None):
         if pic:
             with open(pic) as _pic:
                 self._client.statuses.upload.post(status=text, pic=_pic)

@@ -5,39 +5,45 @@ Item {
 	width: 400
 	height: 300
 
-	Behavior on x {
-		id: x_behavior
-		NumberAnimation {
-			duration: 500
-			easing.type: Easing.OutCubic
-		}
+	NumberAnimation {
+		id: in_animation
+		property: "x"
+		target: rect
+		duration: 500
+		easing.type: Easing.OutCubic
+		onStarted: rect.visible = true
+	}
+
+	NumberAnimation {
+		id: out_animation
+		property: "x"
+		target: rect
+		duration: 500
+		easing.type: Easing.OutCubic
+		onStopped: rect.visible = false
 	}
 
 	function leftIn() {
-		x_behavior.enabled = false
-		x = -width
-		x_behavior.enabled = true
-		x = 0
+		rect.x = -width
+		in_animation.to = 0
+		in_animation.start()
 	}
 
 	function leftOut() {
-		x_behavior.enabled = false
-		x = 0
-		x_behavior.enabled = true
-		x = -width
+		rect.x = 0
+		out_animation.to = -width
+		out_animation.start()
 	}
 
 	function rightIn() {
-		x_behavior.enabled = false
-		x = width
-		x_behavior.enabled = true
-		x = 0
+		rect.x = width
+		in_animation.to = 0
+		in_animation.start()
 	}
 
 	function rightOut() {
-		x_behavior.enabled = false
-		x = 0
-		x_behavior.enabled = true
-		x = width
+		rect.x = 0
+		out_animation.to = width
+		out_animation.start()
 	}
 }

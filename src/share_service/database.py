@@ -73,5 +73,6 @@ class Database(object):
     def saveAccountInfo(self, accountType, info):
         self.db_cursor.execute(
             "INSERT OR REPLACE INTO %s VALUES(?, ?, ?, ?)" % accountType, info)
+        self.db_connect.commit()
 
 db = Database()
