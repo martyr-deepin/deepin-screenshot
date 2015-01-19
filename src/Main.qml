@@ -21,6 +21,14 @@ Item {
         var pos_absolute = Qt.point(pos_origin.x - selectArea.x, pos_origin.y - selectArea.y)
         return pos_absolute
     }
+
+    function saveScreenshot() {
+        windowView.save_screenshot(save_toolbar.saveId,
+            selectFrame.x + 1,selectFrame.y + 1,
+            selectFrame.width - 2,selectFrame.height - 2)
+        cameraSound.play()
+    }
+
     MouseArea {
         id: screenArea
         anchors.fill: parent
@@ -113,8 +121,7 @@ Item {
             save_toolbar.saveId = "auto_save"
             toolbar.visible = false
             selectSizeTooltip.visible = false
-            windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
-            cameraSound.play()
+
         }
     }
 
@@ -752,9 +759,10 @@ Item {
                 onSaveIcon: {
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
-                    windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
-                    windowView.close()
+
+                    screen.saveScreenshot()
                 }
+
                 onListIcon: {
                     save_toolbar.visible = save_toolbar.visible == false ? true : false
                     if (save_toolbar.visible) {
@@ -771,7 +779,7 @@ Item {
                 visible: !savetooltip.visible
                 imageName: "share"
                 onPressed: {
-                    windowView.save_screenshot(save_toolbar.saveId, selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
+                    screen.saveScreenshot()
                     windowView.share()
                 }
             }
@@ -1087,8 +1095,8 @@ Item {
                     save_toolbar.saveId = "save_to_desktop"
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
-                    windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
-                    cameraSound.play()
+
+                    screen.saveScreenshot()
                 }
             }
             ToolButton {
@@ -1107,8 +1115,8 @@ Item {
                     save_toolbar.saveId = "auto_save"
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
-                    windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
-                    cameraSound.play()
+
+                    screen.saveScreenshot()
                 }
             }
             ToolButton {
@@ -1127,8 +1135,8 @@ Item {
                     save_toolbar.saveId = "save_to_dir"
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
-                    windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2 ,selectFrame.height - 2)
-                    cameraSound.play()
+
+                    screen.saveScreenshot()
                 }
             }
             ToolButton {
@@ -1147,8 +1155,8 @@ Item {
                     save_toolbar.saveId = "save_ClipBoard"
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
-                    windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
-                    cameraSound.play()
+
+                    screen.saveScreenshot()
                 }
             }
             ToolButton {
@@ -1167,8 +1175,8 @@ Item {
                     save_toolbar.saveId = "auto_save_ClipBoard"
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
-                    windowView.save_screenshot(save_toolbar.saveId,selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2,selectFrame.height - 2)
-                    cameraSound.play()
+
+                    screen.saveScreenshot()
                 }
             }
         }
