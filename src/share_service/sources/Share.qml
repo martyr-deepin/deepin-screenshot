@@ -7,6 +7,8 @@ Item {
     width: 0
     height: 0
 
+    Component.onCompleted: dialog.show()
+
     function setScreenshot(path) {
         share_content.setScreenshot(path)
     }
@@ -27,7 +29,6 @@ Item {
         y: (Screen.desktopAvailableHeight - height) / 2
         width: 480
         height: 360
-        visible: true
 
         Item {
             id: mainItem

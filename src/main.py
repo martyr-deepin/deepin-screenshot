@@ -31,14 +31,13 @@ from PyQt5.QtQuick import QQuickView
 from PyQt5.QtGui import (QSurfaceFormat, QColor, QGuiApplication,
     QPixmap, QCursor, qRed, qGreen, qBlue)
 from PyQt5.QtWidgets import QApplication, qApp, QFileDialog
-from PyQt5.QtCore import pyqtSlot, QStandardPaths
+from PyQt5.QtCore import pyqtSlot, QStandardPaths, QUrl
 from PyQt5.QtDBus import QDBusConnection, QDBusInterface
 
 import sys
 import signal
 from window_info import WindowInfo
 from dbus_interfaces import screenShotInterface
-from share_service import ShareWindow
 
 import tempfile
 from shutil import copyfile
@@ -187,10 +186,11 @@ class Window(QQuickView):
 
     @pyqtSlot()
     def share(self):
-        self._shareWindow = ShareWindow()
-        self._shareWindow.setScreenshot(SAVE_DEST_TEMP)
-        self._shareWindow.show()
-        self.hide()
+        import subprocess
+        exec_file = os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                                 "share_service/share.py")
+        subprocess.call(["python", exec_file, SAVE_DEST_TEMP])
+        self.close()
 
     def exit_app(self):
         self.enable_zone()
@@ -208,7 +208,7 @@ if __name__ == "__main__":
     qml_context.setContextProperty("screenWidth", view.window_info.screen_width)
     qml_context.setContextProperty("screenHeight", view.window_info.screen_height)
 
-    view.setSource(QtCore.QUrl.fromLocalFile(os.path.join(os.path.dirname(__file__), 'Main.qml')))
+    view.setSource(QUrl.fromLocalFile(os.path.join(os.path.dirname(__file__), 'Main.qml')))
 
     view.disable_zone()
     view.showFullScreen()

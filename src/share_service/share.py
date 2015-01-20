@@ -21,6 +21,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import sys
+import signal
+from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtQuick import QQuickView
 from PyQt5.QtGui import QSurfaceFormat, QColor
@@ -49,3 +52,13 @@ class ShareWindow(QQuickView):
 
     def setScreenshot(self, path):
         self.rootObject().setScreenshot(path)
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = ShareWindow()
+
+    window.setScreenshot(sys.argv[1])
+    window.show()
+
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+    sys.exit(app.exec_())
