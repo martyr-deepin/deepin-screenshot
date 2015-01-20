@@ -15,15 +15,18 @@ Item {
 	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 
     property int numberOrder
-	property int bigPointRadius: 3
+    property string shape: "ellipse"
+    property int bigPointRadius: 3
 	property int smallPointRadius: 2
 	property int clickedKey: 0
 	property int linewidth: 3
-    property color drawColor: "red"
+    property int drawColor: 2
 
     property bool processBlur: false
     property bool processMosaic: false
-
+    
+    onDrawColorChanged: windowView.save_config("ellipse", "color_index", drawColor)
+    onLinewidthChanged: windowView.save_config("ellipse", "line_width_index", linewidth)
 	function _initMainPoints() {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
@@ -46,7 +49,7 @@ Item {
 	    var points1 = CalcEngine.getEightControlPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 
 	    ctx.lineWidth = linewidth
-	    ctx.strokeStyle = drawColor
+	    ctx.strokeStyle = screen.colorCard(drawColor)
 	    ctx.fillStyle = "transparent"
 		ctx.beginPath()
 

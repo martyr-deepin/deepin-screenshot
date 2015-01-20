@@ -14,20 +14,23 @@ Item {
 	property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 
     property int numberOrder
-	property var bigPointRadius: 3
+    property string shape: "arrow"
+    property var bigPointRadius: 3
 	property var smallPointRadius: 2
 	property int clickedKey: 0
 	property int linewidth: 3
-	property color drawColor: "red"
+	property int drawColor: 2
 	property int arrowSize: 16
 	property int arrowAngle: 40
 
+    onDrawColorChanged: { windowView.save_config(shape, "color_index", drawColor)}
+    onLinewidthChanged: { windowView.save_config(shape, "line_width_index", linewidth)}
 	function draw(ctx) {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]
 
 		ctx.lineWidth = linewidth
-		ctx.strokeStyle = drawColor
+		ctx.strokeStyle = screen.colorCard(drawColor)
 		ctx.save()
 		ctx.beginPath()
 		ctx.moveTo(startPoint.x, startPoint.y)
@@ -55,8 +58,8 @@ Item {
 		var pointD = Qt.point(2*pointC.x - pointB.x, 2*pointC.y - pointB.y)
 		var pointE = Qt.point((endPoint.x + pointA.x) / 2, (endPoint.y + pointA.y) / 2)
 
-		ctx.fillStyle =  drawColor
-		ctx.strokeStyle = drawColor
+		ctx.fillStyle =  screen.colorCard(drawColor)
+		ctx.strokeStyle = screen.colorCard(drawColor)
 		ctx.beginPath()
 		ctx.moveTo(endPoint.x, endPoint.y)
 		ctx.lineTo(pointB.x, pointB.y)

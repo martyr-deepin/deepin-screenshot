@@ -12,7 +12,7 @@ Canvas {
     property var shapes: []
     property var currenRecordingShape
     property var linewidth: 3
-    property color paintColor: "red"
+    property int paintColor: 3
     property alias canvasArea: canvasArea
     property url imageUrl: "/tmp/deepin-screenshot.png"
     property string blurImage:"/tmp/deepin-screenshot-blur.png"
@@ -169,22 +169,22 @@ Canvas {
             case "ellipse": { return windowView.set_cursor_shape("shape_ellipse_mouse") }
             case "arrow": { return windowView.set_cursor_shape("shape_arrow_mouse") }
             case "line": {
-                if (paint == "#ffd903") { return windowView.set_cursor_shape("color_pen_yellow") }
-                if (paint == "#ff5e1a") { return windowView.set_cursor_shape("color_pen_orange") }
-                if (paint == "#ff3305") { return windowView.set_cursor_shape("color_pen_dark_orange") }
-                if (paint == "#ff1c49") { return windowView.set_cursor_shape("color_pen_pink_red") }
-                if (paint == "#fb00ff") { return windowView.set_cursor_shape("color_pen_light_purple") }
-                if (paint == "#7700ed") { return windowView.set_cursor_shape("color_pen_purple") }
-                if (paint == "#3d08ff") { return windowView.set_cursor_shape("color_pen_dark_blue") }
-                if (paint == "#3468ff") { return windowView.set_cursor_shape("color_pen_blue") }
-                if (paint == "#00aaff") { return windowView.set_cursor_shape("color_pen_light_blue") }
-                if (paint == "#08ff77") { return windowView.set_cursor_shape("color_pen_light_green") }
-                if (paint == "#03a60e") { return windowView.set_cursor_shape("color_pen_grass_green") }
-                if (paint == "#3c7d00") { return windowView.set_cursor_shape("color_pen_dark_green") }
-                if (paint == "#ffffff") { return windowView.set_cursor_shape("color_pen_white") }
-                if (paint == "#666666") { return windowView.set_cursor_shape("color_pen_grey") }
-                if (paint == "#2b2b2b") { return windowView.set_cursor_shape("color_pen_dark_grey") }
-                if (paint == "#000000") { return windowView.set_cursor_shape("color_pen_black") }
+                if (paint == 0) { return windowView.set_cursor_shape("color_pen_yellow") }
+                if (paint == 1) { return windowView.set_cursor_shape("color_pen_orange") }
+                if (paint == 2) { return windowView.set_cursor_shape("color_pen_dark_orange") }
+                if (paint == 3) { return windowView.set_cursor_shape("color_pen_pink_red") }
+                if (paint == 4) { return windowView.set_cursor_shape("color_pen_light_purple") }
+                if (paint == 5) { return windowView.set_cursor_shape("color_pen_purple") }
+                if (paint == 6) { return windowView.set_cursor_shape("color_pen_dark_blue") }
+                if (paint == 7) { return windowView.set_cursor_shape("color_pen_blue") }
+                if (paint == 8) { return windowView.set_cursor_shape("color_pen_light_blue") }
+                if (paint == 9) { return windowView.set_cursor_shape("color_pen_light_green") }
+                if (paint == 10) { return windowView.set_cursor_shape("color_pen_grass_green") }
+                if (paint == 11) { return windowView.set_cursor_shape("color_pen_dark_green") }
+                if (paint == 12) { return windowView.set_cursor_shape("color_pen_white") }
+                if (paint == 13) { return windowView.set_cursor_shape("color_pen_grey") }
+                if (paint == 14) { return windowView.set_cursor_shape("color_pen_dark_grey") }
+                if (paint == 15) { return windowView.set_cursor_shape("color_pen_black") }
             }
             case "text": { return windowView.set_cursor_shape("shape_text_mouse") }
         }
@@ -256,6 +256,7 @@ Canvas {
                     }
                 }
                 canvas.currenRecordingShape.drawColor = canvas.paintColor
+                windowView.save_config(canvas.currenRecordingShape.shape, "color_index", canvas.paintColor)
                 if (canvas.shapeName != "text") {
                     canvas.currenRecordingShape.linewidth = canvas.linewidth
                     var pos = screen.get_absolute_cursor_pos()

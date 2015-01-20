@@ -27,7 +27,26 @@ Item {
             selectFrame.width - 2,selectFrame.height - 2)
         cameraSound.play()
     }
-
+    function colorCard(key) {
+        switch (key) {
+            case 0: return "#FFD903"
+            case 1: return "#FF5E1A"
+            case 2: return "#FF3305"
+            case 3: return "#FF1C49"
+            case 4: return "#FB00FF"
+            case 5: return "#7700ED"
+            case 6: return "#3D08FF"
+            case 7: return "#3468FF"
+            case 8: return "#00AAFF"
+            case 9: return "#08FF77"
+            case 10: return "#03A60E"
+            case 11: return "#3C7D00"
+            case 12: return "#FFFFFF"
+            case 13: return "#666666"
+            case 14: return "#2B2B2B"
+            case 15: return "#000000"
+        } 
+    }
     MouseArea {
         id: screenArea
         anchors.fill: parent
@@ -517,6 +536,7 @@ Item {
             toolbar.stop5Color = Qt.rgba(0, 0, 0, 0.677)
             toolbar.stop6Color = Qt.rgba(0, 0, 0, 0.75)
         }
+        
 
         onXChanged: {
             tryHideSizeTooltip()
@@ -582,8 +602,8 @@ Item {
                     }
                     toolbar.shape.shapeName = "rect"
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
-                    toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
-
+                    toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
+                        
                 }
             }
             ToolButton {
@@ -617,7 +637,7 @@ Item {
                     }
                     toolbar.shape.shapeName = "ellipse"
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
-                    toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
+                    toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
                 }
             }
 
@@ -646,7 +666,7 @@ Item {
                     }
                     toolbar.shape.shapeName = "arrow"
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
-                    toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
+                    toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
                 }
             }
 
@@ -678,7 +698,7 @@ Item {
                     }
                     toolbar.shape.shapeName = "line"
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
-                    toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
+                    toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
                 }
             }
             ToolButton {
@@ -708,7 +728,7 @@ Item {
                     toolbar.shape.shapeName = "text"
 
                     toolbar.shape.fontSize = Qt.binding( function() { return fontRect.fontText.font_size})
-                    toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorStyle })
+                    toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
                     fontRect.visible = fontRect.visible == false ? true : false
                     if (fontRect.visible) {
                         setlw.visible = false
@@ -733,7 +753,9 @@ Item {
             }
             BigColor {
                 id: colorTool
-                colorStyle: "#FF1C49"
+                property string initColor: toolbar.shape!= undefined ? toolbar.shape.shapeName: "bigColor"
+                property int colorOrder: windowView.get_save_config(initColor,"color_index") 
+                colorStyle: screen.colorCard(colorOrder) 
 
                 visible: ((button1.width*6 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
 
@@ -770,7 +792,7 @@ Item {
                         mosaicType.visible = false
                         colorChange.visible = false
                         fontRect.visible = false
-                        save_toolbar.saveItem = windowView.get_save_config()
+                        save_toolbar.saveItem = windowView.get_save_config("save", "save_op")
                     }
                     toolbar.toggleToolbar("saveAction")
                 }
@@ -891,69 +913,85 @@ Item {
                 spacing: 5
                 ColorButton{
                     id: black
-                    colorStyle: "#FFD903"
+                    colorOrder: 0
+                    colorStyle: screen.colorCard(0)
                 }
                 ColorButton{
                     id: gray_dark
-                    colorStyle: "#FF5E1A"
+                    colorOrder: 1
+                    colorStyle: screen.colorCard(1) 
                 }
                 ColorButton{
                     id: red
-                    colorStyle: "#FF3305"
+                    colorOrder: 2
+                    colorStyle: screen.colorCard(2)
                 }
                 ColorButton{
                     id: yellow_dark
-                    colorStyle:"#FF1C49"
+                    colorOrder: 3
+                    colorStyle: screen.colorCard(3)
                 }
                 ColorButton{
                     id: yellow
-                    colorStyle: "#FB00FF"
+                    colorOrder: 4
+                    colorStyle: screen.colorCard(4)
                 }
                 ColorButton{
                     id: green
-                    colorStyle: "#7700ED"
+                    colorOrder: 5
+                    colorStyle: screen.colorCard(5)
                 }
                 ColorButton{
                     id: green_dark
-                    colorStyle: "#3D08FF"
+                    colorOrder: 6
+                    colorStyle: screen.colorCard(6)
                 }
                 ColorButton{
                     id: wathet_dark
-                    colorStyle: "#3468FF"
+                    colorOrder: 7
+                    colorStyle: screen.colorCard(7)
                 }
                 ColorButton{
                     id: white
-                    colorStyle: "#00AAFF"
+                    colorOrder: 8
+                    colorStyle: screen.colorCard(8)
                 }
 
                 ColorButton{
                     id: gray
-                    colorStyle: "#08FF77"
+                    colorOrder: 9
+                    colorStyle: screen.colorCard(9)
                 }
 
                 ColorButton{
                     id: red_dark
-                    colorStyle: "#03A60E"
+                    colorOrder: 10
+                    colorStyle: screen.colorCard(10)
                 }
                 ColorButton{
                     id: pink
-                    colorStyle: "#3C7D00"
+                    colorOrder: 11
+                    colorStyle: screen.colorCard(11)
                 }
                 ColorButton{
                     id: pink_dark
-                    colorStyle: "#FFFFFF"
+                    colorOrder: 12
+                    colorStyle: screen.colorCard(12)
                 }
                 ColorButton{
                     id: blue_dark
-                    colorStyle: "#666666"
+                    colorOrder: 13
+                    colorStyle: screen.colorCard(13) 
                 }
                 ColorButton{
                     id: blue
-                    colorStyle: "#2B2B2B"
+                    colorOrder: 14
+                    colorStyle: screen.colorCard(14) 
                 }
                 ColorButton{
                     id: wathet
-                    colorStyle: "#000000"
+                    colorOrder: 15
+                    colorStyle: screen.colorCard(15)
                 }
             }
         }
@@ -1073,7 +1111,7 @@ Item {
             property string saveId:"auto_save"
             property int saveItem: 0
             function last_select_saveItem() {
-                return windowView.get_save_config()
+                return windowView.get_save_config("save","save_op")
             }
             SoundEffect {
                 id: cameraSound
@@ -1096,7 +1134,7 @@ Item {
                 }
                 onPressed: {
                     save_toolbar.saveId = "save_to_desktop"
-                    windowView.save_config("0")
+                    windowView.save_config("save", "save_op","0")
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
 
@@ -1118,7 +1156,7 @@ Item {
                 }
                 onPressed: {
                     save_toolbar.saveId = "auto_save"
-                    windowView.save_config("1")
+                    windowView.save_config("save","save_op","1")
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
 
@@ -1140,7 +1178,7 @@ Item {
                 }
                 onPressed: {
                     save_toolbar.saveId = "save_to_dir"
-                    windowView.save_config("2")
+                    windowView.save_config("save","save_op","2")
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
 
@@ -1162,7 +1200,7 @@ Item {
                 }
                 onPressed: {
                     save_toolbar.saveId = "save_ClipBoard"
-                    windowView.save_config("3")
+                    windowView.save_config("save","save_op","3")
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
 
@@ -1183,7 +1221,7 @@ Item {
                 }
                 onPressed: {
                     save_toolbar.saveId = "auto_save_ClipBoard"
-                    windowView.save_config("4")
+                    windowView.save_config("save","save_op","4")
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
 

@@ -42,7 +42,7 @@ from dbus_interfaces import screenShotInterface
 import tempfile
 from shutil import copyfile
 
-from share_service.config import OperateConfig
+from config import OperateConfig
 
 def init_cursor_shape_dict():
     global cursor_shape_dict
@@ -129,16 +129,27 @@ class Window(QQuickView):
         image_dir = "/tmp/deepin-screenshot-%s.png" %style
         p.save(os.path.join(image_dir))
 
-    @pyqtSlot(str)
-    def save_config(self, save_op_index):
+    @pyqtSlot(str,str,str)
+    def save_config(self,opt,opt_name,op_index):
         self.__config = OperateConfig()
-        self.__config.set("save", save_op=str(save_op_index))
+        if opt == "save" and opt_name == "save_op":
+            self.__config.set(opt, save_op=str(op_index))
+        elif opt == "bigColor"or opt == "rect"or opt == "ellipse"\
+        or opt == "line"or opt == "arrow"or opt =="text" and\
+        opt_name == "color_index":
+            self.__config.set(opt, color_index=str(op_index))
+        elif opt == "rect"or opt == "ellipse"or opt == "line"or opt == "arrow"\
+        and opt_name == "line_width_index":
+            self.__config.set(opt, line_width_index=str(op_index))
+        elif opt == "text" and opt_name == "fontsize_index":
+            self.__config.set(opt, fontsize_index=str(op_index))
 
-    @pyqtSlot(result="QVariant")
-    def get_save_config(self):
+    @pyqtSlot(str,str,result="QVariant")
+    def get_save_config(self, opt, opt_name):
         self.__config = OperateConfig()
-        save_op = self.__config.get("save", "save_op")
-        return int(save_op)
+        op_index = self.__config.get(opt, opt_name)
+        op = int(op_index)
+        return op
 
     @pyqtSlot(int,int,int,int)
     def save_screenshot(self,x,y,width,height):

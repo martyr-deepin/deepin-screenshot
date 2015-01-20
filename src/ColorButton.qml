@@ -5,6 +5,7 @@ Item {
     width: 12
     height: 15
 
+    property int colorOrder: 3
     property string colorStyle: "red"
     signal clicked()
 
@@ -43,6 +44,8 @@ Item {
         onClicked:{
             selectArea.border.color = Qt.rgba(1,1,1,1)
             colorTool.colorStyle = colorStyle
+            colorTool.colorOrder = colorOrder
+            windowView.save_config("bigColor", "color_index", colorOrder)
         }
     }
 }

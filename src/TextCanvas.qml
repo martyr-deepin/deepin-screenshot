@@ -13,6 +13,7 @@ Rectangle {
     property int curY
     property int fontSize: 12
     property int numberOrder
+    property string shape: "text"
     property bool selected: true
     property bool reSized: false
     property bool rotated: false
@@ -38,9 +39,11 @@ Rectangle {
     property int linewidth: 1
     property var reX: width / 2
     property var reY: height / 2
-    property color drawColor: "red"
+    property int drawColor: 3
     property  string state: "off"
 
+    onDrawColorChanged: { windowView.save_config(shape, "color_index", drawColor)}
+    onFontSizeChanged: { windowView.save_config(shape, "fontsize_index", fontSize)}
     transform: Rotation {
         origin.x: (isRotating || isDraging) ? width / 2 : reX
         origin.y: (isRotating || isDraging) ? height / 2 : reY
@@ -221,7 +224,7 @@ Rectangle {
             textMargin: 3
         //  width: Math.floor((canvas.width - curX - 10) / font.pixelSize)*font.pixelSize
         //  height: Math.floor((canvas.height - curY - 10) / font.pixelSize)*font.pixelSize
-            color: drawColor
+            color: screen.colorCard(drawColor)
             onColorChanged: { select(0, 0)}
             font.pixelSize: fontSize
             wrapMode: TextEdit.Wrap

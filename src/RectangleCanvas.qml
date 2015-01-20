@@ -17,16 +17,19 @@ Item {
     property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 
     property int numberOrder
+    property string shape: "rect"
     property var bigPointRadius: 3
     property var smallPointRadius: 2
 
     property int clickedKey: 0
     property int linewidth: 3
-    property color drawColor: "red"
+    property int drawColor: 2
 
     property bool processBlur: false
     property bool processMosaic: false
-
+    
+    onDrawColorChanged: windowView.save_config("rect", "color_index", drawColor)
+    onLinewidthChanged: windowView.save_config("rect", "line_width_index", linewidth)
     function _initMainPoints() {
         var startPoint = points[0]
         var endPoint = points[points.length - 1]
@@ -48,7 +51,7 @@ Item {
 
         ctx.lineWidth = linewidth
         ctx.fillStyle = "transparent"
-        ctx.strokeStyle = drawColor
+        ctx.strokeStyle = screen.colorCard(drawColor)
         ctx.beginPath()
         ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
         if (DrawingUtils.isPointsSameX(mainPoints)) {
