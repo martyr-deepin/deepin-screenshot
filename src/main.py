@@ -141,8 +141,8 @@ class Window(QQuickView):
         save_op = self.__config.get("save", "save_op")
         return int(save_op)
 
-    @pyqtSlot(str,int,int,int,int)
-    def save_screenshot(self, saveId,x,y,width,height):
+    @pyqtSlot(int,int,int,int)
+    def save_screenshot(self,x,y,width,height):
         self.__config =  OperateConfig()
         save_op = self.__config.get("save", "save_op")
         save_op_index = int(save_op)

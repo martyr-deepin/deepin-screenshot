@@ -23,8 +23,7 @@ Item {
     }
 
     function saveScreenshot() {
-        windowView.save_screenshot(save_toolbar.saveId,
-            selectFrame.x + 1,selectFrame.y + 1,
+        windowView.save_screenshot(selectFrame.x + 1,selectFrame.y + 1,
             selectFrame.width - 2,selectFrame.height - 2)
         cameraSound.play()
     }
