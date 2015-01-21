@@ -26,11 +26,12 @@ from PyQt5.QtDBus import QDBusAbstractInterface, QDBusConnection, QDBusReply
 
 class ScreenShotInterface(QDBusAbstractInterface):
     def __init__(self):
-        super(ScreenShotInterface, self).__init__("org.freedesktop.Notifications",
-                                                   "/org/freedesktop/Notifications",
-                                                   "org.freedesktop.Notifications",
-                                                   QDBusConnection.sessionBus(),
-                                                   None)
+        super(ScreenShotInterface, self).__init__(
+            "org.freedesktop.Notifications",
+            "/org/freedesktop/Notifications",
+            "org.freedesktop.Notifications",
+            QDBusConnection.sessionBus(),
+            None)
 
     def notify(self, summary, body):
     	varRPlaceId = QVariant(0)
@@ -42,4 +43,17 @@ class ScreenShotInterface(QDBusAbstractInterface):
     	reply = QDBusReply(msg)
     	return reply.value
 
+class SocialSharingInterface(QDBusAbstractInterface):
+    def __init__(self):
+        super(SocialSharingInterface, self).__init__(
+            "com.deepin.SocialSharing",
+            "/com/deepin/SocialSharing",
+            "com.deepin.SocialSharing",
+            QDBusConnection.sessionBus(),
+            None)
+
+    def share(self, text, pic):
+        self.call("Share", text, pic)
+
 screenShotInterface = ScreenShotInterface()
+socialSharingInterface = SocialSharingInterface()

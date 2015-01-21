@@ -37,7 +37,7 @@ from PyQt5.QtDBus import QDBusConnection, QDBusInterface
 import sys
 import signal
 from window_info import WindowInfo
-from dbus_interfaces import screenShotInterface
+from dbus_interfaces import screenShotInterface, socialSharingInterface
 
 import tempfile
 from shutil import copyfile
@@ -197,10 +197,7 @@ class Window(QQuickView):
 
     @pyqtSlot()
     def share(self):
-        import subprocess
-        exec_file = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                                 "share_service/share.py")
-        subprocess.call(["python", exec_file, SAVE_DEST_TEMP])
+        socialSharingInterface.share("", SAVE_DEST_TEMP)
         self.close()
 
     def exit_app(self):
