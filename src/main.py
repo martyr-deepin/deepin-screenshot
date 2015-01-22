@@ -100,6 +100,7 @@ class Window(QQuickView):
         self.qpixmap.save("/tmp/deepin-screenshot.png")
         self.qimage = self.qpixmap.toImage()
         self.window_info = WindowInfo()
+        self._init_screenshot_config()
 
         self._notificationId = None
         self._fileSaveLocation = None
@@ -147,7 +148,6 @@ class Window(QQuickView):
         image_dir = "/tmp/deepin-screenshot-%s.png" %style
         p.save(os.path.join(image_dir))
 
-    @pyqtSlot()
     def _init_screenshot_config(self):
         settings = QSettings()
         if os.path.exists(settings.fileName()):
@@ -213,7 +213,6 @@ class Window(QQuickView):
 
     @pyqtSlot(int,int,int,int)
     def save_screenshot(self,x,y,width,height):
-        view._init_screenshot_config()
         save_op = view.get_save_config("save", "save_op")
         save_op_index = int(save_op)
         pixmap = QPixmap.fromImage(self.grabWindow())

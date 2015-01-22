@@ -286,6 +286,7 @@ Canvas {
             canvas.requestPaint()
         }
         onReleased: {
+            if (!toolbar.visible) { toolbar.visible = true }
             if (canvas.recording && canvas.shapeName != "text") {
                 var pos = screen.get_absolute_cursor_pos()
                 canvas.currenRecordingShape.points.push(Qt.point(pos.x, pos.y))
@@ -304,6 +305,13 @@ Canvas {
         }
 
         onPositionChanged: {
+            if (toolbar.visible) {
+                var pos = screen.get_absolute_cursor_pos()
+                if (pos.x+selectArea.x >= toolbar.x && pos.x+selectArea.x <= toolbar.x + toolbar.width &&
+                pos.y+selectArea.y >= toolbar.y && pos.y+selectArea.y <= toolbar.y + toolbar.height) {
+                    toolbar.visible = false
+                }
+            }
             if (canvas.recording && pressed) {
                 var pos = screen.get_absolute_cursor_pos()
                 canvas.currenRecordingShape.points.push(Qt.point(pos.x, pos.y))
