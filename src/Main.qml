@@ -574,8 +574,9 @@ Item {
                 group: row
                 imageName: "rect"
                 visible: ((button1.width + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
-                onPressed:
-                {
+                onStateChanged: {
+                    if (state == "off") return
+
                     screenArea.enabled = false
                     toolbar.toggleToolbar("rect")
 
@@ -611,7 +612,9 @@ Item {
                 imageName: "ellipse"
                 visible: ((button1.width*2 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
 
-                onPressed: {
+                onStateChanged: {
+                    if (state == "off") return
+
                     screenArea.enabled = false
                     toolbar.toggleToolbar("ellipse")
                     if (toolbar.bExtense) {
@@ -645,7 +648,9 @@ Item {
                 group: row
                 imageName: "arrow"
                 visible: ((button1.width*3 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
-                onPressed: {
+                onStateChanged: {
+                    if (state == "off") return
+
                     screenArea.enabled = false
                     toolbar.toggleToolbar("arrow")
                     if (toolbar.bExtense) {
@@ -674,7 +679,9 @@ Item {
                 group:row
                 imageName: "line"
                 visible: ((button1.width*4 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
-                onPressed: {
+                onStateChanged: {
+                    if (state == "off") return
+
                     screenArea.enabled = false
                     toolbar.toggleToolbar("line")
                     if (toolbar.bExtense) {
@@ -705,7 +712,9 @@ Item {
                 id:button5
                 imageName: "text"
                 visible: ((button1.width*5 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
-                onPressed: {
+                onStateChanged: {
+                    if (state == "off") return
+
                     screenArea.enabled = false
                     toolbar.toggleToolbar("text")
                     if (toolbar.bExtense) {
@@ -1349,5 +1358,16 @@ Item {
             }
         }
         canvas.requestPaint()
+    }
+    Keys.onPressed: {
+        var keyActionMap = {
+            "Alt+1": "button1.state = 'on'",
+            "Alt+2": "button2.state = 'on'",
+            "Alt+3": "button3.state = 'on'",
+            "Alt+4": "button4.state = 'on'",
+            "Alt+5": "button5.state = 'on'"
+        }
+        var keyStroke = windowView.keyEventToQKeySequenceString(event.modifiers, event.key)
+        if (keyStroke in keyActionMap) eval(keyActionMap[keyStroke])
     }
 }

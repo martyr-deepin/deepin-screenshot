@@ -37,6 +37,9 @@ Item {
                     }
         }
     ]
+
+    onStateChanged: if (group&&state == "on") group.checkState(toolButton)
+
     Rectangle {
         id: selectArea
         anchors.centerIn: parent
@@ -78,8 +81,6 @@ Item {
         onPressed:{
             toolButton.state = toolButton.state == "on" ? "off" : "on"
             toolButton.pressed()
-            if (toolButton.group&&toolButton.state == "on")
-               group.checkState(toolButton)
         }
     }
 }

@@ -35,7 +35,7 @@ if os.name == 'posix':
 
 from PyQt5.QtQuick import QQuickView
 from PyQt5.QtGui import (QSurfaceFormat, QColor, QGuiApplication,
-    QPixmap, QCursor, qRed, qGreen, qBlue)
+    QPixmap, QCursor, QKeySequence, qRed, qGreen, qBlue)
 from PyQt5.QtWidgets import QApplication, qApp, QFileDialog
 from PyQt5.QtCore import pyqtSlot, QStandardPaths, QUrl, QSettings, QVariant
 from PyQt5.QtDBus import QDBusConnection, QDBusInterface
@@ -253,6 +253,16 @@ class Window(QQuickView):
     def share(self):
         socialSharingInterface.share("", SAVE_DEST_TEMP)
         self.close()
+
+    @pyqtSlot(int, int, str, result=bool)
+    def checkKeySequenceEqual(self, modifier, key, targetKeySequence):
+        keySequence = QKeySequence(modifier + key).toString()
+        return keySequence == targetKeySequence
+
+    @pyqtSlot(int, int, result=str)
+    def keyEventToQKeySequenceString(self, modifier, key):
+        keySequence = QKeySequence(modifier + key).toString()
+        return keySequence
 
     def exit_app(self):
         self.enable_zone()
