@@ -45,7 +45,7 @@ Item {
             case 13: return "#666666"
             case 14: return "#2B2B2B"
             case 15: return "#000000"
-        } 
+        }
     }
     MouseArea {
         id: screenArea
@@ -536,7 +536,7 @@ Item {
             toolbar.stop5Color = Qt.rgba(0, 0, 0, 0.677)
             toolbar.stop6Color = Qt.rgba(0, 0, 0, 0.75)
         }
-        
+
 
         onXChanged: {
             tryHideSizeTooltip()
@@ -753,8 +753,8 @@ Item {
             BigColor {
                 id: colorTool
                 property string initColor: toolbar.shape!= undefined ? toolbar.shape.shapeName: "bigColor"
-                property int colorOrder: windowView.get_save_config("common_color_linewidth","color_index") 
-                colorStyle: screen.colorCard(colorOrder) 
+                property int colorOrder: windowView.get_save_config("common_color_linewidth","color_index")
+                colorStyle: screen.colorCard(colorOrder)
 
                 visible: ((button1.width*6 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
 
@@ -918,7 +918,7 @@ Item {
                 ColorButton{
                     id: gray_dark
                     colorOrder: 1
-                    colorStyle: screen.colorCard(1) 
+                    colorStyle: screen.colorCard(1)
                 }
                 ColorButton{
                     id: red
@@ -980,12 +980,12 @@ Item {
                 ColorButton{
                     id: blue_dark
                     colorOrder: 13
-                    colorStyle: screen.colorCard(13) 
+                    colorStyle: screen.colorCard(13)
                 }
                 ColorButton{
                     id: blue
                     colorOrder: 14
-                    colorStyle: screen.colorCard(14) 
+                    colorStyle: screen.colorCard(14)
                 }
                 ColorButton{
                     id: wathet
@@ -1003,7 +1003,7 @@ Item {
             anchors.bottom: parent.bottom
             visible: toolbar.bExtense
             property var lineWidth: {
-                ((toolbar.shape == undefined) || (toolbar.shape != undefined && toolbar.shape.shapeName == "text"))? windowView.get_save_config("common_color_linewidth", "linewidth_index"):windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index") } 
+                ((toolbar.shape == undefined) || (toolbar.shape != undefined && toolbar.shape.shapeName == "text"))? windowView.get_save_config("common_color_linewidth", "linewidth_index"):windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index") }
 
             function checkState(id) {
                 for (var i=0; i<setlw.children.length; i++) {
@@ -1117,7 +1117,7 @@ Item {
                 id: cameraSound
                 loops: 0
                 source: "../sound/camera.wav"
-                onPlayingChanged: playing ? windowView.hide() : windowView.close()
+                onPlayingChanged: windowView.hide()
             }
 
             ToolButton {

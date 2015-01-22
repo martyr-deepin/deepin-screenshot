@@ -21,27 +21,30 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from PyQt5.QtCore import QVariant
+from PyQt5.QtCore import QVariant, pyqtSignal
 from PyQt5.QtDBus import QDBusAbstractInterface, QDBusConnection, QDBusReply
 
-class ScreenShotInterface(QDBusAbstractInterface):
+class NotificationsInterface(QDBusAbstractInterface):
+    ActionInvoked = pyqtSignal("quint32", str)
+    NotificationClosed = pyqtSignal("quint32", "quint32")
+
     def __init__(self):
-        super(ScreenShotInterface, self).__init__(
+        super(NotificationsInterface, self).__init__(
             "org.freedesktop.Notifications",
             "/org/freedesktop/Notifications",
             "org.freedesktop.Notifications",
             QDBusConnection.sessionBus(),
             None)
 
-    def notify(self, summary, body):
-    	varRPlaceId = QVariant(0)
-    	varRPlaceId.convert(QVariant.UInt)
-    	varActions = QVariant([])
-    	varActions.convert(QVariant.StringList)
+    def notify(self, summary, body, actions=None):
+        varRPlaceId = QVariant(0)
+        varRPlaceId.convert(QVariant.UInt)
+        varActions = QVariant(actions)
+        varActions.convert(QVariant.StringList)
 
-    	msg = self.call("Notify", "Deepin Screenshot", varRPlaceId, "deepin-screenshot", summary, body, varActions, {}, -1)
-    	reply = QDBusReply(msg)
-    	return reply.value
+        msg = self.call("Notify", "Deepin Screenshot", varRPlaceId, "deepin-screenshot", summary, body, varActions, {}, -1)
+        reply = QDBusReply(msg)
+        return reply.value()
 
 class SocialSharingInterface(QDBusAbstractInterface):
     def __init__(self):
@@ -55,5 +58,5 @@ class SocialSharingInterface(QDBusAbstractInterface):
     def share(self, text, pic):
         self.call("Share", text, pic)
 
-screenShotInterface = ScreenShotInterface()
+notificationsInterface = NotificationsInterface()
 socialSharingInterface = SocialSharingInterface()

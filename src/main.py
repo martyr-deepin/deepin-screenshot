@@ -21,7 +21,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import sys
 import time
+import signal
+import tempfile
+import subprocess
+from shutil import copyfile
+
 from PyQt5 import QtCore
 from PyQt5.QtCore import QCoreApplication
 if os.name == 'posix':
@@ -33,16 +39,13 @@ from PyQt5.QtGui import (QSurfaceFormat, QColor, QGuiApplication,
 from PyQt5.QtWidgets import QApplication, qApp, QFileDialog
 from PyQt5.QtCore import pyqtSlot, QStandardPaths, QUrl, QSettings, QVariant
 from PyQt5.QtDBus import QDBusConnection, QDBusInterface
+app = QApplication(sys.argv)
+app.setOrganizationName("Deepin")
+app.setApplicationName("Deepin Screenshot")
+app.setApplicationVersion("3.0")
 
-import sys
-import signal
 from window_info import WindowInfo
-from dbus_interfaces import screenShotInterface, socialSharingInterface
-
-import tempfile
-from shutil import copyfile
-
-from config import OperateConfig
+from dbus_interfaces import notificationsInterface, socialSharingInterface
 
 def init_cursor_shape_dict():
     global cursor_shape_dict
@@ -68,6 +71,7 @@ CURSOR_SHAPE_SHAPE_PREFIX = "shape_"
 CURSOR_SHAPE_COLOR_PEN_PREFIX = "color_pen_"
 SAVE_DEST_TEMP = os.path.join(tempfile.gettempdir() or "/tmp",
                               "DeepinScreenshot-save-tmp.png")
+ACTION_ID_OPEN = "id_open"
 cursor_shape_dict = {}
 init_cursor_shape_dict()
 
@@ -94,6 +98,11 @@ class Window(QQuickView):
         self.qpixmap.save("/tmp/deepin-screenshot.png")
         self.qimage = self.qpixmap.toImage()
         self.window_info = WindowInfo()
+
+        self._notificationId = None
+        self._fileSaveLocation = None
+        notificationsInterface.ActionInvoked.connect(self.actionInvoked)
+        notificationsInterface.NotificationClosed.connect(self.notificationClosed)
 
     @pyqtSlot(int, int, result="QVariant")
     def get_color_at_point(self, x, y):
@@ -184,6 +193,15 @@ class Window(QQuickView):
         settings.setValue(op_name,QVariant(op_index))
         settings.endGroup()
 
+    def actionInvoked(self, notificationId, actionId):
+        if self._notificationId == notificationId:
+            if actionId == ACTION_ID_OPEN:
+                subprocess.call(["xdg-open", os.path.dirname(self._fileSaveLocation)])
+
+    def notificationClosed(self, notificationId, reason):
+        if self._notificationId == notificationId:
+            self.close()
+
     @pyqtSlot(int,int,int,int)
     def save_screenshot(self,x,y,width,height):
         view._init_screenshot_config()
@@ -208,9 +226,12 @@ class Window(QQuickView):
             saveToClipboard(pixmap)
             saveDir = ""
 
-        if saveDir: copyfile(tmpFile, os.path.join(saveDir, name))
-
-        screenShotInterface.notify("深度截图", saveDir + "DeepinScreenshot%s.png" %name)
+        if saveDir:
+            self._fileSaveLocation = os.path.join(saveDir, name)
+            copyfile(tmpFile, self._fileSaveLocation)
+            self._notificationId = notificationsInterface.notify("Deepin Screenshot", self._fileSaveLocation, [ACTION_ID_OPEN, "Open"])
+        else:
+            self._notificationId = notificationsInterface.notify("Screenshot has been copied to clipboard")
 
     @pyqtSlot()
     def enable_zone(self):
@@ -238,10 +259,6 @@ class Window(QQuickView):
         qApp.quit()
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    app.setOrganizationName("Deepin")
-    app.setApplicationName("Deepin Screenshot")
-    app.setApplicationVersion("3.0")
     view = Window()
 
     qApp.lastWindowClosed.connect(view.exit_app)
