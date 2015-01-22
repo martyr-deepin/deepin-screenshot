@@ -37,13 +37,15 @@ from PyQt5.QtQuick import QQuickView
 from PyQt5.QtGui import (QSurfaceFormat, QColor, QGuiApplication,
     QPixmap, QCursor, QKeySequence, qRed, qGreen, qBlue)
 from PyQt5.QtWidgets import QApplication, qApp, QFileDialog
-from PyQt5.QtCore import pyqtSlot, QStandardPaths, QUrl, QSettings, QVariant
+from PyQt5.QtCore import (pyqtSlot, QStandardPaths, QUrl, QSettings, QVariant,
+    QCommandLineParser, QCommandLineOption, QTimer)
 from PyQt5.QtDBus import QDBusConnection, QDBusInterface
 app = QApplication(sys.argv)
 app.setOrganizationName("Deepin")
 app.setApplicationName("Deepin Screenshot")
 app.setApplicationVersion("3.0")
 
+from i18n import _
 from window_info import WindowInfo
 from dbus_interfaces import notificationsInterface, socialSharingInterface
 
@@ -103,6 +105,13 @@ class Window(QQuickView):
         self._fileSaveLocation = None
         notificationsInterface.ActionInvoked.connect(self.actionInvoked)
         notificationsInterface.NotificationClosed.connect(self.notificationClosed)
+
+    def scheduleToShow(self, delay):
+        def _show():
+            self.disable_zone()
+            self.showFullScreen()
+
+        QTimer.singleShot(max(0, delay), _show)
 
     @pyqtSlot(int, int, result="QVariant")
     def get_color_at_point(self, x, y):
@@ -269,10 +278,19 @@ class Window(QQuickView):
         qApp.quit()
 
 if __name__ == "__main__":
+    parser = QCommandLineParser()
+    parser.addHelpOption()
+    parser.addVersionOption()
+
+    delayOption = QCommandLineOption(["d", "delay"],
+                                     _("Take a screenshot after NUM seconds"),
+                                     "NUM")
+    parser.addOption(delayOption)
+    parser.process(app)
+
+    delayValue = int(parser.value(delayOption) or 0)
+
     view = Window()
-
-    qApp.lastWindowClosed.connect(view.exit_app)
-
     qml_context = view.rootContext()
     qml_context.setContextProperty("windowView", view)
     qml_context.setContextProperty("qApp", qApp)
@@ -280,9 +298,8 @@ if __name__ == "__main__":
     qml_context.setContextProperty("screenHeight", view.window_info.screen_height)
 
     view.setSource(QUrl.fromLocalFile(os.path.join(os.path.dirname(__file__), 'Main.qml')))
-
-    view.disable_zone()
-    view.showFullScreen()
+    view.scheduleToShow(1000 * delayValue)
+    qApp.lastWindowClosed.connect(view.exit_app)
 
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     sys.exit(app.exec_())
