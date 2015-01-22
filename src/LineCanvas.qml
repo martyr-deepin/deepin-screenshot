@@ -17,14 +17,14 @@ Item {
 
     property int numberOrder
     property string shape: "line"
-    property var bigPointRadius: 3
-	property var smallPointRadius: 2
+    property var bigPointRadius: 2
+	property var smallPointRadius: 1
 	property int clickedKey: 0
 	property int linewidth: 3
 	property int drawColor: 3
 
-    onDrawColorChanged: { windowView.save_config(shape, "color_index", drawColor)}
-    onLinewidthChanged: { windowView.save_config(shape, "line_width_index", linewidth)}
+    onDrawColorChanged: { windowView.set_save_config(shape, "color_index", drawColor)}
+    onLinewidthChanged: { windowView.set_save_config(shape, "linewidth_index", linewidth)}
 	function _initMainPoints() {
 		var startPoint = points[0]
 		var endPoint = points[points.length - 1]

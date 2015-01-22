@@ -42,8 +42,8 @@ Rectangle {
     property int drawColor: 3
     property  string state: "off"
 
-    onDrawColorChanged: { windowView.save_config(shape, "color_index", drawColor)}
-    onFontSizeChanged: { windowView.save_config(shape, "fontsize_index", fontSize)}
+    onDrawColorChanged: { windowView.set_save_config(shape, "color_index", drawColor)}
+    onFontSizeChanged: { windowView.set_save_config(shape, "fontsize_index", fontSize)}
     transform: Rotation {
         origin.x: (isRotating || isDraging) ? width / 2 : reX
         origin.y: (isRotating || isDraging) ? height / 2 : reY

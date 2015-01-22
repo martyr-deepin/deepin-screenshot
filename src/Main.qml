@@ -603,7 +603,6 @@ Item {
                     toolbar.shape.shapeName = "rect"
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
-                        
                 }
             }
             ToolButton {
@@ -754,7 +753,7 @@ Item {
             BigColor {
                 id: colorTool
                 property string initColor: toolbar.shape!= undefined ? toolbar.shape.shapeName: "bigColor"
-                property int colorOrder: windowView.get_save_config(initColor,"color_index") 
+                property int colorOrder: windowView.get_save_config("common_color_linewidth","color_index") 
                 colorStyle: screen.colorCard(colorOrder) 
 
                 visible: ((button1.width*6 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
@@ -839,7 +838,7 @@ Item {
                 anchors.topMargin: 3
                 width: parent.width / 2 - 10
                 height: parent.height
-                property int font_size: 12
+                property int font_size: windowView.get_save_config("text", "fontsize_index")
                 text: font_size
                 font.pixelSize: 12
                 color: "white"
@@ -1002,9 +1001,9 @@ Item {
             anchors.left: parent.left
             anchors.leftMargin: 4
             anchors.bottom: parent.bottom
-
             visible: toolbar.bExtense
-            property var lineWidth: 3
+            property var lineWidth: {
+                ((toolbar.shape == undefined) || (toolbar.shape != undefined && toolbar.shape.shapeName == "text"))? windowView.get_save_config("common_color_linewidth", "linewidth_index"):windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index") } 
 
             function checkState(id) {
                 for (var i=0; i<setlw.children.length; i++) {
@@ -1019,23 +1018,24 @@ Item {
                 group: setlw
                 imageName:"small"
                 dirImage: dirSizeImage
-                state: "on"
-                onPressed: setlw.lineWidth = 3
+                state: setlw.lineWidth == 2 ? "on": "off"
+                onPressed: setlw.lineWidth = 2
             }
             ToolButton {
                 id: setbutton2
                 group: setlw
                 imageName:"normal"
                 dirImage: dirSizeImage
-
-                onPressed: setlw.lineWidth = 5
+                state: setlw.lineWidth == 4 ? "on": "off"
+                onPressed: setlw.lineWidth = 4
             }
             ToolButton {
                 id: setbutton3
                 group: setlw
                 imageName:"big"
                 dirImage: dirSizeImage
-                onPressed: setlw.lineWidth = 7
+                state: setlw.lineWidth == 6 ? "on": "off"
+                onPressed: setlw.lineWidth = 6
             }
             Rectangle {
                 id: dividingLine
@@ -1134,7 +1134,7 @@ Item {
                 }
                 onPressed: {
                     save_toolbar.saveId = "save_to_desktop"
-                    windowView.save_config("save", "save_op","0")
+                    windowView.set_save_config("save", "save_op","0")
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
 
@@ -1156,7 +1156,7 @@ Item {
                 }
                 onPressed: {
                     save_toolbar.saveId = "auto_save"
-                    windowView.save_config("save","save_op","1")
+                    windowView.set_save_config("save","save_op","1")
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
 
@@ -1178,7 +1178,7 @@ Item {
                 }
                 onPressed: {
                     save_toolbar.saveId = "save_to_dir"
-                    windowView.save_config("save","save_op","2")
+                    windowView.set_save_config("save","save_op","2")
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
 
@@ -1200,7 +1200,7 @@ Item {
                 }
                 onPressed: {
                     save_toolbar.saveId = "save_ClipBoard"
-                    windowView.save_config("save","save_op","3")
+                    windowView.set_save_config("save","save_op","3")
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
 
@@ -1221,7 +1221,7 @@ Item {
                 }
                 onPressed: {
                     save_toolbar.saveId = "auto_save_ClipBoard"
-                    windowView.save_config("save","save_op","4")
+                    windowView.set_save_config("save","save_op","4")
                     toolbar.visible = false
                     selectSizeTooltip.visible = false
 

@@ -31,7 +31,7 @@ from PyQt5.QtQuick import QQuickView
 from PyQt5.QtGui import (QSurfaceFormat, QColor, QGuiApplication,
     QPixmap, QCursor, qRed, qGreen, qBlue)
 from PyQt5.QtWidgets import QApplication, qApp, QFileDialog
-from PyQt5.QtCore import pyqtSlot, QStandardPaths, QUrl
+from PyQt5.QtCore import pyqtSlot, QStandardPaths, QUrl, QSettings, QVariant
 from PyQt5.QtDBus import QDBusConnection, QDBusInterface
 
 import sys
@@ -129,32 +129,65 @@ class Window(QQuickView):
         image_dir = "/tmp/deepin-screenshot-%s.png" %style
         p.save(os.path.join(image_dir))
 
-    @pyqtSlot(str,str,str)
-    def save_config(self,opt,opt_name,op_index):
-        self.__config = OperateConfig()
-        if opt == "save" and opt_name == "save_op":
-            self.__config.set(opt, save_op=str(op_index))
-        elif opt == "bigColor"or opt == "rect"or opt == "ellipse"\
-        or opt == "line"or opt == "arrow"or opt =="text" and\
-        opt_name == "color_index":
-            self.__config.set(opt, color_index=str(op_index))
-        elif opt == "rect"or opt == "ellipse"or opt == "line"or opt == "arrow"\
-        and opt_name == "line_width_index":
-            self.__config.set(opt, line_width_index=str(op_index))
-        elif opt == "text" and opt_name == "fontsize_index":
-            self.__config.set(opt, fontsize_index=str(op_index))
+    @pyqtSlot()
+    def _init_screenshot_config(self):
+        settings = QSettings()
+        if os.path.exists(settings.fileName()):
+            pass
+        else:
+            '''save the user's last choice of save directory'''
+            settings.beginGroup("save")
+            settings.setValue("save_op", QVariant(0))
+            settings.setValue("folder", QVariant("file folder"))
+            settings.endGroup()
+            '''save the user's last choice of toolbar directory'''
+            settings.beginGroup("common_color_linewidth")
+            settings.setValue("color_index", QVariant(3))
+            settings.setValue("line_width_index", QVariant(2))
+            settings.endGroup()
+            settings.beginGroup("rect")
+            settings.setValue("color_index", QVariant(3))
+            settings.setValue("line_width_index", QVariant(2))
+            settings.endGroup()
+            settings.beginGroup("ellipse")
+            settings.setValue("color_index", QVariant(3))
+            settings.setValue("line_width_index", QVariant(2))
+            settings.endGroup()
+            settings.beginGroup("line")
+            settings.setValue("color_index", QVariant(3))
+            settings.setValue("line_width_index", QVariant(2))
+            settings.endGroup()
+            settings.beginGroup("arrow")
+            settings.setValue("color_index", QVariant(3))
+            settings.setValue("line_width_index", QVariant(2))
+            settings.endGroup()
+            settings.beginGroup("text")
+            settings.setValue("color_index", QVariant(3))
+            settings.setValue("fontsize_index", QVariant(2))
+            settings.endGroup()
 
     @pyqtSlot(str,str,result="QVariant")
-    def get_save_config(self, opt, opt_name):
-        self.__config = OperateConfig()
-        op_index = self.__config.get(opt, opt_name)
-        op = int(op_index)
-        return op
+    def get_save_config(self, group_name,op_name):
+        settings = QSettings()
+        settings.beginGroup(group_name)
+        if op_name == "folder":
+             op_index = settings.value(op_name)
+        else:
+             op_index = settings.value(op_name)
+        settings.endGroup()
+        return op_index
+
+    @pyqtSlot(str,str,str)
+    def set_save_config(self,group_name,op_name,op_index):
+        settings = QSettings()
+        settings.beginGroup(group_name)
+        settings.setValue(op_name,QVariant(op_index))
+        settings.endGroup()
 
     @pyqtSlot(int,int,int,int)
     def save_screenshot(self,x,y,width,height):
-        self.__config =  OperateConfig()
-        save_op = self.__config.get("save", "save_op")
+        view._init_screenshot_config()
+        save_op = view.get_save_config("save", "save_op")
         save_op_index = int(save_op)
         pixmap = QPixmap.fromImage(self.grabWindow())
         pixmap = pixmap.copy(x, y, width, height)
@@ -206,6 +239,9 @@ class Window(QQuickView):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    app.setOrganizationName("Deepin")
+    app.setApplicationName("Deepin Screenshot")
+    app.setApplicationVersion("3.0")
     view = Window()
 
     qApp.lastWindowClosed.connect(view.exit_app)

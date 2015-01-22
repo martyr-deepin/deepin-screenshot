@@ -45,7 +45,7 @@ Item {
             selectArea.border.color = Qt.rgba(1,1,1,1)
             colorTool.colorStyle = colorStyle
             colorTool.colorOrder = colorOrder
-            windowView.save_config("bigColor", "color_index", colorOrder)
+            windowView.set_save_config("common_color_linewidth", "color_index", colorOrder)
         }
     }
 }

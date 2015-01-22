@@ -256,7 +256,7 @@ Canvas {
                     }
                 }
                 canvas.currenRecordingShape.drawColor = canvas.paintColor
-                windowView.save_config(canvas.currenRecordingShape.shape, "color_index", canvas.paintColor)
+                windowView.set_save_config(canvas.currenRecordingShape.shape, "color_index", canvas.paintColor)
                 if (canvas.shapeName != "text") {
                     canvas.currenRecordingShape.linewidth = canvas.linewidth
                     var pos = screen.get_absolute_cursor_pos()

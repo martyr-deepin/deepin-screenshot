@@ -18,8 +18,8 @@ Item {
 
     property int numberOrder
     property string shape: "rect"
-    property var bigPointRadius: 3
-    property var smallPointRadius: 2
+    property var bigPointRadius: 2
+    property var smallPointRadius: 1
 
     property int clickedKey: 0
     property int linewidth: 3
@@ -28,8 +28,8 @@ Item {
     property bool processBlur: false
     property bool processMosaic: false
     
-    onDrawColorChanged: windowView.save_config("rect", "color_index", drawColor)
-    onLinewidthChanged: windowView.save_config("rect", "line_width_index", linewidth)
+    onDrawColorChanged: windowView.set_save_config("rect", "color_index", drawColor)
+    onLinewidthChanged: windowView.set_save_config("rect", "linewidth_index", linewidth)
     function _initMainPoints() {
         var startPoint = points[0]
         var endPoint = points[points.length - 1]
