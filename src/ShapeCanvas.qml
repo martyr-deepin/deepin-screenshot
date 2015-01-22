@@ -305,7 +305,7 @@ Canvas {
         }
 
         onPositionChanged: {
-            if (toolbar.visible) {
+            if (toolbar.visible && pressed) {
                 var pos = screen.get_absolute_cursor_pos()
                 if (pos.x+selectArea.x >= toolbar.x && pos.x+selectArea.x <= toolbar.x + toolbar.width &&
                 pos.y+selectArea.y >= toolbar.y && pos.y+selectArea.y <= toolbar.y + toolbar.height) {
