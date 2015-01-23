@@ -185,11 +185,27 @@ Item {
                 pointColorRect.color = Qt.rgba(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, 1)
             }
         }
-        onDoubleClicked: {
-            save_toolbar.saveId = "auto_save"
-            toolbar.visible = false
-            selectSizeTooltip.visible = false
 
+        onDoubleClicked: saveScreenshot()
+
+        onWheel: {
+            if (wheel.modifiers & Qt.ControlModifier) {
+                if (wheel.angleDelta.y < 0) {
+                    if (selectArea.width > 4) {
+                        selectArea.x += 1
+                        selectArea.width -= 2
+                    }
+                    if (selectArea.height > 4) {
+                        selectArea.y += 1
+                        selectArea.height -= 2
+                    }
+                } else {
+                    selectArea.x = Math.max(0, selectArea.x - 1)
+                    selectArea.y = Math.max(0, selectArea.y - 1)
+                    selectArea.width = Math.min(selectArea.width + 2, screenWidth)
+                    selectArea.height = Math.min(selectArea.height + 2, screenHeight)
+                }
+            }
         }
     }
 

@@ -11,7 +11,7 @@ Canvas {
     property string shapeName
     property var shapes: []
     property var currenRecordingShape
-    property var linewidth: 3
+    property int linewidth: 3
     property int paintColor: 3
     property alias canvasArea: canvasArea
     property url imageUrl: "/tmp/deepin-screenshot.png"
