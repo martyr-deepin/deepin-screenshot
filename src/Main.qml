@@ -25,7 +25,6 @@ Item {
     function saveScreenshot() {
         windowView.save_screenshot(selectFrame.x + 1,selectFrame.y + 1,
             selectFrame.width - 2,selectFrame.height - 2)
-        cameraSound.play()
     }
     function colorCard(key) {
         switch (key) {
@@ -1121,12 +1120,6 @@ Item {
             property int saveItem: 0
             function last_select_saveItem() {
                 return windowView.get_save_config("save","save_op")
-            }
-            SoundEffect {
-                id: cameraSound
-                loops: 0
-                source: "../sound/camera.wav"
-                onPlayingChanged: windowView.hide()
             }
 
             ToolButton {

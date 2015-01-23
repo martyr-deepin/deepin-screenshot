@@ -26,7 +26,6 @@ import time
 import signal
 import tempfile
 import subprocess
-from shutil import copyfile
 
 from PyQt5 import QtCore
 from PyQt5.QtCore import QCoreApplication
@@ -40,6 +39,7 @@ from PyQt5.QtWidgets import QApplication, qApp, QFileDialog
 from PyQt5.QtCore import (pyqtSlot, QStandardPaths, QUrl, QSettings, QVariant,
     QCommandLineParser, QCommandLineOption, QTimer)
 from PyQt5.QtDBus import QDBusConnection, QDBusInterface
+from PyQt5.QtMultimedia import QSound
 app = QApplication(sys.argv)
 app.setOrganizationName("Deepin")
 app.setApplicationName("Deepin Screenshot")
@@ -48,6 +48,7 @@ app.setApplicationVersion("3.0")
 from i18n import _
 from window_info import WindowInfo
 from dbus_interfaces import notificationsInterface, socialSharingInterface
+from constants import MAIN_QML, SOUND_FILE
 
 def init_cursor_shape_dict():
     global cursor_shape_dict
@@ -77,11 +78,6 @@ ACTION_ID_OPEN = "id_open"
 cursor_shape_dict = {}
 init_cursor_shape_dict()
 
-def saveToClipboard(pixmap):
-    clipboard = QApplication.clipboard()
-    clipboard.clear()
-    clipboard.setPixmap(pixmap)
-
 class Window(QQuickView):
     def __init__(self):
         QQuickView.__init__(self)
@@ -95,24 +91,17 @@ class Window(QQuickView):
         self.setResizeMode(QQuickView.SizeRootObjectToView)
         self.setFormat(surface_format)
 
-        self.qml_context = self.rootContext()
         self.qpixmap = QGuiApplication.primaryScreen().grabWindow(0)
         self.qpixmap.save("/tmp/deepin-screenshot.png")
         self.qimage = self.qpixmap.toImage()
         self.window_info = WindowInfo()
         self._init_screenshot_config()
+        self._soundEffect = QSound(SOUND_FILE)
 
         self._notificationId = None
         self._fileSaveLocation = None
         notificationsInterface.ActionInvoked.connect(self.actionInvoked)
         notificationsInterface.NotificationClosed.connect(self.notificationClosed)
-
-    def scheduleToShow(self, delay):
-        def _show():
-            self.disable_zone()
-            self.showFullScreen()
-
-        QTimer.singleShot(max(0, delay), _show)
 
     @pyqtSlot(int, int, result="QVariant")
     def get_color_at_point(self, x, y):
@@ -211,16 +200,30 @@ class Window(QQuickView):
         if self._notificationId == notificationId:
             self.close()
 
+    def copyPixmap(self, pixmap):
+        clipboard = QApplication.clipboard()
+        clipboard.clear()
+        clipboard.setPixmap(pixmap)
+
+        self._notificationId = notificationsInterface.notify("Screenshot has been copied to clipboard")
+
+    def savePixmap(self, pixmap, fileName):
+        pixmap.save(fileName)
+        self._fileSaveLocation = fileName
+        self._notificationId = notificationsInterface.notify("Deepin Screenshot", self._fileSaveLocation, [ACTION_ID_OPEN, "Open"])
+
     @pyqtSlot(int,int,int,int)
-    def save_screenshot(self,x,y,width,height):
-        save_op = view.get_save_config("save", "save_op")
+    def save_screenshot(self, x, y, width, height):
+        save_op = self.get_save_config("save", "save_op")
         save_op_index = int(save_op)
+
         pixmap = QPixmap.fromImage(self.grabWindow())
         pixmap = pixmap.copy(x, y, width, height)
-        name = "%s%s" % (self.title(), time.strftime("%Y%m%d%H%M%S", time.localtime()))
-        tmpFile = SAVE_DEST_TEMP
-        pixmap.save(tmpFile)
+        fileName = "%s%s" % (self.title(), time.strftime("%Y%m%d%H%M%S", time.localtime()))
+        pixmap.save(SAVE_DEST_TEMP)
 
+        saveDir = ""
+        copy = False
         if save_op_index == 0: #saveId == "save_to_desktop":
             saveDir = QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
         elif save_op_index == 1: #saveId == "auto_save" :
@@ -228,18 +231,16 @@ class Window(QQuickView):
         elif save_op_index == 2: #saveId == "save_to_dir":
             saveDir = QFileDialog.getExistingDirectory()
         elif save_op_index == 4: #saveId == "auto_save_ClipBoard":
-            saveToClipboard(pixmap)
+            copy = True
             saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
-        else :
-            saveToClipboard(pixmap)
-            saveDir = ""
+        else: copy = True
 
+        self.hide()
+        self._soundEffect.play()
+        if copy:
+            self.copyPixmap(pixmap)
         if saveDir:
-            self._fileSaveLocation = os.path.join(saveDir, name)
-            copyfile(tmpFile, self._fileSaveLocation)
-            self._notificationId = notificationsInterface.notify("Deepin Screenshot", self._fileSaveLocation, [ACTION_ID_OPEN, "Open"])
-        else:
-            self._notificationId = notificationsInterface.notify("Screenshot has been copied to clipboard")
+            self.savePixmap(pixmap, os.path.join(saveDir, fileName))
 
     @pyqtSlot()
     def enable_zone(self):
@@ -260,7 +261,6 @@ class Window(QQuickView):
     @pyqtSlot()
     def share(self):
         socialSharingInterface.share("", SAVE_DEST_TEMP)
-        self.close()
 
     @pyqtSlot(int, int, str, result=bool)
     def checkKeySequenceEqual(self, modifier, key, targetKeySequence):
@@ -276,6 +276,28 @@ class Window(QQuickView):
         self.enable_zone()
         qApp.quit()
 
+def main():
+    global view
+    view = Window()
+
+    if fullscreenValue:
+        desktopWidget = QApplication.desktop()
+        pixmap = desktopWidget.grab()
+        saveFile = QFileDialog.getSaveFileName(None, _("Save file"), os.path.expanduser("~"))
+        if saveFile: pixmap.save(saveFile)
+    else:
+        qml_context = view.rootContext()
+        qml_context.setContextProperty("windowView", view)
+        qml_context.setContextProperty("qApp", qApp)
+        qml_context.setContextProperty("screenWidth", view.window_info.screen_width)
+        qml_context.setContextProperty("screenHeight", view.window_info.screen_height)
+
+        view.setSource(QUrl.fromLocalFile(MAIN_QML))
+        view.disable_zone()
+        view.showFullScreen()
+
+        qApp.lastWindowClosed.connect(view.exit_app)
+
 if __name__ == "__main__":
     parser = QCommandLineParser()
     parser.addHelpOption()
@@ -284,21 +306,16 @@ if __name__ == "__main__":
     delayOption = QCommandLineOption(["d", "delay"],
                                      _("Take a screenshot after NUM seconds"),
                                      "NUM")
+    fullscreenOption = QCommandLineOption(["f", "fullscreen"],
+                                     _("Take a screenshot of the whole screen"))
     parser.addOption(delayOption)
+    parser.addOption(fullscreenOption)
     parser.process(app)
 
     delayValue = int(parser.value(delayOption) or 0)
+    fullscreenValue = bool(parser.isSet(fullscreenOption) or False)
 
-    view = Window()
-    qml_context = view.rootContext()
-    qml_context.setContextProperty("windowView", view)
-    qml_context.setContextProperty("qApp", qApp)
-    qml_context.setContextProperty("screenWidth", view.window_info.screen_width)
-    qml_context.setContextProperty("screenHeight", view.window_info.screen_height)
-
-    view.setSource(QUrl.fromLocalFile(os.path.join(os.path.dirname(__file__), 'Main.qml')))
-    view.scheduleToShow(1000 * delayValue)
-    qApp.lastWindowClosed.connect(view.exit_app)
+    QTimer.singleShot(max(0, delayValue * 1000), main)
 
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     sys.exit(app.exec_())
