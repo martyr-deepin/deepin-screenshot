@@ -1386,8 +1386,16 @@ Item {
             "Alt+2": "button2.state = 'on'",
             "Alt+3": "button3.state = 'on'",
             "Alt+4": "button4.state = 'on'",
-            "Alt+5": "button5.state = 'on'"
-        }
+            "Alt+5": "button5.state = 'on'",
+            "Left": "if (selectArea.x != 0) { selectArea.x = selectArea.x -1}",
+            "Right":"if (selectArea.x+selectArea.width != screenWidth) { selectArea.x = selectArea.x + 1 }",
+            "Up":" if (selectArea.y != 0) { selectArea.y = selectArea.y -1 }",
+            "Down":"if (selectArea.y+selectArea.height != screenHeight) { selectArea.y = selectArea.y+1 }",
+            "Ctrl+Left": "if (selectArea.x != 0) { selectArea.x = selectArea.x -1;selectArea.width=selectArea.width+1 }",
+            "Ctrl+Right":"if (selectArea.x+selectArea.width != screenWidth) { selectArea.width = selectArea.width + 1 }",
+            "Ctrl+Up":" if (selectArea.y != 0) { selectArea.y = selectArea.y -1;selectArea.height=selectArea.height+1 }",
+            "Ctrl+Down":"if (selectArea.y+selectArea.height != screenHeight) { selectArea.height = selectArea.height+1 }"
+            }
         var keyStroke = windowView.keyEventToQKeySequenceString(event.modifiers, event.key)
         if (keyStroke in keyActionMap) eval(keyActionMap[keyStroke])
     }
