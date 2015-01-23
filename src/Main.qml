@@ -26,6 +26,12 @@ Item {
         windowView.save_screenshot(selectFrame.x + 1,selectFrame.y + 1,
             selectFrame.width - 2,selectFrame.height - 2)
     }
+
+    function share() {
+        screen.saveScreenshot()
+        windowView.share()
+    }
+
     function colorCard(key) {
         switch (key) {
             case 0: return "#FFD903"
@@ -46,15 +52,55 @@ Item {
             case 15: return "#000000"
         }
     }
+
+    Connections {
+        target: _menu_controller
+        onToolSelected: {
+            switch(toolName) {
+                case "_rectangle": {
+                    button1.state = "on"
+                    break
+                }
+                case "_ellipse": {
+                    button2.state = "on"
+                    break
+                }
+                case "_arrow": {
+                    button3.state = "on"
+                    break
+                }
+                case "_line": {
+                    button4.state = "on"
+                    break
+                }
+                case "_text": {
+                    button5.state = "on"
+                    break
+                }
+            }
+        }
+
+        onSaveSelected: {
+            windowView.set_save_config("save", "save_op", saveOption + "")
+            screen.saveScreenshot()
+        }
+        onShareSelected: screen.share()
+        onExitSelected: windowView.close()
+    }
+
     MouseArea {
         id: screenArea
         anchors.fill: parent
         hoverEnabled: true
-        property int pressX: 0
-        property int pressY: 0
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
         cursorShape: windowView.set_cursor_shape("shape_start_cursor")
 
+        property int pressX: 0
+        property int pressY: 0
+
         onPressed: {
+            if (mouse.button == Qt.RightButton && !firstRelease) windowView.close()
+
             var pos = windowView.get_cursor_pos()
             pressX = pos.x
             pressY = pos.y
@@ -91,6 +137,11 @@ Item {
                 selectSizeTooltip.visible = true
                 toolbar.visible = true
             }
+        }
+
+        onClicked: {
+            if (mouse.button == Qt.RightButton)
+                _menu_controller.show_menu(windowView.get_save_config("save", "save_op"))
         }
 
         onPositionChanged: {
@@ -307,6 +358,8 @@ Item {
             y: -selectArea.y
             source: "/tmp/deepin-screenshot.png"
         }
+
+        ShapeCanvas { id: shape_canvas }
     }
 
     Rectangle {
@@ -462,15 +515,10 @@ Item {
         y: selectFrame.y + selectFrame.height > screen.height - height * 2 ? (selectFrame.y < height * 1.5 ? selectFrame.y + padding : selectFrame.y - height - padding) : selectFrame.y + selectFrame.height + padding
         width: 288
         height: 28
-
         radius: 4
 
         property bool bExtense: height == 56
-        property bool hasShapeCanvas: false
-        property bool hasMosaicCanvas: false
-        property bool hasBlurCanvas: false
-
-        property var shape
+        property var shape: shape_canvas
         property var linewidth: ""
 
         property color stop1Color: Qt.rgba(0, 0, 0, 0.6)
@@ -596,10 +644,6 @@ Item {
                         save_toolbar.visible = false
                     }
 
-                    if (!toolbar.hasShapeCanvas) {
-                        toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
-                        toolbar.hasShapeCanvas = true
-                    }
                     toolbar.shape.shapeName = "rect"
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
@@ -632,10 +676,7 @@ Item {
                         fontRect.visible = false
                         save_toolbar.visible = false
                     }
-                    if (!toolbar.hasShapeCanvas) {
-                        toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
-                        toolbar.hasShapeCanvas = true
-                    }
+
                     toolbar.shape.shapeName = "ellipse"
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
@@ -663,10 +704,7 @@ Item {
                     } else {
                         setlw.visible = false
                     }
-                    if (!toolbar.hasShapeCanvas) {
-                        toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
-                        toolbar.hasShapeCanvas = true
-                    }
+
                     toolbar.shape.shapeName = "arrow"
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
@@ -697,10 +735,7 @@ Item {
                         setlw.visible = false
                         dividingLine.visible = false
                     }
-                    if (!toolbar.hasShapeCanvas) {
-                        toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
-                        toolbar.hasShapeCanvas = true
-                    }
+
                     toolbar.shape.shapeName = "line"
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
@@ -728,12 +763,8 @@ Item {
                         mosaicType.visible = false
                         setlw.visible = false
                     }
-                     if (!toolbar.hasShapeCanvas) {
-                        toolbar.shape = Qt.createQmlObject('import QtQuick 2.1; ShapeCanvas {}', selectArea, "shaperect")
-                        toolbar.hasShapeCanvas = true
-                    }
-                    toolbar.shape.shapeName = "text"
 
+                    toolbar.shape.shapeName = "text"
                     toolbar.shape.fontSize = Qt.binding( function() { return fontRect.fontText.font_size})
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
                     fontRect.visible = fontRect.visible == false ? true : false
@@ -807,10 +838,7 @@ Item {
             ToolButton {
                 visible: !savetooltip.visible
                 imageName: "share"
-                onPressed: {
-                    screen.saveScreenshot()
-                    windowView.share()
-                }
+                onPressed: { screen.share() }
             }
             ToolButton {
                 visible: !savetooltip.visible

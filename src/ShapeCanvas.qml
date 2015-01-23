@@ -8,7 +8,7 @@ Canvas {
     height: parent.height
 
     property bool recording: false
-    property string shapeName: "text"
+    property string shapeName
     property var shapes: []
     property var currenRecordingShape
     property var linewidth: 3
@@ -209,12 +209,18 @@ Canvas {
         id: text_component
         TextCanvas {}
     }
+
     MouseArea {
         id: canvasArea
         anchors.fill: parent
-        hoverEnabled: true
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
         cursorShape: canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+        enabled: canvas.shapeName
+        hoverEnabled: canvas.shapeName
+
         onPressed: {
+            if (!canvas.shapeName || mouse.button == Qt.RightButton) return
+
             var pos = screen.get_absolute_cursor_pos()
             if (!canvas.clickOnPoint(Qt.point(pos.x, pos.y))) {
                 canvas.recording = true
@@ -286,6 +292,8 @@ Canvas {
             canvas.requestPaint()
         }
         onReleased: {
+            if (!canvas.shapeName || mouse.button == Qt.RightButton) return
+
             if (!toolbar.visible) { toolbar.visible = true }
             if (canvas.recording && canvas.shapeName != "text") {
                 var pos = screen.get_absolute_cursor_pos()
@@ -304,7 +312,14 @@ Canvas {
             }
         }
 
+        onClicked: {
+            if (mouse.button == Qt.RightButton)
+                _menu_controller.show_menu(windowView.get_save_config("save", "save_op"))
+        }
+
         onPositionChanged: {
+            if (!canvas.shapeName) return
+
             if (toolbar.visible && pressed) {
                 var pos = screen.get_absolute_cursor_pos()
                 if (pos.x+selectArea.x >= toolbar.x && pos.x+selectArea.x <= toolbar.x + toolbar.width &&

@@ -36,7 +36,7 @@ class NotificationsInterface(QDBusAbstractInterface):
             QDBusConnection.sessionBus(),
             None)
 
-    def notify(self, summary, body, actions=None):
+    def notify(self, summary, body, actions=[]):
         varRPlaceId = QVariant(0)
         varRPlaceId.convert(QVariant.UInt)
         varActions = QVariant(actions)

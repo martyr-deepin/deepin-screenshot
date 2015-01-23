@@ -47,6 +47,7 @@ app.setApplicationVersion("3.0")
 
 from i18n import _
 from window_info import WindowInfo
+from menu_controller import MenuController
 from dbus_interfaces import notificationsInterface, socialSharingInterface
 from constants import MAIN_QML, SOUND_FILE
 
@@ -90,6 +91,7 @@ class Window(QQuickView):
         self.setFlags(QtCore.Qt.FramelessWindowHint)
         self.setResizeMode(QQuickView.SizeRootObjectToView)
         self.setFormat(surface_format)
+        self.setTitle(_("Deepin screenshot"))
 
         self.qpixmap = QGuiApplication.primaryScreen().grabWindow(0)
         self.qpixmap.save("/tmp/deepin-screenshot.png")
@@ -205,7 +207,7 @@ class Window(QQuickView):
         clipboard.clear()
         clipboard.setPixmap(pixmap)
 
-        self._notificationId = notificationsInterface.notify("Screenshot has been copied to clipboard")
+        self._notificationId = notificationsInterface.notify("Deepin Screenshot", "Screenshot has been copied to clipboard")
 
     def savePixmap(self, pixmap, fileName):
         pixmap.save(fileName)
@@ -219,7 +221,7 @@ class Window(QQuickView):
 
         pixmap = QPixmap.fromImage(self.grabWindow())
         pixmap = pixmap.copy(x, y, width, height)
-        fileName = "%s%s" % (self.title(), time.strftime("%Y%m%d%H%M%S", time.localtime()))
+        fileName = "%s%s.png" % (self.title(), time.strftime("%Y%m%d%H%M%S", time.localtime()))
         pixmap.save(SAVE_DEST_TEMP)
 
         saveDir = ""
@@ -278,7 +280,9 @@ class Window(QQuickView):
 
 def main():
     global view
+    global menu_controller
     view = Window()
+    menu_controller = MenuController()
 
     if fullscreenValue:
         desktopWidget = QApplication.desktop()
@@ -291,6 +295,7 @@ def main():
         qml_context.setContextProperty("qApp", qApp)
         qml_context.setContextProperty("screenWidth", view.window_info.screen_width)
         qml_context.setContextProperty("screenHeight", view.window_info.screen_height)
+        qml_context.setContextProperty("_menu_controller", menu_controller)
 
         view.setSource(QUrl.fromLocalFile(MAIN_QML))
         view.disable_zone()
