@@ -77,11 +77,12 @@ Canvas {
     }
     onPaint: {
         var ctx = canvas.getContext("2d")
-        ctx.clearRect(x, y, width, height)
+        ctx.reset()
+        ctx.clearRect(0, 0, width, height)
 
         // clip the whole area to the stack for future usage
         ctx.beginPath()
-        ctx.rect(x, y, width, height)
+        ctx.rect(0, 0, width, height)
         ctx.closePath()
         ctx.clip()
 
