@@ -130,13 +130,6 @@ Item {
                     selectArea.handleRelease(pos)
                 }
             }
-            if (selectArea.x == 0 && selectArea.y == 0 && selectArea.width == screenWidth - 1 && selectArea.height == screenHeight - 1) {
-                selectSizeTooltip.visible = false
-                toolbar.visible = false
-            } else {
-                selectSizeTooltip.visible = true
-                toolbar.visible = true
-            }
         }
 
         onClicked: {
@@ -1055,7 +1048,7 @@ Item {
             anchors.bottom: parent.bottom
             visible: toolbar.bExtense
             property var lineWidth: {
-                ((toolbar.shape == undefined) || (toolbar.shape != undefined && toolbar.shape.shapeName == "text"))? windowView.get_save_config("common_color_linewidth", "linewidth_index"):windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index") }
+                ((toolbar.shape != undefined && toolbar.shape.shapeName != undefined && toolbar.shape.shapeName != "text"))? windowView.get_save_config("common_color_linewidth", "linewidth_index"):windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index") }
 
             function checkState(id) {
                 for (var i=0; i<setlw.children.length; i++) {
@@ -1331,7 +1324,7 @@ Item {
                     height: parent.height / zoomIndicatorClip.scaleValue
                     width: parent.width / zoomIndicatorClip.scaleValue
 
-                    property int scaleValue: 4
+                    property int scaleValue: 2
 
                     transform: Scale {
                         xScale: zoomIndicatorClip.scaleValue
