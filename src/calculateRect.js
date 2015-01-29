@@ -1821,11 +1821,11 @@ function getEightControlPoint(point1, point2, point3, point4) {
 /* 0 <= p.x <= 1*/
 function pointOnBezier(p0, p1, p2, p3, p) {
 
-	for (var t = 0; t <= 1; t = t + 0.01) {
+	for (var t = 0; t <= 1; t = t + 0.1) {
 
 		var bx = p0.x*(1-t)*square(1-t) + 3*p1.x*t*square(1-t) + 3*p2.x*square(t)*(1-t) + p3.x*t*square(t)
 		var by = p0.y*(1-t)*square(1-t) + 3*p1.y*t*square(1-t) + 3*p2.y*square(t)*(1-t) + p3.y*t*square(t)
-		if (p.x >= bx - 5 && p.x <= bx + 5 && p.y >= by - 5 && p.y <= by + 5) {
+		if (p.x >= bx - 5 && p.x <= bx + 5 && p.y >= by - 5&& p.y <= by + 5) {
 			return true
 		}
 	}

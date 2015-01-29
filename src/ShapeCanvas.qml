@@ -306,7 +306,6 @@ Canvas {
             if (canvas.recording) {
                 for (var i = 0; i < canvas.shapes.length; i++) {
                     if (canvas.shapes[i].isRotating != undefined) {
-                        //canvas.shapes[i].rotated = false
                         canvas.shapes[i].isRotating = false
                     }
                 }
@@ -368,19 +367,23 @@ Canvas {
                 }
 
             } else {
-                for (var i = 0; i < canvas.shapes.length;i++) {
-                    if (canvas.shapes[i].reSized || canvas.shapes[i].selected || canvas.shapes[i].rotated) {
-                        var pos = screen.get_absolute_cursor_pos()
-                        if (canvas.shapes[i].hoverOnRotatePoint(Qt.point(pos.x, pos.y))) {
-                            canvasArea.cursorShape = windowView.set_cursor_shape("shape_rotate_mouse")
-                        } else {
-                            canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+                if (canvas.recording) { 
+                    return
+                } else {
+                    for (var i = 0; i < canvas.shapes.length;i++) {
+                        if (canvas.shapes[i].reSized || canvas.shapes[i].selected || canvas.shapes[i].rotated) {
+                            var pos = screen.get_absolute_cursor_pos()
+                            if (canvas.shapes[i].hoverOnRotatePoint(Qt.point(pos.x, pos.y))) {
+                                canvasArea.cursorShape = windowView.set_cursor_shape("shape_rotate_mouse")
+                            } else {
+                                canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+                            }
                         }
-                    }
-                    if (canvas.shapes[i].isreadOnly == undefined) {
-                        var pos = screen.get_absolute_cursor_pos()
-                        canvas.hoverOnShape(Qt.point(pos.x, pos.y))
-                        canvas.requestPaint()
+                        if (canvas.shapes[i].isreadOnly == undefined) {
+                            var pos = screen.get_absolute_cursor_pos()
+                            canvas.hoverOnShape(Qt.point(pos.x, pos.y))
+                            canvas.requestPaint()
+                        }
                     }
                 }
             }
