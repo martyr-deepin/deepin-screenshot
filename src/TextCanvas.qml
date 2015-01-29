@@ -217,8 +217,6 @@ Rectangle {
         anchors.topMargin: 3
         anchors.bottomMargin: 3
         color: "transparent"
-        border.width: 1
-        border.color: "#01bdff"
         TextEdit {
             id:text
             textMargin: 3

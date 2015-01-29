@@ -1324,7 +1324,7 @@ Item {
                     height: parent.height / zoomIndicatorClip.scaleValue
                     width: parent.width / zoomIndicatorClip.scaleValue
 
-                    property int scaleValue: 2
+                    property int scaleValue: 4
 
                     transform: Scale {
                         xScale: zoomIndicatorClip.scaleValue

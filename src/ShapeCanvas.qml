@@ -367,7 +367,17 @@ Canvas {
                 }
 
             } else {
-                if (canvas.recording) { 
+                if (canvas.recording) {
+                    for (var i = 0; i < canvas.shapes.length;i++) {
+                        if (canvas.shapes[i].shape == "text" && canvas.shapes[i].reSized || canvas.shapes[i].selected || canvas.shapes[i].rotated) {
+                            var pos = screen.get_absolute_cursor_pos()
+                            if (canvas.shapes[i].hoverOnRotatePoint(Qt.point(pos.x, pos.y))) {
+                                canvasArea.cursorShape = windowView.set_cursor_shape("shape_rotate_mouse")
+                            } else {
+                                canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+                            }
+                        }
+                    }
                     return
                 } else {
                     for (var i = 0; i < canvas.shapes.length;i++) {
