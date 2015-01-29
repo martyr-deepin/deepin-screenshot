@@ -310,8 +310,12 @@ if __name__ == "__main__":
                                      "NUM")
     fullscreenOption = QCommandLineOption(["f", "fullscreen"],
                                      _("Take a screenshot of the whole screen"))
+    startFromDesktopOption = QCommandLineOption(["i", "icon"],
+                                     _("Indicate that this program's started by\
+                                        clicking desktop file."))
     parser.addOption(delayOption)
     parser.addOption(fullscreenOption)
+    parser.addOption(startFromDesktopOption)
     parser.process(app)
 
     delayValue = int(parser.value(delayOption) or 0)
