@@ -1,7 +1,7 @@
 [Desktop Entry]
 Categories=Graphics;GTK;
 Comment=Screen capturing application
-Exec=deepin-screenshot --icon
+Exec=deepin-screenshot-v3 --icon
 GenericName=Screen capturing application
 Icon=deepin-screenshot
 Name=Deepin Screenshot
@@ -152,9 +152,9 @@ GenericName[es_ES]=Capturador de Pantalla
 Name[es_ES]=Captura de Pantalla de Deepin
 
 [Delay_Screenshot Shortcut Group]
-Exec=deepin-screenshot -d 5
+Exec=deepin-screenshot-v3 -d 5
 Name=Delay 5 seconds
 
 [Full_Screenshot Shortcut Group]
-Exec=deepin-screenshot -f
+Exec=deepin-screenshot-v3 -f
 Name=Full Screenshot
