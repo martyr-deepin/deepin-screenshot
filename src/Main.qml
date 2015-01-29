@@ -654,6 +654,8 @@ Item {
                     }
 
                     toolbar.shape.shapeName = "rect"
+                    setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index") 
+                    colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
                 }
@@ -687,6 +689,8 @@ Item {
                     }
 
                     toolbar.shape.shapeName = "ellipse"
+                    setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
+                    colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
                 }
@@ -715,6 +719,8 @@ Item {
                     }
 
                     toolbar.shape.shapeName = "arrow"
+                    setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
+                    colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
                 }
@@ -746,6 +752,8 @@ Item {
                     }
 
                     toolbar.shape.shapeName = "line"
+                    setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
+                    colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
                 }
@@ -774,6 +782,7 @@ Item {
                     }
 
                     toolbar.shape.shapeName = "text"
+                    colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
                     toolbar.shape.fontSize = Qt.binding( function() { return fontRect.fontText.font_size})
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
                     fontRect.visible = fontRect.visible == false ? true : false

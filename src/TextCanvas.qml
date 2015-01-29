@@ -162,7 +162,6 @@ Rectangle {
                 ctx.closePath()
                 ctx.stroke()
             }
-            ctx.restore()
         }
     }
 
