@@ -49,17 +49,14 @@ from i18n import _
 from window_info import WindowInfo
 from menu_controller import MenuController
 from dbus_interfaces import notificationsInterface, socialSharingInterface
-from constants import MAIN_QML, SOUND_FILE
+from constants import MAIN_QML, SOUND_FILE, MAIN_DIR
 
 def init_cursor_shape_dict():
     global cursor_shape_dict
 
-    dirname = os.path.dirname
-    abspath = os.path.abspath
     file_name_except_extension = lambda x: os.path.basename(x).split(".")[0]
 
-    mouse_style_dir = os.path.join(dirname(dirname(abspath(__file__))),
-                                   "image/mouse_style")
+    mouse_style_dir = os.path.join(MAIN_DIR, "image/mouse_style")
     shape_dir = os.path.join(mouse_style_dir, "shape")
     color_pen_dir = os.path.join(mouse_style_dir, "color_pen")
 
