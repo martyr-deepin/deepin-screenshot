@@ -497,7 +497,7 @@ Item {
 
     Rectangle {
         id: selectSizeTooltip
-        x: Math.min(screenWidth - width - padding, selectFrame.x + padding)
+        x: Math.min(screenWidth - width, selectFrame.x)
         y: selectFrame.y < height * 1.5 ? selectFrame.y + padding : selectFrame.y - height - padding
         width: 100
         height: 32
@@ -815,7 +815,9 @@ Item {
 
                 visible: ((button1.width*6 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
 
-                onPressed: {
+                onStateChanged: {
+                    if (state == "off") return
+
                     toolbar.toggleToolbar("color")
                     fontRect.visible = false
 
@@ -840,7 +842,9 @@ Item {
                     screen.saveScreenshot()
                 }
 
-                onListIcon: {
+                onStateChanged: {
+                    if (state == "off") return
+
                     save_toolbar.visible = save_toolbar.visible == false ? true : false
                     if (save_toolbar.visible) {
                         setlw.visible = false
@@ -854,9 +858,14 @@ Item {
                 }
             }
             ToolButton {
+                id: shareButton
                 visible: !savetooltip.visible
                 imageName: "share"
-                onPressed: { screen.share() }
+                onStateChanged: {
+                    if (state == "off") { return }
+
+                    screen.share()
+                }
             }
             ToolButton {
                 visible: !savetooltip.visible
@@ -1405,6 +1414,9 @@ Item {
             "Alt+3": "button3.state = 'on'",
             "Alt+4": "button4.state = 'on'",
             "Alt+5": "button5.state = 'on'",
+            "Alt+6": "colorTool.state = 'on'",
+            "Ctrl+S": "saveButton.state = 'on'",
+            "Ctrl+Return": "shareButton.state = 'on'",
             "Left": "if (selectArea.x != 0) { selectArea.x = selectArea.x -1}",
             "Right":"if (selectArea.x+selectArea.width != screenWidth) { selectArea.x = selectArea.x + 1 }",
             "Up":" if (selectArea.y != 0) { selectArea.y = selectArea.y -1 }",
@@ -1415,6 +1427,7 @@ Item {
             "Ctrl+Down":"if (selectArea.y+selectArea.height != screenHeight) { selectArea.height = selectArea.height+1 }"
             }
         var keyStroke = windowView.keyEventToQKeySequenceString(event.modifiers, event.key)
+        print("keyStroke:", keyStroke)
         if (keyStroke in keyActionMap) eval(keyActionMap[keyStroke])
     }
 }
