@@ -1,30 +1,32 @@
 import QtQuick 2.1
 
 Item {
-	id: bigColor
-	width: 30
-	height: 28
+    id: bigColor
+    width: 30
+    height: 28
+    state: "off"
 
-	property string colorStyle: "#FF1C49"
-	signal pressed()
+    property string colorStyle: "#FF1C49"
+    signal pressed()
     signal entered()
     signal exited()
-	Rectangle {
-		id: colorRect
-		anchors.centerIn: parent
-		width: 16
-		height: 16
-		radius: 2
-		color: bigColor.colorStyle
+    
+    Rectangle {
+        id: colorRect
+        anchors.centerIn: parent
+        width: 16
+        height: 16
+        radius: 2
+        color: bigColor.colorStyle
 
         border.width: 2
         border.color: "transparent"
     }
-	Rectangle {
-		id: selectArea
-		anchors.centerIn: parent
-		width: 14
-		height: 14
+    Rectangle {
+        id: selectArea
+        anchors.centerIn: parent
+        width: 14
+        height: 14
         color: "transparent"
         radius: 2
 
@@ -32,8 +34,8 @@ Item {
         border.color: Qt.rgba(1, 1, 1, 0.3)
     }
 
-	MouseArea {
-		anchors.fill: parent
+    MouseArea {
+        anchors.fill: parent
         hoverEnabled: true
         cursorShape: windowView.set_cursor_shape("color_pen_purple")
 
@@ -41,18 +43,19 @@ Item {
             colorRect.border.color = "#01bdff"
             selectArea.border.color = Qt.rgba(1,1,1,0.7)
             bigColor.entered()
-		}
+        }
 
         onExited: {
             colorRect.border.color = "transparent"
-			selectArea.border.color = Qt.rgba(1,1,1,0.3)
+            selectArea.border.color = Qt.rgba(1,1,1,0.3)
             bigColor.exited()
         }
 
-		onPressed:{
-			selectArea.border.color = Qt.rgba(1,1,1,1)
-			bigColor.pressed()
-		}
-	}
+        onPressed:{
+            bigColor.state = bigColor.state == "on" ? "off" : "on"
+            selectArea.border.color = Qt.rgba(1,1,1,1)
+            bigColor.pressed()
+        }
+    }
 
 }
