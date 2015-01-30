@@ -8,6 +8,7 @@ Canvas {
     height: parent.height
 
     property bool recording: false
+    property bool isShiftPressed: false
     property string shapeName
     property var shapes: []
     property var currenRecordingShape
@@ -221,7 +222,11 @@ Canvas {
 
         onPressed: {
             if (!canvas.shapeName || mouse.button == Qt.RightButton) return
-
+            if (mouse.modifiers & Qt.ShiftModifier) {
+                isShiftPressed = true
+            } else {
+                isShiftPressed = false
+            }
             var pos = screen.get_absolute_cursor_pos()
             if (!canvas.clickOnPoint(Qt.point(pos.x, pos.y))) {
                 canvas.recording = true

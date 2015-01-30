@@ -37,7 +37,10 @@ Item {
         var leftY = Math.min(startPoint.y, endPoint.y)
         var pWidth = Math.abs(startPoint.x - endPoint.x)
         var pHeight = Math.abs(startPoint.y - endPoint.y)
-
+        if (canvas.isShiftPressed) {
+            pWidth = Math.min(pWidth, pHeight)
+            pHeight = Math.min(pWidth, pHeight)
+        }
         mainPoints[0] = Qt.point(leftX, leftY)
         mainPoints[1] = Qt.point(leftX + pWidth, leftY)
         mainPoints[2] = Qt.point(leftX, pHeight + leftY)
