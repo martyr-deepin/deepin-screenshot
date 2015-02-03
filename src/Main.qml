@@ -835,16 +835,15 @@ Item {
                 id: saveButton
                 visible: ((button1.width*7 +10 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
 
-                onSaveIcon: {
-                    toolbar.visible = false
-                    selectSizeTooltip.visible = false
-
-                    screen.saveScreenshot()
-                }
-
                 onStateChanged: {
                     if (state == "off") return
 
+                    toolbar.visible = false
+                    selectSizeTooltip.visible = false
+                    screen.saveScreenshot()
+                }
+
+                onListIcon: {
                     save_toolbar.visible = save_toolbar.visible == false ? true : false
                     if (save_toolbar.visible) {
                         setlw.visible = false
@@ -1325,17 +1324,11 @@ Item {
         anchors.fill: zoomIndicator
         visible: zoomIndicator.visible
 
-        Column {
+        Rectangle {
             id: zoomIndicatorTooltip
-
             anchors.fill: parent
             anchors.margins: marginValue
-            property int marginValue: 3
-
-            Rectangle {
-                width: parent.width
-                height: 35
-
+            property int marginValue: 2
                 Rectangle {
                     id: zoomIndicatorClip
                     clip: true
@@ -1355,40 +1348,48 @@ Item {
                         y: -zoomIndicator.cursorY + parent.height / 2
                         source: "/tmp/deepin-screenshot.png"
                         smooth: false
-                    }
+                     }
                 }
                 Rectangle {
-
-                    x: (zoomIndicator.width - width) / 2 - 2
-                    y:  (zoomIndicator.height - height) / 2
-                    width: 12
-                    height: width
-                    color: "white"
+                    id: pointRect
+                    anchors.centerIn: parent
+                    color: "transparent"
+                    width: 14
+                    height: 14
 
                     Rectangle {
                         id: pointColorRect
-                        anchors.fill: parent
-                        anchors.margins: 1
-                        DropShadow {
-                            anchors.fill: parent
-                            horizontalOffset: 0
-                            verticalOffset: 1
-                            radius: 10
-                            samples: 16
-                            color: Qt.rgba(0, 0, 0, 0.2)
-                            source: parent
-                        }
+                        anchors.centerIn: parent
+                        width: 10
+                        height: 10
+                        color: "transparent"
+                        border.width: 1
+                        border.color: Qt.rgba(1, 1, 1, 1)
+
                     }
                 }
+                Glow {
+                    anchors.fill: pointRect
+                    radius: 2
+                    samples: 16
+                    color: Qt.rgba(0, 0, 0, 0.5)
+                    source: pointRect
+                }
             }
+            Rectangle {
+                anchors.bottom: parent.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width - 2
+                height: 14
 
-            Text {
-                x:  (parent.width - width) / 2
-                text:zoomIndicator.cursorX + ", " + zoomIndicator.cursorY
-                font.pixelSize: 8
-                color: "white"
+                color: Qt.rgba(0, 0, 0, 0.5)
+                Text {
+                    anchors.centerIn: parent
+                    text:zoomIndicator.cursorX + ", " + zoomIndicator.cursorY
+                    font.pixelSize: 8
+                    color: Qt.rgba(1, 1, 1, 0.6)
+                }
             }
-        }
     }
 
     focus: true
@@ -1396,7 +1397,6 @@ Item {
         windowView.close()
     }
     Keys.onDeletePressed: {
-
         var canvas = toolbar.shape
         for (var i = 0; i < canvas.shapes.length; i++) {
             if (canvas.shapes[i].selected == true || canvas.shapes[i].reSized == true
@@ -1409,6 +1409,7 @@ Item {
     }
     Keys.onPressed: {
         var keyActionMap = {
+            "Return": "screen.saveScreenshot()",
             "Alt+1": "button1.state = 'on'",
             "Alt+2": "button2.state = 'on'",
             "Alt+3": "button3.state = 'on'",
@@ -1427,7 +1428,6 @@ Item {
             "Ctrl+Down":"if (selectArea.y+selectArea.height != screenHeight) { selectArea.height = selectArea.height+1 }"
             }
         var keyStroke = windowView.keyEventToQKeySequenceString(event.modifiers, event.key)
-        print("keyStroke:", keyStroke)
         if (keyStroke in keyActionMap) eval(keyActionMap[keyStroke])
     }
 }

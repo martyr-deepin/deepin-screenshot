@@ -61,6 +61,7 @@ Item {
                     listImage.source = "../image/save/list" + ".svg"
                 }
                 onPressed: {
+                    toolButton.state = toolButton.state == "on" ? "off":"on"
                     saveImage.source = "../image/save/save" + "_press.svg"
                     count.running = true
                     cameraSound.play()
@@ -89,7 +90,6 @@ Item {
                     listImage.source = "../image/save/list" + ".svg"
                 }
                 onPressed : {
-                    toolButton.state = toolButton.state == "on" ? "off":"on"
                     toolButton.listIcon()
                     listImage.source = "../image/save/list" + "_press.svg"
                 }

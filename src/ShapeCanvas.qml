@@ -99,7 +99,7 @@ Canvas {
                 bluring = false
             } else {
                 var imageData = ctx.createImageData(mosaicImage)
-                imageData = CalcGraphic.mosaic(imageData, 5)
+                imageData = CalcGraphic.mosaic(imageData, 8)
                 mosaicImageData = imageData
                 mosaicing = false
             }
