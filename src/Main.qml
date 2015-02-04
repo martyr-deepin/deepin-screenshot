@@ -498,22 +498,23 @@ Item {
     Rectangle {
         id: selectSizeTooltip
         x: Math.min(screenWidth - width, selectFrame.x)
-        y: selectFrame.y < height * 1.5 ? selectFrame.y + padding : selectFrame.y - height - padding
-        width: 100
-        height: 32
+        y: selectFrame.y < height * 1.5 ? selectFrame.y + outPadding : selectFrame.y - height - outPadding
+        width: selectSizeTooltipText.width + 2 * padding
+        height: 28
 
         color: Qt.rgba(0, 0, 0, 0.5)
         radius: 3
         visible: firstMove
         border.width: 1
         border.color: Qt.rgba(1, 1, 1, 0.2)
-        property int padding: 4
-
+        property int outPadding: 4
+        property int padding: 10
         Text {
             id: selectSizeTooltipText
             anchors.centerIn: parent
+            anchors.margins: 3
             color: "white"
-            text: selectArea.width + "x" + selectArea.height
+            text: selectArea.width + "X" + selectArea.height
             font.pixelSize: 12
         }
     }
