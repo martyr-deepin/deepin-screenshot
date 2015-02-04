@@ -70,7 +70,7 @@ Rectangle {
     }
 
     function _expandByWidth(addWidth) {
-        if (addWidth == 0) return
+        if (addWidth == 0 || mainPoints == undefined) return
 
         var add = CalcEngine.pointSplid(mainPoints[0], mainPoints[2], addWidth)
         if (mainPoints[0].x < mainPoints[2].x && mainPoints[0].y > mainPoints[2].y) {
@@ -96,7 +96,7 @@ Rectangle {
     }
 
     function _expandByHeight(addHeight) {
-        if (addHeight == 0) return
+        if (addHeight == 0 || mainPoints == undefined) return
 
         var add = CalcEngine.pointSplid(mainPoints[0], mainPoints[1], addHeight)
         if (mainPoints[0].x <= mainPoints[1].x && mainPoints[0].y < mainPoints[1].y) {
@@ -225,7 +225,21 @@ Rectangle {
             onColorChanged: { select(0, 0)}
             font.pixelSize: fontSize
             wrapMode: TextEdit.Wrap
-            cursorVisible: !readOnly
+            cursorDelegate: Rectangle {
+                width: 1
+                color: text.color
+                visible: !text.readOnly && blink_timer.cursorVisible
+            }
+            Timer {
+                id: blink_timer
+                running: !text.readOnly
+                repeat: true
+                interval: 700
+
+                property bool cursorVisible
+
+                onTriggered: cursorVisible = !cursorVisible
+            }
             onFocusChanged: {
                 if (focus) {
                     canvas.selectUnique(numberOrder)
@@ -236,7 +250,7 @@ Rectangle {
                 }
             }
 
-            onCursorVisibleChanged: { canvas.requestPaint()}
+            onTextChanged: { blink_timer.cursorVisible = true, blink_timer.restart() }
             onContentWidthChanged: { canvas.requestPaint()}
             Component.onCompleted: forceActiveFocus()
             // DropShadow {
