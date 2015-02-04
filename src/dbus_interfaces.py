@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright (C) 2011 ~ 2014 Deepin, Inc.
-#               2011 ~ 2014 Wang YaoHua
+# Copyright (C) 2011 ~ 2015 Deepin, Inc.
+#               2011 ~ 2015 Wang YaoHua
 #
 # Author:     Wang YaoHua <mr.asianwang@gmail.com>
 # Maintainer: Wang YaoHua <mr.asianwang@gmail.com>

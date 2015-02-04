@@ -49,6 +49,7 @@ app.setQuitOnLastWindowClosed(False)
 from i18n import _
 from window_info import WindowInfo
 from menu_controller import MenuController
+from dbus_services import is_service_exist, unregister_service
 from dbus_interfaces import notificationsInterface, socialSharingInterface
 from constants import MAIN_QML, SOUND_FILE, MAIN_DIR
 
@@ -199,7 +200,7 @@ class Window(QQuickView):
 
     def notificationClosed(self, notificationId, reason):
         if self._notificationId == notificationId:
-            self.close()
+            self.closeWindow()
 
     def copyPixmap(self, pixmap):
         clipboard = QApplication.clipboard()
@@ -279,6 +280,7 @@ class Window(QQuickView):
     @pyqtSlot()
     def closeWindow(self):
         self.enable_zone()
+        unregister_service()
         self.close()
         if self._showOSD:
             self.showHotKeyOSD()
@@ -330,7 +332,11 @@ if __name__ == "__main__":
     fullscreenValue = bool(parser.isSet(fullscreenOption) or False)
     startFromDesktopValue = bool(parser.isSet(startFromDesktopOption) or False)
 
-    QTimer.singleShot(max(0, delayValue * 1000), main)
+    if is_service_exist():
+        notificationsInterface.notify("Deepin Screenshot",
+            "Deepin Screenshot is running!")
+    else:
+        QTimer.singleShot(max(0, delayValue * 1000), main)
 
-    signal.signal(signal.SIGINT, signal.SIG_DFL)
-    sys.exit(app.exec_())
+        signal.signal(signal.SIGINT, signal.SIG_DFL)
+        sys.exit(app.exec_())
