@@ -1379,7 +1379,7 @@ Item {
             Rectangle {
                 anchors.bottom: parent.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width - 2
+                width: parent.width
                 height: 14
 
                 color: Qt.rgba(0, 0, 0, 0.5)
