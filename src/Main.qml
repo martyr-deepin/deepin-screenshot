@@ -518,776 +518,793 @@ Item {
             font.pixelSize: 12
         }
     }
-
     Rectangle {
-        id: toolbar
-        x: Math.max(selectFrame.x + selectFrame.width - width - padding, padding)
-        y: selectFrame.y + selectFrame.height > screen.height - height * 2 ? (selectFrame.y < height * 1.5 ? selectFrame.y + padding : selectFrame.y - height - padding) : selectFrame.y + selectFrame.height + padding
-        width: 288
-        height: 28
+        id: toolbarRect
+        x: Math.max(selectFrame.x + selectFrame.width - width + 3 * padding, 3 * padding)
+        y: selectFrame.y + selectFrame.height > screen.height - height * 2 ? (selectFrame.y < height * 1.5 ? selectFrame.y + padding : selectFrame.y - height) : selectFrame.y + selectFrame.height
+        width: 312
+        height: toolbar.bExtense ? 70 : 42
+        color: "transparent"
         radius: 4
-
-        property bool bExtense: height == 56
-        property var shape: shape_canvas
-        property var linewidth: ""
-
-        property color stop1Color: Qt.rgba(0, 0, 0, 0.6)
-        property color stop2Color: Qt.rgba(0, 0, 0, 0.675)
-        property color stop3Color: Qt.rgba(0, 0, 0, 0.676)
-        property color stop4Color: Qt.rgba(0, 0, 0, 0.677)
-        property color stop5Color: Qt.rgba(0, 0, 0, 0.678)
-        property color stop6Color: Qt.rgba(0, 0, 0, 0.75)
-
-        gradient: Gradient {
-            GradientStop {id: stop1; position: 0.0; color: toolbar.stop1Color}
-            GradientStop {id: stop2; position: 0.5; color: toolbar.stop2Color}
-            GradientStop {id: stop3; position: 0.51; color: toolbar.stop3Color}
-            GradientStop {id: stop4; position: 0.5100001; color: toolbar.stop4Color}
-            GradientStop {id: stop5; position: 0.52; color: toolbar.stop5Color}
-            GradientStop {id: stop6; position: 1.0; color: toolbar.stop6Color}
-        }
-
-        border.color:  Qt.rgba(1, 1, 1, 0.2)
-
-        visible: firstMove && firstRelease
-
         property int padding: 4
-        property string buttonType: ""
-
-        function tryHideSizeTooltip() {
-            if (firstMove && firstRelease) {
-                if (x <= selectSizeTooltip.x + selectSizeTooltip.width && selectSizeTooltip.y <= y && y <= selectSizeTooltip.y + selectSizeTooltip.height) {
-                    selectSizeTooltip.visible = false
-                    } else {
-                        selectSizeTooltip.visible = true
-                    }
-                }
-            }
-
-        function toggleToolbar(type) {
-            if (toolbar.buttonType != type) {
-                toolbar.expandToolbar()
-                toolbar.buttonType = type
-            } else {
-                    toolbar.shrinkToolbar()
-                    toolbar.buttonType = ""
-            }
-        }
-
-        function expandToolbar() {
-            toolbar.height = 56
-            toolbar.stop1Color = Qt.rgba(0, 0, 0, 0.6)
-            toolbar.stop2Color = Qt.rgba(0, 0, 0, 0.75)
-            toolbar.stop3Color = Qt.rgba(1, 1, 1, 0.5)
-            toolbar.stop4Color = Qt.rgba(1, 1, 1, 0.5)
-            toolbar.stop5Color = Qt.rgba(0, 0, 0, 0.75)
-            toolbar.stop6Color = Qt.rgba(0, 0, 0, 0.6)
-        }
-
-        function shrinkToolbar() {
-            toolbar.height = 28
-            toolbar.stop1Color = Qt.rgba(0, 0, 0, 0.6)
-            toolbar.stop2Color = Qt.rgba(0, 0, 0, 0.675)
-            toolbar.stop3Color = Qt.rgba(0, 0, 0, 0.676)
-            toolbar.stop4Color = Qt.rgba(0, 0, 0, 0.677)
-            toolbar.stop5Color = Qt.rgba(0, 0, 0, 0.677)
-            toolbar.stop6Color = Qt.rgba(0, 0, 0, 0.75)
-        }
-
-
-        onXChanged: {
-            tryHideSizeTooltip()
-        }
-
-        onYChanged: {
-            tryHideSizeTooltip()
-        }
-
-        Row {
-            id: row
-            anchors.left: savetooltip.visible ? savetooltip.right:parent.left
-            anchors.leftMargin: 4
-
-            function checkState(id) {
-                for (var i=0; i<row.children.length; i++) {
-                    var childButton = row.children[i]
-                    if (childButton.imageName != id.imageName) {
-                        childButton.state = "off"
-                    }
-                }
-            }
-
-            function _destroyCanvas() {
-                var theTopChild = selectArea.children[selectArea.children.length - 1]
-
-                if (theTopChild != undefined && theTopChild.firstPress ) {
-
-                    theTopChild.destroy()
-                }
-            }
-
-            ToolButton {
-                id:button1
-                group: row
-                imageName: "rect"
-                visible: ((button1.width + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
-                onStateChanged: {
-                    if (state == "off") return
-
-                    screenArea.enabled = false
-                    toolbar.toggleToolbar("rect")
-
-                    if (toolbar.bExtense) {
-                        blurType.visible = true
-                        mosaicType.visible = true
-                        setlw.visible = true
-                        dividingLine.visible = true
-                        colorChange.visible = false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                    } else {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                        colorChange.visible = false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                    }
-
-                    toolbar.shape.shapeName = "rect"
-                    setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index") 
-                    colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
-                    toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
-                    toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
-                }
-            }
-            ToolButton {
-                id:button2
-                group: row
-                imageName: "ellipse"
-                visible: ((button1.width*2 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
-
-                onStateChanged: {
-                    if (state == "off") return
-
-                    screenArea.enabled = false
-                    toolbar.toggleToolbar("ellipse")
-                    if (toolbar.bExtense) {
-                        blurType.visible = true
-                        mosaicType.visible = true
-                        setlw.visible = true
-                        dividingLine.visible = true
-                        colorChange.visible= false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                    } else {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                        colorChange.visible= false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                    }
-
-                    toolbar.shape.shapeName = "ellipse"
-                    setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
-                    colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
-                    toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
-                    toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
-                }
-            }
-
-            ToolButton {
-                id:button3
-                group: row
-                imageName: "arrow"
-                visible: ((button1.width*3 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
-                onStateChanged: {
-                    if (state == "off") return
-
-                    screenArea.enabled = false
-                    toolbar.toggleToolbar("arrow")
-                    if (toolbar.bExtense) {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = true
-                        dividingLine.visible = false
-                        colorChange.visible = false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                    } else {
-                        setlw.visible = false
-                    }
-
-                    toolbar.shape.shapeName = "arrow"
-                    setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
-                    colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
-                    toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
-                    toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
-                }
-            }
-
-            ToolButton {
-                id:button4
-                group:row
-                imageName: "line"
-                visible: ((button1.width*4 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
-                onStateChanged: {
-                    if (state == "off") return
-
-                    screenArea.enabled = false
-                    toolbar.toggleToolbar("line")
-                    if (toolbar.bExtense) {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = true
-                        dividingLine.visible = false
-                        colorChange.visible= false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                    } else {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                        dividingLine.visible = false
-                    }
-
-                    toolbar.shape.shapeName = "line"
-                    setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
-                    colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
-                    toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
-                    toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
-                }
-            }
-            ToolButton {
-                group:row
-                id:button5
-                imageName: "text"
-                visible: ((button1.width*5 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
-                onStateChanged: {
-                    if (state == "off") return
-
-                    screenArea.enabled = false
-                    toolbar.toggleToolbar("text")
-                    if (toolbar.bExtense) {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                        colorChange.visible= false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                    } else {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                    }
-
-                    toolbar.shape.shapeName = "text"
-                    colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
-                    toolbar.shape.fontSize = Qt.binding( function() { return fontRect.fontText.font_size})
-                    toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
-                    fontRect.visible = fontRect.visible == false ? true : false
-                    if (fontRect.visible) {
-                        setlw.visible = false
-                        colorChange.visible = false
-                        save_toolbar.visible = false
-                    }
-                }
-            }
-            function _ColorXLineXText() {
-                if (setlw.visible) {
-                    fontRect.visible = false
-                    colorChange.visible = false
-                }
-                else if(colorChange.visible) {
-                    fontRect.visible = false
-                    setlw.visible = false
-                }
-                else if(fontRect.visible) {
-                    colorChange.visible = false
-                    setlw.visible = false
-                }
-            }
-            BigColor {
-                id: colorTool
-                property string initColor: toolbar.shape!= undefined ? toolbar.shape.shapeName: "bigColor"
-                property int colorOrder: windowView.get_save_config("common_color_linewidth","color_index")
-                colorStyle: screen.colorCard(colorOrder)
-
-                visible: ((button1.width*6 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
-
-                onStateChanged: {
-                    if (state == "off") return
-
-                    toolbar.toggleToolbar("color")
-                    fontRect.visible = false
-
-                    colorChange.visible = colorChange.visible == false ? true : false
-                    if (colorChange.visible) {
-                        setlw.visible = false
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                    }
-                }
-            }
-            SaveButton {
-                id: saveButton
-                visible: ((button1.width*7 +10 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
-
-                onStateChanged: {
-                    if (state == "off") return
-
-                    toolbar.visible = false
-                    selectSizeTooltip.visible = false
-                    screen.saveScreenshot()
-                }
-
-                onListIcon: {
-                    save_toolbar.visible = save_toolbar.visible == false ? true : false
-                    if (save_toolbar.visible) {
-                        setlw.visible = false
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        colorChange.visible = false
-                        fontRect.visible = false
-                        save_toolbar.saveItem = windowView.get_save_config("save", "save_op")
-                    }
-                    toolbar.toggleToolbar("saveAction")
-                }
-            }
-            ToolButton {
-                id: shareButton
-                visible: !savetooltip.visible
-                imageName: "share"
-                onStateChanged: {
-                    if (state == "off") { return }
-
-                    screen.share()
-                }
-            }
-            ToolButton {
-                visible: !savetooltip.visible
-                imageName: "cancel"
-                onPressed: {
-                    windowView.close()
-                }
-            }
-        }
 
         Rectangle {
-            id: fontRect
-            anchors.left: row.left
-            anchors.leftMargin: 4
-            anchors.top: row.bottom
-            anchors.topMargin: 4
-            width: 80
-            height: 18
-
+            id: toolbar
+            anchors.centerIn: parent
+            width: 288
+            height: 28
             radius: 4
-            opacity: 0.2
-            color: "transparent"
 
-            border.width:1
-            border.color: "white"
-            visible: false
-            property alias fontText: fontText
-            TextInput {
-                id:fontText
-                anchors.left: parent.left
-                anchors.leftMargin: 10
-                anchors.top: parent.top
-                anchors.topMargin: 3
-                width: parent.width / 2 - 10
-                height: parent.height
-                property int font_size: windowView.get_save_config("text", "fontsize_index")
-                text: font_size
-                font.pixelSize: 12
-                color: "white"
+            property bool bExtense: height == 56
+            property var shape: shape_canvas
+            property var linewidth: ""
+
+            property color stop1Color: Qt.rgba(0, 0, 0, 0.6)
+            property color stop2Color: Qt.rgba(0, 0, 0, 0.675)
+            property color stop3Color: Qt.rgba(0, 0, 0, 0.676)
+            property color stop4Color: Qt.rgba(0, 0, 0, 0.677)
+            property color stop5Color: Qt.rgba(0, 0, 0, 0.678)
+            property color stop6Color: Qt.rgba(0, 0, 0, 0.75)
+
+            gradient: Gradient {
+                GradientStop {id: stop1; position: 0.0; color: toolbar.stop1Color}
+                GradientStop {id: stop2; position: 0.5; color: toolbar.stop2Color}
+                GradientStop {id: stop3; position: 0.51; color: toolbar.stop3Color}
+                GradientStop {id: stop4; position: 0.5100001; color: toolbar.stop4Color}
+                GradientStop {id: stop5; position: 0.52; color: toolbar.stop5Color}
+                GradientStop {id: stop6; position: 1.0; color: toolbar.stop6Color}
             }
 
-            Rectangle {
-                id:fontSizeAdd
-                width: 20
-                height: 18
-                anchors.left: fontText.right
-                color: "transparent"
-                border.width: 1
-                border.color: Qt.rgba(1,1,1,0.2)
-                TextInput {
-                    id: addFontSize
-                    anchors.left: parent.left
-                    anchors.leftMargin: 5
-                    text: "+"
-                    color: "white"
-                    readOnly: true
-                    MouseArea {
-                        anchors.fill: parent
-                        onPressed: {
-                            if (fontText.font_size >=72) {
-                                return
-                            } else {
-                                fontText.font_size = fontText.font_size + 1
-                            }
+            border.color:  Qt.rgba(1, 1, 1, 0.2)
+
+            visible: firstMove && firstRelease
+
+            property int padding: 4
+            property string buttonType: ""
+
+            function tryHideSizeTooltip() {
+                if (firstMove && firstRelease) {
+                    if (x <= selectSizeTooltip.x + selectSizeTooltip.width && selectSizeTooltip.y <= y && y <= selectSizeTooltip.y + selectSizeTooltip.height) {
+                        selectSizeTooltip.visible = false
+                        } else {
+                            selectSizeTooltip.visible = true
                         }
                     }
                 }
 
-            }
-            Rectangle {
-                id: fontSizeMinux
-                width: 20
-                height: 18
-                anchors.left: fontSizeAdd.right
-                color: "transparent"
-                TextInput {
-                    id: minusFontSize
-                    anchors.left: parent.left
-                    anchors.leftMargin: 5
-                    text: "-"
-                    color: "white"
-                    readOnly: true
-                    MouseArea {
-                        anchors.fill: parent
-                        onPressed: {
-                            if (fontText.font_size <= 8) {
-                                return
-                            } else {
-                                fontText.font_size = fontText.font_size - 1
-                            }
-                        }
-                    }
+            function toggleToolbar(type) {
+                if (toolbar.buttonType != type) {
+                    toolbar.expandToolbar()
+                    toolbar.buttonType = type
+                } else {
+                        toolbar.shrinkToolbar()
+                        toolbar.buttonType = ""
                 }
             }
-        }
-        Rectangle {
-            id: colorChange
-            anchors.left: row.left
-            anchors.leftMargin: 4
-            anchors.top: row.bottom
-            anchors.topMargin: 6
-            color:"black"
 
-            visible: false
+            function expandToolbar() {
+                toolbar.height = 56
+                toolbar.stop1Color = Qt.rgba(0, 0, 0, 0.6)
+                toolbar.stop2Color = Qt.rgba(0, 0, 0, 0.75)
+                toolbar.stop3Color = Qt.rgba(1, 1, 1, 0.5)
+                toolbar.stop4Color = Qt.rgba(1, 1, 1, 0.5)
+                toolbar.stop5Color = Qt.rgba(0, 0, 0, 0.75)
+                toolbar.stop6Color = Qt.rgba(0, 0, 0, 0.6)
+            }
+
+            function shrinkToolbar() {
+                toolbar.height = 28
+                toolbar.stop1Color = Qt.rgba(0, 0, 0, 0.6)
+                toolbar.stop2Color = Qt.rgba(0, 0, 0, 0.675)
+                toolbar.stop3Color = Qt.rgba(0, 0, 0, 0.676)
+                toolbar.stop4Color = Qt.rgba(0, 0, 0, 0.677)
+                toolbar.stop5Color = Qt.rgba(0, 0, 0, 0.677)
+                toolbar.stop6Color = Qt.rgba(0, 0, 0, 0.75)
+            }
+
+
+            onXChanged: {
+                tryHideSizeTooltip()
+            }
+
+            onYChanged: {
+                tryHideSizeTooltip()
+            }
+
             Row {
-                id:colorGrid
-                spacing: 5
-                ColorButton{
-                    id: black
-                    colorOrder: 0
-                    colorStyle: screen.colorCard(0)
-                }
-                ColorButton{
-                    id: gray_dark
-                    colorOrder: 1
-                    colorStyle: screen.colorCard(1)
-                }
-                ColorButton{
-                    id: red
-                    colorOrder: 2
-                    colorStyle: screen.colorCard(2)
-                }
-                ColorButton{
-                    id: yellow_dark
-                    colorOrder: 3
-                    colorStyle: screen.colorCard(3)
-                }
-                ColorButton{
-                    id: yellow
-                    colorOrder: 4
-                    colorStyle: screen.colorCard(4)
-                }
-                ColorButton{
-                    id: green
-                    colorOrder: 5
-                    colorStyle: screen.colorCard(5)
-                }
-                ColorButton{
-                    id: green_dark
-                    colorOrder: 6
-                    colorStyle: screen.colorCard(6)
-                }
-                ColorButton{
-                    id: wathet_dark
-                    colorOrder: 7
-                    colorStyle: screen.colorCard(7)
-                }
-                ColorButton{
-                    id: white
-                    colorOrder: 8
-                    colorStyle: screen.colorCard(8)
+                id: row
+                anchors.left: savetooltip.visible ? savetooltip.right:parent.left
+                anchors.leftMargin: 4
+
+                function checkState(id) {
+                    for (var i=0; i<row.children.length; i++) {
+                        var childButton = row.children[i]
+                        if (childButton.imageName != id.imageName) {
+                            childButton.state = "off"
+                        }
+                    }
                 }
 
-                ColorButton{
-                    id: gray
-                    colorOrder: 9
-                    colorStyle: screen.colorCard(9)
+                function _destroyCanvas() {
+                    var theTopChild = selectArea.children[selectArea.children.length - 1]
+
+                    if (theTopChild != undefined && theTopChild.firstPress ) {
+
+                        theTopChild.destroy()
+                    }
                 }
 
-                ColorButton{
-                    id: red_dark
-                    colorOrder: 10
-                    colorStyle: screen.colorCard(10)
-                }
-                ColorButton{
-                    id: pink
-                    colorOrder: 11
-                    colorStyle: screen.colorCard(11)
-                }
-                ColorButton{
-                    id: pink_dark
-                    colorOrder: 12
-                    colorStyle: screen.colorCard(12)
-                }
-                ColorButton{
-                    id: blue_dark
-                    colorOrder: 13
-                    colorStyle: screen.colorCard(13)
-                }
-                ColorButton{
-                    id: blue
-                    colorOrder: 14
-                    colorStyle: screen.colorCard(14)
-                }
-                ColorButton{
-                    id: wathet
-                    colorOrder: 15
-                    colorStyle: screen.colorCard(15)
-                }
-            }
-        }
+                ToolButton {
+                    id:button1
+                    group: row
+                    imageName: "rect"
+                    visible: ((button1.width + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
+                    onStateChanged: {
+                        if (state == "off") return
 
-        Row {
-            id: setlw
-            anchors.top: row.bottom
-            anchors.left: parent.left
-            anchors.leftMargin: 4
-            anchors.bottom: parent.bottom
-            visible: toolbar.bExtense
-            property var lineWidth: {
-                ((toolbar.shape != undefined && toolbar.shape.shapeName != undefined && toolbar.shape.shapeName != "text"))? windowView.get_save_config("common_color_linewidth", "linewidth_index"):windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index") }
+                        screenArea.enabled = false
+                        toolbar.toggleToolbar("rect")
 
-            function checkState(id) {
-                for (var i=0; i<setlw.children.length; i++) {
-                    var childButton = setlw.children[i]
-                    if (childButton.imageName != id.imageName) {
-                        childButton.state = "off"
+                        if (toolbar.bExtense) {
+                            blurType.visible = true
+                            mosaicType.visible = true
+                            setlw.visible = true
+                            dividingLine.visible = true
+                            colorChange.visible = false
+                            fontRect.visible = false
+                            save_toolbar.visible = false
+                        } else {
+                            blurType.visible = false
+                            mosaicType.visible = false
+                            setlw.visible = false
+                            colorChange.visible = false
+                            fontRect.visible = false
+                            save_toolbar.visible = false
+                        }
+
+                        toolbar.shape.shapeName = "rect"
+                        setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index") 
+                        colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
+                        toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
+                        toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
+                    }
+                }
+                ToolButton {
+                    id:button2
+                    group: row
+                    imageName: "ellipse"
+                    visible: ((button1.width*2 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
+
+                    onStateChanged: {
+                        if (state == "off") return
+
+                        screenArea.enabled = false
+                        toolbar.toggleToolbar("ellipse")
+                        if (toolbar.bExtense) {
+                            blurType.visible = true
+                            mosaicType.visible = true
+                            setlw.visible = true
+                            dividingLine.visible = true
+                            colorChange.visible= false
+                            fontRect.visible = false
+                            save_toolbar.visible = false
+                        } else {
+                            blurType.visible = false
+                            mosaicType.visible = false
+                            setlw.visible = false
+                            colorChange.visible= false
+                            fontRect.visible = false
+                            save_toolbar.visible = false
+                        }
+
+                        toolbar.shape.shapeName = "ellipse"
+                        setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
+                        colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
+                        toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
+                        toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
+                    }
+                }
+
+                ToolButton {
+                    id:button3
+                    group: row
+                    imageName: "arrow"
+                    visible: ((button1.width*3 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
+                    onStateChanged: {
+                        if (state == "off") return
+
+                        screenArea.enabled = false
+                        toolbar.toggleToolbar("arrow")
+                        if (toolbar.bExtense) {
+                            blurType.visible = false
+                            mosaicType.visible = false
+                            setlw.visible = true
+                            dividingLine.visible = false
+                            colorChange.visible = false
+                            fontRect.visible = false
+                            save_toolbar.visible = false
+                        } else {
+                            setlw.visible = false
+                        }
+
+                        toolbar.shape.shapeName = "arrow"
+                        setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
+                        colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
+                        toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
+                        toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
+                    }
+                }
+
+                ToolButton {
+                    id:button4
+                    group:row
+                    imageName: "line"
+                    visible: ((button1.width*4 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
+                    onStateChanged: {
+                        if (state == "off") return
+
+                        screenArea.enabled = false
+                        toolbar.toggleToolbar("line")
+                        if (toolbar.bExtense) {
+                            blurType.visible = false
+                            mosaicType.visible = false
+                            setlw.visible = true
+                            dividingLine.visible = false
+                            colorChange.visible= false
+                            fontRect.visible = false
+                            save_toolbar.visible = false
+                        } else {
+                            blurType.visible = false
+                            mosaicType.visible = false
+                            setlw.visible = false
+                            dividingLine.visible = false
+                        }
+
+                        toolbar.shape.shapeName = "line"
+                        setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
+                        colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
+                        toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
+                        toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
+                    }
+                }
+                ToolButton {
+                    group:row
+                    id:button5
+                    imageName: "text"
+                    visible: ((button1.width*5 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
+                    onStateChanged: {
+                        if (state == "off") return
+
+                        screenArea.enabled = false
+                        toolbar.toggleToolbar("text")
+                        if (toolbar.bExtense) {
+                            blurType.visible = false
+                            mosaicType.visible = false
+                            setlw.visible = false
+                            colorChange.visible= false
+                            fontRect.visible = false
+                            save_toolbar.visible = false
+                        } else {
+                            blurType.visible = false
+                            mosaicType.visible = false
+                            setlw.visible = false
+                        }
+
+                        toolbar.shape.shapeName = "text"
+                        colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
+                        toolbar.shape.fontSize = Qt.binding( function() { return fontRect.fontText.font_size})
+                        toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
+                        fontRect.visible = fontRect.visible == false ? true : false
+                        if (fontRect.visible) {
+                            setlw.visible = false
+                            colorChange.visible = false
+                            save_toolbar.visible = false
+                        }
+                    }
+                }
+                function _ColorXLineXText() {
+                    if (setlw.visible) {
+                        fontRect.visible = false
+                        colorChange.visible = false
+                    }
+                    else if(colorChange.visible) {
+                        fontRect.visible = false
+                        setlw.visible = false
+                    }
+                    else if(fontRect.visible) {
+                        colorChange.visible = false
+                        setlw.visible = false
+                    }
+                }
+                BigColor {
+                    id: colorTool
+                    property string initColor: toolbar.shape!= undefined ? toolbar.shape.shapeName: "bigColor"
+                    property int colorOrder: windowView.get_save_config("common_color_linewidth","color_index")
+                    colorStyle: screen.colorCard(colorOrder)
+
+                    visible: ((button1.width*6 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
+
+                    onStateChanged: {
+                        if (state == "off") return
+
+                        toolbar.toggleToolbar("color")
+                        fontRect.visible = false
+
+                        colorChange.visible = colorChange.visible == false ? true : false
+                        if (colorChange.visible) {
+                            setlw.visible = false
+                            blurType.visible = false
+                            mosaicType.visible = false
+                            fontRect.visible = false
+                            save_toolbar.visible = false
+                        }
+                    }
+                }
+                SaveButton {
+                    id: saveButton
+                    visible: ((button1.width*7 +10 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
+
+                    onStateChanged: {
+                        if (state == "off") return
+
+                        toolbar.visible = false
+                        selectSizeTooltip.visible = false
+                        screen.saveScreenshot()
+                    }
+
+                    onListIcon: {
+                        save_toolbar.visible = save_toolbar.visible == false ? true : false
+                        if (save_toolbar.visible) {
+                            setlw.visible = false
+                            blurType.visible = false
+                            mosaicType.visible = false
+                            colorChange.visible = false
+                            fontRect.visible = false
+                            save_toolbar.saveItem = windowView.get_save_config("save", "save_op")
+                        }
+                        toolbar.toggleToolbar("saveAction")
+                    }
+                }
+                ToolButton {
+                    id: shareButton
+                    visible: !savetooltip.visible
+                    imageName: "share"
+                    onStateChanged: {
+                        if (state == "off") { return }
+
+                        screen.share()
+                    }
+                }
+                ToolButton {
+                    visible: !savetooltip.visible
+                    imageName: "cancel"
+                    onPressed: {
+                        windowView.close()
                     }
                 }
             }
-            ToolButton {
-                id: setbutton1
-                group: setlw
-                imageName:"small"
-                dirImage: dirSizeImage
-                state: setlw.lineWidth == 2 ? "on": "off"
-                onPressed: setlw.lineWidth = 2
-            }
-            ToolButton {
-                id: setbutton2
-                group: setlw
-                imageName:"normal"
-                dirImage: dirSizeImage
-                state: setlw.lineWidth == 4 ? "on": "off"
-                onPressed: setlw.lineWidth = 4
-            }
-            ToolButton {
-                id: setbutton3
-                group: setlw
-                imageName:"big"
-                dirImage: dirSizeImage
-                state: setlw.lineWidth == 6 ? "on": "off"
-                onPressed: setlw.lineWidth = 6
+
+            Rectangle {
+                id: fontRect
+                anchors.left: row.left
+                anchors.leftMargin: 4
+                anchors.top: row.bottom
+                anchors.topMargin: 4
+                width: 80
+                height: 18
+
+                radius: 4
+                opacity: 0.2
+                color: "transparent"
+
+                border.width:1
+                border.color: "white"
+                visible: false
+                property alias fontText: fontText
+                TextInput {
+                    id:fontText
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    anchors.top: parent.top
+                    anchors.topMargin: 3
+                    width: parent.width / 2 - 10
+                    height: parent.height
+                    property int font_size: windowView.get_save_config("text", "fontsize_index")
+                    text: font_size
+                    font.pixelSize: 12
+                    color: "white"
+                }
+
+                Rectangle {
+                    id:fontSizeAdd
+                    width: 20
+                    height: 18
+                    anchors.left: fontText.right
+                    color: "transparent"
+                    border.width: 1
+                    border.color: Qt.rgba(1,1,1,0.2)
+                    TextInput {
+                        id: addFontSize
+                        anchors.left: parent.left
+                        anchors.leftMargin: 5
+                        text: "+"
+                        color: "white"
+                        readOnly: true
+                        MouseArea {
+                            anchors.fill: parent
+                            onPressed: {
+                                if (fontText.font_size >=72) {
+                                    return
+                                } else {
+                                    fontText.font_size = fontText.font_size + 1
+                                }
+                            }
+                        }
+                    }
+
+                }
+                Rectangle {
+                    id: fontSizeMinux
+                    width: 20
+                    height: 18
+                    anchors.left: fontSizeAdd.right
+                    color: "transparent"
+                    TextInput {
+                        id: minusFontSize
+                        anchors.left: parent.left
+                        anchors.leftMargin: 5
+                        text: "-"
+                        color: "white"
+                        readOnly: true
+                        MouseArea {
+                            anchors.fill: parent
+                            onPressed: {
+                                if (fontText.font_size <= 8) {
+                                    return
+                                } else {
+                                    fontText.font_size = fontText.font_size - 1
+                                }
+                            }
+                        }
+                    }
+                }
             }
             Rectangle {
-                id: dividingLine
-                x: 5
-                y: 5
-                width: 1
-                height: 20
-                color: Qt.rgba(1, 1, 1, 0.1)
-            }
-        }
-        Row {
-            id: shapeEffect
-            anchors.top: row.bottom
-            anchors.left: setlw.right
-            anchors.leftMargin: 4
-            anchors.bottom: parent.bottom
-            property string imageName: "blur"
+                id: colorChange
+                anchors.left: row.left
+                anchors.leftMargin: 4
+                anchors.top: row.bottom
+                anchors.topMargin: 6
+                color:"black"
 
-            function checkState(id) {
-                for (var i=0; i<shapeEffect.children.length; i++) {
-                    var childButton = shapeEffect.children[i]
-                    if (childButton.imageName != id.imageName) {
-                        childButton.state = "off"
+                visible: false
+                Row {
+                    id:colorGrid
+                    spacing: 5
+                    ColorButton{
+                        id: black
+                        colorOrder: 0
+                        colorStyle: screen.colorCard(0)
+                    }
+                    ColorButton{
+                        id: gray_dark
+                        colorOrder: 1
+                        colorStyle: screen.colorCard(1)
+                    }
+                    ColorButton{
+                        id: red
+                        colorOrder: 2
+                        colorStyle: screen.colorCard(2)
+                    }
+                    ColorButton{
+                        id: yellow_dark
+                        colorOrder: 3
+                        colorStyle: screen.colorCard(3)
+                    }
+                    ColorButton{
+                        id: yellow
+                        colorOrder: 4
+                        colorStyle: screen.colorCard(4)
+                    }
+                    ColorButton{
+                        id: green
+                        colorOrder: 5
+                        colorStyle: screen.colorCard(5)
+                    }
+                    ColorButton{
+                        id: green_dark
+                        colorOrder: 6
+                        colorStyle: screen.colorCard(6)
+                    }
+                    ColorButton{
+                        id: wathet_dark
+                        colorOrder: 7
+                        colorStyle: screen.colorCard(7)
+                    }
+                    ColorButton{
+                        id: white
+                        colorOrder: 8
+                        colorStyle: screen.colorCard(8)
+                    }
+
+                    ColorButton{
+                        id: gray
+                        colorOrder: 9
+                        colorStyle: screen.colorCard(9)
+                    }
+
+                    ColorButton{
+                        id: red_dark
+                        colorOrder: 10
+                        colorStyle: screen.colorCard(10)
+                    }
+                    ColorButton{
+                        id: pink
+                        colorOrder: 11
+                        colorStyle: screen.colorCard(11)
+                    }
+                    ColorButton{
+                        id: pink_dark
+                        colorOrder: 12
+                        colorStyle: screen.colorCard(12)
+                    }
+                    ColorButton{
+                        id: blue_dark
+                        colorOrder: 13
+                        colorStyle: screen.colorCard(13)
+                    }
+                    ColorButton{
+                        id: blue
+                        colorOrder: 14
+                        colorStyle: screen.colorCard(14)
+                    }
+                    ColorButton{
+                        id: wathet
+                        colorOrder: 15
+                        colorStyle: screen.colorCard(15)
                     }
                 }
             }
 
-            ToolButton {
-                id: blurType
-                group: shapeEffect
-                dirImage: dirSizeImage
-                imageName: "blur"
+            Row {
+                id: setlw
+                anchors.top: row.bottom
+                anchors.left: parent.left
+                anchors.leftMargin: 4
+                anchors.bottom: parent.bottom
+                visible: toolbar.bExtense
+                property var lineWidth: {
+                    ((toolbar.shape != undefined && toolbar.shape.shapeName != undefined && toolbar.shape.shapeName != "text"))? windowView.get_save_config("common_color_linewidth", "linewidth_index"):windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index") }
+
+                function checkState(id) {
+                    for (var i=0; i<setlw.children.length; i++) {
+                        var childButton = setlw.children[i]
+                        if (childButton.imageName != id.imageName) {
+                            childButton.state = "off"
+                        }
+                    }
+                }
+                ToolButton {
+                    id: setbutton1
+                    group: setlw
+                    imageName:"small"
+                    dirImage: dirSizeImage
+                    state: setlw.lineWidth == 2 ? "on": "off"
+                    onPressed: setlw.lineWidth = 2
+                }
+                ToolButton {
+                    id: setbutton2
+                    group: setlw
+                    imageName:"normal"
+                    dirImage: dirSizeImage
+                    state: setlw.lineWidth == 4 ? "on": "off"
+                    onPressed: setlw.lineWidth = 4
+                }
+                ToolButton {
+                    id: setbutton3
+                    group: setlw
+                    imageName:"big"
+                    dirImage: dirSizeImage
+                    state: setlw.lineWidth == 6 ? "on": "off"
+                    onPressed: setlw.lineWidth = 6
+                }
+                Rectangle {
+                    id: dividingLine
+                    x: 5
+                    y: 5
+                    width: 1
+                    height: 20
+                    color: Qt.rgba(1, 1, 1, 0.1)
+                }
+            }
+            Row {
+                id: shapeEffect
+                anchors.top: row.bottom
+                anchors.left: setlw.right
+                anchors.leftMargin: 4
+                anchors.bottom: parent.bottom
+                property string imageName: "blur"
+
+                function checkState(id) {
+                    for (var i=0; i<shapeEffect.children.length; i++) {
+                        var childButton = shapeEffect.children[i]
+                        if (childButton.imageName != id.imageName) {
+                            childButton.state = "off"
+                        }
+                    }
+                }
+
+                ToolButton {
+                    id: blurType
+                    group: shapeEffect
+                    dirImage: dirSizeImage
+                    imageName: "blur"
+                    visible: false
+                    onPressed: {
+                        screenArea.enabled = false
+                        shapeEffect.imageName = "blur"
+                        windowView.save_overload("blur", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
+                        toolbar.shape.isBlur = true
+                        toolbar.shape.processBlur = true
+                        toolbar.shape.isMosaic = false
+                        toolbar.shape.processMosaic = false
+                    }
+                }
+                ToolButton {
+                    id: mosaicType
+                    group: shapeEffect
+                    dirImage: dirSizeImage
+                    imageName:"mosaic"
+                    visible: false
+                    onPressed: {
+                        screenArea.enabled = false
+                        shapeEffect.imageName = "mosaic"
+                        windowView.save_overload("mosaic", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
+                        toolbar.shape.isBlur = false
+                        toolbar.shape.processBlur = false
+                        toolbar.shape.isMosaic = true
+                        toolbar.shape.processMosaic = true
+                    }
+                }
+            }
+            SaveToolTip {
+                id: savetooltip
                 visible: false
-                onPressed: {
-                    screenArea.enabled = false
-                    shapeEffect.imageName = "blur"
-                    windowView.save_overload("blur", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
-                    toolbar.shape.isBlur = true
-                    toolbar.shape.processBlur = true
-                    toolbar.shape.isMosaic = false
-                    toolbar.shape.processMosaic = false
-                }
             }
-            ToolButton {
-                id: mosaicType
-                group: shapeEffect
-                dirImage: dirSizeImage
-                imageName:"mosaic"
+            Row {
+                id: save_toolbar
+                anchors.top: row.top
+                anchors.topMargin: 28
+                anchors.left: parent.left
+                anchors.leftMargin: 2
+                anchors.bottom: parent.bottom
                 visible: false
-                onPressed: {
-                    screenArea.enabled = false
-                    shapeEffect.imageName = "mosaic"
-                    windowView.save_overload("mosaic", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
-                    toolbar.shape.isBlur = false
-                    toolbar.shape.processBlur = false
-                    toolbar.shape.isMosaic = true
-                    toolbar.shape.processMosaic = true
+                property string saveId:"auto_save"
+                property int saveItem: 0
+                function last_select_saveItem() {
+                    return windowView.get_save_config("save","save_op")
                 }
-            }
-        }
-        SaveToolTip {
-            id: savetooltip
-            visible: false
-        }
-        Row {
-            id: save_toolbar
-            anchors.top: row.top
-            anchors.topMargin: 28
-            anchors.left: parent.left
-            anchors.leftMargin: 2
-            anchors.bottom: parent.bottom
-            visible: false
-            property string saveId:"auto_save"
-            property int saveItem: 0
-            function last_select_saveItem() {
-                return windowView.get_save_config("save","save_op")
-            }
 
-            ToolButton {
-                id: save_to_desktop
-                dirImage: dirSave
-                imageName:"save_to_desktop"
-                state: save_toolbar.saveItem == 0 ? "on": "off"
-                onEntered: {
-                    savetooltip.visible = true
-                    savetooltip.text = "Save to Desktop"
-                }
-                onExited: {
-                    savetooltip.visible = false
-                }
-                onPressed: {
-                    save_toolbar.saveId = "save_to_desktop"
-                    windowView.set_save_config("save", "save_op","0")
-                    toolbar.visible = false
-                    selectSizeTooltip.visible = false
+                ToolButton {
+                    id: save_to_desktop
+                    dirImage: dirSave
+                    imageName:"save_to_desktop"
+                    state: save_toolbar.saveItem == 0 ? "on": "off"
+                    onEntered: {
+                        savetooltip.visible = true
+                        savetooltip.text = "Save to Desktop"
+                    }
+                    onExited: {
+                        savetooltip.visible = false
+                    }
+                    onPressed: {
+                        save_toolbar.saveId = "save_to_desktop"
+                        windowView.set_save_config("save", "save_op","0")
+                        toolbar.visible = false
+                        selectSizeTooltip.visible = false
 
-                    screen.saveScreenshot()
+                        screen.saveScreenshot()
+                    }
                 }
-            }
-            ToolButton {
-                id: auto_save
+                ToolButton {
+                    id: auto_save
 
-                imageName:"auto_save"
-                dirImage: dirSave
-                state: save_toolbar.saveItem == 1 ? "on": "off"
-                onEntered: {
-                    savetooltip.visible = true
-                    savetooltip.text = "Auto Save"
-                }
-                onExited: {
-                    savetooltip.visible = false
-                }
-                onPressed: {
-                    save_toolbar.saveId = "auto_save"
-                    windowView.set_save_config("save","save_op","1")
-                    toolbar.visible = false
-                    selectSizeTooltip.visible = false
+                    imageName:"auto_save"
+                    dirImage: dirSave
+                    state: save_toolbar.saveItem == 1 ? "on": "off"
+                    onEntered: {
+                        savetooltip.visible = true
+                        savetooltip.text = "Auto Save"
+                    }
+                    onExited: {
+                        savetooltip.visible = false
+                    }
+                    onPressed: {
+                        save_toolbar.saveId = "auto_save"
+                        windowView.set_save_config("save","save_op","1")
+                        toolbar.visible = false
+                        selectSizeTooltip.visible = false
 
-                    screen.saveScreenshot()
+                        screen.saveScreenshot()
+                    }
                 }
-            }
-            ToolButton {
-                id: save_to_dir
+                ToolButton {
+                    id: save_to_dir
 
-                imageName:"save_to_dir"
-                dirImage: dirSave
-                state: save_toolbar.saveItem == 2 ? "on": "off"
-                onEntered: {
-                    savetooltip.visible = true
-                    savetooltip.text = "Save as"
-                }
-                onExited: {
-                    savetooltip.visible = false
-                }
-                onPressed: {
-                    save_toolbar.saveId = "save_to_dir"
-                    windowView.set_save_config("save","save_op","2")
-                    toolbar.visible = false
-                    selectSizeTooltip.visible = false
+                    imageName:"save_to_dir"
+                    dirImage: dirSave
+                    state: save_toolbar.saveItem == 2 ? "on": "off"
+                    onEntered: {
+                        savetooltip.visible = true
+                        savetooltip.text = "Save as"
+                    }
+                    onExited: {
+                        savetooltip.visible = false
+                    }
+                    onPressed: {
+                        save_toolbar.saveId = "save_to_dir"
+                        windowView.set_save_config("save","save_op","2")
+                        toolbar.visible = false
+                        selectSizeTooltip.visible = false
 
-                    screen.saveScreenshot()
+                        screen.saveScreenshot()
+                    }
                 }
-            }
-            ToolButton {
-                id: save_ClipBoard
+                ToolButton {
+                    id: save_ClipBoard
 
-                imageName:"save_ClipBoard"
-                dirImage: dirSave
-                state: save_toolbar.saveItem == 3 ? "on": "off"
-                onEntered: {
-                    savetooltip.visible = true
-                    savetooltip.text = "Save to Clipboard"
-                }
-                onExited: {
-                    savetooltip.visible = false
-                }
-                onPressed: {
-                    save_toolbar.saveId = "save_ClipBoard"
-                    windowView.set_save_config("save","save_op","3")
-                    toolbar.visible = false
-                    selectSizeTooltip.visible = false
+                    imageName:"save_ClipBoard"
+                    dirImage: dirSave
+                    state: save_toolbar.saveItem == 3 ? "on": "off"
+                    onEntered: {
+                        savetooltip.visible = true
+                        savetooltip.text = "Save to Clipboard"
+                    }
+                    onExited: {
+                        savetooltip.visible = false
+                    }
+                    onPressed: {
+                        save_toolbar.saveId = "save_ClipBoard"
+                        windowView.set_save_config("save","save_op","3")
+                        toolbar.visible = false
+                        selectSizeTooltip.visible = false
 
-                    screen.saveScreenshot()
+                        screen.saveScreenshot()
+                    }
                 }
-            }
-            ToolButton {
-                id: auto_save_ClipBoard
-                imageName:"auto_save_ClipBoard"
-                dirImage: dirSave
-                state: save_toolbar.saveItem == 4 ? "on": "off"
-                onEntered: {
-                    savetooltip.visible = true
-                    savetooltip.text = "Auto Save and Save to Clipboard"
-                }
-                onExited: {
-                    savetooltip.visible = false
-                }
-                onPressed: {
-                    save_toolbar.saveId = "auto_save_ClipBoard"
-                    windowView.set_save_config("save","save_op","4")
-                    toolbar.visible = false
-                    selectSizeTooltip.visible = false
+                ToolButton {
+                    id: auto_save_ClipBoard
+                    imageName:"auto_save_ClipBoard"
+                    dirImage: dirSave
+                    state: save_toolbar.saveItem == 4 ? "on": "off"
+                    onEntered: {
+                        savetooltip.visible = true
+                        savetooltip.text = "Auto Save and Save to Clipboard"
+                    }
+                    onExited: {
+                        savetooltip.visible = false
+                    }
+                    onPressed: {
+                        save_toolbar.saveId = "auto_save_ClipBoard"
+                        windowView.set_save_config("save","save_op","4")
+                        toolbar.visible = false
+                        selectSizeTooltip.visible = false
 
-                    screen.saveScreenshot()
+                        screen.saveScreenshot()
+                    }
                 }
             }
         }
     }
-
+    Glow {
+        anchors.fill: toolbarRect
+        fast: true
+        radius: 10
+        samples: 16
+        spread: 0.5
+        color: Qt.rgba(0, 0, 0, 1)
+        source: toolbarRect
+    }
     Rectangle {
         id: zoomIndicator
         visible: firstMove && !firstRelease && !fontRect.visible
