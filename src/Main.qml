@@ -53,6 +53,11 @@ Item {
         }
     }
 
+    function showHotKeyOSD() {
+        var osd = Qt.createQmlObject("import QtQuick 2.2; OSD{}", screen, "osd")
+        osd.showTips()
+    }
+
     Connections {
         target: _menu_controller
         onToolSelected: {
@@ -85,7 +90,7 @@ Item {
             screen.saveScreenshot()
         }
         onShareSelected: screen.share()
-        onExitSelected: windowView.close()
+        onExitSelected: windowView.closeWindow()
     }
 
     MouseArea {
@@ -99,7 +104,7 @@ Item {
         property int pressY: 0
 
         onPressed: {
-            if (mouse.button == Qt.RightButton && !firstRelease) windowView.close()
+            if (mouse.button == Qt.RightButton && !firstRelease) windowView.closeWindow()
 
             var pos = windowView.get_cursor_pos()
             pressX = pos.x
@@ -663,7 +668,7 @@ Item {
                         }
 
                         toolbar.shape.shapeName = "rect"
-                        setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index") 
+                        setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                         colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
                         toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                         toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
@@ -879,7 +884,7 @@ Item {
                     visible: !savetooltip.visible
                     imageName: "cancel"
                     onPressed: {
-                        windowView.close()
+                        windowView.closeWindow()
                     }
                 }
             }
@@ -1412,7 +1417,7 @@ Item {
 
     focus: true
     Keys.onEscapePressed: {
-        windowView.close()
+        windowView.closeWindow()
     }
     Keys.onDeletePressed: {
         var canvas = toolbar.shape

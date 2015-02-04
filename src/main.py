@@ -44,6 +44,7 @@ app = QApplication(sys.argv)
 app.setOrganizationName("Deepin")
 app.setApplicationName("Deepin Screenshot")
 app.setApplicationVersion("3.0")
+app.setQuitOnLastWindowClosed(False)
 
 from i18n import _
 from window_info import WindowInfo
@@ -77,8 +78,9 @@ cursor_shape_dict = {}
 init_cursor_shape_dict()
 
 class Window(QQuickView):
-    def __init__(self):
+    def __init__(self, showOSD=False):
         QQuickView.__init__(self)
+        self._showOSD = showOSD
 
         surface_format = QSurfaceFormat()
         surface_format.setAlphaBufferSize(8)
@@ -271,14 +273,22 @@ class Window(QQuickView):
         keySequence = QKeySequence(modifier + key).toString()
         return keySequence
 
-    def exit_app(self):
+    def showHotKeyOSD(self):
+        self.rootObject().showHotKeyOSD()
+
+    @pyqtSlot()
+    def closeWindow(self):
         self.enable_zone()
-        qApp.quit()
+        self.close()
+        if self._showOSD:
+            self.showHotKeyOSD()
+        else:
+            qApp.quit()
 
 def main():
     global view
     global menu_controller
-    view = Window()
+    view = Window(startFromDesktopValue)
     menu_controller = MenuController()
 
     if fullscreenValue:
@@ -297,8 +307,6 @@ def main():
         view.setSource(QUrl.fromLocalFile(MAIN_QML))
         view.disable_zone()
         view.showFullScreen()
-
-        qApp.lastWindowClosed.connect(view.exit_app)
 
 if __name__ == "__main__":
     parser = QCommandLineParser()
@@ -320,6 +328,7 @@ if __name__ == "__main__":
 
     delayValue = int(parser.value(delayOption) or 0)
     fullscreenValue = bool(parser.isSet(fullscreenOption) or False)
+    startFromDesktopValue = bool(parser.isSet(startFromDesktopOption) or False)
 
     QTimer.singleShot(max(0, delayValue * 1000), main)
 
