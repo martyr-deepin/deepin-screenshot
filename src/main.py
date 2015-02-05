@@ -37,7 +37,7 @@ from PyQt5.QtGui import (QSurfaceFormat, QColor, QGuiApplication,
     QPixmap, QCursor, QKeySequence, qRed, qGreen, qBlue)
 from PyQt5.QtWidgets import QApplication, qApp, QFileDialog
 from PyQt5.QtCore import (pyqtSlot, QStandardPaths, QUrl, QSettings, QVariant,
-    QCommandLineParser, QCommandLineOption, QTimer)
+    QCommandLineParser, QCommandLineOption, QTimer, Qt)
 from PyQt5.QtDBus import QDBusConnection, QDBusInterface
 from PyQt5.QtMultimedia import QSound
 app = QApplication(sys.argv)
@@ -88,7 +88,7 @@ class Window(QQuickView):
 
         self.set_cursor_shape("shape_start_cursor")
         self.setColor(QColor(0, 0, 0, 0))
-        self.setFlags(QtCore.Qt.FramelessWindowHint)
+        self.setFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
         self.setResizeMode(QQuickView.SizeRootObjectToView)
         self.setFormat(surface_format)
         self.setTitle(_("Deepin screenshot"))
@@ -99,6 +99,7 @@ class Window(QQuickView):
         self.window_info = WindowInfo()
         self._init_screenshot_config()
         self._soundEffect = QSound(SOUND_FILE)
+        self._grabFocusTimer = self._getGrabFocusTimer()
 
         self._notificationId = None
         self._fileSaveLocation = None
@@ -138,6 +139,26 @@ class Window(QQuickView):
         p = p.copy(x,y,width,height)
         image_dir = "/tmp/deepin-screenshot-%s.png" %style
         p.save(os.path.join(image_dir))
+
+    def _getGrabFocusTimer(self):
+        timer = QTimer()
+        timer.setSingleShot(True)
+        timer.setInterval(100)
+        timer.timeout.connect(self._grabFocusInternal)
+        return timer
+
+    def _grabFocusInternal(self):
+        grabPointerStatus = hasattr(self, "_grabPointerStatus") \
+                            and self._grabPointerStatus
+        grabKeyboardStatus = hasattr(self, "_grabKeyboardStatus") \
+                            and self._grabKeyboardStatus
+        if not grabPointerStatus:
+            self._grabPointerStatus = self.setMouseGrabEnabled(True)
+        if not grabKeyboardStatus:
+            self._grabKeyboardStatus = self.setKeyboardGrabEnabled(True)
+
+        if not (grabPointerStatus and grabKeyboardStatus):
+            self._grabFocusTimer.start()
 
     def _init_screenshot_config(self):
         settings = QSettings()
@@ -277,6 +298,10 @@ class Window(QQuickView):
     def showHotKeyOSD(self):
         self.rootObject().showHotKeyOSD()
 
+    def showWindow(self):
+        self.showFullScreen()
+        self._grabFocusTimer.start()
+
     @pyqtSlot()
     def closeWindow(self):
         self.enable_zone()
@@ -308,7 +333,7 @@ def main():
 
         view.setSource(QUrl.fromLocalFile(MAIN_QML))
         view.disable_zone()
-        view.showFullScreen()
+        view.showWindow()
 
 if __name__ == "__main__":
     parser = QCommandLineParser()
