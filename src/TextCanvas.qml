@@ -213,14 +213,16 @@ Rectangle {
         anchors.leftMargin: 3
         anchors.rightMargin: 3
         color: "transparent"
-    
+
         TextEdit {
             id:text
             textMargin: 3
         //  width: Math.floor((canvas.width - curX - 10) / font.pixelSize)*font.pixelSize
         //  height: Math.floor((canvas.height - curY - 10) / font.pixelSize)*font.pixelSize
             color: screen.colorCard(drawColor)
-            onColorChanged: { select(0, 0)}
+            selectedTextColor: readOnly ? color : "white"
+            selectionColor: readOnly ? "transparent" : "#01bdff"
+            selectByMouse: !readOnly
             font.pixelSize: fontSize
             wrapMode: TextEdit.Wrap
             cursorDelegate: Rectangle {
@@ -228,6 +230,7 @@ Rectangle {
                 color: text.color
                 visible: !text.readOnly && blink_timer.cursorVisible
             }
+
             onFocusChanged: {
                 if (focus) {
                     canvas.selectUnique(numberOrder)
@@ -242,7 +245,7 @@ Rectangle {
             onTextChanged: { blink_timer.cursorVisible = true, blink_timer.restart() }
             onContentWidthChanged: { canvas.requestPaint()}
             Component.onCompleted: forceActiveFocus()
-            
+
             Timer {
                 id: blink_timer
                 running: !text.readOnly
@@ -270,19 +273,37 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
 
-        onEntered: {
-            /* To unbind the width and height of text */
-            cursorShape = Qt.ClosedHandCursor
-        }
         onPressed: {
+            if (!text.readOnly) {
+                mouse.accepted = false
+                return
+            }
+
             var pos = screen.get_absolute_cursor_pos()
             clickedPoint = Qt.point(pos.x, pos.y)
             rect.selected = true
             text.forceActiveFocus()
             canvas.requestPaint()
         }
+
+        onReleased: {
+            cursorShape = Qt.ArrowCursor
+
+            if (!text.readOnly) {
+                mouse.accepted = false
+                return
+            }
+        }
+
         onPositionChanged: {
+            if (!text.readOnly) {
+                mouse.accepted = false
+                return
+            }
+
             if (rect.selected && pressed) {
+                cursorShape = Qt.ClosedHandCursor
+
                 var pos = screen.get_absolute_cursor_pos()
                 isDraging = true
                 handleDrag(Qt.point(pos.x, pos.y))
@@ -290,7 +311,13 @@ Rectangle {
             }
             canvas.requestPaint()
         }
+
         onDoubleClicked: {
+            if (!text.readOnly) {
+                mouse.accepted = false
+                return
+            }
+
             rect.selected = true
             text.readOnly = false
             text.forceActiveFocus()

@@ -43,8 +43,6 @@ save_sub_menu = [
     CheckableMenuItem("save:radio:_op_copy_and_save", _("Auto Save and Save to Clipboard")),
 ]
 
-print menu_icon_tuple("rectangle-tool")
-
 right_click_menu = [
     ("_rectangle", _("Rectangle tool"), menu_icon_tuple("rectangle-tool")),
     ("_ellipse", _("Ellipse tool"), menu_icon_tuple("ellipse-tool")),
