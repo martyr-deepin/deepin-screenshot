@@ -10,7 +10,7 @@ Item {
     signal pressed()
     signal entered()
     signal exited()
-    
+
     Rectangle {
         id: colorRect
         anchors.centerIn: parent
@@ -18,15 +18,12 @@ Item {
         height: 16
         radius: 2
         color: bigColor.colorStyle
-
-        border.width: 2
-        border.color: "transparent"
     }
     Rectangle {
         id: selectArea
         anchors.centerIn: parent
-        width: 14
-        height: 14
+        width: 16
+        height: 16
         color: "transparent"
         radius: 2
 

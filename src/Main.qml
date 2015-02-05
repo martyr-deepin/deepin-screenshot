@@ -942,9 +942,9 @@ Item {
             Rectangle {
                 id: colorChange
                 anchors.left: row.left
-                anchors.leftMargin: 4
+                anchors.leftMargin: 7
                 anchors.top: row.bottom
-                anchors.topMargin: 6
+                anchors.topMargin: 7
                 color:"black"
 
                 visible: false
