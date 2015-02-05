@@ -186,7 +186,7 @@ Rectangle {
             ctx.fillStyle = "yellow"
             /* Rotate */
             var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-            DrawingUtils.draw_point(ctx, rotatePoint.x, rotatePoint.y, bigPointRadius + linewidth / 2)
+            ctx.drawImage(canvas.rotateImage, rotatePoint.x - 12, rotatePoint.y - 12)
        }
     }
     function clickOnPoint(p) {

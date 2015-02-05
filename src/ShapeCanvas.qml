@@ -16,6 +16,7 @@ Canvas {
     property int paintColor: 3
     property alias canvasArea: canvasArea
     property url imageUrl: "/tmp/deepin-screenshot.png"
+    property url rotateImage: "../image/mouse_style/shape/rotate.png"
     property string blurImage:"/tmp/deepin-screenshot-blur.png"
     property string mosaicImage: "/tmp/deepin-screenshot-mosaic.png"
     property bool isBlur: false
@@ -66,7 +67,7 @@ Canvas {
     }
     onIsBlurChanged: { if (isBlur) { reLoadImage(blurImage) } }
     onIsMosaicChanged: { if (isMosaic) { reLoadImage(mosaicImage) } }
-
+    Component.onCompleted: reLoadImage(rotateImage)
     onImageLoaded: {
         if (isBlur) {
             bluring = true
