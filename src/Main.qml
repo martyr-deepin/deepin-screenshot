@@ -880,9 +880,9 @@ Item {
             Rectangle {
                 id: colorChange
                 anchors.left: row.left
-                anchors.leftMargin: 7
+                anchors.leftMargin: 4
                 anchors.top: row.bottom
-                anchors.topMargin: 7
+                anchors.topMargin: 6
                 color:"black"
 
                 visible: false
@@ -1206,12 +1206,19 @@ Item {
     }
     Glow {
         anchors.fill: toolbarRect
-        fast: true
-        radius: 10
+        radius: 4
         samples: 16
         spread: 0.5
         color: Qt.rgba(0, 0, 0, 1)
         source: toolbarRect
+    }
+    RectangularGlow {
+        id: zoomIndicatorShadow
+        anchors.fill: zoomIndicator
+        glowRadius: 3
+        spread: 0.2
+        color: Qt.rgba(0, 0, 0, 0.2)
+        cornerRadius: zoomIndicator.radius + glowRadius
     }
     Rectangle {
         id: zoomIndicator
@@ -1221,23 +1228,15 @@ Item {
         height: 49
         color: Qt.rgba(1, 1, 1, 0)
         radius: 4
-        border.width:2
+        border.width: 2
         border.color: Qt.rgba(1, 1, 1, 0.3)
         property int cursorWidth: 8
         property int cursorHeight: 18
 
         property int cursorX: 0
         property int cursorY: 0
-        DropShadow {
-            anchors.fill: parent
-            horizontalOffset: 0
-            verticalOffset: 1
-            radius: 10
-            samples: 16
-            color: Qt.rgba(0, 0, 0, 0.2)
-            source: parent
-        }
         function updatePosition(pos) {
+
             cursorX = pos.x
             cursorY = pos.y
 
@@ -1254,6 +1253,7 @@ Item {
             id: zoomIndicatorTooltip
             anchors.fill: parent
             anchors.margins: marginValue
+            radius: 4
             property int marginValue: 2
                 Rectangle {
                     id: zoomIndicatorClip
