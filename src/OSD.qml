@@ -26,7 +26,7 @@ Window {
 
     Timer {
         id: hide_timer
-        interval: 1500
+        interval: 2500
 
         onTriggered: {
             osd_window.close()
