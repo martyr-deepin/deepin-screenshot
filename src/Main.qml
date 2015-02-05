@@ -498,6 +498,12 @@ Item {
         radius: 4
         property int padding: 4
 
+        // this item is used to steal focus from other items
+        MouseArea {
+            anchors.fill: parent
+            onClicked: toolbarRect.focus = true
+        }
+
         Rectangle {
             id: toolbar
             anchors.centerIn: parent
@@ -762,7 +768,7 @@ Item {
 
                         toolbar.shape.shapeName = "text"
                         colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
-                        toolbar.shape.fontSize = Qt.binding( function() { return fontRect.fontText.font_size})
+                        toolbar.shape.fontSize = Qt.binding( function() { return fontRect.value })
                         toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
                         fontRect.visible = fontRect.visible == false ? true : false
                         if (fontRect.visible) {
@@ -854,91 +860,23 @@ Item {
                 }
             }
 
-            Rectangle {
+            FontSizeSpinner {
                 id: fontRect
+
+                width: 120
+                height: 20
+                visible: false
+                min: 6
+                max: 24
+                maximumLength: 3
+                initValue: windowView.get_save_config("text", "fontsize_index")
+
                 anchors.left: row.left
                 anchors.leftMargin: 4
                 anchors.top: row.bottom
                 anchors.topMargin: 4
-                width: 80
-                height: 18
-
-                radius: 4
-                opacity: 0.2
-                color: "transparent"
-
-                border.width:1
-                border.color: "white"
-                visible: false
-                property alias fontText: fontText
-                TextInput {
-                    id:fontText
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    anchors.top: parent.top
-                    anchors.topMargin: 3
-                    width: parent.width / 2 - 10
-                    height: parent.height
-                    property int font_size: windowView.get_save_config("text", "fontsize_index")
-                    text: font_size
-                    font.pixelSize: 12
-                    color: "white"
-                }
-
-                Rectangle {
-                    id:fontSizeAdd
-                    width: 20
-                    height: 18
-                    anchors.left: fontText.right
-                    color: "transparent"
-                    border.width: 1
-                    border.color: Qt.rgba(1,1,1,0.2)
-                    TextInput {
-                        id: addFontSize
-                        anchors.left: parent.left
-                        anchors.leftMargin: 5
-                        text: "+"
-                        color: "white"
-                        readOnly: true
-                        MouseArea {
-                            anchors.fill: parent
-                            onPressed: {
-                                if (fontText.font_size >=72) {
-                                    return
-                                } else {
-                                    fontText.font_size = fontText.font_size + 1
-                                }
-                            }
-                        }
-                    }
-
-                }
-                Rectangle {
-                    id: fontSizeMinux
-                    width: 20
-                    height: 18
-                    anchors.left: fontSizeAdd.right
-                    color: "transparent"
-                    TextInput {
-                        id: minusFontSize
-                        anchors.left: parent.left
-                        anchors.leftMargin: 5
-                        text: "-"
-                        color: "white"
-                        readOnly: true
-                        MouseArea {
-                            anchors.fill: parent
-                            onPressed: {
-                                if (fontText.font_size <= 8) {
-                                    return
-                                } else {
-                                    fontText.font_size = fontText.font_size - 1
-                                }
-                            }
-                        }
-                    }
-                }
             }
+
             Rectangle {
                 id: colorChange
                 anchors.left: row.left
