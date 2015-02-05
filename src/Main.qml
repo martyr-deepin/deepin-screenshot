@@ -2,6 +2,7 @@ import QtQuick 2.1
 import QtMultimedia 5.0
 import QtGraphicalEffects 1.0
 import Deepin.Locale 1.0
+import "drawing_utils.js" as DrawingUtils
 
 Item {
     id: screen
@@ -437,84 +438,28 @@ Item {
             ctx.fillStyle = "white"
 
             /* Top left */
-            ctx.beginPath()
-            ctx.arc(selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, 0, Math.PI * 2, false)
-            ctx.shadowOffsetY = 1
-            ctx.shadowBlur = 2
-            ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
+            DrawingUtils.draw_point(ctx, selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius)
 
             /* Top right */
-            ctx.beginPath()
-            ctx.arc(width - selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, 0, Math.PI * 2, false)
-            ctx.shadowOffsetY = 1
-            ctx.shadowBlur = 2
-            ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
+            DrawingUtils.draw_point(ctx, width - selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius)
 
             /* Bottom left */
-            ctx.beginPath()
-            ctx.arc(selectResizeCanvas.bigPointRadius, height - selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, 0, Math.PI * 2, false)
-            ctx.shadowOffsetY = 1
-            ctx.shadowBlur = 2
-            ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
+            DrawingUtils.draw_point(ctx, selectResizeCanvas.bigPointRadius, height - selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius)
 
             /* Bottom right */
-            ctx.beginPath()
-            ctx.arc(width - selectResizeCanvas.bigPointRadius, height - selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius, 0, Math.PI * 2, false)
-            ctx.shadowOffsetY = 1
-            ctx.shadowBlur = 2
-            ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
+            DrawingUtils.draw_point(ctx, width - selectResizeCanvas.bigPointRadius, height - selectResizeCanvas.bigPointRadius, selectResizeCanvas.bigPointRadius)
 
             /* Top */
-            ctx.beginPath()
-            ctx.arc(width / 2, selectResizeCanvas.bigPointRadius, selectResizeCanvas.smallPointRadius, 0, Math.PI * 2, false)
-            ctx.shadowOffsetY = 1
-            ctx.shadowBlur = 2
-            ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
+            DrawingUtils.draw_point(ctx, width / 2, selectResizeCanvas.bigPointRadius, selectResizeCanvas.smallPointRadius)
 
             /* Bottom */
-            ctx.beginPath()
-            ctx.arc(width / 2, height - selectResizeCanvas.bigPointRadius, selectResizeCanvas.smallPointRadius, 0, Math.PI * 2, false)
-            ctx.shadowOffsetY = 1
-            ctx.shadowBlur = 2
-            ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
+            DrawingUtils.draw_point(ctx, width / 2, height - selectResizeCanvas.bigPointRadius, selectResizeCanvas.smallPointRadius)
 
             /* Left */
-            ctx.beginPath()
-            ctx.arc(selectResizeCanvas.bigPointRadius, height / 2, selectResizeCanvas.smallPointRadius, 0, Math.PI * 2, false)
-            ctx.shadowOffsetY = 1
-            ctx.shadowBlur = 2
-            ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
+            DrawingUtils.draw_point(ctx, selectResizeCanvas.bigPointRadius, height / 2, selectResizeCanvas.smallPointRadius)
 
             /* Right */
-            ctx.beginPath()
-            ctx.arc(width - selectResizeCanvas.bigPointRadius, height / 2, selectResizeCanvas.smallPointRadius, 0, Math.PI * 2, false)
-            ctx.shadowOffsetY = 1
-            ctx.shadowBlur = 2
-            ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
+            DrawingUtils.draw_point(ctx, width - selectResizeCanvas.bigPointRadius, height / 2, selectResizeCanvas.smallPointRadius)
             ctx.restore()
             windowView.save_overload("system", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
         }

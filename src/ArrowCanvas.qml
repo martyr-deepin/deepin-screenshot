@@ -1,5 +1,6 @@
 import QtQuick 2.1
 import "calculateRect.js" as CalcEngine
+import "drawing_utils.js" as DrawingUtils
 
 Item {
     property bool selected: false
@@ -34,7 +35,7 @@ Item {
         ctx.save()
         ctx.beginPath()
         ctx.moveTo(startPoint.x, startPoint.y)
-        ctx.lineTo(endPoint.x, endPoint.y)
+        DrawingUtils.draw_line((selected || reSized || rotated), ctx, endPoint.x, endPoint.y)
         ctx.stroke()
         ctx.closePath()
 
@@ -62,10 +63,10 @@ Item {
         ctx.strokeStyle = screen.colorCard(drawColor)
         ctx.beginPath()
         ctx.moveTo(endPoint.x, endPoint.y)
-        ctx.lineTo(pointB.x, pointB.y)
-        ctx.lineTo(pointE.x, pointE.y)
-        ctx.lineTo(pointD.x, pointD.y)
-        ctx.lineTo(endPoint.x, endPoint.y)
+        DrawingUtils.draw_line((selected || reSized || rotated), ctx, pointB.x, pointB.y)
+        DrawingUtils.draw_line((selected || reSized || rotated), ctx, pointE.x, pointE.y)
+        DrawingUtils.draw_line((selected || reSized || rotated), ctx, pointD.x, pointD.y)
+        DrawingUtils.draw_line((selected || reSized || rotated), ctx, endPoint.x, endPoint.y)
         ctx.closePath()
         ctx.stroke()
         ctx.fill()
@@ -76,17 +77,9 @@ Item {
             ctx.fillStyle = "white"
 
             /* Top left */
-            ctx.beginPath()
-            ctx.arc(startPoint.x, startPoint.y, smallPointRadius + linewidth/2, 0, Math.PI * 2, false)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
+            DrawingUtils.draw_point(ctx, startPoint.x, startPoint.y, bigPointRadius + linewidth/2)
             /* Top right */
-            ctx.beginPath()
-            ctx.arc(endPoint.x, endPoint.y, smallPointRadius + linewidth/2, 0, Math.PI * 2, false)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
+            DrawingUtils.draw_point(ctx, endPoint.x, endPoint.y, bigPointRadius + linewidth/2)
 
         }
         ctx.restore()

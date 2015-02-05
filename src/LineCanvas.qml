@@ -1,5 +1,6 @@
 import QtQuick 2.1
 import "calculateRect.js" as CalcEngine
+import "drawing_utils.js" as DrawingUtils
 
 Item {
 	property bool selected: false
@@ -62,8 +63,11 @@ Item {
 		ctx.moveTo(points[0].x, points[0].y)
 
 		for(var i = 1; i < points.length; i++) {
-			ctx.lineTo(points[i].x, points[i].y)
-		}
+            ctx.lineTo(points[i].x, points[i].y)
+            ctx.shadowOffsetY = (selected || reSized || rotated) ? 1 : 0
+            ctx.shadowBlur = (selected || reSized || rotated) ? 4 : 0
+            ctx.shadowColor = (selected || reSized || rotated) ? Qt.rgba(0, 0, 0, 0.3) : "transparent"
+        }
 		ctx.stroke()
 		if (isHovered) {
 			ctx.lineWidth = 1
@@ -83,84 +87,46 @@ Item {
 
 			/* Rotate */
 			var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+            DrawingUtils.draw_point(ctx, rotatePoint.x, rotatePoint.y, bigPointRadius + linewidth / 2)
 
-			ctx.beginPath()
-			ctx.arc(rotatePoint.x, rotatePoint.y, bigPointRadius + linewidth/2, 0, Math.PI * 2, false)
-			ctx.closePath()
-			ctx.fill()
-			ctx.stroke()
+            ctx.lineWidth = 1
+            ctx.strokeStyle = "white"
+            ctx.fillStyle = "white"
+            /* Top left */
+            DrawingUtils.draw_point(ctx, mainPoints[0].x, mainPoints[0].y,bigPointRadius + linewidth / 2)
 
-			ctx.lineWidth = linewidth
-			ctx.strokeStyle = "white"
-			ctx.fillStyle = "white"
-			/* Top left */
-			ctx.beginPath()
-			ctx.arc(mainPoints[1].x, mainPoints[1].y, bigPointRadius, 0, Math.PI * 2, false)
-			ctx.closePath()
-			ctx.fill()
-			ctx.stroke()
+            /* Top right */
+            DrawingUtils.draw_point(ctx, mainPoints[3].x, mainPoints[3].y, bigPointRadius + linewidth / 2)
 
-			/* Top right */
-			ctx.beginPath()
-			ctx.arc(mainPoints[3].x, mainPoints[3].y, bigPointRadius, 0, Math.PI * 2, false)
-			ctx.closePath()
-			ctx.fill()
-			ctx.stroke()
+            /* Bottom left */
+            DrawingUtils.draw_point(ctx, mainPoints[1].x, mainPoints[1].y, bigPointRadius + linewidth / 2)
 
-			/* Bottom left */
-			ctx.beginPath()
-			ctx.arc(mainPoints[0].x, mainPoints[0].y, bigPointRadius, 0, Math.PI * 2, false)
-			ctx.closePath()
-			ctx.fill()
-			ctx.stroke()
+            /* Bottom right */
+            DrawingUtils.draw_point(ctx, mainPoints[2].x, mainPoints[2].y, bigPointRadius + linewidth / 2)
 
-			/* Bottom right */
-			ctx.beginPath()
-			ctx.arc(mainPoints[2].x, mainPoints[2].y, bigPointRadius, 0, Math.PI * 2, false)
-			ctx.closePath()
-			ctx.fill()
-			ctx.stroke()
+            minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+            /* Top */
+            DrawingUtils.draw_point(ctx, minorPoints[0].x, minorPoints[0].y, linewidth / 2)
 
-			minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-			/* Top */
-			ctx.beginPath()
-			ctx.arc(minorPoints[0].x, minorPoints[0].y, smallPointRadius, 0, Math.PI * 2, false)
-			ctx.closePath()
-			ctx.fill()
-			ctx.stroke()
+            /* Bottom */
+            DrawingUtils.draw_point(ctx, minorPoints[1].x, minorPoints[1].y, linewidth / 2)
 
-			/* Bottom */
-			ctx.beginPath()
-			ctx.arc(minorPoints[1].x, minorPoints[1].y, smallPointRadius, 0, Math.PI * 2, false)
-			ctx.closePath()
-			ctx.fill()
-			ctx.stroke()
+            /* Left */
+            DrawingUtils.draw_point(ctx, minorPoints[2].x, minorPoints[2].y, linewidth / 2)
 
-			/* Left */
-			ctx.beginPath()
-			ctx.arc(minorPoints[2].x, minorPoints[2].y, smallPointRadius, 0, Math.PI * 2, false)
-			ctx.closePath()
-			ctx.fill()
-			ctx.stroke()
-
-			/* Right */
-			ctx.beginPath()
-			ctx.arc(minorPoints[3].x, minorPoints[3].y, smallPointRadius, 0, Math.PI * 2, false)
-			ctx.closePath()
-			ctx.fill()
-			ctx.stroke()
-
-			ctx.lineWidth = 1
-			ctx.strokeStyle = "white"
-			ctx.beginPath()
-			ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
-			ctx.lineTo(mainPoints[2].x, mainPoints[2].y)
-			ctx.lineTo(mainPoints[3].x, mainPoints[3].y)
-			ctx.lineTo(mainPoints[1].x, mainPoints[1].y)
-			ctx.lineTo(mainPoints[0].x, mainPoints[0].y)
-			ctx.closePath()
-			ctx.stroke()
-		}
+            /* Right */
+            DrawingUtils.draw_point(ctx, minorPoints[3].x, minorPoints[3].y, linewidth / 2)
+            ctx.lineWidth = 0.5
+            ctx.strokeStyle = "white"
+            ctx.beginPath()
+            ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
+            DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[2].x, mainPoints[2].y)
+            DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[3].x, mainPoints[3].y)
+            DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[1].x, mainPoints[1].y)
+            DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[0].x, mainPoints[0].y)
+            ctx.closePath()
+            ctx.stroke()
+        }
 	}
 	function clickOnPoint(p) {
 		selected = false

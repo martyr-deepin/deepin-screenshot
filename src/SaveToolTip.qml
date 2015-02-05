@@ -14,16 +14,16 @@ Item {
 		visible: false
 	}
 	InnerShadow {
-			id:innerShadow
-			anchors.fill: tipbackground
-			radius: 10
-			samples: 16
-			color: Qt.rgba(0, 0, 0, 0.5)
-			horizontalOffset: -1
-			verticalOffset: -1
-			source: tipbackground
-			visible: false
-		}
+	    id:innerShadow
+		anchors.fill: tipbackground
+		radius: 10
+		samples: 16
+		color: Qt.rgba(0, 0, 0, 0.5)
+		horizontalOffset: -1
+		verticalOffset: -1
+		source: tipbackground
+		visible: false
+	}
 
 	Item {
 		id: tooltipItem

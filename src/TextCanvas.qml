@@ -1,6 +1,7 @@
 import QtQuick 2.1
 import QtGraphicalEffects 1.0
 import "calculateRect.js" as CalcEngine
+import "drawing_utils.js" as DrawingUtils
 
 Rectangle {
     id: rect
@@ -159,6 +160,9 @@ Rectangle {
                 ctx.beginPath()
                 ctx.moveTo(dashpoints[i].x, dashpoints[i].y)
                 ctx.lineTo(dashpoints[i + 1].x, dashpoints[i + 1].y)
+                ctx.shadowOffsetX = 1
+                ctx.shadowOffsetY = 2
+                ctx.shadowColor = Qt.rgba(0, 0, 0, 0.5)
                 ctx.closePath()
                 ctx.stroke()
             }
@@ -182,12 +186,7 @@ Rectangle {
             ctx.fillStyle = "yellow"
             /* Rotate */
             var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-
-            ctx.beginPath()
-            ctx.arc(rotatePoint.x, rotatePoint.y, bigPointRadius + linewidth/2, 0, Math.PI * 2, false)
-            ctx.closePath()
-            ctx.fill()
-            ctx.stroke()
+            DrawingUtils.draw_point(ctx, rotatePoint.x, rotatePoint.y, bigPointRadius + linewidth / 2)
        }
     }
     function clickOnPoint(p) {
@@ -211,11 +210,10 @@ Rectangle {
         id: textRect
         clip: true
         anchors.fill: parent
-        anchors.leftMargin: 6
-        anchors.rightMargin: 6
-        anchors.topMargin: 3
-        anchors.bottomMargin: 3
+        anchors.leftMargin: 3
+        anchors.rightMargin: 3
         color: "transparent"
+    
         TextEdit {
             id:text
             textMargin: 3
@@ -230,6 +228,21 @@ Rectangle {
                 color: text.color
                 visible: !text.readOnly && blink_timer.cursorVisible
             }
+            onFocusChanged: {
+                if (focus) {
+                    canvas.selectUnique(numberOrder)
+                    canvas.requestPaint()
+                } else {
+                    readOnly = true
+                    rect.firstDraw = true
+                }
+                canvas.requestPaint()
+            }
+
+            onTextChanged: { blink_timer.cursorVisible = true, blink_timer.restart() }
+            onContentWidthChanged: { canvas.requestPaint()}
+            Component.onCompleted: forceActiveFocus()
+            
             Timer {
                 id: blink_timer
                 running: !text.readOnly
@@ -240,30 +253,16 @@ Rectangle {
 
                 onTriggered: cursorVisible = !cursorVisible
             }
-            onFocusChanged: {
-                if (focus) {
-                    canvas.selectUnique(numberOrder)
-                    canvas.requestPaint()
-                } else {
-                    readOnly = true
-                    rect.firstDraw = true
-                }
-            }
-
-            onTextChanged: { blink_timer.cursorVisible = true, blink_timer.restart() }
-            onContentWidthChanged: { canvas.requestPaint()}
-            Component.onCompleted: forceActiveFocus()
-            // DropShadow {
-           //     anchors.fill: parent
-           //     horizontalOffset: 0
-           //     verticalOffset: 1
-           //     radius: 10
-           //     samples: 16
-           //     color: Qt.rgba(0, 0, 0, 0.2)
-           //     source: parent
-           // }
         }
-
+        Glow {
+            anchors.fill: text
+            fast: true
+            radius: 3
+            samples: 16
+            spread: 0.5
+            color: (rect.selected || rect.rotated) ? Qt.rgba(0, 0, 0, 1) : "transparent"
+            source: text
+        }
     }
     /* click on the text is difficult to handle , add an MouseArea */
     MouseArea {
