@@ -1,6 +1,7 @@
 import QtQuick 2.1
 import QtMultimedia 5.0
 import QtGraphicalEffects 1.0
+import Deepin.Locale 1.0
 
 Item {
     id: screen
@@ -15,6 +16,8 @@ Item {
     property alias zoomIndicator: zoomIndicator
     property alias selectSizeTooltip: selectSizeTooltip
     property alias toolbar: toolbar
+
+    property var shortcutsViewerId
 
     function get_absolute_cursor_pos() {
         var pos_origin = windowView.get_cursor_pos()
@@ -57,6 +60,23 @@ Item {
         var osd = Qt.createQmlObject("import QtQuick 2.2; OSD{}", screen, "osd")
         osd.showTips()
     }
+
+    function showShortcutsViewer() {
+        if (!shortcutsViewerId) {
+            shortcutsViewerId = Qt.createQmlObject("import QtQuick 2.2; ShortcutsViewer{}", screen, "shortcuts")
+        }
+        shortcutsViewerId.show()
+    }
+
+    function hideShortcutsViewer() {
+        if (shortcutsViewerId) {
+            shortcutsViewerId.hide()
+        }
+    }
+
+    function dsTr(src) { return locale.dsTr(src) }
+
+    DLocale { id: locale; domain: "deepin-screenshot" }
 
     Connections {
         target: _menu_controller
@@ -1448,9 +1468,13 @@ Item {
             "Ctrl+Left": "if (selectArea.x != 0) { selectArea.x = selectArea.x -1;selectArea.width=selectArea.width+1 }",
             "Ctrl+Right":"if (selectArea.x+selectArea.width != screenWidth) { selectArea.width = selectArea.width + 1 }",
             "Ctrl+Up":" if (selectArea.y != 0) { selectArea.y = selectArea.y -1;selectArea.height=selectArea.height+1 }",
-            "Ctrl+Down":"if (selectArea.y+selectArea.height != screenHeight) { selectArea.height = selectArea.height+1 }"
+            "Ctrl+Down":"if (selectArea.y+selectArea.height != screenHeight) { selectArea.height = selectArea.height+1 }",
+            "Ctrl+Shift+?": "screen.showShortcutsViewer()"
             }
         var keyStroke = windowView.keyEventToQKeySequenceString(event.modifiers, event.key)
         if (keyStroke in keyActionMap) eval(keyActionMap[keyStroke])
+    }
+    Keys.onReleased: {
+        if (!event.isAutoRepeat) screen.hideShortcutsViewer()
     }
 }
