@@ -30,14 +30,10 @@ from deepin_menu.menu import Menu, CheckableMenuItem
 from i18n import _
 from constants import MAIN_DIR
 
-rect_image = os.path.join(MAIN_DIR, "image", "action", "rect_press.svg")
-ellipse_image = os.path.join(MAIN_DIR, "image", "action", "ellipse_press.svg")
-arrow_image = os.path.join(MAIN_DIR, "image", "action", "arrow_press.svg")
-line_image = os.path.join(MAIN_DIR, "image", "action", "line_press.svg")
-text_image = os.path.join(MAIN_DIR, "image", "action", "text_press.svg")
-share_image = os.path.join(MAIN_DIR, "image", "action", "share_press.svg")
-cancel_image = os.path.join(MAIN_DIR, "image", "action", "cancel_press.svg")
-save_image = os.path.join(MAIN_DIR, "image", "save", "save_press.svg")
+MENU_ICONS_DIR = os.path.join(MAIN_DIR, "image", "menu_icons")
+menu_icon_normal = lambda x: os.path.join(MENU_ICONS_DIR,"%s-symbolic-small-norml.svg" % x)
+menu_icon_hover = lambda x: os.path.join(MENU_ICONS_DIR, "%s-symbolic-small-hover.svg" % x)
+menu_icon_tuple = lambda x: (menu_icon_normal(x), menu_icon_hover(x))
 
 save_sub_menu = [
     CheckableMenuItem("save:radio:_op_auto_save", _("Auto save")),
@@ -47,16 +43,18 @@ save_sub_menu = [
     CheckableMenuItem("save:radio:_op_copy_and_save", _("Auto Save and Save to Clipboard")),
 ]
 
+print menu_icon_tuple("rectangle-tool")
+
 right_click_menu = [
-    ("_rectangle", _("Rectangle tool"), (rect_image,)),
-    ("_ellipse", _("Ellipse tool"), (ellipse_image,)),
-    ("_arrow", _("Arrow tool"), (arrow_image,)),
-    ("_line", _("Line tool"), (line_image,)),
-    ("_text", _("Text tool"), (text_image,)),
+    ("_rectangle", _("Rectangle tool"), menu_icon_tuple("rectangle-tool")),
+    ("_ellipse", _("Ellipse tool"), menu_icon_tuple("ellipse-tool")),
+    ("_arrow", _("Arrow tool"), menu_icon_tuple("arrow-tool")),
+    ("_line", _("Line tool"), menu_icon_tuple("line-tool")),
+    ("_text", _("Text tool"), menu_icon_tuple("text-tool")),
     None,
-    ("_save", _("Save"), (save_image,)),
-    ("_share", _("Share"), (share_image,)),
-    ("_exit", _("Exit"), (cancel_image,)),
+    ("_save", _("Save"), menu_icon_tuple("save")),
+    ("_share", _("Share"), menu_icon_tuple("share")),
+    ("_exit", _("Exit"), menu_icon_tuple("exit")),
 ]
 
 class MenuController(QObject):
