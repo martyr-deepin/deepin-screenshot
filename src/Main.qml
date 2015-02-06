@@ -882,7 +882,7 @@ Item {
                 anchors.left: row.left
                 anchors.leftMargin: 4
                 anchors.top: row.bottom
-                anchors.topMargin: 6
+                anchors.topMargin: 8
                 color:"black"
 
                 visible: false
