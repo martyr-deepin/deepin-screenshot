@@ -1206,19 +1206,11 @@ Item {
     }
     Glow {
         anchors.fill: toolbarRect
-        radius: 4
+        radius: 3
         samples: 16
         spread: 0.5
         color: Qt.rgba(0, 0, 0, 1)
         source: toolbarRect
-    }
-    RectangularGlow {
-        id: zoomIndicatorShadow
-        anchors.fill: zoomIndicator
-        glowRadius: 3
-        spread: 0.2
-        color: Qt.rgba(0, 0, 0, 0.2)
-        cornerRadius: zoomIndicator.radius + glowRadius
     }
     Rectangle {
         id: zoomIndicator
@@ -1243,6 +1235,14 @@ Item {
             x = pos.x + width + cursorWidth > screenWidth ? pos.x - width : pos.x + cursorWidth
             y = pos.y + height + cursorHeight > screenHeight ? pos.y - height : pos.y + cursorHeight
         }
+    }
+    RectangularGlow {
+        id: zoomIndicatorShadow
+        anchors.fill: zoomIndicator
+        glowRadius: zoomIndicator.visible ? 3 : 0
+        spread: zoomIndicator.visible ? 0.2 : 0
+        color: zoomIndicator.visible ? Qt.rgba(0, 0, 0, 0.2) : "transparent"
+        cornerRadius: zoomIndicator.radius + glowRadius
     }
     Item {
         id: zoomIndicatorItem
@@ -1304,8 +1304,9 @@ Item {
             }
             Rectangle {
                 anchors.bottom: parent.bottom
+                anchors.bottomMargin: 2
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width
+                width: parent.width - 4
                 height: 14
 
                 color: Qt.rgba(0, 0, 0, 0.5)
