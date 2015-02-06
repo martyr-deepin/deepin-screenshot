@@ -54,7 +54,7 @@ Item {
 
         ctx.lineWidth = linewidth
         ctx.fillStyle = "transparent"
-        ctx.strokeStyle = screen.colorCard(drawColor)
+        ctx.strokeStyle =  ((processBlur||processMosaic)&& !(selected || reSized || rotated)) ? "transparent": screen.colorCard(drawColor)
         ctx.beginPath()
         ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
         if (DrawingUtils.isPointsSameX(mainPoints)) {
@@ -192,6 +192,12 @@ Item {
         }
         if (CalcEngine.pointOnLine(mainPoints[0], mainPoints[1], p) || CalcEngine.pointOnLine(mainPoints[1], mainPoints[3], p) ||
             CalcEngine.pointOnLine(mainPoints[3], mainPoints[2], p) || CalcEngine.pointOnLine(mainPoints[2], mainPoints[0], p)) {
+            var result = true
+            selected = result
+            clickedPoint = p
+            return result
+        }
+        if (CalcEngine.textClickOnPoint(p, mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])) {
             var result = true
             selected = result
             clickedPoint = p

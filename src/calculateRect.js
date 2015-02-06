@@ -1858,6 +1858,46 @@ function pointOnEllipse(point1, point2, point3, point4, p) {
 	}
 }
 /* judege whether the clickOnPoint is on the ellipse*/
+function pointInEllipse(point1, point2, point3, point4, p) {
+    var result = textClickOnPoint(p, point1, point2, point3, point4)
+    return result
+/* the code is a complex calculate of pointInEllipse, need to test */
+//	var points = getAnotherFourPoint(point1, point2, point3, point4)
+//	var point5 = points[0]
+//
+//	var point6 = points[1]
+//	var point7 = points[2]
+//	var point8 = points[3]
+//	var points1 = [point1, point2, point3, point4, point5, point6, point7, point8]
+//
+//	points1[0] = getControlPoint(point1, point5, true)
+//	points1[1] = getControlPoint(point1, point6, true)
+//	points1[2] = getControlPoint(point5, point2, false)
+//	points1[3] = getControlPoint(point2, point8, true)
+//	points1[4] = getControlPoint(point6, point3, false)
+//	points1[5] = getControlPoint(point3, point7, true)
+//	points1[6] = getControlPoint(point7, point4, false)
+//	points1[7] = getControlPoint(point4, point8, true)
+//
+//    for (var t = 0; t <= 1; t = t + 0.1) {
+//
+//		var ax = point6.x*(1-t)*square(1-t) + 3*points1[4].x*t*square(1-t) + 3*points1[5].x*square(t)*(1-t) + point7.x*t*square(t)
+//		var ay_up = point6.y*(1-t)*square(1-t) + 3*points1[4].y*t*square(1-t) + 3*points1[5].y*square(t)*(1-t) + point7.y*t*square(t)
+//        var ay_down = point7.y*(1-t)*square(1-t) + 3*points1[6].y*t*square(1-t) + 3*points1[7].y*square(t)*(1-t) + point8.y*t*square(t)
+//
+//		var bx = point5.x*(1-t)*square(1-t) + 3*points1[0].x*t*square(1-t) + 3*points1[1].x*square(t)*(1-t) + point6.x*t*square(t)
+//		var by_up = point5.y*(1-t)*square(1-t) + 3*points1[0].y*t*square(1-t) + 3*points1[1].y*square(t)*(1-t) + point6.y*t*square(t)
+//        var by_down = point8.y*(1-t)*square(1-t) + 3*points1[3].y*t*square(1-t) + 3*points1[2].y*square(t)*(1-t) + point5.y*t*square(t)
+//
+//        if ((p.x >= ax - 5 && p.x <= ax + 5 && p.y >= Math.min(ay_up, ay_down) - 5&& p.y <= Math.max(ay_up, ay_down) + 5) ||
+//        (p.x >= bx - 5 && p.x <= bx + 5 && p.y >= Math.min(by_up, by_down) - 5&& p.y <= Math.max(by_up, by_down) + 5))  {
+//			return true
+//		}
+//	}
+//	return false
+
+}
+
 function  pointDir(point1, point2, point3, point4) {
 	if (point1.x - point2.x <= 0 && point1.y - point2.y <= 0 &&
 	point1.x - point3.x >= 0 && point1.y - point3.y <= 0) {

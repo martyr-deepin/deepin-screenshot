@@ -52,7 +52,7 @@ Item {
         var points1 = CalcEngine.getEightControlPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
 
         ctx.lineWidth = linewidth
-        ctx.strokeStyle = screen.colorCard(drawColor)
+        ctx.strokeStyle = ((processBlur||processMosaic)&& !(selected || reSized || rotated)) ? "transparent": screen.colorCard(drawColor)
         ctx.fillStyle = "transparent"
         ctx.beginPath()
 
@@ -217,13 +217,22 @@ Item {
             clickedPoint = p
             return result
         }
+        if (!(processBlur||processMosaic)) {
+            if (CalcEngine.pointOnEllipse(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p)) {
+                var result = true
+                selected = result
 
-        if (CalcEngine.pointOnEllipse(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p)) {
-            var result = true
-            selected = result
+                clickedPoint = p
+                return result
+            }
+        } else {
+            if (CalcEngine.pointInEllipse(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p)) {
+                var result = true
+                selected = result
 
-            clickedPoint = p
-            return result
+                clickedPoint = p
+                return result
+            }
         }
     }
 
