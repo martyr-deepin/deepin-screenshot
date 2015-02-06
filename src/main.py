@@ -99,6 +99,9 @@ class Window(QQuickView):
         self.window_info = WindowInfo()
         self._init_screenshot_config()
         self._soundEffect = QSound(SOUND_FILE)
+
+        self._grabPointerStatus = False
+        self._grabKeyboardStatus = False
         self._grabFocusTimer = self._getGrabFocusTimer()
 
         self._notificationId = None
@@ -148,17 +151,23 @@ class Window(QQuickView):
         return timer
 
     def _grabFocusInternal(self):
-        grabPointerStatus = hasattr(self, "_grabPointerStatus") \
-                            and self._grabPointerStatus
-        grabKeyboardStatus = hasattr(self, "_grabKeyboardStatus") \
-                            and self._grabKeyboardStatus
-        if not grabPointerStatus:
+        if not self._grabPointerStatus:
             self._grabPointerStatus = self.setMouseGrabEnabled(True)
-        if not grabKeyboardStatus:
+        if not self._grabKeyboardStatus:
             self._grabKeyboardStatus = self.setKeyboardGrabEnabled(True)
 
-        if not (grabPointerStatus and grabKeyboardStatus):
+        if not (self._grabPointerStatus and self._grabKeyboardStatus):
             self._grabFocusTimer.start()
+
+
+    def grabFocus(self):
+        self._grabFocusTimer.start()
+
+    def ungrabFocus(self):
+        self._grabPointerStatus = False
+        self._grabKeyboardStatus = False
+        self.setMouseGrabEnabled(False)
+        self.setKeyboardGrabEnabled(False)
 
     def _init_screenshot_config(self):
         settings = QSettings()
@@ -300,7 +309,7 @@ class Window(QQuickView):
 
     def showWindow(self):
         self.showFullScreen()
-        self._grabFocusTimer.start()
+        self.grabFocus()
 
     @pyqtSlot()
     def closeWindow(self):
@@ -334,6 +343,9 @@ def main():
         view.setSource(QUrl.fromLocalFile(MAIN_QML))
         view.disable_zone()
         view.showWindow()
+
+        menu_controller.preMenuShow.connect(view.ungrabFocus)
+        menu_controller.postMenuHide.connect(view.grabFocus)
 
 if __name__ == "__main__":
     parser = QCommandLineParser()

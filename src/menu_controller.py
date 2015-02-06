@@ -61,10 +61,18 @@ class MenuController(QObject):
     shareSelected = pyqtSignal()
     exitSelected = pyqtSignal()
 
+    preMenuShow = pyqtSignal()
+    postMenuHide = pyqtSignal()
+
     def __init__(self):
         super(MenuController, self).__init__()
 
+    def _menu_unregistered(self):
+        self.postMenuHide.emit()
+
     def _menu_item_invoked(self, _id, _checked):
+        self.postMenuHide.emit()
+
         if _id == "_rectangle":
             self.toolSelected.emit("_rectangle")
         if _id == "_ellipse":
@@ -94,6 +102,8 @@ class MenuController(QObject):
 
     @pyqtSlot(int)
     def show_menu(self, saveOption):
+        self.preMenuShow.emit()
+
         self.menu = Menu(right_click_menu)
         self.menu.getItemById("_save").setSubMenu(Menu(save_sub_menu))
 
@@ -109,4 +119,5 @@ class MenuController(QObject):
             saveOption == 3
 
         self.menu.itemClicked.connect(self._menu_item_invoked)
+        self.menu.menuDismissed.connect(self._menu_unregistered)
         self.menu.showRectMenu(QCursor.pos().x(), QCursor.pos().y())
