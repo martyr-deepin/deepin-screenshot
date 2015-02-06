@@ -36,7 +36,7 @@ from PyQt5.QtQuick import QQuickView
 from PyQt5.QtGui import (QSurfaceFormat, QColor, QGuiApplication,
     QPixmap, QCursor, QKeySequence, qRed, qGreen, qBlue)
 from PyQt5.QtWidgets import QApplication, qApp, QFileDialog
-from PyQt5.QtCore import (pyqtSlot, QStandardPaths, QUrl, QSettings, QVariant,
+from PyQt5.QtCore import (pyqtSlot, QStandardPaths, QUrl, QVariant,
     QCommandLineParser, QCommandLineOption, QTimer, Qt)
 from PyQt5.QtDBus import QDBusConnection, QDBusInterface
 from PyQt5.QtMultimedia import QSound
@@ -49,6 +49,7 @@ app.setQuitOnLastWindowClosed(False)
 from i18n import _
 from window_info import WindowInfo
 from menu_controller import MenuController
+from settings import ScreenShotSettings
 from dbus_services import is_service_exist, unregister_service
 from dbus_interfaces import notificationsInterface, socialSharingInterface
 from constants import MAIN_QML, SOUND_FILE, MAIN_DIR
@@ -79,9 +80,9 @@ cursor_shape_dict = {}
 init_cursor_shape_dict()
 
 class Window(QQuickView):
-    def __init__(self, showOSD=False):
+    def __init__(self, settings):
         QQuickView.__init__(self)
-        self._showOSD = showOSD
+        self._settings = settings
 
         surface_format = QSurfaceFormat()
         surface_format.setAlphaBufferSize(8)
@@ -97,7 +98,6 @@ class Window(QQuickView):
         self.qpixmap.save("/tmp/deepin-screenshot.png")
         self.qimage = self.qpixmap.toImage()
         self.window_info = WindowInfo()
-        self._init_screenshot_config()
         self._soundEffect = QSound(SOUND_FILE)
 
         self._grabPointerStatus = False
@@ -169,59 +169,21 @@ class Window(QQuickView):
         self.setMouseGrabEnabled(False)
         self.setKeyboardGrabEnabled(False)
 
-    def _init_screenshot_config(self):
-        settings = QSettings()
-        if os.path.exists(settings.fileName()):
-            pass
-        else:
-            '''save the user's last choice of save directory'''
-            settings.beginGroup("save")
-            settings.setValue("save_op", QVariant(0))
-            settings.setValue("folder", QVariant("file folder"))
-            settings.endGroup()
-            '''save the user's last choice of toolbar directory'''
-            settings.beginGroup("common_color_linewidth")
-            settings.setValue("color_index", QVariant(3))
-            settings.setValue("linewidth_index", QVariant(2))
-            settings.endGroup()
-            settings.beginGroup("rect")
-            settings.setValue("color_index", QVariant(3))
-            settings.setValue("linewidth_index", QVariant(2))
-            settings.endGroup()
-            settings.beginGroup("ellipse")
-            settings.setValue("color_index", QVariant(3))
-            settings.setValue("linewidth_index", QVariant(2))
-            settings.endGroup()
-            settings.beginGroup("line")
-            settings.setValue("color_index", QVariant(3))
-            settings.setValue("linewidth_index", QVariant(2))
-            settings.endGroup()
-            settings.beginGroup("arrow")
-            settings.setValue("color_index", QVariant(3))
-            settings.setValue("linewidth_index", QVariant(2))
-            settings.endGroup()
-            settings.beginGroup("text")
-            settings.setValue("color_index", QVariant(3))
-            settings.setValue("fontsize_index", QVariant(12))
-            settings.endGroup()
-
     @pyqtSlot(str,str,result="QVariant")
     def get_save_config(self, group_name,op_name):
-        settings = QSettings()
-        settings.beginGroup(group_name)
+        self._settings.beginGroup(group_name)
         if op_name == "folder":
-             op_index = settings.value(op_name)
+             op_index = self._settings.value(op_name)
         else:
-             op_index = settings.value(op_name)
-        settings.endGroup()
+             op_index = self._settings.value(op_name)
+        self._settings.endGroup()
         return op_index
 
     @pyqtSlot(str,str,str)
     def set_save_config(self,group_name,op_name,op_index):
-        settings = QSettings()
-        settings.beginGroup(group_name)
-        settings.setValue(op_name,QVariant(op_index))
-        settings.endGroup()
+        self._settings.beginGroup(group_name)
+        self._settings.setValue(op_name,QVariant(op_index))
+        self._settings.endGroup()
 
     def actionInvoked(self, notificationId, actionId):
         if self._notificationId == notificationId:
@@ -316,15 +278,19 @@ class Window(QQuickView):
         self.enable_zone()
         unregister_service()
         self.close()
-        if self._showOSD:
+        if self._settings.showOSD:
             self.showHotKeyOSD()
         else:
             qApp.quit()
 
 def main():
     global view
+    global settings
     global menu_controller
-    view = Window(startFromDesktopValue)
+    settings = ScreenShotSettings()
+    settings.showOSD = startFromDesktopValue
+
+    view = Window(settings)
     menu_controller = MenuController()
 
     if fullscreenValue:
