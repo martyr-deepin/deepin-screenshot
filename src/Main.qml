@@ -1253,70 +1253,76 @@ Item {
             id: zoomIndicatorTooltip
             anchors.fill: parent
             anchors.margins: marginValue
+            color: "black"
             radius: 4
+
             property int marginValue: 2
-                Rectangle {
-                    id: zoomIndicatorClip
-                    clip: true
-                    height: parent.height / zoomIndicatorClip.scaleValue
-                    width: parent.width / zoomIndicatorClip.scaleValue
 
-                    property int scaleValue: 4
+            Rectangle {
+                id: zoomIndicatorClip
+                clip: true
+                color: "black"
+                height: parent.height / zoomIndicatorClip.scaleValue
+                width: parent.width / zoomIndicatorClip.scaleValue
 
-                    transform: Scale {
-                        xScale: zoomIndicatorClip.scaleValue
-                        yScale: zoomIndicatorClip.scaleValue
-                    }
+                property int scaleValue: 4
 
-                    Image {
-                        id: zoomIndicatorImage
-                        x: -zoomIndicator.cursorX + (zoomIndicator.width - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue)
-                        y: -zoomIndicator.cursorY + parent.height / 2
-                        source: "/tmp/deepin-screenshot.png"
-                        smooth: false
-                     }
+                transform: Scale {
+                    xScale: zoomIndicatorClip.scaleValue
+                    yScale: zoomIndicatorClip.scaleValue
                 }
-                Rectangle {
-                    id: pointRect
-                    anchors.centerIn: parent
-                    color: "transparent"
-                    width: 14
-                    height: 14
 
-                    Rectangle {
-                        id: pointColorRect
-                        anchors.centerIn: parent
-                        width: 10
-                        height: 10
-                        color: "transparent"
-                        border.width: 1
-                        border.color: Qt.rgba(1, 1, 1, 1)
-
-                    }
-                }
-                Glow {
-                    anchors.fill: pointRect
-                    radius: 2
-                    samples: 16
-                    color: Qt.rgba(0, 0, 0, 0.5)
-                    source: pointRect
+                Image {
+                    id: zoomIndicatorImage
+                    x: -zoomIndicator.cursorX + (zoomIndicator.width - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue)
+                    y: -zoomIndicator.cursorY + parent.height / 2
+                    source: "/tmp/deepin-screenshot.png"
+                    smooth: false
                 }
             }
+
             Rectangle {
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 2
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width - 4
+                id: pointRect
+                anchors.centerIn: parent
+                color: "transparent"
+                width: 14
                 height: 14
 
-                color: Qt.rgba(0, 0, 0, 0.5)
-                Text {
+                Rectangle {
+                    id: pointColorRect
                     anchors.centerIn: parent
-                    text:zoomIndicator.cursorX + ", " + zoomIndicator.cursorY
-                    font.pixelSize: 8
-                    color: Qt.rgba(1, 1, 1, 0.6)
+                    width: 10
+                    height: 10
+                    color: "transparent"
+                    border.width: 1
+                    border.color: Qt.rgba(1, 1, 1, 1)
+
                 }
             }
+            Glow {
+                anchors.fill: pointRect
+                radius: 2
+                samples: 16
+                color: Qt.rgba(0, 0, 0, 0.5)
+                source: pointRect
+            }
+        }
+
+        Rectangle {
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 2
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width - 4
+            height: 14
+
+            color: Qt.rgba(0, 0, 0, 0.5)
+            Text {
+                anchors.centerIn: parent
+                text:zoomIndicator.cursorX + ", " + zoomIndicator.cursorY
+                font.pixelSize: 8
+                color: Qt.rgba(1, 1, 1, 0.6)
+            }
+        }
     }
 
     focus: true
