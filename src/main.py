@@ -276,8 +276,9 @@ def saveScreenshot(pixmap):
     save_op = _settings.getOption("save", "save_op")
     save_op_index = int(save_op)
 
-    if savePathValue and os.path.exists(os.path.dirname(savePathValue)):
-        savePixmap(pixmap, savePathValue)
+    absSavePath = os.path.abspath(savePathValue)
+    if savePathValue and os.path.exists(os.path.dirname(absSavePath)):
+        savePixmap(pixmap, absSavePath)
     else:
         saveDir = ""
         copy = False
@@ -363,7 +364,7 @@ if __name__ == "__main__":
     delayValue = int(parser.value(delayOption) or 0)
     fullscreenValue = bool(parser.isSet(fullscreenOption) or False)
     topWindowValue = bool(parser.isSet(topWindowOption) or False)
-    savePathValue = str(os.path.abspath(parser.value(savePathOption)) or "")
+    savePathValue = str(parser.value(savePathOption) or "")
     startFromDesktopValue = bool(parser.isSet(startFromDesktopOption) or False)
 
     if is_service_exist():
