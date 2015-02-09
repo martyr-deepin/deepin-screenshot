@@ -2,11 +2,20 @@ import QtQuick 2.1
 import QtGraphicalEffects 1.0
 Item {
     id: savetooltip
-    width: text.contentWidth + 20
+    width: text.implicitWidth + 20
     height: 28
+    clip: true
     visible: false
 
     property string text:"Autosave"
+
+    Behavior on width {
+        NumberAnimation {
+            duration: 100
+            easing.type: Easing.OutSine
+        }
+    }
+
     Image {
         id: tipbackground
         anchors.fill: parent
@@ -30,6 +39,7 @@ Item {
         anchors.fill: parent
         clip: true
         visible: false
+
         Canvas {
             id: tooltipCanvas
             width: parent.width
@@ -61,17 +71,12 @@ Item {
         anchors.topMargin: 1
     }
 
-    TextInput {
+    Text {
         id: text
-        anchors.fill: parent
-        anchors.leftMargin: 10
-        anchors.rightMargin: 10
-        anchors.topMargin: 8
-        anchors.bottomMargin: 8
         text: savetooltip.text
         color: "#FDA825"
-        font.pixelSize: 11
-        readOnly: true
-    }
+        font.pixelSize: 12
 
+        anchors.centerIn: parent
+    }
 }

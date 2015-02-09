@@ -501,12 +501,12 @@ Item {
         property var shape: shape_canvas
         property var linewidth: ""
 
-        property color stop1Color: Qt.rgba(0, 0, 0, 0.6)
-        property color stop2Color: Qt.rgba(0, 0, 0, 0.675)
-        property color stop3Color: Qt.rgba(0, 0, 0, 0.676)
-        property color stop4Color: Qt.rgba(0, 0, 0, 0.677)
-        property color stop5Color: Qt.rgba(0, 0, 0, 0.678)
-        property color stop6Color: Qt.rgba(0, 0, 0, 0.75)
+        property color stop1Color: Qt.rgba(0, 0, 0, 0.7)
+        property color stop2Color: Qt.rgba(0, 0, 0, 0.775)
+        property color stop3Color: Qt.rgba(0, 0, 0, 0.776)
+        property color stop4Color: Qt.rgba(0, 0, 0, 0.777)
+        property color stop5Color: Qt.rgba(0, 0, 0, 0.778)
+        property color stop6Color: Qt.rgba(0, 0, 0, 0.85)
 
         // this item is used to steal focus from other items
         MouseArea {
