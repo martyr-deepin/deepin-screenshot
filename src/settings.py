@@ -64,3 +64,15 @@ class ScreenShotSettings(QSettings):
         self.setValue("color_index", QVariant(3))
         self.setValue("fontsize_index", QVariant(12))
         self.endGroup()
+
+    def getOption(self, group_name, op_name):
+        self.beginGroup(group_name)
+        op_index = self.value(op_name)
+        self.endGroup()
+
+        return op_index
+
+    def setOption(self, group_name, op_name, op_index):
+        self.beginGroup(group_name)
+        self.setValue(op_name, QVariant(op_index))
+        self.endGroup()
