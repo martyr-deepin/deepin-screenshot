@@ -70,16 +70,16 @@ Item {
 
         onExited: {
             selectArea.visible = false
-            if (toolButton.state == "on") {
-               toolImage.source = toolButton.dirImage + toolButton.imageName + "_press.svg"
-            } else {
-               toolImage.source = toolButton.dirImage + toolButton.imageName+".svg"
-            }
             toolButton.exited()
         }
 
         onPressed:{
             toolButton.state = toolButton.state == "on" ? "off" : "on"
+            if (toolButton.state == "on") {
+               toolImage.source = toolButton.dirImage + toolButton.imageName + "_press.svg"
+            } else {
+               toolImage.source = toolButton.dirImage + toolButton.imageName+".svg"
+            }
             toolButton.pressed()
         }
     }

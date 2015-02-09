@@ -32,6 +32,8 @@ Canvas {
 
     property int fontSize
 
+    signal textEditing()
+
     function reLoadImage(image) { unloadImage(image); loadImage(image) }
 
     onPaintColorChanged: {
@@ -212,7 +214,6 @@ Canvas {
         id: text_component
         TextCanvas {}
     }
-
     MouseArea {
         id: canvasArea
         anchors.fill: parent
@@ -260,6 +261,7 @@ Canvas {
                     }
                     if (!isReadOnly) {
                         canvas.currenRecordingShape = text_component.createObject(canvas, {})
+                        canvas.currenRecordingShape.editing.connect(canvas.textEditing)
                         var pos = screen.get_absolute_cursor_pos()
                         canvas.currenRecordingShape.curX = pos.x
                         canvas.currenRecordingShape.curY = pos.y

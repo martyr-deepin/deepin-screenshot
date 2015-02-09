@@ -43,6 +43,8 @@ Rectangle {
     property int drawColor: 3
     property  string state: "off"
 
+    signal editing()
+
     onDrawColorChanged: { windowView.set_save_config(shape, "color_index", drawColor)}
     onFontSizeChanged: { windowView.set_save_config(shape, "fontsize_index", fontSize)}
     transform: Rotation {
@@ -54,7 +56,6 @@ Rectangle {
 
     onWidthChanged: { _expandByWidth(width) }
     onHeightChanged: { _expandByHeight(height) }
-
     function _initMainPoints() {
         mainPoints[0] = Qt.point(curX, curY)
         mainPoints[1] = Qt.point(curX, curY + height)
@@ -311,7 +312,6 @@ Rectangle {
             }
             canvas.requestPaint()
         }
-
         onDoubleClicked: {
             if (!text.readOnly) {
                 mouse.accepted = false
@@ -321,9 +321,10 @@ Rectangle {
             rect.selected = true
             text.readOnly = false
             text.forceActiveFocus()
+            rect.editing()
             canvas.requestPaint()
-
         }
+
     }
     function handleDrag(p) {
     /* keep the text's width & height the same as before drag*/

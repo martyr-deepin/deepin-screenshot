@@ -105,7 +105,6 @@ Item {
                 }
             }
         }
-
         onSaveSelected: {
             windowView.set_save_config("save", "save_op", saveOption + "")
             screen.saveScreenshot()
@@ -394,7 +393,10 @@ Item {
             source: "/tmp/deepin-screenshot.png"
         }
 
-        ShapeCanvas { id: shape_canvas }
+        ShapeCanvas {
+            id: shape_canvas
+            onTextEditing: button5.state = "on"
+        }
     }
 
     Rectangle {
@@ -527,7 +529,6 @@ Item {
         visible: firstMove && firstRelease
         property int padding: 4
         property string buttonType: ""
-
         function tryHideSizeTooltip() {
             if (firstMove && firstRelease) {
                 if (x <= selectSizeTooltip.x + selectSizeTooltip.width && selectSizeTooltip.y <= y && y <= selectSizeTooltip.y + selectSizeTooltip.height) {
@@ -581,7 +582,7 @@ Item {
             id: row
             anchors.left: savetooltip.visible ? savetooltip.right:parent.left
             anchors.leftMargin: 4
-
+            
             function checkState(id) {
                 for (var i=0; i<row.children.length; i++) {
                     var childButton = row.children[i]
@@ -1226,8 +1227,7 @@ Item {
     RectangularGlow {
         id: zoomIndicatorShadow
         anchors.fill: zoomIndicator
-        glowRadius: zoomIndicator.visible ? 3 : 0
-        spread: zoomIndicator.visible ? 0.2 : 0
+        glowRadius: zoomIndicator.visible ? 2 : 0
         color: zoomIndicator.visible ? Qt.rgba(0, 0, 0, 0.2) : "transparent"
         cornerRadius: zoomIndicator.radius + glowRadius
     }
