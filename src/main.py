@@ -267,28 +267,33 @@ def savePixmap(pixmap, fileName):
 def saveScreenshot(pixmap):
     global _settings
     global _soundEffect
+    global savePathValue
+
+    _soundEffect.play()
 
     fileName = "%s%s.png" % (_("DeepinScreenshot"),
                              time.strftime("%Y%m%d%H%M%S", time.localtime()))
     save_op = _settings.getOption("save", "save_op")
     save_op_index = int(save_op)
 
-    saveDir = ""
-    copy = False
-    if save_op_index == 0: #saveId == "save_to_desktop":
-        saveDir = QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
-    elif save_op_index == 1: #saveId == "auto_save" :
-        saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
-    elif save_op_index == 2: #saveId == "save_to_dir":
-        saveDir = QFileDialog.getExistingDirectory()
-    elif save_op_index == 4: #saveId == "auto_save_ClipBoard":
-        copy = True
-        saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
-    else: copy = True
+    if savePathValue and os.path.exists(os.path.dirname(savePathValue)):
+        savePixmap(pixmap, savePathValue)
+    else:
+        saveDir = ""
+        copy = False
+        if save_op_index == 0: #saveId == "save_to_desktop":
+            saveDir = QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
+        elif save_op_index == 1: #saveId == "auto_save" :
+            saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
+        elif save_op_index == 2: #saveId == "save_to_dir":
+            saveDir = QFileDialog.getExistingDirectory()
+        elif save_op_index == 4: #saveId == "auto_save_ClipBoard":
+            copy = True
+            saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
+        else: copy = True
 
-    _soundEffect.play()
-    if copy: copyPixmap(pixmap)
-    if saveDir: savePixmap(pixmap, os.path.join(saveDir, fileName))
+        if copy: copyPixmap(pixmap)
+        if saveDir: savePixmap(pixmap, os.path.join(saveDir, fileName))
 
 def main():
     global view
@@ -342,18 +347,23 @@ if __name__ == "__main__":
     topWindowOption = QCommandLineOption(["w", "top-window"],
                                      _("Take a screenshot of the most top \
                                         window"))
+    savePathOption = QCommandLineOption(["s", "save-path"],
+                                     _("Specify a path to save the screenshot"),
+                                     "PATH")
     startFromDesktopOption = QCommandLineOption(["i", "icon"],
                                      _("Indicate that this program's started \
                                         by clicking desktop file."))
     parser.addOption(delayOption)
     parser.addOption(fullscreenOption)
     parser.addOption(topWindowOption)
+    parser.addOption(savePathOption)
     parser.addOption(startFromDesktopOption)
     parser.process(app)
 
     delayValue = int(parser.value(delayOption) or 0)
     fullscreenValue = bool(parser.isSet(fullscreenOption) or False)
     topWindowValue = bool(parser.isSet(topWindowOption) or False)
+    savePathValue = str(os.path.abspath(parser.value(savePathOption)) or "")
     startFromDesktopValue = bool(parser.isSet(startFromDesktopOption) or False)
 
     if is_service_exist():
