@@ -2,6 +2,7 @@ import QtQuick 2.1
 import QtMultimedia 5.0
 import QtGraphicalEffects 1.0
 import Deepin.Locale 1.0
+import "calculateRect.js" as CalcEngine
 import "drawing_utils.js" as DrawingUtils
 
 Item {
@@ -513,7 +514,7 @@ Item {
         // this item is used to steal focus from other items
         MouseArea {
             anchors.fill: parent
-            onClicked: toolbarRect.focus = true
+            onClicked: toolbar.focus = true
         }
         gradient: Gradient {
             GradientStop {id: stop1; position: 0.0; color: toolbar.stop1Color}
@@ -1329,6 +1330,37 @@ Item {
         }
         canvas.requestPaint()
     }
+    
+    function microAdjust(dir) {
+        var canvas = toolbar.shape
+        for (var i = 0; i < canvas.shapes.length; i++) {
+            if (canvas.shapes[i].selected || canvas.shapes[i].reSized || canvas.shapes[i].rotated) {
+                if (dir == "Left" || dir == "Right" || dir == "Up" || dir == "Down") {
+                    var tempPoints = CalcEngine.pointMoveMicro(canvas.shapes[i].mainPoints[0], canvas.shapes[i].mainPoints[1],canvas.shapes[i].mainPoints[2],canvas.shapes[i].mainPoints[3], dir)
+                } else {
+                    var tempPoints = CalcEngine.pointResizeMicro(canvas.shapes[i].mainPoints[0], canvas.shapes[i].mainPoints[1],canvas.shapes[i].mainPoints[2],canvas.shapes[i].mainPoints[3], dir)
+                }
+                canvas.shapes[i].mainPoints[0] = tempPoints[0]
+                canvas.shapes[i].mainPoints[1] = tempPoints[1]
+                canvas.shapes[i].mainPoints[2] = tempPoints[2]
+                canvas.shapes[i].mainPoints[3] = tempPoints[3]
+                if (canvas.shapes[i].shape != "line") {
+                    canvas.requestPaint()
+                } else {
+                    if (canvas.shapes[i].portion.length == 0) {
+                        for (var k = 0; k < canvas.shapes[i].points.length; k++) {
+                            canvas.shapes[i].portion.push(CalcEngine.relativePostion(canvas.shapes[i].mainPoints[0], canvas.shapes[i].mainPoints[1],canvas.shapes[i].mainPoints[2], canvas.shapes[i].mainPoints[3], canvas.shapes[i].points[k]))
+                        }
+                    }
+                    for (var j = 0; j < canvas.shapes[i].points.length; j++) {
+                    canvas.shapes[i].points[j] = CalcEngine.getNewPostion(canvas.shapes[i].mainPoints[0], canvas.shapes[i].mainPoints[1],canvas.shapes[i].mainPoints[2], canvas.shapes[i].mainPoints[3], canvas.shapes[i].portion[j])
+                    }
+                    canvas.requestPaint()
+                }
+            }
+        }
+    }
+
     Keys.onPressed: {
         var keyActionMap = {
             "Return": "screen.saveScreenshot()",
@@ -1340,16 +1372,48 @@ Item {
             "Alt+6": "colorTool.state = 'on'",
             "Ctrl+S": "saveButton.state = 'on'",
             "Ctrl+Return": "shareButton.state = 'on'",
-            "Left": "if (selectArea.x != 0) { selectArea.x = selectArea.x -1}",
-            "Right":"if (selectArea.x+selectArea.width != screenWidth) { selectArea.x = selectArea.x + 1 }",
-            "Up":" if (selectArea.y != 0) { selectArea.y = selectArea.y -1 }",
-            "Down":"if (selectArea.y+selectArea.height != screenHeight) { selectArea.y = selectArea.y+1 }",
-            "Ctrl+Left": "if (selectArea.x != 0) { selectArea.x = selectArea.x -1;selectArea.width=selectArea.width+1 }",
-            "Ctrl+Right":"if (selectArea.x+selectArea.width != screenWidth) { selectArea.width = selectArea.width + 1 }",
-            "Ctrl+Up":" if (selectArea.y != 0) { selectArea.y = selectArea.y -1;selectArea.height=selectArea.height+1 }",
-            "Ctrl+Down":"if (selectArea.y+selectArea.height != screenHeight) { selectArea.height = selectArea.height+1 }",
-            "Ctrl+Shift+?": "screen.showShortcutsViewer()"
-            }
+            "Ctrl+Shift+?": "screen.showShortcutsViewer()",
+            "Left": "
+                if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
+                    if (selectArea.x != 0) { selectArea.x = selectArea.x -1}
+                } else { microAdjust('Left') }
+            ",
+            "Right":"
+                if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
+                    if (selectArea.x+selectArea.width != screenWidth) { selectArea.x = selectArea.x + 1 }
+                } else { microAdjust('Right') }
+            ",
+            "Up":"
+                if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
+                    if (selectArea.y != 0) { selectArea.y = selectArea.y -1 }
+                } else { microAdjust('Up') }
+            ",
+            "Down":"
+                if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
+                    if (selectArea.y+selectArea.height != screenHeight) { selectArea.y = selectArea.y+1 }
+                } else { microAdjust('Down') }
+            ",
+            "Ctrl+Left": "
+                if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
+                    if (selectArea.x != 0) { selectArea.x = selectArea.x -1;selectArea.width=selectArea.width+1 }
+                } else { microAdjust('Ctrl+Left') }
+            ",
+            "Ctrl+Right":"
+                if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
+                    if (selectArea.x+selectArea.width != screenWidth) { selectArea.width = selectArea.width + 1 }
+                } else { microAdjust('Ctrl+Right') }
+            ",
+            "Ctrl+Up":"
+                if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
+                    if (selectArea.y != 0) { selectArea.y = selectArea.y -1;selectArea.height=selectArea.height+1 }
+                } else { microAdjust('Ctrl+Up') }
+            ",
+            "Ctrl+Down":"
+                if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
+                    if (selectArea.y+selectArea.height != screenHeight) { selectArea.height = selectArea.height+1 }
+                } else { microAdjust('Ctrl+Down') }
+            "
+        }
         var keyStroke = windowView.keyEventToQKeySequenceString(event.modifiers, event.key)
         if (keyStroke in keyActionMap) eval(keyActionMap[keyStroke])
     }
