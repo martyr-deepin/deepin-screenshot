@@ -8,7 +8,6 @@ Rectangle {
     property int colorOrder: 3
     property string colorStyle: "red"
     signal clicked()
-
     Rectangle {
         id: selectArea
         color: "transparent"
@@ -30,9 +29,7 @@ Rectangle {
 
         onClicked:{
             selectArea.border.color = Qt.rgba(1,1,1,1)
-            colorTool.colorStyle = colorStyle
-            colorTool.colorOrder = colorOrder
-            windowView.set_save_config("common_color_linewidth", "color_index", colorOrder)
+            colorButton.clicked()
         }
     }
 }
