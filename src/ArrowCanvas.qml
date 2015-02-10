@@ -26,6 +26,13 @@ Item {
 
     onDrawColorChanged: { windowView.set_save_config(shape, "color_index", drawColor)}
     onLinewidthChanged: { windowView.set_save_config(shape, "linewidth_index", linewidth)}
+
+    function deselect() {
+        selected = false
+        rotated = false
+        reSized = false
+    }
+
     function draw(ctx) {
         var startPoint = points[0]
         var endPoint = points[points.length - 1]

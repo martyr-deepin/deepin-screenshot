@@ -170,6 +170,13 @@ Rectangle {
         }
     }
 
+    function deselect() {
+        selected = false
+        rotated = false
+        reSized = false
+        text.focus = false
+    }
+
     function draw(ctx) {
         if (!firstDraw) { _initMainPoints() }
 
@@ -235,7 +242,6 @@ Rectangle {
             onFocusChanged: {
                 if (focus) {
                     canvas.selectUnique(numberOrder)
-                    canvas.requestPaint()
                 } else {
                     readOnly = true
                     rect.firstDraw = true

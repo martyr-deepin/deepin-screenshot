@@ -24,7 +24,7 @@ Item {
 
     property bool processBlur: false
     property bool processMosaic: false
-    
+
     onDrawColorChanged: windowView.set_save_config("ellipse", "color_index", drawColor)
     onLinewidthChanged: windowView.set_save_config("ellipse", "linewidth_index", linewidth)
     function _initMainPoints() {
@@ -44,6 +44,12 @@ Item {
         mainPoints[3] = Qt.point(leftX + pWidth, leftY + pHeight)
 
         CalcEngine.changePointsOrder(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+    }
+
+    function deselect() {
+        selected = false
+        rotated = false
+        reSized = false
     }
 
     function draw(ctx) {

@@ -582,7 +582,7 @@ Item {
             id: row
             anchors.left: savetooltip.visible ? savetooltip.right:parent.left
             anchors.leftMargin: 4
-            
+
             function checkState(id) {
                 for (var i=0; i<row.children.length; i++) {
                     var childButton = row.children[i]
@@ -590,6 +590,9 @@ Item {
                         childButton.state = "off"
                     }
                 }
+
+                shape_canvas.deselectAll()
+                screen.focus = true
             }
 
             function _destroyCanvas() {
@@ -785,11 +788,10 @@ Item {
             }
             BigColor {
                 id: colorTool
-                property string initColor: toolbar.shape!= undefined ? toolbar.shape.shapeName: "bigColor"
-                property int colorOrder: windowView.get_save_config("common_color_linewidth","color_index")
                 colorStyle: screen.colorCard(colorOrder)
-
                 visible: ((button1.width*6 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
+
+                property int colorOrder: windowView.get_save_config("common_color_linewidth","color_index")
 
                 onStateChanged: {
                     if (state == "off") return

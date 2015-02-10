@@ -49,6 +49,13 @@ Item {
 
         CalcEngine.changePointsOrder(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
     }
+
+    function deselect() {
+        selected = false
+        rotated = false
+        reSized = false
+    }
+
     function draw(ctx) {
         if (!firstDraw) { _initMainPoints() }
 

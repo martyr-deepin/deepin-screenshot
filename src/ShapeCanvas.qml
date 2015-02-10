@@ -156,6 +156,12 @@ Canvas {
         return false
     }
 
+    function deselectAll() {
+        for (var i = 0; i < shapes.length; i++) {
+            shapes[i].deselect()
+        }
+    }
+
     function selectUnique(num) {
         for (var i = 0; i < shapes.length; i++) {
             if (i == num) {
