@@ -636,6 +636,7 @@ Item {
                     toolbar.shape.shapeName = "rect"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
+                    setlw.checkOn()
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
                 }
@@ -671,6 +672,7 @@ Item {
                     toolbar.shape.shapeName = "ellipse"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
+                    setlw.checkOn()
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
                 }
@@ -701,6 +703,7 @@ Item {
                     toolbar.shape.shapeName = "arrow"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
+                    setlw.checkOn()
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
                 }
@@ -734,6 +737,7 @@ Item {
                     toolbar.shape.shapeName = "line"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
+                    setlw.checkOn()
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
                 }
@@ -791,7 +795,6 @@ Item {
                 id: colorTool
                 colorStyle: screen.colorCard(colorOrder)
                 visible: ((button1.width*6 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
-
                 property int colorOrder: windowView.get_save_config("common_color_linewidth","color_index")
 
                 onStateChanged: {
@@ -975,9 +978,16 @@ Item {
             anchors.leftMargin: 4
             anchors.bottom: parent.bottom
             visible: toolbar.bExtense
-            property var lineWidth: {
-                ((toolbar.shape != undefined && toolbar.shape.shapeName != undefined && toolbar.shape.shapeName != "text"))? windowView.get_save_config("common_color_linewidth", "linewidth_index"):windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index") }
+            property var lineWidth: windowView.get_save_config("common_color_linewidth", "linewidth_index")
 
+            function checkOn() {
+                for (var i=0; i<setlw.children.length - 1; i++) {
+                    var childButton = setlw.children[i]
+                    if (setlw.lineWidth == childButton.linewidth) {
+                        setlw.children[i].state = "on"
+                    }
+                }
+            }
             function checkState(id) {
                 for (var i=0; i<setlw.children.length; i++) {
                     var childButton = setlw.children[i]
@@ -991,24 +1001,33 @@ Item {
                 group: setlw
                 imageName:"small"
                 dirImage: dirSizeImage
-                state: setlw.lineWidth == 2 ? "on": "off"
-                onPressed: setlw.lineWidth = 2
+                property var linewidth: 2
+                onStateChanged: {
+                    if (state == "off") { return }
+                    setlw.lineWidth = linewidth
+                }
             }
             ToolButton {
                 id: setbutton2
                 group: setlw
                 imageName:"normal"
                 dirImage: dirSizeImage
-                state: setlw.lineWidth == 4 ? "on": "off"
-                onPressed: setlw.lineWidth = 4
+                property var linewidth: 4
+                onStateChanged: {
+                    if (state == "off") { return }
+                    setlw.lineWidth = linewidth
+                }
             }
             ToolButton {
                 id: setbutton3
                 group: setlw
                 imageName:"big"
                 dirImage: dirSizeImage
-                state: setlw.lineWidth == 6 ? "on": "off"
-                onPressed: setlw.lineWidth = 6
+                property var linewidth: 6
+                onStateChanged: {
+                    if (state == "off") { return }
+                    setlw.lineWidth = linewidth
+                }
             }
             Rectangle {
                 id: dividingLine

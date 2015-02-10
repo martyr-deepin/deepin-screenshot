@@ -5,7 +5,6 @@ Rectangle {
     width: 12
     height: 12
     color: colorButton.colorStyle
-
     property int colorOrder: 3
     property string colorStyle: "red"
     signal clicked()
