@@ -203,7 +203,7 @@ Item {
             clickedPoint = p
             return result
         }
-        if (CalcEngine.textClickOnPoint(p, mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])) {
+        if ((processBlur||processMosaic) && CalcEngine.textClickOnPoint(p, mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])) {
             var result = true
             selected = result
             clickedPoint = p

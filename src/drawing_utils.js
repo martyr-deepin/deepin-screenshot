@@ -1,34 +1,34 @@
 function isPointsSameX(points) {
-	if (points.length < 2) {
-		return true
-	} else {
-		for (var i = 1; i < points.length; i++) {
-			if (points[i].x != points[0].x) {
-				return false
-			}
-		}
-		return true
-	}
+    if (points.length < 2) {
+        return true
+    } else {
+        for (var i = 1; i < points.length; i++) {
+            if (points[i].x != points[0].x) {
+                return false
+            }
+        }
+        return true
+    }
 }
 
 function isPointsSameY(points) {
-	if (points.length < 2) {
-		return true
-	} else {
-		for (var i = 1; i < points.length; i++) {
-			if (points[i].y != points[0].y) {
-				return false
-			}
-		}
-		return true
-	}
+    if (points.length < 2) {
+        return true
+    } else {
+        for (var i = 1; i < points.length; i++) {
+            if (points[i].y != points[0].y) {
+                return false
+            }
+    }
+        return true
+    }
 }
 
 function draw_point(ctx, startX, startY, radius, offsetX, offsetY,shadowBlur, shadowColor) {
     offsetX = typeof offsetX !== 'undefined' ? offsetX : 0
     offsetY = typeof offsetY !== 'undefined' ? offsetY : 1
     shadowBlur = typeof shadowBlur !== 'undefined' ? shadowBlur : 2
-    shadowColor = typeof shadowColor !== 'undefined' ? shadowColor : Qt.rgba(0, 0, 0, 0.5)
+    shadowColor = typeof shadowColor !== 'undefined' ? shadowColor : Qt.rgba(0, 0, 0, 0.3)
     ctx.beginPath()
     ctx.arc(startX, startY, radius, 0, Math.PI * 2, false)
     ctx.shadowOffsetX = offsetX
