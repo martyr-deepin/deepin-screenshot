@@ -18,10 +18,13 @@ Item {
 
     Image {
         id: tipbackground
-        anchors.fill: parent
         source: "../image/save/imgo.jpg"
         visible: false
+        fillMode: Image.Tile
+
+        anchors.fill: parent
     }
+
     InnerShadow {
         id:innerShadow
         anchors.fill: tipbackground
@@ -44,6 +47,9 @@ Item {
             id: tooltipCanvas
             width: parent.width
             height: parent.height
+            antialiasing: false
+
+            onWidthChanged: requestPaint()
 
             onPaint: {
                 var ctx = getContext("2d")
