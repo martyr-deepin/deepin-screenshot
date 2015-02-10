@@ -64,7 +64,9 @@ Item {
         cursorShape: windowView.set_cursor_shape("shape_arrow_mouse")
         onEntered: {
             selectArea.visible = true
-            toolImage.source = toolButton.dirImage + toolButton.imageName + "_hover.svg"
+            if (toolButton.state == "off") {
+                toolImage.source = toolButton.dirImage + toolButton.imageName + "_hover.svg"
+            }
             toolButton.entered()
         }
 

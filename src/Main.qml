@@ -1046,8 +1046,8 @@ Item {
                     screenArea.enabled = false
                     shapeEffect.imageName = "blur"
                     windowView.save_overload("blur", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
-                    toolbar.shape.isBlur = true
-                    toolbar.shape.processBlur = true
+                    toolbar.shape.isBlur = !toolbar.shape.isBlur
+                    toolbar.shape.processBlur = !toolbar.shape.processBlur
                     toolbar.shape.isMosaic = false
                     toolbar.shape.processMosaic = false
                 }
@@ -1064,8 +1064,8 @@ Item {
                     windowView.save_overload("mosaic", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
                     toolbar.shape.isBlur = false
                     toolbar.shape.processBlur = false
-                    toolbar.shape.isMosaic = true
-                    toolbar.shape.processMosaic = true
+                    toolbar.shape.isMosaic =  !toolbar.shape.isMosaic
+                    toolbar.shape.processMosaic = !toolbar.shape.processMosaic
                 }
             }
         }
