@@ -20,11 +20,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import wnck
-from deepin_utils.xutils import get_window_property_by_id
+from utils import no_error_output
+with no_error_output():
+    import wnck
+
 from PyQt5.QtGui import QGuiApplication
 from PyQt5 import QtGui
 from PyQt5.QtCore import pyqtSlot
+from xpybutil.util import get_property, get_property_value
 
 class WindowInfo(object):
 
@@ -74,7 +77,8 @@ class WindowInfo(object):
             (x, y, width, height) = w.get_geometry()                # with frame
 
             # Get shadow value for deepin-ui window.
-            deepin_window_shadow_value = get_window_property_by_id(w.get_xid(), "DEEPIN_WINDOW_SHADOW")
+            cookie = get_property(w.get_xid(), "DEEPIN_WINDOW_SHADOW")
+            deepin_window_shadow_value = get_property_value(cookie.reply())
             if deepin_window_shadow_value:
                 deepin_window_shadow_size = int(deepin_window_shadow_value)
             else:
