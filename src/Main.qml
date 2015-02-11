@@ -569,6 +569,32 @@ Item {
             toolbar.stop5Color = Qt.rgba(0, 0, 0, 0.677)
             toolbar.stop6Color = Qt.rgba(0, 0, 0, 0.75)
         }
+        function toolbarVisible() {
+            if (toolbar.shape.shapeName == "rect" || toolbar.shape.shapeName == "ellipse") {
+                setlw.visible = true
+                dividingLine.visible = true
+                blurType.visible = true
+                mosaicType.visible = true
+                colorChange.visible = false
+                fontRect.visible = false
+            }
+            if (toolbar.shape.shapeName == "arrow" || toolbar.shape.shapeName == "line") {
+                setlw.visible = true
+                colorChange.visible = false
+                dividingLine.visible = false
+                blurType.visible = false
+                mosaicType.visible = false
+                fontRect.visible = false
+            }
+            if (toolbar.shape.shapeName == "text") {
+                setlw.visible = false
+                dividingLine.visible = false
+                blurType.visible = false
+                mosaicType.visible = false
+                colorChange.visible = false
+                fontRect.visible = true
+            }
+        }
 
 
         onXChanged: {
@@ -610,8 +636,14 @@ Item {
                 group: row
                 imageName: "rect"
                 visible: ((button1.width + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
+                property bool isfirst: false
                 onStateChanged: {
-                    if (state == "off") return
+                    if (!isfirst) {
+                        isfirst = true
+                        if (state == "off") {
+                            return
+                        }
+                    }
 
                     screenArea.enabled = false
                     toolbar.toggleToolbar("rect")
@@ -636,6 +668,7 @@ Item {
                     toolbar.shape.shapeName = "rect"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
+                    colorTool.colorStyle = screen.colorCard(colorTool.colorOrder)
                     setlw.checkOn()
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
@@ -647,9 +680,14 @@ Item {
                 imageName: "ellipse"
                 visible: ((button1.width*2 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
 
+                property bool isfirst: false
                 onStateChanged: {
-                    if (state == "off") return
-
+                    if (!isfirst) {
+                        isfirst = true
+                        if (state == "off") {
+                            return
+                        }
+                    }
                     screenArea.enabled = false
                     toolbar.toggleToolbar("ellipse")
                     if (toolbar.bExtense) {
@@ -672,6 +710,7 @@ Item {
                     toolbar.shape.shapeName = "ellipse"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
+                    colorTool.colorStyle = screen.colorCard(colorTool.colorOrder)
                     setlw.checkOn()
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
@@ -683,9 +722,14 @@ Item {
                 group: row
                 imageName: "arrow"
                 visible: ((button1.width*3 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
+                property bool isfirst: false
                 onStateChanged: {
-                    if (state == "off") return
-
+                    if (!isfirst) {
+                        isfirst = true
+                        if (state == "off") {
+                            return
+                        }
+                    }
                     screenArea.enabled = false
                     toolbar.toggleToolbar("arrow")
                     if (toolbar.bExtense) {
@@ -703,6 +747,7 @@ Item {
                     toolbar.shape.shapeName = "arrow"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
+                    colorTool.colorStyle = screen.colorCard(colorTool.colorOrder)
                     setlw.checkOn()
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
@@ -714,9 +759,14 @@ Item {
                 group:row
                 imageName: "line"
                 visible: ((button1.width*4 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
+                property bool isfirst: false
                 onStateChanged: {
-                    if (state == "off") return
-
+                    if (!isfirst) {
+                        isfirst = true
+                        if (state == "off") {
+                            return
+                        }
+                    }
                     screenArea.enabled = false
                     toolbar.toggleToolbar("line")
                     if (toolbar.bExtense) {
@@ -737,6 +787,7 @@ Item {
                     toolbar.shape.shapeName = "line"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
+                    colorTool.colorStyle = screen.colorCard(colorTool.colorOrder)
                     setlw.checkOn()
                     toolbar.shape.linewidth = Qt.binding(function() { return setlw.lineWidth })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
@@ -747,9 +798,14 @@ Item {
                 id:button5
                 imageName: "text"
                 visible: ((button1.width*5 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
+                property bool isfirst: false
                 onStateChanged: {
-                    if (state == "off") return
-
+                    if (!isfirst) {
+                        isfirst = true
+                        if (state == "off") {
+                            return
+                        }
+                    }
                     screenArea.enabled = false
                     toolbar.toggleToolbar("text")
                     if (toolbar.bExtense) {
@@ -767,9 +823,10 @@ Item {
 
                     toolbar.shape.shapeName = "text"
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
+                    colorTool.colorStyle = screen.colorCard(colorTool.colorOrder)
                     toolbar.shape.fontSize = Qt.binding( function() { return fontRect.value })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
-                    fontRect.visible = fontRect.visible == false ? true : false
+                    fontRect.visible = !fontRect.visible
                     if (fontRect.visible) {
                         setlw.visible = false
                         colorChange.visible = false
@@ -796,21 +853,28 @@ Item {
                 colorStyle: screen.colorCard(colorOrder)
                 visible: ((button1.width*6 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
                 property int colorOrder: windowView.get_save_config("common_color_linewidth","color_index")
-
+                property bool isfirst: false
                 onStateChanged: {
-                    if (state == "off") return
-
-                    toolbar.toggleToolbar("color")
-                    fontRect.visible = false
-
-                    colorChange.visible = colorChange.visible == false ? true : false
-                    if (colorChange.visible) {
-                        setlw.visible = false
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
+                    if (!isfirst) {
+                        isfirst = true
+                        if (state == "off") {
+                            return
+                        }
                     }
+                    var originType = toolbar.buttonType
+                    toolbar.toggleToolbar("color")
+                    colorChange.visible = !colorChange.visible
+                    if (toolbar.bExtense) {
+                        colorChange.visible= true
+                    } else {
+                        colorChange.visible = false
+                    }
+                    setlw.visible = false
+                    blurType.visible = false
+                    mosaicType.visible = false
+                    fontRect.visible = false
+                    save_toolbar.visible = false
+                    toolbar.buttonType = originType
                 }
             }
             SaveButton {
@@ -826,7 +890,7 @@ Item {
                 }
 
                 onListIcon: {
-                    save_toolbar.visible = save_toolbar.visible == false ? true : false
+                    save_toolbar.visible = !save_toolbar.visible
                     if (save_toolbar.visible) {
                         setlw.visible = false
                         blurType.visible = false
@@ -873,108 +937,24 @@ Item {
             anchors.top: row.bottom
             anchors.topMargin: 4
         }
-
-        Rectangle {
+        ColorRow {
             id: colorChange
-            anchors.left: row.left
-            anchors.leftMargin: 4
-            anchors.top: row.bottom
-            anchors.topMargin: 8
-            color:"black"
-
-            visible: false
-            Row {
-                id:colorGrid
-                spacing: 5
-                ColorButton{
-                    id: black
-                    colorOrder: 0
-                    colorStyle: screen.colorCard(0)
+            onColorOrderChanged: {
+                colorTool.colorOrder = colorChange.colorOrder
+                colorTool.colorStyle = screen.colorCard(colorTool.colorOrder)
+                colorStyle = screen.colorCard(colorOrder)
+                windowView.set_save_config("common_color_linewidth", "color_index", colorOrder)
+                if (toolbar.shape != undefined && toolbar.shape.shapeName != undefined) {
+                    windowView.set_save_config(toolbar.shape.shapeName, "color_index", colorOrder)
                 }
-                ColorButton{
-                    id: gray_dark
-                    colorOrder: 1
-                    colorStyle: screen.colorCard(1)
-                }
-                ColorButton{
-                    id: red
-                    colorOrder: 2
-                    colorStyle: screen.colorCard(2)
-                }
-                ColorButton{
-                    id: yellow_dark
-                    colorOrder: 3
-                    colorStyle: screen.colorCard(3)
-                }
-                ColorButton{
-                    id: yellow
-                    colorOrder: 4
-                    colorStyle: screen.colorCard(4)
-                }
-                ColorButton{
-                    id: green
-                    colorOrder: 5
-                    colorStyle: screen.colorCard(5)
-                }
-                ColorButton{
-                    id: green_dark
-                    colorOrder: 6
-                    colorStyle: screen.colorCard(6)
-                }
-                ColorButton{
-                    id: wathet_dark
-                    colorOrder: 7
-                    colorStyle: screen.colorCard(7)
-                }
-                ColorButton{
-                    id: white
-                    colorOrder: 8
-                    colorStyle: screen.colorCard(8)
-                }
-
-                ColorButton{
-                    id: gray
-                    colorOrder: 9
-                    colorStyle: screen.colorCard(9)
-                }
-
-                ColorButton{
-                    id: red_dark
-                    colorOrder: 10
-                    colorStyle: screen.colorCard(10)
-                }
-                ColorButton{
-                    id: pink
-                    colorOrder: 11
-                    colorStyle: screen.colorCard(11)
-                }
-                ColorButton{
-                    id: pink_dark
-                    colorOrder: 12
-                    colorStyle: screen.colorCard(12)
-                }
-                ColorButton{
-                    id: blue_dark
-                    colorOrder: 13
-                    colorStyle: screen.colorCard(13)
-                }
-                ColorButton{
-                    id: blue
-                    colorOrder: 14
-                    colorStyle: screen.colorCard(14)
-                }
-                ColorButton{
-                    id: wathet
-                    colorOrder: 15
-                    colorStyle: screen.colorCard(15)
-                }
+                toolbar.toolbarVisible()
             }
         }
 
         Row {
             id: setlw
             anchors.top: row.bottom
-            anchors.left: parent.left
+            anchors.left: row.left
             anchors.leftMargin: 4
             anchors.bottom: parent.bottom
             visible: toolbar.bExtense
