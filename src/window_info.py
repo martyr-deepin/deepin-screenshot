@@ -24,19 +24,19 @@ from utils import no_error_output
 with no_error_output():
     import wnck
 
-from PyQt5.QtGui import QGuiApplication
 from PyQt5 import QtGui
+from PyQt5.QtWidgets import qApp
 from PyQt5.QtCore import pyqtSlot
 from xpybutil.util import get_property, get_property_value
 
 class WindowInfo(object):
 
-    def __init__(self):
+    def __init__(self, screenNumber):
         self.wnck_screen = wnck.screen_get_default()         # wnck.Screen
         self.wnck_screen.force_update()                      # update wnc.Screen
         self.wnck_workspace = self.wnck_screen.get_active_workspace() # current workspace
 
-        self.screen_rect = QGuiApplication.primaryScreen().geometry()
+        self.screen_rect = qApp.desktop().screenGeometry(screenNumber)
         self.screen_x = self.screen_rect.x()
         self.screen_y = self.screen_rect.y()
         self.screen_width = self.screen_rect.width()

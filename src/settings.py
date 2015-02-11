@@ -28,6 +28,7 @@ class ScreenShotSettings(QSettings):
     def __init__(self):
         super(ScreenShotSettings, self).__init__()
         self.showOSD = False
+        self.tmpImageFile = ""
 
         self._init_settings()
 

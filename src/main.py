@@ -33,7 +33,7 @@ if os.name == 'posix':
     QCoreApplication.setAttribute(QtCore.Qt.AA_X11InitThreads, True)
 
 from PyQt5.QtQuick import QQuickView
-from PyQt5.QtGui import (QSurfaceFormat, QColor, QGuiApplication, QImage,
+from PyQt5.QtGui import (QSurfaceFormat, QColor, QImage,
     QPixmap, QCursor, QKeySequence, qRed, qGreen, qBlue)
 from PyQt5.QtWidgets import QApplication, qApp, QFileDialog
 from PyQt5.QtCore import (pyqtSlot, QStandardPaths, QUrl,
@@ -52,7 +52,7 @@ from menu_controller import MenuController
 from settings import ScreenShotSettings
 from dbus_services import is_service_exist, unregister_service
 from dbus_interfaces import notificationsInterface, socialSharingInterface
-from constants import MAIN_QML, SOUND_FILE, MAIN_DIR
+from constants import MAIN_QML, SOUND_FILE, MAIN_DIR, TMP_IMAGE_FILE
 
 def init_cursor_shape_dict():
     global cursor_shape_dict
@@ -79,10 +79,9 @@ ACTION_ID_OPEN = "id_open"
 cursor_shape_dict = {}
 init_cursor_shape_dict()
 
-_soundEffect = QSoundEffect()
-_soundEffect.setSource(QUrl(SOUND_FILE))
-_windoInfo = WindowInfo()
-_settings = ScreenShotSettings()
+soundEffect = QSoundEffect()
+soundEffect.setSource(QUrl(SOUND_FILE))
+settings = ScreenShotSettings()
 
 _notificationId = None
 _fileSaveLocation = None
@@ -102,7 +101,7 @@ class Window(QQuickView):
         self.setFormat(surface_format)
         self.setTitle(_("Deepin screenshot"))
 
-        self.qimage = QImage("/tmp/deepin-screenshot.png")
+        self.qimage = QImage(self._settings.tmpImageFile)
         self.qpixmap = QPixmap()
         self.qpixmap.convertFromImage(self.qimage)
 
@@ -265,15 +264,15 @@ def savePixmap(pixmap, fileName):
     _notificationId = notificationsInterface.notify("Deepin Screenshot", _fileSaveLocation, [ACTION_ID_OPEN, "Open"])
 
 def saveScreenshot(pixmap):
-    global _settings
-    global _soundEffect
+    global settings
+    global soundEffect
     global savePathValue
 
-    _soundEffect.play()
+    soundEffect.play()
 
     fileName = "%s%s.png" % (_("DeepinScreenshot"),
                              time.strftime("%Y%m%d%H%M%S", time.localtime()))
-    save_op = _settings.getOption("save", "save_op")
+    save_op = settings.getOption("save", "save_op")
     save_op_index = int(save_op)
 
     absSavePath = os.path.abspath(savePathValue)
@@ -298,15 +297,22 @@ def saveScreenshot(pixmap):
 
 def main():
     global view
-    global _settings
-    global _windoInfo
+    global settings
+    global windoInfo
     global menu_controller
 
-    _settings.showOSD = startFromDesktopValue
-    menu_controller = MenuController()
+    cursor_pos = QCursor.pos()
+    desktop = qApp.desktop()
+    screen_num = desktop.screenNumber(cursor_pos)
+    screen_geo = desktop.screenGeometry(screen_num)
+    pixmap = qApp.primaryScreen().grabWindow(0)
+    pixmap = pixmap.copy(screen_geo.x(), screen_geo.y(), screen_geo.width(), screen_geo.height())
+    pixmap.save(TMP_IMAGE_FILE)
 
-    pixmap = QGuiApplication.primaryScreen().grabWindow(0)
-    pixmap.save("/tmp/deepin-screenshot.png")
+    settings.showOSD = startFromDesktopValue
+    settings.tmpImageFile = TMP_IMAGE_FILE
+    menu_controller = MenuController()
+    windoInfo = WindowInfo(screen_num)
 
     notificationsInterface.ActionInvoked.connect(_actionInvoked)
     notificationsInterface.NotificationClosed.connect(_notificationClosed)
@@ -314,13 +320,18 @@ def main():
     if fullscreenValue:
         saveScreenshot(pixmap)
     elif topWindowValue:
-        wInfos = _windoInfo.get_windows_info()
+        wInfos = windoInfo.get_windows_info()
         if len(wInfos) > 0:
             wInfo = wInfos[0]
             pix = pixmap.copy(*wInfo)
             saveScreenshot(pix)
     else:
-        view = Window(_settings, _windoInfo)
+        view = Window(settings, windoInfo)
+        view.setX(screen_geo.x())
+        view.setY(screen_geo.y())
+        view.setWidth(screen_geo.width())
+        view.setHeight(screen_geo.height())
+
         qml_context = view.rootContext()
         qml_context.setContextProperty("windowView", view)
         qml_context.setContextProperty("qApp", qApp)
