@@ -238,7 +238,7 @@ Item {
         anchors.fill: screen
         color: "black"
         visible: true
-        opacity: 0.8
+        opacity: 0.5
     }
     Rectangle {
         id: selectArea
