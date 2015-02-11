@@ -47,7 +47,7 @@ Rectangle {
         id: textInput
 
         font.pixelSize: 12
-        color: Qt.rgba(1, 1, 1, 0.1)
+        color: "#b4b4b4"
         selectByMouse: true
         selectionColor: "#01bdff"
         validator: RegExpValidator { regExp: /^-?([0-9]|\.)*$/ }
@@ -76,6 +76,7 @@ Rectangle {
         }
 
         function setValue(i){
+            textInput.value = i
             textInput.text = i.toFixed(precision)
         }
 
@@ -153,16 +154,16 @@ Rectangle {
             anchors.rightMargin: -textInput.anchors.margins
 
             Rectangle {
-                width: 1
-                height: root.height - 2
-                color: borderColor
-                anchors.verticalCenter: parent.verticalCenter
+               width: 1
+               height: root.height - 2
+               color: borderColor
+               anchors.verticalCenter: parent.verticalCenter
             }
 
             IncDecButton {
                 id: increaseButton
 
-                text: "+"
+                type: "+"
                 anchors.verticalCenter: parent.verticalCenter
 
                 onClicked: increase()
@@ -176,15 +177,15 @@ Rectangle {
             }
 
             Rectangle {
-                width: 1
-                height: root.height - 2
-                color: borderColor
-                anchors.verticalCenter: parent.verticalCenter
+               width: 1
+               height: root.height - 2
+               color: borderColor
+               anchors.verticalCenter: parent.verticalCenter
             }
 
             IncDecButton{
                 id: decreaseButton
-                text: "-"
+                type: "-"
                 anchors.verticalCenter: parent.verticalCenter
 
                 onClicked: decrease()
