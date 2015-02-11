@@ -264,15 +264,6 @@ Rectangle {
                 onTriggered: cursorVisible = !cursorVisible
             }
         }
-        Glow {
-            anchors.fill: text
-            fast: true
-            radius: 3
-            samples: 16
-            spread: 0.5
-            color: (rect.selected || rect.rotated) ? Qt.rgba(0, 0, 0, 1) : "transparent"
-            source: text
-        }
     }
     /* click on the text is difficult to handle , add an MouseArea */
     MouseArea {
