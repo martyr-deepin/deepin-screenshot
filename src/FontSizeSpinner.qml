@@ -153,13 +153,6 @@ Rectangle {
             anchors.right: parent.right
             anchors.rightMargin: -textInput.anchors.margins
 
-            Rectangle {
-               width: 1
-               height: root.height - 2
-               color: borderColor
-               anchors.verticalCenter: parent.verticalCenter
-            }
-
             IncDecButton {
                 id: increaseButton
 
@@ -174,13 +167,6 @@ Rectangle {
                 onReleased: {
                     holdTimer.stop()
                 }
-            }
-
-            Rectangle {
-               width: 1
-               height: root.height - 2
-               color: borderColor
-               anchors.verticalCenter: parent.verticalCenter
             }
 
             IncDecButton{
