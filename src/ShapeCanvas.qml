@@ -114,15 +114,16 @@ Canvas {
     }
 
     function clickOnPoint(p) {
+        var selectedShape
         for (var i = 0; i < shapes.length; i++) {
-                if (shapes[i].clickOnPoint(p)){
-                var selectedShape = i
+            if (shapes[i].clickOnPoint(p)){
+                selectedShape = shapes[i].numberOrder
             }
         }
         if (selectedShape != undefined) {
              selectUnique(selectedShape)
          } else {
-            var selectedShape = shapes.length + 1
+            selectedShape = shapes.length + 1
             selectUnique(selectedShape)
         }
         if (selectedShape >= 0 && selectedShape < shapes.length) {
@@ -163,14 +164,21 @@ Canvas {
     }
 
     function selectUnique(num) {
+        var targetIndex = null
         for (var i = 0; i < shapes.length; i++) {
-            if (i == num) {
+            if (shapes[i].numberOrder == num) {
+                targetIndex = i
                 continue
             } else {
                 shapes[i].selected = false
                 shapes[i].rotated = false
                 shapes[i].reSized = false
             }
+        }
+
+        if (targetIndex != null && targetIndex != shapes.length - 1) {
+            var _shape = shapes.splice(targetIndex, 1)
+            shapes = shapes.concat(_shape)
         }
     }
 

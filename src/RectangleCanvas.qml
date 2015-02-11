@@ -30,6 +30,7 @@ Item {
 
     onDrawColorChanged: windowView.set_save_config("rect", "color_index", drawColor)
     onLinewidthChanged: windowView.set_save_config("rect", "linewidth_index", linewidth)
+
     function _initMainPoints() {
         var startPoint = points[0]
         var endPoint = points[points.length - 1]
