@@ -323,7 +323,7 @@ def main():
         wInfos = windoInfo.get_windows_info()
         if len(wInfos) > 0:
             wInfo = wInfos[0]
-            pix = pixmap.copy(*wInfo)
+            pix = pixmap.copy(wInfo[0] - screen_geo.x(), wInfo[1] - screen_geo.y(), wInfo[2], wInfo[3])
             saveScreenshot(pix)
     else:
         view = Window(settings, windoInfo)
