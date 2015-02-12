@@ -264,6 +264,17 @@ Rectangle {
                 onTriggered: cursorVisible = !cursorVisible
             }
         }
+
+        Glow {
+            anchors.fill: text
+            fast: true
+            radius: 3
+            samples: 16
+            spread: 0.5
+            color: "black"
+            source: text
+            visible: text.readOnly && (selected || rotated || reSized)
+        }
     }
     /* click on the text is difficult to handle , add an MouseArea */
     MouseArea {
