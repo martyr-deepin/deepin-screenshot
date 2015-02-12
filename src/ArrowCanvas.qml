@@ -51,7 +51,8 @@ Item {
             ctx.strokeStyle = "#01bdff"
             ctx.stroke()
         }
-
+        ctx.lineWidth = linewidth
+        ctx.strokeStyle = screen.colorCard(drawColor)
         var xMultiplier = (startPoint.x - endPoint.x) / Math.abs(startPoint.x - endPoint.x)
         var yMultiplier = (startPoint.y - endPoint.y) / Math.abs(startPoint.y - endPoint.y)
 
