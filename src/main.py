@@ -51,6 +51,7 @@ from window_info import WindowInfo
 from menu_controller import MenuController
 from settings import ScreenShotSettings
 from dbus_services import is_service_exist, unregister_service
+from dbus_interfaces import controlCenterInterface
 from dbus_interfaces import notificationsInterface, socialSharingInterface
 from constants import MAIN_QML, SOUND_FILE, MAIN_DIR, TMP_IMAGE_FILE
 
@@ -249,6 +250,10 @@ def _notificationClosed( notificationId, reason):
     if _notificationId == notificationId:
         qApp.quit()
 
+def _windowVisibleChanged(visible):
+    if visible:
+        controlCenterInterface.hideImmediately()
+
 def copyPixmap(pixmap):
     global _notificationId
     clipboard = QApplication.clipboard()
@@ -333,6 +338,7 @@ def main():
         view.setY(screen_geo.y())
         view.setWidth(screen_geo.width())
         view.setHeight(screen_geo.height())
+        view.visibleChanged.connect(_windowVisibleChanged)
 
         qml_context = view.rootContext()
         qml_context.setContextProperty("windowView", view)

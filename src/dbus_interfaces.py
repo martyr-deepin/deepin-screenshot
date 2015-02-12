@@ -58,5 +58,33 @@ class SocialSharingInterface(QDBusAbstractInterface):
     def share(self, text, pic):
         self.call("Share", text, pic)
 
+class ControlCenterInterface(QDBusAbstractInterface):
+    def __init__(self):
+        super(ControlCenterInterface, self).__init__(
+            "com.deepin.dde.ControlCenter",
+            "/com/deepin/dde/ControlCenter",
+            "com.deepin.dde.ControlCenter",
+            QDBusConnection.sessionBus(),
+            None)
+        sessionBus = QDBusConnection.sessionBus()
+        self._control_center_exists = not sessionBus.registerService(
+            self.service())
+        sessionBus.unregisterService(self.service())
+
+    def showImmediately(self):
+        if self._control_center_exists:
+            try:
+                self.asyncCall("ShowImmediately")
+            except:
+                pass
+
+    def hideImmediately(self):
+        if self._control_center_exists:
+            try:
+                self.asyncCall("HideImmediately")
+            except:
+                pass
+
 notificationsInterface = NotificationsInterface()
 socialSharingInterface = SocialSharingInterface()
+controlCenterInterface = ControlCenterInterface()
