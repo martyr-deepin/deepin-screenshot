@@ -8,7 +8,7 @@ Rectangle {
     x: curX
     y: curY
     width: Math.max(18, text.contentWidth + 10)
-    height: Math.max(18, text.contentHeight + 10)
+    height: text.contentHeight + 10
 
     property int curX
     property int curY
@@ -56,6 +56,7 @@ Rectangle {
 
     onWidthChanged: { _expandByWidth(width) }
     onHeightChanged: { _expandByHeight(height) }
+
     function _initMainPoints() {
         mainPoints[0] = Qt.point(curX, curY)
         mainPoints[1] = Qt.point(curX, curY + height)
@@ -75,21 +76,18 @@ Rectangle {
         if (addWidth == 0 || mainPoints == undefined) return
 
         var add = CalcEngine.pointSplid(mainPoints[0], mainPoints[2], addWidth)
-        if (mainPoints[0].x < mainPoints[2].x && mainPoints[0].y > mainPoints[2].y) {
-            mainPoints[2] = Qt.point(mainPoints[0].x + add[0], mainPoints[0].y - add[1])
-
-        }
-        if (mainPoints[0].x > mainPoints[2].x && mainPoints[0].y > mainPoints[2].y ) {
-            mainPoints[2] = Qt.point(mainPoints[0].x - add[0], mainPoints[0].y - add[1])
-
-        }
-        if (mainPoints[0].x < mainPoints[2].x && mainPoints[0].y < mainPoints[2].y) {
-            mainPoints[2] = Qt.point(mainPoints[0].x + add[0], mainPoints[0].y + add[1])
-
-        }
-        if (mainPoints[0].x > mainPoints[2].x && mainPoints[0].y < mainPoints[2].y) {
-            mainPoints[2] = Qt.point(mainPoints[0].x - add[0], mainPoints[0].y + add[1])
-
+        if (mainPoints[0].x <= mainPoints[2].x) {
+            if (mainPoints[0].y >= mainPoints[2].y) {
+                mainPoints[2] = Qt.point(mainPoints[0].x + add[0], mainPoints[0].y - add[1])
+            } else {
+                mainPoints[2] = Qt.point(mainPoints[0].x + add[0], mainPoints[0].y + add[1])
+            }
+        } else {
+            if (mainPoints[0].y >= mainPoints[2].y) {
+                mainPoints[2] = Qt.point(mainPoints[0].x - add[0], mainPoints[0].y - add[1])
+            } else {
+                mainPoints[2] = Qt.point(mainPoints[0].x - add[0], mainPoints[0].y + add[1])
+            }
         }
         mainPoints[3] = Qt.point(mainPoints[1].x + mainPoints[2].x - mainPoints[0].x,
             mainPoints[1].y + mainPoints[2].y - mainPoints[0].y)
@@ -101,17 +99,18 @@ Rectangle {
         if (addHeight == 0 || mainPoints == undefined) return
 
         var add = CalcEngine.pointSplid(mainPoints[0], mainPoints[1], addHeight)
-        if (mainPoints[0].x <= mainPoints[1].x && mainPoints[0].y < mainPoints[1].y) {
-            mainPoints[1] = Qt.point(mainPoints[0].x + add[0], mainPoints[0].y + add[1])
-        }
-        if (mainPoints[0].x < mainPoints[1].x && mainPoints[0].y > mainPoints[1].y) {
-            mainPoints[1] = Qt.point(mainPoints[0].x + add[0], mainPoints[0].y - add[1])
-        }
-        if (mainPoints[0].x > mainPoints[1].x && mainPoints[0].y < mainPoints[1].y) {
-            mainPoints[1] = Qt.point(mainPoints[0].x - add[0], mainPoints[0].y + add[1])
-        }
-        if (mainPoints[0].x > mainPoints[1].x && mainPoints[0].y > mainPoints[1].y) {
-            mainPoints[1] = Qt.point(mainPoints[0].x - add[0], mainPoints[0].y - add[1])
+        if (mainPoints[0].x <= mainPoints[2].x) {
+            if (mainPoints[0].y >= mainPoints[2].y) {
+                mainPoints[1] = Qt.point(mainPoints[0].x + add[0], mainPoints[0].y - add[1])
+            } else {
+                mainPoints[1] = Qt.point(mainPoints[0].x + add[0], mainPoints[0].y + add[1])
+            }
+        } else {
+            if (mainPoints[0].y >= mainPoints[2].y) {
+                mainPoints[1] = Qt.point(mainPoints[0].x - add[0], mainPoints[0].y - add[1])
+            } else {
+                mainPoints[1] = Qt.point(mainPoints[0].x - add[0], mainPoints[0].y + add[1])
+            }
         }
         mainPoints[3] = Qt.point(mainPoints[1].x + mainPoints[2].x - mainPoints[0].x,
             mainPoints[1].y + mainPoints[2].y - mainPoints[0].y)
@@ -224,7 +223,6 @@ Rectangle {
 
         TextEdit {
             id:text
-            textMargin: 3
         //  width: Math.floor((canvas.width - curX - 10) / font.pixelSize)*font.pixelSize
         //  height: Math.floor((canvas.height - curY - 10) / font.pixelSize)*font.pixelSize
             color: screen.colorCard(drawColor)
@@ -238,6 +236,8 @@ Rectangle {
                 color: text.color
                 visible: !text.readOnly && blink_timer.cursorVisible
             }
+
+            anchors.verticalCenter: parent.verticalCenter
 
             onFocusChanged: {
                 if (focus) {
