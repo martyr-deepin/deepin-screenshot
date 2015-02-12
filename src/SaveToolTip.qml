@@ -11,9 +11,32 @@ Item {
 
     Behavior on width {
         NumberAnimation {
-            duration: 100
+            duration: 150
             easing.type: Easing.OutSine
         }
+    }
+
+    NumberAnimation {
+        id: exit_animation
+        from: width
+        to: 0
+        target: savetooltip
+        property: "width"
+        duration: 150
+        easing.type: Easing.OutSine
+
+        onStopped: visible = false
+    }
+
+    function show() {
+        exit_animation.stop()
+
+        visible = true
+        width = Qt.binding(function() { return text.implicitWidth + 20 })
+    }
+
+    function hide() {
+        exit_animation.start()
     }
 
     Image {

@@ -1068,10 +1068,9 @@ Item {
                 }
             }
         }
-        SaveToolTip {
-            id: savetooltip
-            visible: false
-        }
+
+        SaveToolTip { id: savetooltip }
+
         Row {
             id: save_toolbar
             anchors.top: row.top
@@ -1092,11 +1091,11 @@ Item {
                 imageName:"save_to_desktop"
                 state: save_toolbar.saveItem == 0 ? "on": "off"
                 onEntered: {
-                    savetooltip.visible = true
+                    savetooltip.show()
                     savetooltip.text = "Save to Desktop"
                 }
                 onExited: {
-                    savetooltip.visible = false
+                    savetooltip.hide()
                 }
                 onPressed: {
                     save_toolbar.saveId = "save_to_desktop"
@@ -1114,11 +1113,11 @@ Item {
                 dirImage: dirSave
                 state: save_toolbar.saveItem == 1 ? "on": "off"
                 onEntered: {
-                    savetooltip.visible = true
+                    savetooltip.show()
                     savetooltip.text = "Auto Save"
                 }
                 onExited: {
-                    savetooltip.visible = false
+                    savetooltip.hide()
                 }
                 onPressed: {
                     save_toolbar.saveId = "auto_save"
@@ -1136,11 +1135,11 @@ Item {
                 dirImage: dirSave
                 state: save_toolbar.saveItem == 2 ? "on": "off"
                 onEntered: {
-                    savetooltip.visible = true
+                    savetooltip.show()
                     savetooltip.text = "Save as"
                 }
                 onExited: {
-                    savetooltip.visible = false
+                    savetooltip.hide()
                 }
                 onPressed: {
                     save_toolbar.saveId = "save_to_dir"
@@ -1158,11 +1157,11 @@ Item {
                 dirImage: dirSave
                 state: save_toolbar.saveItem == 3 ? "on": "off"
                 onEntered: {
-                    savetooltip.visible = true
+                    savetooltip.show()
                     savetooltip.text = "Save to Clipboard"
                 }
                 onExited: {
-                    savetooltip.visible = false
+                    savetooltip.hide()
                 }
                 onPressed: {
                     save_toolbar.saveId = "save_ClipBoard"
@@ -1179,11 +1178,11 @@ Item {
                 dirImage: dirSave
                 state: save_toolbar.saveItem == 4 ? "on": "off"
                 onEntered: {
-                    savetooltip.visible = true
+                    savetooltip.show()
                     savetooltip.text = "Auto Save and Save to Clipboard"
                 }
                 onExited: {
-                    savetooltip.visible = false
+                    savetooltip.hide()
                 }
                 onPressed: {
                     save_toolbar.saveId = "auto_save_ClipBoard"
