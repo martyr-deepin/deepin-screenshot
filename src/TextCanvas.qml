@@ -270,7 +270,7 @@ Rectangle {
         id: moveText
         anchors.fill: parent
         hoverEnabled: true
-
+        cursorShape: windowView.set_cursor_shape("shape_text_mouse")
         onPressed: {
             if (!text.readOnly) {
                 mouse.accepted = false
@@ -283,10 +283,14 @@ Rectangle {
             text.forceActiveFocus()
             canvas.requestPaint()
         }
-
+        onEntered: {
+            if (text.readOnly) {
+                moveText.cursorShape = Qt.ClosedHandCursor
+            } else {
+                moveText.cursorShape = windowView.set_cursor_shape("shape_text_mouse")
+            }
+        }
         onReleased: {
-            cursorShape = Qt.ArrowCursor
-
             if (!text.readOnly) {
                 mouse.accepted = false
                 return

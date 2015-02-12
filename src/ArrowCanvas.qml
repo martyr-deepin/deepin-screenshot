@@ -160,7 +160,13 @@ Item {
         handleResize(p)
     }
     function hoverOnRotatePoint(p) {
-        var result = true
+        var startPoint = points[0]
+        var endPoint = points[points.length - 1]
+        if (CalcEngine.pointClickIn(startPoint, p) || CalcEngine.pointClickIn(endPoint, p)) {
+            var result = true
+        } else {
+            var result = false
+        }
         return  result
     }
     function hoverOnShape(p) {
@@ -168,12 +174,13 @@ Item {
         var startPoint = points[0]
         var endPoint = points[points.length - 1]
 
-        if  (CalcEngine.pointOnLine(startPoint, endPoint, p)) {
+        if (CalcEngine.pointOnLine(startPoint, endPoint, p) && !(CalcEngine.pointClickIn(startPoint, p) ||CalcEngine.pointClickIn(endPoint, p))) {
+            canvas.cursorDirection = ""
             result = true
         } else {
             result = false
         }
-            isHovered = result
-            return result
+        isHovered = result
+        return result
     }
 }

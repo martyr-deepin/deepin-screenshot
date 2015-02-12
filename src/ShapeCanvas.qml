@@ -10,6 +10,7 @@ Canvas {
     property bool recording: false
     property bool isShiftPressed: false
     property string shapeName
+    property string cursorDirection
     property var shapes: []
     property var currenRecordingShape
     property int linewidth: 3
@@ -232,7 +233,7 @@ Canvas {
         id: canvasArea
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
-        cursorShape: canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+        cursorShape: windowView.set_cursor_shape("shape_start_cursor")
         enabled: canvas.shapeName
         hoverEnabled: canvas.shapeName
 
@@ -338,10 +339,11 @@ Canvas {
             if (mouse.button == Qt.RightButton)
                 _menu_controller.show_menu(windowView.get_save_config("save", "save_op"))
         }
-
+        onEntered: {
+            canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+        }
         onPositionChanged: {
             if (!canvas.shapeName) return
-
             if (toolbar.visible && pressed) {
                 var pos = screen.get_absolute_cursor_pos()
                 if (pos.x+selectArea.x >= toolbar.x && pos.x+selectArea.x <= toolbar.x + toolbar.width &&
@@ -363,12 +365,10 @@ Canvas {
                 if (rotatedShape != null && pressed) {
                     if (rotatedShape.isreadOnly != undefined) {
                         rotatedShape.isRotating = true
-                        canvasArea.cursorShape =windowView.set_cursor_shape("shape_rotate_mouse")
                         var pos = screen.get_absolute_cursor_pos()
                         rotatedShape.handleRotate(Qt.point(pos.x, pos.y))
                         rotatedShape.isRotating = false
                     } else {
-                        canvasArea.cursorShape = windowView.set_cursor_shape("shape_rotate_mouse")
                         var pos = screen.get_absolute_cursor_pos()
                         rotatedShape.handleRotate(Qt.point(pos.x, pos.y))
                     }
@@ -389,33 +389,48 @@ Canvas {
                 }
 
             } else {
-                if (canvas.recording) {
-                    for (var i = 0; i < canvas.shapes.length;i++) {
-                        if (canvas.shapes[i].shape == "text" && canvas.shapes[i].reSized || canvas.shapes[i].selected || canvas.shapes[i].rotated) {
-                            var pos = screen.get_absolute_cursor_pos()
-                            if (canvas.shapes[i].hoverOnRotatePoint(Qt.point(pos.x, pos.y))) {
-                                canvasArea.cursorShape = windowView.set_cursor_shape("shape_rotate_mouse")
-                            } else {
-                                canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
-                            }
+                for (var i = 0; i < canvas.shapes.length;i++) {
+                    if (canvas.shapes[i].reSized || canvas.shapes[i].selected || canvas.shapes[i].rotated) {
+                        var pos = screen.get_absolute_cursor_pos()
+                        if (canvas.shapes[i].hoverOnRotatePoint(Qt.point(pos.x, pos.y))) {
+                            canvasArea.cursorShape = windowView.set_cursor_shape("shape_rotate_mouse")
+                        } else {
+                            canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
                         }
                     }
-                    return
-                } else {
-                    for (var i = 0; i < canvas.shapes.length;i++) {
-                        if (canvas.shapes[i].reSized || canvas.shapes[i].selected || canvas.shapes[i].rotated) {
-                            var pos = screen.get_absolute_cursor_pos()
-                            if (canvas.shapes[i].hoverOnRotatePoint(Qt.point(pos.x, pos.y))) {
-                                canvasArea.cursorShape = windowView.set_cursor_shape("shape_rotate_mouse")
-                            } else {
-                                canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+                    if (canvas.shapes[i].isreadOnly == undefined) {
+                        var pos = screen.get_absolute_cursor_pos()
+                        if (canvas.hoverOnShape(Qt.point(pos.x, pos.y))) {
+                            if (canvas.cursorDirection == "TopLeft") {
+                                canvasArea.cursorShape = Qt.SizeFDiagCursor
+                            }
+                            //canvasArea.cursorShape = Qt.ClosedHandCursor
+                            else if (canvas.cursorDirection == "Left") {
+                                canvasArea.cursorShape = Qt.SizeHorCursor
+                            }
+                            else if (canvas.cursorDirection == "BottomLeft") {
+                                canvasArea.cursorShape = Qt.SizeBDiagCursor
+                            }
+                            else if (canvas.cursorDirection == "TopRight") {
+                                canvasArea.cursorShape = Qt.SizeBDiagCursor
+                            }
+                            else if (canvas.cursorDirection == "Right") {
+                                canvasArea.cursorShape = Qt.SizeHorCursor
+                            }
+                            else if (canvas.cursorDirection == "BottomRight") {
+                                canvasArea.cursorShape = Qt.SizeFDiagCursor
+                            }
+                            else if (canvas.cursorDirection == "Top") {
+                                canvasArea.cursorShape = Qt.SizeVerCursor
+                            }
+                            else if (canvas.cursorDirection == "Bottom") {
+                                canvasArea.cursorShape = Qt.SizeVerCursor
+                            }
+                            else {
+                                canvasArea.cursorShape = Qt.ClosedHandCursor
                             }
                         }
-                        if (canvas.shapes[i].isreadOnly == undefined) {
-                            var pos = screen.get_absolute_cursor_pos()
-                            canvas.hoverOnShape(Qt.point(pos.x, pos.y))
-                            canvas.requestPaint()
-                        }
+                        canvas.requestPaint()
                     }
                 }
             }

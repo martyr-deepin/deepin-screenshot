@@ -136,7 +136,9 @@ class Window(QQuickView):
                 cur = QCursor(pix, hotX=0, hotY=pix.height())
             else:
                 cur = QCursor(pix, hotX=5, hotY=5)
-            self.setCursor(cur)
+        else:
+            cur = QCursor(Qt.ArrowCursor)
+        self.setCursor(cur)
 
     @pyqtSlot(str,int,int,int,int)
     def save_overload(self, style, x,y,width,height):

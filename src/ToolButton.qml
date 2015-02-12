@@ -61,7 +61,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
-        cursorShape: windowView.set_cursor_shape("shape_arrow_mouse")
+        cursorShape: Qt.ArrowCursor
         onEntered: {
             selectArea.visible = true
             if (toolButton.state == "off") {

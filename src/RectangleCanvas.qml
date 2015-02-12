@@ -139,6 +139,7 @@ Item {
             var result =  true
             reSized = result
             clickedKey = 1
+            canvas.cursorDirection = "TopLeft"
             clickedPoint = p
             return result
         }
@@ -146,6 +147,7 @@ Item {
             var result =  true
             reSized = result
             clickedKey = 2
+            canvas.cursorDirection = "BottomLeft"
             clickedPoint = p
             return result
         }
@@ -153,6 +155,7 @@ Item {
             var result =  true
             reSized = result
             clickedKey = 3
+            canvas.cursorDirection = "TopRight"
             clickedPoint = p
             return result
         }
@@ -160,6 +163,7 @@ Item {
             var result =  true
             reSized = result
             clickedKey = 4
+            canvas.cursorDirection = "BottomRight"
             clickedPoint = p
             return result
         }
@@ -167,6 +171,7 @@ Item {
             var result =  true
             reSized = result
             clickedKey = 5
+            canvas.cursorDirection = "Left"
             clickedPoint = p
             return result
         }
@@ -174,6 +179,7 @@ Item {
             var result =  true
             reSized = result
             clickedKey = 6
+            canvas.cursorDirection = "Top"
             clickedPoint = p
             return result
         }
@@ -181,6 +187,7 @@ Item {
             var result =  true
             reSized = result
             clickedKey = 7
+            canvas.cursorDirection = "Right"
             clickedPoint = p
             return result
         }
@@ -188,6 +195,7 @@ Item {
             var result =  true
             reSized = result
             clickedKey = 8
+            canvas.cursorDirection = "Bottom"
             clickedPoint = p
             return result
         }
@@ -261,12 +269,86 @@ Item {
         return  result
     }
     function hoverOnShape(p) {
-        var result
-        if (CalcEngine.pointOnLine(mainPoints[0], mainPoints[1], p) || CalcEngine.pointOnLine(mainPoints[1], mainPoints[3], p) ||
-            CalcEngine.pointOnLine(mainPoints[3], mainPoints[2], p) || CalcEngine.pointOnLine(mainPoints[2], mainPoints[0], p)) {
-            result = true
+        var result = false
+        if (selected || rotated || reSized) {
+            if (CalcEngine.pointClickIn(mainPoints[0], p)) {
+                result =  true
+                clickedKey = 1
+                canvas.cursorDirection = "TopLeft"
+                clickedPoint = p
+                isHovered = result
+                return result
+            }
+            else if (CalcEngine.pointClickIn(mainPoints[1], p)) {
+                result =  true
+                clickedKey = 2
+                canvas.cursorDirection = "BottomLeft"
+                clickedPoint = p
+                isHovered = result
+                return result
+            }
+            else if (CalcEngine.pointClickIn(mainPoints[2], p)) {
+                result =  true
+                clickedKey = 3
+                canvas.cursorDirection = "TopRight"
+                clickedPoint = p
+                isHovered = result
+                return result
+            }
+            else if (CalcEngine.pointClickIn(mainPoints[3], p)) {
+                result =  true
+                clickedKey = 4
+                canvas.cursorDirection = "BottomRight"
+                clickedPoint = p
+                isHovered = result
+                return result
+            } else {
+                if (CalcEngine.pointClickIn(minorPoints[0], p)) {
+                    result =  true
+                    clickedKey = 5
+                    canvas.cursorDirection = "Left"
+                    clickedPoint = p
+                    isHovered = result
+                    return result
+                }
+                else if (CalcEngine.pointClickIn(minorPoints[1], p)) {
+                    result =  true
+                    clickedKey = 6
+                    canvas.cursorDirection = "Top"
+                    clickedPoint = p
+                    isHovered = result
+                    return result
+                }
+                else if (CalcEngine.pointClickIn(minorPoints[2], p)) {
+                    result =  true
+                    clickedKey = 7
+                    canvas.cursorDirection = "Right"
+                    clickedPoint = p
+                    isHovered = result
+                    return result
+                }
+                else if (CalcEngine.pointClickIn(minorPoints[3], p)) {
+                    result =  true
+                    clickedKey = 8
+                    canvas.cursorDirection = "Bottom"
+                    clickedPoint = p
+                    isHovered = result
+                    return result
+                }
+                else {
+                    if (CalcEngine.pointOnLine(mainPoints[0], mainPoints[1], p) || CalcEngine.pointOnLine(mainPoints[1], mainPoints[3], p) ||
+                        CalcEngine.pointOnLine(mainPoints[3], mainPoints[2], p) || CalcEngine.pointOnLine(mainPoints[2], mainPoints[0], p)) {
+                        result = true
+                        canvas.cursorDirection = ""
+                    }
+                }
+            }
         } else {
-            result = false
+            if (CalcEngine.pointOnLine(mainPoints[0], mainPoints[1], p) || CalcEngine.pointOnLine(mainPoints[1], mainPoints[3], p) ||
+                CalcEngine.pointOnLine(mainPoints[3], mainPoints[2], p) || CalcEngine.pointOnLine(mainPoints[2], mainPoints[0], p)) {
+                result = true
+                canvas.cursorDirection = ""
+            }
         }
         isHovered = result
         return result

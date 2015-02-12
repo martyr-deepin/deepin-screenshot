@@ -123,7 +123,6 @@ Item {
 
         property int pressX: 0
         property int pressY: 0
-
         onPressed: {
             if (mouse.button == Qt.RightButton && !firstRelease) windowView.closeWindow()
 
@@ -138,17 +137,14 @@ Item {
             if (firstRelease) {
                 if (!firstEdit) {
                     selectArea.handlePress(pos)
-
                 }
             }
         }
 
         onReleased: {
             var pos = windowView.get_cursor_pos()
-
             if (!firstRelease) {
                 firstRelease = true
-                screenArea.cursorShape = Qt.ArrowCursor
             }
 
             if (firstRelease) {
@@ -192,6 +188,11 @@ Item {
             }
 
             if (firstRelease) {
+                if ((pos.x >= selectArea.x && pos.x <= selectArea.x + selectArea.width) &&
+                (pos.y >= selectArea.y && pos.y <= selectArea.y + selectArea.height )) {
+                } else {
+                    screenArea.cursorShape = windowView.set_cursor_shape("Qt.ArrowCursor")
+                }
                 if (!firstEdit) {
                     selectArea.handlePositionChange(pos)
                 }
@@ -387,7 +388,6 @@ Item {
                 }
             }
         }
-
         Image {
             x: -selectArea.x
             y: -selectArea.y
