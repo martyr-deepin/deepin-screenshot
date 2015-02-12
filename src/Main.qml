@@ -495,7 +495,7 @@ Item {
 
     Rectangle {
         id: toolbar
-        x: Math.max(selectFrame.x + selectFrame.width - width,0)
+        x: selectFrame.width == screenWidth ? selectFrame.x + selectFrame.width - width - 6 : Math.max(selectFrame.x + selectFrame.width - width,0)
         y: selectFrame.y + selectFrame.height > screen.height - height * 2 ? (selectFrame.y < height * 1.5 ? selectFrame.y + padding : selectFrame.y - height - padding) : selectFrame.y + selectFrame.height + padding
         width: 290
         height: 28
