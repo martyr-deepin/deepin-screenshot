@@ -99,14 +99,14 @@ Rectangle {
         if (addHeight == 0 || mainPoints == undefined) return
 
         var add = CalcEngine.pointSplid(mainPoints[0], mainPoints[1], addHeight)
-        if (mainPoints[0].x <= mainPoints[2].x) {
-            if (mainPoints[0].y >= mainPoints[2].y) {
+        if (mainPoints[0].x <= mainPoints[1].x) {
+            if (mainPoints[0].y >= mainPoints[1].y) {
                 mainPoints[1] = Qt.point(mainPoints[0].x + add[0], mainPoints[0].y - add[1])
             } else {
                 mainPoints[1] = Qt.point(mainPoints[0].x + add[0], mainPoints[0].y + add[1])
             }
         } else {
-            if (mainPoints[0].y >= mainPoints[2].y) {
+            if (mainPoints[0].y >= mainPoints[1].y) {
                 mainPoints[1] = Qt.point(mainPoints[0].x - add[0], mainPoints[0].y - add[1])
             } else {
                 mainPoints[1] = Qt.point(mainPoints[0].x - add[0], mainPoints[0].y + add[1])
