@@ -390,48 +390,43 @@ Canvas {
 
             } else {
                 for (var i = 0; i < canvas.shapes.length;i++) {
-                    if (canvas.shapes[i].reSized || canvas.shapes[i].selected || canvas.shapes[i].rotated) {
-                        var pos = screen.get_absolute_cursor_pos()
-                        if (canvas.shapes[i].hoverOnRotatePoint(Qt.point(pos.x, pos.y))) {
+                    var pos = screen.get_absolute_cursor_pos()
+                    if (canvas.hoverOnShape(Qt.point(pos.x, pos.y))) {
+                        if (canvas.cursorDirection == "TopLeft") {
+                            canvasArea.cursorShape = Qt.SizeFDiagCursor
+                        }
+                        else if (canvas.cursorDirection == "Left") {
+                            canvasArea.cursorShape = Qt.SizeHorCursor
+                        }
+                        else if (canvas.cursorDirection == "BottomLeft") {
+                            canvasArea.cursorShape = Qt.SizeBDiagCursor
+                        }
+                        else if (canvas.cursorDirection == "TopRight") {
+                            canvasArea.cursorShape = Qt.SizeBDiagCursor
+                        }
+                        else if (canvas.cursorDirection == "Right") {
+                            canvasArea.cursorShape = Qt.SizeHorCursor
+                        }
+                        else if (canvas.cursorDirection == "BottomRight") {
+                            canvasArea.cursorShape = Qt.SizeFDiagCursor
+                        }
+                        else if (canvas.cursorDirection == "Top") {
+                            canvasArea.cursorShape = Qt.SizeVerCursor
+                        }
+                        else if (canvas.cursorDirection == "Bottom") {
+                            canvasArea.cursorShape = Qt.SizeVerCursor
+                        }
+                        else {
+                            canvasArea.cursorShape = Qt.ClosedHandCursor
+                        }
+                    } else {
+                        if ((canvas.shapes[i].selected || canvas.shapes[i].rotated || canvas.shapes[i].reSized) && canvas.shapes[i].hoverOnRotatePoint(Qt.point(pos.x, pos.y))) {
                             canvasArea.cursorShape = windowView.set_cursor_shape("shape_rotate_mouse")
                         } else {
                             canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
                         }
                     }
-                    if (canvas.shapes[i].isreadOnly == undefined) {
-                        var pos = screen.get_absolute_cursor_pos()
-                        if (canvas.hoverOnShape(Qt.point(pos.x, pos.y))) {
-                            if (canvas.cursorDirection == "TopLeft") {
-                                canvasArea.cursorShape = Qt.SizeFDiagCursor
-                            }
-                            //canvasArea.cursorShape = Qt.ClosedHandCursor
-                            else if (canvas.cursorDirection == "Left") {
-                                canvasArea.cursorShape = Qt.SizeHorCursor
-                            }
-                            else if (canvas.cursorDirection == "BottomLeft") {
-                                canvasArea.cursorShape = Qt.SizeBDiagCursor
-                            }
-                            else if (canvas.cursorDirection == "TopRight") {
-                                canvasArea.cursorShape = Qt.SizeBDiagCursor
-                            }
-                            else if (canvas.cursorDirection == "Right") {
-                                canvasArea.cursorShape = Qt.SizeHorCursor
-                            }
-                            else if (canvas.cursorDirection == "BottomRight") {
-                                canvasArea.cursorShape = Qt.SizeFDiagCursor
-                            }
-                            else if (canvas.cursorDirection == "Top") {
-                                canvasArea.cursorShape = Qt.SizeVerCursor
-                            }
-                            else if (canvas.cursorDirection == "Bottom") {
-                                canvasArea.cursorShape = Qt.SizeVerCursor
-                            }
-                            else {
-                                canvasArea.cursorShape = Qt.ClosedHandCursor
-                            }
-                        }
-                        canvas.requestPaint()
-                    }
+                    canvas.requestPaint()
                 }
             }
         }
