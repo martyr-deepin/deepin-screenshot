@@ -30,7 +30,7 @@ Canvas {
     property bool mosaicing: false
     property bool processMosaic: false
     property var mosaicImageData
-
+    property bool isStraightLine: false
     property int fontSize
 
     signal textEditing()
@@ -182,7 +182,31 @@ Canvas {
             shapes = shapes.concat(_shape)
         }
     }
-
+    function _requestPaint() {
+        var startPoint = canvas.currenRecordingShape.points[0]
+        var endPoint = canvas.currenRecordingShape.points[canvas.currenRecordingShape.points.length -1]
+        var minPadding = 10
+        if (canvas.currenRecordingShape.points.length <= 1) {
+        } else if (!CalcEngine.startDraw(startPoint, endPoint, minPadding)) {
+            if (startPoint.x < endPoint.x) {
+                if (startPoint.y < endPoint.y) {
+                    endPoint = Qt.point(startPoint.x + minPadding, startPoint.y + minPadding)
+                } else {
+                    endPoint = Qt.point(startPoint.x + minPadding, startPoint.y - minPadding)
+                }
+            } else {
+                if (startPoint.y < endPoint.y) {
+                    endPoint = Qt.point(startPoint.x - minPadding, startPoint.y + minPadding)
+                } else {
+                    endPoint = Qt.point(startPoint.x - minPadding, startPoint.y - minPadding)
+                }
+            }
+            canvas.currenRecordingShape.points[canvas.currenRecordingShape.points.length -1] = endPoint
+            canvas.requestPaint()
+        } else {
+            canvas.requestPaint()
+        }
+    }
     function mouse_style(shape,paint) {
         switch (shape) {
             case "rect": { return windowView.set_cursor_shape("shape_rect_mouse") }
@@ -240,9 +264,9 @@ Canvas {
         onPressed: {
             if (!canvas.shapeName || mouse.button == Qt.RightButton) return
             if (mouse.modifiers & Qt.ShiftModifier) {
-                isShiftPressed = true
+                canvas.isShiftPressed = true
             } else {
-                isShiftPressed = false
+                canvas.isShiftPressed = false
             }
             var pos = screen.get_absolute_cursor_pos()
             if (!canvas.clickOnPoint(Qt.point(pos.x, pos.y))) {
@@ -251,17 +275,22 @@ Canvas {
                     canvas.currenRecordingShape = rect_component.createObject(canvas, {})
                     canvas.currenRecordingShape.processBlur = canvas.processBlur
                     canvas.currenRecordingShape.processMosaic = canvas.processMosaic
+                    canvas.currenRecordingShape.isShiftPressed = canvas.isShiftPressed
                 }
                 if (canvas.shapeName == "ellipse") {
                     canvas.currenRecordingShape = ellipse_component.createObject(canvas, {})
                     canvas.currenRecordingShape.processBlur = canvas.processBlur
                     canvas.currenRecordingShape.processMosaic = canvas.processMosaic
+                    canvas.currenRecordingShape.isShiftPressed = canvas.isShiftPressed
                 }
                 if (canvas.shapeName == "arrow") {
                     canvas.currenRecordingShape = arrow_component.createObject(canvas, {})
+                    canvas.currenRecordingShape.isShiftPressed = canvas.isShiftPressed
                 }
                 if (canvas.shapeName == "line") {
                     canvas.currenRecordingShape = line_component.createObject(canvas, {})
+                    canvas.currenRecordingShape.isShiftPressed = canvas.isShiftPressed
+                    canvas.currenRecordingShape.isStraightLine = canvas.isStraightLine
                 }
                 if (canvas.shapeName == "text") {
                     var isReadOnly = false
@@ -313,7 +342,7 @@ Canvas {
 
                 }
             }
-            canvas.requestPaint()
+            canvas._requestPaint()
         }
         onReleased: {
             if (!canvas.shapeName || mouse.button == Qt.RightButton) return
@@ -324,7 +353,7 @@ Canvas {
                 canvas.currenRecordingShape.points.push(Qt.point(pos.x, pos.y))
                 canvas.currenRecordingShape.firstDraw = true
                 canvas.recording = false
-                canvas.requestPaint()
+                canvas._requestPaint()
             }
             if (canvas.recording) {
                 for (var i = 0; i < canvas.shapes.length; i++) {
@@ -354,7 +383,7 @@ Canvas {
             if (canvas.recording && pressed) {
                 var pos = screen.get_absolute_cursor_pos()
                 canvas.currenRecordingShape.points.push(Qt.point(pos.x, pos.y))
-                canvas.requestPaint()
+                canvas._requestPaint()
             } else if(!canvas.recording && pressed) {
                 var selectedShape = null,reSizedShape = null,rotatedShape = null
                 for (var i = 0; i < canvas.shapes.length; i++) {
@@ -372,12 +401,16 @@ Canvas {
                         var pos = screen.get_absolute_cursor_pos()
                         rotatedShape.handleRotate(Qt.point(pos.x, pos.y))
                     }
-                    canvas.requestPaint()
+                    if (canvas.shapeName != "text") {
+                        canvas._requestPaint()
+                    } else {
+                        canvas.requestPaint()
+                    }
                 }
                 if (reSizedShape != null && pressed) {
                     var pos = screen.get_absolute_cursor_pos()
                     reSizedShape.handleResize(Qt.point(pos.x, pos.y), reSizedShape.clickedKey)
-                    canvas.requestPaint()
+                    canvas._requestPaint()
                 }
                 if (selectedShape != null && pressed) {
 
@@ -385,7 +418,7 @@ Canvas {
                         var pos = screen.get_absolute_cursor_pos()
                         selectedShape.handleDrag(Qt.point(pos.x, pos.y))
                     }
-                    canvas.requestPaint()
+                    canvas._requestPaint()
                 }
 
             } else {
@@ -426,7 +459,7 @@ Canvas {
                             canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
                         }
                     }
-                    canvas.requestPaint()
+                    canvas._requestPaint()
                 }
             }
         }

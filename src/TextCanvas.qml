@@ -372,11 +372,9 @@ Rectangle {
         var centerInPoint = Qt.point((mainPoints[0].x + mainPoints[3].x) / 2, (mainPoints[0].y + mainPoints[3].y) / 2)
         var angle = CalcEngine.calcutateAngle(clickedPoint, p, centerInPoint)
         angleGlobal += angle
-
         for (var i = 0; i < mainPoints.length; i++) {
             mainPoints[i] = CalcEngine.pointRotate(centerInPoint, mainPoints[i], angle)
         }
-
         reX = width / 2
         reY = height / 2
         clickedPoint = p

@@ -14,8 +14,9 @@ Item {
     property url dirSave: "../image/save/"
 
     property string imageName: ""
-    property string dirImage:dirAction
-
+    property string dirImage: dirAction
+    property alias imageIcon: toolImage
+    property alias selectDisArea: selectArea
     property var group: null
 
     signal pressed()

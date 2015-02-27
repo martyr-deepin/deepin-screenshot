@@ -23,10 +23,10 @@ Item {
     property int drawColor: 2
     property int arrowSize: 16
     property int arrowAngle: 40
+    property bool isShiftPressed: false
 
     onDrawColorChanged: { windowView.set_save_config(shape, "color_index", drawColor)}
     onLinewidthChanged: { windowView.set_save_config(shape, "linewidth_index", linewidth)}
-
     function deselect() {
         selected = false
         rotated = false
@@ -36,7 +36,17 @@ Item {
     function draw(ctx) {
         var startPoint = points[0]
         var endPoint = points[points.length - 1]
-
+        if (isShiftPressed && (!reSized || !rotated)) {
+            if (startPoint.x != endPoint.x) {
+                if (Math.atan2(Math.abs(endPoint.y - startPoint.y), Math.abs(endPoint.x - startPoint.x))*180/Math.PI < 45 ) {
+                    points[points.length - 1] = Qt.point(endPoint.x, startPoint.y)
+                    endPoint = points[points.length - 1]
+                } else {
+                    points[points.length - 1] = Qt.point(startPoint.x, endPoint.y)
+                    endPoint = points[points.length - 1]
+                }
+            }
+        }
         ctx.lineWidth = linewidth
         ctx.strokeStyle = screen.colorCard(drawColor)
         ctx.save()
@@ -53,9 +63,12 @@ Item {
         }
         ctx.lineWidth = linewidth
         ctx.strokeStyle = screen.colorCard(drawColor)
-        var xMultiplier = (startPoint.x - endPoint.x) / Math.abs(startPoint.x - endPoint.x)
-        var yMultiplier = (startPoint.y - endPoint.y) / Math.abs(startPoint.y - endPoint.y)
-
+        if (startPoint.x == endPoint.x) { var xMultiplier = 1} else {
+            var xMultiplier = (startPoint.x - endPoint.x) / Math.abs(startPoint.x - endPoint.x)
+        }
+        if (startPoint.y == endPoint.y) { var yMultiplier = -1} else {
+            var yMultiplier = (startPoint.y - endPoint.y) / Math.abs(startPoint.y - endPoint.y)
+        }
         var add = CalcEngine.pointSplid(startPoint, endPoint, arrowSize)
         var pointA = Qt.point(endPoint.x + xMultiplier * add[0], endPoint.y + yMultiplier * add[1])
         var angle = arrowAngle / 2 / 180 * Math.PI
@@ -138,12 +151,32 @@ Item {
     function handleResize(p, key) {
         var startPoint = points[0]
         var endPoint = points[points.length - 1]
+        if (isShiftPressed) {
+            if (key == 1) {
+                if (Math.atan2(Math.abs(endPoint.y - p.y), Math.abs(endPoint.x - p.x))*180/Math.PI < 45 ) {
+                    startPoint = Qt.point(p.x, endPoint.y)
+                } else {
+                    startPoint = Qt.point(endPoint.x, p.y)
+                }
 
-        if (key == 1) {
-            startPoint = p
-        }
-        if (key == 2) {
-            endPoint = p
+            }
+            if (key == 2) {
+                endPoint = p
+                if (Math.atan2(Math.abs(endPoint.y - startPoint.y), Math.abs(endPoint.x - startPoint.x))*180/Math.PI < 45 ) {
+                    points[points.length - 1] = Qt.point(endPoint.x, startPoint.y)
+                    endPoint = points[points.length - 1]
+                } else {
+                    points[points.length - 1] = Qt.point(startPoint.x, endPoint.y)
+                    endPoint = points[points.length - 1]
+                }
+            }
+        } else {
+            if (key == 1) {
+                startPoint = p
+            }
+            if (key == 2) {
+                endPoint = p
+            }
         }
         points[0] = startPoint
         points[points.length - 1] = endPoint

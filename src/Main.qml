@@ -779,7 +779,8 @@ Item {
                         blurType.visible = false
                         mosaicType.visible = false
                         setlw.visible = true
-                        dividingLine.visible = false
+                        dividingLine.visible = true
+                        straightLine.visible = true
                         colorChange.visible= false
                         fontRect.visible = false
                         save_toolbar.visible = false
@@ -788,6 +789,7 @@ Item {
                         mosaicType.visible = false
                         setlw.visible = false
                         dividingLine.visible = false
+                        straightLine.visible = false
                     }
 
                     toolbar.shape.shapeName = "line"
@@ -877,6 +879,7 @@ Item {
                     }
                     setlw.visible = false
                     blurType.visible = false
+                    straightLine.visible = false
                     mosaicType.visible = false
                     fontRect.visible = false
                     save_toolbar.visible = false
@@ -1074,7 +1077,23 @@ Item {
                 }
             }
         }
-
+        ToolButton {
+            id: straightLine
+            width: 46
+            anchors.top: row.bottom
+            anchors.left: setlw.right
+            anchors.leftMargin: 4
+            anchors.bottom: parent.bottom
+            dirImage: dirSizeImage
+            selectDisArea.width: 40
+            imageIcon.width: 40
+            imageName: "straightline"
+            visible: false
+            onPressed: {
+                screenArea.enabled = false
+                toolbar.shape.isStraightLine = !toolbar.shape.isStraightLine
+            }
+        }
         SaveToolTip { id: savetooltip }
 
         Row {

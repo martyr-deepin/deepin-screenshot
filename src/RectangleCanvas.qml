@@ -20,13 +20,13 @@ Item {
     property string shape: "rect"
     property var bigPointRadius: 2
     property var smallPointRadius: 2
-
     property int clickedKey: 0
     property int linewidth: 3
     property int drawColor: 2
 
     property bool processBlur: false
     property bool processMosaic: false
+    property bool isShiftPressed: false
 
     onDrawColorChanged: windowView.set_save_config("rect", "color_index", drawColor)
     onLinewidthChanged: windowView.set_save_config("rect", "linewidth_index", linewidth)
@@ -38,15 +38,39 @@ Item {
         var leftY = Math.min(startPoint.y, endPoint.y)
         var pWidth = Math.abs(startPoint.x - endPoint.x)
         var pHeight = Math.abs(startPoint.y - endPoint.y)
-        if (canvas.isShiftPressed) {
-            pWidth = Math.min(pWidth, pHeight)
-            pHeight = Math.min(pWidth, pHeight)
+        if (isShiftPressed) {
+            var shiftWidth = Math.min(pWidth, pHeight)
+            if (endPoint.x >= startPoint.x) {
+                if (endPoint.y >= startPoint.y) {
+                    mainPoints[0]=startPoint
+                    mainPoints[1]=Qt.point(startPoint.x, startPoint.y + shiftWidth)
+                    mainPoints[2]=Qt.point(startPoint.x + shiftWidth, startPoint.y)
+                    mainPoints[3]=Qt.point(startPoint.x + shiftWidth, startPoint.y+ shiftWidth)
+                } else {
+                    mainPoints[0] = Qt.point(startPoint.x, startPoint.y - shiftWidth)
+                    mainPoints[1] = startPoint
+                    mainPoints[2] = Qt.point(startPoint.x + shiftWidth, startPoint.y - shiftWidth)
+                    mainPoints[3] = Qt.point(startPoint.x + shiftWidth, startPoint.y)
+                }
+            } else {
+                if (endPoint.y >= startPoint.y) {
+                    mainPoints[0] = Qt.point(startPoint.x- shiftWidth, startPoint.y)
+                    mainPoints[1] = Qt.point(startPoint.x - shiftWidth, startPoint.y + shiftWidth)
+                    mainPoints[2] = startPoint
+                    mainPoints[3] = Qt.point(startPoint.x, startPoint.y + shiftWidth)
+                } else {
+                    mainPoints[0] = Qt.point(startPoint.x - shiftWidth, startPoint.y - shiftWidth)
+                    mainPoints[1] = Qt.point(startPoint.x - shiftWidth, startPoint.y)
+                    mainPoints[2] = Qt.point(startPoint.x, startPoint.y - shiftWidth)
+                    mainPoints[3] = startPoint
+                }
+            }
+        } else {
+            mainPoints[0] = Qt.point(leftX, leftY)
+            mainPoints[1] = Qt.point(leftX + pWidth, leftY)
+            mainPoints[2] = Qt.point(leftX, pHeight + leftY)
+            mainPoints[3] = Qt.point(leftX + pWidth, leftY + pHeight)
         }
-        mainPoints[0] = Qt.point(leftX, leftY)
-        mainPoints[1] = Qt.point(leftX + pWidth, leftY)
-        mainPoints[2] = Qt.point(leftX, pHeight + leftY)
-        mainPoints[3] = Qt.point(leftX + pWidth, leftY + pHeight)
-
         CalcEngine.changePointsOrder(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
     }
 
@@ -76,13 +100,11 @@ Item {
         }
         ctx.closePath()
         ctx.stroke()
-
         if (isHovered) {
             ctx.lineWidth = 1
             ctx.strokeStyle = "#01bdff"
             ctx.stroke()
         }
-
         if (processBlur||processMosaic) {
             ctx.save()
             ctx.clip()
@@ -232,8 +254,8 @@ Item {
     function handleResize(p, key) {
 
         if (reSized) {
-            var points = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key)
-            for (var i = 0; i < 4; i ++) { mainPoints[i] = points[i] }
+            var Newpoints = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key, isShiftPressed)
+            for (var i = 0; i < 4; i ++) { mainPoints[i] = Newpoints[i] }
         }
 
         clickedPoint = p
