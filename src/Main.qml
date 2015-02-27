@@ -171,8 +171,8 @@ Item {
             if (!firstPress) {
                 var window_info = windowView.get_window_info_at_pointer()
                 if (window_info != undefined) {
-                    selectArea.x = window_info[0] - windowView.x
-                    selectArea.y = window_info[1] - windowView.y
+                    selectArea.x = window_info[0]
+                    selectArea.y = window_info[1]
                     selectArea.width = window_info[2]
                     selectArea.height = window_info[3]
                 }
@@ -203,7 +203,7 @@ Item {
             if (firstMove && !firstRelease) {
                 zoomIndicator.updatePosition(pos)
 
-                var rgb = windowView.get_color_at_point(pos.x - windowView.x, pos.y - windowView.y)
+                var rgb = windowView.get_color_at_point(pos.x, pos.y)
                 pointColorRect.color = Qt.rgba(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, 1)
             }
         }

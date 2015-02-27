@@ -114,16 +114,28 @@ class Window(QQuickView):
 
     @pyqtSlot(int, int, result="QVariant")
     def get_color_at_point(self, x, y):
-        rgb = self.qimage.pixel(x, y)
-        return [qRed(rgb), qGreen(rgb), qBlue(rgb)]
+        if x >= 0 and y >= 0:
+            rgb = self.qimage.pixel(x, y)
+            return [qRed(rgb), qGreen(rgb), qBlue(rgb)]
+        else:
+            return [0, 0, 0]
 
     @pyqtSlot(result="QVariant")
     def get_window_info_at_pointer(self):
-        return self.window_info.get_window_info_at_pointer()
+        wInfo = self.window_info.get_window_info_at_pointer()
+        wInfo[0] -= self.x()
+        wInfo[1] -= self.y()
+        return wInfo
 
     @pyqtSlot(result="QVariant")
     def get_cursor_pos(self):
-        return QCursor.pos()
+        '''
+        get the cursor position relative to the top-left corner of this window
+        '''
+        pos = QCursor.pos()
+        pos.setX(pos.x() - self.x())
+        pos.setY(pos.y() - self.y())
+        return pos
 
     @pyqtSlot(str)
     def set_cursor_shape(self, shape):
