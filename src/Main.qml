@@ -233,6 +233,8 @@ Item {
         id: background
         anchors.fill: parent
         source: "/tmp/deepin-screenshot.png"
+        cache: true
+        asynchronous: true
     }
 
     Rectangle {
@@ -392,6 +394,8 @@ Item {
             x: -selectArea.x
             y: -selectArea.y
             source: "/tmp/deepin-screenshot.png"
+            cache: true
+            asynchronous: true
         }
 
         ShapeCanvas {
@@ -1266,6 +1270,8 @@ Item {
                     y: -zoomIndicator.cursorY + parent.height / 2
                     source: "/tmp/deepin-screenshot.png"
                     smooth: false
+                    cache: true
+                    asynchronous: true
                 }
             }
 
