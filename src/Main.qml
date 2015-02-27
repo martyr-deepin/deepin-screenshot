@@ -59,7 +59,9 @@ Item {
     }
 
     function showHotKeyOSD() {
-        var osd = Qt.createQmlObject("import QtQuick 2.2; OSD{}", screen, "osd")
+        var osd = Qt.createQmlObject("import QtQuick 2.2; OSD {}", screen, "osd")
+        osd.x = windowView.x + (windowView.width - osd.width) / 2
+        osd.y = windowView.y + (windowView.height - osd.height) / 2
         osd.showTips()
     }
 
