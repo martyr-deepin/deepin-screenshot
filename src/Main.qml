@@ -977,6 +977,18 @@ Item {
                     }
                 }
             }
+            function setMosaicBlurState() {
+                    if (toolbar.shape.isBlur) {
+                        blurType.state = "off"
+                        toolbar.shape.isBlur = false
+                        toolbar.shape.processBlur = false
+                    }
+                    if (toolbar.shape.isMosaic) {
+                        mosaicType.state = "off"
+                        toolbar.shape.isMosaic =  false
+                        toolbar.shape.processMosaic = false
+                    }
+            }
             function checkState(id) {
                 for (var i=0; i<setlw.children.length; i++) {
                     var childButton = setlw.children[i]
@@ -993,6 +1005,7 @@ Item {
                 property var linewidth: 2
                 onStateChanged: {
                     if (state == "off") { return }
+                    setlw.setMosaicBlurState()
                     setlw.lineWidth = linewidth
                 }
             }
@@ -1004,6 +1017,7 @@ Item {
                 property var linewidth: 4
                 onStateChanged: {
                     if (state == "off") { return }
+                    setlw.setMosaicBlurState()
                     setlw.lineWidth = linewidth
                 }
             }
@@ -1015,6 +1029,7 @@ Item {
                 property var linewidth: 6
                 onStateChanged: {
                     if (state == "off") { return }
+                    setlw.setMosaicBlurState()
                     setlw.lineWidth = linewidth
                 }
             }
@@ -1043,7 +1058,16 @@ Item {
                     }
                 }
             }
+            function getlw() {
+                for (var i=0; i<setlw.children.length; i++) {
+                    if (setlw.children[i].state == "on") {
+                        return i
+                    }
+                }
+                return -1
+            }
 
+            property var num
             ToolButton {
                 id: blurType
                 group: shapeEffect
@@ -1054,10 +1078,20 @@ Item {
                     screenArea.enabled = false
                     shapeEffect.imageName = "blur"
                     windowView.save_overload("blur", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
-                    toolbar.shape.isBlur = !toolbar.shape.isBlur
-                    toolbar.shape.processBlur = !toolbar.shape.processBlur
                     toolbar.shape.isMosaic = false
                     toolbar.shape.processMosaic = false
+                    toolbar.shape.isBlur = !toolbar.shape.isBlur
+                    toolbar.shape.processBlur = !toolbar.shape.processBlur
+                    if (toolbar.shape.isBlur) {
+                        if (shapeEffect.getlw() >= 0) {
+                            shapeEffect.num = shapeEffect.getlw()
+                            setlw.children[shapeEffect.num].state = "off"
+                        }
+                    } else {
+                        if (shapeEffect.num >= 0) {
+                            setlw.children[shapeEffect.num].state = "on"
+                        }
+                    }
                 }
             }
             ToolButton {
@@ -1074,6 +1108,16 @@ Item {
                     toolbar.shape.processBlur = false
                     toolbar.shape.isMosaic =  !toolbar.shape.isMosaic
                     toolbar.shape.processMosaic = !toolbar.shape.processMosaic
+                    if (toolbar.shape.isMosaic) {
+                        if (shapeEffect.getlw() >= 0) {
+                            shapeEffect.num = shapeEffect.getlw()
+                            setlw.children[shapeEffect.num].state = "off"
+                        }
+                    } else {
+                        if (shapeEffect.num >= 0) {
+                            setlw.children[shapeEffect.num].state = "on"
+                        }
+                    }
                 }
             }
         }

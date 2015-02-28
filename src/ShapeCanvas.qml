@@ -48,7 +48,9 @@ Canvas {
     onLinewidthChanged: {
         for (var i = 0; i < shapes.length; i++) {
             if (shapes[i].linewidth != undefined && shapes[i].selected || shapes[i].rotated || shapes[i].reSized) {
-                shapes[i].linewidth = canvas.linewidth
+                if (!shapes[i].processBlur && !shapes[i].processMosaic) {
+                    shapes[i].linewidth = canvas.linewidth
+                }
             }
         }
         canvas.requestPaint()
