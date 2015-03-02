@@ -41,27 +41,27 @@ Canvas {
         for (var i = 0; i < shapes.length; i++) {
             if (shapes[i].selected || shapes[i].rotated || shapes[i].reSized) {
                 shapes[i].drawColor = paintColor
+                canvas.requestPaint()
             }
         }
-        canvas.requestPaint()
     }
     onLinewidthChanged: {
         for (var i = 0; i < shapes.length; i++) {
             if (shapes[i].linewidth != undefined && shapes[i].selected || shapes[i].rotated || shapes[i].reSized) {
                 if (!shapes[i].processBlur && !shapes[i].processMosaic) {
                     shapes[i].linewidth = canvas.linewidth
+                    canvas.requestPaint()
                 }
             }
         }
-        canvas.requestPaint()
     }
     onTextFocusChanged: {
         for (var i = 0; i < shapes.length; i++) {
             if (shapes[i].text != undefined && shapes[i].text.focus) {
                 selectUnique(shapes[i].numberOrder)
+                canvas.requestPaint()
             }
         }
-        canvas.requestPaint()
     }
     onFontSizeChanged: {
         for (var i = 0; i < shapes.length; i++) {
@@ -110,7 +110,6 @@ Canvas {
                 mosaicing = false
             }
         }
-
         for (var i = 0; i < shapes.length; i++) {
             shapes[i].draw(ctx)
         }
@@ -182,31 +181,6 @@ Canvas {
         if (targetIndex != null && targetIndex != shapes.length - 1) {
             var _shape = shapes.splice(targetIndex, 1)
             shapes = shapes.concat(_shape)
-        }
-    }
-    function _requestPaint() {
-        var startPoint = canvas.currenRecordingShape.points[0]
-        var endPoint = canvas.currenRecordingShape.points[canvas.currenRecordingShape.points.length -1]
-        var minPadding = 10
-        if (canvas.currenRecordingShape.points.length <= 1) {
-        } else if (!CalcEngine.startDraw(startPoint, endPoint, minPadding)) {
-            if (startPoint.x < endPoint.x) {
-                if (startPoint.y < endPoint.y) {
-                    endPoint = Qt.point(startPoint.x + minPadding, startPoint.y + minPadding)
-                } else {
-                    endPoint = Qt.point(startPoint.x + minPadding, startPoint.y - minPadding)
-                }
-            } else {
-                if (startPoint.y < endPoint.y) {
-                    endPoint = Qt.point(startPoint.x - minPadding, startPoint.y + minPadding)
-                } else {
-                    endPoint = Qt.point(startPoint.x - minPadding, startPoint.y - minPadding)
-                }
-            }
-            canvas.currenRecordingShape.points[canvas.currenRecordingShape.points.length -1] = endPoint
-            canvas.requestPaint()
-        } else {
-            canvas.requestPaint()
         }
     }
     function mouse_style(shape,paint) {
@@ -344,7 +318,7 @@ Canvas {
 
                 }
             }
-            canvas._requestPaint()
+            canvas.requestPaint()
         }
         onReleased: {
             if (!canvas.shapeName || mouse.button == Qt.RightButton) return
@@ -355,7 +329,7 @@ Canvas {
                 canvas.currenRecordingShape.points.push(Qt.point(pos.x, pos.y))
                 canvas.currenRecordingShape.firstDraw = true
                 canvas.recording = false
-                canvas._requestPaint()
+                canvas.requestPaint()
             }
             if (canvas.recording) {
                 for (var i = 0; i < canvas.shapes.length; i++) {
@@ -385,7 +359,7 @@ Canvas {
             if (canvas.recording && pressed) {
                 var pos = screen.get_absolute_cursor_pos()
                 canvas.currenRecordingShape.points.push(Qt.point(pos.x, pos.y))
-                canvas._requestPaint()
+                canvas.requestPaint()
             } else if(!canvas.recording && pressed) {
                 var selectedShape = null,reSizedShape = null,rotatedShape = null
                 for (var i = 0; i < canvas.shapes.length; i++) {
@@ -403,16 +377,12 @@ Canvas {
                         var pos = screen.get_absolute_cursor_pos()
                         rotatedShape.handleRotate(Qt.point(pos.x, pos.y))
                     }
-                    if (canvas.shapeName != "text") {
-                        canvas._requestPaint()
-                    } else {
-                        canvas.requestPaint()
-                    }
+                    canvas.requestPaint()
                 }
                 if (reSizedShape != null && pressed) {
                     var pos = screen.get_absolute_cursor_pos()
                     reSizedShape.handleResize(Qt.point(pos.x, pos.y), reSizedShape.clickedKey)
-                    canvas._requestPaint()
+                    canvas.requestPaint()
                 }
                 if (selectedShape != null && pressed) {
 
@@ -420,7 +390,7 @@ Canvas {
                         var pos = screen.get_absolute_cursor_pos()
                         selectedShape.handleDrag(Qt.point(pos.x, pos.y))
                     }
-                    canvas._requestPaint()
+                    canvas.requestPaint()
                 }
 
             } else {
@@ -461,7 +431,7 @@ Canvas {
                             canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
                         }
                     }
-                    canvas._requestPaint()
+                    canvas.requestPaint()
                 }
             }
         }

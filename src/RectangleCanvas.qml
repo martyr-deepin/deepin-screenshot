@@ -8,7 +8,6 @@ Item {
     property bool reSized: false
     property bool rotated: false
     property bool firstDraw: false
-    property bool mosaicX: false
     property bool isHovered: false
 
     property point clickedPoint
@@ -79,8 +78,7 @@ Item {
         rotated = false
         reSized = false
     }
-
-    function draw(ctx) {
+    function _draw(ctx) {
         if (!firstDraw) { _initMainPoints() }
 
         ctx.lineWidth = linewidth
@@ -150,6 +148,34 @@ Item {
 
             /* Right */
             DrawingUtils.draw_point(ctx, minorPoints[3].x, minorPoints[3].y, linewidth / 2)
+        }
+    }
+    function draw(ctx) {
+        var startPoint = points[0]
+        var endPoint = points[points.length - 1]
+        var minPadding = 10
+        if (points.length < 2) {
+            return
+        } else if (points.length == 2 && CalcEngine.getDistance(startPoint, endPoint) < 5) {
+            return
+        } else if (!CalcEngine.startDraw(startPoint, endPoint, minPadding)){
+            if (startPoint.x < endPoint.x) {
+                if (startPoint.y < endPoint.y) {
+                    endPoint = Qt.point(startPoint.x + minPadding, startPoint.y + minPadding)
+                } else {
+                    endPoint = Qt.point(startPoint.x + minPadding, startPoint.y - minPadding)
+                }
+            } else {
+                if (startPoint.y < endPoint.y) {
+                    endPoint = Qt.point(startPoint.x - minPadding, startPoint.y + minPadding)
+                } else {
+                    endPoint = Qt.point(startPoint.x - minPadding, startPoint.y - minPadding)
+                }
+            }
+            points[points.length -1] = endPoint
+            _draw(ctx)
+        } else {
+            _draw(ctx)
         }
     }
     function clickOnPoint(p) {

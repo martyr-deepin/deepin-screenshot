@@ -42,7 +42,7 @@ Item {
             rightX = Math.max(rightX, points[i].x)
             rightY = Math.max(rightY, points[i].y)
         }
-        if (points.length != 2) {
+        if (!isShiftPressed || !isStraightLine) {
             mainPoints[0] = Qt.point(Math.max(leftX - 5, 0), Math.max(leftY - 5, 0))
             mainPoints[1] = Qt.point(Math.max(leftX - 5, 0), Math.min(rightY + 5, screenHeight))
             mainPoints[2] = Qt.point(Math.min(rightX + 5, screenWidth), Math.max(leftY - 5, 0))
@@ -60,7 +60,7 @@ Item {
 
     function draw(ctx) {
         if (!firstDraw) { _initMainPoints() }
-        if (points.length != 2) { minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3]) }
+        if (isShiftPressed || isStraightLine) { minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3]) }
 
         var startPoint = points[0]
         var endPoint = points[points.length - 1]
@@ -87,7 +87,7 @@ Item {
             ctx.strokeStyle = screen.colorCard(drawColor)
             ctx.beginPath()
             ctx.moveTo(points[0].x, points[0].y)
-            ctx.lineTo(endPoint.x, endPoint.y)
+            DrawingUtils.draw_line((selected || reSized || rotated), ctx, endPoint.x, endPoint.y)
             ctx.stroke()
             ctx.closePath()
         } else {
@@ -299,6 +299,10 @@ Item {
             for (var i = 0; i < points.length; i++) {
                 points[i] = Qt.point(points[i].x + delX, points[i].y + delY)
             }
+            _initMainPoints()
+            for (var i = 0; i < portion.length; i++) {
+                portion.pop()
+            }
         } else {
             for(var i = 0; i < 4; i++) {
                 mainPoints[i] = Qt.point(mainPoints[i].x + delX, mainPoints[i].y + delY)
@@ -326,14 +330,11 @@ Item {
 
             }
             if (key == 2) {
-                endPoint = p
                 if (isShiftPressed) {
-                    if (Math.atan2(Math.abs(endPoint.y - startPoint.y), Math.abs(endPoint.x - startPoint.x))*180/Math.PI < 45 ) {
-                        points[points.length - 1] = Qt.point(endPoint.x, startPoint.y)
-                        endPoint = points[points.length - 1]
+                    if (Math.atan2(Math.abs(p.y - startPoint.y), Math.abs(p.x - startPoint.x))*180/Math.PI < 45 ) {
+                        endPoint = Qt.point(p.x, startPoint.y)
                     } else {
-                        points[points.length - 1] = Qt.point(startPoint.x, endPoint.y)
-                        endPoint = points[points.length - 1]
+                        endPoint = Qt.point(startPoint.x, p.y)
                     }
                 } else {
                     endPoint = p
@@ -342,7 +343,10 @@ Item {
 
             points[0] = startPoint
             points[points.length - 1] = endPoint
-
+            _initMainPoints()
+            for (var i = 0; i < portion.length; i++) {
+                portion.pop()
+            }
             clickedPoint = p
         } else {
             if (reSized) {
@@ -381,7 +385,7 @@ Item {
     }
 
     function handleRotate(p) {
-        if (points.length != 2) {
+        if (!isShiftPressed && !isStraightLine) {
             var centerInPoint = Qt.point((mainPoints[0].x + mainPoints[3].x) / 2, (mainPoints[0].y + mainPoints[3].y) / 2)
             var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
             var angle = CalcEngine.calcutateAngle(clickedPoint, p, centerInPoint)

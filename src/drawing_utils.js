@@ -23,13 +23,12 @@ function isPointsSameY(points) {
         return true
     }
 }
-
 function draw_point(ctx, startX, startY, radius) {
     ctx.beginPath()
     ctx.arc(startX, startY, radius, 0, Math.PI * 2, false)
     ctx.shadowOffsetX = 0
     ctx.shadowOffsetY = 1
-    ctx.shadowBlur = 3
+    ctx.shadowBlur = 2
     ctx.shadowColor = Qt.rgba(0, 0, 0, 0.2)
     ctx.closePath()
     ctx.fill()
@@ -43,12 +42,11 @@ function draw_point(ctx, startX, startY, radius) {
     ctx.stroke()
 }
 
-
 function draw_line(isShadow, ctx, endX, endY, offsetX, offsetY,shadowBlur, shadowColor) {
     offsetX = typeof offsetX !== 'undefined' ? offsetX : 0
     offsetY = typeof offsetY !== 'undefined' ? offsetY : 1
-    shadowBlur = typeof shadowBlur !== 'undefined' ? shadowBlur : 4
-    shadowColor = typeof shadowColor !== 'undefined' ? shadowColor : Qt.rgba(0, 0, 0, 0.3)
+    shadowBlur = typeof shadowBlur !== 'undefined' ? shadowBlur : 2
+    shadowColor = typeof shadowColor !== 'undefined' ? shadowColor : Qt.rgba(0, 0, 0, 0.2)
     ctx.lineTo(endX, endY)
     ctx.shadowOffsetX = isShadow ? offsetX : 0
     ctx.shadowOffsetY = isShadow ? offsetY : 0

@@ -1413,7 +1413,7 @@ Item {
                 canvas.shapes[i].mainPoints[1] = tempPoints[1]
                 canvas.shapes[i].mainPoints[2] = tempPoints[2]
                 canvas.shapes[i].mainPoints[3] = tempPoints[3]
-                if (canvas.shapes[i].shape != "line") {
+                if (canvas.shapes[i].shape != "line" && canvas.shapes[i].shape != "arrow") {
                     canvas.requestPaint()
                 } else {
                     if (canvas.shapes[i].portion.length == 0) {

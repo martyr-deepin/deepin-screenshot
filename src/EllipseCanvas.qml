@@ -77,8 +77,7 @@ Item {
         rotated = false
         reSized = false
     }
-
-    function draw(ctx) {
+    function _draw(ctx) {
         if (!firstDraw) { _initMainPoints() }
         minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
         var points1 = CalcEngine.getEightControlPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
@@ -100,10 +99,9 @@ Item {
             ctx.bezierCurveTo(points1[6].x, points1[6].y, points1[7].x, points1[7].y, minorPoints[3].x, minorPoints[3].y);
             ctx.bezierCurveTo(points1[3].x, points1[3].y, points1[2].x, points1[2].y, minorPoints[0].x, minorPoints[0].y);
             ctx.shadowOffsetY = (selected || reSized || rotated) ? 1 : 0
-            ctx.shadowBlur = (selected || reSized || rotated) ? 4 : 0
-            ctx.shadowColor = (selected || reSized || rotated) ? Qt.rgba(0, 0, 0, 0.3) : "transparent"
+            ctx.shadowBlur = (selected || reSized || rotated) ? 2 : 0
+            ctx.shadowColor = (selected || reSized || rotated) ? Qt.rgba(0, 0, 0, 0.2) : "transparent"
         }
-
         ctx.closePath()
         ctx.stroke()
 
@@ -118,12 +116,18 @@ Item {
             ctx.restore()
         }
         if (selected||reSized||rotated) {
-            ctx.lineWidth = 1
-            ctx.strokeStyle = "black"
-            ctx.fillStyle = "yellow"
+            ctx.lineWidth = 0.5
+            ctx.strokeStyle = "white"
+            ctx.beginPath()
+            ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
+            DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[2].x, mainPoints[2].y)
+            DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[3].x, mainPoints[3].y)
+            DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[1].x, mainPoints[1].y)
+            DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[0].x, mainPoints[0].y)
+            ctx.closePath()
+            ctx.stroke()
 
             /* Rotate */
-
             var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
             ctx.drawImage(canvas.rotateImage, rotatePoint.x - 12, rotatePoint.y - 12)
 
@@ -155,16 +159,6 @@ Item {
             /* Right */
             DrawingUtils.draw_point(ctx, minorPoints[3].x, minorPoints[3].y, linewidth / 2)
 
-            ctx.lineWidth = 0.5
-            ctx.strokeStyle = "white"
-            ctx.beginPath()
-            ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
-            DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[2].x, mainPoints[2].y)
-            DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[3].x, mainPoints[3].y)
-            DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[1].x, mainPoints[1].y)
-            DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[0].x, mainPoints[0].y)
-            ctx.closePath()
-            ctx.stroke()
         }
         if (isHovered) {
             ctx.lineWidth = 1
@@ -180,6 +174,34 @@ Item {
             ctx.shadowColor = (selected || reSized || rotated) ? Qt.rgba(0, 0, 0, 0.3) : "transparent"
             ctx.closePath()
             ctx.stroke()
+        }
+    }
+    function draw(ctx) {
+        var startPoint = points[0]
+        var endPoint = points[points.length - 1]
+        var minPadding = 10
+        if (points.length < 2) {
+            return
+        } else if (points.length == 2 && CalcEngine.getDistance(startPoint, endPoint) < 5) {
+            return
+        } else if (!CalcEngine.startDraw(startPoint, endPoint, minPadding)){
+            if (startPoint.x < endPoint.x) {
+                if (startPoint.y < endPoint.y) {
+                    endPoint = Qt.point(startPoint.x + minPadding, startPoint.y + minPadding)
+                } else {
+                    endPoint = Qt.point(startPoint.x + minPadding, startPoint.y - minPadding)
+                }
+            } else {
+                if (startPoint.y < endPoint.y) {
+                    endPoint = Qt.point(startPoint.x - minPadding, startPoint.y + minPadding)
+                } else {
+                    endPoint = Qt.point(startPoint.x - minPadding, startPoint.y - minPadding)
+                }
+            }
+            points[points.length -1] = endPoint
+            _draw(ctx)
+        } else {
+            _draw(ctx)
         }
     }
     function clickOnPoint(p) {

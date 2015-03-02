@@ -8,9 +8,11 @@ Item {
     property bool rotated: false
     property bool firstDraw: false
     property bool isHovered: false
+    property bool firstRelativeCalculate: false
 
     property point clickedPoint
     property var points: []
+    property var portion: []
     property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
     property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
 
@@ -27,15 +29,36 @@ Item {
 
     onDrawColorChanged: { windowView.set_save_config(shape, "color_index", drawColor)}
     onLinewidthChanged: { windowView.set_save_config(shape, "linewidth_index", linewidth)}
+    function _initMainPoints() {
+        var startPoint = points[0]
+        var endPoint = points[points.length - 1]
+        var leftX = points[0].x
+        var leftY = points[0].y
+        var rightX = points[0].x
+        var rightY = points[0].y
+
+        for (var i = 1; i < points.length; i++) {
+
+            leftX = Math.min(leftX, points[i].x)
+            leftY = Math.min(leftY, points[i].y)
+            rightX = Math.max(rightX, points[i].x)
+            rightY = Math.max(rightY, points[i].y)
+        }
+        if (!isShiftPressed || !isStraightLine) {
+            mainPoints[0] = Qt.point(Math.max(leftX - 5, 0), Math.max(leftY - 5, 0))
+            mainPoints[1] = Qt.point(Math.max(leftX - 5, 0), Math.min(rightY + 5, screenHeight))
+            mainPoints[2] = Qt.point(Math.min(rightX + 5, screenWidth), Math.max(leftY - 5, 0))
+            mainPoints[3] = Qt.point(Math.min(rightX + 5, screenWidth), Math.min(rightY + 5, screenHeight))
+
+            CalcEngine.changePointsOrder(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+        }
+    }
     function deselect() {
         selected = false
         rotated = false
         reSized = false
     }
-
-    function draw(ctx) {
-        var startPoint = points[0]
-        var endPoint = points[points.length - 1]
+    function _draw(ctx, startPoint, endPoint) {
         if (isShiftPressed && (!reSized || !rotated)) {
             if (startPoint.x != endPoint.x) {
                 if (Math.atan2(Math.abs(endPoint.y - startPoint.y), Math.abs(endPoint.x - startPoint.x))*180/Math.PI < 45 ) {
@@ -105,6 +128,37 @@ Item {
         }
         ctx.restore()
     }
+    function draw(ctx) {
+        if (!firstDraw) { _initMainPoints() }
+        if (!isShiftPressed) { minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3]) }
+
+        var startPoint = points[0]
+        var endPoint = points[points.length - 1]
+        var minPadding = 10
+        if (points.length < 2) {
+            return
+        } else if (points.length == 2 && CalcEngine.getDistance(startPoint, endPoint) < 5) {
+            return
+        } else if (!CalcEngine.startDraw(startPoint, endPoint, minPadding)){
+            if (startPoint.x < endPoint.x) {
+                if (startPoint.y < endPoint.y) {
+                    endPoint = Qt.point(startPoint.x + minPadding, startPoint.y + minPadding)
+                } else {
+                    endPoint = Qt.point(startPoint.x + minPadding, startPoint.y - minPadding)
+                }
+            } else {
+                if (startPoint.y < endPoint.y) {
+                    endPoint = Qt.point(startPoint.x - minPadding, startPoint.y + minPadding)
+                } else {
+                    endPoint = Qt.point(startPoint.x - minPadding, startPoint.y - minPadding)
+                }
+            }
+            points[points.length -1] = endPoint
+            _draw(ctx, startPoint, endPoint)
+        } else {
+            _draw(ctx, startPoint, endPoint)
+        }
+    }
     function clickOnPoint(p) {
         selected = false
         reSized = false
@@ -145,53 +199,57 @@ Item {
         for (var i = 0; i < points.length; i++) {
             points[i] = Qt.point(points[i].x + delX, points[i].y + delY)
         }
+        _initMainPoints()
+        for(var i = 0; i < portion.length; i++) {
+            portion.pop()
+        }
 
         clickedPoint = p
     }
     function handleResize(p, key) {
         var startPoint = points[0]
         var endPoint = points[points.length - 1]
-        if (isShiftPressed) {
-            if (key == 1) {
+        if (key == 1) {
+            if (isShiftPressed) {
                 if (Math.atan2(Math.abs(endPoint.y - p.y), Math.abs(endPoint.x - p.x))*180/Math.PI < 45 ) {
                     startPoint = Qt.point(p.x, endPoint.y)
                 } else {
                     startPoint = Qt.point(endPoint.x, p.y)
                 }
-
-            }
-            if (key == 2) {
-                endPoint = p
-                if (Math.atan2(Math.abs(endPoint.y - startPoint.y), Math.abs(endPoint.x - startPoint.x))*180/Math.PI < 45 ) {
-                    points[points.length - 1] = Qt.point(endPoint.x, startPoint.y)
-                    endPoint = points[points.length - 1]
-                } else {
-                    points[points.length - 1] = Qt.point(startPoint.x, endPoint.y)
-                    endPoint = points[points.length - 1]
-                }
-            }
-        } else {
-            if (key == 1) {
+            } else {
                 startPoint = p
             }
-            if (key == 2) {
+
+        }
+        if (key == 2) {
+            if (isShiftPressed) {
+                if (Math.atan2(Math.abs(p.y - startPoint.y), Math.abs(p.x - startPoint.x))*180/Math.PI < 45 ) {
+                    endPoint = Qt.point(p.x, startPoint.y)
+                } else {
+                    endPoint = Qt.point(startPoint.x, p.y)
+                }
+            } else {
                 endPoint = p
             }
         }
         points[0] = startPoint
         points[points.length - 1] = endPoint
-
+        _initMainPoints()
+        for(var i = 0; i < portion.length; i++) {
+            portion.pop()
+        }
         clickedPoint = p
     }
     function rotateOnPoint(p) {
         if (reSized) {
             rotated = true
         }
+        clickedPoint = p
         return rotated
     }
 
-    function handleRotate(p, key) {
-        handleResize(p)
+    function handleRotate(p) {
+        clickedPoint = p
     }
     function hoverOnRotatePoint(p) {
         var startPoint = points[0]
