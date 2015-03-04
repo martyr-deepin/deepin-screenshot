@@ -98,7 +98,6 @@ Item {
             ctx.bezierCurveTo(points1[4].x, points1[4].y, points1[5].x, points1[5].y , minorPoints[2].x, minorPoints[2].y );
             ctx.bezierCurveTo(points1[6].x, points1[6].y, points1[7].x, points1[7].y, minorPoints[3].x, minorPoints[3].y);
             ctx.bezierCurveTo(points1[3].x, points1[3].y, points1[2].x, points1[2].y, minorPoints[0].x, minorPoints[0].y);
-            ctx.shadowOffsetY = (selected || reSized || rotated) ? 1 : 0
             ctx.shadowBlur = (selected || reSized || rotated) ? 2 : 0
             ctx.shadowColor = (selected || reSized || rotated) ? Qt.rgba(0, 0, 0, 0.2) : "transparent"
         }
@@ -114,6 +113,20 @@ Item {
                 ctx.putImageData(parent.mosaicImageData, 0, 0)
             }
             ctx.restore()
+        }
+        if (isHovered) {
+            ctx.lineWidth = 1
+            ctx.strokeStyle = "#01bdff"
+            ctx.beginPath()
+            ctx.moveTo(minorPoints[0].x, minorPoints[0].y);
+            ctx.bezierCurveTo(points1[0].x, points1[0].y, points1[1].x, points1[1].y, minorPoints[1].x, minorPoints[1].y);
+            ctx.bezierCurveTo(points1[4].x, points1[4].y, points1[5].x, points1[5].y , minorPoints[2].x, minorPoints[2].y );
+            ctx.bezierCurveTo(points1[6].x, points1[6].y, points1[7].x, points1[7].y, minorPoints[3].x, minorPoints[3].y);
+            ctx.bezierCurveTo(points1[3].x, points1[3].y, points1[2].x, points1[2].y, minorPoints[0].x, minorPoints[0].y);
+            ctx.shadowBlur = (selected || reSized || rotated) ? 2 : 0
+            ctx.shadowColor = (selected || reSized || rotated) ? Qt.rgba(0, 0, 0, 0.3) : "transparent"
+            ctx.closePath()
+            ctx.stroke()
         }
         if (selected||reSized||rotated) {
             ctx.lineWidth = 0.5
@@ -159,21 +172,6 @@ Item {
             /* Right */
             DrawingUtils.draw_point(ctx, minorPoints[3].x, minorPoints[3].y, linewidth / 2)
 
-        }
-        if (isHovered) {
-            ctx.lineWidth = 1
-            ctx.strokeStyle = "#01bdff"
-            ctx.beginPath()
-            ctx.moveTo(minorPoints[0].x, minorPoints[0].y);
-            ctx.bezierCurveTo(points1[0].x, points1[0].y, points1[1].x, points1[1].y, minorPoints[1].x, minorPoints[1].y);
-            ctx.bezierCurveTo(points1[4].x, points1[4].y, points1[5].x, points1[5].y , minorPoints[2].x, minorPoints[2].y );
-            ctx.bezierCurveTo(points1[6].x, points1[6].y, points1[7].x, points1[7].y, minorPoints[3].x, minorPoints[3].y);
-            ctx.bezierCurveTo(points1[3].x, points1[3].y, points1[2].x, points1[2].y, minorPoints[0].x, minorPoints[0].y);
-            ctx.shadowOffsetY = (selected || reSized || rotated) ? 1 : 0
-            ctx.shadowBlur = (selected || reSized || rotated) ? 4 : 0
-            ctx.shadowColor = (selected || reSized || rotated) ? Qt.rgba(0, 0, 0, 0.3) : "transparent"
-            ctx.closePath()
-            ctx.stroke()
         }
     }
     function draw(ctx) {

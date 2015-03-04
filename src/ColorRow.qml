@@ -100,7 +100,7 @@ Row {
         id: blue_dark
         colorOrder: 13
         colorStyle: screen.colorCard(colorOrder)
-        onClicked: { sponse(blur_dark) }
+        onClicked: { sponse(blue_dark) }
     }
     ColorButton{
         id: blue
