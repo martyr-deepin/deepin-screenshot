@@ -203,7 +203,7 @@ Item {
             if (firstMove && !firstRelease) {
                 zoomIndicator.updatePosition(pos)
 
-                var rgb = windowView.get_color_at_point(pos.x, pos.y)
+                var rgb = windowView.get_color_at_point(pos.x - 8, pos.y - 8)
                 pointColorRect.color = Qt.rgba(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, 1)
             }
         }
@@ -748,6 +748,7 @@ Item {
                         save_toolbar.visible = false
                     } else {
                         setlw.visible = false
+                        colorChange.visible = false
                     }
 
                     toolbar.shape.shapeName = "arrow"
@@ -790,6 +791,7 @@ Item {
                         setlw.visible = false
                         dividingLine.visible = false
                         straightLine.visible = false
+                        colorChange.visible= false
                     }
 
                     toolbar.shape.shapeName = "line"

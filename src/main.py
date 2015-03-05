@@ -145,7 +145,9 @@ class Window(QQuickView):
         '''
         if cursor_shape_dict.get(shape):
             pix = QPixmap(cursor_shape_dict[shape])
-            if shape.startswith(CURSOR_SHAPE_COLOR_PEN_PREFIX):
+            if shape == "shape_start_cursor":
+                cur = QCursor(pix, hotX=8, hotY=8)
+            elif shape.startswith(CURSOR_SHAPE_COLOR_PEN_PREFIX):
                 cur = QCursor(pix, hotX=0, hotY=pix.height())
             else:
                 cur = QCursor(pix, hotX=5, hotY=5)
