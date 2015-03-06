@@ -203,7 +203,7 @@ Item {
             if (firstMove && !firstRelease) {
                 zoomIndicator.updatePosition(pos)
 
-                var rgb = windowView.get_color_at_point(pos.x - 8, pos.y - 8)
+                var rgb = windowView.get_color_at_point(pos.x, pos.y)
                 pointColorRect.color = Qt.rgba(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, 1)
             }
         }
@@ -1335,7 +1335,7 @@ Item {
                 Image {
                     id: zoomIndicatorImage
                     x: -zoomIndicator.cursorX + (zoomIndicator.width - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue)
-                    y: -zoomIndicator.cursorY + parent.height / 2
+                    y: -zoomIndicator.cursorY + (zoomIndicator.height - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue)
                     source: "/tmp/deepin-screenshot.png"
                     smooth: false
                     cache: true
