@@ -823,11 +823,12 @@ Item {
                         mosaicType.visible = false
                         setlw.visible = false
                         colorChange.visible= false
-                        fontRect.visible = false
                         save_toolbar.visible = false
                     } else {
                         blurType.visible = false
                         mosaicType.visible = false
+                        fontRect.visible = true
+                        colorChange.visible= false
                         setlw.visible = false
                     }
 
