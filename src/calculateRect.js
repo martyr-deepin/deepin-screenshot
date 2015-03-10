@@ -2364,9 +2364,9 @@ function point8Resize3(point1, point2, point3, point4, p, isShift) {
     isShift = typeof isShift !== 'undefined' ? isShift : false
     var points = [point1, point2, point3, point4]
     var point6 = Qt.point((point3.x + point1.x) / 2, (point3.y + point1.y) / 2)
-    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) >= 2.35619&&(p.x + minPadding > point5.x)) {
+    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) >= 2.35619&&(p.x + minPadding > point6.x)) {
         return points
-    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) < 2.35619&&(p.y + minPadding > point5.y)) {
+    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) < 2.35619&&(p.y - minPadding < point6.y)) {
         return points
     }else {
         if (!isShift) {
