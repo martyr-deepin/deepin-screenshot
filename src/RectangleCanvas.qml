@@ -107,9 +107,9 @@ Item {
             ctx.save()
             ctx.clip()
             if (processBlur) {
-                ctx.putImageData(parent.blurImageData, 0, 0)
+                ctx.drawImage(parent.blurImageData, 0, 0, parent.width, parent.height)
             } else {
-                ctx.putImageData(parent.mosaicImageData, 0, 0)
+                ctx.drawImage(parent.mosaicImageData, 0, 0, parent.width, parent.height)
             }
             ctx.restore()
         }
