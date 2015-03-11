@@ -145,17 +145,14 @@ Canvas {
         for (var i = 0; i < shapes.length; i++) {
             if (shapes[i].clickOnPoint(p)){
                 selectedShape = shapes[i].numberOrder
+                break
             }
         }
         if (selectedShape != undefined) {
              selectUnique(selectedShape)
+             return true
          } else {
-            selectedShape = shapes.length + 1
-            selectUnique(selectedShape)
-        }
-        if (selectedShape >= 0 && selectedShape < shapes.length) {
-            return true
-        } else {
+            selectUnique(-1)
             return false
         }
     }
@@ -193,7 +190,7 @@ Canvas {
     function selectUnique(num) {
         var targetIndex = null
         for (var i = 0; i < shapes.length; i++) {
-            if (shapes[i].numberOrder == num) {
+            if (shapes[i].numberOrder == num && !targetIndex) {
                 targetIndex = i
                 continue
             } else {
@@ -410,7 +407,6 @@ Canvas {
                     canvas.requestPaint()
                 }
                 if (selectedShape != null && pressed) {
-
                     if (selectedShape.isreadOnly == undefined) {
                         var pos = screen.get_absolute_cursor_pos()
                         selectedShape.handleDrag(Qt.point(pos.x, pos.y))
