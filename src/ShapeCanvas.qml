@@ -458,6 +458,10 @@ Canvas {
                     }
                     canvas.requestPaint()
                 }
+                if (canvas.shapes.length == 0) {
+                    canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+                    canvas.requestPaint()
+                }
             }
         }
     }
