@@ -145,13 +145,16 @@ Item {
                 /* Top right */
                 DrawingUtils.draw_point(ctx, points[points.length - 1].x, points[points.length - 1].y, bigPointRadius + linewidth/2)
             } else {
-                /* Rotate */
+                /* Rotate point*/
                 var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+                ctx.lineWidth = 1
+                ctx.strokeStyle = Qt.rgba(1, 1, 1, 0.6)
+                var middlePoint = Qt.point((mainPoints[0].x + mainPoints[2].x) / 2,(mainPoints[0].y + mainPoints[2].y) / 2)
+                ctx.moveTo(rotatePoint.x, rotatePoint.y)
+                DrawingUtils.draw_line((selected || reSized || rotated), ctx, middlePoint.x, middlePoint.y)
+                ctx.stroke()
                 ctx.drawImage(canvas.rotateImage, rotatePoint.x - 12, rotatePoint.y - 12)
 
-                ctx.lineWidth = 1
-                ctx.strokeStyle = "white"
-                ctx.fillStyle = "white"
                 /* Top left */
                 DrawingUtils.draw_point(ctx, mainPoints[0].x, mainPoints[0].y,bigPointRadius + linewidth / 2)
 
@@ -176,8 +179,8 @@ Item {
 
                 /* Right */
                 DrawingUtils.draw_point(ctx, minorPoints[3].x, minorPoints[3].y, linewidth / 2)
-                ctx.lineWidth = 0.5
-                ctx.strokeStyle = "white"
+                ctx.lineWidth = 1
+                ctx.strokeStyle = Qt.rgba(1, 1, 1, 0.6)
                 ctx.beginPath()
                 ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
                 DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[2].x, mainPoints[2].y)

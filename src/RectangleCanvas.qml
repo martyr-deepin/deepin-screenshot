@@ -3,7 +3,6 @@ import "calculateRect.js" as CalcEngine
 import "drawing_utils.js" as DrawingUtils
 
 Item {
-
     property bool selected: false
     property bool reSized: false
     property bool rotated: false
@@ -14,7 +13,6 @@ Item {
     property var points: []
     property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
     property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
-
     property int numberOrder
     property string shape: "rect"
     property var bigPointRadius: 2
@@ -115,12 +113,16 @@ Item {
         }
 
         if (selected||reSized||rotated) {
-            ctx.lineWidth = 1
-            ctx.strokeStyle = "black"
-            ctx.fillStyle = "yellow"
-            /* Rotate */
+            /* Rotate point*/
             var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+            ctx.lineWidth = 1
+            ctx.strokeStyle = Qt.rgba(1, 1, 1, 0.6)
+            var middlePoint = Qt.point((mainPoints[0].x + mainPoints[2].x) / 2,(mainPoints[0].y + mainPoints[2].y) / 2)
+            ctx.moveTo(rotatePoint.x, rotatePoint.y)
+            DrawingUtils.draw_line((selected || reSized || rotated), ctx, middlePoint.x, middlePoint.y)
+            ctx.stroke()
             ctx.drawImage(canvas.rotateImage, rotatePoint.x - 12, rotatePoint.y - 12)
+
             ctx.lineWidth = 1
             ctx.strokeStyle = "white"
             ctx.fillStyle = "white"

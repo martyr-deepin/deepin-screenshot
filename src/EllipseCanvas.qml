@@ -13,7 +13,6 @@ Item {
     property var points: []
     property var mainPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
     property var minorPoints: [Qt.point(0, 0), Qt.point(0, 0), Qt.point(0, 0), Qt.point(0,0)]
-
     property int numberOrder
     property string shape: "ellipse"
     property int bigPointRadius: 2
@@ -94,7 +93,6 @@ Item {
         ctx.strokeStyle = ((processBlur||processMosaic)&& !(selected || reSized || rotated)) ? "transparent": screen.colorCard(drawColor)
         ctx.fillStyle = "transparent"
         ctx.beginPath()
-
         if (DrawingUtils.isPointsSameX(mainPoints)) {
             ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
             DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[1].x, mainPoints[1].y)
@@ -128,8 +126,8 @@ Item {
             ctx.stroke()
         }
         if (selected||reSized||rotated) {
-            ctx.lineWidth = 0.5
-            ctx.strokeStyle = "white"
+            ctx.lineWidth = 1
+            ctx.strokeStyle = Qt.rgba(1, 1, 1, 0.6)
             ctx.beginPath()
             ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
             DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[2].x, mainPoints[2].y)
@@ -139,8 +137,14 @@ Item {
             ctx.closePath()
             ctx.stroke()
 
-            /* Rotate */
+            /* Rotate point */
             var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+            ctx.lineWidth = 1
+            ctx.strokeStyle = Qt.rgba(1, 1, 1, 0.6)
+            var middlePoint = Qt.point((mainPoints[0].x + mainPoints[2].x) / 2,(mainPoints[0].y + mainPoints[2].y) / 2)
+            ctx.moveTo(rotatePoint.x, rotatePoint.y)
+            DrawingUtils.draw_line((selected || reSized || rotated), ctx, middlePoint.x, middlePoint.y)
+            ctx.stroke()
             ctx.drawImage(canvas.rotateImage, rotatePoint.x - 12, rotatePoint.y - 12)
 
             ctx.lineWidth = 1

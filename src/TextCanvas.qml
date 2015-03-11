@@ -188,13 +188,16 @@ Rectangle {
             dashLine(ctx, mainPoints[3], mainPoints[1])
             dashLine(ctx, mainPoints[1], mainPoints[0])
 
+            /* Rotate point*/
             ctx.lineWidth = 1
-            ctx.strokeStyle = "black"
-            ctx.fillStyle = "yellow"
-            /* Rotate */
+            ctx.strokeStyle = Qt.rgba(1, 1, 1, 0.6)
             var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+            var middlePoint = Qt.point((mainPoints[0].x + mainPoints[2].x) / 2,(mainPoints[0].y + mainPoints[2].y) / 2)
+            ctx.moveTo(rotatePoint.x, rotatePoint.y)
+            DrawingUtils.draw_line((selected || reSized || rotated), ctx, middlePoint.x, middlePoint.y)
+            ctx.stroke()
             ctx.drawImage(canvas.rotateImage, rotatePoint.x - 12, rotatePoint.y - 12)
-       }
+        }
     }
     function clickOnPoint(p) {
         var result = false
