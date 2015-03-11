@@ -19,6 +19,7 @@ Item {
     property string shape: "rect"
     property var bigPointRadius: 2
     property var smallPointRadius: 2
+    property var minPadding: 10
     property int clickedKey: 0
     property int linewidth: 3
     property int drawColor: 2
@@ -35,10 +36,9 @@ Item {
         var endPoint = points[points.length - 1]
         var leftX = Math.min(startPoint.x, endPoint.x)
         var leftY = Math.min(startPoint.y, endPoint.y)
-        var pWidth = Math.abs(startPoint.x - endPoint.x)
-        var pHeight = Math.abs(startPoint.y - endPoint.y)
+        var pWidth = Math.max(Math.abs(startPoint.x - endPoint.x), minPadding)
+        var pHeight = Math.max(Math.abs(startPoint.y - endPoint.y), minPadding)
         if (isShiftPressed) {
-            var shiftWidth = Math.min(pWidth, pHeight)
             if (endPoint.x >= startPoint.x) {
                 if (endPoint.y >= startPoint.y) {
                     mainPoints[0]=startPoint
@@ -153,7 +153,6 @@ Item {
     function draw(ctx) {
         var startPoint = points[0]
         var endPoint = points[points.length - 1]
-        var minPadding = 10
         if (points.length < 2) {
             return
         } else if (points.length == 2 && CalcEngine.getDistance(startPoint, endPoint) < 5) {

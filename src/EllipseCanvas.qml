@@ -18,6 +18,7 @@ Item {
     property string shape: "ellipse"
     property int bigPointRadius: 2
     property int smallPointRadius: 1
+    property var minPadding: 10
     property int clickedKey: 0
     property int linewidth: 3
     property int drawColor: 2
@@ -33,8 +34,8 @@ Item {
         var endPoint = points[points.length - 1]
         var leftX = Math.min(startPoint.x, endPoint.x)
         var leftY = Math.min(startPoint.y, endPoint.y)
-        var pWidth = Math.abs(startPoint.x - endPoint.x)
-        var pHeight = Math.abs(startPoint.y - endPoint.y)
+        var pWidth = Math.max(Math.abs(startPoint.x - endPoint.x), minPadding)
+        var pHeight = Math.max(Math.abs(startPoint.y - endPoint.y), minPadding)
         if (isShiftPressed) {
             var shiftWidth = Math.min(pWidth, pHeight)
             if (endPoint.x >= startPoint.x) {
