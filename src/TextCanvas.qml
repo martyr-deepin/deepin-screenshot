@@ -233,6 +233,7 @@ Rectangle {
             wrapMode: TextEdit.Wrap
             cursorDelegate: Rectangle {
                 width: 1
+                height: parent.height
                 color: text.color
                 visible: !text.readOnly && blink_timer.cursorVisible
             }
