@@ -279,7 +279,7 @@ Item {
     function handleResize(p, key) {
 
         if (reSized) {
-            var Newpoints = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key, isShiftPressed)
+            var Newpoints = CalcEngine.reSizePointPosition(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key, minPadding, isShiftPressed)
             for (var i = 0; i < 4; i ++) { mainPoints[i] = Newpoints[i] }
         }
 

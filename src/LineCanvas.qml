@@ -21,6 +21,7 @@ Item {
     property string shape: "line"
     property var bigPointRadius: 2
     property var smallPointRadius: 1
+    property var minPadding: 10
     property int clickedKey: 0
     property int linewidth: 3
     property int drawColor: 3
@@ -45,10 +46,10 @@ Item {
             rightY = Math.max(rightY, points[i].y)
         }
         if (!isShiftPressed || !isStraightLine) {
-            mainPoints[0] = Qt.point(Math.max(leftX - 5, 0), Math.max(leftY - 5, 0))
-            mainPoints[1] = Qt.point(Math.max(leftX - 5, 0), Math.min(rightY + 5, screenHeight))
-            mainPoints[2] = Qt.point(Math.min(rightX + 5, screenWidth), Math.max(leftY - 5, 0))
-            mainPoints[3] = Qt.point(Math.min(rightX + 5, screenWidth), Math.min(rightY + 5, screenHeight))
+            mainPoints[0] = Qt.point(Math.max(leftX - minPadding, 0), Math.max(leftY - minPadding, 0))
+            mainPoints[1] = Qt.point(Math.max(leftX - minPadding, 0), Math.min(rightY + minPadding, screenHeight))
+            mainPoints[2] = Qt.point(Math.min(rightX + minPadding, screenWidth), Math.max(leftY - minPadding, 0))
+            mainPoints[3] = Qt.point(Math.min(rightX + minPadding, screenWidth), Math.min(rightY + minPadding, screenHeight))
 
             CalcEngine.changePointsOrder(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
         }
@@ -59,8 +60,16 @@ Item {
         rotated = false
         reSized = false
     }
+    function _minPadding() {
+        switch (linewidth) {
+            case 2: { minPadding = 20;}
+            case 4: { minPadding = 15;}
+            case 6: { minPadding = 19;}
+        }
+    }
 
     function draw(ctx) {
+        _minPadding()
         if (!firstDraw) { _initMainPoints() }
         if (isShiftPressed || isStraightLine) { minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3]) }
 
@@ -363,7 +372,7 @@ Item {
                     }
                     firstRelativeCalculate = true
                 }
-                var points1 = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key)
+                var points1 = CalcEngine.reSizePointPosition(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key, minPadding)
                 for (var i = 0; i < 4; i ++) { mainPoints[i] = points1[i] }
                 for (var i = 0; i < points.length; i++) {
                     points[i] = CalcEngine.getNewPostion(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], portion[i])

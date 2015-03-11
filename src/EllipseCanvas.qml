@@ -78,6 +78,13 @@ Item {
         rotated = false
         reSized = false
     }
+    function _minPadding() {
+        switch (linewidth) {
+            case 2: { minPadding = 7;}
+            case 4: { minPadding = 11;}
+            case 6: { minPadding = 15;}
+        }
+    }
     function _draw(ctx) {
         if (!firstDraw) { _initMainPoints() }
         minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
@@ -169,7 +176,7 @@ Item {
     function draw(ctx) {
         var startPoint = points[0]
         var endPoint = points[points.length - 1]
-        var minPadding = 10
+        _minPadding()
         if (points.length < 2) {
             return
         } else if (points.length == 2 && CalcEngine.getDistance(startPoint, endPoint) < 5) {
@@ -300,7 +307,7 @@ Item {
     function handleResize(p, key) {
 
         if (reSized) {
-            var points = CalcEngine.reSizePointPosititon(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key, isShiftPressed)
+            var points = CalcEngine.reSizePointPosition(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3], p, key, minPadding, isShiftPressed)
             for (var i = 0; i < 4; i ++) { mainPoints[i] = points[i] }
         }
         clickedPoint = p

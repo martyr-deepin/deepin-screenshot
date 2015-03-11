@@ -43,5 +43,5 @@ function draw_point(ctx, startX, startY, radius) {
 function draw_line(isShadow, ctx, endX, endY) {
     ctx.lineTo(endX, endY)
     ctx.shadowBlur = 2
-    ctx.shadowColor = "black"
+    ctx.shadowColor = isShadow ? "black": "transparent"
 }

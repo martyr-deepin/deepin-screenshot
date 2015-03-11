@@ -161,8 +161,9 @@ function pointLineDir(point1, point2, point3) {
         }
     }
 }
-function reSizePointPosititon(point1, point2, point3, point4, p, K, isShift) {
+function reSizePointPosition(point1, point2, point3, point4, p, K, mPadding,isShift) {
     isShift = typeof isShift !== 'undefined' ? isShift : false
+    minPadding = mPadding
     var points = [point1, point2, point3, point4]
     if (point1.x - point2.x < 0 && point1.y - point2.y < 0 &&
     point1.x - point3.x < 0 && point1.y - point3.y > 0) {
@@ -1458,9 +1459,9 @@ function point5Resize1(point1, point2, point3, point4, p, isShift) {
     isShift = typeof isShift !== 'undefined' ? isShift : false
     var points = [point1, point2, point3, point4]
     var point7 = Qt.point((point3.x + point4.x) / 2, (point3.y + point4.y) / 2)
-    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) >= 0.78539 && p.x + minPadding > point7.x) {
+    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) >= 0.78539 && p.x + minPadding*2 > point7.x) {
         return points
-    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) < 0.78539 && p.y - minPadding < point7.y) {
+    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) < 0.78539 && p.y - minPadding*2 < point7.y) {
         return points
     }else {
         if (!isShift) {
@@ -1508,9 +1509,9 @@ function point5Resize2(point1, point2, point3, point4, p, isShift) {
     isShift = typeof isShift !== 'undefined' ? isShift : false
     var points = [point1, point2, point3, point4]
     var point7 = Qt.point((point3.x + point4.x) / 2, (point3.y + point4.y) / 2)
-    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) <= -0.78539&&(p.x - minPadding < point7.x)) {
+    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) <= -0.78539&&(p.x - minPadding*2 < point7.x)) {
         return points
-    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) > -0.78539&&(p.y - minPadding < point7.y)) {
+    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) > -0.78539&&(p.y - minPadding*2 < point7.y)) {
         return points
     }else {
         if (!isShift) {
@@ -1558,9 +1559,9 @@ function point5Resize3(point1, point2, point3, point4, p, isShift) {
     isShift = typeof isShift !== 'undefined' ? isShift : false
     var points = [point1, point2, point3, point4]
     var point7 = Qt.point((point3.x + point4.x) / 2, (point3.y + point4.y) / 2)
-    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) >= 2.35619&&(p.y + minPadding > point7.y)) {
+    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) >= 2.35619&&(p.y + minPadding*2 > point7.y)) {
         return points
-    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) < 2.35619&&(p.x + minPadding > point7.x)) {
+    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) < 2.35619&&(p.x + minPadding*2 > point7.x)) {
         return points
     }else {
         if (!isShift) {
@@ -1608,7 +1609,9 @@ function point5Resize4(point1, point2, point3, point4, p, isShift) {
     isShift = typeof isShift !== 'undefined' ? isShift : false
     var points = [point1, point2, point3, point4]
     var point7 = Qt.point((point3.x + point4.x) / 2, (point3.y + point4.y) / 2)
-    if (!startDraw(p, point7, minPadding) ||p.y + minPadding > point7.y /*|| p.x - 5 < point7.x*/) {
+    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) >= -2.35619&&(p.x - minPadding < point7.x)) {
+        return points
+    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) < -2.35619&&(p.y + minPadding > point7.y)) {
         return points
     } else {
         if (!isShift) {
@@ -1858,9 +1861,9 @@ function point6Resize1(point1, point2, point3, point4, p, isShift) {
     isShift = typeof isShift !== 'undefined' ? isShift : false
     var points = [point1, point2, point3, point4]
     var point8 = Qt.point((point2.x + point4.x) / 2, (point2.y + point4.y) / 2)
-    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) >= 0.78539&&p.y + minPadding > point8.y) {
+    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) >= 0.78539&&p.y + minPadding*2 > point8.y) {
         return points
-    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) < 0.78539&&p.x + minPadding > point8.x) {
+    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) < 0.78539&&p.x + minPadding*2 > point8.x) {
         return points
     }else {
         if (!isShift) {
@@ -2010,7 +2013,9 @@ function point6Resize4(point1, point2, point3, point4, p, isShift) {
     isShift = typeof isShift !== 'undefined' ? isShift : false
     var points = [point1, point2, point3, point4]
     var point8 = Qt.point((point2.x + point4.x) / 2, (point2.y + point4.y) / 2)
-    if (!startDraw(p, point8, minPadding) || /*p.y - minPadding < point8.y ||*/ p.x - minPadding < point8.x) {
+    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) >= -2.35619&&(p.y - minPadding < point8.y)) {
+        return points
+    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) < -2.35619&&(p.x - minPadding < point8.x)) {
         return points
     } else {
         if (!isShift) {
@@ -2058,9 +2063,9 @@ function point7Resize1(point1, point2, point3, point4, p, isShift) {
     isShift = typeof isShift !== 'undefined' ? isShift : false
     var points = [point1, point2, point3, point4]
     var point5 = Qt.point((point2.x + point1.x) / 2, (point2.y + point1.y) / 2)
-    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) >= 0.78539 && p.x - minPadding < point5.x) {
+    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) >= 0.78539 && p.x - minPadding*2 < point5.x) {
         return points
-    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) < 0.78539 && p.y + minPadding > point5.y) {
+    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) < 0.78539 && p.y + minPadding*2 > point5.y) {
         return points
     } else {
         if (!isShift) {
@@ -2212,7 +2217,9 @@ function point7Resize4(point1, point2, point3, point4, p, isShift) {
     isShift = typeof isShift !== 'undefined' ? isShift : false
     var points = [point1, point2, point3, point4]
     var point5 = Qt.point((point2.x + point1.x) / 2, (point2.y + point1.y) / 2)
-    if (!startDraw(p, point5, minPadding) || p.y - minPadding < point5.y /*|| p.x + minPadding > point5.x*/) {
+    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) >= -2.35619&&(p.x + minPadding > point5.x)) {
+        return points
+    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) < -2.35619&&(p.y - minPadding < point5.y)) {
         return points
     } else {
         if (!isShift) {
@@ -2260,9 +2267,9 @@ function point8Resize1(point1, point2, point3, point4, p, isShift) {
     isShift = typeof isShift !== 'undefined' ? isShift : false
     var points = [point1, point2, point3, point4]
     var point6 = Qt.point((point3.x + point1.x) / 2, (point3.y + point1.y) / 2)
-    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) >= 0.78539&&p.y - minPadding < point6.y) {
+    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) >= 0.78539&&p.y - minPadding*2 < point6.y) {
         return points
-    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) < 0.78539&&p.x - minPadding < point6.x) {
+    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) < 0.78539&&p.x - minPadding*2 < point6.x) {
         return points
     }else {
         if (!isShift) {
@@ -2414,7 +2421,9 @@ function point8Resize4(point1, point2, point3, point4, p, isShift) {
     isShift = typeof isShift !== 'undefined' ? isShift : false
     var points = [point1, point2, point3, point4]
     var point6 = Qt.point((point3.x + point1.x) / 2, (point3.y + point1.y) / 2)
-    if (!startDraw(p, point6, minPadding) ||/* p.y + minPadding > point6.y ||*/ p.x + minPadding > point6.x) {
+    if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) >= -2.35619&&(p.y + minPadding > point6.y)) {
+        return points
+    } else if (Math.atan2((point2.y - point1.y),(point2.x - point1.x)) < -2.35619&&(p.x + minPadding > point6.x)) {
         return points
     } else {
         if (!isShift) {
