@@ -3,6 +3,7 @@ import "calculateRect.js" as CalcEngine
 import "drawing_utils.js" as DrawingUtils
 
 Item {
+    id: root
     property bool selected: false
     property bool reSized: false
     property bool rotated: false
@@ -27,6 +28,7 @@ Item {
     property bool isShiftPressed: false
     onDrawColorChanged: { windowView.set_save_config(shape, "color_index", drawColor)}
     onLinewidthChanged: { windowView.set_save_config(shape, "linewidth_index", linewidth)}
+
     function _initMainPoints() {
         var startPoint = points[0]
         var endPoint = points[points.length - 1]
@@ -66,8 +68,7 @@ Item {
         var endPoint = points[points.length - 1]
 
         if ((isShiftPressed || isStraightLine) && (!reSized || !rotated)) {
-            if (startPoint.x == endPoint.x) {}
-            else {
+            if (startPoint.x != endPoint.x) {
                 if (isShiftPressed) {
                     if (Math.atan2(Math.abs(endPoint.y - startPoint.y), Math.abs(endPoint.x - startPoint.x))*180/Math.PI < 45 ) {
                         points[points.length - 1] = Qt.point(endPoint.x, startPoint.y)
@@ -81,7 +82,7 @@ Item {
                 } else {
                     points.splice(1, points.length -2)
                 }
-           }
+            }
 
             ctx.lineWidth = linewidth
             ctx.strokeStyle = screen.colorCard(drawColor)
@@ -93,86 +94,91 @@ Item {
         } else {
             ctx.lineWidth = linewidth
             ctx.strokeStyle = screen.colorCard(drawColor)
-            ctx.beginPath()
-            ctx.moveTo(points[0].x, points[0].y)
 
-            for(var i = 1; i < points.length; i++) { DrawingUtils.draw_line((selected || reSized || rotated), ctx, points[i].x, points[i].y)}
+            var content = ""
+            var lastPointTake = points[0]
+            for(var i = 1; i < points.length; i++) {
+                // NOTE:
+                // 1, reducing the point length, thus to prevent too much calculations
+                // 2, we take every last point to ensure that when the drawing's very slow,
+                //    the drawing doesn't seem to be intermittent.
+                if (CalcEngine.getDistance(lastPointTake, points[i]) > 15 || i == points.length - 1) {
+                    lastPointTake = points[i]
+                    content += "PathCurve {x: %1; y: %2}".arg(points[i].x).arg(points[i].y)
+                }
+            }
+
+            var curve_path = Qt.createQmlObject("import QtQuick 2.2; Path {%1}".arg(content), root, "curve_path")
+            curve_path.startX = points[0].x
+            curve_path.startY = points[0].y
+
+            ctx.path = curve_path
+            ctx.stroke()
+            // don't forget to release the memory
+            curve_path.destroy()
+        }
+        if (isHovered) {
+            ctx.lineWidth = 1
+            ctx.strokeStyle = "#01bdff"
             ctx.stroke()
         }
-            if (isHovered) {
+        if (selected||reSized||rotated) {
+            ctx.lineWidth = 1
+            ctx.strokeStyle = "black"
+            ctx.fillStyle = "yellow"
+            if (isStraightLine||isShiftPressed) {
                 ctx.lineWidth = 1
-                ctx.strokeStyle = "#01bdff"
-                if (isStraightLine||isShiftPressed) {
-                    ctx.beginPath()
-                    ctx.moveTo(points[0].x, points[0].y)
-                    ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y)
-                } else {
-                    ctx.beginPath()
-                    ctx.moveTo(points[0].x, points[0].y)
+                ctx.strokeStyle = "white"
+                ctx.fillStyle = "white"
 
-                    for(var i = 1; i < points.length; i++) {
-                        ctx.lineTo(points[i].x, points[i].y)
-                    }
-                }
+                /* Top left */
+                DrawingUtils.draw_point(ctx, points[0].x, points[0].y, bigPointRadius + linewidth/2)
+                /* Top right */
+                DrawingUtils.draw_point(ctx, points[points.length - 1].x, points[points.length - 1].y, bigPointRadius + linewidth/2)
+            } else {
+                /* Rotate */
+                var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+                ctx.drawImage(canvas.rotateImage, rotatePoint.x - 12, rotatePoint.y - 12)
+
+                ctx.lineWidth = 1
+                ctx.strokeStyle = "white"
+                ctx.fillStyle = "white"
+                /* Top left */
+                DrawingUtils.draw_point(ctx, mainPoints[0].x, mainPoints[0].y,bigPointRadius + linewidth / 2)
+
+                /* Top right */
+                DrawingUtils.draw_point(ctx, mainPoints[3].x, mainPoints[3].y, bigPointRadius + linewidth / 2)
+
+                /* Bottom left */
+                DrawingUtils.draw_point(ctx, mainPoints[1].x, mainPoints[1].y, bigPointRadius + linewidth / 2)
+
+                /* Bottom right */
+                DrawingUtils.draw_point(ctx, mainPoints[2].x, mainPoints[2].y, bigPointRadius + linewidth / 2)
+
+                minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+                /* Top */
+                DrawingUtils.draw_point(ctx, minorPoints[0].x, minorPoints[0].y, linewidth / 2)
+
+                /* Bottom */
+                DrawingUtils.draw_point(ctx, minorPoints[1].x, minorPoints[1].y, linewidth / 2)
+
+                /* Left */
+                DrawingUtils.draw_point(ctx, minorPoints[2].x, minorPoints[2].y, linewidth / 2)
+
+                /* Right */
+                DrawingUtils.draw_point(ctx, minorPoints[3].x, minorPoints[3].y, linewidth / 2)
+                ctx.lineWidth = 0.5
+                ctx.strokeStyle = "white"
+                ctx.beginPath()
+                ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
+                DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[2].x, mainPoints[2].y)
+                DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[3].x, mainPoints[3].y)
+                DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[1].x, mainPoints[1].y)
+                DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[0].x, mainPoints[0].y)
+                ctx.closePath()
                 ctx.stroke()
             }
-            if (selected||reSized||rotated) {
-                ctx.lineWidth = 1
-                ctx.strokeStyle = "black"
-                ctx.fillStyle = "yellow"
-                if (isStraightLine||isShiftPressed) {
-                    ctx.lineWidth = 1
-                    ctx.strokeStyle = "white"
-                    ctx.fillStyle = "white"
-
-                    /* Top left */
-                    DrawingUtils.draw_point(ctx, points[0].x, points[0].y, bigPointRadius + linewidth/2)
-                    /* Top right */
-                    DrawingUtils.draw_point(ctx, points[points.length - 1].x, points[points.length - 1].y, bigPointRadius + linewidth/2)
-                } else {
-                    /* Rotate */
-                    var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-                    ctx.drawImage(canvas.rotateImage, rotatePoint.x - 12, rotatePoint.y - 12)
-
-                    ctx.lineWidth = 1
-                    ctx.strokeStyle = "white"
-                    ctx.fillStyle = "white"
-                    /* Top left */
-                    DrawingUtils.draw_point(ctx, mainPoints[0].x, mainPoints[0].y,bigPointRadius + linewidth / 2)
-
-                    /* Top right */
-                    DrawingUtils.draw_point(ctx, mainPoints[3].x, mainPoints[3].y, bigPointRadius + linewidth / 2)
-
-                    /* Bottom left */
-                    DrawingUtils.draw_point(ctx, mainPoints[1].x, mainPoints[1].y, bigPointRadius + linewidth / 2)
-
-                    /* Bottom right */
-                    DrawingUtils.draw_point(ctx, mainPoints[2].x, mainPoints[2].y, bigPointRadius + linewidth / 2)
-
-                    minorPoints = CalcEngine.getAnotherFourPoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-                    /* Top */
-                    DrawingUtils.draw_point(ctx, minorPoints[0].x, minorPoints[0].y, linewidth / 2)
-
-                    /* Bottom */
-                    DrawingUtils.draw_point(ctx, minorPoints[1].x, minorPoints[1].y, linewidth / 2)
-
-                    /* Left */
-                    DrawingUtils.draw_point(ctx, minorPoints[2].x, minorPoints[2].y, linewidth / 2)
-
-                    /* Right */
-                    DrawingUtils.draw_point(ctx, minorPoints[3].x, minorPoints[3].y, linewidth / 2)
-                    ctx.lineWidth = 0.5
-                    ctx.strokeStyle = "white"
-                    ctx.beginPath()
-                    ctx.moveTo(mainPoints[0].x, mainPoints[0].y)
-                    DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[2].x, mainPoints[2].y)
-                    DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[3].x, mainPoints[3].y)
-                    DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[1].x, mainPoints[1].y)
-                    DrawingUtils.draw_line((selected || reSized || rotated), ctx, mainPoints[0].x, mainPoints[0].y)
-                    ctx.closePath()
-                    ctx.stroke()
-                }
-            }
+        }
     }
     function clickOnPoint(p) {
         selected = false
