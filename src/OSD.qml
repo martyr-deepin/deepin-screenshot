@@ -49,7 +49,7 @@ Window {
 
         Text {
             y: parent.height / 4
-            text: "Tips"
+            text: dsTr("Tips")
             color: Qt.rgba(1, 1, 1, 0.8)
             anchors.horizontalCenter: parent.horizontalCenter
         }
@@ -60,7 +60,7 @@ Window {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             color: Qt.rgba(1, 1, 1, 0.8)
-            text: 'You can start Deepin Screenshot with "Ctrl+Alt+A"'
+            text: dsTr('You can start Deepin Screenshot with "Ctrl+Alt+A"')
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }

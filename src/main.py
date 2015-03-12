@@ -289,7 +289,7 @@ def copyPixmap(pixmap):
     clipboard.clear()
     clipboard.setPixmap(pixmap)
 
-    _notificationId = notificationsInterface.notify("Deepin Screenshot", "Screenshot has been copied to clipboard")
+    _notificationId = notificationsInterface.notify("Deepin Screenshot", _("Picture has been saved to clipboard"))
 
 def savePixmap(pixmap, fileName):
     global _notificationId
@@ -297,7 +297,7 @@ def savePixmap(pixmap, fileName):
     pixmap.save(fileName)
 
     _fileSaveLocation = fileName
-    _notificationId = notificationsInterface.notify("Deepin Screenshot", _fileSaveLocation, [ACTION_ID_OPEN, "Open"])
+    _notificationId = notificationsInterface.notify("Deepin Screenshot", _fileSaveLocation, [ACTION_ID_OPEN, _("View")])
 
 def saveScreenshot(pixmap):
     global settings
@@ -389,19 +389,16 @@ if __name__ == "__main__":
     parser.addVersionOption()
 
     delayOption = QCommandLineOption(["d", "delay"],
-                                     _("Take a screenshot after NUM seconds"),
-                                     "NUM")
+        "Take a screenshot after NUM seconds", "NUM")
     fullscreenOption = QCommandLineOption(["f", "fullscreen"],
-                                     _("Take a screenshot of the whole screen"))
+        "Take a screenshot of the whole screen")
     topWindowOption = QCommandLineOption(["w", "top-window"],
-                                     _("Take a screenshot of the most top \
-                                        window"))
+        "Take a screenshot of the most top window")
     savePathOption = QCommandLineOption(["s", "save-path"],
-                                     _("Specify a path to save the screenshot"),
-                                     "PATH")
+        "Specify a path to save the screenshot", "PATH")
     startFromDesktopOption = QCommandLineOption(["i", "icon"],
-                                     _("Indicate that this program's started \
-                                        by clicking desktop file."))
+        "Indicate that this program's started by clicking desktop file.")
+
     parser.addOption(delayOption)
     parser.addOption(fullscreenOption)
     parser.addOption(topWindowOption)
@@ -417,7 +414,7 @@ if __name__ == "__main__":
 
     if is_service_exist():
         notificationsInterface.notify("Deepin Screenshot",
-            "Deepin Screenshot is running!")
+            _("Deepin Screenshot has been started!"))
     else:
         QTimer.singleShot(max(0, delayValue * 1000), main)
 

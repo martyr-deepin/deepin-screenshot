@@ -36,18 +36,18 @@ menu_icon_hover = lambda x: os.path.join(MENU_ICONS_DIR, "%s-symbolic-small-hove
 menu_icon_tuple = lambda x: (menu_icon_normal(x), menu_icon_hover(x))
 
 save_sub_menu = [
-    CheckableMenuItem("save:radio:_op_auto_save", _("Auto save")),
+    CheckableMenuItem("save:radio:_op_auto_save", _("Autosave")),
     CheckableMenuItem("save:radio:_op_save_to_desktop", _("Save to desktop")),
     CheckableMenuItem("save:radio:_op_copy_to_clipboard", _("Copy to clipboard")),
-    CheckableMenuItem("save:radio:_op_save_as", _("Save as")),
-    CheckableMenuItem("save:radio:_op_copy_and_save", _("Auto Save and Save to Clipboard")),
+    CheckableMenuItem("save:radio:_op_save_as", _("Save to specified folder")),
+    CheckableMenuItem("save:radio:_op_copy_and_save", _("Autosave and copy to clipboard")),
 ]
 
 right_click_menu = [
     ("_rectangle", _("Rectangle tool"), menu_icon_tuple("rectangle-tool")),
     ("_ellipse", _("Ellipse tool"), menu_icon_tuple("ellipse-tool")),
     ("_arrow", _("Arrow tool"), menu_icon_tuple("arrow-tool")),
-    ("_line", _("Line tool"), menu_icon_tuple("line-tool")),
+    ("_line", _("Brush tool"), menu_icon_tuple("line-tool")),
     ("_text", _("Text tool"), menu_icon_tuple("text-tool")),
     None,
     ("_save", _("Save"), menu_icon_tuple("save")),

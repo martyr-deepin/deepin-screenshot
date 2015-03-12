@@ -1,0 +1,182 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-13 14:36+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/Main.qml:1167 ../src/menu_controller.py:40
+msgid "Save to desktop"
+msgstr ""
+
+#: ../src/Main.qml:1189 ../src/menu_controller.py:39
+msgid "Autosave"
+msgstr ""
+
+#: ../src/Main.qml:1211 ../src/menu_controller.py:42
+msgid "Save to specified folder"
+msgstr ""
+
+#: ../src/Main.qml:1233 ../src/menu_controller.py:41
+msgid "Copy to clipboard"
+msgstr ""
+
+#: ../src/Main.qml:1254 ../src/menu_controller.py:43
+msgid "Autosave and copy to clipboard"
+msgstr ""
+
+#: ../src/OSD.qml:52
+msgid "Tips"
+msgstr ""
+
+#: ../src/OSD.qml:63
+msgid "You can start Deepin Screenshot with \"Ctrl+Alt+A\""
+msgstr ""
+
+#: ../src/ShortcutsLabel.qml:23
+msgid "None"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:46
+msgid "Start/Screenshot"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:49
+msgid "Quick start"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:53
+msgid "Fullscreen screenshot"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:57
+msgid "Delay screenshot"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:61
+msgid "Intelligent identifying window"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:65
+msgid "Quit"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:71
+msgid "Save/Share"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:74 ../src/menu_controller.py:53
+msgid "Save"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:78 ../src/menu_controller.py:54
+msgid "Share"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:86
+msgid "Painting"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:47
+msgid "Rectangle tool"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:93 ../src/menu_controller.py:48
+msgid "Ellipse tool"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:49
+msgid "Arrow tool"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:50
+msgid "Brush tool"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:105 ../src/menu_controller.py:51
+msgid "Text tool"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:109
+msgid "Color tool"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:118
+msgid "Size adjustment"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:121
+msgid "Adjust selection height up"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:126
+msgid "Adjust selection height down"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:131
+msgid "Adjust selection height left"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:136
+msgid "Adjust selection height right"
+msgstr ""
+
+#: ../src/main.py:103 ../src/dbus_interfaces.py:66
+msgid "Deepin screenshot"
+msgstr ""
+
+#: ../src/main.py:292
+msgid "Picture has been saved to clipboard"
+msgstr ""
+
+#: ../src/main.py:300
+msgid "View"
+msgstr ""
+
+#: ../src/main.py:309
+msgid "DeepinScreenshot"
+msgstr ""
+
+#: ../src/main.py:392
+msgid "Take a screenshot after NUM seconds"
+msgstr ""
+
+#: ../src/main.py:395
+msgid "Take a screenshot of the whole screen"
+msgstr ""
+
+#: ../src/main.py:397
+msgid ""
+"Take a screenshot of the most top                                         "
+"window"
+msgstr ""
+
+#: ../src/main.py:400
+msgid "Specify a path to save the screenshot"
+msgstr ""
+
+#: ../src/main.py:403
+msgid ""
+"Indicate that this program's started                                         "
+"by clicking desktop file."
+msgstr ""
+
+#: ../src/main.py:420
+msgid "Deepin Screenshot has been started!"
+msgstr ""
+
+#: ../src/menu_controller.py:55
+msgid "Exit"
+msgstr ""

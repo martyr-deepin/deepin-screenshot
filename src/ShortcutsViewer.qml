@@ -43,10 +43,10 @@ DWindow {
                     spacing: 30
 
                     ShortcutsSection {
-                        title: dsTr("Launch/Screenshot")
+                        title: dsTr("Start/Screenshot")
 
                         ShortcutsLabel {
-                            title: dsTr("Quick launch")
+                            title: dsTr("Quick start")
                             shortcut: "Ctrl+Alt+A"
                         }
                         ShortcutsLabel {
@@ -58,7 +58,7 @@ DWindow {
                             shortcut: "Ctrl+Print"
                         }
                         ShortcutsLabel {
-                            title: dsTr("Smart window recognition")
+                            title: dsTr("Intelligent identifying window")
                             shortcut: "Ctrl+Alt+Print"
                         }
                         ShortcutsLabel {
@@ -98,7 +98,7 @@ DWindow {
                             shortcut: "Alt+3"
                         }
                         ShortcutsLabel {
-                            title: dsTr("Pen tool")
+                            title: dsTr("Brush tool")
                             shortcut: "Alt+4"
                         }
                         ShortcutsLabel {
@@ -115,25 +115,25 @@ DWindow {
 
                 Column {
                     ShortcutsSection {
-                        title: dsTr("Size adjust")
+                        title: dsTr("Size adjustment")
 
                         ShortcutsLabel {
-                            title: dsTr("Expand selection top side")
+                            title: dsTr("Adjust selection height up")
                             shortcut: "Ctrl+Up"
                         }
 
                         ShortcutsLabel {
-                            title: dsTr("Expand selection down side")
+                            title: dsTr("Adjust selection height down")
                             shortcut: "Ctrl+Down"
                         }
 
                         ShortcutsLabel {
-                            title: dsTr("Expand selection left side")
+                            title: dsTr("Adjust selection height left")
                             shortcut: "Ctrl+Left"
                         }
 
                         ShortcutsLabel {
-                            title: dsTr("Expand selection right side")
+                            title: dsTr("Adjust selection height right")
                             shortcut: "Ctrl+Right"
                         }
                     }

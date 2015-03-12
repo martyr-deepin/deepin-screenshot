@@ -26,6 +26,6 @@ LOCALE_DIR="/usr/share/locale"
 
 _ = None
 try:
-    _ = gettext.translation("deepin-movie", LOCALE_DIR).gettext
+    _ = gettext.translation("deepin-screenshot", LOCALE_DIR).gettext
 except Exception, e:
     _ = lambda i : i

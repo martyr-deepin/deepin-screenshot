@@ -1164,7 +1164,7 @@ Item {
                 state: save_toolbar.saveItem == 0 ? "on": "off"
                 onEntered: {
                     savetooltip.show()
-                    savetooltip.text = "Save to Desktop"
+                    savetooltip.text = dsTr("Save to desktop")
                 }
                 onExited: {
                     savetooltip.hide()
@@ -1186,7 +1186,7 @@ Item {
                 state: save_toolbar.saveItem == 1 ? "on": "off"
                 onEntered: {
                     savetooltip.show()
-                    savetooltip.text = "Auto Save"
+                    savetooltip.text = dsTr("Autosave")
                 }
                 onExited: {
                     savetooltip.hide()
@@ -1208,7 +1208,7 @@ Item {
                 state: save_toolbar.saveItem == 2 ? "on": "off"
                 onEntered: {
                     savetooltip.show()
-                    savetooltip.text = "Save as"
+                    savetooltip.text = dsTr("Save to specified folder")
                 }
                 onExited: {
                     savetooltip.hide()
@@ -1230,7 +1230,7 @@ Item {
                 state: save_toolbar.saveItem == 3 ? "on": "off"
                 onEntered: {
                     savetooltip.show()
-                    savetooltip.text = "Save to Clipboard"
+                    savetooltip.text = dsTr("Copy to clipboard")
                 }
                 onExited: {
                     savetooltip.hide()
@@ -1251,7 +1251,7 @@ Item {
                 state: save_toolbar.saveItem == 4 ? "on": "off"
                 onEntered: {
                     savetooltip.show()
-                    savetooltip.text = "Auto Save and Save to Clipboard"
+                    savetooltip.text = dsTr("Autosave and copy to clipboard")
                 }
                 onExited: {
                     savetooltip.hide()
