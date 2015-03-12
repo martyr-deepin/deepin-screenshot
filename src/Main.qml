@@ -1334,8 +1334,9 @@ Item {
 
                 Image {
                     id: zoomIndicatorImage
-                    x: -zoomIndicator.cursorX + (zoomIndicator.width - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue)
-                    y: -zoomIndicator.cursorY + (zoomIndicator.height - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue)
+                    // the -1 operation of x&y is non-sense, but it's necessary to make the indicator look right.
+                    x: -zoomIndicator.cursorX + (zoomIndicator.width - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue) - 1
+                    y: -zoomIndicator.cursorY + (zoomIndicator.height - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue) - 1
                     source: "/tmp/deepin-screenshot.png"
                     smooth: false
                     cache: true
