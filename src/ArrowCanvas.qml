@@ -176,28 +176,26 @@ Item {
         var endPoint = points[points.length - 1]
 
         if (CalcEngine.pointClickIn(startPoint, p)) {
-            var result =  true
-            reSized = result
-            rotated = result
+            reSized = true
+            rotated = true
             clickedKey = 1
             clickedPoint = p
-            return result
+            return true
         }
         if (CalcEngine.pointClickIn(endPoint, p)) {
-            var result =  true
-            reSized = result
-            rotated = result
+            reSized = true
+            rotated = true
             clickedKey = 2
             clickedPoint = p
-            return result
+            return true
         }
 
         if (CalcEngine.pointOnLine(startPoint, endPoint, p)) {
-            var result = true
-            selected = result
+            selected = true
             clickedPoint = p
-            return result
+            return true
         }
+        return false
     }
 
     function handleDrag(p) {
@@ -262,6 +260,9 @@ Item {
     function hoverOnRotatePoint(p) {
         var startPoint = points[0]
         var endPoint = points[points.length - 1]
+        /* don't know why when hover on the rotatepoint, the cursor is on the lower coordinate*/
+        startPoint = Qt.point(startPoint.x - 5, startPoint.y - 5)
+        endPoint = Qt.point(endPoint.x - 5, endPoint.y - 5)
         if (CalcEngine.pointClickIn(startPoint, p) || CalcEngine.pointClickIn(endPoint, p)) {
             var result = true
         } else {

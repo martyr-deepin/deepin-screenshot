@@ -288,14 +288,8 @@ Item {
         clickedPoint = p
     }
     function rotateOnPoint(p) {
-        var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-        if (p.x >= rotatePoint.x - 5 && p.x <= rotatePoint.x + 5 && p.y >= rotatePoint.y - 5 && p.y <= rotatePoint.y + 5) {
-            rotated = true
-        } else {
-            rotated = false
-        }
-        clickedPoint = rotatePoint
-        return rotated
+        var result = hoverOnRotatePoint(p)
+        return result
     }
     function handleRotate(p) {
         var centerInPoint = Qt.point((mainPoints[0].x + mainPoints[3].x) / 2, (mainPoints[0].y + mainPoints[3].y) / 2)
@@ -309,7 +303,9 @@ Item {
     }
     function hoverOnRotatePoint(p) {
         var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-        if (p.x >= rotatePoint.x - 5 && p.x <= rotatePoint.x + 5 && p.y >= rotatePoint.y - 5 && p.y <= rotatePoint.y + 5) {
+        /* don't know why when hover on the rotatepoint, the cursor is on the lower coordinate*/
+        rotatePoint = Qt.point(rotatePoint.x - 5, rotatePoint.y - 5)
+        if (p.x >= rotatePoint.x - 12 && p.x <= rotatePoint.x + 12 && p.y >= rotatePoint.y - 12 && p.y <= rotatePoint.y + 12) {
             var result = true
         } else {
             var result = false

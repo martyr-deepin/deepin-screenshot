@@ -201,113 +201,101 @@ Item {
         if (isStraightLine||isShiftPressed) {
             if (CalcEngine.pointClickIn(points[0], p)) {
                 canvas.cursorDirection = ""
-                var result = true
-                reSized = result
-                rotated = result
+                reSized = true
+                rotated = true
                 clickedKey = 1
                 clickedPoint = p
-                return result
+                return true
             }
             if (CalcEngine.pointClickIn(points[points.length -1], p)) {
                 canvas.cursorDirection = ""
-                var result = true
-                reSized = result
-                rotated = result
+                reSized = true
+                rotated = true
                 clickedKey = 2
                 clickedPoint = p
-                return result
+                return true
             }
             if (CalcEngine.pointOnLine(points[0], points[points.length - 1], p)) {
                 canvas.cursorDirection = ""
-                var result = true
                 selected = true
                 clickedPoint = p
-                return result
+                return true
             }
         } else {
             if (CalcEngine.pointClickIn(mainPoints[0], p)) {
-                var result =  true
-                reSized = result
+                reSized = true
                 clickedKey = 1
                 canvas.cursorDirection = "TopLeft"
                 clickedPoint = p
-                return result
+                return true
             }
             if (CalcEngine.pointClickIn(mainPoints[1], p)) {
-                var result =  true
-                reSized = result
+                reSized = true
                 clickedKey = 2
                 canvas.cursorDirection = "BottomLeft"
                 clickedPoint = p
-                return result
+                return true
             }
             if (CalcEngine.pointClickIn(mainPoints[2], p)) {
-                var result =  true
-                reSized = result
+                reSized = true
                 clickedKey = 3
                 canvas.cursorDirection = "TopRight"
                 clickedPoint = p
-                return result
+                return true
             }
             if (CalcEngine.pointClickIn(mainPoints[3], p)) {
-                var result =  true
-                reSized = result
+                reSized = true
                 clickedKey = 4
                 canvas.cursorDirection = "BottomRight"
                 clickedPoint = p
-                return result
+                return true
             }
             if (CalcEngine.pointClickIn(minorPoints[0], p)) {
-                var result =  true
-                reSized = result
+                reSized = true
                 clickedKey = 5
                 canvas.cursorDirection = "Left"
                 clickedPoint = p
-                return result
+                return true
             }
             if (CalcEngine.pointClickIn(minorPoints[1], p)) {
-                var result =  true
-                reSized = result
+                reSized = true
                 clickedKey = 6
                 canvas.cursorDirection = "Top"
                 clickedPoint = p
-                return result
+                return true
             }
             if (CalcEngine.pointClickIn(minorPoints[2], p)) {
-                var result =  true
-                reSized = result
+                reSized = true
                 clickedKey = 7
                 canvas.cursorDirection = "Right"
                 clickedPoint = p
-                return result
+                return true
             }
             if (CalcEngine.pointClickIn(minorPoints[3], p)) {
-                var result =  true
-                reSized = result
+                reSized = true
                 clickedKey = 8
                 canvas.cursorDirection = "Bottom"
                 clickedPoint = p
-                return result
+                return true
             }
         }
         if (rotateOnPoint(p)) {
-            var result = true
             rotated = true
             clickedPoint = p
-            return result
+            return true
         }
         for (var i = 0; i < points.length; i++) {
             if (CalcEngine.pointClickIn(points[i], p)) {
-                var result = true
-                selected = result
+                selected = true
                 if (isStraightLine||isShiftPressed) {
                     reSized = true
                 }
                 clickedPoint = p
-                return result
+                return true
 
             }
         }
+        return false
     }
 
     function handleDrag(p) {
@@ -386,20 +374,7 @@ Item {
     }
 
     function rotateOnPoint(p) {
-        if (isStraightLine||isShiftPressed) {
-            if (reSized) {
-                rotated = true
-            }
-        } else {
-            var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-            if (p.x >= rotatePoint.x - 5 && p.x <= rotatePoint.x + 5 && p.y >= rotatePoint.y - 5 && p.y <= rotatePoint.y + 5) {
-                rotated = true
-            } else {
-                rotated = false
-            }
-            clickedPoint = rotatePoint
-        }
-        return rotated
+        return hoverOnRotatePoint(p)
     }
 
     function handleRotate(p) {
@@ -421,6 +396,9 @@ Item {
         if (isStraightLine||isShiftPressed) {
             var startPoint = points[0]
             var endPoint = points[points.length - 1]
+            /* don't know why when hover on the rotatepoint, the cursor is on the lower coordinate*/
+            startPoint = Qt.point(startPoint.x - 5, startPoint.y - 5)
+            endPoint = Qt.point(endPoint.x - 5, endPoint.y - 5)
             if (CalcEngine.pointClickIn(startPoint, p) || CalcEngine.pointClickIn(endPoint, p)) {
                 var result = true
             } else {
@@ -429,7 +407,8 @@ Item {
             clickedPoint = p
         } else {
             var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-            if (p.x >= rotatePoint.x - 5 && p.x <= rotatePoint.x + 5 && p.y >= rotatePoint.y - 5 && p.y <= rotatePoint.y + 5) {
+            rotatePoint = Qt.point(rotatePoint.x - 5, rotatePoint.y - 5)
+            if (p.x >= rotatePoint.x - 12 && p.x <= rotatePoint.x + 12 && p.y >= rotatePoint.y - 12 && p.y <= rotatePoint.y + 12) {
                 var result = true
             } else {
                 var result = false

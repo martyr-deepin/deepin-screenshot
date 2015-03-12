@@ -360,14 +360,8 @@ Rectangle {
     }
     function handleResize(p, key) {}
     function rotateOnPoint(p) {
-        var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
-        if (p.x >= rotatePoint.x - 15 && p.x <= rotatePoint.x + 15 && p.y >= rotatePoint.y - 15 && p.y <= rotatePoint.y + 15) {
-            rotated = true
-        } else {
-            rotated = false
-        }
-        clickedPoint = rotatePoint
-        return rotated
+        var result = hoverOnRotatePoint(p)
+        return result
     }
 
     function handleRotate(p) {
@@ -384,9 +378,16 @@ Rectangle {
         clickedPoint = p
     }
     function hoverOnRotatePoint(p) {
-        var result =  false
-        result = rotateOnPoint(p)
-        return result
+        var rotatePoint = CalcEngine.getRotatePoint(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
+        /* don't know why when hover on the rotatepoint, the cursor is on the lower coordinate*/
+        rotatePoint = Qt.point(rotatePoint.x - 5, rotatePoint.y - 5)
+        if (p.x >= rotatePoint.x - 12 && p.x <= rotatePoint.x + 12 && p.y >= rotatePoint.y - 12 && p.y <= rotatePoint.y + 12) {
+            rotated = true
+        } else {
+            rotated = false
+        }
+        clickedPoint = rotatePoint
+        return rotated
     }
     function hoverOnShape(p) {
         var result = false
