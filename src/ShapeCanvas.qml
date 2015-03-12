@@ -83,30 +83,6 @@ Canvas {
         requestPaint()
     }
 
-    // this Canvas is used to downscale the content of CanvasImageData,
-    // by upscaling the downscaled CanvasImageData later, thus we can mimic
-    // the effect of image mosaicing.
-    // TODO: use a decent mosaic algorithm instead
-    Canvas {
-        id: mosaic_canvas
-        visible: false
-        width: parent.width
-        height: parent.height
-
-        property var data
-        property int radius: 2
-
-        onPaint: {
-            var ctx = mosaic_canvas.getContext("2d")
-            ctx.clearRect(0, 0, width, height)
-
-            if (data) {
-                ctx.drawImage(data, 0, 0, width / radius, height / radius)
-                canvas.mosaicImageData = ctx.getImageData(0, 0, width / radius, height / radius)
-            }
-        }
-    }
-
     onPaint: {
         var ctx = canvas.getContext("2d")
         ctx.reset()
@@ -124,14 +100,10 @@ Canvas {
 
         if(bluring || mosaicing) {
             if (bluring) {
-                var imageData = ctx.createImageData(blurImage)
-                imageData = CalcGraphic.gaussianBlur(imageData, 5)
-                blurImageData = imageData
+                blurImageData = ctx.createImageData(blurImage)
                 bluring = false
             } else {
-                var imageData = ctx.createImageData(mosaicImage)
-                mosaic_canvas.data = imageData
-                mosaic_canvas.requestPaint()
+                mosaicImageData = ctx.createImageData(mosaicImage)
                 mosaicing = false
             }
         }

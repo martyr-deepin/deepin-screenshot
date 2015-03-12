@@ -470,7 +470,6 @@ Item {
             /* Right */
             DrawingUtils.draw_point(ctx, width - selectResizeCanvas.bigPointRadius, height / 2, selectResizeCanvas.smallPointRadius)
             ctx.restore()
-            windowView.save_overload("system", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
         }
     }
 

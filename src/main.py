@@ -156,10 +156,24 @@ class Window(QQuickView):
         self.setCursor(cur)
 
     @pyqtSlot(str,int,int,int,int)
-    def save_overload(self, style, x,y,width,height):
+    def save_overload(self, style, x, y, width, height):
+        mosaic_radius = 10
+        blur_radius = 10
+
         p = QPixmap.fromImage(self.grabWindow())
         p = p.copy(x,y,width,height)
-        image_dir = "/tmp/deepin-screenshot-%s.png" %style
+
+        if style == "mosaic":
+            p = p.scaled(width / mosaic_radius, height / mosaic_radius,
+                         Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
+            p = p.scaled(width, height)
+        elif style == "blur":
+            p = p.scaled(width / blur_radius, height / blur_radius,
+                         Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
+            p = p.scaled(width, height,
+                         Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
+
+        image_dir = "/tmp/deepin-screenshot-%s.png" % style
         p.save(os.path.join(image_dir))
 
     def _getGrabFocusTimer(self):
