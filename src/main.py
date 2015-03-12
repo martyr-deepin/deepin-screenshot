@@ -259,6 +259,7 @@ def _actionInvoked(notificationId, actionId):
     if _notificationId == notificationId:
         if actionId == ACTION_ID_OPEN:
             subprocess.call(["xdg-open", os.path.dirname(_fileSaveLocation)])
+        qApp.quit()
 
 def _notificationClosed( notificationId, reason):
     if _notificationId == notificationId:
