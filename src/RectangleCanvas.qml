@@ -37,6 +37,7 @@ Item {
         var pWidth = Math.max(Math.abs(startPoint.x - endPoint.x), minPadding)
         var pHeight = Math.max(Math.abs(startPoint.y - endPoint.y), minPadding)
         if (isShiftPressed) {
+            var shiftWidth = Math.max(pWidth, pHeight)
             if (endPoint.x >= startPoint.x) {
                 if (endPoint.y >= startPoint.y) {
                     mainPoints[0]=startPoint
