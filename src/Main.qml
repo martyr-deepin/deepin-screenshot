@@ -203,7 +203,8 @@ Item {
             if (firstMove && !firstRelease) {
                 zoomIndicator.updatePosition(pos)
 
-                var rgb = windowView.get_color_at_point(pos.x, pos.y)
+                // the -1 operation of x&y is non-sense, but it's necessary to make the indicator look right.
+                var rgb = windowView.get_color_at_point(pos.x - 1, pos.y - 1)
                 pointColorRect.color = Qt.rgba(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, 1)
             }
         }
@@ -1333,9 +1334,8 @@ Item {
 
                 Image {
                     id: zoomIndicatorImage
-                    // the -1 operation of x&y is non-sense, but it's necessary to make the indicator look right.
-                    x: -zoomIndicator.cursorX + (zoomIndicator.width - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue) - 1
-                    y: -zoomIndicator.cursorY + (zoomIndicator.height - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue) - 1
+                    x: -zoomIndicator.cursorX + (zoomIndicator.width - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue)
+                    y: -zoomIndicator.cursorY + (zoomIndicator.height - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue)
                     source: "/tmp/deepin-screenshot.png"
                     smooth: false
                     cache: true
