@@ -84,6 +84,7 @@ soundEffect = QSoundEffect()
 soundEffect.setSource(QUrl(SOUND_FILE))
 settings = ScreenShotSettings()
 
+view = None
 _notificationId = None
 _fileSaveLocation = None
 
@@ -111,6 +112,10 @@ class Window(QQuickView):
         self._grabPointerStatus = False
         self._grabKeyboardStatus = False
         self._grabFocusTimer = self._getGrabFocusTimer()
+
+        self._osdShowed = False
+        self._osdShowing = False
+        self._quitOnOsdTimeout = False
 
     @pyqtSlot(int, int, result="QVariant")
     def get_color_at_point(self, x, y):
@@ -219,6 +224,8 @@ class Window(QQuickView):
         self.hide()
         saveScreenshot(pixmap)
 
+        if self._settings.showOSD: self.showHotKeyOSD()
+
     @pyqtSlot()
     def enable_zone(self):
         try:
@@ -249,8 +256,16 @@ class Window(QQuickView):
         keySequence = QKeySequence(modifier + key).toString()
         return keySequence
 
+    def _handleOSDTimeout(self):
+        self._osdShowing = False
+        if self._quitOnOsdTimeout:
+            qApp.quit()
+
     def showHotKeyOSD(self):
+        self._osdShowing = True
+        self._osdShowed = True
         self.rootObject().showHotKeyOSD()
+        self.rootObject().osdTimeout.connect(self._handleOSDTimeout)
 
     def showWindow(self):
         self.showFullScreen()
@@ -261,23 +276,32 @@ class Window(QQuickView):
         self.enable_zone()
         unregister_service()
         self.close()
+
         if self._settings.showOSD:
-            self.showHotKeyOSD()
+            if not self._osdShowed:
+                self.showHotKeyOSD()
+            elif self._osdShowing:
+                self._quitOnOsdTimeout = True
+            else:
+                qApp.quit()
         else:
             qApp.quit()
 
 
 def _actionInvoked(notificationId, actionId):
+    global view
     global _fileSaveLocation
 
     if _notificationId == notificationId:
         if actionId == ACTION_ID_OPEN:
             subprocess.call(["xdg-open", os.path.dirname(_fileSaveLocation)])
-        qApp.quit()
+        view.closeWindow() if view else qApp.quit()
 
 def _notificationClosed( notificationId, reason):
+    global view
     if _notificationId == notificationId:
-        qApp.quit()
+        view.closeWindow() if view else qApp.quit()
+
 
 def _windowVisibleChanged(visible):
     if visible:

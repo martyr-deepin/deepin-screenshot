@@ -21,6 +21,8 @@ Item {
 
     property var shortcutsViewerId
 
+    signal osdTimeout()
+
     function get_absolute_cursor_pos() {
         var pos_origin = windowView.get_cursor_pos()
         var pos_absolute = Qt.point(pos_origin.x - selectArea.x, pos_origin.y - selectArea.y)
@@ -60,6 +62,7 @@ Item {
 
     function showHotKeyOSD() {
         var osd = Qt.createQmlObject("import QtQuick 2.2; OSD {}", screen, "osd")
+        osd.closed.connect(screen.osdTimeout)
         osd.x = windowView.x + (windowView.width - osd.width) / 2
         osd.y = windowView.y + (windowView.height - osd.height) / 2
         osd.showTips()

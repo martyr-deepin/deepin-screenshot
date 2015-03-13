@@ -11,6 +11,8 @@ Window {
     visible: false
     flags: Qt.X11BypassWindowManagerHint
 
+    signal closed()
+
     function showTips() { show_timer.start() }
 
     Timer {
@@ -31,7 +33,7 @@ Window {
         onTriggered: {
             osd_window.close()
             content.opacity = 0
-            qApp.quit()
+            osd_window.closed()
         }
     }
 
