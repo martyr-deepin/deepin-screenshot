@@ -100,6 +100,12 @@ Item {
             DrawingUtils.draw_line((selected || reSized || rotated), ctx, endPoint.x, endPoint.y)
             ctx.stroke()
             ctx.closePath()
+
+            if (isHovered) {
+                ctx.lineWidth = 1
+                ctx.strokeStyle = "#01bdff"
+                ctx.stroke()
+            }
         } else {
             ctx.lineWidth = linewidth
             ctx.strokeStyle = screen.colorCard(drawColor)
@@ -123,14 +129,22 @@ Item {
 
             ctx.path = curve_path
             ctx.stroke()
-            // don't forget to release the memory
-            curve_path.destroy()
+
+            if (isHovered) {
+                ctx.lineWidth = 1
+                ctx.strokeStyle = "#01bdff"
+                ctx.stroke()
+            }
+
+            // FIXME:
+            // below two lines are working as a work-around to get rid of
+            // the path we've set to the Context2D, maybe there's a better
+            // way to do so.
+            ctx.beginPath()
+            ctx.closePath()
+            if (curve_path) curve_path.destroy()
         }
-        if (isHovered) {
-            ctx.lineWidth = 1
-            ctx.strokeStyle = "#01bdff"
-            ctx.stroke()
-        }
+
         if (selected||reSized||rotated) {
             ctx.lineWidth = 1
             ctx.strokeStyle = "black"
@@ -155,6 +169,8 @@ Item {
                 ctx.stroke()
                 ctx.drawImage(canvas.rotateImage, rotatePoint.x - 12, rotatePoint.y - 12)
 
+                ctx.strokeStyle = "white"
+                ctx.fillStyle = "white"
                 /* Top left */
                 DrawingUtils.draw_point(ctx, mainPoints[0].x, mainPoints[0].y,bigPointRadius + linewidth / 2)
 
