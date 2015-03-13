@@ -24,6 +24,8 @@
 from PyQt5.QtCore import QVariant, pyqtSignal
 from PyQt5.QtDBus import QDBusAbstractInterface, QDBusConnection, QDBusReply
 
+from i18n import _
+
 class NotificationsInterface(QDBusAbstractInterface):
     ActionInvoked = pyqtSignal("quint32", str)
     NotificationClosed = pyqtSignal("quint32", "quint32")
@@ -42,7 +44,12 @@ class NotificationsInterface(QDBusAbstractInterface):
         varActions = QVariant(actions)
         varActions.convert(QVariant.StringList)
 
-        msg = self.call("Notify", "Deepin Screenshot", varRPlaceId, "deepin-screenshot", summary, body, varActions, {}, -1)
+        msg = self.call("Notify",
+            "Deepin Screenshot",
+            varRPlaceId,
+            "deepin-screenshot",
+            summary,
+            body, varActions, {}, -1)
         reply = QDBusReply(msg)
         return reply.value()
 
@@ -56,7 +63,8 @@ class SocialSharingInterface(QDBusAbstractInterface):
             None)
 
     def share(self, text, pic):
-        self.call("Share", text, pic)
+        self.call("Share", _("Deepin screenshot"),
+         "deepin-screenshot", text, pic)
 
 class ControlCenterInterface(QDBusAbstractInterface):
     def __init__(self):
