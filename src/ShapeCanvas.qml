@@ -1,5 +1,4 @@
 import QtQuick 2.1
-import "graphicProcess.js" as CalcGraphic
 import "calculateRect.js" as CalcEngine
 
 Canvas {
