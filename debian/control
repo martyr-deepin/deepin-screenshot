@@ -8,4 +8,7 @@ Standards-Version: 3.9.5
 Package: deepin-screenshot-v3
 Architecture: any
 Depends: ${misc:Depends}, python, python-pyqt5, deepin-social-sharing
+Provides: deepin-screenshot
+Conflicts: deepin-screenshot
+Replaces: deepin-screenshot
 Description: Advanced screen shoting tool
