@@ -86,27 +86,27 @@ DWindow {
                         title: dsTr("Painting")
 
                         ShortcutsLabel {
-                            title: dsTr("Rectangle tool")
+                            title: dsTr("Rectangle")
                             shortcut: "Alt+1"
                         }
                         ShortcutsLabel {
-                            title: dsTr("Ellipse tool")
+                            title: dsTr("Ellipse")
                             shortcut: "Alt+2"
                         }
                         ShortcutsLabel {
-                            title: dsTr("Arrow tool")
+                            title: dsTr("Arrow")
                             shortcut: "Alt+3"
                         }
                         ShortcutsLabel {
-                            title: dsTr("Brush tool")
+                            title: dsTr("Brush")
                             shortcut: "Alt+4"
                         }
                         ShortcutsLabel {
-                            title: dsTr("Text tool")
+                            title: dsTr("Text")
                             shortcut: "Alt+5"
                         }
                         ShortcutsLabel {
-                            title: dsTr("Color tool")
+                            title: dsTr("Color")
                             shortcut: "Alt+6"
                         }
 

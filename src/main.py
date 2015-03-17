@@ -308,7 +308,7 @@ def copyPixmap(pixmap):
     clipboard.clear()
     clipboard.setPixmap(pixmap)
 
-    _notificationId = notificationsInterface.notify("Deepin Screenshot",
+    _notificationId = notificationsInterface.notify(_("Deepin Screenshot"),
         _("Picture has been saved to clipboard"))
     _quitTimer.start()
 
@@ -318,8 +318,8 @@ def savePixmap(pixmap, fileName):
     pixmap.save(fileName)
 
     _fileSaveLocation = fileName
-    _notificationId = notificationsInterface.notify("Deepin Screenshot",
-        _fileSaveLocation, [ACTION_ID_OPEN, _("View")])
+    _notificationId = notificationsInterface.notify(_("Deepin Screenshot"),
+        _("Picture has been saved to") + _fileSaveLocation, [ACTION_ID_OPEN, _("View")])
     _quitTimer.start()
 
 def saveScreenshot(pixmap):
@@ -443,7 +443,7 @@ if __name__ == "__main__":
     startFromDesktopValue = bool(parser.isSet(startFromDesktopOption) or False)
 
     if is_service_exist():
-        notificationsInterface.notify("Deepin Screenshot",
+        notificationsInterface.notify(_("Deepin Screenshot"),
             _("Deepin Screenshot has been started!"))
     else:
         QTimer.singleShot(max(0, delayValue * 1000), main)

@@ -62,7 +62,7 @@ Window {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             color: Qt.rgba(1, 1, 1, 0.8)
-            text: dsTr('You can start Deepin Screenshot with "Ctrl+Alt+A"')
+            text: dsTr('You can use "Ctrl+Alt+A" to start the screenshot')
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }

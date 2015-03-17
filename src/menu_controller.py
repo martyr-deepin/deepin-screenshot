@@ -44,11 +44,11 @@ save_sub_menu = [
 ]
 
 right_click_menu = [
-    ("_rectangle", _("Rectangle tool"), menu_icon_tuple("rectangle-tool")),
-    ("_ellipse", _("Ellipse tool"), menu_icon_tuple("ellipse-tool")),
-    ("_arrow", _("Arrow tool"), menu_icon_tuple("arrow-tool")),
-    ("_line", _("Brush tool"), menu_icon_tuple("line-tool")),
-    ("_text", _("Text tool"), menu_icon_tuple("text-tool")),
+    ("_rectangle", _("Rectangle"), menu_icon_tuple("rectangle-tool")),
+    ("_ellipse", _("Ellipse"), menu_icon_tuple("ellipse-tool")),
+    ("_arrow", _("Arrow"), menu_icon_tuple("arrow-tool")),
+    ("_line", _("Brush"), menu_icon_tuple("line-tool")),
+    ("_text", _("Text"), menu_icon_tuple("text-tool")),
     None,
     ("_save", _("Save"), menu_icon_tuple("save")),
     ("_share", _("Share"), menu_icon_tuple("share")),
