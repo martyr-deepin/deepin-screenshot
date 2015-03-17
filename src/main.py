@@ -38,7 +38,6 @@ from PyQt5.QtGui import (QSurfaceFormat, QColor, QImage,
 from PyQt5.QtWidgets import QApplication, qApp, QFileDialog
 from PyQt5.QtCore import (pyqtSlot, QStandardPaths, QUrl,
     QCommandLineParser, QCommandLineOption, QTimer, Qt)
-from PyQt5.QtDBus import QDBusConnection, QDBusInterface
 from PyQt5.QtMultimedia import QSoundEffect
 app = QApplication(sys.argv)
 app.setOrganizationName("Deepin")
@@ -227,8 +226,7 @@ class Window(QQuickView):
 
         self.hide()
         saveScreenshot(pixmap)
-
-        if self._settings.showOSD: self.showHotKeyOSD()
+        self._settings.showOSD and self.showHotKeyOSD()
 
     @pyqtSlot()
     def enable_zone(self):
@@ -330,31 +328,39 @@ def saveScreenshot(pixmap):
     global savePathValue
 
     soundEffect.play()
-
     fileName = "%s%s.png" % (_("DeepinScreenshot"),
                              time.strftime("%Y%m%d%H%M%S", time.localtime()))
     save_op = settings.getOption("save", "save_op")
     save_op_index = int(save_op)
 
-    absSavePath = os.path.abspath(savePathValue)
+    absSavePath = ""
+    copyToClipborad = False
     if savePathValue and os.path.exists(os.path.dirname(absSavePath)):
-        savePixmap(pixmap, absSavePath)
+        absSavePath = os.path.abspath(savePathValue)
     else:
-        saveDir = ""
-        copy = False
         if save_op_index == 0: #saveId == "save_to_desktop":
             saveDir = QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
+            absSavePath = os.path.join(saveDir, fileName)
         elif save_op_index == 1: #saveId == "auto_save" :
             saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
+            absSavePath = os.path.join(saveDir, fileName)
         elif save_op_index == 2: #saveId == "save_to_dir":
-            saveDir = QFileDialog.getExistingDirectory()
+            lastSavePath = settings.getOption("save", "folder")
+            absSavePath = QFileDialog.getSaveFileName(None, _("Save"),
+                os.path.join(lastSavePath, fileName))[0]
+            settings.setOption("save", "folder", os.path.dirname(absSavePath)
+                                                 or lastSavePath)
         elif save_op_index == 4: #saveId == "auto_save_ClipBoard":
-            copy = True
+            copyToClipborad = True
             saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
-        else: copy = True
+            absSavePath = os.path.join(saveDir, fileName)
+        else: copyToClipborad = True
 
-        if copy: copyPixmap(pixmap)
-        if saveDir: savePixmap(pixmap, os.path.join(saveDir, fileName))
+    if absSavePath or copyToClipborad:
+        if copyToClipborad: copyPixmap(pixmap)
+        if absSavePath: savePixmap(pixmap, absSavePath)
+    else:
+        qApp.quit()
 
 def main():
     global view

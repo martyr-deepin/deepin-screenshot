@@ -44,7 +44,7 @@ class NotificationsInterface(QDBusAbstractInterface):
         varActions = QVariant(actions)
         varActions.convert(QVariant.StringList)
 
-        msg = self.asyncCall("Notify",
+        msg = self.call("Notify",
             "Deepin Screenshot",
             varRPlaceId,
             "deepin-screenshot",

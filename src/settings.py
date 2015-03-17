@@ -22,7 +22,7 @@
 
 import os
 
-from PyQt5.QtCore import QSettings, QVariant
+from PyQt5.QtCore import QSettings, QVariant, QDir
 
 class ScreenShotSettings(QSettings):
     def __init__(self):
@@ -38,7 +38,7 @@ class ScreenShotSettings(QSettings):
         '''save the user's last choice of save directory'''
         self.beginGroup("save")
         self.setValue("save_op", QVariant(0))
-        self.setValue("folder", QVariant("file folder"))
+        self.setValue("folder", QVariant(QDir.home().absolutePath()))
         self.endGroup()
         '''save the user's last choice of toolbar directory'''
         self.beginGroup("common_color_linewidth")
