@@ -51,7 +51,7 @@ from window_info import WindowInfo
 from menu_controller import MenuController
 from settings import ScreenShotSettings
 from dbus_services import is_service_exist, unregister_service
-from dbus_interfaces import controlCenterInterface
+from dbus_interfaces import controlCenterInterface, hotZoneInterface
 from dbus_interfaces import notificationsInterface, socialSharingInterface
 from constants import MAIN_QML, SOUND_FILE, MAIN_DIR, TMP_IMAGE_FILE
 
@@ -87,6 +87,10 @@ settings = ScreenShotSettings()
 view = None
 _notificationId = None
 _fileSaveLocation = None
+_quitTimer = QTimer()
+_quitTimer.setInterval(10 * 1000)
+_quitTimer.setSingleShot(True)
+_quitTimer.timeout.connect(qApp.quit)
 
 class Window(QQuickView):
     def __init__(self, settings, windowInfo):
@@ -228,19 +232,11 @@ class Window(QQuickView):
 
     @pyqtSlot()
     def enable_zone(self):
-        try:
-            iface = QDBusInterface("com.deepin.daemon.Zone", "/com/deepin/daemon/Zone", '', QDBusConnection.sessionBus())
-            iface.asyncCall("EnableZoneDetected", True)
-        except:
-            pass
+        hotZoneInterface.enableZone()
 
     @pyqtSlot()
     def disable_zone(self):
-        try:
-            iface = QDBusInterface("com.deepin.daemon.Zone", "/com/deepin/daemon/Zone", '', QDBusConnection.sessionBus())
-            iface.asyncCall("EnableZoneDetected", False)
-        except:
-            pass
+        hotZoneInterface.disableZone()
 
     @pyqtSlot()
     def share(self):
@@ -268,6 +264,7 @@ class Window(QQuickView):
         self.rootObject().osdTimeout.connect(self._handleOSDTimeout)
 
     def showWindow(self):
+        self.disable_zone()
         self.showFullScreen()
         self.grabFocus()
 
@@ -313,7 +310,9 @@ def copyPixmap(pixmap):
     clipboard.clear()
     clipboard.setPixmap(pixmap)
 
-    _notificationId = notificationsInterface.notify("Deepin Screenshot", _("Picture has been saved to clipboard"))
+    _notificationId = notificationsInterface.notify("Deepin Screenshot",
+        _("Picture has been saved to clipboard"))
+    _quitTimer.start()
 
 def savePixmap(pixmap, fileName):
     global _notificationId
@@ -321,7 +320,9 @@ def savePixmap(pixmap, fileName):
     pixmap.save(fileName)
 
     _fileSaveLocation = fileName
-    _notificationId = notificationsInterface.notify("Deepin Screenshot", _fileSaveLocation, [ACTION_ID_OPEN, _("View")])
+    _notificationId = notificationsInterface.notify("Deepin Screenshot",
+        _fileSaveLocation, [ACTION_ID_OPEN, _("View")])
+    _quitTimer.start()
 
 def saveScreenshot(pixmap):
     global settings
@@ -401,7 +402,6 @@ def main():
         qml_context.setContextProperty("_menu_controller", menu_controller)
 
         view.setSource(QUrl.fromLocalFile(MAIN_QML))
-        view.disable_zone()
         view.showWindow()
 
         menu_controller.preMenuShow.connect(view.ungrabFocus)

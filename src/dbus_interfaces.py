@@ -44,7 +44,7 @@ class NotificationsInterface(QDBusAbstractInterface):
         varActions = QVariant(actions)
         varActions.convert(QVariant.StringList)
 
-        msg = self.call("Notify",
+        msg = self.asyncCall("Notify",
             "Deepin Screenshot",
             varRPlaceId,
             "deepin-screenshot",
@@ -63,8 +63,23 @@ class SocialSharingInterface(QDBusAbstractInterface):
             None)
 
     def share(self, text, pic):
-        self.call("Share", _("Deepin screenshot"),
+        self.asyncCall("Share", _("Deepin screenshot"),
          "deepin-screenshot", text, pic)
+
+class HotZoneInterface(QDBusAbstractInterface):
+    def __init__(self):
+        super(HotZoneInterface, self).__init__(
+            "com.deepin.daemon.Zone",
+            "/com/deepin/daemon/Zone",
+            'com.deepin.daemon.Zone',
+            QDBusConnection.sessionBus(),
+            None)
+
+    def enableZone(self):
+        self.asyncCall("EnableZoneDetected", True)
+
+    def disableZone(self):
+        self.asyncCall("EnableZoneDetected", False)
 
 class ControlCenterInterface(QDBusAbstractInterface):
     def __init__(self):
@@ -93,6 +108,8 @@ class ControlCenterInterface(QDBusAbstractInterface):
             except:
                 pass
 
+
+hotZoneInterface = HotZoneInterface()
 notificationsInterface = NotificationsInterface()
 socialSharingInterface = SocialSharingInterface()
 controlCenterInterface = ControlCenterInterface()
