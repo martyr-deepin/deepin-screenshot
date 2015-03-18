@@ -145,5 +145,5 @@ Name[zh_TW]=擷取全螢幕
 
 [Delay_Screenshot Shortcut Group]
 Exec=deepin-screenshot -d 5
-Name=Delayed Screenshot
+Name=Delay Screenshot
 Name[zh_CN]=延时截图
