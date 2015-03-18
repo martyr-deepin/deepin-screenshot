@@ -304,9 +304,15 @@ def _windowVisibleChanged(visible):
 
 def copyPixmap(pixmap):
     global _notificationId
-    clipboard = QApplication.clipboard()
-    clipboard.clear()
-    clipboard.setPixmap(pixmap)
+
+    _temp = "%s.png" % tempfile.mktemp()
+    pixmap.save(_temp)
+
+    join = os.path.join
+    dirname = os.path.dirname
+    abspath = os.path.abspath
+    script_path = join(dirname(abspath(__file__)), "gtk-clip")
+    subprocess.call([script_path, _temp])
 
     _notificationId = notificationsInterface.notify(_("Deepin Screenshot"),
         _("Picture has been saved to clipboard"))
