@@ -665,6 +665,7 @@ Item {
                         colorChange.visible = false
                         fontRect.visible = false
                         save_toolbar.visible = false
+                        straightLine.visible = false
                     } else {
                         blurType.visible = false
                         mosaicType.visible = false
@@ -707,6 +708,7 @@ Item {
                         colorChange.visible= false
                         fontRect.visible = false
                         save_toolbar.visible = false
+                        straightLine.visible = false
                     } else {
                         blurType.visible = false
                         mosaicType.visible = false
@@ -749,6 +751,7 @@ Item {
                         colorChange.visible = false
                         fontRect.visible = false
                         save_toolbar.visible = false
+                        straightLine.visible = false
                     } else {
                         setlw.visible = false
                         colorChange.visible = false
@@ -827,6 +830,7 @@ Item {
                         setlw.visible = false
                         colorChange.visible= false
                         save_toolbar.visible = false
+                        straightLine.visible = false
                     } else {
                         blurType.visible = false
                         mosaicType.visible = false
