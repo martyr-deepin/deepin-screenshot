@@ -63,7 +63,6 @@ Item {
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
-        cursorShape: Qt.ArrowCursor
         onEntered: {
             selectArea.visible = true
             if (toolButton.state == "off") {

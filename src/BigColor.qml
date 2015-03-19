@@ -34,7 +34,6 @@ Item {
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
-        cursorShape: windowView.set_cursor_shape("color_pen_purple")
 
         onEntered: {
             colorRect.border.color = "#01bdff"
