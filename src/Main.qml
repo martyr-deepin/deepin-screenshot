@@ -924,6 +924,8 @@ Item {
                 onStateChanged: {
                     if (state == "off") { return }
 
+                    toolbar.visible = false
+                    selectSizeTooltip.visible = false
                     screen.share()
                 }
             }
