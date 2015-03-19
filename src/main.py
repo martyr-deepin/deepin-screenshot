@@ -52,7 +52,7 @@ from settings import ScreenShotSettings
 from dbus_services import is_service_exist, unregister_service
 from dbus_interfaces import controlCenterInterface, hotZoneInterface
 from dbus_interfaces import notificationsInterface, socialSharingInterface
-from constants import MAIN_QML, SOUND_FILE, MAIN_DIR, TMP_IMAGE_FILE
+from constants import MAIN_QML, SOUND_FILE, MAIN_DIR, TMP_IMAGE_FILE, GTK_CLIP
 
 def init_cursor_shape_dict():
     global cursor_shape_dict
@@ -307,12 +307,7 @@ def copyPixmap(pixmap):
 
     _temp = "%s.png" % tempfile.mktemp()
     pixmap.save(_temp)
-
-    join = os.path.join
-    dirname = os.path.dirname
-    abspath = os.path.abspath
-    script_path = join(dirname(abspath(__file__)), "gtk-clip")
-    subprocess.call([script_path, _temp])
+    subprocess.call([GTK_CLIP, _temp])
 
     _notificationId = notificationsInterface.notify(_("Deepin Screenshot"),
         _("Picture has been saved to clipboard"))

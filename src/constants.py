@@ -27,6 +27,7 @@ abspath = os.path.abspath
 
 MAIN_DIR = dirname(dirname(abspath(__file__)))
 MAIN_QML = os.path.join(dirname(abspath(__file__)), "Main.qml")
+GTK_CLIP = os.path.join(MAIN_DIR, "src/gtk-clip")
 SOUND_FILE = os.path.join(MAIN_DIR, "sound", "camera.wav")
 
 TMP_IMAGE_FILE = "/tmp/deepin-screenshot.png"
