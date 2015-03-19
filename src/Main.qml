@@ -912,6 +912,7 @@ Item {
                         mosaicType.visible = false
                         colorChange.visible = false
                         fontRect.visible = false
+                        straightLine.visible = false
                         save_toolbar.saveItem = windowView.get_save_config("save", "save_op")
                     }
                     toolbar.toggleToolbar("saveAction")
