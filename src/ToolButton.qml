@@ -17,6 +17,7 @@ Item {
     property string dirImage: dirAction
     property alias imageIcon: toolImage
     property alias selectDisArea: selectArea
+    property bool switchable: true
     property var group: null
 
     signal pressed()
@@ -77,7 +78,11 @@ Item {
         }
 
         onPressed:{
-            toolButton.state = toolButton.state == "on" ? "off" : "on"
+            if (switchable) {
+                toolButton.state = toolButton.state == "on" ? "off" : "on"
+            } else {
+                toolButton.state = "on"
+            }
             if (toolButton.state == "on") {
                toolImage.source = toolButton.dirImage + toolButton.imageName + "_press.svg"
             } else {

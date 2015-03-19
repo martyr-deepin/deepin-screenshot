@@ -1008,6 +1008,7 @@ Item {
                 group: setlw
                 imageName:"small"
                 dirImage: dirSizeImage
+                switchable: false
                 property var linewidth: 2
                 onStateChanged: {
                     if (state == "off") { return }
@@ -1020,6 +1021,7 @@ Item {
                 group: setlw
                 imageName:"normal"
                 dirImage: dirSizeImage
+                switchable: false
                 property var linewidth: 4
                 onStateChanged: {
                     if (state == "off") { return }
@@ -1032,6 +1034,7 @@ Item {
                 group: setlw
                 imageName:"big"
                 dirImage: dirSizeImage
+                switchable: false
                 property var linewidth: 6
                 onStateChanged: {
                     if (state == "off") { return }
