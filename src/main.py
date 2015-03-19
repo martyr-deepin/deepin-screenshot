@@ -272,12 +272,11 @@ class Window(QQuickView):
         unregister_service()
         self.close()
 
+        self._quitOnOsdTimeout = True
         if self._settings.showOSD:
             if not self._osdShowed:
                 self.showHotKeyOSD()
-            elif self._osdShowing:
-                self._quitOnOsdTimeout = True
-            else:
+            elif not self._osdShowing:
                 qApp.quit()
         else:
             qApp.quit()
