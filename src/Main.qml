@@ -554,8 +554,8 @@ Item {
                 toolbar.expandToolbar()
                 toolbar.buttonType = type
             } else {
-                    toolbar.shrinkToolbar()
-                    toolbar.buttonType = ""
+                toolbar.shrinkToolbar()
+                toolbar.buttonType = ""
             }
         }
 
@@ -672,7 +672,7 @@ Item {
                         setlw.visible = false
                         colorChange.visible = false
                         fontRect.visible = false
-                        save_toolbar.visible = false
+                        straightLine.visible = false
                     }
 
                     toolbar.shape.shapeName = "rect"
@@ -715,9 +715,8 @@ Item {
                         setlw.visible = false
                         colorChange.visible= false
                         fontRect.visible = false
-                        save_toolbar.visible = false
+                        straightLine.visible = false
                     }
-
                     toolbar.shape.shapeName = "ellipse"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
@@ -750,11 +749,13 @@ Item {
                         dividingLine.visible = false
                         colorChange.visible = false
                         fontRect.visible = false
+                        straightLine.visible = false
                         save_toolbar.visible = false
                         straightLine.visible = false
                     } else {
                         setlw.visible = false
                         colorChange.visible = false
+                        straightLine.visible = false
                     }
 
                     toolbar.shape.shapeName = "arrow"
@@ -899,7 +900,17 @@ Item {
             SaveButton {
                 id: saveButton
                 visible: ((button1.width*7 +10 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
-
+                /* shapeNum is used to rememer which tool is pressed in toolbar
+                 * getToolbar is used to realized the function to get shapeNum*/
+                property var shapeNum
+                function getToolbar() {
+                    for (var i=0; i<row.children.length; i++) {
+                        if (row.children[i].state == "on") {
+                            return i
+                        }
+                    }
+                    return -1
+                }
                 onStateChanged: {
                     if (state == "off") return
 
@@ -909,8 +920,10 @@ Item {
                 }
 
                 onListIcon: {
-                    save_toolbar.visible = !save_toolbar.visible
-                    if (save_toolbar.visible) {
+                    var originType = toolbar.buttonType
+                    toolbar.toggleToolbar("saveAction")
+                    if (toolbar.bExtense) {
+                        save_toolbar.visible = true
                         setlw.visible = false
                         blurType.visible = false
                         mosaicType.visible = false
@@ -918,8 +931,18 @@ Item {
                         fontRect.visible = false
                         straightLine.visible = false
                         save_toolbar.saveItem = windowView.get_save_config("save", "save_op")
-                    }
-                    toolbar.toggleToolbar("saveAction")
+                        if (saveButton.getToolbar() >= 0) {
+                            saveButton.shapeNum = saveButton.getToolbar()
+                            toolbar.buttonType = originType
+                            row.children[saveButton.shapeNum].state = "off"
+                            toolbar.toggleToolbar("saveAction")
+                        }
+                    } else {
+                        save_toolbar.visible = false
+                       if (saveButton.shapeNum >= 0) {
+                           row.children[saveButton.shapeNum].state = "on"
+                       }
+                   }
                 }
             }
             ToolButton {
