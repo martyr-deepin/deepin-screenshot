@@ -605,7 +605,59 @@ Item {
             }
         }
 
-
+        function switchCheck(Type) {
+            if (toolbar.bExtense) {
+                blurType.visible = false
+                mosaicType.visible = false
+                setlw.visible = false
+                dividingLine.visible = false
+                fontRect.visible = false
+                straightLine.visible = false
+                colorChange.visible = false
+                save_toolbar.visible =false
+                if (Type == "rect" || Type == "ellipse") {
+                    blurType.visible = true
+                    mosaicType.visible = true
+                    setlw.visible = true
+                    dividingLine.visible = true
+                }
+                if (Type == "arrow") {
+                    setlw.visible = true
+                }
+                if (Type == "line") {
+                    setlw.visible = true
+                    dividingLine.visible = true
+                    straightLine.visible = true
+                }
+                if (Type == "text") {
+                    fontRect.visible = true
+                }
+                if (Type == "color") {
+                    colorChange.visible = true
+                }
+            } else {
+                if (Type == "rect" || Type == "ellipse") {
+                    blurType.visible = false
+                    mosaicType.visible = false
+                    setlw.visible = false
+                    dividingLine.visible = false
+                }
+                if (Type == "arrow") {
+                    setlw.visible = false
+                }
+                if (Type == "line") {
+                    setlw.visible = false
+                    dividingLine.visible = false
+                    straightLine.visible = false
+                }
+                if (Type == "text") {
+                    fontRect.visible = false
+                }
+                if (Type == "color") {
+                    colorChange.visible = false
+                }
+            }
+        }
         onXChanged: {
             tryHideSizeTooltip()
         }
@@ -656,25 +708,7 @@ Item {
 
                     screenArea.enabled = false
                     toolbar.toggleToolbar("rect")
-
-                    if (toolbar.bExtense) {
-                        blurType.visible = true
-                        mosaicType.visible = true
-                        setlw.visible = true
-                        dividingLine.visible = true
-                        colorChange.visible = false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                        straightLine.visible = false
-                    } else {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                        colorChange.visible = false
-                        fontRect.visible = false
-                        straightLine.visible = false
-                    }
-
+                    toolbar.switchCheck("rect")
                     toolbar.shape.shapeName = "rect"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
@@ -700,23 +734,7 @@ Item {
                     }
                     screenArea.enabled = false
                     toolbar.toggleToolbar("ellipse")
-                    if (toolbar.bExtense) {
-                        blurType.visible = true
-                        mosaicType.visible = true
-                        setlw.visible = true
-                        dividingLine.visible = true
-                        colorChange.visible= false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                        straightLine.visible = false
-                    } else {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                        colorChange.visible= false
-                        fontRect.visible = false
-                        straightLine.visible = false
-                    }
+                    toolbar.switchCheck("ellipse")
                     toolbar.shape.shapeName = "ellipse"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
@@ -742,22 +760,7 @@ Item {
                     }
                     screenArea.enabled = false
                     toolbar.toggleToolbar("arrow")
-                    if (toolbar.bExtense) {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = true
-                        dividingLine.visible = false
-                        colorChange.visible = false
-                        fontRect.visible = false
-                        straightLine.visible = false
-                        save_toolbar.visible = false
-                        straightLine.visible = false
-                    } else {
-                        setlw.visible = false
-                        colorChange.visible = false
-                        straightLine.visible = false
-                    }
-
+                    toolbar.switchCheck("arrow")
                     toolbar.shape.shapeName = "arrow"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
@@ -783,24 +786,7 @@ Item {
                     }
                     screenArea.enabled = false
                     toolbar.toggleToolbar("line")
-                    if (toolbar.bExtense) {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = true
-                        dividingLine.visible = true
-                        straightLine.visible = true
-                        colorChange.visible= false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                    } else {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                        dividingLine.visible = false
-                        straightLine.visible = false
-                        colorChange.visible= false
-                    }
-
+                    toolbar.switchCheck("line")
                     toolbar.shape.shapeName = "line"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
@@ -825,32 +811,12 @@ Item {
                     }
                     screenArea.enabled = false
                     toolbar.toggleToolbar("text")
-                    if (toolbar.bExtense) {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                        colorChange.visible= false
-                        save_toolbar.visible = false
-                        straightLine.visible = false
-                    } else {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        fontRect.visible = true
-                        colorChange.visible= false
-                        setlw.visible = false
-                    }
-
+                    toolbar.switchCheck("text")
                     toolbar.shape.shapeName = "text"
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
                     colorTool.colorStyle = screen.colorCard(colorTool.colorOrder)
                     toolbar.shape.fontSize = Qt.binding( function() { return fontRect.value })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
-                    fontRect.visible = !fontRect.visible
-                    if (fontRect.visible) {
-                        setlw.visible = false
-                        colorChange.visible = false
-                        save_toolbar.visible = false
-                    }
                 }
             }
             function _ColorXLineXText() {
@@ -882,18 +848,7 @@ Item {
                     }
                     var originType = toolbar.buttonType
                     toolbar.toggleToolbar("color")
-                    colorChange.visible = !colorChange.visible
-                    if (toolbar.bExtense) {
-                        colorChange.visible= true
-                    } else {
-                        colorChange.visible = false
-                    }
-                    setlw.visible = false
-                    blurType.visible = false
-                    straightLine.visible = false
-                    mosaicType.visible = false
-                    fontRect.visible = false
-                    save_toolbar.visible = false
+                    toolbar.switchCheck("color")
                     toolbar.buttonType = originType
                 }
             }

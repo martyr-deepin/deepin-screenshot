@@ -82,11 +82,6 @@ Item {
             } else {
                 toolButton.state = "on"
             }
-            if (toolButton.state == "on") {
-               toolImage.source = toolButton.dirImage + toolButton.imageName + "_press.svg"
-            } else {
-               toolImage.source = toolButton.dirImage + toolButton.imageName+".svg"
-            }
             toolButton.pressed()
         }
     }
