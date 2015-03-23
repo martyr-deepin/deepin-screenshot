@@ -79,11 +79,8 @@ ACTION_ID_OPEN = "id_open"
 cursor_shape_dict = {}
 init_cursor_shape_dict()
 
-soundEffect = QSoundEffect()
-soundEffect.setSource(QUrl(SOUND_FILE))
-settings = ScreenShotSettings()
-
 view = None
+settings = ScreenShotSettings()
 _notificationId = None
 _fileSaveLocation = None
 _quitTimer = QTimer()
@@ -414,6 +411,7 @@ def main():
         menu_controller.postMenuHide.connect(view.grabFocus)
 
 if __name__ == "__main__":
+    global soundEffect
     parser = QCommandLineParser()
     parser.addHelpOption()
     parser.addVersionOption()
@@ -449,7 +447,10 @@ if __name__ == "__main__":
         if delayValue > 0:
             notificationsInterface.notify(_("Deepin Screenshot"),
             _("Deepin Screenshot will start after %s seconds.") % delayValue)
+
         QTimer.singleShot(max(0, delayValue * 1000), main)
+        soundEffect = QSoundEffect()
+        soundEffect.setSource(QUrl(SOUND_FILE))
 
         signal.signal(signal.SIGINT, signal.SIG_DFL)
         sys.exit(app.exec_())
