@@ -446,6 +446,9 @@ if __name__ == "__main__":
         notificationsInterface.notify(_("Deepin Screenshot"),
             _("Deepin Screenshot has been started!"))
     else:
+        if delayValue > 0:
+            notificationsInterface.notify(_("Deepin Screenshot"),
+            _("Deepin Screenshot will start after %s seconds.") % delayValue)
         QTimer.singleShot(max(0, delayValue * 1000), main)
 
         signal.signal(signal.SIGINT, signal.SIG_DFL)
