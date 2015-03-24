@@ -36,8 +36,7 @@ from PyQt5.QtQuick import QQuickView
 from PyQt5.QtGui import (QSurfaceFormat, QColor, QImage,
     QPixmap, QCursor, QKeySequence, qRed, qGreen, qBlue)
 from PyQt5.QtWidgets import QApplication, qApp, QFileDialog
-from PyQt5.QtCore import (pyqtSlot, QStandardPaths, QUrl,
-    QCommandLineParser, QCommandLineOption, QTimer, Qt)
+from PyQt5.QtCore import (pyqtSlot, QStandardPaths, QUrl, QTimer, Qt)
 from PyQt5.QtMultimedia import QSoundEffect
 app = QApplication(sys.argv)
 app.setOrganizationName("Deepin")
@@ -359,11 +358,21 @@ def saveScreenshot(pixmap):
     else:
         qApp.quit()
 
-def main():
-    global view
-    global settings
-    global windoInfo
-    global menu_controller
+delayValue = None
+fullscreenValue = None
+topWindowValue = None
+savePathValue = None
+startFromDesktop = None
+def main(delay, fullscreen, topWindow, savePath, startFromDesktop):
+    global view, settings, windoInfo, menu_controller
+    global delayValue, fullscreenValue, topWindowValue
+    global savePathValue, startFromDesktopValue
+
+    delayValue = delay
+    fullscreenValue = fullscreen
+    topWindowValue = topWindow
+    savePathValue = savePath
+    startFromDesktopValue = startFromDesktop
 
     cursor_pos = QCursor.pos()
     desktop = qApp.desktop()
@@ -412,43 +421,16 @@ def main():
 
 if __name__ == "__main__":
     global soundEffect
-    parser = QCommandLineParser()
-    parser.addHelpOption()
-    parser.addVersionOption()
-
-    delayOption = QCommandLineOption(["d", "delay"],
-        "Take a screenshot after NUM seconds", "NUM")
-    fullscreenOption = QCommandLineOption(["f", "fullscreen"],
-        "Take a screenshot of the whole screen")
-    topWindowOption = QCommandLineOption(["w", "top-window"],
-        "Take a screenshot of the most top window")
-    savePathOption = QCommandLineOption(["s", "save-path"],
-        "Specify a path to save the screenshot", "PATH")
-    startFromDesktopOption = QCommandLineOption(["i", "icon"],
-        "Indicate that this program's started by clicking desktop file.")
-
-    parser.addOption(delayOption)
-    parser.addOption(fullscreenOption)
-    parser.addOption(topWindowOption)
-    parser.addOption(savePathOption)
-    parser.addOption(startFromDesktopOption)
-    parser.process(app)
-
-    delayValue = int(parser.value(delayOption) or 0)
-    fullscreenValue = bool(parser.isSet(fullscreenOption) or False)
-    topWindowValue = bool(parser.isSet(topWindowOption) or False)
-    savePathValue = str(parser.value(savePathOption) or "")
-    startFromDesktopValue = bool(parser.isSet(startFromDesktopOption) or False)
 
     if is_service_exist():
+        screenshotInterface.runWithArguments(app.arguments())
         notificationsInterface.notify(_("Deepin Screenshot"),
             _("Deepin Screenshot has been started!"))
     else:
-        if delayValue > 0:
-            notificationsInterface.notify(_("Deepin Screenshot"),
-            _("Deepin Screenshot will start after %s seconds.") % delayValue)
+        controller = AppController(main)
+        controller.runWithArguments(app.arguments())
+        register_object(controller)
 
-        QTimer.singleShot(max(0, delayValue * 1000), main)
         soundEffect = QSoundEffect()
         soundEffect.setSource(QUrl(SOUND_FILE))
 

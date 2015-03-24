@@ -20,14 +20,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from PyQt5.QtCore import QObject
+from functools import partial
+from PyQt5.QtCore import QObject, QTimer, pyqtSignal
+
 from dbus_services import ServiceAdaptor
+from utils.cmdline import processArguments
 
 class AppController(QObject):
 	"""The main controller of this application."""
-	def __init__(self):
+	def __init__(self, mainFunc):
 		super(AppController, self).__init__()
 		adapter = ServiceAdaptor(self)
+		self._mainFunc = mainFunc
 
 	def runWithArguments(self, arguments):
-		print "runWithArguments"
+		argValues = processArguments(arguments)
+		(delay, fullscreen, topWindow,
+		 savePath, startFromDesktop) = argValues
+		mainFunc = partial(self._mainFunc, *argValues)
+
+		if delay > 0:
+		    notificationsInterface.notify(_("Deepin Screenshot"),
+		    _("Deepin Screenshot will start after %s seconds.") % delayValue)
+
+		QTimer.singleShot(max(0, delay * 1000), mainFunc)
