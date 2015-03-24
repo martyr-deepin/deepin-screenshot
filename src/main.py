@@ -101,7 +101,7 @@ class Window(QQuickView):
         self.setFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
         self.setResizeMode(QQuickView.SizeRootObjectToView)
         self.setFormat(surface_format)
-        self.setTitle(_("Deepin screenshot"))
+        self.setTitle(_("Deepin Screenshot"))
 
         self.qimage = QImage(self._settings.tmpImageFile)
         self.qpixmap = QPixmap()
@@ -445,7 +445,7 @@ if __name__ == "__main__":
 
     if is_service_exist():
         notificationsInterface.notify(_("Deepin Screenshot"),
-            _("Deepin Screenshot has been started!"))
+            _("Deepin Screenshot has been started."))
     else:
         if delayValue > 0:
             notificationsInterface.notify(_("Deepin Screenshot"),

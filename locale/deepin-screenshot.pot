@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-23 17:37+0800\n"
+"POT-Creation-Date: 2015-03-25 13:29+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,27 +57,27 @@ msgstr ""
 msgid "Quick start"
 msgstr ""
 
-#: ../src/ShortcutsViewer.qml:53
-msgid "Fullscreen screenshot"
-msgstr ""
-
 #: ../src/ShortcutsViewer.qml:57
 msgid "Delay screenshot"
 msgstr ""
 
-#: ../src/ShortcutsViewer.qml:61
-msgid "Intelligent identifying window"
+#: ../src/ShortcutsViewer.qml:53
+msgid "Full screenshot"
 msgstr ""
 
-#: ../src/ShortcutsViewer.qml:65
-msgid "Quit"
+#: ../src/ShortcutsViewer.qml:61
+msgid "Smart identifying window"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:65 ../src/menu_controller.py:55
+msgid "Exit"
 msgstr ""
 
 #: ../src/ShortcutsViewer.qml:71
 msgid "Save/Share"
 msgstr ""
 
-#: ../src/ShortcutsViewer.qml:74 ../src/main.py:346
+#: ../src/ShortcutsViewer.qml:74 ../src/main.py:349
 #: ../src/menu_controller.py:53
 msgid "Save"
 msgstr ""
@@ -115,58 +115,55 @@ msgid "Color"
 msgstr ""
 
 #: ../src/ShortcutsViewer.qml:118
-msgid "Size adjustment"
+msgid "Size Adjustment"
 msgstr ""
 
 #: ../src/ShortcutsViewer.qml:121
-msgid "Adjust selection height up"
+msgid "Adjust height up"
 msgstr ""
 
 #: ../src/ShortcutsViewer.qml:126
-msgid "Adjust selection height down"
+msgid "Adjust height down"
 msgstr ""
 
 #: ../src/ShortcutsViewer.qml:131
-msgid "Adjust selection height left"
+msgid "Adjust height left"
 msgstr ""
 
 #: ../src/ShortcutsViewer.qml:136
-msgid "Adjust selection height right"
+msgid "Adjust height right"
 msgstr ""
 
-#: ../src/main.py:104 ../src/dbus_interfaces.py:66
-msgid "Deepin screenshot"
-msgstr ""
-
-#: ../src/main.py:308 ../src/main.py:318 ../src/main.py:444 ../src/main.py:448
+#: ../src/main.py:104 ../src/main.py:311 ../src/main.py:321 ../src/main.py:447
+#: ../src/main.py:451
 msgid "Deepin Screenshot"
 msgstr ""
 
-#: ../src/main.py:309
+#: ../src/main.py:312
 msgid "Picture has been saved to clipboard"
 msgstr ""
 
-#: ../src/main.py:319
+#: ../src/main.py:322
 msgid "Picture has been saved to"
 msgstr ""
 
-#: ../src/main.py:319
+#: ../src/main.py:322
 msgid "View"
 msgstr ""
 
-#: ../src/main.py:328
+#: ../src/main.py:331
 msgid "DeepinScreenshot"
 msgstr ""
 
-#: ../src/main.py:445
-msgid "Deepin Screenshot has been started!"
+#: ../src/main.py:448
+msgid "Deepin Screenshot has been started."
 msgstr ""
 
-#: ../src/main.py:449
+#: ../src/main.py:452
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
 msgstr ""
 
-#: ../src/menu_controller.py:55
-msgid "Exit"
+#: ../src/dbus_interfaces.py:66
+msgid "Deepin screenshot"
 msgstr ""

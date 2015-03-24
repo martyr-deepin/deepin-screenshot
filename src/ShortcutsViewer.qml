@@ -50,7 +50,7 @@ DWindow {
                             shortcut: "Ctrl+Alt+A"
                         }
                         ShortcutsLabel {
-                            title: dsTr("Fullscreen screenshot")
+                            title: dsTr("Full screenshot")
                             shortcut: "Print"
                         }
                         ShortcutsLabel {
@@ -58,11 +58,11 @@ DWindow {
                             shortcut: "Ctrl+Print"
                         }
                         ShortcutsLabel {
-                            title: dsTr("Intelligent identifying window")
+                            title: dsTr("Smart identifying window")
                             shortcut: "Ctrl+Alt+Print"
                         }
                         ShortcutsLabel {
-                            title: dsTr("Quit")
+                            title: dsTr("Exit")
                             shortcut: "Esc"
                         }
                     }
@@ -115,25 +115,25 @@ DWindow {
 
                 Column {
                     ShortcutsSection {
-                        title: dsTr("Size adjustment")
+                        title: dsTr("Size Adjustment")
 
                         ShortcutsLabel {
-                            title: dsTr("Adjust selection height up")
+                            title: dsTr("Adjust height up")
                             shortcut: "Ctrl+Up"
                         }
 
                         ShortcutsLabel {
-                            title: dsTr("Adjust selection height down")
+                            title: dsTr("Adjust height down")
                             shortcut: "Ctrl+Down"
                         }
 
                         ShortcutsLabel {
-                            title: dsTr("Adjust selection height left")
+                            title: dsTr("Adjust height left")
                             shortcut: "Ctrl+Left"
                         }
 
                         ShortcutsLabel {
-                            title: dsTr("Adjust selection height right")
+                            title: dsTr("Adjust height right")
                             shortcut: "Ctrl+Right"
                         }
                     }
