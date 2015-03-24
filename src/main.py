@@ -45,11 +45,12 @@ app.setApplicationName("Deepin Screenshot")
 app.setApplicationVersion("3.0")
 app.setQuitOnLastWindowClosed(False)
 
+from app_controller import AppController
 from i18n import _
 from window_info import WindowInfo
 from menu_controller import MenuController
 from settings import ScreenShotSettings
-from dbus_services import is_service_exist, unregister_service
+from dbus_services import is_service_exist, register_object
 from dbus_interfaces import controlCenterInterface, hotZoneInterface
 from dbus_interfaces import notificationsInterface, socialSharingInterface
 from constants import MAIN_QML, SOUND_FILE, MAIN_DIR, TMP_IMAGE_FILE, GTK_CLIP
@@ -266,7 +267,6 @@ class Window(QQuickView):
     @pyqtSlot()
     def closeWindow(self):
         self.enable_zone()
-        unregister_service()
         self.close()
 
         self._quitOnOsdTimeout = True
