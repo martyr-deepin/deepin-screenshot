@@ -4,7 +4,7 @@
 <context>
     <name>Main</name>
     <message>
-        <location filename="../src/Main.qml" line="+1167"/>
+        <location filename="../src/Main.qml" line="+1203"/>
         <source>Save to desktop</source>
         <translation type="unfinished"></translation>
     </message>
@@ -32,13 +32,13 @@
 <context>
     <name>OSD</name>
     <message>
-        <location filename="../src/OSD.qml" line="+52"/>
+        <location filename="../src/OSD.qml" line="+54"/>
         <source>Tips</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>You can start Deepin Screenshot with &quot;Ctrl+Alt+A&quot;</source>
+        <source>You can use &quot;Ctrl+Alt+A&quot; to start the screenshot</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -104,32 +104,32 @@
     </message>
     <message>
         <location line="+3"/>
-        <source>Rectangle tool</source>
+        <source>Rectangle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Ellipse tool</source>
+        <source>Ellipse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Arrow tool</source>
+        <source>Arrow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Brush tool</source>
+        <source>Brush</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Text tool</source>
+        <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Color tool</source>
+        <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
