@@ -21,16 +21,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from functools import partial
-from PyQt5.QtCore import QObject, QTimer, pyqtSignal
+from PyQt5.QtCore import QObject, QTimer
 
+from i18n import _
 from dbus_services import ServiceAdaptor
+from dbus_interfaces import notificationsInterface
 from utils.cmdline import processArguments
 
 class AppController(QObject):
 	"""The main controller of this application."""
 	def __init__(self, mainFunc):
 		super(AppController, self).__init__()
-		adapter = ServiceAdaptor(self)
+		ServiceAdaptor(self)
 		self._mainFunc = mainFunc
 
 	def runWithArguments(self, arguments):
@@ -41,6 +43,6 @@ class AppController(QObject):
 
 		if delay > 0:
 		    notificationsInterface.notify(_("Deepin Screenshot"),
-		    _("Deepin Screenshot will start after %s seconds.") % delayValue)
+		    _("Deepin Screenshot will start after %s seconds.") % delay)
 
 		QTimer.singleShot(max(0, delay * 1000), mainFunc)
