@@ -21,11 +21,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-import tempfile
 
 from PyQt5.QtQuick import QQuickView
-from PyQt5.QtWidgets import qApp
-from PyQt5.QtCore import Qt, QTimer, pyqtSlot
+from PyQt5.QtCore import Qt, QTimer, pyqtSlot, pyqtSignal
 from PyQt5.QtGui import QSurfaceFormat, QColor, QImage, QPixmap, QCursor
 from PyQt5.QtGui import QKeySequence, qRed, qGreen, qBlue
 
@@ -57,6 +55,8 @@ cursor_shape_dict = {}
 init_cursor_shape_dict()
 
 class Window(QQuickView):
+    windowClosing = pyqtSignal()
+
     def __init__(self, context):
         QQuickView.__init__(self)
         self.context = context
@@ -217,5 +217,6 @@ class Window(QQuickView):
 
     @pyqtSlot()
     def closeWindow(self):
+        self.windowClosing.emit()
         self.enable_zone()
         self.close()

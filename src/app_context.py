@@ -90,6 +90,13 @@ class AppContext(QObject):
                          QSize(self.window.width(), self.window.height()))
             self.needOSD.emit(area)
 
+    def _windowClosing(self):
+        if self.settings.showOSD:
+            area = QRect(QPoint(self.window.x(), self.window.y()),
+                         QSize(self.window.width(), self.window.height()))
+            self.needOSD.emit(area)
+        self.finished.emit()
+
     def copyPixmap(self, pixmap):
         _temp = "%s.png" % tempfile.mktemp()
         pixmap.save(_temp)
@@ -187,6 +194,7 @@ class AppContext(QObject):
             self.window.setY(screen_geo.y())
             self.window.setWidth(screen_geo.width())
             self.window.setHeight(screen_geo.height())
+            self.window.windowClosing.connect(self._windowClosing)
             self.window.visibleChanged.connect(self._windowVisibleChanged)
 
             qml_context = self.window.rootContext()
