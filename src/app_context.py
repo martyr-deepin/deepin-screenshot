@@ -67,11 +67,13 @@ class AppContext(QObject):
         self._waitNotificationTimer.timeout.connect(self.finished)
 
     def _notify(self, *args, **kwargs):
-        notify = partial(notificationsInterface.notify, _("Deepin Screenshot"))
-        notify(*args, **kwargs)
         self._waitNotificationTimer.start()
+        notify = partial(notificationsInterface.notify, _("Deepin Screenshot"))
+        return notify(*args, **kwargs)
 
     def _actionInvoked(self, notificationId, actionId):
+        self._waitNotificationTimer.stop()
+
         if self._notificationId == notificationId:
             if actionId == ACTION_ID_OPEN:
                 subprocess.call(["xdg-open",
@@ -79,6 +81,8 @@ class AppContext(QObject):
             self.finished.emit()
 
     def _notificationClosed(self, notificationId, reason):
+        self._waitNotificationTimer.stop()
+
         if self._notificationId == notificationId:
             self.finished.emit()
 
