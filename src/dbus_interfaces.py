@@ -28,7 +28,7 @@ from i18n import _
 
 class ScreenshotInterface(QDBusAbstractInterface):
     def __init__(self):
-        super(NotificationsInterface, self).__init__(
+        super(ScreenshotInterface, self).__init__(
             "com.deepin.DeepinScreenshot",
             "/com/deepin/DeepinScreenshot",
             "com.deepin.DeepinScreenshot",
@@ -122,6 +122,7 @@ class ControlCenterInterface(QDBusAbstractInterface):
 
 
 hotZoneInterface = HotZoneInterface()
+screenshotInterface = ScreenshotInterface()
 notificationsInterface = NotificationsInterface()
 socialSharingInterface = SocialSharingInterface()
 controlCenterInterface = ControlCenterInterface()

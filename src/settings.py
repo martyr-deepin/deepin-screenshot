@@ -24,9 +24,9 @@ import os
 
 from PyQt5.QtCore import QSettings, QVariant, QDir
 
-class ScreenShotSettings(QSettings):
+class ScreenshotSettings(QSettings):
     def __init__(self):
-        super(ScreenShotSettings, self).__init__()
+        super(ScreenshotSettings, self).__init__()
         self.showOSD = False
         self.tmpImageFile = ""
 

@@ -58,10 +58,10 @@ cursor_shape_dict = {}
 init_cursor_shape_dict()
 
 class Window(QQuickView):
-    def __init__(self, settings, windowInfo, saveScreenshot):
+    def __init__(self, context):
         QQuickView.__init__(self)
-        self._settings = settings
-        self._saveScreenshotFunc = saveScreenshot
+        self.context = context
+        self.settings = context.settings
 
         surface_format = QSurfaceFormat()
         surface_format.setAlphaBufferSize(8)
@@ -73,11 +73,11 @@ class Window(QQuickView):
         self.setFormat(surface_format)
         self.setTitle(_("Deepin screenshot"))
 
-        self.qimage = QImage(self._settings.tmpImageFile)
+        self.qimage = QImage(self.settings.tmpImageFile)
         self.qpixmap = QPixmap()
         self.qpixmap.convertFromImage(self.qimage)
 
-        self.window_info = windowInfo
+        self.window_info = context.windowInfo
 
         self._grabPointerStatus = False
         self._grabKeyboardStatus = False
@@ -179,11 +179,11 @@ class Window(QQuickView):
 
     @pyqtSlot(str,str,result="QVariant")
     def get_save_config(self, group_name,op_name):
-        return self._settings.getOption(group_name, op_name)
+        return self.settings.getOption(group_name, op_name)
 
     @pyqtSlot(str,str,str)
     def set_save_config(self,group_name,op_name,op_index):
-        self._settings.setOption(group_name, op_name, op_index)
+        self.settings.setOption(group_name, op_name, op_index)
 
     @pyqtSlot(int,int,int,int)
     def save_screenshot(self, x, y, width, height):
@@ -192,8 +192,8 @@ class Window(QQuickView):
         pixmap.save(SAVE_DEST_TEMP)
 
         self.hide()
-        self._saveScreenshotFunc(pixmap)
-        self._settings.showOSD and self.showHotKeyOSD()
+        self.context.saveScreenshot(pixmap)
+        self.settings.showOSD and self.showHotKeyOSD()
 
     @pyqtSlot()
     def enable_zone(self):
@@ -239,7 +239,7 @@ class Window(QQuickView):
         self.close()
 
         self._quitOnOsdTimeout = True
-        if self._settings.showOSD:
+        if self.settings.showOSD:
             if not self._osdShowed:
                 self.showHotKeyOSD()
             elif not self._osdShowing:
