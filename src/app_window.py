@@ -82,10 +82,6 @@ class Window(QQuickView):
         self._grabKeyboardStatus = False
         self._grabFocusTimer = self._getGrabFocusTimer()
 
-        self._osdShowed = False
-        self._osdShowing = False
-        self._quitOnOsdTimeout = False
-
     @pyqtSlot(int, int, result="QVariant")
     def get_color_at_point(self, x, y):
         if x >= 0 and y >= 0:
@@ -191,7 +187,6 @@ class Window(QQuickView):
 
         self.hide()
         self.context.saveScreenshot(pixmap)
-        self.settings.showOSD and self.showHotKeyOSD()
 
     @pyqtSlot()
     def enable_zone(self):
@@ -215,17 +210,6 @@ class Window(QQuickView):
         keySequence = QKeySequence(modifier + key).toString()
         return keySequence
 
-    def _handleOSDTimeout(self):
-        self._osdShowing = False
-        if self._quitOnOsdTimeout:
-            qApp.quit()
-
-    def showHotKeyOSD(self):
-        self._osdShowing = True
-        self._osdShowed = True
-        self.rootObject().showHotKeyOSD()
-        self.rootObject().osdTimeout.connect(self._handleOSDTimeout)
-
     def showWindow(self):
         self.disable_zone()
         self.showFullScreen()
@@ -235,12 +219,3 @@ class Window(QQuickView):
     def closeWindow(self):
         self.enable_zone()
         self.close()
-
-        self._quitOnOsdTimeout = True
-        if self.settings.showOSD:
-            if not self._osdShowed:
-                self.showHotKeyOSD()
-            elif not self._osdShowing:
-                qApp.quit()
-        else:
-            qApp.quit()

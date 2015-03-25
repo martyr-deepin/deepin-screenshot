@@ -27,6 +27,7 @@ from copy import deepcopy
 from PyQt5.QtWidgets import qApp
 from PyQt5.QtCore import QObject, QTimer, QUrl
 from PyQt5.QtMultimedia import QSoundEffect
+from PyQt5.QtQml import QQmlApplicationEngine
 
 from i18n import _
 from settings import ScreenshotSettings
@@ -34,7 +35,7 @@ from app_context import AppContext
 from dbus_services import ServiceAdaptor
 from dbus_interfaces import notificationsInterface
 from utils.cmdline import processArguments
-from constants import SOUND_FILE
+from constants import SOUND_FILE, OSD_QML
 
 class AppController(QObject):
     """The main controller of this application."""
@@ -43,6 +44,7 @@ class AppController(QObject):
         ServiceAdaptor(self)
 
         self.contexts = []
+        self._osdVisible = False
         self._initQuitTimer()
 
     def _initQuitTimer(self):
@@ -52,7 +54,7 @@ class AppController(QObject):
         self._quitTimer.timeout.connect(self._checkContexts)
 
     def _checkContexts(self):
-        if (self.contexts):
+        if (self.contexts) or self._osdVisible:
             self._quitTimer.start()
         else:
             qApp.quit()
@@ -63,6 +65,19 @@ class AppController(QObject):
     def _contextFinished(self, context):
         self.contexts.remove(context)
         self._checkContexts()
+
+    def _contextNeedOSD(self, context, area):
+        def _osdClosed():
+            self._osdVisible = False
+
+        self._osdVisible = True
+        self._qmlEngine = QQmlApplicationEngine()
+        self._qmlEngine.load(QUrl(OSD_QML))
+        osd = self._qmlEngine.rootObjects()[0]
+        osd.setX(area.x() + (area.width() - osd.width()) / 2)
+        osd.setY(area.y() + (area.height() - osd.height()) / 2)
+        osd.showTips()
+        osd.closed.connect(_osdClosed)
 
     def _createContextSettings(self):
         settings = ScreenshotSettings()
@@ -85,6 +100,7 @@ class AppController(QObject):
         context.settings = self._createContextSettings()
         context.finished.connect(partial(self._contextFinished, context))
         context.needSound.connect(partial(self._contextNeedSound, context))
+        context.needOSD.connect(partial(self._contextNeedOSD, context))
         self.contexts.append(context)
 
         if delay > 0:

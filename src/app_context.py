@@ -29,7 +29,8 @@ from functools import partial
 
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import qApp, QFileDialog
-from PyQt5.QtCore import QStandardPaths, QUrl, QObject, QTimer, pyqtSignal
+from PyQt5.QtCore import QStandardPaths, QUrl, QObject
+from PyQt5.QtCore import QRect, QPoint, QSize, QTimer, pyqtSignal
 
 from i18n import _
 from app_window import Window
@@ -47,6 +48,7 @@ class AppContext(QObject):
     """
 
     needSound = pyqtSignal()
+    needOSD = pyqtSignal(QRect)
     finished = pyqtSignal()
 
     def __init__(self, argValues):
@@ -79,6 +81,14 @@ class AppContext(QObject):
     def _notificationClosed(self, notificationId, reason):
         if self._notificationId == notificationId:
             self.finished.emit()
+
+    def _windowVisibleChanged(self, visible):
+        if visible:
+            controlCenterInterface.hideImmediately()
+        elif self.settings.showOSD:
+            area = QRect(QPoint(self.window.x(), self.window.y()),
+                         QSize(self.window.width(), self.window.height()))
+            self.needOSD.emit(area)
 
     def copyPixmap(self, pixmap):
         _temp = "%s.png" % tempfile.mktemp()
@@ -177,8 +187,7 @@ class AppContext(QObject):
             self.window.setY(screen_geo.y())
             self.window.setWidth(screen_geo.width())
             self.window.setHeight(screen_geo.height())
-            self.window.visibleChanged.connect(lambda x:
-                x and controlCenterInterface.hideImmediately())
+            self.window.visibleChanged.connect(self._windowVisibleChanged)
 
             qml_context = self.window.rootContext()
             qml_context.setContextProperty("windowView", self.window)
