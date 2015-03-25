@@ -35,8 +35,8 @@ Item {
     }
 
     function share() {
-        screen.saveScreenshot()
         windowView.share()
+        screen.saveScreenshot()
     }
 
     function colorCard(key) {

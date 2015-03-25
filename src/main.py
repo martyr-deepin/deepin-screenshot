@@ -117,6 +117,8 @@ class Window(QQuickView):
         self._osdShowing = False
         self._quitOnOsdTimeout = False
 
+        self._share = False
+
     @pyqtSlot(int, int, result="QVariant")
     def get_color_at_point(self, x, y):
         if x >= 0 and y >= 0:
@@ -234,8 +236,7 @@ class Window(QQuickView):
         hotZoneInterface.disableZone()
 
     @pyqtSlot()
-    def share(self):
-        socialSharingInterface.share("", SAVE_DEST_TEMP)
+    def share(self): self._share = True
 
     @pyqtSlot(int, int, str, result=bool)
     def checkKeySequenceEqual(self, modifier, key, targetKeySequence):
@@ -268,6 +269,8 @@ class Window(QQuickView):
         self.enable_zone()
         unregister_service()
         self.close()
+
+        if self._share: socialSharingInterface.share("", SAVE_DEST_TEMP)
 
         self._quitOnOsdTimeout = True
         if self._settings.showOSD:
@@ -357,7 +360,7 @@ def saveScreenshot(pixmap):
         if copyToClipborad: copyPixmap(pixmap)
         if absSavePath: savePixmap(pixmap, absSavePath)
     else:
-        qApp.quit()
+        view.closeWindow() if view else qApp.quit()
 
 def main():
     global view
