@@ -238,7 +238,7 @@ Item {
     Image {
         id: background
         anchors.fill: parent
-        source: "/tmp/deepin-screenshot.png"
+        source: tmpImageFile
         cache: true
         asynchronous: true
     }
@@ -399,7 +399,7 @@ Item {
         Image {
             x: -selectArea.x
             y: -selectArea.y
-            source: "/tmp/deepin-screenshot.png"
+            source: tmpImageFile
             cache: true
             asynchronous: true
         }
@@ -1327,7 +1327,7 @@ Item {
                     id: zoomIndicatorImage
                     x: -zoomIndicator.cursorX + (zoomIndicator.width - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue)
                     y: -zoomIndicator.cursorY + (zoomIndicator.height - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue)
-                    source: "/tmp/deepin-screenshot.png"
+                    source: tmpImageFile
                     smooth: false
                     cache: true
                     asynchronous: true

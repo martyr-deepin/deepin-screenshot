@@ -52,8 +52,7 @@ def init_cursor_shape_dict():
 
 CURSOR_SHAPE_SHAPE_PREFIX = "shape_"
 CURSOR_SHAPE_COLOR_PEN_PREFIX = "color_pen_"
-SAVE_DEST_TEMP = os.path.join(tempfile.gettempdir() or "/tmp",
-                              "DeepinScreenshot-save-tmp.png")
+
 cursor_shape_dict = {}
 init_cursor_shape_dict()
 
@@ -142,14 +141,13 @@ class Window(QQuickView):
             p = p.scaled(width / mosaic_radius, height / mosaic_radius,
                          Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
             p = p.scaled(width, height)
+            p.save(self.settings.tmpMosaiceFile)
         elif style == "blur":
             p = p.scaled(width / blur_radius, height / blur_radius,
                          Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
             p = p.scaled(width, height,
                          Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
-
-        image_dir = "/tmp/deepin-screenshot-%s.png" % style
-        p.save(os.path.join(image_dir))
+            p.save(self.settings.tmpBlurFile)
 
     def _getGrabFocusTimer(self):
         timer = QTimer()
@@ -189,7 +187,7 @@ class Window(QQuickView):
     def save_screenshot(self, x, y, width, height):
         pixmap = QPixmap.fromImage(self.grabWindow())
         pixmap = pixmap.copy(x, y, width, height)
-        pixmap.save(SAVE_DEST_TEMP)
+        pixmap.save(self.settings.tmpSaveFile)
 
         self.hide()
         self.context.saveScreenshot(pixmap)
@@ -205,7 +203,7 @@ class Window(QQuickView):
 
     @pyqtSlot()
     def share(self):
-        socialSharingInterface.share("", SAVE_DEST_TEMP)
+        socialSharingInterface.share("", self.settings.tmpSaveFile)
 
     @pyqtSlot(int, int, str, result=bool)
     def checkKeySequenceEqual(self, modifier, key, targetKeySequence):

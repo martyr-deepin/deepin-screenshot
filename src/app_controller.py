@@ -64,6 +64,15 @@ class AppController(QObject):
         self.contexts.remove(context)
         self._checkContexts()
 
+    def _createContextSettings(self):
+        settings = ScreenshotSettings()
+        settings.tmpImageFile = "%s.png" % tempfile.mktemp()
+        settings.tmpBlurFile = "%s-blur.png" % tempfile.mktemp()
+        settings.tmpMosaiceFile = "%s-mosaic.png" % tempfile.mktemp()
+        settings.tmpSaveFile = "%s-save.png" % tempfile.mktemp()
+
+        return settings
+
     def runWithArguments(self, arguments):
         (delay, fullscreen, topWindow,
          savePath, startFromDesktop) = processArguments(arguments)
@@ -73,8 +82,7 @@ class AppController(QObject):
         self.soundEffect.play()
 
         context = AppContext(deepcopy(locals()))
-        context.settings = ScreenshotSettings()
-        context.settings.tmpImageFile = "%s.png" % tempfile.mktemp()
+        context.settings = self._createContextSettings()
         context.finished.connect(partial(self._contextFinished, context))
         context.needSound.connect(partial(self._contextNeedSound, context))
         self.contexts.append(context)

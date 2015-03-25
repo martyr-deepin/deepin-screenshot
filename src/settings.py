@@ -29,6 +29,9 @@ class ScreenshotSettings(QSettings):
         super(ScreenshotSettings, self).__init__()
         self.showOSD = False
         self.tmpImageFile = ""
+        self.tmpSaveFile = ""
+        self.tmpBlurFile = ""
+        self.tmpMosaiceFile = ""
 
         self._init_settings()
 

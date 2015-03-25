@@ -187,6 +187,12 @@ class AppContext(QObject):
                 self.window.window_info.screen_width)
             qml_context.setContextProperty("screenHeight",
                 self.window.window_info.screen_height)
+            qml_context.setContextProperty("tmpImageFile",
+                self.settings.tmpImageFile)
+            qml_context.setContextProperty("blurImageFile",
+                self.settings.tmpBlurFile)
+            qml_context.setContextProperty("mosaicImageFile",
+                self.settings.tmpMosaiceFile)
             qml_context.setContextProperty("_menu_controller", menu_controller)
 
             self.window.setSource(QUrl.fromLocalFile(MAIN_QML))

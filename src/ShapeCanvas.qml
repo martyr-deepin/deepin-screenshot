@@ -15,10 +15,10 @@ Canvas {
     property int linewidth: 3
     property int paintColor: 3
     property alias canvasArea: canvasArea
-    property url imageUrl: "/tmp/deepin-screenshot.png"
+    property url imageUrl: tmpImageFile
     property url rotateImage: "../image/mouse_style/shape/rotate.png"
-    property string blurImage:"/tmp/deepin-screenshot-blur.png"
-    property string mosaicImage: "/tmp/deepin-screenshot-mosaic.png"
+    property string blurImage: blurImageFile
+    property string mosaicImage: mosaicImageFile
     property bool isBlur: false
     property bool bluring:false
     property bool processBlur: false
