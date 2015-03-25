@@ -36,7 +36,7 @@ from PyQt5.QtQuick import QQuickView
 from PyQt5.QtGui import (QSurfaceFormat, QColor, QImage,
     QPixmap, QCursor, QKeySequence, qRed, qGreen, qBlue)
 from PyQt5.QtWidgets import QApplication, qApp, QFileDialog
-from PyQt5.QtCore import (pyqtSlot, QStandardPaths, QUrl,
+from PyQt5.QtCore import (pyqtSlot, pyqtProperty, QStandardPaths, QUrl,
     QCommandLineParser, QCommandLineOption, QTimer, Qt)
 from PyQt5.QtMultimedia import QSoundEffect
 app = QApplication(sys.argv)
@@ -235,8 +235,13 @@ class Window(QQuickView):
     def disable_zone(self):
         hotZoneInterface.disableZone()
 
-    @pyqtSlot()
-    def share(self): self._share = True
+    @pyqtProperty(bool)
+    def share(self):
+        return self._share
+
+    @share.setter
+    def share(self, value):
+        self._share = value
 
     @pyqtSlot(int, int, str, result=bool)
     def checkKeySequenceEqual(self, modifier, key, targetKeySequence):
@@ -269,8 +274,6 @@ class Window(QQuickView):
         self.enable_zone()
         unregister_service()
         self.close()
-
-        if self._share: socialSharingInterface.share("", SAVE_DEST_TEMP)
 
         self._quitOnOsdTimeout = True
         if self._settings.showOSD:
@@ -355,6 +358,8 @@ def saveScreenshot(pixmap):
             saveDir = QStandardPaths.writableLocation(QStandardPaths.PicturesLocation)
             absSavePath = os.path.join(saveDir, fileName)
         else: copyToClipborad = True
+
+    if view and view.share: socialSharingInterface.share("", SAVE_DEST_TEMP)
 
     if absSavePath or copyToClipborad:
         if copyToClipborad: copyPixmap(pixmap)

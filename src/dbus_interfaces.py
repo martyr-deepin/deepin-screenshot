@@ -63,7 +63,7 @@ class SocialSharingInterface(QDBusAbstractInterface):
             None)
 
     def share(self, text, pic):
-        self.asyncCall("Share", _("Deepin screenshot"),
+        self.call("Share", _("Deepin screenshot"),
          "deepin-screenshot", text, pic)
 
 class HotZoneInterface(QDBusAbstractInterface):

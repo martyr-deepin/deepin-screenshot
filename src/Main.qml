@@ -35,7 +35,7 @@ Item {
     }
 
     function share() {
-        windowView.share()
+        windowView.share = true
         screen.saveScreenshot()
     }
 
