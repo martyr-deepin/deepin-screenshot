@@ -88,12 +88,20 @@ class AppContext(QObject):
 
     def _windowVisibleChanged(self, visible):
         if visible:
-            controlCenterInterface.hideImmediately()
-        elif self.settings.showOSD:
-            area = QRect(QPoint(self.window.x(), self.window.y()),
-                         QSize(self.window.width(), self.window.height()))
-            self.needOSD.emit(area)
+            self.sender().disable_zone()
+            self.sender().grabFocus()
 
+            controlCenterInterface.hideImmediately()
+        else:
+            self.sender().enable_zone()
+
+            if self.settings.showOSD:
+                area = QRect(QPoint(self.window.x(), self.window.y()),
+                             QSize(self.window.width(), self.window.height()))
+                self.needOSD.emit(area)
+
+    # this function just handles the situation that this context's
+    # finished by the user interaction.
     def _windowClosing(self):
         if self.settings.showOSD:
             area = QRect(QPoint(self.window.x(), self.window.y()),

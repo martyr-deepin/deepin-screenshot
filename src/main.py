@@ -36,16 +36,17 @@ app.setApplicationName("Deepin Screenshot")
 app.setApplicationVersion("3.0")
 app.setQuitOnLastWindowClosed(False)
 
-from i18n import _
 from app_controller import AppController
 from dbus_services import is_service_exist, register_object
-from dbus_interfaces import notificationsInterface, screenshotInterface
+from dbus_interfaces import screenshotInterface
 
 if __name__ == "__main__":
     if is_service_exist():
         screenshotInterface.runWithArguments(app.arguments())
-        notificationsInterface.notify(_("Deepin Screenshot"),
-            _("Deepin Screenshot has been started!"))
+        # TODO: maybe there will never be a situation that
+        # the following should be executed.
+        # notificationsInterface.notify(_("Deepin Screenshot"),
+        #     _("Deepin Screenshot has been started!"))
     else:
         controller = AppController()
         controller.runWithArguments(app.arguments())

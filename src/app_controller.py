@@ -21,7 +21,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import tempfile
-from functools import partial
 from copy import deepcopy
 
 from PyQt5.QtWidgets import qApp
@@ -59,14 +58,14 @@ class AppController(QObject):
         else:
             qApp.quit()
 
-    def _contextNeedSound(self, context):
+    def _contextNeedSound(self):
         self.soundEffect.play()
 
-    def _contextFinished(self, context):
-        self.contexts.remove(context)
+    def _contextFinished(self):
+        self.contexts.remove(self.sender())
         self._checkContexts()
 
-    def _contextNeedOSD(self, context, area):
+    def _contextNeedOSD(self, area):
         def _osdClosed():
             self._osdVisible = False
 
@@ -94,13 +93,12 @@ class AppController(QObject):
 
         self.soundEffect = QSoundEffect()
         self.soundEffect.setSource(QUrl(SOUND_FILE))
-        self.soundEffect.play()
 
         context = AppContext(deepcopy(locals()))
         context.settings = self._createContextSettings()
-        context.finished.connect(partial(self._contextFinished, context))
-        context.needSound.connect(partial(self._contextNeedSound, context))
-        context.needOSD.connect(partial(self._contextNeedOSD, context))
+        context.finished.connect(self._contextFinished)
+        context.needSound.connect(self._contextNeedSound)
+        context.needOSD.connect(self._contextNeedOSD)
         self.contexts.append(context)
 
         if delay > 0:

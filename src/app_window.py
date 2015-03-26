@@ -211,12 +211,9 @@ class Window(QQuickView):
         return keySequence
 
     def showWindow(self):
-        self.disable_zone()
         self.showFullScreen()
-        self.grabFocus()
 
     @pyqtSlot()
     def closeWindow(self):
         self.windowClosing.emit()
-        self.enable_zone()
         self.close()
