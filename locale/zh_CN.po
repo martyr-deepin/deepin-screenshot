@@ -1,0 +1,172 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Automatically generated, 2012
+# szd_liufei <liufei@linuxdeepin.com>, 2015
+# 李洪武 <lihongwu1987@gmail.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: Deepin Screenshot\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-25 13:29+0800\n"
+"PO-Revision-Date: 2015-03-25 06:11+0000\n"
+"Last-Translator: deepin_transifex <xiabin@linuxdeepin.com>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/projects/p/deepin-screenshot/language/zh_CN/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ../src/Main.qml:1203 ../src/menu_controller.py:40
+msgid "Save to desktop"
+msgstr "保存到桌面"
+
+#: ../src/Main.qml:1225 ../src/menu_controller.py:39
+msgid "Autosave"
+msgstr "自动保存"
+
+#: ../src/Main.qml:1247 ../src/menu_controller.py:42
+msgid "Save to specified folder"
+msgstr "保存到指定文件夹"
+
+#: ../src/Main.qml:1269 ../src/menu_controller.py:41
+msgid "Copy to clipboard"
+msgstr "复制到剪切板"
+
+#: ../src/Main.qml:1290 ../src/menu_controller.py:43
+msgid "Autosave and copy to clipboard"
+msgstr "自动保存并复制到剪切板 "
+
+#: ../src/OSD.qml:54
+msgid "Tips"
+msgstr "提示"
+
+#: ../src/OSD.qml:65
+msgid "You can use \"Ctrl+Alt+A\" to start the screenshot"
+msgstr "您可以使用快捷键“Ctrl+Alt+A”来启动截图"
+
+#: ../src/ShortcutsLabel.qml:23
+msgid "None"
+msgstr "无"
+
+#: ../src/ShortcutsViewer.qml:46
+msgid "Start/Screenshot"
+msgstr "启动/截图 "
+
+#: ../src/ShortcutsViewer.qml:49
+msgid "Quick start"
+msgstr "快速启动"
+
+#: ../src/ShortcutsViewer.qml:57
+msgid "Delay screenshot"
+msgstr "延时截图"
+
+#: ../src/ShortcutsViewer.qml:53
+msgid "Full screenshot"
+msgstr "全屏截图"
+
+#: ../src/ShortcutsViewer.qml:61
+msgid "Smart identifying window"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:65 ../src/menu_controller.py:55
+msgid "Exit"
+msgstr "退出"
+
+#: ../src/ShortcutsViewer.qml:71
+msgid "Save/Share"
+msgstr "保存/分享"
+
+#: ../src/ShortcutsViewer.qml:74 ../src/main.py:349
+#: ../src/menu_controller.py:53
+msgid "Save"
+msgstr "保存"
+
+#: ../src/ShortcutsViewer.qml:78 ../src/menu_controller.py:54
+msgid "Share"
+msgstr "分享"
+
+#: ../src/ShortcutsViewer.qml:86
+msgid "Painting"
+msgstr "绘图 "
+
+#: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:47
+msgid "Rectangle"
+msgstr "矩形工具"
+
+#: ../src/ShortcutsViewer.qml:93 ../src/menu_controller.py:48
+msgid "Ellipse"
+msgstr "椭圆工具"
+
+#: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:49
+msgid "Arrow"
+msgstr "箭头工具"
+
+#: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:50
+msgid "Brush"
+msgstr "画笔工具"
+
+#: ../src/ShortcutsViewer.qml:105 ../src/menu_controller.py:51
+msgid "Text"
+msgstr "文本工具"
+
+#: ../src/ShortcutsViewer.qml:109
+msgid "Color"
+msgstr "颜色工具"
+
+#: ../src/ShortcutsViewer.qml:118
+msgid "Size Adjustment"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:121
+msgid "Adjust height up"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:126
+msgid "Adjust height down"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:131
+msgid "Adjust height left"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:136
+msgid "Adjust height right"
+msgstr ""
+
+#: ../src/main.py:104 ../src/main.py:311 ../src/main.py:321 ../src/main.py:447
+#: ../src/main.py:451
+msgid "Deepin Screenshot"
+msgstr "深度截图"
+
+#: ../src/main.py:312
+msgid "Picture has been saved to clipboard"
+msgstr "图片已保存到剪切板"
+
+#: ../src/main.py:322
+msgid "Picture has been saved to"
+msgstr "图片已保存到“……”"
+
+#: ../src/main.py:322
+msgid "View"
+msgstr "查看"
+
+#: ../src/main.py:331
+msgid "DeepinScreenshot"
+msgstr "深度截图"
+
+#: ../src/main.py:448
+msgid "Deepin Screenshot has been started."
+msgstr ""
+
+#: ../src/main.py:452
+#, python-format
+msgid "Deepin Screenshot will start after %s seconds."
+msgstr "深度截图将在%s后启动。"
+
+#: ../src/dbus_interfaces.py:66
+msgid "Deepin screenshot"
+msgstr "深度截图"

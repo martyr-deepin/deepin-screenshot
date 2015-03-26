@@ -1,0 +1,170 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Ricardo Simões <xmcorporation@gmail.com>, 2014-2015
+msgid ""
+msgstr ""
+"Project-Id-Version: Deepin Screenshot\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-25 13:29+0800\n"
+"PO-Revision-Date: 2015-03-25 06:11+0000\n"
+"Last-Translator: deepin_transifex <xiabin@linuxdeepin.com>\n"
+"Language-Team: Portuguese (http://www.transifex.com/projects/p/deepin-screenshot/language/pt/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pt\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../src/Main.qml:1203 ../src/menu_controller.py:40
+msgid "Save to desktop"
+msgstr "Guardar para o ambiente de trabalho"
+
+#: ../src/Main.qml:1225 ../src/menu_controller.py:39
+msgid "Autosave"
+msgstr "Autoguardar"
+
+#: ../src/Main.qml:1247 ../src/menu_controller.py:42
+msgid "Save to specified folder"
+msgstr "Guardar para pasta especificada"
+
+#: ../src/Main.qml:1269 ../src/menu_controller.py:41
+msgid "Copy to clipboard"
+msgstr "Copiar para clipboard"
+
+#: ../src/Main.qml:1290 ../src/menu_controller.py:43
+msgid "Autosave and copy to clipboard"
+msgstr "Autoguardar e copiar para clipboard"
+
+#: ../src/OSD.qml:54
+msgid "Tips"
+msgstr "Dicas"
+
+#: ../src/OSD.qml:65
+msgid "You can use \"Ctrl+Alt+A\" to start the screenshot"
+msgstr "Pode usar \"Ctrl+Alt+A\" para iniciar a captura de ecrã"
+
+#: ../src/ShortcutsLabel.qml:23
+msgid "None"
+msgstr "Nenhum"
+
+#: ../src/ShortcutsViewer.qml:46
+msgid "Start/Screenshot"
+msgstr "Iniciar/Captura de ecrã"
+
+#: ../src/ShortcutsViewer.qml:49
+msgid "Quick start"
+msgstr "Início rápido"
+
+#: ../src/ShortcutsViewer.qml:57
+msgid "Delay screenshot"
+msgstr "Atrasar captura de ecrã"
+
+#: ../src/ShortcutsViewer.qml:53
+msgid "Full screenshot"
+msgstr "Captura de Ecrã Inteiro"
+
+#: ../src/ShortcutsViewer.qml:61
+msgid "Smart identifying window"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:65 ../src/menu_controller.py:55
+msgid "Exit"
+msgstr "Sair"
+
+#: ../src/ShortcutsViewer.qml:71
+msgid "Save/Share"
+msgstr "Guardar/Partilhar"
+
+#: ../src/ShortcutsViewer.qml:74 ../src/main.py:349
+#: ../src/menu_controller.py:53
+msgid "Save"
+msgstr "Guardar"
+
+#: ../src/ShortcutsViewer.qml:78 ../src/menu_controller.py:54
+msgid "Share"
+msgstr "Partilhar"
+
+#: ../src/ShortcutsViewer.qml:86
+msgid "Painting"
+msgstr "Pintar"
+
+#: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:47
+msgid "Rectangle"
+msgstr "Retângulo"
+
+#: ../src/ShortcutsViewer.qml:93 ../src/menu_controller.py:48
+msgid "Ellipse"
+msgstr "Elípse"
+
+#: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:49
+msgid "Arrow"
+msgstr "Seta"
+
+#: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:50
+msgid "Brush"
+msgstr "Escova"
+
+#: ../src/ShortcutsViewer.qml:105 ../src/menu_controller.py:51
+msgid "Text"
+msgstr "Texto"
+
+#: ../src/ShortcutsViewer.qml:109
+msgid "Color"
+msgstr "Cor"
+
+#: ../src/ShortcutsViewer.qml:118
+msgid "Size Adjustment"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:121
+msgid "Adjust height up"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:126
+msgid "Adjust height down"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:131
+msgid "Adjust height left"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:136
+msgid "Adjust height right"
+msgstr ""
+
+#: ../src/main.py:104 ../src/main.py:311 ../src/main.py:321 ../src/main.py:447
+#: ../src/main.py:451
+msgid "Deepin Screenshot"
+msgstr "Captura de Ecrã Deepin"
+
+#: ../src/main.py:312
+msgid "Picture has been saved to clipboard"
+msgstr "A imagem foi guardada para o clipboard"
+
+#: ../src/main.py:322
+msgid "Picture has been saved to"
+msgstr "A fotografia foi salva para"
+
+#: ../src/main.py:322
+msgid "View"
+msgstr "Visualizar"
+
+#: ../src/main.py:331
+msgid "DeepinScreenshot"
+msgstr "DeepinScreenshot"
+
+#: ../src/main.py:448
+msgid "Deepin Screenshot has been started."
+msgstr ""
+
+#: ../src/main.py:452
+#, python-format
+msgid "Deepin Screenshot will start after %s seconds."
+msgstr "A Captura de ecrã Deepin começará dentro de %s segundos."
+
+#: ../src/dbus_interfaces.py:66
+msgid "Deepin screenshot"
+msgstr "Captura de ecrã Deepin"

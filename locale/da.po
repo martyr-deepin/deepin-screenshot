@@ -1,0 +1,170 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Carl Andersen <carl@manjaro.dk>, 2014-2015
+msgid ""
+msgstr ""
+"Project-Id-Version: Deepin Screenshot\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-25 13:29+0800\n"
+"PO-Revision-Date: 2015-03-25 18:34+0000\n"
+"Last-Translator: Carl Andersen <carl@manjaro.dk>\n"
+"Language-Team: Danish (http://www.transifex.com/projects/p/deepin-screenshot/language/da/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../src/Main.qml:1203 ../src/menu_controller.py:40
+msgid "Save to desktop"
+msgstr "Gem på skrivebordet"
+
+#: ../src/Main.qml:1225 ../src/menu_controller.py:39
+msgid "Autosave"
+msgstr "Gem Automatisk"
+
+#: ../src/Main.qml:1247 ../src/menu_controller.py:42
+msgid "Save to specified folder"
+msgstr "Gem til bestemt mappe"
+
+#: ../src/Main.qml:1269 ../src/menu_controller.py:41
+msgid "Copy to clipboard"
+msgstr "Kopier til udklipsholder"
+
+#: ../src/Main.qml:1290 ../src/menu_controller.py:43
+msgid "Autosave and copy to clipboard"
+msgstr "Automatisk gemning, og kopier til udklipsholder"
+
+#: ../src/OSD.qml:54
+msgid "Tips"
+msgstr "Tips"
+
+#: ../src/OSD.qml:65
+msgid "You can use \"Ctrl+Alt+A\" to start the screenshot"
+msgstr "Du kan bruge \"Ctrl+Alt+A\" for at tage et skærmbillede"
+
+#: ../src/ShortcutsLabel.qml:23
+msgid "None"
+msgstr "Ingen"
+
+#: ../src/ShortcutsViewer.qml:46
+msgid "Start/Screenshot"
+msgstr "Start/Skærmbillede"
+
+#: ../src/ShortcutsViewer.qml:49
+msgid "Quick start"
+msgstr "Hurtig start"
+
+#: ../src/ShortcutsViewer.qml:57
+msgid "Delay screenshot"
+msgstr "Forsinket skærmbillede"
+
+#: ../src/ShortcutsViewer.qml:53
+msgid "Full screenshot"
+msgstr "Fuldt skærmbillede"
+
+#: ../src/ShortcutsViewer.qml:61
+msgid "Smart identifying window"
+msgstr "Smart identificering af vindue"
+
+#: ../src/ShortcutsViewer.qml:65 ../src/menu_controller.py:55
+msgid "Exit"
+msgstr "Log ud"
+
+#: ../src/ShortcutsViewer.qml:71
+msgid "Save/Share"
+msgstr "Gem/Del"
+
+#: ../src/ShortcutsViewer.qml:74 ../src/main.py:349
+#: ../src/menu_controller.py:53
+msgid "Save"
+msgstr "Gem"
+
+#: ../src/ShortcutsViewer.qml:78 ../src/menu_controller.py:54
+msgid "Share"
+msgstr "Del"
+
+#: ../src/ShortcutsViewer.qml:86
+msgid "Painting"
+msgstr "Maleri"
+
+#: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:47
+msgid "Rectangle"
+msgstr "Rektangel"
+
+#: ../src/ShortcutsViewer.qml:93 ../src/menu_controller.py:48
+msgid "Ellipse"
+msgstr "Ellipse"
+
+#: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:49
+msgid "Arrow"
+msgstr "Pil"
+
+#: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:50
+msgid "Brush"
+msgstr "Pensel"
+
+#: ../src/ShortcutsViewer.qml:105 ../src/menu_controller.py:51
+msgid "Text"
+msgstr "Tekst"
+
+#: ../src/ShortcutsViewer.qml:109
+msgid "Color"
+msgstr "Farve"
+
+#: ../src/ShortcutsViewer.qml:118
+msgid "Size Adjustment"
+msgstr "Størrelse justering"
+
+#: ../src/ShortcutsViewer.qml:121
+msgid "Adjust height up"
+msgstr "Juster højden opad"
+
+#: ../src/ShortcutsViewer.qml:126
+msgid "Adjust height down"
+msgstr "Juster højden nedad"
+
+#: ../src/ShortcutsViewer.qml:131
+msgid "Adjust height left"
+msgstr "Juster breden til venstre"
+
+#: ../src/ShortcutsViewer.qml:136
+msgid "Adjust height right"
+msgstr "Juster breden til højre"
+
+#: ../src/main.py:104 ../src/main.py:311 ../src/main.py:321 ../src/main.py:447
+#: ../src/main.py:451
+msgid "Deepin Screenshot"
+msgstr "Deepin Skærmbillede"
+
+#: ../src/main.py:312
+msgid "Picture has been saved to clipboard"
+msgstr "Billede er blevet gemt til udklipsholder"
+
+#: ../src/main.py:322
+msgid "Picture has been saved to"
+msgstr "Billede er blevet gemt til"
+
+#: ../src/main.py:322
+msgid "View"
+msgstr "Se"
+
+#: ../src/main.py:331
+msgid "DeepinScreenshot"
+msgstr "Deepin Skærmbillede"
+
+#: ../src/main.py:448
+msgid "Deepin Screenshot has been started."
+msgstr "Deepin Screenshot er startet."
+
+#: ../src/main.py:452
+#, python-format
+msgid "Deepin Screenshot will start after %s seconds."
+msgstr "Deepin Screenshot vil starte efter %s sekunder."
+
+#: ../src/dbus_interfaces.py:66
+msgid "Deepin screenshot"
+msgstr "Deepin skærmbillede"

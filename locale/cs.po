@@ -1,0 +1,174 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# fri, 2013-2014
+# fri, 2013
+# fri, 2013
+# fri, 2014-2015
+# fri, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: Deepin Screenshot\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-25 13:29+0800\n"
+"PO-Revision-Date: 2015-03-25 06:11+0000\n"
+"Last-Translator: deepin_transifex <xiabin@linuxdeepin.com>\n"
+"Language-Team: Czech (http://www.transifex.com/projects/p/deepin-screenshot/language/cs/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: ../src/Main.qml:1203 ../src/menu_controller.py:40
+msgid "Save to desktop"
+msgstr "Uložit na pracovní plochu"
+
+#: ../src/Main.qml:1225 ../src/menu_controller.py:39
+msgid "Autosave"
+msgstr "Uložit automaticky"
+
+#: ../src/Main.qml:1247 ../src/menu_controller.py:42
+msgid "Save to specified folder"
+msgstr "Uložit do určené složky"
+
+#: ../src/Main.qml:1269 ../src/menu_controller.py:41
+msgid "Copy to clipboard"
+msgstr "Kopírovat do schránky"
+
+#: ../src/Main.qml:1290 ../src/menu_controller.py:43
+msgid "Autosave and copy to clipboard"
+msgstr "Uložit automaticky a kopírovat do schránky"
+
+#: ../src/OSD.qml:54
+msgid "Tips"
+msgstr "Rady"
+
+#: ../src/OSD.qml:65
+msgid "You can use \"Ctrl+Alt+A\" to start the screenshot"
+msgstr "Ke spuštění snímání obrazovky můžete stisknout Ctrl+Alt+A."
+
+#: ../src/ShortcutsLabel.qml:23
+msgid "None"
+msgstr "Žádný"
+
+#: ../src/ShortcutsViewer.qml:46
+msgid "Start/Screenshot"
+msgstr "Spustit/Snímek obrazovky"
+
+#: ../src/ShortcutsViewer.qml:49
+msgid "Quick start"
+msgstr "Rychlé spuštění"
+
+#: ../src/ShortcutsViewer.qml:57
+msgid "Delay screenshot"
+msgstr "Zpozdit snímek obrazovky"
+
+#: ../src/ShortcutsViewer.qml:53
+msgid "Full screenshot"
+msgstr "Plný snímek obrazovky"
+
+#: ../src/ShortcutsViewer.qml:61
+msgid "Smart identifying window"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:65 ../src/menu_controller.py:55
+msgid "Exit"
+msgstr "Ukončit"
+
+#: ../src/ShortcutsViewer.qml:71
+msgid "Save/Share"
+msgstr "Uložit/Sdílet"
+
+#: ../src/ShortcutsViewer.qml:74 ../src/main.py:349
+#: ../src/menu_controller.py:53
+msgid "Save"
+msgstr "Uložit"
+
+#: ../src/ShortcutsViewer.qml:78 ../src/menu_controller.py:54
+msgid "Share"
+msgstr "Sdílet"
+
+#: ../src/ShortcutsViewer.qml:86
+msgid "Painting"
+msgstr "Kresba"
+
+#: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:47
+msgid "Rectangle"
+msgstr "Obdélník"
+
+#: ../src/ShortcutsViewer.qml:93 ../src/menu_controller.py:48
+msgid "Ellipse"
+msgstr "Elipsa"
+
+#: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:49
+msgid "Arrow"
+msgstr "Šipka"
+
+#: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:50
+msgid "Brush"
+msgstr "Štětec"
+
+#: ../src/ShortcutsViewer.qml:105 ../src/menu_controller.py:51
+msgid "Text"
+msgstr "Text"
+
+#: ../src/ShortcutsViewer.qml:109
+msgid "Color"
+msgstr "Barva"
+
+#: ../src/ShortcutsViewer.qml:118
+msgid "Size Adjustment"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:121
+msgid "Adjust height up"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:126
+msgid "Adjust height down"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:131
+msgid "Adjust height left"
+msgstr ""
+
+#: ../src/ShortcutsViewer.qml:136
+msgid "Adjust height right"
+msgstr ""
+
+#: ../src/main.py:104 ../src/main.py:311 ../src/main.py:321 ../src/main.py:447
+#: ../src/main.py:451
+msgid "Deepin Screenshot"
+msgstr "Snímek obrazovky"
+
+#: ../src/main.py:312
+msgid "Picture has been saved to clipboard"
+msgstr "Obrázek byl uložen do schránky"
+
+#: ../src/main.py:322
+msgid "Picture has been saved to"
+msgstr "Obrázek byl uložen do"
+
+#: ../src/main.py:322
+msgid "View"
+msgstr "Pohled"
+
+#: ../src/main.py:331
+msgid "DeepinScreenshot"
+msgstr "Snímek obrazovky"
+
+#: ../src/main.py:448
+msgid "Deepin Screenshot has been started."
+msgstr ""
+
+#: ../src/main.py:452
+#, python-format
+msgid "Deepin Screenshot will start after %s seconds."
+msgstr "Deepin Screenshot se spustí za %s sekund."
+
+#: ../src/dbus_interfaces.py:66
+msgid "Deepin screenshot"
+msgstr "Snímek obrazovky"
