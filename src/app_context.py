@@ -94,6 +94,7 @@ class AppContext(QObject):
             controlCenterInterface.hideImmediately()
         else:
             self.sender().enable_zone()
+            self.sender().ungrabFocus()
 
             if self.settings.showOSD:
                 area = QRect(QPoint(self.window.x(), self.window.y()),

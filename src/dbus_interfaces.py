@@ -36,6 +36,8 @@ class ScreenshotInterface(QDBusAbstractInterface):
             None)
 
     def runWithArguments(self, arguments):
+        arguments = QVariant(arguments)
+        arguments.convert(QVariant.StringList)
         self.call("RunWithArguments", arguments)
 
 class NotificationsInterface(QDBusAbstractInterface):

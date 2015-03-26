@@ -21,7 +21,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import tempfile
-from copy import deepcopy
 
 from PyQt5.QtWidgets import qApp
 from PyQt5.QtCore import QObject, QTimer, QUrl
@@ -88,13 +87,13 @@ class AppController(QObject):
         return settings
 
     def runWithArguments(self, arguments):
-        (delay, fullscreen, topWindow,
-         savePath, startFromDesktop) = processArguments(arguments)
+        argValues = processArguments(arguments)
+        delay = argValues["delay"]
 
         self.soundEffect = QSoundEffect()
         self.soundEffect.setSource(QUrl(SOUND_FILE))
 
-        context = AppContext(deepcopy(locals()))
+        context = AppContext(argValues)
         context.settings = self._createContextSettings()
         context.finished.connect(self._contextFinished)
         context.needSound.connect(self._contextNeedSound)
