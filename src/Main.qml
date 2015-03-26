@@ -568,33 +568,6 @@ Item {
             toolbar.stop5Color = Qt.rgba(0, 0, 0, 0.677)
             toolbar.stop6Color = Qt.rgba(0, 0, 0, 0.75)
         }
-        function toolbarVisible() {
-            if (toolbar.shape.shapeName == "rect" || toolbar.shape.shapeName == "ellipse") {
-                setlw.visible = true
-                dividingLine.visible = true
-                blurType.visible = true
-                mosaicType.visible = true
-                colorChange.visible = false
-                fontRect.visible = false
-            }
-            if (toolbar.shape.shapeName == "arrow" || toolbar.shape.shapeName == "line") {
-                setlw.visible = true
-                colorChange.visible = false
-                dividingLine.visible = false
-                blurType.visible = false
-                mosaicType.visible = false
-                fontRect.visible = false
-            }
-            if (toolbar.shape.shapeName == "text") {
-                setlw.visible = false
-                dividingLine.visible = false
-                blurType.visible = false
-                mosaicType.visible = false
-                colorChange.visible = false
-                fontRect.visible = true
-            }
-        }
-
         function switchCheck(Type) {
             if (toolbar.bExtense) {
                 blurType.visible = false
@@ -626,6 +599,7 @@ Item {
                     colorChange.visible = true
                 }
             } else {
+                colorChange.visible = false
                 if (Type == "rect" || Type == "ellipse") {
                     blurType.visible = false
                     mosaicType.visible = false
@@ -642,9 +616,6 @@ Item {
                 }
                 if (Type == "text") {
                     fontRect.visible = false
-                }
-                if (Type == "color") {
-                    colorChange.visible = false
                 }
             }
         }
@@ -937,7 +908,7 @@ Item {
                 if (toolbar.shape != undefined && toolbar.shape.shapeName != undefined) {
                     windowView.set_save_config(toolbar.shape.shapeName, "color_index", colorOrder)
                 }
-                toolbar.toolbarVisible()
+                toolbar.switchCheck(toolbar.shape.shapeName)
             }
         }
 
