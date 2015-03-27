@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-25 13:29+0800\n"
-"PO-Revision-Date: 2015-03-25 06:11+0000\n"
-"Last-Translator: deepin_transifex <xiabin@linuxdeepin.com>\n"
+"POT-Creation-Date: 2015-03-27 13:25+0800\n"
+"PO-Revision-Date: 2015-03-27 05:40+0000\n"
+"Last-Translator: szd_liufei <liufei@linuxdeepin.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/deepin-screenshot/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,7 +70,7 @@ msgstr "全屏截图"
 
 #: ../src/ShortcutsViewer.qml:61
 msgid "Smart identifying window"
-msgstr ""
+msgstr "智能识别窗口"
 
 #: ../src/ShortcutsViewer.qml:65 ../src/menu_controller.py:55
 msgid "Exit"
@@ -80,7 +80,7 @@ msgstr "退出"
 msgid "Save/Share"
 msgstr "保存/分享"
 
-#: ../src/ShortcutsViewer.qml:74 ../src/main.py:349
+#: ../src/ShortcutsViewer.qml:74 ../src/main.py:352
 #: ../src/menu_controller.py:53
 msgid "Save"
 msgstr "保存"
@@ -119,54 +119,51 @@ msgstr "颜色工具"
 
 #: ../src/ShortcutsViewer.qml:118
 msgid "Size Adjustment"
-msgstr ""
+msgstr "调整大小"
 
 #: ../src/ShortcutsViewer.qml:121
 msgid "Adjust height up"
-msgstr ""
+msgstr "向上调整选区高度"
 
 #: ../src/ShortcutsViewer.qml:126
 msgid "Adjust height down"
-msgstr ""
+msgstr "向下调整选区高度"
 
 #: ../src/ShortcutsViewer.qml:131
-msgid "Adjust height left"
-msgstr ""
+msgid "Adjust width left"
+msgstr "向左调整选区宽度"
 
 #: ../src/ShortcutsViewer.qml:136
-msgid "Adjust height right"
-msgstr ""
+msgid "Adjust width right"
+msgstr "向右调整选区宽度"
 
-#: ../src/main.py:104 ../src/main.py:311 ../src/main.py:321 ../src/main.py:447
-#: ../src/main.py:451
+#: ../src/main.py:104 ../src/main.py:314 ../src/main.py:324 ../src/main.py:452
+#: ../src/main.py:456 ../src/dbus_interfaces.py:66
 msgid "Deepin Screenshot"
 msgstr "深度截图"
 
-#: ../src/main.py:312
+#: ../src/main.py:315
 msgid "Picture has been saved to clipboard"
 msgstr "图片已保存到剪切板"
 
-#: ../src/main.py:322
-msgid "Picture has been saved to"
-msgstr "图片已保存到“……”"
+#: ../src/main.py:325
+#, python-format
+msgid "Picture has been saved to %s"
+msgstr "图片已保存到%s"
 
-#: ../src/main.py:322
+#: ../src/main.py:325
 msgid "View"
 msgstr "查看"
 
-#: ../src/main.py:331
+#: ../src/main.py:334
 msgid "DeepinScreenshot"
 msgstr "深度截图"
 
-#: ../src/main.py:448
+#: ../src/main.py:453
 msgid "Deepin Screenshot has been started."
-msgstr ""
+msgstr "深度截图已启动。"
 
-#: ../src/main.py:452
+#: ../src/main.py:457
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
 msgstr "深度截图将在%s后启动。"
-
-#: ../src/dbus_interfaces.py:66
-msgid "Deepin screenshot"
-msgstr "深度截图"

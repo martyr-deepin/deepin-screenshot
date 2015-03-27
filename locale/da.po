@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-25 13:29+0800\n"
-"PO-Revision-Date: 2015-03-25 18:34+0000\n"
-"Last-Translator: Carl Andersen <carl@manjaro.dk>\n"
+"POT-Creation-Date: 2015-03-27 13:25+0800\n"
+"PO-Revision-Date: 2015-03-27 05:34+0000\n"
+"Last-Translator: deepin_transifex <xiabin@linuxdeepin.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/deepin-screenshot/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -78,7 +78,7 @@ msgstr "Log ud"
 msgid "Save/Share"
 msgstr "Gem/Del"
 
-#: ../src/ShortcutsViewer.qml:74 ../src/main.py:349
+#: ../src/ShortcutsViewer.qml:74 ../src/main.py:352
 #: ../src/menu_controller.py:53
 msgid "Save"
 msgstr "Gem"
@@ -128,43 +128,40 @@ msgid "Adjust height down"
 msgstr "Juster højden nedad"
 
 #: ../src/ShortcutsViewer.qml:131
-msgid "Adjust height left"
-msgstr "Juster breden til venstre"
+msgid "Adjust width left"
+msgstr ""
 
 #: ../src/ShortcutsViewer.qml:136
-msgid "Adjust height right"
-msgstr "Juster breden til højre"
+msgid "Adjust width right"
+msgstr ""
 
-#: ../src/main.py:104 ../src/main.py:311 ../src/main.py:321 ../src/main.py:447
-#: ../src/main.py:451
+#: ../src/main.py:104 ../src/main.py:314 ../src/main.py:324 ../src/main.py:452
+#: ../src/main.py:456 ../src/dbus_interfaces.py:66
 msgid "Deepin Screenshot"
 msgstr "Deepin Skærmbillede"
 
-#: ../src/main.py:312
+#: ../src/main.py:315
 msgid "Picture has been saved to clipboard"
 msgstr "Billede er blevet gemt til udklipsholder"
 
-#: ../src/main.py:322
-msgid "Picture has been saved to"
-msgstr "Billede er blevet gemt til"
+#: ../src/main.py:325
+#, python-format
+msgid "Picture has been saved to %s"
+msgstr ""
 
-#: ../src/main.py:322
+#: ../src/main.py:325
 msgid "View"
 msgstr "Se"
 
-#: ../src/main.py:331
+#: ../src/main.py:334
 msgid "DeepinScreenshot"
 msgstr "Deepin Skærmbillede"
 
-#: ../src/main.py:448
+#: ../src/main.py:453
 msgid "Deepin Screenshot has been started."
 msgstr "Deepin Screenshot er startet."
 
-#: ../src/main.py:452
+#: ../src/main.py:457
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
 msgstr "Deepin Screenshot vil starte efter %s sekunder."
-
-#: ../src/dbus_interfaces.py:66
-msgid "Deepin screenshot"
-msgstr "Deepin skærmbillede"

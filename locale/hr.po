@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-25 13:29+0800\n"
-"PO-Revision-Date: 2015-03-25 14:11+0000\n"
-"Last-Translator: Ivica  Kolić <ikoli@yahoo.com>\n"
+"POT-Creation-Date: 2015-03-27 13:25+0800\n"
+"PO-Revision-Date: 2015-03-27 05:34+0000\n"
+"Last-Translator: deepin_transifex <xiabin@linuxdeepin.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/deepin-screenshot/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,7 +79,7 @@ msgstr "Izađi"
 msgid "Save/Share"
 msgstr "Spremi/podijeli"
 
-#: ../src/ShortcutsViewer.qml:74 ../src/main.py:349
+#: ../src/ShortcutsViewer.qml:74 ../src/main.py:352
 #: ../src/menu_controller.py:53
 msgid "Save"
 msgstr "Spremi"
@@ -129,43 +129,40 @@ msgid "Adjust height down"
 msgstr ""
 
 #: ../src/ShortcutsViewer.qml:131
-msgid "Adjust height left"
+msgid "Adjust width left"
 msgstr ""
 
 #: ../src/ShortcutsViewer.qml:136
-msgid "Adjust height right"
+msgid "Adjust width right"
 msgstr ""
 
-#: ../src/main.py:104 ../src/main.py:311 ../src/main.py:321 ../src/main.py:447
-#: ../src/main.py:451
+#: ../src/main.py:104 ../src/main.py:314 ../src/main.py:324 ../src/main.py:452
+#: ../src/main.py:456 ../src/dbus_interfaces.py:66
 msgid "Deepin Screenshot"
 msgstr "Deepin snimka zaslona"
 
-#: ../src/main.py:312
+#: ../src/main.py:315
 msgid "Picture has been saved to clipboard"
 msgstr "Slika je spremljena u međuspremnik"
 
-#: ../src/main.py:322
-msgid "Picture has been saved to"
-msgstr "Slika je spremljena u "
+#: ../src/main.py:325
+#, python-format
+msgid "Picture has been saved to %s"
+msgstr ""
 
-#: ../src/main.py:322
+#: ../src/main.py:325
 msgid "View"
 msgstr "Pogled"
 
-#: ../src/main.py:331
+#: ../src/main.py:334
 msgid "DeepinScreenshot"
 msgstr "Deepinsnimkazaslona"
 
-#: ../src/main.py:448
+#: ../src/main.py:453
 msgid "Deepin Screenshot has been started."
 msgstr ""
 
-#: ../src/main.py:452
+#: ../src/main.py:457
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
 msgstr "Deepin Snimka zaslona će se pokrenuti za %s sekundi."
-
-#: ../src/dbus_interfaces.py:66
-msgid "Deepin screenshot"
-msgstr "Deepin snimka zaslona"
