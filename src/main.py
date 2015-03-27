@@ -322,7 +322,7 @@ def savePixmap(pixmap, fileName):
 
     _fileSaveLocation = fileName
     _notificationId = notificationsInterface.notify(_("Deepin Screenshot"),
-        _("Picture has been saved to") + _fileSaveLocation, [ACTION_ID_OPEN, _("View")])
+        _("Picture has been saved to %s") % _fileSaveLocation, [ACTION_ID_OPEN, _("View")])
     _quitTimer.start()
 
 def saveScreenshot(pixmap):

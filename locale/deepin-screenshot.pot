@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-25 13:29+0800\n"
+"POT-Creation-Date: 2015-03-27 09:37+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -77,7 +77,7 @@ msgstr ""
 msgid "Save/Share"
 msgstr ""
 
-#: ../src/ShortcutsViewer.qml:74 ../src/main.py:349
+#: ../src/ShortcutsViewer.qml:74 ../src/main.py:352
 #: ../src/menu_controller.py:53
 msgid "Save"
 msgstr ""
@@ -134,32 +134,33 @@ msgstr ""
 msgid "Adjust height right"
 msgstr ""
 
-#: ../src/main.py:104 ../src/main.py:311 ../src/main.py:321 ../src/main.py:447
-#: ../src/main.py:451
+#: ../src/main.py:104 ../src/main.py:314 ../src/main.py:324 ../src/main.py:452
+#: ../src/main.py:456
 msgid "Deepin Screenshot"
 msgstr ""
 
-#: ../src/main.py:312
+#: ../src/main.py:315
 msgid "Picture has been saved to clipboard"
 msgstr ""
 
-#: ../src/main.py:322
-msgid "Picture has been saved to"
+#: ../src/main.py:325
+#, python-format
+msgid "Picture has been saved to %s"
 msgstr ""
 
-#: ../src/main.py:322
+#: ../src/main.py:325
 msgid "View"
 msgstr ""
 
-#: ../src/main.py:331
+#: ../src/main.py:334
 msgid "DeepinScreenshot"
 msgstr ""
 
-#: ../src/main.py:448
+#: ../src/main.py:453
 msgid "Deepin Screenshot has been started."
 msgstr ""
 
-#: ../src/main.py:452
+#: ../src/main.py:457
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
 msgstr ""
