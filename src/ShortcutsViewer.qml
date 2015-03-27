@@ -128,12 +128,12 @@ DWindow {
                         }
 
                         ShortcutsLabel {
-                            title: dsTr("Adjust height left")
+                            title: dsTr("Adjust width left")
                             shortcut: "Ctrl+Left"
                         }
 
                         ShortcutsLabel {
-                            title: dsTr("Adjust height right")
+                            title: dsTr("Adjust width right")
                             shortcut: "Ctrl+Right"
                         }
                     }

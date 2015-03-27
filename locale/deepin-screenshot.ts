@@ -149,12 +149,12 @@
     </message>
     <message>
         <location line="+5"/>
-        <source>Adjust height left</source>
+        <source>Adjust width left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Adjust height right</source>
+        <source>Adjust width right</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

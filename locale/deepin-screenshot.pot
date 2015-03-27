@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-27 09:37+0800\n"
+"POT-Creation-Date: 2015-03-27 13:25+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,15 +127,15 @@ msgid "Adjust height down"
 msgstr ""
 
 #: ../src/ShortcutsViewer.qml:131
-msgid "Adjust height left"
+msgid "Adjust width left"
 msgstr ""
 
 #: ../src/ShortcutsViewer.qml:136
-msgid "Adjust height right"
+msgid "Adjust width right"
 msgstr ""
 
 #: ../src/main.py:104 ../src/main.py:314 ../src/main.py:324 ../src/main.py:452
-#: ../src/main.py:456
+#: ../src/main.py:456 ../src/dbus_interfaces.py:66
 msgid "Deepin Screenshot"
 msgstr ""
 
@@ -163,8 +163,4 @@ msgstr ""
 #: ../src/main.py:457
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
-msgstr ""
-
-#: ../src/dbus_interfaces.py:66
-msgid "Deepin screenshot"
 msgstr ""
