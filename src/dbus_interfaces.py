@@ -26,6 +26,20 @@ from PyQt5.QtDBus import QDBusAbstractInterface, QDBusConnection, QDBusReply
 
 from i18n import _
 
+class ScreenshotInterface(QDBusAbstractInterface):
+    def __init__(self):
+        super(ScreenshotInterface, self).__init__(
+            "com.deepin.DeepinScreenshot",
+            "/com/deepin/DeepinScreenshot",
+            "com.deepin.DeepinScreenshot",
+            QDBusConnection.sessionBus(),
+            None)
+
+    def runWithArguments(self, arguments):
+        arguments = QVariant(arguments)
+        arguments.convert(QVariant.StringList)
+        self.call("RunWithArguments", arguments)
+
 class NotificationsInterface(QDBusAbstractInterface):
     ActionInvoked = pyqtSignal("quint32", str)
     NotificationClosed = pyqtSignal("quint32", "quint32")
@@ -110,6 +124,7 @@ class ControlCenterInterface(QDBusAbstractInterface):
 
 
 hotZoneInterface = HotZoneInterface()
+screenshotInterface = ScreenshotInterface()
 notificationsInterface = NotificationsInterface()
 socialSharingInterface = SocialSharingInterface()
 controlCenterInterface = ControlCenterInterface()

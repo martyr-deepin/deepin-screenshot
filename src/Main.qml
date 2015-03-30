@@ -21,8 +21,6 @@ Item {
 
     property var shortcutsViewerId
 
-    signal osdTimeout()
-
     function get_absolute_cursor_pos() {
         var pos_origin = windowView.get_cursor_pos()
         var pos_absolute = Qt.point(pos_origin.x - selectArea.x, pos_origin.y - selectArea.y)
@@ -35,8 +33,8 @@ Item {
     }
 
     function share() {
-        windowView.share = true
         screen.saveScreenshot()
+        windowView.share()
     }
 
     function colorCard(key) {
@@ -58,14 +56,6 @@ Item {
             case 14: return "#2B2B2B"
             case 15: return "#000000"
         }
-    }
-
-    function showHotKeyOSD() {
-        var osd = Qt.createQmlObject("import QtQuick 2.2; OSD {}", screen, "osd")
-        osd.closed.connect(screen.osdTimeout)
-        osd.x = windowView.x + (windowView.width - osd.width) / 2
-        osd.y = windowView.y + (windowView.height - osd.height) / 2
-        osd.showTips()
     }
 
     function showShortcutsViewer() {
@@ -238,7 +228,7 @@ Item {
     Image {
         id: background
         anchors.fill: parent
-        source: "/tmp/deepin-screenshot.png"
+        source: tmpImageFile
         cache: true
         asynchronous: true
     }
@@ -399,7 +389,7 @@ Item {
         Image {
             x: -selectArea.x
             y: -selectArea.y
-            source: "/tmp/deepin-screenshot.png"
+            source: tmpImageFile
             cache: true
             asynchronous: true
         }
@@ -578,34 +568,57 @@ Item {
             toolbar.stop5Color = Qt.rgba(0, 0, 0, 0.677)
             toolbar.stop6Color = Qt.rgba(0, 0, 0, 0.75)
         }
-        function toolbarVisible() {
-            if (toolbar.shape.shapeName == "rect" || toolbar.shape.shapeName == "ellipse") {
-                setlw.visible = true
-                dividingLine.visible = true
-                blurType.visible = true
-                mosaicType.visible = true
-                colorChange.visible = false
-                fontRect.visible = false
-            }
-            if (toolbar.shape.shapeName == "arrow" || toolbar.shape.shapeName == "line") {
-                setlw.visible = true
-                colorChange.visible = false
-                dividingLine.visible = false
+        function switchCheck(Type) {
+            if (toolbar.bExtense) {
                 blurType.visible = false
                 mosaicType.visible = false
-                fontRect.visible = false
-            }
-            if (toolbar.shape.shapeName == "text") {
                 setlw.visible = false
                 dividingLine.visible = false
-                blurType.visible = false
-                mosaicType.visible = false
+                fontRect.visible = false
+                straightLine.visible = false
                 colorChange.visible = false
-                fontRect.visible = true
+                save_toolbar.visible =false
+                if (Type == "rect" || Type == "ellipse") {
+                    blurType.visible = true
+                    mosaicType.visible = true
+                    setlw.visible = true
+                    dividingLine.visible = true
+                }
+                if (Type == "arrow") {
+                    setlw.visible = true
+                }
+                if (Type == "line") {
+                    setlw.visible = true
+                    dividingLine.visible = true
+                    straightLine.visible = true
+                }
+                if (Type == "text") {
+                    fontRect.visible = true
+                }
+                if (Type == "color") {
+                    colorChange.visible = true
+                }
+            } else {
+                colorChange.visible = false
+                if (Type == "rect" || Type == "ellipse") {
+                    blurType.visible = false
+                    mosaicType.visible = false
+                    setlw.visible = false
+                    dividingLine.visible = false
+                }
+                if (Type == "arrow") {
+                    setlw.visible = false
+                }
+                if (Type == "line") {
+                    setlw.visible = false
+                    dividingLine.visible = false
+                    straightLine.visible = false
+                }
+                if (Type == "text") {
+                    fontRect.visible = false
+                }
             }
         }
-
-
         onXChanged: {
             tryHideSizeTooltip()
         }
@@ -656,25 +669,7 @@ Item {
 
                     screenArea.enabled = false
                     toolbar.toggleToolbar("rect")
-
-                    if (toolbar.bExtense) {
-                        blurType.visible = true
-                        mosaicType.visible = true
-                        setlw.visible = true
-                        dividingLine.visible = true
-                        colorChange.visible = false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                        straightLine.visible = false
-                    } else {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                        colorChange.visible = false
-                        fontRect.visible = false
-                        straightLine.visible = false
-                    }
-
+                    toolbar.switchCheck("rect")
                     toolbar.shape.shapeName = "rect"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
@@ -700,23 +695,7 @@ Item {
                     }
                     screenArea.enabled = false
                     toolbar.toggleToolbar("ellipse")
-                    if (toolbar.bExtense) {
-                        blurType.visible = true
-                        mosaicType.visible = true
-                        setlw.visible = true
-                        dividingLine.visible = true
-                        colorChange.visible= false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                        straightLine.visible = false
-                    } else {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                        colorChange.visible= false
-                        fontRect.visible = false
-                        straightLine.visible = false
-                    }
+                    toolbar.switchCheck("ellipse")
                     toolbar.shape.shapeName = "ellipse"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
@@ -742,22 +721,7 @@ Item {
                     }
                     screenArea.enabled = false
                     toolbar.toggleToolbar("arrow")
-                    if (toolbar.bExtense) {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = true
-                        dividingLine.visible = false
-                        colorChange.visible = false
-                        fontRect.visible = false
-                        straightLine.visible = false
-                        save_toolbar.visible = false
-                        straightLine.visible = false
-                    } else {
-                        setlw.visible = false
-                        colorChange.visible = false
-                        straightLine.visible = false
-                    }
-
+                    toolbar.switchCheck("arrow")
                     toolbar.shape.shapeName = "arrow"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
@@ -783,24 +747,7 @@ Item {
                     }
                     screenArea.enabled = false
                     toolbar.toggleToolbar("line")
-                    if (toolbar.bExtense) {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = true
-                        dividingLine.visible = true
-                        straightLine.visible = true
-                        colorChange.visible= false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                    } else {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                        dividingLine.visible = false
-                        straightLine.visible = false
-                        colorChange.visible= false
-                    }
-
+                    toolbar.switchCheck("line")
                     toolbar.shape.shapeName = "line"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
@@ -825,32 +772,12 @@ Item {
                     }
                     screenArea.enabled = false
                     toolbar.toggleToolbar("text")
-                    if (toolbar.bExtense) {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                        colorChange.visible= false
-                        save_toolbar.visible = false
-                        straightLine.visible = false
-                    } else {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        fontRect.visible = true
-                        colorChange.visible= false
-                        setlw.visible = false
-                    }
-
+                    toolbar.switchCheck("text")
                     toolbar.shape.shapeName = "text"
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
                     colorTool.colorStyle = screen.colorCard(colorTool.colorOrder)
                     toolbar.shape.fontSize = Qt.binding( function() { return fontRect.value })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
-                    fontRect.visible = !fontRect.visible
-                    if (fontRect.visible) {
-                        setlw.visible = false
-                        colorChange.visible = false
-                        save_toolbar.visible = false
-                    }
                 }
             }
             function _ColorXLineXText() {
@@ -882,18 +809,7 @@ Item {
                     }
                     var originType = toolbar.buttonType
                     toolbar.toggleToolbar("color")
-                    colorChange.visible = !colorChange.visible
-                    if (toolbar.bExtense) {
-                        colorChange.visible= true
-                    } else {
-                        colorChange.visible = false
-                    }
-                    setlw.visible = false
-                    blurType.visible = false
-                    straightLine.visible = false
-                    mosaicType.visible = false
-                    fontRect.visible = false
-                    save_toolbar.visible = false
+                    toolbar.switchCheck("color")
                     toolbar.buttonType = originType
                 }
             }
@@ -992,7 +908,7 @@ Item {
                 if (toolbar.shape != undefined && toolbar.shape.shapeName != undefined) {
                     windowView.set_save_config(toolbar.shape.shapeName, "color_index", colorOrder)
                 }
-                toolbar.toolbarVisible()
+                toolbar.switchCheck(toolbar.shape.shapeName)
             }
         }
 
@@ -1372,7 +1288,7 @@ Item {
                     id: zoomIndicatorImage
                     x: -zoomIndicator.cursorX + (zoomIndicator.width - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue)
                     y: -zoomIndicator.cursorY + (zoomIndicator.height - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue)
-                    source: "/tmp/deepin-screenshot.png"
+                    source: tmpImageFile
                     smooth: false
                     cache: true
                     asynchronous: true
