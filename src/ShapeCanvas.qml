@@ -151,7 +151,6 @@ Canvas {
         }
         return false
     }
-
     function deselectAll() {
         for (var i = 0; i < shapes.length; i++) {
             shapes[i].deselect()
@@ -386,9 +385,10 @@ Canvas {
                 }
 
             } else {
-                for (var i = 0; i < canvas.shapes.length;i++) {
+                if (!canvas.recording) {
                     var pos = screen.get_absolute_cursor_pos()
-                    if (canvas.hoverOnShape(Qt.point(pos.x, pos.y))) {
+                    for (var i = 0; i < canvas.shapes.length;i++) {
+                    if (canvas.shapes[i].hoverOnShape(pos)) {
                         if (canvas.cursorDirection == "TopLeft") {
                             canvasArea.cursorShape = Qt.SizeFDiagCursor
                         }
@@ -416,18 +416,20 @@ Canvas {
                         else {
                             canvasArea.cursorShape = Qt.ClosedHandCursor
                         }
+                        canvas.requestPaint()
+                        break
                     } else {
-                        if ((canvas.shapes[i].selected || canvas.shapes[i].rotated || canvas.shapes[i].reSized) && canvas.shapes[i].hoverOnRotatePoint(Qt.point(pos.x, pos.y))) {
+                        if ((canvas.shapes[i].selected || canvas.shapes[i].rotated || canvas.shapes[i].reSized) && canvas.shapes[i].hoverOnRotatePoint(Qt.point(pos.x, pos.y)))   {
                             canvasArea.cursorShape = windowView.set_cursor_shape("shape_rotate_mouse")
                         } else {
                             canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
                         }
+                        canvas.requestPaint()
+                        }
                     }
-                    canvas.requestPaint()
-                }
-                if (canvas.shapes.length == 0) {
-                    canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
-                    canvas.requestPaint()
+                    if (canvas.shapes.length == 0) {
+                        canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+                    }
                 }
             }
         }
