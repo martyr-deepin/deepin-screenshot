@@ -110,6 +110,9 @@ class AppContext(QObject):
             self.needOSD.emit(area)
         self.finished.emit()
 
+    def isActive(self):
+        return self.window.isVisible()
+
     def copyPixmap(self, pixmap):
         _temp = "%s.png" % tempfile.mktemp()
         pixmap.save(_temp)

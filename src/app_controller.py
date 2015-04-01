@@ -61,7 +61,11 @@ class AppController(QObject):
         self._sound.play()
 
     def _contextFinished(self):
-        self.contexts.remove(self.sender())
+        sender = self.sender()
+        if sender in self.contexts:
+            # TODO: the remove _doesn't_ get the sender object
+            # garbage collected, there must be some reference cycles.
+            self.contexts.remove(sender)
         self._checkContexts()
 
     def _contextNeedOSD(self, area):
@@ -87,6 +91,10 @@ class AppController(QObject):
         return settings
 
     def runWithArguments(self, arguments):
+        for _context in self.contexts:
+            if _context.isActive():
+                return
+
         argValues = processArguments(arguments)
         delay = argValues["delay"]
 
