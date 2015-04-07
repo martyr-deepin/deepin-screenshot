@@ -332,6 +332,8 @@ Canvas {
             }
         }
 
+        onDoubleClicked: saveScreenshot()
+
         onClicked: {
             if (mouse.button == Qt.RightButton)
                 _menu_controller.show_menu(windowView.get_save_config("save", "save_op"))
