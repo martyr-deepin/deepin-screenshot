@@ -889,7 +889,7 @@ Item {
             height: 20
             visible: false
             min: 6
-            max: 24
+            max: 96
             maximumLength: 3
             initValue: windowView.get_save_config("text", "fontsize_index")
 

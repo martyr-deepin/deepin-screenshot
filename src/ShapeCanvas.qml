@@ -385,8 +385,8 @@ Canvas {
                 }
 
             } else {
+                var pos = screen.get_absolute_cursor_pos()
                 if (!canvas.recording) {
-                    var pos = screen.get_absolute_cursor_pos()
                     for (var i = 0; i < canvas.shapes.length;i++) {
                     if (canvas.shapes[i].hoverOnShape(pos)) {
                         if (canvas.cursorDirection == "TopLeft") {
@@ -419,7 +419,7 @@ Canvas {
                         canvas.requestPaint()
                         break
                     } else {
-                        if ((canvas.shapes[i].selected || canvas.shapes[i].rotated || canvas.shapes[i].reSized) && canvas.shapes[i].hoverOnRotatePoint(Qt.point(pos.x, pos.y)))   {
+                        if ((canvas.shapes[i].selected || canvas.shapes[i].rotated || canvas.shapes[i].reSized) && canvas.shapes[i].hoverOnRotatePoint(pos))   {
                             canvasArea.cursorShape = windowView.set_cursor_shape("shape_rotate_mouse")
                         } else {
                             canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
@@ -429,6 +429,18 @@ Canvas {
                     }
                     if (canvas.shapes.length == 0) {
                         canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+                    }
+                } else {
+                    for (var i = 0; i < canvas.shapes.length;i++) {
+                        if (canvas.shapes[i].shape == "text") {
+                            if ((canvas.shapes[i].selected || canvas.shapes[i].rotated || canvas.shapes[i].reSized) && (canvas.shapes[i].hoverOnRotatePoint(pos))) {
+                                canvasArea.cursorShape = windowView.set_cursor_shape("shape_rotate_mouse")
+                            } else {
+                                canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+                            }
+                        } else {
+                            continue
+                        }
                     }
                 }
             }
