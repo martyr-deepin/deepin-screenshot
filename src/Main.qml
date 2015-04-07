@@ -1387,6 +1387,7 @@ Item {
     Keys.onPressed: {
         var keyActionMap = {
             "Return": "screen.saveScreenshot()",
+            "Num+Enter": "screen.saveScreenshot()",
             "Alt+1": "button1.state = 'on'",
             "Alt+2": "button2.state = 'on'",
             "Alt+3": "button3.state = 'on'",
