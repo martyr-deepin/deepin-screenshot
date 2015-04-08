@@ -29,7 +29,7 @@ from functools import partial
 
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import qApp, QFileDialog
-from PyQt5.QtCore import QStandardPaths, QUrl, QObject
+from PyQt5.QtCore import QStandardPaths, QUrl, QObject, QVariant
 from PyQt5.QtCore import QRect, QPoint, QSize, QTimer, pyqtSignal
 
 from i18n import _
@@ -185,7 +185,13 @@ class AppContext(QObject):
                              screen_geo.width(), screen_geo.height())
         pixmap.save(self.settings.tmpImageFile)
 
-        self.settings.showOSD = startFromDesktopValue
+        show_osd = self.settings.getOption("showOSD", "show")
+        if show_osd == True or show_osd == "true":
+            self.settings.showOSD = startFromDesktopValue
+            if self.settings.showOSD:
+                self.settings.setOption("showOSD", "show", QVariant(False))
+        else:
+            self.settings.showOSD = False
         self.menu_controller = MenuController()
         self.windowInfo = WindowInfo(screen_num)
 
