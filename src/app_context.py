@@ -203,7 +203,7 @@ class AppContext(QObject):
         if fullscreenValue:
             self.saveScreenshot(pixmap)
         elif topWindowValue:
-            wInfos = self.windoInfo.get_windows_info()
+            wInfos = self.windowInfo.get_windows_info()
             if len(wInfos) > 0:
                 wInfo = wInfos[0]
                 pix = pixmap.copy(wInfo[0] - screen_geo.x(),
