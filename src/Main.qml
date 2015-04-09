@@ -882,7 +882,7 @@ Item {
             ToolButton {
                 visible: !savetooltip.visible
                 imageName: "cancel"
-                onPressed: {
+                onClicked: {
                     windowView.closeWindow()
                 }
             }
@@ -1035,7 +1035,7 @@ Item {
                 dirImage: dirSizeImage
                 imageName: "blur"
                 visible: false
-                onPressed: {
+                onClicked: {
                     screenArea.enabled = false
                     shapeEffect.imageName = "blur"
                     windowView.save_overload("blur", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
@@ -1061,7 +1061,7 @@ Item {
                 dirImage: dirSizeImage
                 imageName:"mosaic"
                 visible: false
-                onPressed: {
+                onClicked: {
                     screenArea.enabled = false
                     shapeEffect.imageName = "mosaic"
                     windowView.save_overload("mosaic", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
@@ -1094,7 +1094,7 @@ Item {
             imageIcon.width: 40
             imageName: "straightline"
             visible: false
-            onPressed: {
+            onClicked: {
                 screenArea.enabled = false
                 toolbar.shape.isStraightLine = !toolbar.shape.isStraightLine
             }
@@ -1127,7 +1127,7 @@ Item {
                 onExited: {
                     savetooltip.hide()
                 }
-                onPressed: {
+                onClicked: {
                     save_toolbar.saveId = "save_to_desktop"
                     windowView.set_save_config("save", "save_op","0")
                     toolbar.visible = false
@@ -1149,7 +1149,7 @@ Item {
                 onExited: {
                     savetooltip.hide()
                 }
-                onPressed: {
+                onClicked: {
                     save_toolbar.saveId = "auto_save"
                     windowView.set_save_config("save","save_op","1")
                     toolbar.visible = false
@@ -1171,7 +1171,7 @@ Item {
                 onExited: {
                     savetooltip.hide()
                 }
-                onPressed: {
+                onClicked: {
                     save_toolbar.saveId = "save_to_dir"
                     windowView.set_save_config("save","save_op","2")
                     toolbar.visible = false
@@ -1193,7 +1193,7 @@ Item {
                 onExited: {
                     savetooltip.hide()
                 }
-                onPressed: {
+                onClicked: {
                     save_toolbar.saveId = "save_ClipBoard"
                     windowView.set_save_config("save","save_op","3")
                     toolbar.visible = false
@@ -1214,7 +1214,7 @@ Item {
                 onExited: {
                     savetooltip.hide()
                 }
-                onPressed: {
+                onClicked: {
                     save_toolbar.saveId = "auto_save_ClipBoard"
                     windowView.set_save_config("save","save_op","4")
                     toolbar.visible = false
