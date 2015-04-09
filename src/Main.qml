@@ -202,7 +202,13 @@ Item {
             }
         }
 
-        onDoubleClicked: saveScreenshot()
+        onDoubleClicked: {
+            var pos = windowView.get_cursor_pos()
+            if (pos.x >= selectArea.x && pos.x <= selectArea.x + selectArea.width &&
+            pos.y >= selectArea.x && pos.y <= selectArea.y + selectArea.height) {
+                    saveScreenshot()
+                }
+        }
 
         onWheel: {
             if (wheel.modifiers & Qt.ControlModifier) {
