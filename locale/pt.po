@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-25 13:29+0800\n"
-"PO-Revision-Date: 2015-03-25 06:11+0000\n"
-"Last-Translator: deepin_transifex <xiabin@linuxdeepin.com>\n"
+"POT-Creation-Date: 2015-03-27 13:25+0800\n"
+"PO-Revision-Date: 2015-03-31 17:04+0000\n"
+"Last-Translator: Ricardo Simões <xmcorporation@gmail.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/projects/p/deepin-screenshot/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,7 +68,7 @@ msgstr "Captura de Ecrã Inteiro"
 
 #: ../src/ShortcutsViewer.qml:61
 msgid "Smart identifying window"
-msgstr ""
+msgstr "Identificação inteligente de janela"
 
 #: ../src/ShortcutsViewer.qml:65 ../src/menu_controller.py:55
 msgid "Exit"
@@ -78,7 +78,7 @@ msgstr "Sair"
 msgid "Save/Share"
 msgstr "Guardar/Partilhar"
 
-#: ../src/ShortcutsViewer.qml:74 ../src/main.py:349
+#: ../src/ShortcutsViewer.qml:74 ../src/main.py:352
 #: ../src/menu_controller.py:53
 msgid "Save"
 msgstr "Guardar"
@@ -117,54 +117,51 @@ msgstr "Cor"
 
 #: ../src/ShortcutsViewer.qml:118
 msgid "Size Adjustment"
-msgstr ""
+msgstr "Ajuste de Tamanho"
 
 #: ../src/ShortcutsViewer.qml:121
 msgid "Adjust height up"
-msgstr ""
+msgstr "Ajustar altura para cima"
 
 #: ../src/ShortcutsViewer.qml:126
 msgid "Adjust height down"
-msgstr ""
+msgstr "Ajustar altura para baixo"
 
 #: ../src/ShortcutsViewer.qml:131
-msgid "Adjust height left"
-msgstr ""
+msgid "Adjust width left"
+msgstr "Ajustar largura para a esquerda"
 
 #: ../src/ShortcutsViewer.qml:136
-msgid "Adjust height right"
-msgstr ""
+msgid "Adjust width right"
+msgstr "Ajustar a largura para a direita"
 
-#: ../src/main.py:104 ../src/main.py:311 ../src/main.py:321 ../src/main.py:447
-#: ../src/main.py:451
+#: ../src/main.py:104 ../src/main.py:314 ../src/main.py:324 ../src/main.py:452
+#: ../src/main.py:456 ../src/dbus_interfaces.py:66
 msgid "Deepin Screenshot"
 msgstr "Captura de Ecrã Deepin"
 
-#: ../src/main.py:312
+#: ../src/main.py:315
 msgid "Picture has been saved to clipboard"
 msgstr "A imagem foi guardada para o clipboard"
 
-#: ../src/main.py:322
-msgid "Picture has been saved to"
-msgstr "A fotografia foi salva para"
+#: ../src/main.py:325
+#, python-format
+msgid "Picture has been saved to %s"
+msgstr "A fotografia foi salva para %s"
 
-#: ../src/main.py:322
+#: ../src/main.py:325
 msgid "View"
 msgstr "Visualizar"
 
-#: ../src/main.py:331
+#: ../src/main.py:334
 msgid "DeepinScreenshot"
 msgstr "DeepinScreenshot"
 
-#: ../src/main.py:448
+#: ../src/main.py:453
 msgid "Deepin Screenshot has been started."
-msgstr ""
+msgstr "O Deepin Screnshot foi iniciado."
 
-#: ../src/main.py:452
+#: ../src/main.py:457
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
 msgstr "A Captura de ecrã Deepin começará dentro de %s segundos."
-
-#: ../src/dbus_interfaces.py:66
-msgid "Deepin screenshot"
-msgstr "Captura de ecrã Deepin"
