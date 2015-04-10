@@ -126,7 +126,7 @@ class AppContext(QObject):
 
         self._fileSaveLocation = fileName
         self._notificationId = self._notify(
-            _("Picture has been saved to") + fileName,
+            _("Picture has been saved to %s") % fileName,
             [ACTION_ID_OPEN, _("View")])
 
     def saveScreenshot(self, pixmap):
