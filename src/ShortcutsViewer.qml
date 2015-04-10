@@ -58,10 +58,6 @@ DWindow {
                             shortcut: "Ctrl+Print"
                         }
                         ShortcutsLabel {
-                            title: dsTr("Smart identifying window")
-                            shortcut: "Ctrl+Alt+Print"
-                        }
-                        ShortcutsLabel {
                             title: dsTr("Exit")
                             shortcut: "Esc"
                         }
