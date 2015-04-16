@@ -104,45 +104,6 @@ function pointSplid(point1, point2, distance) {
     return tmp
 }
 
-function resizePoint(point1, point2, point3, point4, p) {
-
-    if (p.x >= point1.x - 5 && p.x <= point1.x + 5 &&
-    p.y >= point1.y - 5 && p.y <= point1.y + 5) {
-        return 1
-    }
-    if (p.x >= point2.x - 5 && p.x <= point2.x + 5 &&
-    p.y >= point2.y - 5 && p.y <= point2.y + 5) {
-        return 2
-    }
-    if (p.x >= point3.x - 5 && p.x <= point3.x + 5 &&
-    p.y >= point3.y - 5 && p.y <= point3.y + 5) {
-        return 3
-    }
-    if (p.x >= point4.x - 5 && p.x <= point4.x + 5 &&
-    p.y >= point4.y - 5 && p.y <= point4.y + 5) {
-        return 4
-    }
-    return 0
-}
-function resizeAnotherPoint(point5, point6, point7, point8, p) {
-    if (p.x >= point5.x - 5 && p.x <= point5.x + 5 &&
-    p.y >= point5.y - 5 && p.y <= point5.y + 5) {
-        return 5
-    }
-    if (p.x >= point6.x - 5 && p.x <= point6.x + 5 &&
-    p.y >= point6.y - 5 && p.y <= point6.y + 5) {
-        return 6
-    }
-    if (p.x >= point7.x - 5 && p.x <= point7.x + 5 &&
-    p.y >= point7.y - 5 && p.y <= point7.y + 5) {
-        return 7
-    }
-    if (p.x >= point8.x - 5 && p.x <= point8.x + 5 &&
-    p.y >= point8.y - 5 && p.y <= point8.y + 5) {
-        return 8
-    }
-    return 0
-}
 /* judge the direction of point3 of line(point1, point2)*/
 function pointLineDir(point1, point2, point3) {
     if (point1.x == point2.x) {
@@ -3255,7 +3216,8 @@ function  pointDir(point1, point2, point3, point4) {
         return 4
     }
 }
-
+/*
+ * this function is get the angle of the mouse'moving*/
 /* the angle in point3 */
 function calcutateAngle(point1, point2, point3) {
     if (point1 == point2) {
