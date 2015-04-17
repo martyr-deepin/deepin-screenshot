@@ -19,7 +19,6 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
-        cursorShape: windowView.set_cursor_shape("color_pen_purple")
         onEntered: {
             selectArea.border.color = Qt.rgba(1,1,1,0.7)
         }

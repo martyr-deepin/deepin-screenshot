@@ -1,166 +1,172 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
+# Translators:
+# Antisound <antisound@gmail.com>, 2014
+# Antisound <antisound@gmail.com>, 2014
+# corEr <baracus.de@gmail.com>, 2014
+# corEr <baracus.de@gmail.com>, 2014
+# Eduard Gotwig <eduardgotwig@gmail.com>, 2014
+# Ettore Atalan <atalanttore@googlemail.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-03-27 13:25+0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2015-03-28 11:12+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"Language-Team: German (http://www.transifex.com/projects/p/deepin-screenshot/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/Main.qml:1203 ../src/menu_controller.py:40
 msgid "Save to desktop"
-msgstr ""
+msgstr "Auf dem Desktop speichern"
 
 #: ../src/Main.qml:1225 ../src/menu_controller.py:39
 msgid "Autosave"
-msgstr ""
+msgstr "Automatisch speichern"
 
 #: ../src/Main.qml:1247 ../src/menu_controller.py:42
 msgid "Save to specified folder"
-msgstr ""
+msgstr "In bestimmten Ordner speichern"
 
 #: ../src/Main.qml:1269 ../src/menu_controller.py:41
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "In die Zwischenablage kopieren"
 
 #: ../src/Main.qml:1290 ../src/menu_controller.py:43
 msgid "Autosave and copy to clipboard"
-msgstr ""
+msgstr "Automatisch speichern und in die Zwischenablage kopieren"
 
 #: ../src/OSD.qml:54
 msgid "Tips"
-msgstr ""
+msgstr "Tipps"
 
 #: ../src/OSD.qml:65
 msgid "You can use \"Ctrl+Alt+A\" to start the screenshot"
-msgstr ""
+msgstr "Sie können \"Strg+Alt+A\" verwenden, um das Bildschirmfoto auszulösen"
 
 #: ../src/ShortcutsLabel.qml:23
 msgid "None"
-msgstr ""
+msgstr "Niemand"
 
 #: ../src/ShortcutsViewer.qml:46
 msgid "Start/Screenshot"
-msgstr ""
+msgstr "Auslösen/Bildschirmfoto"
 
 #: ../src/ShortcutsViewer.qml:49
 msgid "Quick start"
-msgstr ""
+msgstr "Schnellstart"
 
 #: ../src/ShortcutsViewer.qml:57
 msgid "Delay screenshot"
-msgstr ""
+msgstr "Verzögertes Bildschrimfoto"
 
 #: ../src/ShortcutsViewer.qml:53
 msgid "Full screenshot"
-msgstr ""
+msgstr "Vollständiges Bildschirmfoto"
 
 #: ../src/ShortcutsViewer.qml:61
 msgid "Smart identifying window"
-msgstr ""
+msgstr "Intelligentes Erkennungsfenster"
 
 #: ../src/ShortcutsViewer.qml:65 ../src/menu_controller.py:55
 msgid "Exit"
-msgstr ""
+msgstr "Beenden"
 
 #: ../src/ShortcutsViewer.qml:71
 msgid "Save/Share"
-msgstr ""
+msgstr "Speichern/Teilen"
 
 #: ../src/ShortcutsViewer.qml:74 ../src/main.py:352
 #: ../src/menu_controller.py:53
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: ../src/ShortcutsViewer.qml:78 ../src/menu_controller.py:54
 msgid "Share"
-msgstr ""
+msgstr "Teilen"
 
 #: ../src/ShortcutsViewer.qml:86
 msgid "Painting"
-msgstr ""
+msgstr "Gemälde"
 
 #: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:47
 msgid "Rectangle"
-msgstr ""
+msgstr "Rechteck"
 
 #: ../src/ShortcutsViewer.qml:93 ../src/menu_controller.py:48
 msgid "Ellipse"
-msgstr ""
+msgstr "Ellipse"
 
 #: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:49
 msgid "Arrow"
-msgstr ""
+msgstr "Pfeil"
 
 #: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:50
 msgid "Brush"
-msgstr ""
+msgstr "Pinsel"
 
 #: ../src/ShortcutsViewer.qml:105 ../src/menu_controller.py:51
 msgid "Text"
-msgstr ""
+msgstr "Text"
 
 #: ../src/ShortcutsViewer.qml:109
 msgid "Color"
-msgstr ""
+msgstr "Farbe"
 
 #: ../src/ShortcutsViewer.qml:118
 msgid "Size Adjustment"
-msgstr ""
+msgstr "Größenanpassung"
 
 #: ../src/ShortcutsViewer.qml:121
 msgid "Adjust height up"
-msgstr ""
+msgstr "Höhe oben anpassen"
 
 #: ../src/ShortcutsViewer.qml:126
 msgid "Adjust height down"
-msgstr ""
+msgstr "Höhe unten anpassen"
 
 #: ../src/ShortcutsViewer.qml:131
 msgid "Adjust width left"
-msgstr ""
+msgstr "Breite links anpassen"
 
 #: ../src/ShortcutsViewer.qml:136
 msgid "Adjust width right"
-msgstr ""
+msgstr "Breite rechts anpassen"
 
 #: ../src/main.py:104 ../src/main.py:314 ../src/main.py:324 ../src/main.py:452
 #: ../src/main.py:456 ../src/dbus_interfaces.py:66
 msgid "Deepin Screenshot"
-msgstr ""
+msgstr "Deepin Bildschirmfoto"
 
 #: ../src/main.py:315
 msgid "Picture has been saved to clipboard"
-msgstr ""
+msgstr "Das Bild wurde in die Zwischenablage gespeichert"
 
 #: ../src/main.py:325
 #, python-format
 msgid "Picture has been saved to %s"
-msgstr ""
+msgstr "Das Bild wurde in %s gespeichert"
 
 #: ../src/main.py:325
 msgid "View"
-msgstr ""
+msgstr "Ansicht"
 
 #: ../src/main.py:334
 msgid "DeepinScreenshot"
-msgstr ""
+msgstr "DeepinBildschirmfoto"
 
 #: ../src/main.py:453
 msgid "Deepin Screenshot has been started."
-msgstr ""
+msgstr "Deepin Bildschirmfoto wurde ausgelöst."
 
 #: ../src/main.py:457
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
-msgstr ""
+msgstr "Deepin Bildschirmfoto wird nach %s Sekunden ausgelöst."

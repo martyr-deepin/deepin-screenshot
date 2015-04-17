@@ -17,11 +17,12 @@ Item {
     property string dirImage: dirAction
     property alias imageIcon: toolImage
     property alias selectDisArea: selectArea
+    property bool switchable: true
     property var group: null
 
-    signal pressed()
     signal entered()
     signal exited()
+    signal clicked()
     states: [
             State {
                     name : "on"
@@ -62,7 +63,6 @@ Item {
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
-        cursorShape: Qt.ArrowCursor
         onEntered: {
             selectArea.visible = true
             if (toolButton.state == "off") {
@@ -76,14 +76,13 @@ Item {
             toolButton.exited()
         }
 
-        onPressed:{
-            toolButton.state = toolButton.state == "on" ? "off" : "on"
-            if (toolButton.state == "on") {
-               toolImage.source = toolButton.dirImage + toolButton.imageName + "_press.svg"
+        onClicked:{
+            if (switchable) {
+                toolButton.state = toolButton.state == "on" ? "off" : "on"
             } else {
-               toolImage.source = toolButton.dirImage + toolButton.imageName+".svg"
+                toolButton.state = "on"
             }
-            toolButton.pressed()
+            toolButton.clicked()
         }
     }
 }

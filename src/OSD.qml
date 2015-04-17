@@ -1,5 +1,6 @@
 import QtQuick 2.2
 import QtQuick.Window 2.1
+import Deepin.Locale 1.0
 
 Window {
     id: osd_window
@@ -13,7 +14,11 @@ Window {
 
     signal closed()
 
-    function showTips() { show_timer.start() }
+    DLocale { id: locale; domain: "deepin-screenshot" }
+
+    function dsTr(src) { return locale.dsTr(src) }
+
+    function showTips() { show_timer.restart() }
 
     Timer {
         id: show_timer
@@ -62,7 +67,7 @@ Window {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             color: Qt.rgba(1, 1, 1, 0.8)
-            text: dsTr('You can start Deepin Screenshot with "Ctrl+Alt+A"')
+            text: dsTr('You can use "Ctrl+Alt+A" to start the screenshot')
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }

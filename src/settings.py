@@ -22,49 +22,55 @@
 
 import os
 
-from PyQt5.QtCore import QSettings, QVariant
+from PyQt5.QtCore import QSettings, QVariant, QDir
 
-class ScreenShotSettings(QSettings):
+class ScreenshotSettings(QSettings):
     def __init__(self):
-        super(ScreenShotSettings, self).__init__()
+        super(ScreenshotSettings, self).__init__()
         self.showOSD = False
         self.tmpImageFile = ""
+        self.tmpSaveFile = ""
+        self.tmpBlurFile = ""
+        self.tmpMosaiceFile = ""
 
         self._init_settings()
 
     def _init_settings(self):
-        if os.path.exists(self.fileName()): return
+        if os.path.exists(self.fileName()):
+            self.addOption("showOSD", "show", True)
+            return
 
         '''save the user's last choice of save directory'''
-        self.beginGroup("save")
-        self.setValue("save_op", QVariant(0))
-        self.setValue("folder", QVariant("file folder"))
-        self.endGroup()
+        self.setOption("save", "save_op", QVariant(0))
+        self.setOption("save", "folder", QVariant(QDir.home().absolutePath()))
         '''save the user's last choice of toolbar directory'''
-        self.beginGroup("common_color_linewidth")
-        self.setValue("color_index", QVariant(3))
-        self.setValue("linewidth_index", QVariant(2))
-        self.endGroup()
-        self.beginGroup("rect")
-        self.setValue("color_index", QVariant(3))
-        self.setValue("linewidth_index", QVariant(2))
-        self.endGroup()
-        self.beginGroup("ellipse")
-        self.setValue("color_index", QVariant(3))
-        self.setValue("linewidth_index", QVariant(2))
-        self.endGroup()
-        self.beginGroup("line")
-        self.setValue("color_index", QVariant(3))
-        self.setValue("linewidth_index", QVariant(2))
-        self.endGroup()
-        self.beginGroup("arrow")
-        self.setValue("color_index", QVariant(3))
-        self.setValue("linewidth_index", QVariant(2))
-        self.endGroup()
-        self.beginGroup("text")
-        self.setValue("color_index", QVariant(3))
-        self.setValue("fontsize_index", QVariant(12))
-        self.endGroup()
+        self.setOption("common_color_linewidth", "color_index", QVariant(3))
+        self.setOption("common_color_linewidth", "linewidth_index", QVariant(2))
+        self.setOption("rect", "color_index", QVariant(3))
+        self.setOption("rect", "linewidth_index", QVariant(2))
+        self.setOption("ellipse", "color_index", QVariant(3))
+        self.setOption("ellipse", "linewidth_index", QVariant(2))
+        self.setOption("arrow", "color_index", QVariant(3))
+        self.setOption("arrow", "linewidth_index", QVariant(2))
+        self.setOption("line", "color_index", QVariant(3))
+        self.setOption("line", "linewidth_index", QVariant(2))
+        self.setOption("text", "color_index", QVariant(3))
+        self.setOption("text", "fontsize_index", QVariant(12))
+        self.setOption("showOSD", "show", True)
+
+    def addOption(self, group_name, op_name, specificValue):
+        '''add a new group in old configure file'''
+        keys = self.allKeys()
+        show_group_exist = 0
+        check_key = group_name+"/"+op_name
+        for i in keys:
+            if check_key == i:
+                show_group_exist = 1
+                return
+        if show_group_exist == 0:
+            self.beginGroup(group_name)
+            self.setValue(op_name, QVariant(specificValue))
+            self.endGroup()
 
     def getOption(self, group_name, op_name):
         self.beginGroup(group_name)

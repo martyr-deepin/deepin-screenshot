@@ -21,8 +21,6 @@ Item {
 
     property var shortcutsViewerId
 
-    signal osdTimeout()
-
     function get_absolute_cursor_pos() {
         var pos_origin = windowView.get_cursor_pos()
         var pos_absolute = Qt.point(pos_origin.x - selectArea.x, pos_origin.y - selectArea.y)
@@ -58,14 +56,6 @@ Item {
             case 14: return "#2B2B2B"
             case 15: return "#000000"
         }
-    }
-
-    function showHotKeyOSD() {
-        var osd = Qt.createQmlObject("import QtQuick 2.2; OSD {}", screen, "osd")
-        osd.closed.connect(screen.osdTimeout)
-        osd.x = windowView.x + (windowView.width - osd.width) / 2
-        osd.y = windowView.y + (windowView.height - osd.height) / 2
-        osd.showTips()
     }
 
     function showShortcutsViewer() {
@@ -212,7 +202,13 @@ Item {
             }
         }
 
-        onDoubleClicked: saveScreenshot()
+        onDoubleClicked: {
+            var pos = windowView.get_cursor_pos()
+            if (pos.x >= selectArea.x && pos.x <= selectArea.x + selectArea.width &&
+            pos.y >= selectArea.x && pos.y <= selectArea.y + selectArea.height) {
+                    saveScreenshot()
+                }
+        }
 
         onWheel: {
             if (wheel.modifiers & Qt.ControlModifier) {
@@ -238,7 +234,7 @@ Item {
     Image {
         id: background
         anchors.fill: parent
-        source: "/tmp/deepin-screenshot.png"
+        source: tmpImageFile
         cache: true
         asynchronous: true
     }
@@ -399,7 +395,7 @@ Item {
         Image {
             x: -selectArea.x
             y: -selectArea.y
-            source: "/tmp/deepin-screenshot.png"
+            source: tmpImageFile
             cache: true
             asynchronous: true
         }
@@ -554,8 +550,8 @@ Item {
                 toolbar.expandToolbar()
                 toolbar.buttonType = type
             } else {
-                    toolbar.shrinkToolbar()
-                    toolbar.buttonType = ""
+                toolbar.shrinkToolbar()
+                toolbar.buttonType = ""
             }
         }
 
@@ -578,34 +574,57 @@ Item {
             toolbar.stop5Color = Qt.rgba(0, 0, 0, 0.677)
             toolbar.stop6Color = Qt.rgba(0, 0, 0, 0.75)
         }
-        function toolbarVisible() {
-            if (toolbar.shape.shapeName == "rect" || toolbar.shape.shapeName == "ellipse") {
-                setlw.visible = true
-                dividingLine.visible = true
-                blurType.visible = true
-                mosaicType.visible = true
-                colorChange.visible = false
-                fontRect.visible = false
-            }
-            if (toolbar.shape.shapeName == "arrow" || toolbar.shape.shapeName == "line") {
-                setlw.visible = true
-                colorChange.visible = false
-                dividingLine.visible = false
+        function switchCheck(Type) {
+            if (toolbar.bExtense) {
                 blurType.visible = false
                 mosaicType.visible = false
-                fontRect.visible = false
-            }
-            if (toolbar.shape.shapeName == "text") {
                 setlw.visible = false
                 dividingLine.visible = false
-                blurType.visible = false
-                mosaicType.visible = false
+                fontRect.visible = false
+                straightLine.visible = false
                 colorChange.visible = false
-                fontRect.visible = true
+                save_toolbar.visible =false
+                if (Type == "rect" || Type == "ellipse") {
+                    blurType.visible = true
+                    mosaicType.visible = true
+                    setlw.visible = true
+                    dividingLine.visible = true
+                }
+                if (Type == "arrow") {
+                    setlw.visible = true
+                }
+                if (Type == "line") {
+                    setlw.visible = true
+                    dividingLine.visible = true
+                    straightLine.visible = true
+                }
+                if (Type == "text") {
+                    fontRect.visible = true
+                }
+                if (Type == "color") {
+                    colorChange.visible = true
+                }
+            } else {
+                colorChange.visible = false
+                if (Type == "rect" || Type == "ellipse") {
+                    blurType.visible = false
+                    mosaicType.visible = false
+                    setlw.visible = false
+                    dividingLine.visible = false
+                }
+                if (Type == "arrow") {
+                    setlw.visible = false
+                }
+                if (Type == "line") {
+                    setlw.visible = false
+                    dividingLine.visible = false
+                    straightLine.visible = false
+                }
+                if (Type == "text") {
+                    fontRect.visible = false
+                }
             }
         }
-
-
         onXChanged: {
             tryHideSizeTooltip()
         }
@@ -656,24 +675,7 @@ Item {
 
                     screenArea.enabled = false
                     toolbar.toggleToolbar("rect")
-
-                    if (toolbar.bExtense) {
-                        blurType.visible = true
-                        mosaicType.visible = true
-                        setlw.visible = true
-                        dividingLine.visible = true
-                        colorChange.visible = false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                    } else {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                        colorChange.visible = false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                    }
-
+                    toolbar.switchCheck("rect")
                     toolbar.shape.shapeName = "rect"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
@@ -699,23 +701,7 @@ Item {
                     }
                     screenArea.enabled = false
                     toolbar.toggleToolbar("ellipse")
-                    if (toolbar.bExtense) {
-                        blurType.visible = true
-                        mosaicType.visible = true
-                        setlw.visible = true
-                        dividingLine.visible = true
-                        colorChange.visible= false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                    } else {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                        colorChange.visible= false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                    }
-
+                    toolbar.switchCheck("ellipse")
                     toolbar.shape.shapeName = "ellipse"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
@@ -741,19 +727,7 @@ Item {
                     }
                     screenArea.enabled = false
                     toolbar.toggleToolbar("arrow")
-                    if (toolbar.bExtense) {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = true
-                        dividingLine.visible = false
-                        colorChange.visible = false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                    } else {
-                        setlw.visible = false
-                        colorChange.visible = false
-                    }
-
+                    toolbar.switchCheck("arrow")
                     toolbar.shape.shapeName = "arrow"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
@@ -779,24 +753,7 @@ Item {
                     }
                     screenArea.enabled = false
                     toolbar.toggleToolbar("line")
-                    if (toolbar.bExtense) {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = true
-                        dividingLine.visible = true
-                        straightLine.visible = true
-                        colorChange.visible= false
-                        fontRect.visible = false
-                        save_toolbar.visible = false
-                    } else {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                        dividingLine.visible = false
-                        straightLine.visible = false
-                        colorChange.visible= false
-                    }
-
+                    toolbar.switchCheck("line")
                     toolbar.shape.shapeName = "line"
                     setlw.lineWidth = windowView.get_save_config(toolbar.shape.shapeName, "linewidth_index")
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
@@ -821,31 +778,12 @@ Item {
                     }
                     screenArea.enabled = false
                     toolbar.toggleToolbar("text")
-                    if (toolbar.bExtense) {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        setlw.visible = false
-                        colorChange.visible= false
-                        save_toolbar.visible = false
-                    } else {
-                        blurType.visible = false
-                        mosaicType.visible = false
-                        fontRect.visible = true
-                        colorChange.visible= false
-                        setlw.visible = false
-                    }
-
+                    toolbar.switchCheck("text")
                     toolbar.shape.shapeName = "text"
                     colorTool.colorOrder =  windowView.get_save_config(toolbar.shape.shapeName, "color_index")
                     colorTool.colorStyle = screen.colorCard(colorTool.colorOrder)
                     toolbar.shape.fontSize = Qt.binding( function() { return fontRect.value })
                     toolbar.shape.paintColor = Qt.binding(function() { return colorTool.colorOrder })
-                    fontRect.visible = !fontRect.visible
-                    if (fontRect.visible) {
-                        setlw.visible = false
-                        colorChange.visible = false
-                        save_toolbar.visible = false
-                    }
                 }
             }
             function _ColorXLineXText() {
@@ -877,25 +815,24 @@ Item {
                     }
                     var originType = toolbar.buttonType
                     toolbar.toggleToolbar("color")
-                    colorChange.visible = !colorChange.visible
-                    if (toolbar.bExtense) {
-                        colorChange.visible= true
-                    } else {
-                        colorChange.visible = false
-                    }
-                    setlw.visible = false
-                    blurType.visible = false
-                    straightLine.visible = false
-                    mosaicType.visible = false
-                    fontRect.visible = false
-                    save_toolbar.visible = false
+                    toolbar.switchCheck("color")
                     toolbar.buttonType = originType
                 }
             }
             SaveButton {
                 id: saveButton
                 visible: ((button1.width*7 +10 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
-
+                /* shapeNum is used to rememer which tool is pressed in toolbar
+                 * getToolbar is used to realized the function to get shapeNum*/
+                property var shapeNum
+                function getToolbar() {
+                    for (var i=0; i<row.children.length; i++) {
+                        if (row.children[i].state == "on") {
+                            return i
+                        }
+                    }
+                    return -1
+                }
                 onStateChanged: {
                     if (state == "off") return
 
@@ -905,16 +842,29 @@ Item {
                 }
 
                 onListIcon: {
-                    save_toolbar.visible = !save_toolbar.visible
-                    if (save_toolbar.visible) {
+                    var originType = toolbar.buttonType
+                    toolbar.toggleToolbar("saveAction")
+                    if (toolbar.bExtense) {
+                        save_toolbar.visible = true
                         setlw.visible = false
                         blurType.visible = false
                         mosaicType.visible = false
                         colorChange.visible = false
                         fontRect.visible = false
+                        straightLine.visible = false
                         save_toolbar.saveItem = windowView.get_save_config("save", "save_op")
-                    }
-                    toolbar.toggleToolbar("saveAction")
+                        if (saveButton.getToolbar() >= 0) {
+                            saveButton.shapeNum = saveButton.getToolbar()
+                            toolbar.buttonType = originType
+                            row.children[saveButton.shapeNum].state = "off"
+                            toolbar.toggleToolbar("saveAction")
+                        }
+                    } else {
+                        save_toolbar.visible = false
+                       if (saveButton.shapeNum >= 0) {
+                           row.children[saveButton.shapeNum].state = "on"
+                       }
+                   }
                 }
             }
             ToolButton {
@@ -924,13 +874,15 @@ Item {
                 onStateChanged: {
                     if (state == "off") { return }
 
+                    toolbar.visible = false
+                    selectSizeTooltip.visible = false
                     screen.share()
                 }
             }
             ToolButton {
                 visible: !savetooltip.visible
                 imageName: "cancel"
-                onPressed: {
+                onClicked: {
                     windowView.closeWindow()
                 }
             }
@@ -943,7 +895,7 @@ Item {
             height: 20
             visible: false
             min: 6
-            max: 24
+            max: 96
             maximumLength: 3
             initValue: windowView.get_save_config("text", "fontsize_index")
 
@@ -962,7 +914,7 @@ Item {
                 if (toolbar.shape != undefined && toolbar.shape.shapeName != undefined) {
                     windowView.set_save_config(toolbar.shape.shapeName, "color_index", colorOrder)
                 }
-                toolbar.toolbarVisible()
+                toolbar.switchCheck(toolbar.shape.shapeName)
             }
         }
 
@@ -1008,6 +960,7 @@ Item {
                 group: setlw
                 imageName:"small"
                 dirImage: dirSizeImage
+                switchable: false
                 property var linewidth: 2
                 onStateChanged: {
                     if (state == "off") { return }
@@ -1020,6 +973,7 @@ Item {
                 group: setlw
                 imageName:"normal"
                 dirImage: dirSizeImage
+                switchable: false
                 property var linewidth: 4
                 onStateChanged: {
                     if (state == "off") { return }
@@ -1032,6 +986,7 @@ Item {
                 group: setlw
                 imageName:"big"
                 dirImage: dirSizeImage
+                switchable: false
                 property var linewidth: 6
                 onStateChanged: {
                     if (state == "off") { return }
@@ -1080,7 +1035,7 @@ Item {
                 dirImage: dirSizeImage
                 imageName: "blur"
                 visible: false
-                onPressed: {
+                onClicked: {
                     screenArea.enabled = false
                     shapeEffect.imageName = "blur"
                     windowView.save_overload("blur", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
@@ -1106,7 +1061,7 @@ Item {
                 dirImage: dirSizeImage
                 imageName:"mosaic"
                 visible: false
-                onPressed: {
+                onClicked: {
                     screenArea.enabled = false
                     shapeEffect.imageName = "mosaic"
                     windowView.save_overload("mosaic", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
@@ -1139,7 +1094,7 @@ Item {
             imageIcon.width: 40
             imageName: "straightline"
             visible: false
-            onPressed: {
+            onClicked: {
                 screenArea.enabled = false
                 toolbar.shape.isStraightLine = !toolbar.shape.isStraightLine
             }
@@ -1172,7 +1127,7 @@ Item {
                 onExited: {
                     savetooltip.hide()
                 }
-                onPressed: {
+                onClicked: {
                     save_toolbar.saveId = "save_to_desktop"
                     windowView.set_save_config("save", "save_op","0")
                     toolbar.visible = false
@@ -1194,7 +1149,7 @@ Item {
                 onExited: {
                     savetooltip.hide()
                 }
-                onPressed: {
+                onClicked: {
                     save_toolbar.saveId = "auto_save"
                     windowView.set_save_config("save","save_op","1")
                     toolbar.visible = false
@@ -1216,7 +1171,7 @@ Item {
                 onExited: {
                     savetooltip.hide()
                 }
-                onPressed: {
+                onClicked: {
                     save_toolbar.saveId = "save_to_dir"
                     windowView.set_save_config("save","save_op","2")
                     toolbar.visible = false
@@ -1238,7 +1193,7 @@ Item {
                 onExited: {
                     savetooltip.hide()
                 }
-                onPressed: {
+                onClicked: {
                     save_toolbar.saveId = "save_ClipBoard"
                     windowView.set_save_config("save","save_op","3")
                     toolbar.visible = false
@@ -1259,7 +1214,7 @@ Item {
                 onExited: {
                     savetooltip.hide()
                 }
-                onPressed: {
+                onClicked: {
                     save_toolbar.saveId = "auto_save_ClipBoard"
                     windowView.set_save_config("save","save_op","4")
                     toolbar.visible = false
@@ -1339,7 +1294,7 @@ Item {
                     id: zoomIndicatorImage
                     x: -zoomIndicator.cursorX + (zoomIndicator.width - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue)
                     y: -zoomIndicator.cursorY + (zoomIndicator.height - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue)
-                    source: "/tmp/deepin-screenshot.png"
+                    source: tmpImageFile
                     smooth: false
                     cache: true
                     asynchronous: true
@@ -1438,6 +1393,7 @@ Item {
     Keys.onPressed: {
         var keyActionMap = {
             "Return": "screen.saveScreenshot()",
+            "Num+Enter": "screen.saveScreenshot()",
             "Alt+1": "button1.state = 'on'",
             "Alt+2": "button2.state = 'on'",
             "Alt+3": "button3.state = 'on'",

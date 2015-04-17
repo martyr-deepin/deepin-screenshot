@@ -31,44 +31,7 @@ Item {
     function _initMainPoints() {
         var startPoint = points[0]
         var endPoint = points[points.length - 1]
-        var leftX = Math.min(startPoint.x, endPoint.x)
-        var leftY = Math.min(startPoint.y, endPoint.y)
-        var pWidth = Math.max(Math.abs(startPoint.x - endPoint.x), minPadding)
-        var pHeight = Math.max(Math.abs(startPoint.y - endPoint.y), minPadding)
-        if (isShiftPressed) {
-            var shiftWidth = Math.min(pWidth, pHeight)
-            if (endPoint.x >= startPoint.x) {
-                if (endPoint.y >= startPoint.y) {
-                    mainPoints[0]=startPoint
-                    mainPoints[1]=Qt.point(startPoint.x, startPoint.y + shiftWidth)
-                    mainPoints[2]=Qt.point(startPoint.x + shiftWidth, startPoint.y)
-                    mainPoints[3]=Qt.point(startPoint.x + shiftWidth, startPoint.y+ shiftWidth)
-                } else {
-                    mainPoints[0] = Qt.point(startPoint.x, startPoint.y - shiftWidth)
-                    mainPoints[1] = startPoint
-                    mainPoints[2] = Qt.point(startPoint.x + shiftWidth, startPoint.y - shiftWidth)
-                    mainPoints[3] = Qt.point(startPoint.x + shiftWidth, startPoint.y)
-                }
-            } else {
-                if (endPoint.y >= startPoint.y) {
-                    mainPoints[0] = Qt.point(startPoint.x- shiftWidth, startPoint.y)
-                    mainPoints[1] = Qt.point(startPoint.x - shiftWidth, startPoint.y + shiftWidth)
-                    mainPoints[2] = startPoint
-                    mainPoints[3] = Qt.point(startPoint.x, startPoint.y + shiftWidth)
-                } else {
-                    mainPoints[0] = Qt.point(startPoint.x - shiftWidth, startPoint.y - shiftWidth)
-                    mainPoints[1] = Qt.point(startPoint.x - shiftWidth, startPoint.y)
-                    mainPoints[2] = Qt.point(startPoint.x, startPoint.y - shiftWidth)
-                    mainPoints[3] = startPoint
-                }
-            }
-        } else {
-            mainPoints[0] = Qt.point(leftX, leftY)
-            mainPoints[1] = Qt.point(leftX + pWidth, leftY)
-            mainPoints[2] = Qt.point(leftX, pHeight + leftY)
-            mainPoints[3] = Qt.point(leftX + pWidth, leftY + pHeight)
-        }
-
+        mainPoints = DrawingUtils.shiftMainPoints(startPoint, endPoint, isShiftPressed)
         CalcEngine.changePointsOrder(mainPoints[0], mainPoints[1], mainPoints[2], mainPoints[3])
     }
 

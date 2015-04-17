@@ -1,5 +1,4 @@
 import QtQuick 2.1
-import QtMultimedia 5.0
 import QtQuick.Dialogs 1.0
 Item {
     id: toolButton
@@ -33,20 +32,7 @@ Item {
             height: 24
             anchors.verticalCenter: parent.verticalCenter
             source: "../image/save/save.svg"
-            SoundEffect {
-                id: cameraSound
-                source: "../sound/camera.wav"
-            }
-            Timer {
-                id: count
-                interval: 500
-                running: false
-                onTriggered: {
-                    running = false
 
-                    toolButton.saveIcon()
-                }
-            }
             MouseArea {
                 anchors.fill: saveImage
                 hoverEnabled: true
@@ -63,8 +49,6 @@ Item {
                 onPressed: {
                     toolButton.state = toolButton.state == "on" ? "off":"on"
                     saveImage.source = "../image/save/save" + "_press.svg"
-                    count.running = true
-                    cameraSound.play()
                 }
 
             }

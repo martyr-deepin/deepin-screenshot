@@ -1,11 +1,11 @@
-deepin-screenshot-v3 (0.0+nmu1) UNRELEASED; urgency=medium
+deepin-screenshot (0.0+nmu1) UNRELEASED; urgency=medium
 
   * Non-maintainer upload.
   * clean
 
  -- 宋文武 <deepin@0x21>  Thu, 29 Jan 2015 11:03:25 +0800
 
-deepin-screenshot-v3 (0.0) unstable; urgency=medium
+deepin-screenshot (0.0) unstable; urgency=medium
 
   * Unstable release.
 

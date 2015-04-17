@@ -26,6 +26,20 @@ from PyQt5.QtDBus import QDBusAbstractInterface, QDBusConnection, QDBusReply
 
 from i18n import _
 
+class ScreenshotInterface(QDBusAbstractInterface):
+    def __init__(self):
+        super(ScreenshotInterface, self).__init__(
+            "com.deepin.DeepinScreenshot",
+            "/com/deepin/DeepinScreenshot",
+            "com.deepin.DeepinScreenshot",
+            QDBusConnection.sessionBus(),
+            None)
+
+    def runWithArguments(self, arguments):
+        arguments = QVariant(arguments)
+        arguments.convert(QVariant.StringList)
+        self.call("RunWithArguments", arguments)
+
 class NotificationsInterface(QDBusAbstractInterface):
     ActionInvoked = pyqtSignal("quint32", str)
     NotificationClosed = pyqtSignal("quint32", "quint32")
@@ -63,8 +77,23 @@ class SocialSharingInterface(QDBusAbstractInterface):
             None)
 
     def share(self, text, pic):
-        self.call("Share", _("Deepin screenshot"),
+        self.call("Share", _("Deepin Screenshot"),
          "deepin-screenshot", text, pic)
+
+class HotZoneInterface(QDBusAbstractInterface):
+    def __init__(self):
+        super(HotZoneInterface, self).__init__(
+            "com.deepin.daemon.Zone",
+            "/com/deepin/daemon/Zone",
+            'com.deepin.daemon.Zone',
+            QDBusConnection.sessionBus(),
+            None)
+
+    def enableZone(self):
+        self.asyncCall("EnableZoneDetected", True)
+
+    def disableZone(self):
+        self.asyncCall("EnableZoneDetected", False)
 
 class ControlCenterInterface(QDBusAbstractInterface):
     def __init__(self):
@@ -93,6 +122,9 @@ class ControlCenterInterface(QDBusAbstractInterface):
             except:
                 pass
 
+
+hotZoneInterface = HotZoneInterface()
+screenshotInterface = ScreenshotInterface()
 notificationsInterface = NotificationsInterface()
 socialSharingInterface = SocialSharingInterface()
 controlCenterInterface = ControlCenterInterface()
