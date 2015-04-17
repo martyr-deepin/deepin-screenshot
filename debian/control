@@ -2,10 +2,17 @@ Source: deepin-screenshot
 Section: misc
 Priority: extra
 Maintainer: 宋文武 <songwenwu@linuxdeepin.com>
-Build-Depends: debhelper (>= 9)
+Build-Depends: debhelper (>= 9),
+ python,
+ deepin-gettext-tools
 Standards-Version: 3.9.5
 
 Package: deepin-screenshot
 Architecture: any
-Depends: ${misc:Depends}, python, python-pyqt5, deepin-social-sharing
+Depends: ${misc:Depends},
+ python,
+ python-pyqt5,
+ python-sip,
+ python-wnck,
+ deepin-social-sharing
 Description: Advanced screen shoting tool

@@ -51,4 +51,8 @@ def processArguments(arguments):
 	savePath = str(parser.value(savePathOption) or "")
 	startFromDesktop = bool(parser.isSet(startFromDesktopOption) or False)
 
-	return (delay, fullscreen, topWindow, savePath, startFromDesktop)
+	return {"delay": delay,
+			"fullscreen": fullscreen,
+			"topWindow": topWindow,
+			"savePath": savePath,
+			"startFromDesktop": startFromDesktop}

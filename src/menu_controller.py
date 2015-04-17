@@ -36,10 +36,10 @@ menu_icon_hover = lambda x: os.path.join(MENU_ICONS_DIR, "%s-symbolic-small-hove
 menu_icon_tuple = lambda x: (menu_icon_normal(x), menu_icon_hover(x))
 
 save_sub_menu = [
-    CheckableMenuItem("save:radio:_op_auto_save", _("Autosave")),
     CheckableMenuItem("save:radio:_op_save_to_desktop", _("Save to desktop")),
-    CheckableMenuItem("save:radio:_op_copy_to_clipboard", _("Copy to clipboard")),
+    CheckableMenuItem("save:radio:_op_auto_save", _("Autosave")),
     CheckableMenuItem("save:radio:_op_save_as", _("Save to specified folder")),
+    CheckableMenuItem("save:radio:_op_copy_to_clipboard", _("Copy to clipboard")),
     CheckableMenuItem("save:radio:_op_copy_and_save", _("Autosave and copy to clipboard")),
 ]
 
@@ -84,16 +84,17 @@ class MenuController(QObject):
         if _id == "_text":
             self.toolSelected.emit("_text")
 
-        if _id == "save:radio:_op_auto_save":
-            self.saveSelected.emit(1)
+
         if _id == "save:radio:_op_save_to_desktop":
             self.saveSelected.emit(0)
-        if _id == "save:radio:_op_copy_to_clipboard":
-            self.saveSelected.emit(4)
+        if _id == "save:radio:_op_auto_save":
+            self.saveSelected.emit(1)
         if _id == "save:radio:_op_save_as":
             self.saveSelected.emit(2)
-        if _id == "save:radio:_op_copy_and_save":
+        if _id == "save:radio:_op_copy_to_clipboard":
             self.saveSelected.emit(3)
+        if _id == "save:radio:_op_copy_and_save":
+            self.saveSelected.emit(4)
 
         if _id == "_share":
             self.shareSelected.emit()
@@ -107,16 +108,16 @@ class MenuController(QObject):
         self.menu = Menu(right_click_menu)
         self.menu.getItemById("_save").setSubMenu(Menu(save_sub_menu))
 
-        self.menu.getItemById("save:radio:_op_auto_save").checked = \
-            saveOption == 1
         self.menu.getItemById("save:radio:_op_save_to_desktop").checked = \
             saveOption == 0
-        self.menu.getItemById("save:radio:_op_copy_to_clipboard").checked = \
-            saveOption == 4
+        self.menu.getItemById("save:radio:_op_auto_save").checked = \
+            saveOption == 1
         self.menu.getItemById("save:radio:_op_save_as").checked = \
             saveOption == 2
-        self.menu.getItemById("save:radio:_op_copy_and_save").checked = \
+        self.menu.getItemById("save:radio:_op_copy_to_clipboard").checked = \
             saveOption == 3
+        self.menu.getItemById("save:radio:_op_copy_and_save").checked = \
+            saveOption == 4
 
         self.menu.itemClicked.connect(self._menu_item_invoked)
         self.menu.menuDismissed.connect(self._menu_unregistered)

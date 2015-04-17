@@ -28,7 +28,7 @@ from i18n import _
 
 class ScreenshotInterface(QDBusAbstractInterface):
     def __init__(self):
-        super(NotificationsInterface, self).__init__(
+        super(ScreenshotInterface, self).__init__(
             "com.deepin.DeepinScreenshot",
             "/com/deepin/DeepinScreenshot",
             "com.deepin.DeepinScreenshot",
@@ -36,6 +36,8 @@ class ScreenshotInterface(QDBusAbstractInterface):
             None)
 
     def runWithArguments(self, arguments):
+        arguments = QVariant(arguments)
+        arguments.convert(QVariant.StringList)
         self.call("RunWithArguments", arguments)
 
 class NotificationsInterface(QDBusAbstractInterface):
@@ -75,7 +77,7 @@ class SocialSharingInterface(QDBusAbstractInterface):
             None)
 
     def share(self, text, pic):
-        self.asyncCall("Share", _("Deepin screenshot"),
+        self.call("Share", _("Deepin Screenshot"),
          "deepin-screenshot", text, pic)
 
 class HotZoneInterface(QDBusAbstractInterface):
@@ -122,6 +124,7 @@ class ControlCenterInterface(QDBusAbstractInterface):
 
 
 hotZoneInterface = HotZoneInterface()
+screenshotInterface = ScreenshotInterface()
 notificationsInterface = NotificationsInterface()
 socialSharingInterface = SocialSharingInterface()
 controlCenterInterface = ControlCenterInterface()

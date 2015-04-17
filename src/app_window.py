@@ -21,11 +21,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-import tempfile
 
 from PyQt5.QtQuick import QQuickView
-from PyQt5.QtWidgets import qApp
-from PyQt5.QtCore import Qt, QTimer, pyqtSlot
+from PyQt5.QtCore import Qt, QTimer, pyqtSlot, pyqtSignal
 from PyQt5.QtGui import QSurfaceFormat, QColor, QImage, QPixmap, QCursor
 from PyQt5.QtGui import QKeySequence, qRed, qGreen, qBlue
 
@@ -52,16 +50,17 @@ def init_cursor_shape_dict():
 
 CURSOR_SHAPE_SHAPE_PREFIX = "shape_"
 CURSOR_SHAPE_COLOR_PEN_PREFIX = "color_pen_"
-SAVE_DEST_TEMP = os.path.join(tempfile.gettempdir() or "/tmp",
-                              "DeepinScreenshot-save-tmp.png")
+
 cursor_shape_dict = {}
 init_cursor_shape_dict()
 
 class Window(QQuickView):
-    def __init__(self, settings, windowInfo, saveScreenshot):
+    windowClosing = pyqtSignal()
+
+    def __init__(self, context):
         QQuickView.__init__(self)
-        self._settings = settings
-        self._saveScreenshotFunc = saveScreenshot
+        self.context = context
+        self.settings = context.settings
 
         surface_format = QSurfaceFormat()
         surface_format.setAlphaBufferSize(8)
@@ -73,19 +72,15 @@ class Window(QQuickView):
         self.setFormat(surface_format)
         self.setTitle(_("Deepin screenshot"))
 
-        self.qimage = QImage(self._settings.tmpImageFile)
+        self.qimage = QImage(self.settings.tmpImageFile)
         self.qpixmap = QPixmap()
         self.qpixmap.convertFromImage(self.qimage)
 
-        self.window_info = windowInfo
+        self.window_info = context.windowInfo
 
         self._grabPointerStatus = False
         self._grabKeyboardStatus = False
         self._grabFocusTimer = self._getGrabFocusTimer()
-
-        self._osdShowed = False
-        self._osdShowing = False
-        self._quitOnOsdTimeout = False
 
     @pyqtSlot(int, int, result="QVariant")
     def get_color_at_point(self, x, y):
@@ -142,14 +137,13 @@ class Window(QQuickView):
             p = p.scaled(width / mosaic_radius, height / mosaic_radius,
                          Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
             p = p.scaled(width, height)
+            p.save(self.settings.tmpMosaiceFile)
         elif style == "blur":
             p = p.scaled(width / blur_radius, height / blur_radius,
                          Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
             p = p.scaled(width, height,
                          Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
-
-        image_dir = "/tmp/deepin-screenshot-%s.png" % style
-        p.save(os.path.join(image_dir))
+            p.save(self.settings.tmpBlurFile)
 
     def _getGrabFocusTimer(self):
         timer = QTimer()
@@ -179,21 +173,20 @@ class Window(QQuickView):
 
     @pyqtSlot(str,str,result="QVariant")
     def get_save_config(self, group_name,op_name):
-        return self._settings.getOption(group_name, op_name)
+        return self.settings.getOption(group_name, op_name)
 
     @pyqtSlot(str,str,str)
     def set_save_config(self,group_name,op_name,op_index):
-        self._settings.setOption(group_name, op_name, op_index)
+        self.settings.setOption(group_name, op_name, op_index)
 
     @pyqtSlot(int,int,int,int)
     def save_screenshot(self, x, y, width, height):
         pixmap = QPixmap.fromImage(self.grabWindow())
         pixmap = pixmap.copy(x, y, width, height)
-        pixmap.save(SAVE_DEST_TEMP)
+        pixmap.save(self.settings.tmpSaveFile)
 
         self.hide()
-        self._saveScreenshotFunc(pixmap)
-        self._settings.showOSD and self.showHotKeyOSD()
+        self.context.saveScreenshot(pixmap)
 
     @pyqtSlot()
     def enable_zone(self):
@@ -205,7 +198,7 @@ class Window(QQuickView):
 
     @pyqtSlot()
     def share(self):
-        socialSharingInterface.share("", SAVE_DEST_TEMP)
+        socialSharingInterface.share("", self.settings.tmpSaveFile)
 
     @pyqtSlot(int, int, str, result=bool)
     def checkKeySequenceEqual(self, modifier, key, targetKeySequence):
@@ -217,32 +210,10 @@ class Window(QQuickView):
         keySequence = QKeySequence(modifier + key).toString()
         return keySequence
 
-    def _handleOSDTimeout(self):
-        self._osdShowing = False
-        if self._quitOnOsdTimeout:
-            qApp.quit()
-
-    def showHotKeyOSD(self):
-        self._osdShowing = True
-        self._osdShowed = True
-        self.rootObject().showHotKeyOSD()
-        self.rootObject().osdTimeout.connect(self._handleOSDTimeout)
-
     def showWindow(self):
-        self.disable_zone()
         self.showFullScreen()
-        self.grabFocus()
 
     @pyqtSlot()
     def closeWindow(self):
-        self.enable_zone()
+        self.windowClosing.emit()
         self.close()
-
-        self._quitOnOsdTimeout = True
-        if self._settings.showOSD:
-            if not self._osdShowed:
-                self.showHotKeyOSD()
-            elif not self._osdShowing:
-                qApp.quit()
-        else:
-            qApp.quit()

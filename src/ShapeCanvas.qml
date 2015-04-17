@@ -15,10 +15,10 @@ Canvas {
     property int linewidth: 3
     property int paintColor: 3
     property alias canvasArea: canvasArea
-    property url imageUrl: "/tmp/deepin-screenshot.png"
+    property url imageUrl: tmpImageFile
     property url rotateImage: "../image/mouse_style/shape/rotate.png"
-    property string blurImage:"/tmp/deepin-screenshot-blur.png"
-    property string mosaicImage: "/tmp/deepin-screenshot-mosaic.png"
+    property string blurImage: blurImageFile
+    property string mosaicImage: mosaicImageFile
     property bool isBlur: false
     property bool bluring:false
     property bool processBlur: false
@@ -151,7 +151,6 @@ Canvas {
         }
         return false
     }
-
     function deselectAll() {
         for (var i = 0; i < shapes.length; i++) {
             shapes[i].deselect()
@@ -333,6 +332,8 @@ Canvas {
             }
         }
 
+        onDoubleClicked: saveScreenshot()
+
         onClicked: {
             if (mouse.button == Qt.RightButton)
                 _menu_controller.show_menu(windowView.get_save_config("save", "save_op"))
@@ -386,9 +387,10 @@ Canvas {
                 }
 
             } else {
-                for (var i = 0; i < canvas.shapes.length;i++) {
-                    var pos = screen.get_absolute_cursor_pos()
-                    if (canvas.hoverOnShape(Qt.point(pos.x, pos.y))) {
+                var pos = screen.get_absolute_cursor_pos()
+                if (!canvas.recording) {
+                    for (var i = 0; i < canvas.shapes.length;i++) {
+                    if (canvas.shapes[i].hoverOnShape(pos)) {
                         if (canvas.cursorDirection == "TopLeft") {
                             canvasArea.cursorShape = Qt.SizeFDiagCursor
                         }
@@ -416,18 +418,32 @@ Canvas {
                         else {
                             canvasArea.cursorShape = Qt.ClosedHandCursor
                         }
+                        canvas.requestPaint()
+                        break
                     } else {
-                        if ((canvas.shapes[i].selected || canvas.shapes[i].rotated || canvas.shapes[i].reSized) && canvas.shapes[i].hoverOnRotatePoint(Qt.point(pos.x, pos.y))) {
+                        if ((canvas.shapes[i].selected || canvas.shapes[i].rotated || canvas.shapes[i].reSized) && canvas.shapes[i].hoverOnRotatePoint(pos))   {
                             canvasArea.cursorShape = windowView.set_cursor_shape("shape_rotate_mouse")
                         } else {
                             canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
                         }
+                        canvas.requestPaint()
+                        }
                     }
-                    canvas.requestPaint()
-                }
-                if (canvas.shapes.length == 0) {
-                    canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
-                    canvas.requestPaint()
+                    if (canvas.shapes.length == 0) {
+                        canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+                    }
+                } else {
+                    for (var i = 0; i < canvas.shapes.length;i++) {
+                        if (canvas.shapes[i].shape == "text") {
+                            if ((canvas.shapes[i].selected || canvas.shapes[i].rotated || canvas.shapes[i].reSized) && (canvas.shapes[i].hoverOnRotatePoint(pos))) {
+                                canvasArea.cursorShape = windowView.set_cursor_shape("shape_rotate_mouse")
+                            } else {
+                                canvasArea.cursorShape = canvas.mouse_style(canvas.shapeName, canvas.paintColor)
+                            }
+                        } else {
+                            continue
+                        }
+                    }
                 }
             }
         }

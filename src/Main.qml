@@ -21,8 +21,6 @@ Item {
 
     property var shortcutsViewerId
 
-    signal osdTimeout()
-
     function get_absolute_cursor_pos() {
         var pos_origin = windowView.get_cursor_pos()
         var pos_absolute = Qt.point(pos_origin.x - selectArea.x, pos_origin.y - selectArea.y)
@@ -58,14 +56,6 @@ Item {
             case 14: return "#2B2B2B"
             case 15: return "#000000"
         }
-    }
-
-    function showHotKeyOSD() {
-        var osd = Qt.createQmlObject("import QtQuick 2.2; OSD {}", screen, "osd")
-        osd.closed.connect(screen.osdTimeout)
-        osd.x = windowView.x + (windowView.width - osd.width) / 2
-        osd.y = windowView.y + (windowView.height - osd.height) / 2
-        osd.showTips()
     }
 
     function showShortcutsViewer() {
@@ -212,7 +202,13 @@ Item {
             }
         }
 
-        onDoubleClicked: saveScreenshot()
+        onDoubleClicked: {
+            var pos = windowView.get_cursor_pos()
+            if (pos.x >= selectArea.x && pos.x <= selectArea.x + selectArea.width &&
+            pos.y >= selectArea.x && pos.y <= selectArea.y + selectArea.height) {
+                    saveScreenshot()
+                }
+        }
 
         onWheel: {
             if (wheel.modifiers & Qt.ControlModifier) {
@@ -238,7 +234,7 @@ Item {
     Image {
         id: background
         anchors.fill: parent
-        source: "/tmp/deepin-screenshot.png"
+        source: tmpImageFile
         cache: true
         asynchronous: true
     }
@@ -399,7 +395,7 @@ Item {
         Image {
             x: -selectArea.x
             y: -selectArea.y
-            source: "/tmp/deepin-screenshot.png"
+            source: tmpImageFile
             cache: true
             asynchronous: true
         }
@@ -578,33 +574,6 @@ Item {
             toolbar.stop5Color = Qt.rgba(0, 0, 0, 0.677)
             toolbar.stop6Color = Qt.rgba(0, 0, 0, 0.75)
         }
-        function toolbarVisible() {
-            if (toolbar.shape.shapeName == "rect" || toolbar.shape.shapeName == "ellipse") {
-                setlw.visible = true
-                dividingLine.visible = true
-                blurType.visible = true
-                mosaicType.visible = true
-                colorChange.visible = false
-                fontRect.visible = false
-            }
-            if (toolbar.shape.shapeName == "arrow" || toolbar.shape.shapeName == "line") {
-                setlw.visible = true
-                colorChange.visible = false
-                dividingLine.visible = false
-                blurType.visible = false
-                mosaicType.visible = false
-                fontRect.visible = false
-            }
-            if (toolbar.shape.shapeName == "text") {
-                setlw.visible = false
-                dividingLine.visible = false
-                blurType.visible = false
-                mosaicType.visible = false
-                colorChange.visible = false
-                fontRect.visible = true
-            }
-        }
-
         function switchCheck(Type) {
             if (toolbar.bExtense) {
                 blurType.visible = false
@@ -636,6 +605,7 @@ Item {
                     colorChange.visible = true
                 }
             } else {
+                colorChange.visible = false
                 if (Type == "rect" || Type == "ellipse") {
                     blurType.visible = false
                     mosaicType.visible = false
@@ -652,9 +622,6 @@ Item {
                 }
                 if (Type == "text") {
                     fontRect.visible = false
-                }
-                if (Type == "color") {
-                    colorChange.visible = false
                 }
             }
         }
@@ -915,7 +882,7 @@ Item {
             ToolButton {
                 visible: !savetooltip.visible
                 imageName: "cancel"
-                onPressed: {
+                onClicked: {
                     windowView.closeWindow()
                 }
             }
@@ -928,7 +895,7 @@ Item {
             height: 20
             visible: false
             min: 6
-            max: 24
+            max: 96
             maximumLength: 3
             initValue: windowView.get_save_config("text", "fontsize_index")
 
@@ -947,7 +914,7 @@ Item {
                 if (toolbar.shape != undefined && toolbar.shape.shapeName != undefined) {
                     windowView.set_save_config(toolbar.shape.shapeName, "color_index", colorOrder)
                 }
-                toolbar.toolbarVisible()
+                toolbar.switchCheck(toolbar.shape.shapeName)
             }
         }
 
@@ -1068,7 +1035,7 @@ Item {
                 dirImage: dirSizeImage
                 imageName: "blur"
                 visible: false
-                onPressed: {
+                onClicked: {
                     screenArea.enabled = false
                     shapeEffect.imageName = "blur"
                     windowView.save_overload("blur", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
@@ -1094,7 +1061,7 @@ Item {
                 dirImage: dirSizeImage
                 imageName:"mosaic"
                 visible: false
-                onPressed: {
+                onClicked: {
                     screenArea.enabled = false
                     shapeEffect.imageName = "mosaic"
                     windowView.save_overload("mosaic", selectFrame.x + 1,selectFrame.y + 1, selectFrame.width - 2, selectFrame.height - 2)
@@ -1127,7 +1094,7 @@ Item {
             imageIcon.width: 40
             imageName: "straightline"
             visible: false
-            onPressed: {
+            onClicked: {
                 screenArea.enabled = false
                 toolbar.shape.isStraightLine = !toolbar.shape.isStraightLine
             }
@@ -1160,7 +1127,7 @@ Item {
                 onExited: {
                     savetooltip.hide()
                 }
-                onPressed: {
+                onClicked: {
                     save_toolbar.saveId = "save_to_desktop"
                     windowView.set_save_config("save", "save_op","0")
                     toolbar.visible = false
@@ -1182,7 +1149,7 @@ Item {
                 onExited: {
                     savetooltip.hide()
                 }
-                onPressed: {
+                onClicked: {
                     save_toolbar.saveId = "auto_save"
                     windowView.set_save_config("save","save_op","1")
                     toolbar.visible = false
@@ -1204,7 +1171,7 @@ Item {
                 onExited: {
                     savetooltip.hide()
                 }
-                onPressed: {
+                onClicked: {
                     save_toolbar.saveId = "save_to_dir"
                     windowView.set_save_config("save","save_op","2")
                     toolbar.visible = false
@@ -1226,7 +1193,7 @@ Item {
                 onExited: {
                     savetooltip.hide()
                 }
-                onPressed: {
+                onClicked: {
                     save_toolbar.saveId = "save_ClipBoard"
                     windowView.set_save_config("save","save_op","3")
                     toolbar.visible = false
@@ -1247,7 +1214,7 @@ Item {
                 onExited: {
                     savetooltip.hide()
                 }
-                onPressed: {
+                onClicked: {
                     save_toolbar.saveId = "auto_save_ClipBoard"
                     windowView.set_save_config("save","save_op","4")
                     toolbar.visible = false
@@ -1327,7 +1294,7 @@ Item {
                     id: zoomIndicatorImage
                     x: -zoomIndicator.cursorX + (zoomIndicator.width - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue)
                     y: -zoomIndicator.cursorY + (zoomIndicator.height - zoomIndicatorTooltip.marginValue) / (2 * zoomIndicatorClip.scaleValue)
-                    source: "/tmp/deepin-screenshot.png"
+                    source: tmpImageFile
                     smooth: false
                     cache: true
                     asynchronous: true
@@ -1426,6 +1393,7 @@ Item {
     Keys.onPressed: {
         var keyActionMap = {
             "Return": "screen.saveScreenshot()",
+            "Num+Enter": "screen.saveScreenshot()",
             "Alt+1": "button1.state = 'on'",
             "Alt+2": "button2.state = 'on'",
             "Alt+3": "button3.state = 'on'",

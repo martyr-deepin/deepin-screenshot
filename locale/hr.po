@@ -1,69 +1,71 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
+# Translators:
+# Ivica  Kolić <ikoli@yahoo.com>, 2014-2015
+# Ljubo Šimić <aske777@gmail.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-03-27 13:25+0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2015-03-27 05:34+0000\n"
+"Last-Translator: deepin_transifex <xiabin@linuxdeepin.com>\n"
+"Language-Team: Croatian (http://www.transifex.com/projects/p/deepin-screenshot/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: hr\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: ../src/Main.qml:1203 ../src/menu_controller.py:40
 msgid "Save to desktop"
-msgstr ""
+msgstr "Spremi na radnu površinu"
 
 #: ../src/Main.qml:1225 ../src/menu_controller.py:39
 msgid "Autosave"
-msgstr ""
+msgstr "Automatsko spremanje"
 
 #: ../src/Main.qml:1247 ../src/menu_controller.py:42
 msgid "Save to specified folder"
-msgstr ""
+msgstr "Spremi u određenu mapu"
 
 #: ../src/Main.qml:1269 ../src/menu_controller.py:41
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Kopiraj u međuspremnik"
 
 #: ../src/Main.qml:1290 ../src/menu_controller.py:43
 msgid "Autosave and copy to clipboard"
-msgstr ""
+msgstr "Automatski spremi i kopiraj u međuspremnik"
 
 #: ../src/OSD.qml:54
 msgid "Tips"
-msgstr ""
+msgstr "Savjeti"
 
 #: ../src/OSD.qml:65
 msgid "You can use \"Ctrl+Alt+A\" to start the screenshot"
-msgstr ""
+msgstr "Možete koristiti \"Ctrl+Alt+A\" za pokretanje snimke zaslona"
 
 #: ../src/ShortcutsLabel.qml:23
 msgid "None"
-msgstr ""
+msgstr "Nijedan"
 
 #: ../src/ShortcutsViewer.qml:46
 msgid "Start/Screenshot"
-msgstr ""
+msgstr "Start/Snimka zaslona"
 
 #: ../src/ShortcutsViewer.qml:49
 msgid "Quick start"
-msgstr ""
+msgstr "Brzi početak"
 
 #: ../src/ShortcutsViewer.qml:57
 msgid "Delay screenshot"
-msgstr ""
+msgstr "Odgoda snimke zaslona"
 
 #: ../src/ShortcutsViewer.qml:53
 msgid "Full screenshot"
-msgstr ""
+msgstr "Cjelozaslonski snimak zaslona"
 
 #: ../src/ShortcutsViewer.qml:61
 msgid "Smart identifying window"
@@ -71,52 +73,52 @@ msgstr ""
 
 #: ../src/ShortcutsViewer.qml:65 ../src/menu_controller.py:55
 msgid "Exit"
-msgstr ""
+msgstr "Izađi"
 
 #: ../src/ShortcutsViewer.qml:71
 msgid "Save/Share"
-msgstr ""
+msgstr "Spremi/podijeli"
 
 #: ../src/ShortcutsViewer.qml:74 ../src/main.py:352
 #: ../src/menu_controller.py:53
 msgid "Save"
-msgstr ""
+msgstr "Spremi"
 
 #: ../src/ShortcutsViewer.qml:78 ../src/menu_controller.py:54
 msgid "Share"
-msgstr ""
+msgstr "Podijeli"
 
 #: ../src/ShortcutsViewer.qml:86
 msgid "Painting"
-msgstr ""
+msgstr "Bojanje"
 
 #: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:47
 msgid "Rectangle"
-msgstr ""
+msgstr "Pravokutnik"
 
 #: ../src/ShortcutsViewer.qml:93 ../src/menu_controller.py:48
 msgid "Ellipse"
-msgstr ""
+msgstr "Ellipsa"
 
 #: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:49
 msgid "Arrow"
-msgstr ""
+msgstr "Strelica"
 
 #: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:50
 msgid "Brush"
-msgstr ""
+msgstr "Kist"
 
 #: ../src/ShortcutsViewer.qml:105 ../src/menu_controller.py:51
 msgid "Text"
-msgstr ""
+msgstr "Tekst"
 
 #: ../src/ShortcutsViewer.qml:109
 msgid "Color"
-msgstr ""
+msgstr "Boja"
 
 #: ../src/ShortcutsViewer.qml:118
 msgid "Size Adjustment"
-msgstr ""
+msgstr "Prilagodba veličine"
 
 #: ../src/ShortcutsViewer.qml:121
 msgid "Adjust height up"
@@ -137,11 +139,11 @@ msgstr ""
 #: ../src/main.py:104 ../src/main.py:314 ../src/main.py:324 ../src/main.py:452
 #: ../src/main.py:456 ../src/dbus_interfaces.py:66
 msgid "Deepin Screenshot"
-msgstr ""
+msgstr "Deepin snimka zaslona"
 
 #: ../src/main.py:315
 msgid "Picture has been saved to clipboard"
-msgstr ""
+msgstr "Slika je spremljena u međuspremnik"
 
 #: ../src/main.py:325
 #, python-format
@@ -150,11 +152,11 @@ msgstr ""
 
 #: ../src/main.py:325
 msgid "View"
-msgstr ""
+msgstr "Pogled"
 
 #: ../src/main.py:334
 msgid "DeepinScreenshot"
-msgstr ""
+msgstr "Deepinsnimkazaslona"
 
 #: ../src/main.py:453
 msgid "Deepin Screenshot has been started."
@@ -163,4 +165,4 @@ msgstr ""
 #: ../src/main.py:457
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
-msgstr ""
+msgstr "Deepin Snimka zaslona će se pokrenuti za %s sekundi."

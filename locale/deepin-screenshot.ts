@@ -63,23 +63,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>Fullscreen screenshot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
+        <location line="+8"/>
         <source>Delay screenshot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>Intelligent identifying window</source>
+        <location line="-4"/>
+        <source>Full screenshot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Smart identifying window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Quit</source>
+        <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -134,27 +134,27 @@
     </message>
     <message>
         <location line="+9"/>
-        <source>Size adjustment</source>
+        <source>Size Adjustment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Adjust selection height up</source>
+        <source>Adjust height up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Adjust selection height down</source>
+        <source>Adjust height down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Adjust selection height left</source>
+        <source>Adjust width left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Adjust selection height right</source>
+        <source>Adjust width right</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

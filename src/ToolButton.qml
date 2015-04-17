@@ -20,9 +20,9 @@ Item {
     property bool switchable: true
     property var group: null
 
-    signal pressed()
     signal entered()
     signal exited()
+    signal clicked()
     states: [
             State {
                     name : "on"
@@ -76,13 +76,13 @@ Item {
             toolButton.exited()
         }
 
-        onPressed:{
+        onClicked:{
             if (switchable) {
                 toolButton.state = toolButton.state == "on" ? "off" : "on"
             } else {
                 toolButton.state = "on"
             }
-            toolButton.pressed()
+            toolButton.clicked()
         }
     }
 }
