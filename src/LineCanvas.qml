@@ -135,7 +135,11 @@ Item {
                 ctx.strokeStyle = "#01bdff"
                 ctx.stroke()
             }
-
+            if (selected||reSized||rotated) {
+                ctx.shadowBlur = 2
+                ctx.shadowColor = "black"
+                ctx.stroke()
+            }
             // FIXME:
             // below two lines are working as a work-around to get rid of
             // the path we've set to the Context2D, maybe there's a better
