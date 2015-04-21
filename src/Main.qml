@@ -28,6 +28,8 @@ Item {
     }
 
     function saveScreenshot() {
+        toolbar.visible = false
+        selectSizeTooltip.visible = false
         windowView.save_screenshot(selectFrame.x + 1,selectFrame.y + 1,
             selectFrame.width - 2,selectFrame.height - 2)
     }
@@ -205,7 +207,7 @@ Item {
         onDoubleClicked: {
             var pos = windowView.get_cursor_pos()
             if (pos.x >= selectArea.x && pos.x <= selectArea.x + selectArea.width &&
-            pos.y >= selectArea.x && pos.y <= selectArea.y + selectArea.height) {
+            pos.y >= selectArea.y && pos.y <= selectArea.y + selectArea.height) {
                     saveScreenshot()
                 }
         }
