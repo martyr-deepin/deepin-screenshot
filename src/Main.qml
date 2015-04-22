@@ -1368,6 +1368,8 @@ Item {
             if (canvas.shapes[i].selected || canvas.shapes[i].reSized || canvas.shapes[i].rotated) {
                 if (dir == "Left" || dir == "Right" || dir == "Up" || dir == "Down") {
                     var tempPoints = CalcEngine.pointMoveMicro(canvas.shapes[i].mainPoints[0], canvas.shapes[i].mainPoints[1],canvas.shapes[i].mainPoints[2],canvas.shapes[i].mainPoints[3], dir)
+                } else if (dir == "Ctrl+Shift+Left" || dir == "Ctrl+Shift+Right" || dir == "Ctrl+Shift+Up" || dir == "Ctrl+Shift+Down") {
+                    var tempPoints = CalcEngine.pointResizeMicro(canvas.shapes[i].mainPoints[0], canvas.shapes[i].mainPoints[1],canvas.shapes[i].mainPoints[2],canvas.shapes[i].mainPoints[3], dir, false)
                 } else {
                     var tempPoints = CalcEngine.pointResizeMicro(canvas.shapes[i].mainPoints[0], canvas.shapes[i].mainPoints[1],canvas.shapes[i].mainPoints[2],canvas.shapes[i].mainPoints[3], dir)
                 }
@@ -1375,7 +1377,7 @@ Item {
                 canvas.shapes[i].mainPoints[1] = tempPoints[1]
                 canvas.shapes[i].mainPoints[2] = tempPoints[2]
                 canvas.shapes[i].mainPoints[3] = tempPoints[3]
-                if (canvas.shapes[i].shape != "line" && canvas.shapes[i].shape != "arrow") {
+                if (canvas.shapes[i].shape != "line" && canvas.shapes[i].shape != "straightLine" &&canvas.shapes[i].shape != "arrow") {
                     canvas.requestPaint()
                 } else {
                     if (canvas.shapes[i].portion.length == 0) {
@@ -1393,6 +1395,7 @@ Item {
     }
 
     Keys.onPressed: {
+        var minSize = 5
         var keyActionMap = {
             "Return": "screen.saveScreenshot()",
             "Num+Enter": "screen.saveScreenshot()",
@@ -1417,7 +1420,7 @@ Item {
             ",
             "Up":"
                 if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
-                    if (selectArea.y != 0) { selectArea.y = selectArea.y -1 }
+                    if (selectArea.y > 0) { selectArea.y = selectArea.y -1 }
                 } else { microAdjust('Up') }
             ",
             "Down":"
@@ -1427,23 +1430,45 @@ Item {
             ",
             "Ctrl+Left": "
                 if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
-                    if (selectArea.x != 0) { selectArea.x = selectArea.x -1;selectArea.width=selectArea.width+1 }
+                    if (selectArea.x > 0) { selectArea.x = selectArea.x -1;selectArea.width=selectArea.width+1 }
                 } else { microAdjust('Ctrl+Left') }
+            ",
+            "Ctrl+Shift+Left": "
+                var xMax = selectArea.x + selectArea.width
+                if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
+                    if (selectArea.x <= xMax - minSize && selectArea.x +selectArea.width >=minSize) { selectArea.x = selectArea.x + 1;selectArea.width=selectArea.width-1 }
+                } else { microAdjust('Ctrl+Shift+Left') }
             ",
             "Ctrl+Right":"
                 if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
-                    if (selectArea.x+selectArea.width != screenWidth) { selectArea.width = selectArea.width + 1 }
+                    if (selectArea.x+selectArea.width <= screenWidth) { selectArea.width = selectArea.width + 1 }
                 } else { microAdjust('Ctrl+Right') }
+            ",
+            "Ctrl+Shift+Right":"
+                if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
+                    if (selectArea.width >=minSize) { selectArea.width = selectArea.width - 1 }
+                } else { microAdjust('Ctrl+Shift+Right') }
             ",
             "Ctrl+Up":"
                 if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
                     if (selectArea.y != 0) { selectArea.y = selectArea.y -1;selectArea.height=selectArea.height+1 }
                 } else { microAdjust('Ctrl+Up') }
             ",
+            "Ctrl+Shift+Up":"
+                var yMax = selectArea.y + selectArea.height
+                if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
+                    if (selectArea.y <= yMax - minSize && selectArea.y+selectArea.height >=minSize) { selectArea.y = selectArea.y +1;selectArea.height=selectArea.height-1 }
+                } else { microAdjust('Ctrl+Shift+Up') }
+            ",
             "Ctrl+Down":"
                 if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
                     if (selectArea.y+selectArea.height != screenHeight) { selectArea.height = selectArea.height+1 }
                 } else { microAdjust('Ctrl+Down') }
+            ",
+            "Ctrl+Shift+Down":"
+                if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
+                    if (selectArea.height >=minSize) { selectArea.height = selectArea.height-1 }
+                } else { microAdjust('Ctrl+Shift+Down') }
             ",
             "Del":"
                 _deleteShapes()
