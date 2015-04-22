@@ -1352,7 +1352,18 @@ Item {
     Keys.onEscapePressed: {
         windowView.closeWindow()
     }
-    function _deleteShapes() {
+
+    function _popShapes() {
+        var canvas = toolbar.shape
+        var k = canvas.shapes.length
+        if (k>0) {
+            var spliceElement = canvas.shapes.splice(k-1,1)
+            spliceElement[0].destroy()
+        }
+        canvas.requestPaint()
+        screen.focus = true
+    }
+    function _deleteSelectedShapes() {
         var canvas = toolbar.shape
         for (var i = 0; i < canvas.shapes.length; i++) {
             if (canvas.shapes[i].selected == true || canvas.shapes[i].reSized == true
@@ -1472,10 +1483,13 @@ Item {
                 } else { microAdjust('Ctrl+Shift+Down') }
             ",
             "Del":"
-                _deleteShapes()
+                _deleteSelectedShapes()
             ",
-            "Backspace": "
-                _deleteShapes()
+            "Backspace":"
+                _deleteSelectedShapes()
+            ",
+            "Ctrl+Z": "
+                _popShapes()
             "
         }
         var keyStroke = windowView.keyEventToQKeySequenceString(event.modifiers, event.key)
