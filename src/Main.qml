@@ -14,6 +14,7 @@ Item {
 
     property alias pointColorRect: pointColorRect
     property alias selectArea: selectArea
+    property alias selectFrame: selectFrame
     property alias selectResizeCanvas: selectResizeCanvas
     property alias zoomIndicator: zoomIndicator
     property alias selectSizeTooltip: selectSizeTooltip
@@ -30,8 +31,9 @@ Item {
     function saveScreenshot() {
         toolbar.visible = false
         selectSizeTooltip.visible = false
-        windowView.save_screenshot(selectFrame.x + 1,selectFrame.y + 1,
-            selectFrame.width - 2,selectFrame.height - 2)
+        selectFrame.border.color = "transparent"
+        windowView.save_screenshot(selectFrame.x,selectFrame.y,
+            selectFrame.width,selectFrame.height)
     }
 
     function share() {
@@ -1346,7 +1348,6 @@ Item {
             }
         }
     }
-
     focus: true
     Keys.onEscapePressed: {
         windowView.closeWindow()
