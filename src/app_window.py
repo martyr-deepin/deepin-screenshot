@@ -179,12 +179,17 @@ class Window(QQuickView):
     def set_save_config(self,group_name,op_name,op_index):
         self.settings.setOption(group_name, op_name, op_index)
 
-    @pyqtSlot(int,int,int,int)
-    def save_screenshot(self, x, y, width, height):
+    @pyqtSlot(int,int,int,int, int)
+    def save_screenshot(self, x, y, width, height, qualityNumber):
         pixmap = QPixmap.fromImage(self.grabWindow())
         pixmap = pixmap.copy(x, y, width, height)
+        save_quality = qualityNumber*5.0/1000 + 0.5
+        if qualityNumber != 100:
+            pixmap = pixmap.scaled(width*save_quality, height*save_quality,
+                    Qt.KeepAspectRatio, Qt.FastTransformation)
+            pixmap = pixmap.scaled(width, height,
+                    Qt.KeepAspectRatio, Qt.FastTransformation)
         pixmap.save(self.settings.tmpSaveFile)
-
         self.hide()
         self.context.saveScreenshot(pixmap)
 

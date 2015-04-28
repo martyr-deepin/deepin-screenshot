@@ -33,7 +33,7 @@ Item {
         selectSizeTooltip.visible = false
         selectFrame.border.color = "transparent"
         windowView.save_screenshot(selectFrame.x,selectFrame.y,
-            selectFrame.width,selectFrame.height)
+            selectFrame.width,selectFrame.height, save_toolbar.imageQuality)
     }
 
     function share() {
@@ -1115,6 +1115,7 @@ Item {
             visible: false
             property string saveId:"auto_save"
             property int saveItem: 0
+            property int imageQuality: 100
             function last_select_saveItem() {
                 return windowView.get_save_config("save","save_op")
             }
@@ -1228,6 +1229,17 @@ Item {
                 }
             }
         }
+            SaveQuality {
+                id: saveQuality
+                anchors.top: save_toolbar.top
+                anchors.bottom: save_toolbar.bottom
+                anchors.right: toolbar.right
+                anchors.rightMargin: 2
+                visible: save_toolbar.visible
+                onSaveQualityValueChanged: {
+                    save_toolbar.imageQuality = saveQuality.savePictureQuality
+                }
+            }
     }
     RectangularGlow {
         anchors.fill: toolbar
