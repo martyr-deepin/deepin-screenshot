@@ -122,6 +122,21 @@ class ControlCenterInterface(QDBusAbstractInterface):
             except:
                 pass
 
+class FileManagerInterface(QDBusAbstractInterface):
+    def __init__(self):
+        super(FileManagerInterface, self).__init__(
+            "org.freedesktop.FileManager1",
+            "/org/freedesktop/FileManager1",
+            "org.freedesktop.FileManager1",
+            QDBusConnection.sessionBus(),
+            None)
+
+    def showItems(self, items, startupId=""):
+        urize = lambda x: "file://%s" % x.replace("file://", "")
+        uris = QVariant(map(urize, items))
+        uris.convert(QVariant.StringList)
+        self.call("ShowItems", uris, "")
+
 
 hotZoneInterface = HotZoneInterface()
 screenshotInterface = ScreenshotInterface()

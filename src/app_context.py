@@ -38,6 +38,7 @@ from window_info import WindowInfo
 from menu_controller import MenuController
 from dbus_interfaces import controlCenterInterface
 from dbus_interfaces import notificationsInterface
+from dbus_interfaces import FileManagerInterface
 from constants import MAIN_QML, GTK_CLIP
 
 ACTION_ID_OPEN = "id_open"
@@ -76,8 +77,8 @@ class AppContext(QObject):
 
         if self._notificationId == notificationId:
             if actionId == ACTION_ID_OPEN:
-                subprocess.call(["xdg-open",
-                    os.path.dirname(self._fileSaveLocation)])
+                fileManager = FileManagerInterface()
+                fileManager.showItems([self._fileSaveLocation])
             self.finished.emit()
 
     def _notificationClosed(self, notificationId, reason):
