@@ -1234,7 +1234,7 @@ Item {
                 anchors.top: save_toolbar.top
                 anchors.bottom: save_toolbar.bottom
                 anchors.right: toolbar.right
-                anchors.rightMargin: 2
+                anchors.rightMargin: 4
                 visible: save_toolbar.visible
                 onSaveQualityValueChanged: {
                     save_toolbar.imageQuality = saveQuality.savePictureQuality
