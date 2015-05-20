@@ -7,7 +7,9 @@ install:
 	mkdir -p ${DESTDIR}${PREFIX}/share/locale
 	mkdir -p ${DESTDIR}${PREFIX}/share/applications
 	mkdir -p ${DESTDIR}${PREFIX}/share/deepin-screenshot
+	mkdir -p ${DESTDIR}${PREFIX}/share/dman/deepin-screenshot
 	cp -r image sound src ${DESTDIR}${PREFIX}/share/deepin-screenshot
+	cp -r doc/* ${DESTDIR}${PREFIX}/share/dman/deepin-screenshot/
 	cp deepin-screenshot.desktop ${DESTDIR}${PREFIX}/share/applications
 	cp -r locale/mo/* ${DESTDIR}${PREFIX}/share/locale/
 	ln -s ${PREFIX}/share/deepin-screenshot/src/main.py ${DESTDIR}${PREFIX}/bin/deepin-screenshot
