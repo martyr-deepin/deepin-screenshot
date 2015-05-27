@@ -14,6 +14,7 @@ Item {
 
     property alias pointColorRect: pointColorRect
     property alias selectArea: selectArea
+    property alias selectFrame: selectFrame
     property alias selectResizeCanvas: selectResizeCanvas
     property alias zoomIndicator: zoomIndicator
     property alias selectSizeTooltip: selectSizeTooltip
@@ -30,8 +31,9 @@ Item {
     function saveScreenshot() {
         toolbar.visible = false
         selectSizeTooltip.visible = false
-        windowView.save_screenshot(selectFrame.x + 1,selectFrame.y + 1,
-            selectFrame.width - 2,selectFrame.height - 2)
+        selectFrame.border.color = "transparent"
+        windowView.save_screenshot(selectFrame.x,selectFrame.y,
+            selectFrame.width,selectFrame.height, save_toolbar.imageQuality)
     }
 
     function share() {
@@ -1113,6 +1115,7 @@ Item {
             visible: false
             property string saveId:"auto_save"
             property int saveItem: 0
+            property int imageQuality: 100
             function last_select_saveItem() {
                 return windowView.get_save_config("save","save_op")
             }
@@ -1226,6 +1229,17 @@ Item {
                 }
             }
         }
+            SaveQuality {
+                id: saveQuality
+                anchors.top: save_toolbar.top
+                anchors.bottom: save_toolbar.bottom
+                anchors.right: toolbar.right
+                anchors.rightMargin: 4
+                visible: save_toolbar.visible
+                onSaveQualityValueChanged: {
+                    save_toolbar.imageQuality = saveQuality.savePictureQuality
+                }
+            }
     }
     RectangularGlow {
         anchors.fill: toolbar
@@ -1346,12 +1360,22 @@ Item {
             }
         }
     }
-
     focus: true
     Keys.onEscapePressed: {
         windowView.closeWindow()
     }
-    function _deleteShapes() {
+
+    function _popShapes() {
+        var canvas = toolbar.shape
+        var k = canvas.shapes.length
+        if (k>0) {
+            var spliceElement = canvas.shapes.splice(k-1,1)
+            spliceElement[0].destroy()
+        }
+        canvas.requestPaint()
+        screen.focus = true
+    }
+    function _deleteSelectedShapes() {
         var canvas = toolbar.shape
         for (var i = 0; i < canvas.shapes.length; i++) {
             if (canvas.shapes[i].selected == true || canvas.shapes[i].reSized == true
@@ -1368,6 +1392,8 @@ Item {
             if (canvas.shapes[i].selected || canvas.shapes[i].reSized || canvas.shapes[i].rotated) {
                 if (dir == "Left" || dir == "Right" || dir == "Up" || dir == "Down") {
                     var tempPoints = CalcEngine.pointMoveMicro(canvas.shapes[i].mainPoints[0], canvas.shapes[i].mainPoints[1],canvas.shapes[i].mainPoints[2],canvas.shapes[i].mainPoints[3], dir)
+                } else if (dir == "Ctrl+Shift+Left" || dir == "Ctrl+Shift+Right" || dir == "Ctrl+Shift+Up" || dir == "Ctrl+Shift+Down") {
+                    var tempPoints = CalcEngine.pointResizeMicro(canvas.shapes[i].mainPoints[0], canvas.shapes[i].mainPoints[1],canvas.shapes[i].mainPoints[2],canvas.shapes[i].mainPoints[3], dir, false)
                 } else {
                     var tempPoints = CalcEngine.pointResizeMicro(canvas.shapes[i].mainPoints[0], canvas.shapes[i].mainPoints[1],canvas.shapes[i].mainPoints[2],canvas.shapes[i].mainPoints[3], dir)
                 }
@@ -1375,7 +1401,7 @@ Item {
                 canvas.shapes[i].mainPoints[1] = tempPoints[1]
                 canvas.shapes[i].mainPoints[2] = tempPoints[2]
                 canvas.shapes[i].mainPoints[3] = tempPoints[3]
-                if (canvas.shapes[i].shape != "line" && canvas.shapes[i].shape != "arrow") {
+                if (canvas.shapes[i].shape != "line" && canvas.shapes[i].shape != "straightLine" &&canvas.shapes[i].shape != "arrow") {
                     canvas.requestPaint()
                 } else {
                     if (canvas.shapes[i].portion.length == 0) {
@@ -1393,6 +1419,7 @@ Item {
     }
 
     Keys.onPressed: {
+        var minSize = 5
         var keyActionMap = {
             "Return": "screen.saveScreenshot()",
             "Num+Enter": "screen.saveScreenshot()",
@@ -1417,7 +1444,7 @@ Item {
             ",
             "Up":"
                 if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
-                    if (selectArea.y != 0) { selectArea.y = selectArea.y -1 }
+                    if (selectArea.y > 0) { selectArea.y = selectArea.y -1 }
                 } else { microAdjust('Up') }
             ",
             "Down":"
@@ -1427,29 +1454,54 @@ Item {
             ",
             "Ctrl+Left": "
                 if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
-                    if (selectArea.x != 0) { selectArea.x = selectArea.x -1;selectArea.width=selectArea.width+1 }
+                    if (selectArea.x > 0) { selectArea.x = selectArea.x -1;selectArea.width=selectArea.width+1 }
                 } else { microAdjust('Ctrl+Left') }
+            ",
+            "Ctrl+Shift+Left": "
+                var xMax = selectArea.x + selectArea.width
+                if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
+                    if (selectArea.x <= xMax - minSize && selectArea.x +selectArea.width >=minSize) { selectArea.x = selectArea.x + 1;selectArea.width=selectArea.width-1 }
+                } else { microAdjust('Ctrl+Shift+Left') }
             ",
             "Ctrl+Right":"
                 if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
-                    if (selectArea.x+selectArea.width != screenWidth) { selectArea.width = selectArea.width + 1 }
+                    if (selectArea.x+selectArea.width <= screenWidth) { selectArea.width = selectArea.width + 1 }
                 } else { microAdjust('Ctrl+Right') }
+            ",
+            "Ctrl+Shift+Right":"
+                if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
+                    if (selectArea.width >=minSize) { selectArea.width = selectArea.width - 1 }
+                } else { microAdjust('Ctrl+Shift+Right') }
             ",
             "Ctrl+Up":"
                 if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
                     if (selectArea.y != 0) { selectArea.y = selectArea.y -1;selectArea.height=selectArea.height+1 }
                 } else { microAdjust('Ctrl+Up') }
             ",
+            "Ctrl+Shift+Up":"
+                var yMax = selectArea.y + selectArea.height
+                if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
+                    if (selectArea.y <= yMax - minSize && selectArea.y+selectArea.height >=minSize) { selectArea.y = selectArea.y +1;selectArea.height=selectArea.height-1 }
+                } else { microAdjust('Ctrl+Shift+Up') }
+            ",
             "Ctrl+Down":"
                 if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
                     if (selectArea.y+selectArea.height != screenHeight) { selectArea.height = selectArea.height+1 }
                 } else { microAdjust('Ctrl+Down') }
             ",
-            "Del":"
-                _deleteShapes()
+            "Ctrl+Shift+Down":"
+                if (toolbar.shape == undefined ||(toolbar.shape != undefined && toolbar.shape.shapes.length == 0)) {
+                    if (selectArea.height >=minSize) { selectArea.height = selectArea.height-1 }
+                } else { microAdjust('Ctrl+Shift+Down') }
             ",
-            "Backspace": "
-                _deleteShapes()
+            "Del":"
+                _deleteSelectedShapes()
+            ",
+            "Backspace":"
+                _deleteSelectedShapes()
+            ",
+            "Ctrl+Z": "
+                _popShapes()
             "
         }
         var keyStroke = windowView.keyEventToQKeySequenceString(event.modifiers, event.key)
