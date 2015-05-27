@@ -67,7 +67,7 @@ class Window(QQuickView):
 
         self.set_cursor_shape("shape_start_cursor")
         self.setColor(QColor(0, 0, 0, 0))
-        self.setFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+        self.setFlags(Qt.X11BypassWindowManagerHint | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint )
         self.setResizeMode(QQuickView.SizeRootObjectToView)
         self.setFormat(surface_format)
         self.setTitle(_("Deepin screenshot"))
