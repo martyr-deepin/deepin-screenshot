@@ -24,7 +24,7 @@ import tempfile
 
 from PyQt5.QtWidgets import qApp
 from PyQt5.QtCore import QObject, QTimer, QUrl
-from PyQt5.QtMultimedia import QSound
+from PyQt5.QtMultimedia import QSoundEffect
 from PyQt5.QtQml import QQmlApplicationEngine
 
 from i18n import _
@@ -97,9 +97,10 @@ class AppController(QObject):
 
         argValues = processArguments(arguments)
         delay = argValues["delay"]
-
-        self._sound = QSound(SOUND_FILE)
-        self._sound.setLoops(1)
+        self._sound = QSoundEffect()
+        self._sound.setSource(QUrl.fromLocalFile(SOUND_FILE))
+        self._sound.setLoopCount(1)
+        self._sound.setVolume(0.4)
 
         context = AppContext(argValues)
         context.settings = self._createContextSettings()
