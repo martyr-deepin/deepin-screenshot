@@ -31,7 +31,7 @@ def is_service_exist():
     return not session_bus.registerService(DBUS_NAME)
 
 def register_object(object):
-	return session_bus.registerObject(DBUS_PATH, object)
+    return session_bus.registerObject(DBUS_PATH, object)
 
 class ServiceAdaptor(QDBusAbstractAdaptor):
 

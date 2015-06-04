@@ -55,7 +55,7 @@ class AppController(QObject):
         if (self.contexts) or self._osdVisible:
             self._quitTimer.start()
         else:
-            qApp.quit()
+            qApp.exit(0)
 
     def _contextNeedSound(self):
         self._sound.play()
