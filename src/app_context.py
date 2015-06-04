@@ -130,15 +130,6 @@ class AppContext(QObject):
             _("Picture has been saved to %s") % fileName,
             [ACTION_ID_OPEN, _("View")])
 
-    def pictureFormat(self, suffixname):
-        self.pictureformat = ["png","jpg","bmp","jpeg","tiff"]
-        print self.pictureformat
-        valid_format = False
-        for _picformat in self.pictureformat:
-            if suffixname == _picformat:
-                valid_format = True
-        return valid_format
-
     def saveScreenshot(self, pixmap):
         self.needSound.emit()
 
@@ -151,22 +142,8 @@ class AppContext(QObject):
 
         absSavePath = ""
         copyToClipborad = False
-        if savePathValue != "":
-            endName = os.path.basename(savePathValue)
-            if os.path.exists(savePathValue):
-                if endName == "":
-                    absSavePath = os.path.join(os.path.abspath(savePathValue), fileName)
-                else:
-                    absSavePath = os.path.join(os.path.abspath(savePathValue), fileName)
-            else:
-                endname_stuffix = endName.split(".")[-1]
-                if self.pictureFormat(endname_stuffix) and os.path.exists(os.path.dirname(savePathValue)):
-                    absSavePath = os.path.abspath(savePathValue)
-                else:
-                    self.finished.emit()
-            if absSavePath !="":
-                self.savePixmap(pixmap, absSavePath)
-            self.finished.emit()
+        if savePathValue and os.path.exists(os.path.dirname(absSavePath)):
+            absSavePath = os.path.abspath(savePathValue)
         else:
             if save_op_index == 0: #saveId == "save_to_desktop":
                 saveDir = QStandardPaths.writableLocation(
@@ -189,7 +166,7 @@ class AppContext(QObject):
                 absSavePath = os.path.join(saveDir, fileName)
             else: copyToClipborad = True
 
-        if absSavePath!="" or copyToClipborad:
+        if absSavePath or copyToClipborad:
             if copyToClipborad: self.copyPixmap(pixmap)
             if absSavePath: self.savePixmap(pixmap, absSavePath)
         else:

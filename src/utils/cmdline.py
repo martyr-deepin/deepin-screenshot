@@ -23,36 +23,36 @@
 from PyQt5.QtCore import QCommandLineParser, QCommandLineOption
 
 def processArguments(arguments):
-    parser = QCommandLineParser()
-    parser.addHelpOption()
-    parser.addVersionOption()
+	parser = QCommandLineParser()
+	parser.addHelpOption()
+	parser.addVersionOption()
 
-    delayOption = QCommandLineOption(["d", "delay"],
-        "Take a screenshot after NUM seconds", "NUM")
-    fullscreenOption = QCommandLineOption(["f", "fullscreen"],
-        "Take a screenshot of the whole screen")
-    topWindowOption = QCommandLineOption(["w", "top-window"],
-        "Take a screenshot of the most top window")
-    savePathOption = QCommandLineOption(["s", "save-path"],
-            "Specify a path to save the screenshot, a path example: '/home/yourpcname/mypicture.png'", "PATH")
-    startFromDesktopOption = QCommandLineOption(["i", "icon"],
-        "Indicate that this program's started by clicking desktop file.")
+	delayOption = QCommandLineOption(["d", "delay"],
+	    "Take a screenshot after NUM seconds", "NUM")
+	fullscreenOption = QCommandLineOption(["f", "fullscreen"],
+	    "Take a screenshot of the whole screen")
+	topWindowOption = QCommandLineOption(["w", "top-window"],
+	    "Take a screenshot of the most top window")
+	savePathOption = QCommandLineOption(["s", "save-path"],
+	    "Specify a path to save the screenshot", "PATH")
+	startFromDesktopOption = QCommandLineOption(["i", "icon"],
+	    "Indicate that this program's started by clicking desktop file.")
 
-    parser.addOption(delayOption)
-    parser.addOption(fullscreenOption)
-    parser.addOption(topWindowOption)
-    parser.addOption(savePathOption)
-    parser.addOption(startFromDesktopOption)
-    parser.process(arguments)
+	parser.addOption(delayOption)
+	parser.addOption(fullscreenOption)
+	parser.addOption(topWindowOption)
+	parser.addOption(savePathOption)
+	parser.addOption(startFromDesktopOption)
+	parser.process(arguments)
 
-    delay = int(parser.value(delayOption) or 0)
-    fullscreen = bool(parser.isSet(fullscreenOption) or False)
-    topWindow = bool(parser.isSet(topWindowOption) or False)
-    savePath = str(parser.value(savePathOption) or "")
-    startFromDesktop = bool(parser.isSet(startFromDesktopOption) or False)
+	delay = int(parser.value(delayOption) or 0)
+	fullscreen = bool(parser.isSet(fullscreenOption) or False)
+	topWindow = bool(parser.isSet(topWindowOption) or False)
+	savePath = str(parser.value(savePathOption) or "")
+	startFromDesktop = bool(parser.isSet(startFromDesktopOption) or False)
 
-    return {"delay": delay,
-                    "fullscreen": fullscreen,
-                    "topWindow": topWindow,
-                    "savePath": savePath,
-                    "startFromDesktop": startFromDesktop}
+	return {"delay": delay,
+			"fullscreen": fullscreen,
+			"topWindow": topWindow,
+			"savePath": savePath,
+			"startFromDesktop": startFromDesktop}
