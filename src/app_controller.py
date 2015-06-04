@@ -19,7 +19,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+import os
 import tempfile
 
 from PyQt5.QtWidgets import qApp
@@ -34,6 +34,11 @@ from dbus_services import ServiceAdaptor
 from dbus_interfaces import notificationsInterface
 from utils.cmdline import processArguments
 from constants import SOUND_FILE, OSD_QML
+
+
+def validFormat(suffixname):
+    pictureformat = [".bmp",".jpg",".jpeg",".png",".pbm",".pgm",".ppm",".xbm",".xpm"]
+    return suffixname in pictureformat
 
 class AppController(QObject):
     """The main controller of this application."""
@@ -90,13 +95,28 @@ class AppController(QObject):
 
         return settings
 
+
     def runWithArguments(self, arguments):
         for _context in self.contexts:
             if _context.isActive():
-                return
+                return 1
 
         argValues = processArguments(arguments)
         delay = argValues["delay"]
+
+        savePathValue = argValues["savePath"]
+        if savePathValue != "":
+            pic_name = os.path.basename(savePathValue)
+            if pic_name == "":
+                return 1
+            else :
+                if os.path.exists(os.path.dirname(savePathValue)):
+                    pic_name_stuffix = os.path.splitext(pic_name)[1]
+                    if not validFormat(pic_name_stuffix):
+                        return 1
+                else:
+                    return 1
+
         self._sound = QSoundEffect()
         self._sound.setSource(QUrl.fromLocalFile(SOUND_FILE))
         self._sound.setLoopCount(1)
@@ -114,3 +134,5 @@ class AppController(QObject):
             _("Deepin Screenshot will start after %s seconds.") % delay)
 
         QTimer.singleShot(max(0, delay * 1000), context.main)
+
+        return 0

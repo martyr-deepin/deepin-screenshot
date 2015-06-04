@@ -142,7 +142,7 @@ class AppContext(QObject):
 
         absSavePath = ""
         copyToClipborad = False
-        if savePathValue and os.path.exists(os.path.dirname(absSavePath)):
+        if savePathValue != "":
             absSavePath = os.path.abspath(savePathValue)
         else:
             if save_op_index == 0: #saveId == "save_to_desktop":

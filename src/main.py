@@ -49,8 +49,11 @@ if __name__ == "__main__":
         #     _("Deepin Screenshot has been started!"))
     else:
         controller = AppController()
-        controller.runWithArguments(app.arguments())
-        register_object(controller)
 
-        signal.signal(signal.SIGINT, signal.SIG_DFL)
-        sys.exit(app.exec_())
+        returncode = controller.runWithArguments(app.arguments())
+        if returncode == 0:
+            register_object(controller)
+            signal.signal(signal.SIGINT, signal.SIG_DFL)
+            sys.exit(app.exec_())
+        else:
+            sys.exit(1)
