@@ -20,6 +20,7 @@ Item {
     property alias selectSizeTooltip: selectSizeTooltip
     property alias toolbar: toolbar
 
+    property string saveSpecifiedPath: ""
     property var shortcutsViewerId
 
     function get_absolute_cursor_pos() {
@@ -825,7 +826,7 @@ Item {
             }
             SaveButton {
                 id: saveButton
-                visible: ((button1.width*7 +10 + savetooltip.width*savetooltip.visible)>toolbar.width) ? false : true
+                visible: ((button1.width*7 +10 + savetooltip.width*savetooltip.visible)>toolbar.width || okButton.visible) ? false : true
                 /* shapeNum is used to rememer which tool is pressed in toolbar
                  * getToolbar is used to realized the function to get shapeNum*/
                 property var shapeNum
@@ -873,7 +874,7 @@ Item {
             }
             ToolButton {
                 id: shareButton
-                visible: !savetooltip.visible
+                visible: (!savetooltip.visible||!okButton.visible)
                 imageName: "share"
                 onStateChanged: {
                     if (state == "off") { return }
@@ -882,6 +883,19 @@ Item {
                     selectSizeTooltip.visible = false
                     screen.share()
                 }
+            }
+            ToolButton {
+                id: okButton
+                visible: screen.saveSpecifiedPath == "" ? false : true
+                imageName: "ok"
+                onStateChanged: {
+                    if (state == "off") { return }
+
+                    toolbar.visible = false
+                    selectSizeTooltip.visible = false
+                    screen.saveScreenshot()
+                }
+
             }
             ToolButton {
                 visible: !savetooltip.visible

@@ -176,6 +176,7 @@ class AppContext(QObject):
         fullscreenValue = self.argValues["fullscreen"]
         topWindowValue = self.argValues["topWindow"]
         startFromDesktopValue = self.argValues["startFromDesktop"]
+        savePathValue = self.argValues["savePath"]
 
         cursor_pos = QCursor.pos()
         desktop = qApp.desktop()
@@ -241,6 +242,8 @@ class AppContext(QObject):
 
             self.window.setSource(QUrl.fromLocalFile(MAIN_QML))
             self.window.showWindow()
+            rootObject = self.window.rootObject()
+            rootObject.setProperty("saveSpecifiedPath", savePathValue)
 
             self.menu_controller.preMenuShow.connect(self.window.ungrabFocus)
             self.menu_controller.postMenuHide.connect(self.window.grabFocus)
