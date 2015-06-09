@@ -42,6 +42,7 @@ from dbus_interfaces import FileManagerInterface
 from constants import MAIN_QML, GTK_CLIP
 
 ACTION_ID_OPEN = "id_open"
+ACTION_ID_MANUAL = "id_show_manual"
 
 class AppContext(QObject):
     """Every AppContext instance keeps an environment which is different
@@ -58,9 +59,11 @@ class AppContext(QObject):
         self.settings = None
         self.windowInfo = None
         self.window = None
+        self.pixmap = None
 
         self._notificationId = None
         self._fileSaveLocation = None
+        self.callHelpManual = False
 
         self._waitNotificationTimer = QTimer()
         self._waitNotificationTimer.setInterval(10 * 1000)
@@ -74,11 +77,15 @@ class AppContext(QObject):
 
     def _actionInvoked(self, notificationId, actionId):
         self._waitNotificationTimer.stop()
-
         if self._notificationId == notificationId:
+
             if actionId == ACTION_ID_OPEN:
                 fileManager = FileManagerInterface()
                 fileManager.showItems([self._fileSaveLocation])
+            elif actionId == ACTION_ID_MANUAL:
+                subprocess.Popen(["dman", "deepin-screenshot"])
+            self.window.windowClosing.emit()
+            self.window.close()
             self.finished.emit()
 
     def _notificationClosed(self, notificationId, reason):
@@ -126,9 +133,6 @@ class AppContext(QObject):
         pixmap.save(fileName)
 
         self._fileSaveLocation = fileName
-        self._notificationId = self._notify(
-            _("Picture has been saved to %s") % fileName,
-            [ACTION_ID_OPEN, _("View")])
 
     def saveScreenshot(self, pixmap):
         self.needSound.emit()
@@ -169,8 +173,20 @@ class AppContext(QObject):
         if absSavePath or copyToClipborad:
             if copyToClipborad: self.copyPixmap(pixmap)
             if absSavePath: self.savePixmap(pixmap, absSavePath)
+            if not self.callHelpManual:
+                self._notificationId = self._notify(
+                _("Picture has been saved to %s") % fileName,
+                [ACTION_ID_OPEN, _("View")])
+            else:
+                self._notificationId = self._notify(_(" View the help mannual, the picture will be auto saved to %s") % fileName, [ACTION_ID_MANUAL, _("Manual")])
         else:
             self.finished.emit()
+
+    def helpManual(self):
+        self.callHelpManual = True
+        self.saveScreenshot(self.pixmap)
+        self.window.ungrabFocus()
+        self.window.hide()
 
     def main(self):
         fullscreenValue = self.argValues["fullscreen"]
@@ -201,6 +217,8 @@ class AppContext(QObject):
             self._actionInvoked)
         notificationsInterface.NotificationClosed.connect(
             self._notificationClosed)
+
+        self.pixmap = pixmap
 
         if fullscreenValue:
             self.saveScreenshot(pixmap)
@@ -243,6 +261,7 @@ class AppContext(QObject):
             self.window.setSource(QUrl.fromLocalFile(MAIN_QML))
             self.window.showWindow()
             rootObject = self.window.rootObject()
+            rootObject.helpView.connect(self.helpManual)
             rootObject.setProperty("saveSpecifiedPath", savePathValue)
 
             self.menu_controller.preMenuShow.connect(self.window.ungrabFocus)

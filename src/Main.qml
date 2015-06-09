@@ -23,6 +23,8 @@ Item {
     property string saveSpecifiedPath: ""
     property var shortcutsViewerId
 
+    signal helpView()
+
     function get_absolute_cursor_pos() {
         var pos_origin = windowView.get_cursor_pos()
         var pos_absolute = Qt.point(pos_origin.x - selectArea.x, pos_origin.y - selectArea.y)
@@ -1435,6 +1437,7 @@ Item {
     Keys.onPressed: {
         var minSize = 5
         var keyActionMap = {
+            "F1": "screen.helpView()",
             "Return": "screen.saveScreenshot()",
             "Num+Enter": "screen.saveScreenshot()",
             "Alt+1": "button1.state = 'on'",
