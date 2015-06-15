@@ -21,7 +21,7 @@ Item {
             id: leftLabel
             font.pixelSize: 12
             color: saveSlider.labelColor
-            text: dsTr("low")
+            text: dsTr("Low")
         }
         SaveSlider {
             id: save_picture_quality_slider
@@ -41,7 +41,7 @@ Item {
             id: rightLabel
             font.pixelSize: 12
             color: saveSlider.labelColor
-            text: dsTr("high")
+            text: dsTr("High")
         }
     }
 }

@@ -114,23 +114,43 @@ DWindow {
                         title: dsTr("Size Adjustment")
 
                         ShortcutsLabel {
-                            title: dsTr("Adjust height up")
+                            title: dsTr("Increase height up")
                             shortcut: "Ctrl+Up"
                         }
 
                         ShortcutsLabel {
-                            title: dsTr("Adjust height down")
+                            title: dsTr("Increase height down")
                             shortcut: "Ctrl+Down"
                         }
 
                         ShortcutsLabel {
-                            title: dsTr("Adjust width left")
+                            title: dsTr("Increase width left")
                             shortcut: "Ctrl+Left"
                         }
 
                         ShortcutsLabel {
-                            title: dsTr("Adjust width right")
+                            title: dsTr("Increase width right")
                             shortcut: "Ctrl+Right"
+                        }
+
+                        ShortcutsLabel {
+                            title: dsTr("Decrease height up")
+                            shortcut: "Ctrl+Shift+Up"
+                        }
+
+                        ShortcutsLabel {
+                            title: dsTr("Decrease height down")
+                            shortcut: "Ctrl+Shift+Down"
+                        }
+
+                        ShortcutsLabel {
+                            title: dsTr("Decrease width left")
+                            shortcut: "Ctrl+Shift+Left"
+                        }
+
+                        ShortcutsLabel {
+                            title: dsTr("Decrease width right")
+                            shortcut: "Ctrl+Shift+Right"
                         }
                     }
                 }
