@@ -178,7 +178,7 @@ class AppContext(QObject):
                 _("Picture has been saved to %s") % fileName,
                 [ACTION_ID_OPEN, _("View")])
             else:
-                self._notificationId = self._notify(_(" View the help mannual, the picture will be auto saved to %s") % fileName, [ACTION_ID_MANUAL, _("View")])
+                self._notificationId = self._notify(_(" View help manual, the picture is automatically saved."), [ACTION_ID_MANUAL, _("View")])
         else:
             self.finished.emit()
 

@@ -4,8 +4,8 @@ import Deepin.Widgets 1.0
 
 Item {
     id: slider
-    height: 5
-    width: 94
+    height: 3
+    width: 90
 
 
     property real min: -1
@@ -75,7 +75,7 @@ Item {
 
     property real value: min + (max - min) * mousearea.value
     property int grooveWidth: width - handleWidth + 2
-    property int grooveHeight: 8
+    property int grooveHeight: 4
     property int handleWidth: handle.width
 
     onValueChanged: {
