@@ -4,7 +4,7 @@
 <context>
     <name>Main</name>
     <message>
-        <location filename="../src/Main.qml" line="+1203"/>
+        <location filename="../src/Main.qml" line="+1146"/>
         <source>Save to desktop</source>
         <translation type="unfinished"></translation>
     </message>
@@ -32,13 +32,26 @@
 <context>
     <name>OSD</name>
     <message>
-        <location filename="../src/OSD.qml" line="+54"/>
+        <location filename="../src/OSD.qml" line="+59"/>
         <source>Tips</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+11"/>
         <source>You can use &quot;Ctrl+Alt+A&quot; to start the screenshot</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SaveQuality</name>
+    <message>
+        <location filename="../src/SaveQuality.qml" line="+24"/>
+        <source>Low</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>High</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -74,11 +87,6 @@
     </message>
     <message>
         <location line="+8"/>
-        <source>Smart identifying window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -139,22 +147,42 @@
     </message>
     <message>
         <location line="+3"/>
-        <source>Adjust height up</source>
+        <source>Increase height up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Adjust height down</source>
+        <source>Increase height down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Adjust width left</source>
+        <source>Increase width left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>Adjust width right</source>
+        <source>Increase width right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Decrease height up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Decrease height down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Decrease width left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Decrease width right</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
