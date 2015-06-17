@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-27 13:25+0800\n"
-"PO-Revision-Date: 2015-04-03 14:23+0000\n"
-"Last-Translator: Massimo Antonio Carofano <real.massimo@hotmail.it>\n"
+"POT-Creation-Date: 2015-06-18 15:20+0800\n"
+"PO-Revision-Date: 2015-06-19 00:47+0000\n"
+"Last-Translator: deepin_transifex <xiabin@linuxdeepin.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/deepin-screenshot/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,33 +20,41 @@ msgstr ""
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/Main.qml:1203 ../src/menu_controller.py:40
+#: ../src/Main.qml:1146 ../src/menu_controller.py:39
 msgid "Save to desktop"
 msgstr "Salva sul desktop"
 
-#: ../src/Main.qml:1225 ../src/menu_controller.py:39
+#: ../src/Main.qml:1168 ../src/menu_controller.py:40
 msgid "Autosave"
 msgstr "Salvataggio automatico"
 
-#: ../src/Main.qml:1247 ../src/menu_controller.py:42
+#: ../src/Main.qml:1190 ../src/menu_controller.py:41
 msgid "Save to specified folder"
 msgstr "Salva con nome"
 
-#: ../src/Main.qml:1269 ../src/menu_controller.py:41
+#: ../src/Main.qml:1212 ../src/menu_controller.py:42
 msgid "Copy to clipboard"
 msgstr "Copia negli appunti"
 
-#: ../src/Main.qml:1290 ../src/menu_controller.py:43
+#: ../src/Main.qml:1233 ../src/menu_controller.py:43
 msgid "Autosave and copy to clipboard"
 msgstr "Salva e copia negli appunti"
 
-#: ../src/OSD.qml:54
+#: ../src/OSD.qml:59
 msgid "Tips"
 msgstr "Consiglio"
 
-#: ../src/OSD.qml:65
+#: ../src/OSD.qml:70
 msgid "You can use \"Ctrl+Alt+A\" to start the screenshot"
 msgstr "Usa  \"Ctrl+Alt+A\" per ottenere uno screenshot"
+
+#: ../src/SaveQuality.qml:24
+msgid "Low"
+msgstr "Basso"
+
+#: ../src/SaveQuality.qml:44
+msgid "High"
+msgstr "Alto"
 
 #: ../src/ShortcutsLabel.qml:23
 msgid "None"
@@ -68,102 +76,114 @@ msgstr "Screenshot ritardato"
 msgid "Full screenshot"
 msgstr "Screenshot intero"
 
-#: ../src/ShortcutsViewer.qml:61
-msgid "Smart identifying window"
-msgstr "Identificazione intelligente della finestra"
-
-#: ../src/ShortcutsViewer.qml:65 ../src/menu_controller.py:55
+#: ../src/ShortcutsViewer.qml:61 ../src/menu_controller.py:55
 msgid "Exit"
 msgstr "Esci"
 
-#: ../src/ShortcutsViewer.qml:71
+#: ../src/ShortcutsViewer.qml:67
 msgid "Save/Share"
 msgstr "Salva/Condividi"
 
-#: ../src/ShortcutsViewer.qml:74 ../src/main.py:352
-#: ../src/menu_controller.py:53
+#: ../src/ShortcutsViewer.qml:70 ../src/menu_controller.py:53
+#: ../src/app_context.py:162
 msgid "Save"
 msgstr "Salva"
 
-#: ../src/ShortcutsViewer.qml:78 ../src/menu_controller.py:54
+#: ../src/ShortcutsViewer.qml:74 ../src/menu_controller.py:54
 msgid "Share"
 msgstr "Condividi"
 
-#: ../src/ShortcutsViewer.qml:86
+#: ../src/ShortcutsViewer.qml:82
 msgid "Painting"
 msgstr "Disegna"
 
-#: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:47
+#: ../src/ShortcutsViewer.qml:85 ../src/menu_controller.py:47
 msgid "Rectangle"
 msgstr "Rettangolo"
 
-#: ../src/ShortcutsViewer.qml:93 ../src/menu_controller.py:48
+#: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:48
 msgid "Ellipse"
 msgstr "Ellisse"
 
-#: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:49
+#: ../src/ShortcutsViewer.qml:93 ../src/menu_controller.py:49
 msgid "Arrow"
 msgstr "Freccia"
 
-#: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:50
+#: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:50
 msgid "Brush"
 msgstr "Spazzola"
 
-#: ../src/ShortcutsViewer.qml:105 ../src/menu_controller.py:51
+#: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:51
 msgid "Text"
 msgstr "Testo"
 
-#: ../src/ShortcutsViewer.qml:109
+#: ../src/ShortcutsViewer.qml:105
 msgid "Color"
 msgstr "Colore"
 
-#: ../src/ShortcutsViewer.qml:118
+#: ../src/ShortcutsViewer.qml:114
 msgid "Size Adjustment"
 msgstr "Aggiusta dimensioni"
 
-#: ../src/ShortcutsViewer.qml:121
-msgid "Adjust height up"
-msgstr "Aumenta altezza selezione"
+#: ../src/ShortcutsViewer.qml:117
+msgid "Increase height up"
+msgstr "Aumenta altezza"
 
-#: ../src/ShortcutsViewer.qml:126
-msgid "Adjust height down"
-msgstr "Diminuisci altezza selezione"
+#: ../src/ShortcutsViewer.qml:122
+msgid "Increase height down"
+msgstr "Diminuisci altezza"
 
-#: ../src/ShortcutsViewer.qml:131
-msgid "Adjust width left"
-msgstr "Aumenta selezione verso sinistra"
+#: ../src/ShortcutsViewer.qml:127
+msgid "Increase width left"
+msgstr "Aumenta verso sinistra"
 
-#: ../src/ShortcutsViewer.qml:136
-msgid "Adjust width right"
-msgstr "Aumenta selezione verso destra"
+#: ../src/ShortcutsViewer.qml:132
+msgid "Increase width right"
+msgstr "Aumenta verso destra"
 
-#: ../src/main.py:104 ../src/main.py:314 ../src/main.py:324 ../src/main.py:452
-#: ../src/main.py:456 ../src/dbus_interfaces.py:66
+#: ../src/ShortcutsViewer.qml:137
+msgid "Decrease height up"
+msgstr "Diminuisci altezza sopra"
+
+#: ../src/ShortcutsViewer.qml:142
+msgid "Decrease height down"
+msgstr "Diminuisci altezza sotto"
+
+#: ../src/ShortcutsViewer.qml:147
+msgid "Decrease width left"
+msgstr "Diminuisci da sinistra"
+
+#: ../src/ShortcutsViewer.qml:152
+msgid "Decrease width right"
+msgstr "Diminuisci da destra"
+
+#: ../src/app_context.py:75 ../src/app_controller.py:133
+#: ../src/app_window.py:73 ../src/dbus_interfaces.py:80
 msgid "Deepin Screenshot"
 msgstr "Deepin Screenshot"
 
-#: ../src/main.py:315
+#: ../src/app_context.py:130
 msgid "Picture has been saved to clipboard"
 msgstr "Immagine copiata negli appunti"
 
-#: ../src/main.py:325
+#: ../src/app_context.py:142
+msgid "DeepinScreenshot"
+msgstr "DeepinScreenshot"
+
+#: ../src/app_context.py:178
 #, python-format
 msgid "Picture has been saved to %s"
 msgstr "Immagine salvata in %s"
 
-#: ../src/main.py:325
+#: ../src/app_context.py:179 ../src/app_context.py:181
 msgid "View"
 msgstr "Visualizza"
 
-#: ../src/main.py:334
-msgid "DeepinScreenshot"
-msgstr "DeepinScreenshot"
+#: ../src/app_context.py:181
+msgid " View Manual, the picture is automatically saved."
+msgstr ""
 
-#: ../src/main.py:453
-msgid "Deepin Screenshot has been started."
-msgstr "Deepin Screenshot è stato avviato."
-
-#: ../src/main.py:457
+#: ../src/app_controller.py:134
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
 msgstr "Deepin Screenshot si avvierà tra %s secondi."
