@@ -876,7 +876,7 @@ Item {
             }
             ToolButton {
                 id: shareButton
-                visible: (!savetooltip.visible||!okButton.visible)
+                visible: ((button1.width*6 +10 + savetooltip.width*savetooltip.visible)>toolbar.width || okButton.visible) ? false : true
                 imageName: "share"
                 onStateChanged: {
                     if (state == "off") { return }
