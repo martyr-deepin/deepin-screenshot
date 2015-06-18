@@ -70,7 +70,7 @@ class Window(QQuickView):
         self.setFlags(Qt.X11BypassWindowManagerHint | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint )
         self.setResizeMode(QQuickView.SizeRootObjectToView)
         self.setFormat(surface_format)
-        self.setTitle(_("Deepin screenshot"))
+        self.setTitle(_("Deepin Screenshot"))
 
         self.qimage = QImage(self.settings.tmpImageFile)
         self.qpixmap = QPixmap()

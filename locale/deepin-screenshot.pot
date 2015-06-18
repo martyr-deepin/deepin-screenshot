@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-17 15:56+0800\n"
+"POT-Creation-Date: 2015-06-18 15:20+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -155,7 +155,7 @@ msgid "Decrease width right"
 msgstr ""
 
 #: ../src/app_context.py:75 ../src/app_controller.py:133
-#: ../src/dbus_interfaces.py:80
+#: ../src/app_window.py:73 ../src/dbus_interfaces.py:80
 msgid "Deepin Screenshot"
 msgstr ""
 
@@ -177,14 +177,10 @@ msgid "View"
 msgstr ""
 
 #: ../src/app_context.py:181
-msgid " View help manual, the picture is automatically saved."
+msgid " View Manual, the picture is automatically saved."
 msgstr ""
 
 #: ../src/app_controller.py:134
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
-msgstr ""
-
-#: ../src/app_window.py:73
-msgid "Deepin screenshot"
 msgstr ""
