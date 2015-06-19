@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-25 13:29+0800\n"
-"PO-Revision-Date: 2015-03-25 06:11+0000\n"
-"Last-Translator: deepin_transifex <xiabin@linuxdeepin.com>\n"
+"POT-Creation-Date: 2015-03-27 13:25+0800\n"
+"PO-Revision-Date: 2015-04-19 10:22+0000\n"
+"Last-Translator: fri\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/deepin-screenshot/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -72,7 +72,7 @@ msgstr "Plný snímek obrazovky"
 
 #: ../src/ShortcutsViewer.qml:61
 msgid "Smart identifying window"
-msgstr ""
+msgstr "Chytré rozpoznání okna"
 
 #: ../src/ShortcutsViewer.qml:65 ../src/menu_controller.py:55
 msgid "Exit"
@@ -82,7 +82,7 @@ msgstr "Ukončit"
 msgid "Save/Share"
 msgstr "Uložit/Sdílet"
 
-#: ../src/ShortcutsViewer.qml:74 ../src/main.py:349
+#: ../src/ShortcutsViewer.qml:74 ../src/main.py:352
 #: ../src/menu_controller.py:53
 msgid "Save"
 msgstr "Uložit"
@@ -121,54 +121,51 @@ msgstr "Barva"
 
 #: ../src/ShortcutsViewer.qml:118
 msgid "Size Adjustment"
-msgstr ""
+msgstr "Upravení velikosti"
 
 #: ../src/ShortcutsViewer.qml:121
 msgid "Adjust height up"
-msgstr ""
+msgstr "Upravit výšku nahoru"
 
 #: ../src/ShortcutsViewer.qml:126
 msgid "Adjust height down"
-msgstr ""
+msgstr "Upravit výšku dolů"
 
 #: ../src/ShortcutsViewer.qml:131
-msgid "Adjust height left"
-msgstr ""
+msgid "Adjust width left"
+msgstr "Upravit šířku vlevo"
 
 #: ../src/ShortcutsViewer.qml:136
-msgid "Adjust height right"
-msgstr ""
+msgid "Adjust width right"
+msgstr "Upravit šířku vpravo"
 
-#: ../src/main.py:104 ../src/main.py:311 ../src/main.py:321 ../src/main.py:447
-#: ../src/main.py:451
+#: ../src/main.py:104 ../src/main.py:314 ../src/main.py:324 ../src/main.py:452
+#: ../src/main.py:456 ../src/dbus_interfaces.py:66
 msgid "Deepin Screenshot"
 msgstr "Snímek obrazovky"
 
-#: ../src/main.py:312
+#: ../src/main.py:315
 msgid "Picture has been saved to clipboard"
 msgstr "Obrázek byl uložen do schránky"
 
-#: ../src/main.py:322
-msgid "Picture has been saved to"
-msgstr "Obrázek byl uložen do"
+#: ../src/main.py:325
+#, python-format
+msgid "Picture has been saved to %s"
+msgstr "Obrázek byl uložen do %s"
 
-#: ../src/main.py:322
+#: ../src/main.py:325
 msgid "View"
 msgstr "Pohled"
 
-#: ../src/main.py:331
+#: ../src/main.py:334
 msgid "DeepinScreenshot"
 msgstr "Snímek obrazovky"
 
-#: ../src/main.py:448
+#: ../src/main.py:453
 msgid "Deepin Screenshot has been started."
-msgstr ""
+msgstr "Deepin Screenshot byl spuštěn."
 
-#: ../src/main.py:452
+#: ../src/main.py:457
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
 msgstr "Deepin Screenshot se spustí za %s sekund."
-
-#: ../src/dbus_interfaces.py:66
-msgid "Deepin screenshot"
-msgstr "Snímek obrazovky"

@@ -3,96 +3,97 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# 4goodapp <4goodapp@gmail.com>, 2014
-# lexross <its4moi@gmail.com>, 2014
-# lexross <its4moi@gmail.com>, 2014-2015
-# Tristan Denni <tristan.denni@viacesi.fr>, 2014
+# diegos91, 2014
+# electricface <songwentai@linuxdeepin.com>, 2013
+# Jean Rivas <jeancarlosrivas@gmail.com>, 2013
+# jose manuel <josemdance@outlook.com>, 2014-2015
+# jose manuel <josemdance@outlook.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-03-27 13:25+0800\n"
-"PO-Revision-Date: 2015-04-19 11:37+0000\n"
-"Last-Translator: lexross <its4moi@gmail.com>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/deepin-screenshot/language/fr/)\n"
+"PO-Revision-Date: 2015-05-01 01:53+0000\n"
+"Last-Translator: jose manuel <josemdance@outlook.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/deepin-screenshot/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/Main.qml:1203 ../src/menu_controller.py:40
 msgid "Save to desktop"
-msgstr "Enregistrer au bureau"
+msgstr "Guardar en el escritorio"
 
 #: ../src/Main.qml:1225 ../src/menu_controller.py:39
 msgid "Autosave"
-msgstr "Autosauvegarde"
+msgstr "Autoguardar"
 
 #: ../src/Main.qml:1247 ../src/menu_controller.py:42
 msgid "Save to specified folder"
-msgstr "Enregistrer sous"
+msgstr "Save to specified folder"
 
 #: ../src/Main.qml:1269 ../src/menu_controller.py:41
 msgid "Copy to clipboard"
-msgstr "Copier dans le presse-papiers"
+msgstr "Copiar en el portapapeles"
 
 #: ../src/Main.qml:1290 ../src/menu_controller.py:43
 msgid "Autosave and copy to clipboard"
-msgstr "Sauvegarder et copier dans le presse-papiers"
+msgstr "Autoguardar y copiar al portapapeles"
 
 #: ../src/OSD.qml:54
 msgid "Tips"
-msgstr "Astuces"
+msgstr "Consejos"
 
 #: ../src/OSD.qml:65
 msgid "You can use \"Ctrl+Alt+A\" to start the screenshot"
-msgstr "Faites Ctrl+Alt+A pour démarrer la capture d'écran."
+msgstr "Puedes usar \"Ctrl + Alt + A\" para iniciar la captura de pantalla"
 
 #: ../src/ShortcutsLabel.qml:23
 msgid "None"
-msgstr "Aucun"
+msgstr "Ninguno"
 
 #: ../src/ShortcutsViewer.qml:46
 msgid "Start/Screenshot"
-msgstr "Démarrer/Capture d'écran"
+msgstr "Inicio/captura de pantalla"
 
 #: ../src/ShortcutsViewer.qml:49
 msgid "Quick start"
-msgstr "Démarrage rapide"
+msgstr "Guia"
 
 #: ../src/ShortcutsViewer.qml:57
 msgid "Delay screenshot"
-msgstr "Délai de capture d'écran"
+msgstr "Retraso de captura de pantalla"
 
 #: ../src/ShortcutsViewer.qml:53
 msgid "Full screenshot"
-msgstr "Capture d'écran complète"
+msgstr "Captura de Pantalla Completa"
 
 #: ../src/ShortcutsViewer.qml:61
 msgid "Smart identifying window"
-msgstr "Fenêtre d'identification"
+msgstr "Ventana Identificación inteligente"
 
 #: ../src/ShortcutsViewer.qml:65 ../src/menu_controller.py:55
 msgid "Exit"
-msgstr "Arrêter"
+msgstr "Salir"
 
 #: ../src/ShortcutsViewer.qml:71
 msgid "Save/Share"
-msgstr "Sauver/Partager"
+msgstr "Guardar/compartir"
 
 #: ../src/ShortcutsViewer.qml:74 ../src/main.py:352
 #: ../src/menu_controller.py:53
 msgid "Save"
-msgstr "Sauvegarder"
+msgstr "Guardar"
 
 #: ../src/ShortcutsViewer.qml:78 ../src/menu_controller.py:54
 msgid "Share"
-msgstr "Partager"
+msgstr "Compartir"
 
 #: ../src/ShortcutsViewer.qml:86
 msgid "Painting"
-msgstr "Peinture"
+msgstr "Pintura"
 
 #: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:47
 msgid "Rectangle"
@@ -104,67 +105,67 @@ msgstr "Ellipse"
 
 #: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:49
 msgid "Arrow"
-msgstr "Flèche"
+msgstr "Flecha"
 
 #: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:50
 msgid "Brush"
-msgstr "Brosse"
+msgstr "Cepillo"
 
 #: ../src/ShortcutsViewer.qml:105 ../src/menu_controller.py:51
 msgid "Text"
-msgstr "Texte"
+msgstr "Texto"
 
 #: ../src/ShortcutsViewer.qml:109
 msgid "Color"
-msgstr "Couleur"
+msgstr "Color"
 
 #: ../src/ShortcutsViewer.qml:118
 msgid "Size Adjustment"
-msgstr "Définir taille"
+msgstr "Ajuste del tamaño"
 
 #: ../src/ShortcutsViewer.qml:121
 msgid "Adjust height up"
-msgstr "Réglez taille du haut"
+msgstr "Ajustar la altura para arriba"
 
 #: ../src/ShortcutsViewer.qml:126
 msgid "Adjust height down"
-msgstr "Réglez taille du bas"
+msgstr "Ajuste la altura de abajo"
 
 #: ../src/ShortcutsViewer.qml:131
 msgid "Adjust width left"
-msgstr "Régler taille gauche"
+msgstr "Ajustar ancho izquierdo"
 
 #: ../src/ShortcutsViewer.qml:136
 msgid "Adjust width right"
-msgstr "Régler taille droite"
+msgstr "Ajustar bien ancho"
 
 #: ../src/main.py:104 ../src/main.py:314 ../src/main.py:324 ../src/main.py:452
 #: ../src/main.py:456 ../src/dbus_interfaces.py:66
 msgid "Deepin Screenshot"
-msgstr "Capture d'écran de Deepin"
+msgstr "Captura de pantalla Deepin"
 
 #: ../src/main.py:315
 msgid "Picture has been saved to clipboard"
-msgstr "L'image a été sauvegardée dans le presse-papiers"
+msgstr "La Imagen se ha guardado en el portapapeles"
 
 #: ../src/main.py:325
 #, python-format
 msgid "Picture has been saved to %s"
-msgstr "L'image a été sauvegardée dans %s"
+msgstr "Imagen se ha guardado para %s"
 
 #: ../src/main.py:325
 msgid "View"
-msgstr "Vue"
+msgstr "Ver"
 
 #: ../src/main.py:334
 msgid "DeepinScreenshot"
-msgstr "CaptureÉcranDeepin"
+msgstr "DeepinScreenshot"
 
 #: ../src/main.py:453
 msgid "Deepin Screenshot has been started."
-msgstr "Deepin Screenshot a été lancé."
+msgstr "Deepin Screenshot se ha iniciado."
 
 #: ../src/main.py:457
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
-msgstr "Deepin Screenshot va démarrer dans %s secondes."
+msgstr "Deepin Screenshot comenzará después de %s segundos."
