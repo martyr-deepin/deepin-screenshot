@@ -1245,17 +1245,21 @@ Item {
                 }
             }
         }
-            SaveQuality {
-                id: saveQuality
-                anchors.top: save_toolbar.top
-                anchors.bottom: save_toolbar.bottom
-                anchors.right: toolbar.right
-                anchors.rightMargin: 4
-                visible: save_toolbar.visible
-                onSaveQualityValueChanged: {
-                    save_toolbar.imageQuality = saveQuality.savePictureQuality
-                }
+        SaveQuality {
+            id: saveQuality
+
+            anchors.top: save_toolbar.top
+            anchors.bottom: save_toolbar.bottom
+            anchors.left: save_toolbar.right
+            anchors.leftMargin: 5
+            anchors.right: toolbar.right
+
+            visible: save_toolbar.visible
+
+            onSaveQualityValueChanged: {
+                save_toolbar.imageQuality = saveQuality.savePictureQuality
             }
+        }
     }
     RectangularGlow {
         anchors.fill: toolbar
