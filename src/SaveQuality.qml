@@ -17,7 +17,6 @@ Item {
 
     Text {
         id: leftLabel
-        width: 8
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.topMargin: 5
@@ -30,8 +29,8 @@ Item {
         height: 12
 
         anchors.fill: parent
-        anchors.leftMargin: leftLabel.width + 3
-        anchors.rightMargin: rightLabel.width + 10
+        anchors.leftMargin: leftLabel.width
+        anchors.rightMargin: rightLabel.width + 2
         min: saveMinIndex
         max: saveMaxIndex
         completeColorVisible: true
@@ -44,9 +43,8 @@ Item {
     }
     Text {
         id: rightLabel
-        width: 8
         anchors.right: parent.right
-        anchors.rightMargin: 10
+        anchors.rightMargin: 3
         anchors.top: parent.top
         anchors.topMargin: 5
         font.pixelSize: 12
