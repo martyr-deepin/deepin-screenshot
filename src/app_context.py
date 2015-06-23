@@ -25,7 +25,6 @@ import time
 import tempfile
 import subprocess
 from weakref import ref
-from functools import partial
 
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import qApp, QFileDialog
@@ -72,8 +71,8 @@ class AppContext(QObject):
 
     def _notify(self, *args, **kwargs):
         self._waitNotificationTimer.start()
-        notify = partial(notificationsInterface.notify, _("Deepin Screenshot"))
-        return notify(*args, **kwargs)
+        return notificationsInterface.notify(_("Deepin Screenshot"), *args,
+                                             **kwargs)
 
     def _actionInvoked(self, notificationId, actionId):
         self._waitNotificationTimer.stop()
@@ -171,22 +170,27 @@ class AppContext(QObject):
             else: copyToClipborad = True
 
         if absSavePath or copyToClipborad:
-            if copyToClipborad: self.copyPixmap(pixmap)
-            if absSavePath: self.savePixmap(pixmap, absSavePath)
+            if copyToClipborad:
+                self.copyPixmap(pixmap)
+            if absSavePath:
+                self.savePixmap(pixmap, absSavePath)
+
             if not self.callHelpManual:
                 self._notificationId = self._notify(
-                _("Picture has been saved to %s") % fileName,
-                [ACTION_ID_OPEN, _("View")])
+                        _("Picture has been saved to %s") % fileName,
+                        [ACTION_ID_OPEN, _("View")])
             else:
-                self._notificationId = self._notify(_(" View Manual, the picture is automatically saved."), [ACTION_ID_MANUAL, _("View")])
+                self._notificationId = self._notify(
+                        _(" View Manual, the picture is automatically saved."),
+                        [ACTION_ID_MANUAL, _("View")])
         else:
             self.finished.emit()
 
     def helpManual(self):
         self.callHelpManual = True
-        self.saveScreenshot(self.pixmap)
         self.window.ungrabFocus()
         self.window.hide()
+        self.saveScreenshot(self.pixmap)
 
     def main(self):
         fullscreenValue = self.argValues["fullscreen"]
