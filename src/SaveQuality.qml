@@ -17,10 +17,10 @@ Item {
 
     Text {
         id: leftLabel
-        width: 20
-        height: parent.height
+
         anchors.left: parent.left
-        verticalAlignment: Text.AlignVCenter
+        anchors.top: parent.top
+        anchors.topMargin: 6
         font.pixelSize: 12
         color: saveSlider.labelColor
         text: dsTr("Low")
@@ -31,7 +31,7 @@ Item {
 
         anchors.fill: parent
         anchors.leftMargin: leftLabel.width
-        anchors.rightMargin: rightLabel.width + 12
+        anchors.rightMargin: rightLabel.width + 2
         min: saveMinIndex
         max: saveMaxIndex
         completeColorVisible: true
@@ -44,11 +44,12 @@ Item {
     }
     Text {
         id: rightLabel
-        width: 20
+
         height: parent.height
         anchors.right: parent.right
-        anchors.rightMargin: 10
-        verticalAlignment: Text.AlignVCenter
+        anchors.rightMargin: 3
+        anchors.top: parent.top
+        anchors.topMargin: 6
         font.pixelSize: 12
         color: saveSlider.labelColor
         text: dsTr("High")
