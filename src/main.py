@@ -33,7 +33,7 @@ from PyQt5.QtWidgets import QApplication
 app = QApplication(sys.argv)
 app.setOrganizationName("Deepin")
 app.setApplicationName("Deepin Screenshot")
-app.setApplicationVersion("3.0")
+app.setApplicationVersion("3.1.0")
 app.setQuitOnLastWindowClosed(False)
 
 from app_controller import AppController
