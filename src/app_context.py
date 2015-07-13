@@ -173,13 +173,14 @@ class AppContext(QObject):
             if copyToClipborad:
                 self.copyPixmap(pixmap)
             if absSavePath:
+                copyToClipborad = False
                 self.savePixmap(pixmap, absSavePath)
 
-            if not self.callHelpManual:
+            if not self.callHelpManual and not copyToClipborad:
                 self._notificationId = self._notify(
                         _("Picture has been saved to %s") % absSavePath,
                         [ACTION_ID_OPEN, _("View")])
-            else:
+            if self.callHelpManual:
                 self._notificationId = self._notify(
                         _(" View Manual, the picture is automatically saved."),
                         [ACTION_ID_MANUAL, _("View")])
