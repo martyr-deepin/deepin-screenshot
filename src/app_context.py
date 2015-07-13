@@ -177,7 +177,7 @@ class AppContext(QObject):
 
             if not self.callHelpManual:
                 self._notificationId = self._notify(
-                        _("Picture has been saved to %s") % fileName,
+                        _("Picture has been saved to %s") % absSavePath,
                         [ACTION_ID_OPEN, _("View")])
             else:
                 self._notificationId = self._notify(
