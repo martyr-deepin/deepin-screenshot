@@ -16,10 +16,6 @@ Depends: ${misc:Depends},
  python-wnck,
  python-xpybutil,
  deepin-social-sharing,
- python3-dae,
- python3-gi,
- python3-jieba,
  deepin-qml-widgets,
- python3-pyqt5.qtwebkit,
- python3-pyqt5.qtquick
+ deepin-manual
 Description: Advanced screen shoting tool
