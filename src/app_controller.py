@@ -34,6 +34,7 @@ from dbus_services import ServiceAdaptor
 from dbus_interfaces import notificationsInterface
 from utils.cmdline import processArguments
 from constants import SOUND_FILE, OSD_QML
+from safe_timer import SafeTimer
 
 
 def validFormat(suffixname):
@@ -132,7 +133,9 @@ class AppController(QObject):
         if delay > 0:
             notificationsInterface.notify(_("Deepin Screenshot"),
             _("Deepin Screenshot will start after %s seconds.") % delay)
-
-        QTimer.singleShot(max(0, delay * 1000), context.main)
+            '''If run the program frequently, the QTimer sometimes do not invoke the event, so replace QTimer with SafeTimer'''
+            SafeTimer.singleShot(delay, context.main)
+        else:
+            context.main()
 
         return 0
