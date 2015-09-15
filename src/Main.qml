@@ -1440,7 +1440,7 @@ Item {
     Keys.onPressed: {
         var minSize = 5
         var keyActionMap = {
-            //"F1": "screen.helpView()",
+            "F1": "screen.helpView()",
             "Return": "screen.saveScreenshot()",
             "Num+Enter": "screen.saveScreenshot()",
             "Alt+1": "button1.state = 'on'",
