@@ -37,11 +37,14 @@ def processArguments(arguments):
 	    "Specify a path to save the screenshot", "PATH")
 	startFromDesktopOption = QCommandLineOption(["i", "icon"],
 	    "Indicate that this program's started by clicking desktop file.")
+	noNotificationOption = QCommandLineOption(["n", "no-notification"],
+	    "Don't send notifications.")
 
 	parser.addOption(delayOption)
 	parser.addOption(fullscreenOption)
 	parser.addOption(topWindowOption)
 	parser.addOption(savePathOption)
+	parser.addOption(noNotificationOption)
 	parser.addOption(startFromDesktopOption)
 	parser.process(arguments)
 
@@ -50,9 +53,11 @@ def processArguments(arguments):
 	topWindow = bool(parser.isSet(topWindowOption) or False)
 	savePath = str(parser.value(savePathOption) or "")
 	startFromDesktop = bool(parser.isSet(startFromDesktopOption) or False)
+	noNotification = bool(parser.isSet(noNotificationOption) or False)
 
 	return {"delay": delay,
 			"fullscreen": fullscreen,
 			"topWindow": topWindow,
 			"savePath": savePath,
-			"startFromDesktop": startFromDesktop}
+			"startFromDesktop": startFromDesktop,
+			"noNotification": noNotification}

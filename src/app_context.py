@@ -70,9 +70,13 @@ class AppContext(QObject):
         self._waitNotificationTimer.timeout.connect(self.finished)
 
     def _notify(self, *args, **kwargs):
-        self._waitNotificationTimer.start()
-        return notificationsInterface.notify(_("Deepin Screenshot"), *args,
-                                             **kwargs)
+        noNotificationValue = self.argValues["noNotification"]
+        if noNotificationValue:
+            self.finished.emit()
+        else:
+            self._waitNotificationTimer.start()
+            return notificationsInterface.notify(_("Deepin Screenshot"),
+                                                 *args, **kwargs)
 
     def _actionInvoked(self, notificationId, actionId):
         self._waitNotificationTimer.stop()
@@ -199,6 +203,7 @@ class AppContext(QObject):
         topWindowValue = self.argValues["topWindow"]
         startFromDesktopValue = self.argValues["startFromDesktop"]
         savePathValue = self.argValues["savePath"]
+        noNotificationValue = self.argValues["noNotification"]
 
         cursor_pos = QCursor.pos()
         desktop = qApp.desktop()
@@ -219,10 +224,11 @@ class AppContext(QObject):
         self.menu_controller = MenuController()
         self.windowInfo = WindowInfo(screen_num)
 
-        notificationsInterface.ActionInvoked.connect(
-            self._actionInvoked)
-        notificationsInterface.NotificationClosed.connect(
-            self._notificationClosed)
+        if not noNotificationValue:
+            notificationsInterface.ActionInvoked.connect(
+                self._actionInvoked)
+            notificationsInterface.NotificationClosed.connect(
+                self._notificationClosed)
 
         self.pixmap = pixmap
 
