@@ -3,187 +3,185 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Francesko Isallari <francesko1989@gmail.com>, 2015
-# Jim Spentzos <jimspentzos2000@gmail.com>, 2014
-# Wasilis Mandratzis-Walz, 2015
+# Vasilii Rusu <basil_russu@hotmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-18 15:20+0800\n"
-"PO-Revision-Date: 2015-07-31 02:04+0000\n"
-"Last-Translator: Francesko Isallari <francesko1989@gmail.com>\n"
-"Language-Team: Greek (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/el/)\n"
+"PO-Revision-Date: 2015-06-30 19:19+0000\n"
+"Last-Translator: Vasilii Rusu <basil_russu@hotmail.com>\n"
+"Language-Team: Romanian (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: el\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
 #: ../src/Main.qml:1146 ../src/menu_controller.py:39
 msgid "Save to desktop"
-msgstr "Αποθήκευση στην επιφάνεια εργασίας"
+msgstr "Salvare pe spațiul de lucru"
 
 #: ../src/Main.qml:1168 ../src/menu_controller.py:40
 msgid "Autosave"
-msgstr "Αυτόματη αποθήκευση"
+msgstr "Autosalvare"
 
 #: ../src/Main.qml:1190 ../src/menu_controller.py:41
 msgid "Save to specified folder"
-msgstr "Αποθήκευση σε συγκεκριμένο φάκελο"
+msgstr "Salvare în fișierul specificat"
 
 #: ../src/Main.qml:1212 ../src/menu_controller.py:42
 msgid "Copy to clipboard"
-msgstr "Αντιγραφή στο πρόχειρο"
+msgstr "Copiere în clipboard"
 
 #: ../src/Main.qml:1233 ../src/menu_controller.py:43
 msgid "Autosave and copy to clipboard"
-msgstr "Αυτόματη αποθήκευση και αντιγραφή στο πρόχειρο"
+msgstr "Autosalvare și copiere în clipboard"
 
 #: ../src/OSD.qml:59
 msgid "Tips"
-msgstr "Συμβουλές"
+msgstr "Sfaturi"
 
 #: ../src/OSD.qml:70
 msgid "You can use \"Ctrl+Alt+A\" to start the screenshot"
-msgstr "Μπορείτε να χρησιμοποιήσετε το πλήκτρο \"Ctrl + Alt + A\" για να ξεκινήσει το στιγμιότυπο"
+msgstr "Pentru a face captura ecranului utilizați tastele  \"Ctrl+Alt+A\""
 
 #: ../src/SaveQuality.qml:24
 msgid "Low"
-msgstr "Xαμηλά"
+msgstr "Jos"
 
 #: ../src/SaveQuality.qml:44
 msgid "High"
-msgstr "Ψηλά"
+msgstr "Sus"
 
 #: ../src/ShortcutsLabel.qml:23
 msgid "None"
-msgstr "Κανένα"
+msgstr "Nici un"
 
 #: ../src/ShortcutsViewer.qml:46
 msgid "Start/Screenshot"
-msgstr "Έναρξη/Στιγμιότυπο"
+msgstr "Start/Captura ecran"
 
 #: ../src/ShortcutsViewer.qml:49
 msgid "Quick start"
-msgstr "Γρήγορη έναρξη"
+msgstr "Start rapid"
 
 #: ../src/ShortcutsViewer.qml:57
 msgid "Delay screenshot"
-msgstr "Καθυστέρηση στιγμιότυπου οθόνης"
+msgstr "Amânare captura ecran"
 
 #: ../src/ShortcutsViewer.qml:53
 msgid "Full screenshot"
-msgstr "Πλήρες στιγμιότυπο οθόνης"
+msgstr "Captura completă a ecranului"
 
 #: ../src/ShortcutsViewer.qml:61 ../src/menu_controller.py:55
 msgid "Exit"
-msgstr "Έξοδος"
+msgstr "Ieşire"
 
 #: ../src/ShortcutsViewer.qml:67
 msgid "Save/Share"
-msgstr "Αποθήκευση/Μοιρασμα"
+msgstr "Salvare/Partajare"
 
 #: ../src/ShortcutsViewer.qml:70 ../src/menu_controller.py:53
 #: ../src/app_context.py:162
 msgid "Save"
-msgstr "Αποθήκευση"
+msgstr "Salvare"
 
 #: ../src/ShortcutsViewer.qml:74 ../src/menu_controller.py:54
 msgid "Share"
-msgstr "Κοινή χρήση"
+msgstr "Partajare"
 
 #: ../src/ShortcutsViewer.qml:82
 msgid "Painting"
-msgstr "Ζωγραφική"
+msgstr "Desenare"
 
 #: ../src/ShortcutsViewer.qml:85 ../src/menu_controller.py:47
 msgid "Rectangle"
-msgstr "Ορθογωνιο"
+msgstr "Dreptunghi"
 
 #: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:48
 msgid "Ellipse"
-msgstr "Έλλειψη"
+msgstr "Elipsă"
 
 #: ../src/ShortcutsViewer.qml:93 ../src/menu_controller.py:49
 msgid "Arrow"
-msgstr "Βέλος"
+msgstr "Săgeată"
 
 #: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:50
 msgid "Brush"
-msgstr "Πινέλο"
+msgstr "Pensulă"
 
 #: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:51
 msgid "Text"
-msgstr "Κείμενο"
+msgstr "Text"
 
 #: ../src/ShortcutsViewer.qml:105
 msgid "Color"
-msgstr "Χρώμα "
+msgstr "Culoare"
 
 #: ../src/ShortcutsViewer.qml:114
 msgid "Size Adjustment"
-msgstr "Μέγεθος Προσαρμογής"
+msgstr "Ajustare dimensiune"
 
 #: ../src/ShortcutsViewer.qml:117
 msgid "Increase height up"
-msgstr "Αύξηση ύψους πάνω"
+msgstr "Întindere în sus"
 
 #: ../src/ShortcutsViewer.qml:122
 msgid "Increase height down"
-msgstr "Αύξηση ύψους κάτω"
+msgstr "Întindere în jos"
 
 #: ../src/ShortcutsViewer.qml:127
 msgid "Increase width left"
-msgstr "Αύξηση πλάτους αριστερά"
+msgstr "Întindere în stângă"
 
 #: ../src/ShortcutsViewer.qml:132
 msgid "Increase width right"
-msgstr "Αύξηση πλάτους δεξιά"
+msgstr "Întindere în dreaptă"
 
 #: ../src/ShortcutsViewer.qml:137
 msgid "Decrease height up"
-msgstr "Μείωση ύψους μέχρι"
+msgstr "Micșorare din sus"
 
 #: ../src/ShortcutsViewer.qml:142
 msgid "Decrease height down"
-msgstr "Μείωση ύψους κάτω"
+msgstr "Micșorare din jos"
 
 #: ../src/ShortcutsViewer.qml:147
 msgid "Decrease width left"
-msgstr "Μείωση πλάτους αριστερά"
+msgstr "Micșorare din stângă"
 
 #: ../src/ShortcutsViewer.qml:152
 msgid "Decrease width right"
-msgstr "Μείωση πλάτους δεξιά"
+msgstr "Micșorare din dreaptă"
 
 #: ../src/app_context.py:75 ../src/app_controller.py:133
 #: ../src/app_window.py:73 ../src/dbus_interfaces.py:80
 msgid "Deepin Screenshot"
-msgstr "Στιγμιότυπο Οθόνης Deepin"
+msgstr " Deepin Screenshot"
 
 #: ../src/app_context.py:130
 msgid "Picture has been saved to clipboard"
-msgstr "Η εικόνα έχει αποθηκευτεί στο πρόχειρο"
+msgstr "Imaginea a fost salvată în clipboard"
 
 #: ../src/app_context.py:142
 msgid "DeepinScreenshot"
-msgstr "DeepinScreenshot"
+msgstr "Deepin Screenshot"
 
 #: ../src/app_context.py:178
 #, python-format
 msgid "Picture has been saved to %s"
-msgstr "Η εικόνα έχει αποθηκευτεί στο %s"
+msgstr "Imaginea a fost salvată în %s"
 
 #: ../src/app_context.py:179 ../src/app_context.py:181
 msgid "View"
-msgstr "Εμφάνιση"
+msgstr "Aspect"
 
 #: ../src/app_context.py:181
 msgid " View Manual, the picture is automatically saved."
-msgstr "Δείτε το Εγχειρίδιο, η εικόνα αποθηκεύεται αυτόματα."
+msgstr "Vezi Ghidul utilizatorului, imaginea se salvează în mod automat."
 
 #: ../src/app_controller.py:134
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
-msgstr "Το Deepin Screenshot θα ξεκινήσει σε %s δευτερόλεπτα."
+msgstr "Deepin Screenshot v-a începe în %s secunde."

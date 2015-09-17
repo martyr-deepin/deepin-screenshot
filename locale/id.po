@@ -3,187 +3,188 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Francesko Isallari <francesko1989@gmail.com>, 2015
-# Jim Spentzos <jimspentzos2000@gmail.com>, 2014
-# Wasilis Mandratzis-Walz, 2015
+# ambiya <ambiya90@gmail.com>, 2015
+# ambiya <ambiya90@gmail.com>, 2014
+# Aril Apria Susanto <awriel@gmail.com>, 2014
+# Yugo Purwanto <dedy.yugo.purwanto@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-18 15:20+0800\n"
-"PO-Revision-Date: 2015-07-31 02:04+0000\n"
-"Last-Translator: Francesko Isallari <francesko1989@gmail.com>\n"
-"Language-Team: Greek (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/el/)\n"
+"PO-Revision-Date: 2015-07-29 12:57+0000\n"
+"Last-Translator: ambiya <ambiya90@gmail.com>\n"
+"Language-Team: Indonesian (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: el\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: id\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../src/Main.qml:1146 ../src/menu_controller.py:39
 msgid "Save to desktop"
-msgstr "Αποθήκευση στην επιφάνεια εργασίας"
+msgstr "Simpan ke desktop"
 
 #: ../src/Main.qml:1168 ../src/menu_controller.py:40
 msgid "Autosave"
-msgstr "Αυτόματη αποθήκευση"
+msgstr "Simpan Otomatis"
 
 #: ../src/Main.qml:1190 ../src/menu_controller.py:41
 msgid "Save to specified folder"
-msgstr "Αποθήκευση σε συγκεκριμένο φάκελο"
+msgstr "Siman ke folder spesifik"
 
 #: ../src/Main.qml:1212 ../src/menu_controller.py:42
 msgid "Copy to clipboard"
-msgstr "Αντιγραφή στο πρόχειρο"
+msgstr "Salin ke papan klip"
 
 #: ../src/Main.qml:1233 ../src/menu_controller.py:43
 msgid "Autosave and copy to clipboard"
-msgstr "Αυτόματη αποθήκευση και αντιγραφή στο πρόχειρο"
+msgstr "Simpan otomatis dan salin ke papan klip"
 
 #: ../src/OSD.qml:59
 msgid "Tips"
-msgstr "Συμβουλές"
+msgstr "Tips"
 
 #: ../src/OSD.qml:70
 msgid "You can use \"Ctrl+Alt+A\" to start the screenshot"
-msgstr "Μπορείτε να χρησιμοποιήσετε το πλήκτρο \"Ctrl + Alt + A\" για να ξεκινήσει το στιγμιότυπο"
+msgstr "Anda dapat menggunakan \"Ctrl+Alt+A\" untuk memulai screenshoot"
 
 #: ../src/SaveQuality.qml:24
 msgid "Low"
-msgstr "Xαμηλά"
+msgstr "Rendah"
 
 #: ../src/SaveQuality.qml:44
 msgid "High"
-msgstr "Ψηλά"
+msgstr "Tinggi"
 
 #: ../src/ShortcutsLabel.qml:23
 msgid "None"
-msgstr "Κανένα"
+msgstr "TIdak ada"
 
 #: ../src/ShortcutsViewer.qml:46
 msgid "Start/Screenshot"
-msgstr "Έναρξη/Στιγμιότυπο"
+msgstr "Mulai/Tangkapan Layar"
 
 #: ../src/ShortcutsViewer.qml:49
 msgid "Quick start"
-msgstr "Γρήγορη έναρξη"
+msgstr "Pindai Cepat"
 
 #: ../src/ShortcutsViewer.qml:57
 msgid "Delay screenshot"
-msgstr "Καθυστέρηση στιγμιότυπου οθόνης"
+msgstr "Jeda tangkapan layar"
 
 #: ../src/ShortcutsViewer.qml:53
 msgid "Full screenshot"
-msgstr "Πλήρες στιγμιότυπο οθόνης"
+msgstr "Tangkapan layar penuh"
 
 #: ../src/ShortcutsViewer.qml:61 ../src/menu_controller.py:55
 msgid "Exit"
-msgstr "Έξοδος"
+msgstr "Keluar"
 
 #: ../src/ShortcutsViewer.qml:67
 msgid "Save/Share"
-msgstr "Αποθήκευση/Μοιρασμα"
+msgstr "Simpan/Bagikan"
 
 #: ../src/ShortcutsViewer.qml:70 ../src/menu_controller.py:53
 #: ../src/app_context.py:162
 msgid "Save"
-msgstr "Αποθήκευση"
+msgstr "Simpan"
 
 #: ../src/ShortcutsViewer.qml:74 ../src/menu_controller.py:54
 msgid "Share"
-msgstr "Κοινή χρήση"
+msgstr "Bagikan"
 
 #: ../src/ShortcutsViewer.qml:82
 msgid "Painting"
-msgstr "Ζωγραφική"
+msgstr "Lukisan"
 
 #: ../src/ShortcutsViewer.qml:85 ../src/menu_controller.py:47
 msgid "Rectangle"
-msgstr "Ορθογωνιο"
+msgstr "Bujur Sangkar"
 
 #: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:48
 msgid "Ellipse"
-msgstr "Έλλειψη"
+msgstr "Elips"
 
 #: ../src/ShortcutsViewer.qml:93 ../src/menu_controller.py:49
 msgid "Arrow"
-msgstr "Βέλος"
+msgstr "Panah"
 
 #: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:50
 msgid "Brush"
-msgstr "Πινέλο"
+msgstr "Kuas"
 
 #: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:51
 msgid "Text"
-msgstr "Κείμενο"
+msgstr "Teks"
 
 #: ../src/ShortcutsViewer.qml:105
 msgid "Color"
-msgstr "Χρώμα "
+msgstr "Warna"
 
 #: ../src/ShortcutsViewer.qml:114
 msgid "Size Adjustment"
-msgstr "Μέγεθος Προσαρμογής"
+msgstr "Pengaturan ukuran"
 
 #: ../src/ShortcutsViewer.qml:117
 msgid "Increase height up"
-msgstr "Αύξηση ύψους πάνω"
+msgstr "Tingkatkan tinggi atas"
 
 #: ../src/ShortcutsViewer.qml:122
 msgid "Increase height down"
-msgstr "Αύξηση ύψους κάτω"
+msgstr "Tingkatkan tinggi bawah"
 
 #: ../src/ShortcutsViewer.qml:127
 msgid "Increase width left"
-msgstr "Αύξηση πλάτους αριστερά"
+msgstr "Tingkatkan lebar kiri"
 
 #: ../src/ShortcutsViewer.qml:132
 msgid "Increase width right"
-msgstr "Αύξηση πλάτους δεξιά"
+msgstr "Tingkatkan lebar kanan"
 
 #: ../src/ShortcutsViewer.qml:137
 msgid "Decrease height up"
-msgstr "Μείωση ύψους μέχρι"
+msgstr "Kurangi tinggi atas"
 
 #: ../src/ShortcutsViewer.qml:142
 msgid "Decrease height down"
-msgstr "Μείωση ύψους κάτω"
+msgstr "Kurangi tinggi bawah"
 
 #: ../src/ShortcutsViewer.qml:147
 msgid "Decrease width left"
-msgstr "Μείωση πλάτους αριστερά"
+msgstr "Kurangi lebar kiri"
 
 #: ../src/ShortcutsViewer.qml:152
 msgid "Decrease width right"
-msgstr "Μείωση πλάτους δεξιά"
+msgstr "Kurangi lebar kanan"
 
 #: ../src/app_context.py:75 ../src/app_controller.py:133
 #: ../src/app_window.py:73 ../src/dbus_interfaces.py:80
 msgid "Deepin Screenshot"
-msgstr "Στιγμιότυπο Οθόνης Deepin"
+msgstr "Tangkapan layar Deepin"
 
 #: ../src/app_context.py:130
 msgid "Picture has been saved to clipboard"
-msgstr "Η εικόνα έχει αποθηκευτεί στο πρόχειρο"
+msgstr "Gambar telah disimpan ke papan klip"
 
 #: ../src/app_context.py:142
 msgid "DeepinScreenshot"
-msgstr "DeepinScreenshot"
+msgstr "Tangkapan Layar Deepin"
 
 #: ../src/app_context.py:178
 #, python-format
 msgid "Picture has been saved to %s"
-msgstr "Η εικόνα έχει αποθηκευτεί στο %s"
+msgstr "Gambar berhasil disimpan ke %s"
 
 #: ../src/app_context.py:179 ../src/app_context.py:181
 msgid "View"
-msgstr "Εμφάνιση"
+msgstr "Lihat"
 
 #: ../src/app_context.py:181
 msgid " View Manual, the picture is automatically saved."
-msgstr "Δείτε το Εγχειρίδιο, η εικόνα αποθηκεύεται αυτόματα."
+msgstr "Lihat Manual, gambar otomatis disimpan."
 
 #: ../src/app_controller.py:134
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
-msgstr "Το Deepin Screenshot θα ξεκινήσει σε %s δευτερόλεπτα."
+msgstr "Tangkapan Layar Deepin akan mulai setelah %s detik."
