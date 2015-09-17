@@ -125,7 +125,8 @@ class AppContext(QObject):
         pixmap.save(_temp)
         subprocess.call([GTK_CLIP, _temp])
 
-        self._notificationId = self._notify(
+        if not self.callHelpManual:
+            self._notificationId = self._notify(
             _("Picture has been saved to clipboard"))
 
     def savePixmap(self, pixmap, fileName):
@@ -176,14 +177,14 @@ class AppContext(QObject):
                 copyToClipborad = False
                 self.savePixmap(pixmap, absSavePath)
 
-            if not self.callHelpManual and not copyToClipborad:
-                self._notificationId = self._notify(
-                        _("Picture has been saved to %s") % absSavePath,
-                        [ACTION_ID_OPEN, _("View")])
             if self.callHelpManual:
                 self._notificationId = self._notify(
                         _(" View Manual, the picture is automatically saved."),
                         [ACTION_ID_MANUAL, _("View")])
+            else:
+                self._notificationId = self._notify(
+                        _("Picture has been saved to %s") % absSavePath,
+                        [ACTION_ID_OPEN, _("View")])
         else:
             self.finished.emit()
 
