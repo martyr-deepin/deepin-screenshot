@@ -64,8 +64,12 @@ class NotificationsInterface(QDBusAbstractInterface):
             "deepin-screenshot",
             summary,
             body, varActions, {}, -1)
+
         reply = QDBusReply(msg)
-        return reply.value()
+        if reply.isValid():
+            return reply.value()
+        else:
+            return None
 
 class SocialSharingInterface(QDBusAbstractInterface):
     def __init__(self):

@@ -23,41 +23,41 @@
 from PyQt5.QtCore import QCommandLineParser, QCommandLineOption
 
 def processArguments(arguments):
-	parser = QCommandLineParser()
-	parser.addHelpOption()
-	parser.addVersionOption()
+        parser = QCommandLineParser()
+        parser.addHelpOption()
+        parser.addVersionOption()
 
-	delayOption = QCommandLineOption(["d", "delay"],
-	    "Take a screenshot after NUM seconds", "NUM")
-	fullscreenOption = QCommandLineOption(["f", "fullscreen"],
-	    "Take a screenshot of the whole screen")
-	topWindowOption = QCommandLineOption(["w", "top-window"],
-	    "Take a screenshot of the most top window")
-	savePathOption = QCommandLineOption(["s", "save-path"],
-	    "Specify a path to save the screenshot", "PATH")
-	startFromDesktopOption = QCommandLineOption(["i", "icon"],
-	    "Indicate that this program's started by clicking desktop file.")
-	noNotificationOption = QCommandLineOption(["n", "no-notification"],
-	    "Don't send notifications.")
+        delayOption = QCommandLineOption(["d", "delay"],
+            "Take a screenshot after NUM seconds", "NUM")
+        fullscreenOption = QCommandLineOption(["f", "fullscreen"],
+            "Take a screenshot of the whole screen")
+        topWindowOption = QCommandLineOption(["w", "top-window"],
+            "Take a screenshot of the most top window")
+        savePathOption = QCommandLineOption(["s", "save-path"],
+            "Specify a path to save the screenshot", "PATH")
+        startFromDesktopOption = QCommandLineOption(["i", "icon"],
+            "Indicate that this program's started by clicking desktop file.")
+        noNotificationOption = QCommandLineOption(["n", "no-notification"],
+            "Don't send notifications.")
 
-	parser.addOption(delayOption)
-	parser.addOption(fullscreenOption)
-	parser.addOption(topWindowOption)
-	parser.addOption(savePathOption)
-	parser.addOption(noNotificationOption)
-	parser.addOption(startFromDesktopOption)
-	parser.process(arguments)
+        parser.addOption(delayOption)
+        parser.addOption(fullscreenOption)
+        parser.addOption(topWindowOption)
+        parser.addOption(savePathOption)
+        parser.addOption(noNotificationOption)
+        parser.addOption(startFromDesktopOption)
+        parser.process(arguments)
 
-	delay = int(parser.value(delayOption) or 0)
-	fullscreen = bool(parser.isSet(fullscreenOption) or False)
-	topWindow = bool(parser.isSet(topWindowOption) or False)
-	savePath = str(parser.value(savePathOption) or "")
-	startFromDesktop = bool(parser.isSet(startFromDesktopOption) or False)
-	noNotification = bool(parser.isSet(noNotificationOption) or False)
+        delay = int(parser.value(delayOption) or 0)
+        fullscreen = bool(parser.isSet(fullscreenOption) or False)
+        topWindow = bool(parser.isSet(topWindowOption) or False)
+        savePath = str(parser.value(savePathOption) or "")
+        startFromDesktop = bool(parser.isSet(startFromDesktopOption) or False)
+        noNotification = bool(parser.isSet(noNotificationOption) or False)
 
-	return {"delay": delay,
-			"fullscreen": fullscreen,
-			"topWindow": topWindow,
-			"savePath": savePath,
-			"startFromDesktop": startFromDesktop,
-			"noNotification": noNotification}
+        return {"delay": delay,
+                        "fullscreen": fullscreen,
+                        "topWindow": topWindow,
+                        "savePath": savePath,
+                        "startFromDesktop": startFromDesktop,
+                        "noNotification": noNotification}
