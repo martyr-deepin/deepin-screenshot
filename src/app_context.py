@@ -231,19 +231,15 @@ class AppContext(QObject):
                 self._notificationClosed)
 
         self.pixmap = pixmap
+        self.window = Window(ref(self)())
 
         if fullscreenValue:
             self.saveScreenshot(pixmap)
         elif topWindowValue:
-            wInfos = self.windowInfo.get_windows_info()
-            if len(wInfos) > 0:
-                wInfo = wInfos[0]
-                pix = pixmap.copy(wInfo[0] - screen_geo.x(),
-                                  wInfo[1] - screen_geo.y(),
-                                  wInfo[2], wInfo[3])
-                self.saveScreenshot(pix)
+            wInfo = self.windowInfo.get_active_window_info()
+            pix = pixmap.copy(wInfo[0], wInfo[1], wInfo[2], wInfo[3])
+            self.saveScreenshot(pix)
         else:
-            self.window = Window(ref(self)())
             self.window.setX(screen_geo.x())
             self.window.setY(screen_geo.y())
             self.window.setWidth(screen_geo.width())

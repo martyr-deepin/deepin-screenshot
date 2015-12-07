@@ -53,6 +53,11 @@ class WindowInfo(object):
 
         return [self.screen_x, self.screen_y, self.screen_width, self.screen_height]
 
+    def get_active_window_info(self):
+        active_window = self.wnck_screen.get_active_window()
+        active_windowRect = active_window.get_geometry()
+        return[active_windowRect[0], active_windowRect[1], active_windowRect[2], active_windowRect[3]]
+
     def get_windows_info(self):
         '''
         @return: all windows' coordinate in this workspace
