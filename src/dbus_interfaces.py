@@ -141,9 +141,21 @@ class FileManagerInterface(QDBusAbstractInterface):
         uris.convert(QVariant.StringList)
         self.call("ShowItems", uris, "")
 
+class SoundEffectInteface(QDBusAbstractInterface):
+    def __init__(self):
+        super(SoundEffectInteface, self).__init__(
+            "com.deepin.daemon.SoundEffect",
+            "/com/deepin/daemon/SoundEffect",
+            "com.deepin.daemon.SoundEffect",
+            QDBusConnection.sessionBus(),
+            None)
+
+    def play(self):
+        self.asyncCall("PlaySystemSound", "camera-shutter")
 
 hotZoneInterface = HotZoneInterface()
 screenshotInterface = ScreenshotInterface()
 notificationsInterface = NotificationsInterface()
 socialSharingInterface = SocialSharingInterface()
 controlCenterInterface = ControlCenterInterface()
+soundEffectInterface = SoundEffectInteface()

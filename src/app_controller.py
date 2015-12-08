@@ -33,8 +33,9 @@ from app_context import AppContext
 from dbus_services import ServiceAdaptor
 from dbus_interfaces import notificationsInterface
 from utils.cmdline import processArguments
-from constants import SOUND_FILE, OSD_QML
+from constants import OSD_QML
 from safe_timer import SafeTimer
+from dbus_interfaces import soundEffectInterface
 
 
 def validFormat(suffixname):
@@ -64,7 +65,7 @@ class AppController(QObject):
             qApp.quit()
 
     def _contextNeedSound(self):
-        self._sound.play()
+        soundEffectInterface.play()
 
     def _contextFinished(self):
         sender = self.sender()
@@ -117,11 +118,6 @@ class AppController(QObject):
                         return 1
                 else:
                     return 1
-
-        self._sound = QSoundEffect()
-        self._sound.setSource(QUrl.fromLocalFile(SOUND_FILE))
-        self._sound.setLoopCount(1)
-        self._sound.setVolume(0.4)
 
         context = AppContext(argValues)
         context.settings = self._createContextSettings()
