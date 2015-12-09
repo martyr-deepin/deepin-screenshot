@@ -56,7 +56,13 @@ class WindowInfo(object):
     def get_active_window_info(self):
         active_window = self.wnck_screen.get_active_window()
         active_windowRect = active_window.get_geometry()
-        return[active_windowRect[0], active_windowRect[1], active_windowRect[2], active_windowRect[3]]
+        window_shadow = get_property(active_window.get_xid(), "DEEPIN_WINDOW_SHADOW")
+        deepin_window_shadow_value = get_property_value(window_shadow.reply())
+        if deepin_window_shadow_value:
+            deepin_window_shadow_width = int(deepin_window_shadow_value)
+        else:
+            deepin_window_shadow_width = 0
+        return [active_windowRect[0] + deepin_window_shadow_width, active_windowRect[1] + deepin_window_shadow_width, active_windowRect[2] -2*deepin_window_shadow_width , active_windowRect[3] - 2*deepin_window_shadow_width]
 
     def get_windows_info(self):
         '''
