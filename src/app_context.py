@@ -75,6 +75,7 @@ class AppContext(QObject):
             self.finished.emit()
         else:
             self._waitNotificationTimer.start()
+            time.sleep(1)
             return notificationsInterface.notify(_("Deepin Screenshot"),
                                                  *args, **kwargs)
 
