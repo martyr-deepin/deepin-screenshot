@@ -13,6 +13,6 @@ install:
 	cp -r image src ${DESTDIR}${PREFIX}/share/deepin-screenshot
 	cp -r doc/* ${DESTDIR}${PREFIX}/share/dman/deepin-screenshot/
 	cp deepin-screenshot.desktop ${DESTDIR}${PREFIX}/share/applications
-	cp deepin-screenshot.svg ${DESTDIR}${PREFIX}/share/icons/hicolor/scalable/apps
+	cp doc/common/deepin-screenshot.svg ${DESTDIR}${PREFIX}/share/icons/hicolor/scalable/apps
 	cp -r locale/mo/* ${DESTDIR}${PREFIX}/share/locale/
 	ln -s ${PREFIX}/share/deepin-screenshot/src/main.py ${DESTDIR}${PREFIX}/bin/deepin-screenshot
