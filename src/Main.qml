@@ -6,6 +6,8 @@ import "drawing_utils.js" as DrawingUtils
 
 Item {
     id: screen
+
+    property bool equalProportion: false
     property bool firstMove: false
     property bool firstPress: false
     property bool firstRelease: false
@@ -180,10 +182,30 @@ Item {
             if (firstPress) {
                 if (!firstRelease) {
                     if (pos.x != screenArea.pressX && pos.y != screenArea.pressY) {
-                        selectArea.x = Math.min(pos.x, screenArea.pressX)
-                        selectArea.y = Math.min(pos.y, screenArea.pressY)
-                        selectArea.width = Math.abs(pos.x - screenArea.pressX)
-                        selectArea.height = Math.abs(pos.y - screenArea.pressY)
+                        if (!screen.equalProportion) {
+                            selectArea.x = Math.min(pos.x, screenArea.pressX)
+                            selectArea.y = Math.min(pos.y, screenArea.pressY)
+                            selectArea.width = Math.abs(pos.x - screenArea.pressX)
+                            selectArea.height = Math.abs(pos.y - screenArea.pressY)
+                        } else {
+                            selectArea.width = Math.min(Math.abs(pos.x - screenArea.pressX), Math.abs(pos.y - screenArea.pressY))
+                            selectArea.height = selectArea.width
+                            if (pos.x <= screenArea.pressX && pos.y <= screenArea.pressY) {
+                                selectArea.x = screenArea.pressX - selectArea.width
+                                selectArea.y = screenArea.pressY - selectArea.height
+                            } else if (pos.x <= screenArea.pressX && pos.y > screenArea.pressY) {
+                                selectArea.x = screenArea.pressX - selectArea.width
+                                selectArea.y = screenArea.pressY
+                            } else if (pos.x > screenArea.pressX && pos.y <= screenArea.pressY) {
+                                selectArea.height = Math.abs(screenArea.pressY - pos.y)
+                                selectArea.height = selectArea.width
+                                selectArea.x = screenArea.pressX
+                                selectArea.y = screenArea.pressY - selectArea.height
+                            } else {
+                                selectArea.x = Math.min(pos.x, screenArea.pressX)
+                                selectArea.y = Math.min(pos.y, screenArea.pressY)
+                            }
+                        }
                     }
                 }
             }
@@ -318,24 +340,68 @@ Item {
 
                     screenArea.cursorShape = Qt.ClosedHandCursor
                 } else {
-                    if (pressAtLeft || pressAtTopLeft || pressAtBottomLeft) {
-                        x = Math.min(pos.x, startX + startWidth - minSize)
-                        width = Math.max(startWidth + startX - pos.x, minSize)
-                    }
+                    if (!screen.equalProportion) {
+                        if (pressAtLeft || pressAtTopLeft || pressAtBottomLeft) {
+                            x = Math.min(pos.x, startX + startWidth - minSize)
+                            width = Math.max(startWidth + startX - pos.x, minSize)
+                        }
 
-                    if (pressAtRight || pressAtTopRight || pressAtBottomRight) {
-                        width = Math.max(pos.x - startX, minSize)
-                        x = Math.max(pos.x - width, startX)
-                    }
+                        if (pressAtRight || pressAtTopRight || pressAtBottomRight) {
+                            width = Math.max(pos.x - startX, minSize)
+                            x = Math.max(pos.x - width, startX)
+                        }
 
-                    if (pressAtTop || pressAtTopLeft || pressAtTopRight) {
-                        y = Math.min(pos.y, startY + startHeight - minSize)
-                        height = Math.max(startHeight + startY - pos.y, minSize)
-                    }
+                        if (pressAtTop || pressAtTopLeft || pressAtTopRight) {
+                            y = Math.min(pos.y, startY + startHeight - minSize)
+                            height = Math.max(startHeight + startY - pos.y, minSize)
+                        }
 
-                    if (pressAtBottom || pressAtBottomLeft || pressAtBottomRight) {
-                        height = Math.max(pos.y - startY, minSize)
-                        y = Math.max(pos.y - height, startY)
+                        if (pressAtBottom || pressAtBottomLeft || pressAtBottomRight) {
+                            height = Math.max(pos.y - startY, minSize)
+                            y = Math.max(pos.y - height, startY)
+                        }
+                    } else {
+                        var tmpStartPoint = Qt.point(startX, startY)
+                        var tmpMiddlePoint1 = Qt.point(startX, startY + startHeight)
+                        var tmpMiddlePoint2 = Qt.point(startX + startWidth, startY)
+                        var tmpEndPoint = Qt.point(startX + startWidth, startY + startHeight)
+
+                        if (pressAtLeft) {
+                            var tmpRect = CalcEngine.point5Resize5(tmpStartPoint, tmpMiddlePoint1, tmpMiddlePoint2, tmpEndPoint, pos, true)
+                        }
+
+                        if (pressAtTop) {
+                            var tmpRect = CalcEngine.point6Resize5(tmpStartPoint, tmpMiddlePoint1, tmpMiddlePoint2, tmpEndPoint, pos, true)
+                        }
+
+                        if (pressAtRight) {
+                            var tmpRect = CalcEngine.point7Resize5(tmpStartPoint, tmpMiddlePoint1, tmpMiddlePoint2, tmpEndPoint, pos, true)
+                        }
+
+                        if (pressAtBottom) {
+                            var tmpRect = CalcEngine.point8Resize5(tmpStartPoint, tmpMiddlePoint1, tmpMiddlePoint2, tmpEndPoint, pos, true)
+                        }
+
+                        if (pressAtTopLeft) {
+                            var tmpRect = CalcEngine.point1Resize5(tmpStartPoint, tmpMiddlePoint1, tmpMiddlePoint2, tmpEndPoint, pos, true)
+                        }
+
+                        if (pressAtBottomLeft) {
+                            var tmpRect = CalcEngine.point2Resize5(tmpStartPoint, tmpMiddlePoint1, tmpMiddlePoint2, tmpEndPoint, pos, true)
+                        }
+
+                        if (pressAtTopRight) {
+                            var tmpRect = CalcEngine.point3Resize5(tmpStartPoint, tmpMiddlePoint1, tmpMiddlePoint2, tmpEndPoint, pos, true)
+                        }
+
+                        if (pressAtBottomRight) {
+                            var tmpRect = CalcEngine.point4Resize5(tmpStartPoint, tmpMiddlePoint1, tmpMiddlePoint2, tmpEndPoint, pos, true)
+                        }
+
+                        x = tmpRect[0].x
+                        y = tmpRect[0].y
+                        width = Math.abs(tmpRect[3].x - tmpRect[0].x)
+                        height = width
                     }
                 }
             } else {
@@ -1439,6 +1505,9 @@ Item {
 
     Keys.onPressed: {
         var minSize = 5
+        if (event.key == Qt.Key_Alt) {
+            screen.equalProportion = !screen.equalProportion
+        }
         var keyActionMap = {
             "F1": "screen.helpView()",
             "Return": "screen.saveScreenshot()",
