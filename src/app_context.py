@@ -133,7 +133,6 @@ class AppContext(QObject):
         savePathValue = self.argValues["savePath"]
         timeStamp = time.strftime("%Y%m%d%H%M%S", time.localtime())
         fileName = "%s%s.png" % (_("DeepinScreenshot"), timeStamp)
-
         save_op = self.settings.getOption("save", "save_op")
         save_op_index = int(save_op)
 
@@ -174,7 +173,8 @@ class AppContext(QObject):
                 self._notificationId = self._notify(
                         _(" View Manual, the picture is automatically saved."),
                         [ACTION_ID_MANUAL, _("View")])
-            else:
+
+            if absSavePath:
                 self._notificationId = self._notify(
                         _("Picture has been saved to %s") % absSavePath,
                         [ACTION_ID_OPEN, _("View")])

@@ -15,10 +15,10 @@ import os
 image_file = sys.argv[1]
 
 if os.path.exists(image_file):
-	pixbuf = gtk.gdk.pixbuf_new_from_file(image_file)
-	clipboard = gtk.Clipboard()
-	clipboard.set_image(pixbuf)
-	clipboard.store()
-	sys.exit(0)
+    pixbuf = gtk.gdk.pixbuf_new_from_file(image_file)
+    clipboard = gtk.Clipboard()
+    clipboard.set_image(pixbuf)
+    clipboard.store()
+    sys.exit(0)
 else:
-	sys.exit(1)
+    sys.exit(1)
