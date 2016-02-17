@@ -16,3 +16,5 @@ install:
 	cp doc/common/deepin-screenshot.svg ${DESTDIR}${PREFIX}/share/icons/hicolor/scalable/apps
 	cp -r locale/mo/* ${DESTDIR}${PREFIX}/share/locale/
 	ln -s ${PREFIX}/share/deepin-screenshot/src/main.py ${DESTDIR}${PREFIX}/bin/deepin-screenshot
+	chmod a+x ${DESTDIR}${PREFIX}/share/deepin-screenshot/src/main.py
+	chmod a+x ${DESTDIR}${PREFIX}/share/deepin-screenshot/src/gtk-clip
