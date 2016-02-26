@@ -104,45 +104,6 @@ function pointSplid(point1, point2, distance) {
     return tmp
 }
 
-function resizePoint(point1, point2, point3, point4, p) {
-
-    if (p.x >= point1.x - 5 && p.x <= point1.x + 5 &&
-    p.y >= point1.y - 5 && p.y <= point1.y + 5) {
-        return 1
-    }
-    if (p.x >= point2.x - 5 && p.x <= point2.x + 5 &&
-    p.y >= point2.y - 5 && p.y <= point2.y + 5) {
-        return 2
-    }
-    if (p.x >= point3.x - 5 && p.x <= point3.x + 5 &&
-    p.y >= point3.y - 5 && p.y <= point3.y + 5) {
-        return 3
-    }
-    if (p.x >= point4.x - 5 && p.x <= point4.x + 5 &&
-    p.y >= point4.y - 5 && p.y <= point4.y + 5) {
-        return 4
-    }
-    return 0
-}
-function resizeAnotherPoint(point5, point6, point7, point8, p) {
-    if (p.x >= point5.x - 5 && p.x <= point5.x + 5 &&
-    p.y >= point5.y - 5 && p.y <= point5.y + 5) {
-        return 5
-    }
-    if (p.x >= point6.x - 5 && p.x <= point6.x + 5 &&
-    p.y >= point6.y - 5 && p.y <= point6.y + 5) {
-        return 6
-    }
-    if (p.x >= point7.x - 5 && p.x <= point7.x + 5 &&
-    p.y >= point7.y - 5 && p.y <= point7.y + 5) {
-        return 7
-    }
-    if (p.x >= point8.x - 5 && p.x <= point8.x + 5 &&
-    p.y >= point8.y - 5 && p.y <= point8.y + 5) {
-        return 8
-    }
-    return 0
-}
 /* judge the direction of point3 of line(point1, point2)*/
 function pointLineDir(point1, point2, point3) {
     if (point1.x == point2.x) {
@@ -1789,45 +1750,53 @@ function pointMoveMicro(point1, point2, point3, point4, dir, isBig) {
 function pointResizeMicro(point1, point2, point3, point4, dir, isBig) {
     var points = [point1, point2, point3, point4]
     isBig = typeof isBig !== 'undefined' ? isBig : true
-    if (dir == "Ctrl+Left") { points = point5ResizeMicro(point1, point2, point3, point4, isBig); return points }
-    if (dir == "Ctrl+Right") { points = point7ResizeMicro(point1, point2, point3, point4, isBig); return points }
-    if (dir == "Ctrl+Up") { points = point6ResizeMicro(point1, point2, point3, point4, isBig); return points }
-    if (dir == "Ctrl+Down") { points = point8ResizeMicro(point1, point2, point3, point4, isBig); return points }
+    if (dir == "Ctrl+Left"||dir == "Ctrl+Shift+Left") { points = point5ResizeMicro(point1, point2, point3, point4, isBig); return points }
+    if (dir == "Ctrl+Right"||dir == "Ctrl+Shift+Right") { points = point7ResizeMicro(point1, point2, point3, point4, isBig); return points }
+    if (dir == "Ctrl+Up"||dir == "Ctrl+Shift+Up") { points = point6ResizeMicro(point1, point2, point3, point4, isBig); return points }
+    if (dir == "Ctrl+Down"||dir == "Ctrl+Shift+Down") { points = point8ResizeMicro(point1, point2, point3, point4, isBig); return points }
 }
 /* point5 micro adjust the shapes'width, height, x, y */
 function point5ResizeMicro(point1, point2, point3, point4, isBig) {
     var points = [point1, point2, point3, point4]
-    var distance = 1
-    if (isBig) {
+    isBig = typeof isBig !== 'undefined' ? isBig : true
+    if (getDistance(point1, point3) <= minPadding && !isBig) {
+        return points
+    } else {
+        var distance = 1
+        if (isBig) {
+            var weight = 1
+        } else {
+            var weight = -1
+        }
         if (point1.x - point2.x <= 0 && point1.y - point2.y <= 0 &&
         point1.x - point3.x <= 0 && point1.y - point3.y >= 0) {
             var add = pointSplid(point1, point3, distance)
-            point1 = Qt.point(point1.x - add[0], point1.y + add[1])
-            point2 = Qt.point(point2.x - add[0], point2.y + add[1])
+            point1 = Qt.point(point1.x -weight*add[0], point1.y + weight*add[1])
+            point2 = Qt.point(point2.x - weight*add[0], point2.y + weight*add[1])
             points = [point1, point2, point3, point4]
             return points
         }
         if (point1.x - point2.x < 0 && point1.y - point2.y > 0 &&
         point1.x - point3.x > 0 && point1.y - point3.y > 0) {
             var add = pointSplid(point1, point3, distance)
-            point1 = Qt.point(point1.x + add[0], point1.y + add[1])
-            point2 = Qt.point(point2.x + add[0], point2.y + add[1])
+            point1 = Qt.point(point1.x + weight*add[0], point1.y + weight*add[1])
+            point2 = Qt.point(point2.x + weight*add[0], point2.y + weight*add[1])
             points = [point1, point2, point3, point4]
             return points
         }
         if (point1.x - point2.x > 0 && point1.y - point2.y < 0 &&
         point1.x - point3.x < 0 && point1.y - point3.y < 0) {
             var add = pointSplid(point1, point3, distance)
-            point1 = Qt.point(point1.x - add[0], point1.y - add[1])
-            point2 = Qt.point(point2.x - add[0], point2.y - add[1])
+            point1 = Qt.point(point1.x - weight*add[0], point1.y - weight*add[1])
+            point2 = Qt.point(point2.x - weight*add[0], point2.y - weight*add[1])
             points = [point1, point2, point3, point4]
             return points
         }
         if (point1.x - point2.x > 0 && point1.y - point2.y > 0 &&
         point1.x - point3.x > 0 && point1.y - point3.y < 0) {
             var add = pointSplid(point1, point3, distance)
-            point1 = Qt.point(point1.x + add[0], point1.y - add[1])
-            point2 = Qt.point(point2.x + add[0], point2.y - add[1])
+            point1 = Qt.point(point1.x + weight*add[0], point1.y - weight*add[1])
+            point2 = Qt.point(point2.x + weight*add[0], point2.y - weight*add[1])
             points = [point1, point2, point3, point4]
             return points
         }
@@ -1836,37 +1805,45 @@ function point5ResizeMicro(point1, point2, point3, point4, isBig) {
 /* point6 micro adjust the shapes'width, height, x, y */
 function point6ResizeMicro(point1, point2, point3, point4, isBig) {
     var points = [point1, point2, point3, point4]
-    var distance = 1
-    if (isBig) {
+    isBig = typeof isBig !== 'undefined' ? isBig : true
+    if (getDistance(point1, point2) <= minPadding&& !isBig) {
+        return points
+    } else {
+        var distance = 1
+        if (isBig) {
+            var weight = 1
+        } else {
+            var weight = -1
+        }
         if (point1.x - point2.x <= 0 && point1.y - point2.y <= 0 &&
         point1.x - point3.x <= 0 && point1.y - point3.y >= 0) {
             var add = pointSplid(point1, point2, distance)
-            point1 = Qt.point(point1.x - add[0], point1.y - add[1])
-            point3 = Qt.point(point3.x - add[0], point3.y - add[1])
+            point1 = Qt.point(point1.x - weight*add[0], point1.y - weight*add[1])
+            point3 = Qt.point(point3.x - weight*add[0], point3.y - weight*add[1])
             points = [point1, point2, point3, point4]
             return points
         }
         if (point1.x - point2.x < 0 && point1.y - point2.y > 0 &&
         point1.x - point3.x > 0 && point1.y - point3.y > 0) {
             var add = pointSplid(point1, point2, distance)
-            point1 = Qt.point(point1.x - add[0], point1.y + add[1])
-            point3 = Qt.point(point3.x - add[0], point3.y + add[1])
+            point1 = Qt.point(point1.x - weight*add[0], point1.y + weight*add[1])
+            point3 = Qt.point(point3.x - weight*add[0], point3.y + weight*add[1])
             points = [point1, point2, point3, point4]
             return points
         }
         if (point1.x - point2.x > 0 && point1.y - point2.y < 0 &&
         point1.x - point3.x < 0 && point1.y - point3.y < 0) {
             var add = pointSplid(point1, point2, distance)
-            point1 = Qt.point(point1.x + add[0], point1.y - add[1])
-            point3 = Qt.point(point3.x + add[0], point3.y - add[1])
+            point1 = Qt.point(point1.x + weight*add[0], point1.y - weight*add[1])
+            point3 = Qt.point(point3.x + weight*add[0], point3.y - weight*add[1])
             points = [point1, point2, point3, point4]
             return points
         }
         if (point1.x - point2.x > 0 && point1.y - point2.y > 0 &&
         point1.x - point3.x > 0 && point1.y - point3.y < 0) {
             var add = pointSplid(point1, point2, distance)
-            point1 = Qt.point(point1.x + add[0], point1.y + add[1])
-            point3 = Qt.point(point3.x + add[0], point3.y + add[1])
+            point1 = Qt.point(point1.x + weight*add[0], point1.y + weight*add[1])
+            point3 = Qt.point(point3.x + weight*add[0], point3.y + weight*add[1])
             points = [point1, point2, point3, point4]
             return points
         }
@@ -1876,37 +1853,45 @@ function point6ResizeMicro(point1, point2, point3, point4, isBig) {
 /* point7 micro adjust the shapes'width, height, x, y */
 function point7ResizeMicro(point1, point2, point3, point4, isBig) {
     var points = [point1, point2, point3, point4]
-    var distance = 1
-    if (isBig) {
+    isBig = typeof isBig !== 'undefined' ? isBig : true
+    if (getDistance(point1, point3) <= minPadding && !isBig) {
+        return points
+    } else {
+        var distance = 1
+        if (isBig) {
+            var weight = 1
+        } else {
+            var weight = -1
+        }
         if (point1.x - point2.x <= 0 && point1.y - point2.y <= 0 &&
         point1.x - point3.x <= 0 && point1.y - point3.y >= 0) {
             var add = pointSplid(point1, point3, distance)
-            point3 = Qt.point(point3.x + add[0], point3.y - add[1])
-            point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+            point3 = Qt.point(point3.x + weight*add[0], point3.y - weight*add[1])
+            point4 = Qt.point(point4.x + weight*add[0], point4.y - weight*add[1])
             points = [point1, point2, point3, point4]
             return points
         }
         if (point1.x - point2.x < 0 && point1.y - point2.y > 0 &&
         point1.x - point3.x > 0 && point1.y - point3.y > 0) {
             var add = pointSplid(point1, point3, distance)
-            point3 = Qt.point(point3.x - add[0], point3.y - add[1])
-            point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+            point3 = Qt.point(point3.x - weight*add[0], point3.y - weight*add[1])
+            point4 = Qt.point(point4.x - weight*add[0], point4.y - weight*add[1])
             points = [point1, point2, point3, point4]
             return points
         }
         if (point1.x - point2.x > 0 && point1.y - point2.y < 0 &&
         point1.x - point3.x < 0 && point1.y - point3.y < 0) {
             var add = pointSplid(point1, point3, distance)
-            point3 = Qt.point(point3.x + add[0], point3.y + add[1])
-            point4 = Qt.point(point4.x + add[0], point4.y + add[1])
+            point3 = Qt.point(point3.x + weight*add[0], point3.y + weight*add[1])
+            point4 = Qt.point(point4.x + weight*add[0], point4.y + weight*add[1])
             points = [point1, point2, point3, point4]
             return points
         }
         if (point1.x - point2.x > 0 && point1.y - point2.y > 0 &&
         point1.x - point3.x > 0 && point1.y - point3.y < 0) {
             var add = pointSplid(point1, point3, distance)
-            point3 = Qt.point(point3.x - add[0], point3.y + add[1])
-            point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+            point3 = Qt.point(point3.x - weight*add[0], point3.y + weight*add[1])
+            point4 = Qt.point(point4.x - weight*add[0], point4.y + weight*add[1])
             points = [point1, point2, point3, point4]
             return points
         }
@@ -1916,42 +1901,51 @@ function point7ResizeMicro(point1, point2, point3, point4, isBig) {
 /* point8 micro adjust the shapes'width, height, x, y */
 function point8ResizeMicro(point1, point2, point3, point4, isBig) {
     var points = [point1, point2, point3, point4]
-    var distance = 1
-    if (isBig) {
+    isBig = typeof isBig !== 'undefined' ? isBig : true
+    if (getDistance(point1, point2) <= minPadding && !isBig) {
+        return points
+    } else {
+        var distance = 1
+        if (isBig) {
+            var weight = 1
+        } else {
+            var weight = -1
+        }
         if (point1.x - point2.x <= 0 && point1.y - point2.y <= 0 &&
         point1.x - point3.x <= 0 && point1.y - point3.y >= 0) {
             var add = pointSplid(point1, point2, distance)
-            point2 = Qt.point(point2.x + add[0], point2.y + add[1])
-            point4 = Qt.point(point4.x + add[0], point4.y + add[1])
+            point2 = Qt.point(point2.x + weight*add[0], point2.y + weight*add[1])
+            point4 = Qt.point(point4.x + weight*add[0], point4.y + weight*add[1])
             points = [point1, point2, point3, point4]
             return points
         }
         if (point1.x - point2.x < 0 && point1.y - point2.y > 0 &&
         point1.x - point3.x > 0 && point1.y - point3.y > 0) {
             var add = pointSplid(point1, point2, distance)
-            point2 = Qt.point(point2.x + add[0], point2.y - add[1])
-            point4 = Qt.point(point4.x + add[0], point4.y - add[1])
+            point2 = Qt.point(point2.x + weight*add[0], point2.y - weight*add[1])
+            point4 = Qt.point(point4.x + weight*add[0], point4.y - weight*add[1])
             points = [point1, point2, point3, point4]
             return points
         }
         if (point1.x - point2.x > 0 && point1.y - point2.y < 0 &&
         point1.x - point3.x < 0 && point1.y - point3.y < 0) {
             var add = pointSplid(point1, point2, distance)
-            point2 = Qt.point(point2.x - add[0], point2.y + add[1])
-            point4 = Qt.point(point4.x - add[0], point4.y + add[1])
+            point2 = Qt.point(point2.x - weight*add[0], point2.y + weight*add[1])
+            point4 = Qt.point(point4.x - weight*add[0], point4.y + weight*add[1])
             points = [point1, point2, point3, point4]
             return points
         }
         if (point1.x - point2.x > 0 && point1.y - point2.y > 0 &&
         point1.x - point3.x > 0 && point1.y - point3.y < 0) {
             var add = pointSplid(point1, point2, distance)
-            point2 = Qt.point(point2.x - add[0], point2.y - add[1])
-            point4 = Qt.point(point4.x - add[0], point4.y - add[1])
+            point2 = Qt.point(point2.x - weight*add[0], point2.y - weight*add[1])
+            point4 = Qt.point(point4.x - weight*add[0], point4.y - weight*add[1])
             points = [point1, point2, point3, point4]
             return points
         }
     }
 }
+
 /* point6 in the first position */
 function point6Resize1(point1, point2, point3, point4, p, isShift) {
     isShift = typeof isShift !== 'undefined' ? isShift : false
@@ -3255,7 +3249,8 @@ function  pointDir(point1, point2, point3, point4) {
         return 4
     }
 }
-
+/*
+ * this function is get the angle of the mouse'moving*/
 /* the angle in point3 */
 function calcutateAngle(point1, point2, point3) {
     if (point1 == point2) {

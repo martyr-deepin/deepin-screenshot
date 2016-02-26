@@ -1,24 +1,12 @@
-#!/usr/bin/env python
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
-
-# Copyright (C) 2011 ~ 2015 Deepin, Inc.
-#               2011 ~ 2015 Wang YaoHua
 #
-# Author:     Wang YaoHua <mr.asianwang@gmail.com>
-# Maintainer: Wang YaoHua <mr.asianwang@gmail.com>
+# Copyright (C) 2015 Deepin Technology Co., Ltd.
 #
-# This program is free software: you can redistribute it and/or modify
+# This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
 
 
 from PyQt5.QtCore import QVariant, pyqtSignal
@@ -64,8 +52,12 @@ class NotificationsInterface(QDBusAbstractInterface):
             "deepin-screenshot",
             summary,
             body, varActions, {}, -1)
+
         reply = QDBusReply(msg)
-        return reply.value()
+        if reply.isValid():
+            return reply.value()
+        else:
+            return None
 
 class SocialSharingInterface(QDBusAbstractInterface):
     def __init__(self):
@@ -122,9 +114,36 @@ class ControlCenterInterface(QDBusAbstractInterface):
             except:
                 pass
 
+class FileManagerInterface(QDBusAbstractInterface):
+    def __init__(self):
+        super(FileManagerInterface, self).__init__(
+            "org.freedesktop.FileManager1",
+            "/org/freedesktop/FileManager1",
+            "org.freedesktop.FileManager1",
+            QDBusConnection.sessionBus(),
+            None)
+
+    def showItems(self, items, startupId=""):
+        urize = lambda x: "file://%s" % x.replace("file://", "")
+        uris = QVariant(map(urize, items))
+        uris.convert(QVariant.StringList)
+        self.call("ShowItems", uris, "")
+
+class SoundEffectInteface(QDBusAbstractInterface):
+    def __init__(self):
+        super(SoundEffectInteface, self).__init__(
+            "com.deepin.daemon.SoundEffect",
+            "/com/deepin/daemon/SoundEffect",
+            "com.deepin.daemon.SoundEffect",
+            QDBusConnection.sessionBus(),
+            None)
+
+    def play(self):
+        self.asyncCall("PlaySystemSound", "camera-shutter")
 
 hotZoneInterface = HotZoneInterface()
 screenshotInterface = ScreenshotInterface()
 notificationsInterface = NotificationsInterface()
 socialSharingInterface = SocialSharingInterface()
 controlCenterInterface = ControlCenterInterface()
+soundEffectInterface = SoundEffectInteface()

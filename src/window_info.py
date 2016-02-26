@@ -1,24 +1,12 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-
-# Copyright (C) 2011 ~ 2014 Deepin, Inc.
-#               2011 ~ 2014 Andy Stewart
 #
-# Author:     Andy Stewart <lazycat.manatee@gmail.com>
-# Maintainer: Andy Stewart <lazycat.manatee@gmail.com>
+# Copyright (C) 2015 Deepin Technology Co., Ltd.
 #
-# This program is free software: you can redistribute it and/or modify
+# This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
 
 from utils import no_error_output
 with no_error_output():
@@ -53,6 +41,20 @@ class WindowInfo(object):
 
         return [self.screen_x, self.screen_y, self.screen_width, self.screen_height]
 
+    def get_active_window_info(self):
+        active_window = self.wnck_screen.get_active_window()
+        active_windowRect = active_window.get_geometry()
+        deepin_window_shadow_width =  self.get_deepin_window_shadow_width(active_window.get_xid())
+        if deepin_window_shadow_width:
+            print("deepin-terminal:", deepin_window_shadow_width)
+            return [active_windowRect[0] + deepin_window_shadow_width, active_windowRect[1] + deepin_window_shadow_width,
+            active_windowRect[2] - 2*deepin_window_shadow_width, active_windowRect[3] - 2*deepin_window_shadow_width]
+        else:
+            window_frame_rect = self.get_gtk_window_frame_extents(active_window.get_xid())
+            return [active_windowRect[0] + window_frame_rect[0], active_windowRect[1] + window_frame_rect[2],
+            active_windowRect[2] - window_frame_rect[0] - window_frame_rect[1],
+            active_windowRect[3] - window_frame_rect[2] - window_frame_rect[3]]
+
     def get_windows_info(self):
         '''
         @return: all windows' coordinate in this workspace
@@ -76,23 +78,25 @@ class WindowInfo(object):
                 pass
             (x, y, width, height) = w.get_geometry()                # with frame
 
-            # Get shadow value for deepin-ui window.
-            cookie = get_property(w.get_xid(), "DEEPIN_WINDOW_SHADOW")
-            deepin_window_shadow_value = get_property_value(cookie.reply())
-            if deepin_window_shadow_value:
-                deepin_window_shadow_size = int(deepin_window_shadow_value)
-            else:
-                deepin_window_shadow_size = 0
-
             if w.get_window_type() == wnck.WINDOW_DOCK and\
-                    width >= self.screen_width and height >= self.screen_height:
+            width >= self.screen_width and height >= self.screen_height:
                 continue
-
-            (wx, wy, ww, wh) = self.convert_coord(
+            # Get shadow value for deepin-ui window.
+            deepin_window_shadow_size = self.get_deepin_window_shadow_width(w.get_xid())
+            if deepin_window_shadow_size:
+                (wx, wy, ww, wh) = self.convert_coord(
                 x + deepin_window_shadow_size,
                 y + deepin_window_shadow_size,
                 width - deepin_window_shadow_size * 2,
                 height - deepin_window_shadow_size * 2)
+            else:
+                # Get frame extension border for gtk window.
+                gtk_window_frame_rect = self.get_gtk_window_frame_extents(w.get_xid())
+                (wx, wy, ww, wh) = self.convert_coord(
+                x + gtk_window_frame_rect[0],
+                y + gtk_window_frame_rect[2],
+                width - gtk_window_frame_rect[1] - gtk_window_frame_rect[0],
+                height - gtk_window_frame_rect[3] - gtk_window_frame_rect[2])
 
             if ww != 0 and wh != 0:
               screenshot_window_info.insert(0, (wx, wy, ww, wh))
@@ -125,3 +129,22 @@ class WindowInfo(object):
             height = self.screen_height - y
         return (x, y, width, height)
 
+    def get_deepin_window_shadow_width(self, winId):
+        '''@process shadow value for deepin-ui window.'''
+        window_shadow = get_property(winId, "DEEPIN_WINDOW_SHADOW")
+        deepin_window_shadow_value = get_property_value(window_shadow.reply())
+        if deepin_window_shadow_value:
+            deepin_window_shadow_width = int(deepin_window_shadow_value)
+        else:
+            deepin_window_shadow_width = 0
+        return deepin_window_shadow_width
+
+    def get_gtk_window_frame_extents(self, winId):
+        '''@process frame for gtk window.'''
+        window_frame_extents = get_property(winId, "_GTK_FRAME_EXTENTS")
+        window_frame_rect = get_property_value(window_frame_extents.reply())
+        if window_frame_rect:
+            return [window_frame_rect[0], window_frame_rect[1],
+            window_frame_rect[2], window_frame_rect[3]]
+        else:
+            return [0, 0, 0, 0]

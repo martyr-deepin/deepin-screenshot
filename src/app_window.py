@@ -1,24 +1,12 @@
-#!/usr/bin/env python
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
-
-# Copyright (C) 2011 ~ 2015 Deepin, Inc.
-#               2011 ~ 2015 Wang YaoHua
 #
-# Author:     Wang YaoHua <mr.asianwang@gmail.com>
-# Maintainer: Wang YaoHua <mr.asianwang@gmail.com>
+# Copyright (C) 2015 Deepin Technology Co., Ltd.
 #
-# This program is free software: you can redistribute it and/or modify
+# This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
 
 import os
 
@@ -67,10 +55,10 @@ class Window(QQuickView):
 
         self.set_cursor_shape("shape_start_cursor")
         self.setColor(QColor(0, 0, 0, 0))
-        self.setFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+        self.setFlags(Qt.X11BypassWindowManagerHint | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint )
         self.setResizeMode(QQuickView.SizeRootObjectToView)
         self.setFormat(surface_format)
-        self.setTitle(_("Deepin screenshot"))
+        self.setTitle(_("Deepin Screenshot"))
 
         self.qimage = QImage(self.settings.tmpImageFile)
         self.qpixmap = QPixmap()
@@ -179,12 +167,17 @@ class Window(QQuickView):
     def set_save_config(self,group_name,op_name,op_index):
         self.settings.setOption(group_name, op_name, op_index)
 
-    @pyqtSlot(int,int,int,int)
-    def save_screenshot(self, x, y, width, height):
+    @pyqtSlot(int,int,int,int, int)
+    def save_screenshot(self, x, y, width, height, qualityNumber):
         pixmap = QPixmap.fromImage(self.grabWindow())
         pixmap = pixmap.copy(x, y, width, height)
+        save_quality = qualityNumber*5.0/1000 + 0.5
+        if qualityNumber != 100:
+            pixmap = pixmap.scaled(width*save_quality, height*save_quality,
+                    Qt.KeepAspectRatio, Qt.FastTransformation)
+            pixmap = pixmap.scaled(width, height,
+                    Qt.KeepAspectRatio, Qt.FastTransformation)
         pixmap.save(self.settings.tmpSaveFile)
-
         self.hide()
         self.context.saveScreenshot(pixmap)
 

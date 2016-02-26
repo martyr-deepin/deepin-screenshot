@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.2 (12043) - http://www.bohemiancoding.com/sketch -->
+    <title>mouse_rotate</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.7 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="mouse_rotate" sketch:type="MSArtboardGroup" stroke="#FFFFFF" filter="url(#filter-1)" fill="#000000">
+            <path d="M5.39670375,13.0760445 L6.3982587,14.2779104 L7,15 L6.15036932,15 L2.3511315,15 L2,15 L2,14.57729 L2,10.0182046 L2,9 L2.59902088,9.71882506 L4.76925866,12.3231104 C4.85803101,12.246863 4.9299437,12.1869317 4.95981585,12.1663231 C5.51369915,11.7842011 6.06172514,11.4463335 6.69707468,11.1183158 C10.6979198,9.05276298 15.0464841,8.94509027 19.4762519,12.0284977 L21.4009791,9.71882506 L22,9 L22,10.0182046 L22,14.57729 L22,15 L21.6488685,15 L17.8496307,15 L17,15 L17.6017413,14.2779104 L18.8334697,12.7998364 C14.7621801,9.99961203 10.8286808,10.1106622 7.15582292,12.0068821 C6.56241186,12.3132478 6.04918362,12.629662 5.52768323,12.9894431 C5.50458775,13.0053766 5.45781519,13.0367384 5.39670375,13.0760445 Z" id="Path-205" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>

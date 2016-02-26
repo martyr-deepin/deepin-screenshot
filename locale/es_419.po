@@ -1,0 +1,187 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# walt santos <walt.eh93@gmail.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: Deepin Screenshot\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-18 15:20+0800\n"
+"PO-Revision-Date: 2015-07-04 07:04+0000\n"
+"Last-Translator: walt santos <walt.eh93@gmail.com>\n"
+"Language-Team: Spanish (Latin America) (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/es_419/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es_419\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../src/Main.qml:1146 ../src/menu_controller.py:39
+msgid "Save to desktop"
+msgstr "Guardar en el escritorio"
+
+#: ../src/Main.qml:1168 ../src/menu_controller.py:40
+msgid "Autosave"
+msgstr "Atoguardado"
+
+#: ../src/Main.qml:1190 ../src/menu_controller.py:41
+msgid "Save to specified folder"
+msgstr "Especificar folder para guardar"
+
+#: ../src/Main.qml:1212 ../src/menu_controller.py:42
+msgid "Copy to clipboard"
+msgstr "Autoguardar y copiar al portapapeles"
+
+#: ../src/Main.qml:1233 ../src/menu_controller.py:43
+msgid "Autosave and copy to clipboard"
+msgstr "Autoguardar y copiar al portapapeles"
+
+#: ../src/OSD.qml:59
+msgid "Tips"
+msgstr "Consejos"
+
+#: ../src/OSD.qml:70
+msgid "You can use \"Ctrl+Alt+A\" to start the screenshot"
+msgstr "Puede usar \"Ctrl+Alt+A\" para iniciar la captura de pantalla"
+
+#: ../src/SaveQuality.qml:24
+msgid "Low"
+msgstr "Bajo"
+
+#: ../src/SaveQuality.qml:44
+msgid "High"
+msgstr "Alto"
+
+#: ../src/ShortcutsLabel.qml:23
+msgid "None"
+msgstr "Ninguno"
+
+#: ../src/ShortcutsViewer.qml:46
+msgid "Start/Screenshot"
+msgstr "Iniciar/Captura de Pantalla"
+
+#: ../src/ShortcutsViewer.qml:49
+msgid "Quick start"
+msgstr "Inicio Rápido"
+
+#: ../src/ShortcutsViewer.qml:57
+msgid "Delay screenshot"
+msgstr "Retrasar captura"
+
+#: ../src/ShortcutsViewer.qml:53
+msgid "Full screenshot"
+msgstr "Captura de pantalla completa"
+
+#: ../src/ShortcutsViewer.qml:61 ../src/menu_controller.py:55
+msgid "Exit"
+msgstr "Salir"
+
+#: ../src/ShortcutsViewer.qml:67
+msgid "Save/Share"
+msgstr "Guardar/Compartir"
+
+#: ../src/ShortcutsViewer.qml:70 ../src/menu_controller.py:53
+#: ../src/app_context.py:162
+msgid "Save"
+msgstr "Guardar"
+
+#: ../src/ShortcutsViewer.qml:74 ../src/menu_controller.py:54
+msgid "Share"
+msgstr "Compartir"
+
+#: ../src/ShortcutsViewer.qml:82
+msgid "Painting"
+msgstr "Pintar"
+
+#: ../src/ShortcutsViewer.qml:85 ../src/menu_controller.py:47
+msgid "Rectangle"
+msgstr "Rectángulo"
+
+#: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:48
+msgid "Ellipse"
+msgstr "Elipse"
+
+#: ../src/ShortcutsViewer.qml:93 ../src/menu_controller.py:49
+msgid "Arrow"
+msgstr "Flecha"
+
+#: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:50
+msgid "Brush"
+msgstr "Cepillo"
+
+#: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:51
+msgid "Text"
+msgstr "Texto"
+
+#: ../src/ShortcutsViewer.qml:105
+msgid "Color"
+msgstr "Color"
+
+#: ../src/ShortcutsViewer.qml:114
+msgid "Size Adjustment"
+msgstr "Ajuste de Tamaño"
+
+#: ../src/ShortcutsViewer.qml:117
+msgid "Increase height up"
+msgstr "Incrementar altura hasta"
+
+#: ../src/ShortcutsViewer.qml:122
+msgid "Increase height down"
+msgstr "Disminuir Altura hasta"
+
+#: ../src/ShortcutsViewer.qml:127
+msgid "Increase width left"
+msgstr "Incrementar anchura izquierda"
+
+#: ../src/ShortcutsViewer.qml:132
+msgid "Increase width right"
+msgstr "Incrementar Anchura Derecha"
+
+#: ../src/ShortcutsViewer.qml:137
+msgid "Decrease height up"
+msgstr "Reducir la altura hasta"
+
+#: ../src/ShortcutsViewer.qml:142
+msgid "Decrease height down"
+msgstr "Reducir Altura inferior"
+
+#: ../src/ShortcutsViewer.qml:147
+msgid "Decrease width left"
+msgstr "Reducir Anchura izquiera"
+
+#: ../src/ShortcutsViewer.qml:152
+msgid "Decrease width right"
+msgstr "Reducir Anchura derecha"
+
+#: ../src/app_context.py:75 ../src/app_controller.py:133
+#: ../src/app_window.py:73 ../src/dbus_interfaces.py:80
+msgid "Deepin Screenshot"
+msgstr "Capturador de Pantalla Deepin"
+
+#: ../src/app_context.py:130
+msgid "Picture has been saved to clipboard"
+msgstr "La imagen se ha guardado en el portapapeles"
+
+#: ../src/app_context.py:142
+msgid "DeepinScreenshot"
+msgstr "Captura de pantalla Deepin"
+
+#: ../src/app_context.py:178
+#, python-format
+msgid "Picture has been saved to %s"
+msgstr "La imagen se ha guardado a %s"
+
+#: ../src/app_context.py:179 ../src/app_context.py:181
+msgid "View"
+msgstr "Ver"
+
+#: ../src/app_context.py:181
+msgid " View Manual, the picture is automatically saved."
+msgstr "Ver Manual, La Imagen se guarda automáticamente"
+
+#: ../src/app_controller.py:134
+#, python-format
+msgid "Deepin Screenshot will start after %s seconds."
+msgstr "Capturador de Pantalla Deepin se iniciará después de %s segundos."

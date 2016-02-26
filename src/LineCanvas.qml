@@ -1,3 +1,11 @@
+/**
+ * Copyright (C) 2015 Deepin Technology Co., Ltd.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ **/
 import QtQuick 2.1
 import "calculateRect.js" as CalcEngine
 import "drawing_utils.js" as DrawingUtils
@@ -135,7 +143,11 @@ Item {
                 ctx.strokeStyle = "#01bdff"
                 ctx.stroke()
             }
-
+            if (selected||reSized||rotated) {
+                ctx.shadowBlur = 2
+                ctx.shadowColor = "black"
+                ctx.stroke()
+            }
             // FIXME:
             // below two lines are working as a work-around to get rid of
             // the path we've set to the Context2D, maybe there's a better

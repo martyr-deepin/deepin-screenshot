@@ -1,31 +1,18 @@
-#!/usr/bin/env python
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
-
-# Copyright (C) 2011 ~ 2015 Deepin, Inc.
-#               2011 ~ 2015 Wang YaoHua
 #
-# Author:     Wang YaoHua <mr.asianwang@gmail.com>
-# Maintainer: Wang YaoHua <mr.asianwang@gmail.com>
+# Copyright (C) 2015 Deepin Technology Co., Ltd.
 #
-# This program is free software: you can redistribute it and/or modify
+# This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
 
 import os
 import time
 import tempfile
 import subprocess
 from weakref import ref
-from functools import partial
 
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import qApp, QFileDialog
@@ -38,9 +25,11 @@ from window_info import WindowInfo
 from menu_controller import MenuController
 from dbus_interfaces import controlCenterInterface
 from dbus_interfaces import notificationsInterface
+from dbus_interfaces import FileManagerInterface
 from constants import MAIN_QML, GTK_CLIP
 
 ACTION_ID_OPEN = "id_open"
+ACTION_ID_MANUAL = "id_show_manual"
 
 class AppContext(QObject):
     """Every AppContext instance keeps an environment which is different
@@ -57,9 +46,11 @@ class AppContext(QObject):
         self.settings = None
         self.windowInfo = None
         self.window = None
+        self.pixmap = None
 
         self._notificationId = None
         self._fileSaveLocation = None
+        self.callHelpManual = False
 
         self._waitNotificationTimer = QTimer()
         self._waitNotificationTimer.setInterval(10 * 1000)
@@ -67,17 +58,26 @@ class AppContext(QObject):
         self._waitNotificationTimer.timeout.connect(self.finished)
 
     def _notify(self, *args, **kwargs):
-        self._waitNotificationTimer.start()
-        notify = partial(notificationsInterface.notify, _("Deepin Screenshot"))
-        return notify(*args, **kwargs)
+        noNotificationValue = self.argValues["noNotification"]
+        if noNotificationValue:
+            self.finished.emit()
+        else:
+            self._waitNotificationTimer.start()
+            time.sleep(1)
+            return notificationsInterface.notify(_("Deepin Screenshot"),
+                                                 *args, **kwargs)
 
     def _actionInvoked(self, notificationId, actionId):
         self._waitNotificationTimer.stop()
-
         if self._notificationId == notificationId:
+
             if actionId == ACTION_ID_OPEN:
-                subprocess.call(["xdg-open",
-                    os.path.dirname(self._fileSaveLocation)])
+                fileManager = FileManagerInterface()
+                fileManager.showItems([self._fileSaveLocation])
+            elif actionId == ACTION_ID_MANUAL:
+                subprocess.Popen(["dman", "deepin-screenshot"])
+            self.window.windowClosing.emit()
+            self.window.close()
             self.finished.emit()
 
     def _notificationClosed(self, notificationId, reason):
@@ -118,16 +118,14 @@ class AppContext(QObject):
         pixmap.save(_temp)
         subprocess.call([GTK_CLIP, _temp])
 
-        self._notificationId = self._notify(
+        if not self.callHelpManual:
+            self._notificationId = self._notify(
             _("Picture has been saved to clipboard"))
 
     def savePixmap(self, pixmap, fileName):
         pixmap.save(fileName)
 
         self._fileSaveLocation = fileName
-        self._notificationId = self._notify(
-            _("Picture has been saved to %s") % fileName,
-            [ACTION_ID_OPEN, _("View")])
 
     def saveScreenshot(self, pixmap):
         self.needSound.emit()
@@ -141,7 +139,7 @@ class AppContext(QObject):
 
         absSavePath = ""
         copyToClipborad = False
-        if savePathValue and os.path.exists(os.path.dirname(absSavePath)):
+        if savePathValue != "":
             absSavePath = os.path.abspath(savePathValue)
         else:
             if save_op_index == 0: #saveId == "save_to_desktop":
@@ -166,15 +164,35 @@ class AppContext(QObject):
             else: copyToClipborad = True
 
         if absSavePath or copyToClipborad:
-            if copyToClipborad: self.copyPixmap(pixmap)
-            if absSavePath: self.savePixmap(pixmap, absSavePath)
+            if copyToClipborad:
+                self.copyPixmap(pixmap)
+            if absSavePath:
+                copyToClipborad = False
+                self.savePixmap(pixmap, absSavePath)
+
+            if self.callHelpManual:
+                self._notificationId = self._notify(
+                        _(" View Manual, the picture is automatically saved."),
+                        [ACTION_ID_MANUAL, _("View")])
+            else:
+                self._notificationId = self._notify(
+                        _("Picture has been saved to %s") % absSavePath,
+                        [ACTION_ID_OPEN, _("View")])
         else:
             self.finished.emit()
+
+    def helpManual(self):
+        self.callHelpManual = True
+        self.window.ungrabFocus()
+        self.window.hide()
+        self.saveScreenshot(self.pixmap)
 
     def main(self):
         fullscreenValue = self.argValues["fullscreen"]
         topWindowValue = self.argValues["topWindow"]
         startFromDesktopValue = self.argValues["startFromDesktop"]
+        savePathValue = self.argValues["savePath"]
+        noNotificationValue = self.argValues["noNotification"]
 
         cursor_pos = QCursor.pos()
         desktop = qApp.desktop()
@@ -195,23 +213,22 @@ class AppContext(QObject):
         self.menu_controller = MenuController()
         self.windowInfo = WindowInfo(screen_num)
 
-        notificationsInterface.ActionInvoked.connect(
-            self._actionInvoked)
-        notificationsInterface.NotificationClosed.connect(
-            self._notificationClosed)
+        if not noNotificationValue:
+            notificationsInterface.ActionInvoked.connect(
+                self._actionInvoked)
+            notificationsInterface.NotificationClosed.connect(
+                self._notificationClosed)
+
+        self.pixmap = pixmap
+        self.window = Window(ref(self)())
 
         if fullscreenValue:
             self.saveScreenshot(pixmap)
         elif topWindowValue:
-            wInfos = self.windowInfo.get_windows_info()
-            if len(wInfos) > 0:
-                wInfo = wInfos[0]
-                pix = pixmap.copy(wInfo[0] - screen_geo.x(),
-                                  wInfo[1] - screen_geo.y(),
-                                  wInfo[2], wInfo[3])
-                self.saveScreenshot(pix)
+            wInfo = self.windowInfo.get_active_window_info()
+            pix = pixmap.copy(wInfo[0], wInfo[1], wInfo[2], wInfo[3])
+            self.saveScreenshot(pix)
         else:
-            self.window = Window(ref(self)())
             self.window.setX(screen_geo.x())
             self.window.setY(screen_geo.y())
             self.window.setWidth(screen_geo.width())
@@ -240,6 +257,9 @@ class AppContext(QObject):
 
             self.window.setSource(QUrl.fromLocalFile(MAIN_QML))
             self.window.showWindow()
+            rootObject = self.window.rootObject()
+            rootObject.helpView.connect(self.helpManual)
+            rootObject.setProperty("saveSpecifiedPath", savePathValue)
 
             self.menu_controller.preMenuShow.connect(self.window.ungrabFocus)
             self.menu_controller.postMenuHide.connect(self.window.grabFocus)

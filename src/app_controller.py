@@ -1,30 +1,19 @@
-#!/usr/bin/env python
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
-
-# Copyright (C) 2011 ~ 2015 Deepin, Inc.
-#               2011 ~ 2015 Wang YaoHua
 #
-# Author:     Wang YaoHua <mr.asianwang@gmail.com>
-# Maintainer: Wang YaoHua <mr.asianwang@gmail.com>
+# Copyright (C) 2015 Deepin Technology Co., Ltd.
 #
-# This program is free software: you can redistribute it and/or modify
+# This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
 
+import os
 import tempfile
 
 from PyQt5.QtWidgets import qApp
 from PyQt5.QtCore import QObject, QTimer, QUrl
-from PyQt5.QtMultimedia import QSound
+from PyQt5.QtMultimedia import QSoundEffect
 from PyQt5.QtQml import QQmlApplicationEngine
 
 from i18n import _
@@ -33,7 +22,14 @@ from app_context import AppContext
 from dbus_services import ServiceAdaptor
 from dbus_interfaces import notificationsInterface
 from utils.cmdline import processArguments
-from constants import SOUND_FILE, OSD_QML
+from constants import OSD_QML
+from safe_timer import SafeTimer
+from dbus_interfaces import soundEffectInterface
+
+
+def validFormat(suffixname):
+    pictureformat = [".bmp",".jpg",".jpeg",".png",".pbm",".pgm",".ppm",".xbm",".xpm"]
+    return suffixname in pictureformat
 
 class AppController(QObject):
     """The main controller of this application."""
@@ -58,7 +54,7 @@ class AppController(QObject):
             qApp.quit()
 
     def _contextNeedSound(self):
-        self._sound.play()
+        soundEffectInterface.play()
 
     def _contextFinished(self):
         sender = self.sender()
@@ -90,16 +86,27 @@ class AppController(QObject):
 
         return settings
 
+
     def runWithArguments(self, arguments):
         for _context in self.contexts:
             if _context.isActive():
-                return
+                return 1
 
         argValues = processArguments(arguments)
         delay = argValues["delay"]
 
-        self._sound = QSound(SOUND_FILE)
-        self._sound.setLoops(1)
+        savePathValue = argValues["savePath"]
+        if savePathValue != "":
+            pic_name = os.path.basename(savePathValue)
+            if pic_name == "":
+                return 1
+            else :
+                if os.path.exists(os.path.dirname(savePathValue)):
+                    pic_name_stuffix = os.path.splitext(pic_name)[1]
+                    if not validFormat(pic_name_stuffix):
+                        return 1
+                else:
+                    return 1
 
         context = AppContext(argValues)
         context.settings = self._createContextSettings()
@@ -111,5 +118,9 @@ class AppController(QObject):
         if delay > 0:
             notificationsInterface.notify(_("Deepin Screenshot"),
             _("Deepin Screenshot will start after %s seconds.") % delay)
+            '''If run the program frequently, the QTimer sometimes do not invoke the event, so replace QTimer with SafeTimer'''
+            SafeTimer.singleShot(delay, context.main)
+        else:
+            context.main()
 
-        QTimer.singleShot(max(0, delay * 1000), context.main)
+        return 0
