@@ -98,7 +98,7 @@ It will save you both time and efforts to operate with shortcuts.
 
 
 
-1. In the screenshot mode, pressing the ![ctrl](icon/Ctrl.svg)+![shift](icon/Shift.svg)+![?](icon/？.svg) key combination to open shortcut keys preview interface.
+1. In the screenshot mode, pressing the ![ctrl](icon/Ctrl.svg)+![shift](icon/Shift.svg)+![QM](icon/QM.svg) key combination to open shortcut keys preview interface.
 2. In the shortcuts preview interface, you can view all the shortcuts.
 
 

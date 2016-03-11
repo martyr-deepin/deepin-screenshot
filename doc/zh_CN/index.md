@@ -51,7 +51,7 @@
 
 通过快捷键来进行相关操作，省时又省力。
 
-1. 在截图模式下，按下键盘上的 ![ctrl](icon/Ctrl.svg)+![shift](icon/Shift.svg)+![?](icon/？.svg) 组合键，打开快捷键预览界面。
+1. 在截图模式下，按下键盘上的 ![ctrl](icon/Ctrl.svg)+![shift](icon/Shift.svg)+![QM](icon/QM.svg) 组合键，打开快捷键预览界面。
 
 2. 在快捷键预览界面，您可以查看到所有的快捷键。
 
