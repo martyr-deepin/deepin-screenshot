@@ -12,6 +12,7 @@ import os
 import sys
 import signal
 
+from OpenGL import GL
 from PyQt5 import QtCore
 from PyQt5.QtCore import QCoreApplication
 if os.name == 'posix':
