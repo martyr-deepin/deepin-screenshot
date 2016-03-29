@@ -31,6 +31,11 @@ from constants import MAIN_QML, GTK_CLIP
 ACTION_ID_OPEN = "id_open"
 ACTION_ID_MANUAL = "id_show_manual"
 
+
+def validFormat(suffixname):
+    pictureformat = [".bmp",".jpg",".jpeg",".png",".pbm",".pgm",".ppm",".xbm",".xpm"]
+    return suffixname in pictureformat
+
 class AppContext(QObject):
     """Every AppContext instance keeps an environment which is different
        from other instances, acting like a container.
@@ -139,7 +144,16 @@ class AppContext(QObject):
         absSavePath = ""
         copyToClipborad = False
         if savePathValue != "":
-            absSavePath = os.path.abspath(savePathValue)
+            pic_dir = os.path.dirname(savePathValue)
+            pic_name = os.path.basename(savePathValue)
+            if pic_name == "":
+                pic_name = fileName;
+            else:
+                pic_name_stuffix = os.path.splitext(pic_name)[1]
+                if not validFormat(pic_name_stuffix):
+                    pic_name = pic_name + ".png"
+                    savePathValue = pic_dir + "/" + pic_name
+            savePathValue = os.path.abspath(savePathValue)
         else:
             if save_op_index == 0: #saveId == "save_to_desktop":
                 saveDir = QStandardPaths.writableLocation(
@@ -153,6 +167,16 @@ class AppContext(QObject):
                 lastSavePath = self.settings.getOption("save", "folder")
                 absSavePath = QFileDialog.getSaveFileName(None, _("Save"),
                     os.path.join(lastSavePath, fileName))[0]
+                if absSavePath != "":
+                    pic_dir = os.path.dirname(absSavePath)
+                    pic_name = os.path.basename(absSavePath)
+                    if pic_name == "":
+                        pic_name = fileName;
+                    else:
+                        pic_name_stuffix = os.path.splitext(pic_name)[1]
+                        if not validFormat(pic_name_stuffix):
+                            pic_name = pic_name + ".png"
+                            absSavePath = pic_dir + "/" + pic_name
                 self.settings.setOption("save", "folder",
                     os.path.dirname(absSavePath) or lastSavePath)
             elif save_op_index == 4: #saveId == "auto_save_ClipBoard":
@@ -161,14 +185,23 @@ class AppContext(QObject):
                     QStandardPaths.PicturesLocation)
                 absSavePath = os.path.join(saveDir, fileName)
             else: copyToClipborad = True
-
-        if absSavePath or copyToClipborad:
+        if savePathValue:
+            self.savePixmap(pixmap, savePathValue)
+            self._notificationId = self._notify(
+                    _("Picture has been saved to %s") % savePathValue,
+                    [ACTION_ID_OPEN, _("View")])
+            if self.callHelpManual:
+                self._notificationId = self._notify(
+                        _(" View Manual, the picture is automatically saved."),
+                        [ACTION_ID_MANUAL, _("View")])
+            else:
+                self.finished.emit()
+        elif absSavePath or copyToClipborad:
             if copyToClipborad:
                 self.copyPixmap(pixmap)
             if absSavePath:
                 copyToClipborad = False
                 self.savePixmap(pixmap, absSavePath)
-
             if self.callHelpManual:
                 self._notificationId = self._notify(
                         _(" View Manual, the picture is automatically saved."),

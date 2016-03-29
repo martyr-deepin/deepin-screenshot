@@ -19,6 +19,7 @@ from PyQt5.QtQml import QQmlApplicationEngine
 from i18n import _
 from settings import ScreenshotSettings
 from app_context import AppContext
+from app_context import validFormat
 from dbus_services import ServiceAdaptor
 from dbus_interfaces import notificationsInterface
 from utils.cmdline import processArguments
@@ -26,10 +27,6 @@ from constants import OSD_QML
 from safe_timer import SafeTimer
 from dbus_interfaces import soundEffectInterface
 
-
-def validFormat(suffixname):
-    pictureformat = [".bmp",".jpg",".jpeg",".png",".pbm",".pgm",".ppm",".xbm",".xpm"]
-    return suffixname in pictureformat
 
 class AppController(QObject):
     """The main controller of this application."""
@@ -96,19 +93,16 @@ class AppController(QObject):
         delay = argValues["delay"]
 
         savePathValue = argValues["savePath"]
+
+        context = AppContext(argValues)
         if savePathValue != "":
             pic_name = os.path.basename(savePathValue)
             if pic_name == "":
                 return 1
             else :
-                if os.path.exists(os.path.dirname(savePathValue)):
-                    pic_name_stuffix = os.path.splitext(pic_name)[1]
-                    if not validFormat(pic_name_stuffix):
-                        return 1
-                else:
+                if not os.path.exists(os.path.dirname(savePathValue)):
                     return 1
 
-        context = AppContext(argValues)
         context.settings = self._createContextSettings()
         context.finished.connect(self._contextFinished)
         context.needSound.connect(self._contextNeedSound)
