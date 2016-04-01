@@ -6,6 +6,7 @@
 
 - python
 - python-pyqt5
+- python-opengl
 - python-sip
 - python-wnck
 - deepin-gettext-tools

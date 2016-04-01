@@ -43,6 +43,7 @@ Item {
     function saveScreenshot() {
         toolbar.visible = false
         selectSizeTooltip.visible = false
+        zoomIndicator.visible = false
         selectFrame.border.color = "transparent"
         windowView.save_screenshot(selectFrame.x,selectFrame.y,
             selectFrame.width,selectFrame.height, save_toolbar.imageQuality)
