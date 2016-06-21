@@ -82,10 +82,12 @@ class HotZoneInterface(QDBusAbstractInterface):
             None)
 
     def enableZone(self):
-        self.asyncCall("EnableZoneDetected", True)
+        if self.isValid():
+            self.asyncCall("EnableZoneDetected", True)
 
     def disableZone(self):
-        self.asyncCall("EnableZoneDetected", False)
+        if self.isValid():
+            self.asyncCall("EnableZoneDetected", False)
 
 class ControlCenterInterface(QDBusAbstractInterface):
     def __init__(self):
