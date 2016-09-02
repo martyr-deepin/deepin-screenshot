@@ -13,6 +13,7 @@ import time
 import tempfile
 import subprocess
 from weakref import ref
+from os.path import dirname
 
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import qApp, QFileDialog
@@ -78,7 +79,18 @@ class AppContext(QObject):
 
             if actionId == ACTION_ID_OPEN:
                 fileManager = FileManagerInterface()
-                fileManager.showItems([self._fileSaveLocation])
+                if fileManager.isValid():
+                    fileManager.showItems([self._fileSaveLocation])
+                # TODO(hualet): remove this workaround after dde-file-manager's
+                # done supporting org.freedesktop.FileManager1 interface.
+                elif os.path.exists("/usr/bin/dde-file-manager"):
+                    encode = lambda x : QUrl.fromLocalFile(x).toString()
+                    argDict = {
+                        "directory" : encode(dirname(self._fileSaveLocation)),
+                        "item" : encode(self._fileSaveLocation)
+                    }
+                    arg = "{directory}?selectUrl={item}".format(**argDict)
+                    subprocess.Popen(["dde-file-manager", arg])
             elif actionId == ACTION_ID_MANUAL:
                 subprocess.Popen(["dman", "deepin-screenshot"])
             self.window.windowClosing.emit()
