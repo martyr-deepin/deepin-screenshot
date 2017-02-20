@@ -43,4 +43,4 @@ We encourage you to report issues and contribute changes
 
 ## License
 
-GNU General Public License, Version 3.0
+deepin-screenshot is licensed under [GPLv3](LICENSE).
