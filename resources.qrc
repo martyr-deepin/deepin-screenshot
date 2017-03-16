@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/images/resize_handle_big.png</file>
+        <file>resources/images/resize_handle_small.png</file>
+    </qresource>
+</RCC>
