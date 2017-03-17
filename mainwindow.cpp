@@ -176,6 +176,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         if (!m_isFirstReleaseButton) {
             m_isFirstReleaseButton = true;
 
+            m_mouseStatus = ShotMouseStatus::Normal;
             updateCursor(event);
 
             // Record select area name with window name if just click (no drag).
@@ -388,7 +389,7 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
         painter.setClipRegion(QRegion(backgroundRect));
 
         // Draw frame.
-        if (m_mouseStatus != ShotMouseStatus::Shoting) {
+        if (m_mouseStatus != ShotMouseStatus::Wait) {
             painter.setRenderHint(QPainter::Antialiasing, false);
             QPen framePen(QColor("#01bdff"));
             framePen.setWidth(2);
@@ -404,7 +405,7 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
         }
 
         // Draw drag pint.
-        if (m_mouseStatus == ShotMouseStatus::Normal && m_drawDragPoint) {
+        if (m_mouseStatus != ShotMouseStatus::Wait && m_drawDragPoint) {
             painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS, m_recordY - DRAG_POINT_RADIUS), m_resizeBigPix);
             painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth, m_recordY - DRAG_POINT_RADIUS), m_resizeBigPix);
             painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS, m_recordY - DRAG_POINT_RADIUS + m_recordHeight), m_resizeBigPix);
@@ -487,7 +488,7 @@ void MainWindow::updateCursor(QEvent *event)
 }
 
 void MainWindow::startScreenshot() {
-    m_mouseStatus = ShotMouseStatus::Normal;
+    m_mouseStatus = ShotMouseStatus::Shoting;
     repaint();
     qApp->setOverrideCursor(setCursorShape("start"));
 }
