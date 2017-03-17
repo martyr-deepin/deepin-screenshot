@@ -3,7 +3,7 @@
 #include <QApplication>
 #include <QPainter>
 
-
+#include "utils.h"
 
 namespace {
 const int RECORD_MIN_SIZE = 220;
@@ -50,8 +50,8 @@ void MainWindow::initUI() {
     m_recordWidth = 0;
     m_recordHeight = 0;
 
-    m_resizeBigPix = QPixmap(":/resources/images/resize_handle_big.png");
-    m_resizeSmallPix = QPixmap(":/resources/images/resize_handle_small.png");
+    m_resizeBigPix = QPixmap(":/image/action/resize_handle_big.png");
+    m_resizeSmallPix = QPixmap(":/image/action/resize_handle_small.png");
 
     m_dragRecordX = -1;
     m_dragRecordY = -1;
@@ -430,6 +430,8 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
 
 void MainWindow::startScreenshot() {
     m_mouseStatus = ShotMouseStatus::Normal;
+    repaint();
+    qApp->setOverrideCursor(setCursorShape("start"));
 }
 
 void MainWindow::showPressFeedback(int x, int y)

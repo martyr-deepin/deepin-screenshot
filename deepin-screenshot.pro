@@ -20,11 +20,13 @@ QMAKE_CXXFLAGS += -g
 SOURCES += main.cpp\
         mainwindow.cpp \
     windowmanager.cpp \
-    eventmonitor.cpp
+    eventmonitor.cpp \
+    utils.cpp
 
 HEADERS  += mainwindow.h \
     windowmanager.h \
-    eventmonitor.h
+    eventmonitor.h \
+    utils.h
 
 RESOURCES += \
     resources.qrc
