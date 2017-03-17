@@ -30,3 +30,40 @@ HEADERS  += mainwindow.h \
 
 RESOURCES += \
     resources.qrc
+
+isEmpty(PREFIX){
+    PREFIX = /usr
+}
+
+BINDIR = $$PREFIX/bin
+APPSHAREDIR = $$PREFIX/share/deepin-screenshot
+MANDIR = $$PREFIX/share/dman/deepin-screenshot
+MANICONDIR = $$PREFIX/share/icons/hicolor/scalable/apps
+APPICONDIR = $$PREFIX/share/icons/deepin/apps/scalable
+
+DEFINES += APPSHAREDIR=\\\"$$APPSHAREDIR\\\"
+
+target.path = $$BINDIR
+
+desktop.path = $${PREFIX}/share/applications/
+desktop.files =  deepin-screenshot.desktop
+
+icons.path = $$APPSHAREDIR/icons
+icons.files = resources/images/*
+
+manual.path = $$MANDIR
+manual.files = doc/*
+manual_icon.path = $$MANICONDIR
+manual_icon.files = doc/common/deepin-screenshot.svg
+app_icon.path = $$APPICONDIR
+app_icon.files = doc/common/deepin-screenshot.svg
+
+# Automating generation .qm files from .ts files
+CONFIG(release, debug|release) {
+    system($$PWD/generate_translations.sh)
+}
+
+translations.path = $$APPSHAREDIR/translations
+translations.files = translations/*.qm
+
+INSTALLS = target desktop icons manual manual_icon app_icon translations
