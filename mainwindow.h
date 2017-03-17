@@ -53,6 +53,7 @@ protected:
     bool eventFilter(QObject *watched, QEvent *event) Q_DECL_OVERRIDE;
     int  getDirection(QEvent *event);
     void updateCursor(QEvent *event);
+    void resizeDirection(ResizeDirection direction, QMouseEvent* e);
 
 private:
     WindowManager* m_windowManager;

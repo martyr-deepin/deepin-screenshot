@@ -158,7 +158,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
 //            Utils::clearBlur(windowManager, this->winId());
         } else {
-//            m_dragAction = getAction(event);
+            m_dragAction = getDirection(event);
 
             m_dragRecordX = m_recordX;
             m_dragRecordY = m_recordY;
@@ -249,30 +249,30 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                     needRepaint = true;
                 }
             } else if (m_isPressButton) {
-                if (m_mouseStatus == ShotMouseStatus::Normal && m_dragRecordX >= 0 && m_dragRecordY >= 0) {
+                if (m_mouseStatus != ShotMouseStatus::Wait && m_dragRecordX >= 0 && m_dragRecordY >= 0) {
                     if (m_dragAction == ResizeDirection::Moving) {
                         m_recordX = std::max(std::min(m_dragRecordX + mouseEvent->x() - m_dragStartX, m_rootWindowRect.width - m_recordWidth), 1);
                         m_recordY = std::max(std::min(m_dragRecordY + mouseEvent->y() - m_dragStartY, m_rootWindowRect.height - m_recordHeight), 1);
                     } else if (m_dragAction == ResizeDirection::TopLeft) {
-//                        resizeTop(mouseEvent);
-//                        resizeLeft(mouseEvent);
+                        resizeDirection(ResizeDirection::Top, mouseEvent);
+                        resizeDirection(ResizeDirection::Left, mouseEvent);
                     } else if (m_dragAction == ResizeDirection::TopRight) {
-//                        resizeTop(mouseEvent);
-//                        resizeRight(mouseEvent);
+                        resizeDirection(ResizeDirection::Top, mouseEvent);
+                        resizeDirection(ResizeDirection::Right, mouseEvent);
                     } else if (m_dragAction == ResizeDirection::BottomLeft) {
-//                        resizeBottom(mouseEvent);
-//                        resizeLeft(mouseEvent);
+                        resizeDirection(ResizeDirection::Bottom, mouseEvent);
+                        resizeDirection(ResizeDirection::Left, mouseEvent);
                     } else if (m_dragAction == ResizeDirection::BottomRight) {
-//                        resizeBottom(mouseEvent);
-//                        resizeRight(mouseEvent);
+                        resizeDirection(ResizeDirection::Bottom, mouseEvent);
+                        resizeDirection(ResizeDirection::Right, mouseEvent);
                     } else if (m_dragAction == ResizeDirection::Top) {
-//                        resizeTop(mouseEvent);
+                        resizeDirection(ResizeDirection::Top, mouseEvent);
                     } else if (m_dragAction == ResizeDirection::Bottom) {
-//                        resizeBottom(mouseEvent);
+                        resizeDirection(ResizeDirection::Bottom, mouseEvent);
                     } else if (m_dragAction == ResizeDirection::Left) {
-//                        resizeLeft(mouseEvent);
+                        resizeDirection(ResizeDirection::Left, mouseEvent);
                     } else if (m_dragAction == ResizeDirection::Right) {
-//                        resizeRight(mouseEvent);
+                        resizeDirection(ResizeDirection::Right, mouseEvent);
                     }
 
                     needRepaint = true;
@@ -487,6 +487,41 @@ void MainWindow::updateCursor(QEvent *event)
     }
 }
 
+void MainWindow::resizeDirection(ResizeDirection direction,
+                                 QMouseEvent *e) {
+    int offsetX = e->x() - m_dragStartX;
+    int offsetY = e->y() - m_dragStartY;
+
+    switch (direction) {
+    case ResizeDirection::Top: {
+        m_recordY = std::max(std::min(m_dragRecordY + offsetY,
+                                      m_dragRecordY + m_dragRecordHeight - RECORD_MIN_SIZE), 1);
+        m_recordHeight = std::max(std::min(m_dragRecordHeight -
+                                           offsetY, m_rootWindowRect.height), RECORD_MIN_SIZE);
+        break;
+    };
+    case ResizeDirection::Bottom: {
+        m_recordHeight = std::max(std::min(m_dragRecordHeight + offsetY,
+                                         m_rootWindowRect.height), RECORD_MIN_SIZE);
+        break;
+    };
+    case ResizeDirection::Left: {
+        m_recordX = std::max(std::min(m_dragRecordX + offsetX,
+                                      m_dragRecordX + m_dragRecordWidth - RECORD_MIN_SIZE), 1);
+        m_recordWidth = std::max(std::min(m_dragRecordWidth - offsetX,
+                                          m_rootWindowRect.width), RECORD_MIN_SIZE);
+        break;
+    };
+    case ResizeDirection::Right: {
+        m_recordWidth = std::max(std::min(m_dragRecordWidth + offsetX,
+                                          m_rootWindowRect.width), RECORD_MIN_SIZE);
+        break;
+    };
+    default:break;
+    }
+
+}
+
 void MainWindow::startScreenshot() {
     m_mouseStatus = ShotMouseStatus::Shoting;
     repaint();
@@ -523,7 +558,7 @@ void MainWindow::responseEsc()
 
 void MainWindow::saveScreenshot() {
     QDateTime currentDate;
-    QString currentTime =  currentDate.currentDateTime().toString(Qt::ISODate);
+    QString currentTime =  currentDate.currentDateTime().toString("yyyyMMddHHmmss");
     QString fileName = QString("%1/DeepinScreenshot%2.png").arg(
                 QStandardPaths::writableLocation(QStandardPaths::PicturesLocation
                  )).arg(currentTime);
