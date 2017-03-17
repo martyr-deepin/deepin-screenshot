@@ -39,6 +39,7 @@ public:
         Right,
     };
     void initUI();
+
 public slots:
     void startScreenshot();
     void showPressFeedback(int x, int y);
@@ -46,10 +47,13 @@ public slots:
     void showReleaseFeedback(int x, int y);
     void responseEsc();
     void saveScreenshot();
+
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     bool eventFilter(QObject *watched, QEvent *event) Q_DECL_OVERRIDE;
-    int getDirection(QEvent *event);
+    int  getDirection(QEvent *event);
+    void updateCursor(QEvent *event);
+
 private:
     WindowManager* m_windowManager;
     WindowRect m_rootWindowRect;
