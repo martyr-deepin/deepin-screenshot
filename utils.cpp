@@ -9,3 +9,9 @@ QCursor setCursorShape(QString cursorName) {
         return customShape;
     }
 }
+
+int stringWidth(const QFont &f, const QString &str)
+{
+    QFontMetrics fm(f);
+    return fm.boundingRect(str).width();
+}

@@ -10,6 +10,8 @@
 #include <QScreen>
 #include <QDateTime>
 
+#include "widgets/toptips.h"
+
 #include "windowmanager.h"
 #include "eventmonitor.h"
 
@@ -90,6 +92,8 @@ private:
     QPixmap m_resizeSmallPix;
 
     EventMonitor m_eventMonitor;
+
+    TopTips* m_sizeTips;
 };
 
 #endif // MAINWINDOW_H

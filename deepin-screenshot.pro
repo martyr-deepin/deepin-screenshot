@@ -21,12 +21,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     windowmanager.cpp \
     eventmonitor.cpp \
-    utils.cpp
+    utils.cpp \
+    widgets/toptips.cpp
 
 HEADERS  += mainwindow.h \
     windowmanager.h \
     eventmonitor.h \
-    utils.h
+    utils.h \
+    widgets/toptips.h
 
 RESOURCES += \
     resources.qrc

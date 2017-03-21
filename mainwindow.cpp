@@ -23,7 +23,8 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::initUI() {
-    setWindowFlags(Qt::Tool | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus);
+    setWindowFlags(Qt::Tool | Qt::FramelessWindowHint |
+                   Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus);
     setAttribute(Qt::WA_TranslucentBackground, true);
     setMouseTracking(true);   // make MouseMove can response
     installEventFilter(this);
@@ -35,10 +36,9 @@ void MainWindow::initUI() {
         m_windowRects.append(m_windowManager->adjustRectInScreenArea(
                                  m_windowManager->getWindowRect(windows[i])));
         m_windowNames.append(m_windowManager->getWindowClass(windows[i]));
-        qDebug() << "windows i" << i << m_windowRects[i].x << m_windowRects[i].y
-                 << m_windowRects[i].width << m_windowRects[i].height;
-
     }
+
+    m_sizeTips = new TopTips(this);
 
     m_isFirstDrag = false;
     m_isFirstMove = false;
@@ -224,6 +224,11 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
         needRepaint = true;
     } else if (event->type() == QEvent::MouseMove) {
+        if (m_recordWidth > 0 && m_recordHeight >0) {
+            m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
+                QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
+        }
+
         if (!m_isFirstMove) {
             m_isFirstMove = true;
         }
