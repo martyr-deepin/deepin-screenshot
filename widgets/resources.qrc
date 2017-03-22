@@ -7,7 +7,6 @@
         <file>resources/images/action/arrow_checked.png</file>
         <file>resources/images/action/arrow_hover.png</file>
         <file>resources/images/action/arrow_normal.png</file>
-        <file>resources/images/action/colors_checked.png</file>
         <file>resources/images/action/colors_hover.png</file>
         <file>resources/images/action/colors_normal.png</file>
         <file>resources/images/action/pencil_checked.png</file>
@@ -51,5 +50,6 @@
         <file>resources/images/action/close_checked.png</file>
         <file>resources/images/action/close_hover.png</file>
         <file>resources/images/action/close_normal.png</file>
+        <file>resources/images/action/colors_checked.png</file>
     </qresource>
 </RCC>

@@ -1,5 +1,6 @@
 #include "toolbar.h"
 #include "utils.h"
+#include "bigcolorbutton.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -18,43 +19,37 @@ ToolBar::~ToolBar() {}
 
 void ToolBar::initWidgets() {
     setObjectName("ToolBar");
-    setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
     setStyleSheet(getFileContent(":/resources/qss/toolbar.qss"));
-    qApp->setOverrideCursor(Qt::ArrowCursor);
+    this->setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
+    m_topLabel = new QLabel(this);
+    m_topLabel->setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT - 6);
+    m_bottomLabel = new QLabel(this);
+    m_bottomLabel->setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT - 6);
 
     ToolButton* ovalBtn = new ToolButton();
     ovalBtn->setObjectName("OvalBtn");
-
     ToolButton* rectBtn = new ToolButton();
     rectBtn->setObjectName("RectBtn");
-
     ToolButton* arrowBtn = new ToolButton();
     arrowBtn->setObjectName("ArrowBtn");
-
     ToolButton* penBtn = new ToolButton();
     penBtn->setObjectName("PenBtn");
-
     ToolButton* textBtn = new ToolButton();
     textBtn->setObjectName("TextBtn");
-
-    ToolButton* colorBtn = new ToolButton();
+    BigColorButton* colorBtn = new BigColorButton();
     colorBtn->setObjectName("ColorBtn");
-
     ToolButton* saveBtn = new ToolButton();
     saveBtn->setObjectName("SaveBtn");
     saveBtn->setFixedSize(15, 22);
-
     ToolButton* saveListBtn = new ToolButton();
     saveListBtn->setObjectName("ListBtn");
     saveListBtn->setFixedSize(10, 22);
-
     ToolButton* shareBtn = new ToolButton();
     shareBtn->setObjectName("ShareBtn");
-
     ToolButton* closeBtn = new ToolButton();
     closeBtn->setObjectName("CloseBtn");
 
-    m_baseLayout = new QHBoxLayout();
+    m_baseLayout = new QHBoxLayout(m_topLabel);
     m_baseLayout->setMargin(0);
     m_baseLayout->setSpacing(8);
     m_baseLayout->addSpacing(7);
@@ -69,24 +64,26 @@ void ToolBar::initWidgets() {
     m_baseLayout->addWidget(shareBtn);
     m_baseLayout->addWidget(closeBtn);
     m_baseLayout->addStretch();
-
-    QWidget* expandWidget = new QWidget;
-    expandWidget->setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
-
-    m_expandLayout = new QHBoxLayout();
+    m_expandLayout = new QHBoxLayout(m_bottomLabel);
     m_expandLayout->setMargin(0);
     m_expandLayout->setSpacing(0);
-    m_expandLayout->addWidget(expandWidget);
 
-    m_layout = new QVBoxLayout();
+    m_separator = new QLabel(this);
+    m_separator->setFixedHeight(1);
+    m_separator->setObjectName("SeparatorLine");
+    m_separator->hide();
+
+    m_layout = new QVBoxLayout(this);
     m_layout->setMargin(0);
     m_layout->setSpacing(0);
-    m_layout->addStretch();
     m_layout->addSpacing(2);
-    m_layout->addLayout(m_baseLayout);
-    m_layout->addLayout(m_expandLayout);
+    m_layout->addWidget(m_topLabel);
+    m_layout->addSpacing(3);
+    m_layout->addWidget(m_separator);
+    m_layout->addSpacing(3);
+    m_layout->addWidget(m_bottomLabel);
+    m_layout->addSpacing(3);
     m_layout->addStretch();
-    setLayout(m_layout);
 
     connect(ovalBtn, &ToolButton::clicked, this, [=](bool checked){
         setExpandMode(checked, "Oval");
@@ -126,8 +123,10 @@ void ToolBar::showToolBar(QPoint pos) {
 
 void ToolBar::setExpandMode(bool expand, QString type) {
     if (expand) {
-        this->setFixedHeight(28*2);
+        this->setFixedHeight(28*2+1);
+        m_separator->show();
     } else {
+        m_separator->hide();
         this->setFixedHeight(28);
     }
     Q_UNUSED(type);

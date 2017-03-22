@@ -174,3 +174,7 @@ QPushButton#CloseBtn:checked {
     border: none;
     border-image: url(:/resources/images/action/close_checked.png);
 }
+
+QLabel#SeparatorLine {
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
