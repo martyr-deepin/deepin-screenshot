@@ -11,6 +11,7 @@
 #include <QDateTime>
 
 #include "widgets/toptips.h"
+#include "widgets/toolbar.h"
 
 #include "windowmanager.h"
 #include "eventmonitor.h"
@@ -94,6 +95,7 @@ private:
     EventMonitor m_eventMonitor;
 
     TopTips* m_sizeTips;
+    ToolBar* m_toolBar;
 };
 
 #endif // MAINWINDOW_H

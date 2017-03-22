@@ -39,6 +39,9 @@ void MainWindow::initUI() {
     }
 
     m_sizeTips = new TopTips(this);
+    m_sizeTips->hide();
+    m_toolBar = new ToolBar(this);
+    m_toolBar->hide();
 
     m_isFirstDrag = false;
     m_isFirstMove = false;
@@ -50,8 +53,8 @@ void MainWindow::initUI() {
     m_recordWidth = 0;
     m_recordHeight = 0;
 
-    m_resizeBigPix = QPixmap(":/image/action/resize_handle_big.png");
-    m_resizeSmallPix = QPixmap(":/image/action/resize_handle_small.png");
+    m_resizeBigPix = QPixmap(":/image/icons/resize_handle_big.png");
+    m_resizeSmallPix = QPixmap(":/image/icons/resize_handle_small.png");
 
     m_dragRecordX = -1;
     m_dragRecordY = -1;
@@ -177,6 +180,9 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             m_isFirstReleaseButton = true;
 
             m_mouseStatus = ShotMouseStatus::Normal;
+
+            m_toolBar->showToolBar(QPoint(m_recordX + m_recordWidth, m_recordY + m_recordHeight));
+            qDebug() << "m_toolBar" << m_toolBar->isVisible();
             updateCursor(event);
 
             // Record select area name with window name if just click (no drag).
