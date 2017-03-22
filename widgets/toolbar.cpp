@@ -4,6 +4,7 @@
 
 #include <QApplication>
 #include <QDebug>
+#include <QCursor>
 
 namespace {
     const int TOOLBAR_HEIGHT = 28;
@@ -20,6 +21,9 @@ ToolBar::~ToolBar() {}
 void ToolBar::initWidgets() {
     setObjectName("ToolBar");
     setStyleSheet(getFileContent(":/resources/qss/toolbar.qss"));
+    setFocusPolicy(Qt::StrongFocus);
+    setMouseTracking(true);
+
     this->setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
     m_topLabel = new QLabel(this);
     m_topLabel->setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT - 6);
@@ -130,4 +134,9 @@ void ToolBar::setExpandMode(bool expand, QString type) {
         this->setFixedHeight(28);
     }
     Q_UNUSED(type);
+}
+
+void ToolBar::mouseMoveEvent(QMouseEvent *ev) {
+    Q_UNUSED(ev);
+    qApp->setOverrideCursor(Qt::ArrowCursor);
 }

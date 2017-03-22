@@ -31,6 +31,7 @@ protected:
 //    void enterEvent(QEvent *event);
 //    void leaveEvent(QEvent *event);
 //    void paintEvent(QPaintEvent *event);
+    void mouseMoveEvent(QMouseEvent *ev);
 private:
 
     QLabel* m_topLabel;
