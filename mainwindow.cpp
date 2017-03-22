@@ -182,7 +182,6 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             m_mouseStatus = ShotMouseStatus::Normal;
 
             m_toolBar->showToolBar(QPoint(m_recordX + m_recordWidth, m_recordY + m_recordHeight));
-            qDebug() << "m_toolBar" << m_toolBar->isVisible();
             updateCursor(event);
 
             // Record select area name with window name if just click (no drag).
@@ -233,6 +232,9 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         if (m_recordWidth > 0 && m_recordHeight >0) {
             m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
                 QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
+
+            if (m_toolBar->isVisible())
+                m_toolBar->showToolBar(QPoint(m_recordX + m_recordWidth, m_recordY + m_recordHeight));
         }
 
         if (!m_isFirstMove) {

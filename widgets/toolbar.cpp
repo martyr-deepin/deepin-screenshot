@@ -2,6 +2,7 @@
 #include "utils.h"
 
 #include <QPushButton>
+#include <QApplication>
 #include <QDebug>
 
 ToolBar::ToolBar(QWidget *parent)
@@ -16,7 +17,7 @@ void ToolBar::initWidgets() {
     setObjectName("ToolBar");
     setFixedSize(284, 28);
     setStyleSheet(getFileContent(":/resources/qss/toolbar.qss"));
-
+    qApp->setOverrideCursor(Qt::ArrowCursor);
     QPushButton* ovalBtn = new QPushButton();
     ovalBtn->setObjectName("OvalBtn");
     ovalBtn->setFixedSize(22, 22);
@@ -48,7 +49,7 @@ void ToolBar::initWidgets() {
 
     QPushButton* saveListBtn = new QPushButton();
     saveListBtn->setObjectName("ListBtn");
-    saveListBtn->setFixedSize(6, 22);
+    saveListBtn->setFixedSize(10, 22);
     saveListBtn->setCheckable(true);
 
     QPushButton* shareBtn = new QPushButton();
