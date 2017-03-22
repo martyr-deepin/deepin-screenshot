@@ -2,7 +2,18 @@
 #define TOOLBAR_H
 
 #include <QLabel>
+#include <QPushButton>
 #include <QHBoxLayout>
+
+class ToolButton : public QPushButton {
+    Q_OBJECT
+public:
+    ToolButton(QWidget* parent = 0) {
+        setFixedSize(22, 22);
+        setCheckable(true);
+    }
+    ~ToolButton(){}
+};
 
 class ToolBar : public QLabel {
     Q_OBJECT
@@ -14,14 +25,16 @@ public:
 
     void initWidgets();
     void showToolBar(QPoint pos);
+    void setExpandMode(bool expand, QString type = "");
 protected:
 //    void enterEvent(QEvent *event);
 //    void leaveEvent(QEvent *event);
 //    void paintEvent(QPaintEvent *event);
 private:
 
-    QHBoxLayout* m_layout;
-//    QHBoxLayout* m_expandLayout;
+    QVBoxLayout* m_layout;
+    QHBoxLayout* m_baseLayout;
+    QHBoxLayout* m_expandLayout;
 
 
 };
