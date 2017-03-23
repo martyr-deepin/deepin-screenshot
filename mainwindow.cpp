@@ -42,6 +42,8 @@ void MainWindow::initUI() {
     m_sizeTips->hide();
     m_toolBar = new ToolBar(this);
     m_toolBar->hide();
+    m_magnifierTip = new MagnifierTip(this);
+    m_magnifierTip->hide();
 
     m_isFirstDrag = false;
     m_isFirstMove = false;
@@ -157,9 +159,8 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         if (!m_isFirstPressButton) {
             m_isFirstPressButton = true;
 
-//            startTooltip->hide();
 
-//            Utils::clearBlur(windowManager, this->winId());
+
         } else {
             m_dragAction = getDirection(event);
 
@@ -180,7 +181,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             m_isFirstReleaseButton = true;
 
             m_mouseStatus = ShotMouseStatus::Normal;
-
+            m_magnifierTip->hide();
             m_toolBar->showToolBar(QPoint(m_recordX + m_recordWidth, m_recordY + m_recordHeight));
             updateCursor(event);
 
@@ -215,8 +216,6 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                 }
             }
 
-//            showRecordButton();
-
             needRepaint = true;
         } else {
             if (m_mouseStatus == ShotMouseStatus::Normal) {
@@ -229,12 +228,17 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
         needRepaint = true;
     } else if (event->type() == QEvent::MouseMove) {
+
         if (m_recordWidth > 0 && m_recordHeight >0) {
             m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
-                QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
+                                   QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
 
-            if (m_toolBar->isVisible())
+            if (m_toolBar->isVisible()) {
                 m_toolBar->showToolBar(QPoint(m_recordX + m_recordWidth, m_recordY + m_recordHeight));
+            } else {
+                m_magnifierTip->showMagnifier(QPoint(m_recordX + m_recordWidth,
+                                                     m_recordY + m_recordHeight));
+            }
         }
 
         if (!m_isFirstMove) {

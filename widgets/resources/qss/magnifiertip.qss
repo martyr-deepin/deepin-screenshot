@@ -1,0 +1,3 @@
+MagnifierTip {
+    border-image: url(:/resources/images/action/magnifier.png);
+}

@@ -12,6 +12,7 @@
 
 #include "widgets/toptips.h"
 #include "widgets/toolbar.h"
+#include "widgets/magnifiertip.h"
 
 #include "windowmanager.h"
 #include "eventmonitor.h"
@@ -96,6 +97,7 @@ private:
 
     TopTips* m_sizeTips;
     ToolBar* m_toolBar;
+    MagnifierTip* m_magnifierTip;
 };
 
 #endif // MAINWINDOW_H

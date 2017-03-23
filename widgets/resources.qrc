@@ -51,5 +51,7 @@
         <file>resources/images/action/close_hover.png</file>
         <file>resources/images/action/close_normal.png</file>
         <file>resources/images/action/colors_checked.png</file>
+        <file>resources/qss/magnifiertip.qss</file>
+        <file>resources/images/action/magnifier.png</file>
     </qresource>
 </RCC>
