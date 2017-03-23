@@ -2,6 +2,7 @@
 #define ZOOMINDICATOR_H
 
 #include <QLabel>
+#include <QPainter>
 #include <QPaintEvent>
 
 class ZoomIndicator : public QLabel {

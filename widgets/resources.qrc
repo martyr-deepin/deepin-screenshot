@@ -53,5 +53,6 @@
         <file>resources/images/action/colors_checked.png</file>
         <file>resources/images/action/magnifier.png</file>
         <file>resources/qss/zoomindicator.qss</file>
+        <file>resources/images/action/center_rect.png</file>
     </qresource>
 </RCC>

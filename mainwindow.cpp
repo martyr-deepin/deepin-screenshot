@@ -9,6 +9,7 @@ namespace {
 const int RECORD_MIN_SIZE = 220;
 const int DRAG_POINT_RADIUS = 8;
 const int CURSOR_BOUND = 5;
+const QString TMPFILE_URL = "/tmp/deepin-screenshot.png";
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -28,6 +29,7 @@ void MainWindow::initUI() {
     setAttribute(Qt::WA_TranslucentBackground, true);
     setMouseTracking(true);   // make MouseMove can response
     installEventFilter(this);
+
     m_windowManager = new WindowManager();
     QList<xcb_window_t> windows = m_windowManager->getWindows();
     m_rootWindowRect =  m_windowManager->getRootWindowRect();
@@ -37,6 +39,10 @@ void MainWindow::initUI() {
                                  m_windowManager->getWindowRect(windows[i])));
         m_windowNames.append(m_windowManager->getWindowClass(windows[i]));
     }
+
+    //**save tmp image file
+    QPixmap tmpImg = qApp->primaryScreen()->grabWindow(windows[windows.length()-1]);
+    tmpImg.save(TMPFILE_URL, "png");
 
     m_sizeTips = new TopTips(this);
     m_sizeTips->hide();

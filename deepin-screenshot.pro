@@ -8,7 +8,7 @@ QT       += core gui  network x11extras dbus
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = deepin-screenshot
+TARGET = deepin-screenshot-v4
 TEMPLATE = app
 
 CONFIG += c++11 link_pkgconfig
