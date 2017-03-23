@@ -23,6 +23,8 @@ void ToolBar::initWidgets() {
     setStyleSheet(getFileContent(":/resources/qss/toolbar.qss"));
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
+    setAcceptDrops(true);
+    installEventFilter(this);
 
     this->setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
     m_topLabel = new QLabel(this);
@@ -115,7 +117,9 @@ void ToolBar::initWidgets() {
     });
 
     connect(closeBtn, &ToolButton::clicked, this, [=](bool checked){
-        setExpandMode(checked, "Close");
+        Q_UNUSED(checked);
+        qDebug() << "screenshot will exit!";
+        qApp->quit();
     });
 }
 
@@ -134,6 +138,16 @@ void ToolBar::setExpandMode(bool expand, QString type) {
         this->setFixedHeight(28);
     }
     Q_UNUSED(type);
+}
+
+bool ToolBar::eventFilter(QObject *watched, QEvent *event) {
+    Q_UNUSED(watched);
+
+    if (event->type() == QEvent::Enter) {
+        setCursor(Qt::ArrowCursor);
+        qApp->setOverrideCursor(Qt::ArrowCursor);
+    }
+    return false;
 }
 
 void ToolBar::mouseMoveEvent(QMouseEvent *ev) {
