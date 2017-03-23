@@ -42,8 +42,8 @@ void MainWindow::initUI() {
     m_sizeTips->hide();
     m_toolBar = new ToolBar(this);
     m_toolBar->hide();
-    m_magnifierTip = new MagnifierTip(this);
-    m_magnifierTip->hide();
+    m_zoomIndicator = new ZoomIndicator(this);
+    m_zoomIndicator->hide();
 
     m_isFirstDrag = false;
     m_isFirstMove = false;
@@ -66,10 +66,14 @@ void MainWindow::initUI() {
 
     m_selectAreaName = "";
 
-    connect(&m_eventMonitor, SIGNAL(buttonedPress(int, int)), this, SLOT(showPressFeedback(int, int)), Qt::QueuedConnection);
-    connect(&m_eventMonitor, SIGNAL(buttonedDrag(int, int)), this, SLOT(showDragFeedback(int, int)), Qt::QueuedConnection);
-    connect(&m_eventMonitor, SIGNAL(buttonedRelease(int, int)), this, SLOT(showReleaseFeedback(int, int)), Qt::QueuedConnection);
-    connect(&m_eventMonitor, SIGNAL(pressEsc()), this, SLOT(responseEsc()), Qt::QueuedConnection);
+    connect(&m_eventMonitor, SIGNAL(buttonedPress(int, int)), this,
+            SLOT(showPressFeedback(int, int)), Qt::QueuedConnection);
+    connect(&m_eventMonitor, SIGNAL(buttonedDrag(int, int)), this,
+            SLOT(showDragFeedback(int, int)), Qt::QueuedConnection);
+    connect(&m_eventMonitor, SIGNAL(buttonedRelease(int, int)), this,
+            SLOT(showReleaseFeedback(int, int)), Qt::QueuedConnection);
+    connect(&m_eventMonitor, SIGNAL(pressEsc()), this,
+            SLOT(responseEsc()), Qt::QueuedConnection);
     m_eventMonitor.start();
 }
 
@@ -95,20 +99,24 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             if (/*qApp->keyboardModifiers() & */Qt::ControlModifier) {
                 if (keyEvent->key() == Qt::Key_Left) {
                     m_recordX = std::max(0, m_recordX - 1);
-                    m_recordWidth = std::min(m_recordWidth + 1, m_rootWindowRect.width);
+                    m_recordWidth = std::min(m_recordWidth + 1,
+                                             m_rootWindowRect.width);
 
                     needRepaint = true;
                 } else if (keyEvent->key() == Qt::Key_Right) {
-                    m_recordWidth = std::min(m_recordWidth + 1, m_rootWindowRect.width);
+                    m_recordWidth = std::min(m_recordWidth + 1,
+                                             m_rootWindowRect.width);
 
                     needRepaint = true;
                 } else if (keyEvent->key() == Qt::Key_Up) {
                     m_recordY = std::max(0, m_recordY - 1);
-                    m_recordHeight = std::min(m_recordHeight + 1, m_rootWindowRect.height);
+                    m_recordHeight = std::min(m_recordHeight + 1,
+                                              m_rootWindowRect.height);
 
                     needRepaint = true;
                 } else if (keyEvent->key() == Qt::Key_Down) {
-                    m_recordHeight = std::min(m_recordHeight + 1, m_rootWindowRect.height);
+                    m_recordHeight = std::min(m_recordHeight + 1,
+                                              m_rootWindowRect.height);
 
                     needRepaint = true;
                 }
@@ -118,7 +126,8 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
                     needRepaint = true;
                 } else if (keyEvent->key() == Qt::Key_Right) {
-                    m_recordX = std::min(m_rootWindowRect.width - m_recordWidth, m_recordX + 1);
+                    m_recordX = std::min(m_rootWindowRect.width - m_recordWidth,
+                                         m_recordX + 1);
 
                     needRepaint = true;
                 } else if (keyEvent->key() == Qt::Key_Up) {
@@ -126,7 +135,8 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
                     needRepaint = true;
                 } else if (keyEvent->key() == Qt::Key_Down) {
-                    m_recordY = std::min(m_rootWindowRect.height - m_recordHeight, m_recordY + 1);
+                    m_recordY = std::min(m_rootWindowRect.height -
+                                         m_recordHeight, m_recordY + 1);
 
                     needRepaint = true;
                 }
@@ -139,9 +149,12 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
     } else if (event->type() == QEvent::KeyRelease) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-        // NOTE: must be use 'isAutoRepeat' to filter KeyRelease event send by Qt.
+        // NOTE: must be use 'isAutoRepeat' to filter KeyRelease event
+        //send by Qt.
         if (!keyEvent->isAutoRepeat()) {
-            if (keyEvent->key() == Qt::Key_Left || keyEvent->key() == Qt::Key_Right || keyEvent->key() == Qt::Key_Up || keyEvent->key() == Qt::Key_Down) {
+            if (keyEvent->key() == Qt::Key_Left || keyEvent->key()
+                == Qt::Key_Right || keyEvent->key() == Qt::Key_Up ||
+                keyEvent->key() == Qt::Key_Down) {
                 needRepaint = true;
             }
 
@@ -181,8 +194,9 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             m_isFirstReleaseButton = true;
 
             m_mouseStatus = ShotMouseStatus::Normal;
-            m_magnifierTip->hide();
-            m_toolBar->showToolBar(QPoint(m_recordX + m_recordWidth, m_recordY + m_recordHeight));
+            m_zoomIndicator->hide();
+            m_toolBar->showToolBar(QPoint(m_recordX + m_recordWidth, m_recordY
+                                          + m_recordHeight));
             updateCursor(event);
 
             // Record select area name with window name if just click (no drag).
@@ -204,8 +218,10 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
             } else {
                 // Make sure record area not too small.
-                m_recordWidth = m_recordWidth < RECORD_MIN_SIZE ? RECORD_MIN_SIZE : m_recordWidth;
-                m_recordHeight = m_recordHeight < RECORD_MIN_SIZE ? RECORD_MIN_SIZE : m_recordHeight;
+                m_recordWidth = m_recordWidth < RECORD_MIN_SIZE ?
+                            RECORD_MIN_SIZE : m_recordWidth;
+                m_recordHeight = m_recordHeight < RECORD_MIN_SIZE ?
+                            RECORD_MIN_SIZE : m_recordHeight;
 
                 if (m_recordX + m_recordWidth > m_rootWindowRect.width) {
                     m_recordX = m_rootWindowRect.width - m_recordWidth;
@@ -231,12 +247,13 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
         if (m_recordWidth > 0 && m_recordHeight >0) {
             m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
-                                   QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
+                QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
 
             if (m_toolBar->isVisible()) {
-                m_toolBar->showToolBar(QPoint(m_recordX + m_recordWidth, m_recordY + m_recordHeight));
+                m_toolBar->showToolBar(QPoint(m_recordX + m_recordWidth,
+                                              m_recordY + m_recordHeight));
             } else {
-                m_magnifierTip->showMagnifier(QPoint(m_recordX + m_recordWidth,
+                m_zoomIndicator->showMagnifier(QPoint(m_recordX + m_recordWidth,
                                                      m_recordY + m_recordHeight));
             }
         }
@@ -266,10 +283,14 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                     needRepaint = true;
                 }
             } else if (m_isPressButton) {
-                if (m_mouseStatus != ShotMouseStatus::Wait && m_dragRecordX >= 0 && m_dragRecordY >= 0) {
+                if (m_mouseStatus != ShotMouseStatus::Wait && m_dragRecordX >= 0
+                        && m_dragRecordY >= 0) {
                     if (m_dragAction == ResizeDirection::Moving) {
-                        m_recordX = std::max(std::min(m_dragRecordX + mouseEvent->x() - m_dragStartX, m_rootWindowRect.width - m_recordWidth), 1);
-                        m_recordY = std::max(std::min(m_dragRecordY + mouseEvent->y() - m_dragStartY, m_rootWindowRect.height - m_recordHeight), 1);
+                        m_recordX = std::max(std::min(m_dragRecordX +
+                            mouseEvent->x() - m_dragStartX, m_rootWindowRect.width
+                            - m_recordWidth), 1);
+                        m_recordY = std::max(std::min(m_dragRecordY + mouseEvent->y()
+                            - m_dragStartY, m_rootWindowRect.height - m_recordHeight), 1);
                     } else if (m_dragAction == ResizeDirection::TopLeft) {
                         resizeDirection(ResizeDirection::Top, mouseEvent);
                         resizeDirection(ResizeDirection::Left, mouseEvent);
@@ -413,9 +434,7 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
             painter.setOpacity(1);
             painter.setBrush(QBrush());  // clear brush
             painter.setPen(framePen);
-            painter.drawRect(QRect(
-                                 std::max(frameRect.x(), 1),
-                                 std::max(frameRect.y(), 1),
+            painter.drawRect(QRect(std::max(frameRect.x(), 1),std::max(frameRect.y(), 1),
                                  std::min(frameRect.width() - 1, m_rootWindowRect.width - 2),
                                  std::min(frameRect.height() - 1, m_rootWindowRect.height - 2)));
             painter.setRenderHint(QPainter::Antialiasing, true);
@@ -423,23 +442,39 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
 
         // Draw drag pint.
         if (m_mouseStatus != ShotMouseStatus::Wait && m_drawDragPoint) {
-            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS, m_recordY - DRAG_POINT_RADIUS), m_resizeBigPix);
-            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth, m_recordY - DRAG_POINT_RADIUS), m_resizeBigPix);
-            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS, m_recordY - DRAG_POINT_RADIUS + m_recordHeight), m_resizeBigPix);
-            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth, m_recordY - DRAG_POINT_RADIUS + m_recordHeight), m_resizeBigPix);
-            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS, m_recordY - DRAG_POINT_RADIUS + m_recordHeight / 2), m_resizeBigPix);
-            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth, m_recordY - DRAG_POINT_RADIUS + m_recordHeight / 2), m_resizeBigPix);
-            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth / 2, m_recordY - DRAG_POINT_RADIUS), m_resizeBigPix);
-            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth / 2, m_recordY - DRAG_POINT_RADIUS + m_recordHeight), m_resizeBigPix);
+            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS,
+                               m_recordY - DRAG_POINT_RADIUS), m_resizeBigPix);
+            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth,
+                               m_recordY - DRAG_POINT_RADIUS), m_resizeBigPix);
+            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS, m_recordY
+                               - DRAG_POINT_RADIUS + m_recordHeight), m_resizeBigPix);
+            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth,
+                               m_recordY - DRAG_POINT_RADIUS + m_recordHeight), m_resizeBigPix);
+            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS,
+                               m_recordY - DRAG_POINT_RADIUS + m_recordHeight / 2), m_resizeBigPix);
+            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS +
+                               m_recordWidth, m_recordY - DRAG_POINT_RADIUS + m_recordHeight / 2), m_resizeBigPix);
+            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth / 2,
+                               m_recordY - DRAG_POINT_RADIUS), m_resizeBigPix);
+            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth / 2,
+                               m_recordY - DRAG_POINT_RADIUS + m_recordHeight), m_resizeBigPix);
 
-            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS, m_recordY - DRAG_POINT_RADIUS), m_resizeSmallPix);
-            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth, m_recordY - DRAG_POINT_RADIUS),  m_resizeSmallPix);
-            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS, m_recordY - DRAG_POINT_RADIUS + m_recordHeight), m_resizeSmallPix);
-            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth, m_recordY - DRAG_POINT_RADIUS + m_recordHeight), m_resizeSmallPix);
-            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS, m_recordY - DRAG_POINT_RADIUS + m_recordHeight / 2), m_resizeSmallPix);
-            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth, m_recordY - DRAG_POINT_RADIUS + m_recordHeight / 2), m_resizeSmallPix);
-            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth / 2, m_recordY - DRAG_POINT_RADIUS), m_resizeSmallPix);
-            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth / 2, m_recordY - DRAG_POINT_RADIUS + m_recordHeight), m_resizeSmallPix);
+            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS,
+                               m_recordY - DRAG_POINT_RADIUS), m_resizeSmallPix);
+            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS +
+                               m_recordWidth, m_recordY - DRAG_POINT_RADIUS),  m_resizeSmallPix);
+            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS,
+                               m_recordY - DRAG_POINT_RADIUS + m_recordHeight), m_resizeSmallPix);
+            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS +
+                               m_recordWidth, m_recordY - DRAG_POINT_RADIUS + m_recordHeight), m_resizeSmallPix);
+            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS, m_recordY -
+                               DRAG_POINT_RADIUS + m_recordHeight / 2), m_resizeSmallPix);
+            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth,
+                               m_recordY - DRAG_POINT_RADIUS + m_recordHeight / 2), m_resizeSmallPix);
+            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth / 2,
+                               m_recordY - DRAG_POINT_RADIUS), m_resizeSmallPix);
+            painter.drawPixmap(QPoint(m_recordX - DRAG_POINT_RADIUS + m_recordWidth / 2,
+                               m_recordY - DRAG_POINT_RADIUS + m_recordHeight), m_resizeSmallPix);
         }
     }
 }
@@ -491,7 +526,8 @@ void MainWindow::updateCursor(QEvent *event)
                    && cursorY < m_recordY + m_recordHeight + CURSOR_BOUND) {
             // Bottom.
             qApp->setOverrideCursor(Qt::SizeVerCursor);
-        } /*else if (recordButton->geometry().contains(cursorX, cursorY) || recordOptionPanel->geometry().contains(cursorX, cursorY)) {
+        } /*else if (recordButton->geometry().contains(cursorX, cursorY) ||
+             recordOptionPanel->geometry().contains(cursorX, cursorY)) {
             // Record area.
             qApp->setOverrideCursor(Qt::ArrowCursor);
         }*/ else {
@@ -512,9 +548,9 @@ void MainWindow::resizeDirection(ResizeDirection direction,
     switch (direction) {
     case ResizeDirection::Top: {
         m_recordY = std::max(std::min(m_dragRecordY + offsetY,
-                                      m_dragRecordY + m_dragRecordHeight - RECORD_MIN_SIZE), 1);
+                    m_dragRecordY + m_dragRecordHeight - RECORD_MIN_SIZE), 1);
         m_recordHeight = std::max(std::min(m_dragRecordHeight -
-                                           offsetY, m_rootWindowRect.height), RECORD_MIN_SIZE);
+                      offsetY, m_rootWindowRect.height), RECORD_MIN_SIZE);
         break;
     };
     case ResizeDirection::Bottom: {
@@ -524,14 +560,14 @@ void MainWindow::resizeDirection(ResizeDirection direction,
     };
     case ResizeDirection::Left: {
         m_recordX = std::max(std::min(m_dragRecordX + offsetX,
-                                      m_dragRecordX + m_dragRecordWidth - RECORD_MIN_SIZE), 1);
+                    m_dragRecordX + m_dragRecordWidth - RECORD_MIN_SIZE), 1);
         m_recordWidth = std::max(std::min(m_dragRecordWidth - offsetX,
-                                          m_rootWindowRect.width), RECORD_MIN_SIZE);
+                    m_rootWindowRect.width), RECORD_MIN_SIZE);
         break;
     };
     case ResizeDirection::Right: {
         m_recordWidth = std::max(std::min(m_dragRecordWidth + offsetX,
-                                          m_rootWindowRect.width), RECORD_MIN_SIZE);
+                        m_rootWindowRect.width), RECORD_MIN_SIZE);
         break;
     };
     default:break;

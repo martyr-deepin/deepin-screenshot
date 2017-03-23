@@ -34,11 +34,14 @@ void BigColorButton::paintEvent(QPaintEvent *) {
                         COLOR_RADIUS, COLOR_RADIUS);
 
     if (m_isChecked) {
-        painter.drawPixmap(rect(), QPixmap(":/resources/images/action/colors_checked.png"));
+        painter.drawPixmap(rect(), QPixmap(
+                               ":/resources/images/action/colors_checked.png"));
     } else if (m_isHover && !m_isChecked) {
-        painter.drawPixmap(rect(), QPixmap(":/resources/images/action/colors_hover.png"));
+        painter.drawPixmap(rect(), QPixmap(
+                               ":/resources/images/action/colors_hover.png"));
     } else {
-         painter.drawPixmap(rect(), QPixmap(":/resources/images/action/colors_normal.png"));
+         painter.drawPixmap(rect(), QPixmap(
+                                ":/resources/images/action/colors_normal.png"));
     }
 
 

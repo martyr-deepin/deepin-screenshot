@@ -9,6 +9,7 @@
 namespace {
     const int TOOLBAR_HEIGHT = 28;
     const int TOOLBAR_WIDTH = 284;
+    const int BUTTON_SPACING = 3;
 }
 ToolBar::ToolBar(QWidget *parent)
     : QLabel(parent) {
@@ -57,18 +58,27 @@ void ToolBar::initWidgets() {
 
     m_baseLayout = new QHBoxLayout(m_topLabel);
     m_baseLayout->setMargin(0);
-    m_baseLayout->setSpacing(8);
-    m_baseLayout->addSpacing(7);
+    m_baseLayout->addSpacing(4);
     m_baseLayout->addWidget(ovalBtn);
+    m_baseLayout->addSpacing(BUTTON_SPACING);
     m_baseLayout->addWidget(rectBtn);
+    m_baseLayout->addSpacing(BUTTON_SPACING);
     m_baseLayout->addWidget(arrowBtn);
+    m_baseLayout->addSpacing(BUTTON_SPACING);
     m_baseLayout->addWidget(penBtn);
+    m_baseLayout->addSpacing(BUTTON_SPACING);
     m_baseLayout->addWidget(textBtn);
+    m_baseLayout->addSpacing(BUTTON_SPACING);
     m_baseLayout->addWidget(colorBtn);
+    m_baseLayout->addSpacing(BUTTON_SPACING);
     m_baseLayout->addWidget(saveBtn);
+    m_baseLayout->addSpacing(0);
     m_baseLayout->addWidget(saveListBtn);
+    m_baseLayout->addSpacing(BUTTON_SPACING);
     m_baseLayout->addWidget(shareBtn);
+    m_baseLayout->addSpacing(BUTTON_SPACING);
     m_baseLayout->addWidget(closeBtn);
+    m_baseLayout->addSpacing(4);
     m_baseLayout->addStretch();
     m_expandLayout = new QHBoxLayout(m_bottomLabel);
     m_expandLayout->setMargin(0);

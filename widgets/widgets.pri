@@ -3,13 +3,13 @@ HEADERS += \
     $$PWD/toolbar.h \
     $$PWD/toptips.h \
     $$PWD/bigcolorbutton.h \
-    $$PWD/magnifiertip.h
+    $$PWD/zoomIndicator.h
 
 SOURCES += \
     $$PWD/toolbar.cpp \
     $$PWD/toptips.cpp \
     $$PWD/bigcolorbutton.cpp \
-    $$PWD/magnifiertip.cpp
+    $$PWD/zoomIndicator.cpp
 
 RESOURCES += \
     $$PWD/resources.qrc

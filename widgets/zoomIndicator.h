@@ -1,14 +1,14 @@
-#ifndef MAGNIFIERTIP_H
-#define MAGNIFIERTIP_H
+#ifndef ZOOMINDICATOR_H
+#define ZOOMINDICATOR_H
 
 #include <QLabel>
 #include <QPaintEvent>
 
-class MagnifierTip : public QLabel {
+class ZoomIndicator : public QLabel {
     Q_OBJECT
 public:
-    MagnifierTip(QWidget* parent = 0);
-    ~MagnifierTip();
+    ZoomIndicator(QWidget* parent = 0);
+    ~ZoomIndicator();
 
     void showMagnifier(QPoint pos);
 protected:

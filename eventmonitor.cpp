@@ -45,13 +45,15 @@ void EventMonitor::run()
         return;
     }
 
-    // Receive KeyPress, KeyRelease, ButtonPress, ButtonRelease and MotionNotify events.
+    // Receive KeyPress, KeyRelease, ButtonPress, ButtonRelease
+    //and MotionNotify events.
     memset(range, 0, sizeof(XRecordRange));
     range->device_events.first = KeyPress;
     range->device_events.last  = MotionNotify;
-    
+
     // And create the XRECORD context.
-    XRecordContext context = XRecordCreateContext (display, 0, &clients, 1, &range, 1);
+    XRecordContext context = XRecordCreateContext (display, 0, &clients,
+                                                   1, &range, 1);
     if (context == 0) {
         fprintf(stderr, "XRecordCreateContext failed\n");
         return;
@@ -66,7 +68,8 @@ void EventMonitor::run()
         return;
     }
 
-    if (!XRecordEnableContext(display_datalink, context,  callback, (XPointer) this)) {
+    if (!XRecordEnableContext(display_datalink, context,  callback,
+                              (XPointer) this)) {
         fprintf(stderr, "XRecordEnableContext() failed\n");
         return;
     }
@@ -85,24 +88,27 @@ void EventMonitor::handleRecordEvent(XRecordInterceptData* data)
         case ButtonPress:
             if (event->u.u.detail != WheelUp &&
                 event->u.u.detail != WheelDown &&
-                event->u.u.detail != WheelLeft && 
+                event->u.u.detail != WheelLeft &&
                 event->u.u.detail != WheelRight) {
                 isPress = true;
-                emit buttonedPress(event->u.keyButtonPointer.rootX, event->u.keyButtonPointer.rootY);
+                emit buttonedPress(event->u.keyButtonPointer.rootX,
+                                   event->u.keyButtonPointer.rootY);
             }
             break;
         case MotionNotify:
             if (isPress) {
-                emit buttonedDrag(event->u.keyButtonPointer.rootX, event->u.keyButtonPointer.rootY);
+                emit buttonedDrag(event->u.keyButtonPointer.rootX,
+                                  event->u.keyButtonPointer.rootY);
             }
             break;
         case ButtonRelease:
             if (event->u.u.detail != WheelUp &&
                 event->u.u.detail != WheelDown &&
-                event->u.u.detail != WheelLeft && 
+                event->u.u.detail != WheelLeft &&
                 event->u.u.detail != WheelRight) {
                 isPress = false;
-                emit buttonedRelease(event->u.keyButtonPointer.rootX, event->u.keyButtonPointer.rootY);
+                emit buttonedRelease(event->u.keyButtonPointer.rootX,
+                                     event->u.keyButtonPointer.rootY);
             }
             break;
         case KeyPress:
