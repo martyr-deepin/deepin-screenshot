@@ -3,6 +3,7 @@
 #include "bigcolorbutton.h"
 
 #include <QApplication>
+#include <QButtonGroup>
 #include <QDebug>
 #include <QCursor>
 
@@ -33,28 +34,40 @@ void ToolBar::initWidgets() {
     m_bottomLabel = new QLabel(this);
     m_bottomLabel->setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT - 6);
 
+    QButtonGroup* buttonGroup = new QButtonGroup(this);
+    buttonGroup->setExclusive(true);
     ToolButton* ovalBtn = new ToolButton();
     ovalBtn->setObjectName("OvalBtn");
+    buttonGroup->addButton(ovalBtn);
     ToolButton* rectBtn = new ToolButton();
     rectBtn->setObjectName("RectBtn");
+    buttonGroup->addButton(rectBtn);
     ToolButton* arrowBtn = new ToolButton();
     arrowBtn->setObjectName("ArrowBtn");
+    buttonGroup->addButton(arrowBtn);
     ToolButton* penBtn = new ToolButton();
     penBtn->setObjectName("PenBtn");
+    buttonGroup->addButton(penBtn);
     ToolButton* textBtn = new ToolButton();
     textBtn->setObjectName("TextBtn");
+    buttonGroup->addButton(textBtn);
     BigColorButton* colorBtn = new BigColorButton();
     colorBtn->setObjectName("ColorBtn");
+    buttonGroup->addButton(colorBtn);
     ToolButton* saveBtn = new ToolButton();
     saveBtn->setObjectName("SaveBtn");
     saveBtn->setFixedSize(15, 22);
+    buttonGroup->addButton(saveBtn);
     ToolButton* saveListBtn = new ToolButton();
     saveListBtn->setObjectName("ListBtn");
     saveListBtn->setFixedSize(10, 22);
+    buttonGroup->addButton(saveListBtn);
     ToolButton* shareBtn = new ToolButton();
     shareBtn->setObjectName("ShareBtn");
+    buttonGroup->addButton(shareBtn);
     ToolButton* closeBtn = new ToolButton();
     closeBtn->setObjectName("CloseBtn");
+    buttonGroup->addButton(closeBtn);
 
     m_baseLayout = new QHBoxLayout(m_topLabel);
     m_baseLayout->setMargin(0);
