@@ -177,9 +177,6 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         m_dragStartY = mouseEvent->y();
         if (!m_isFirstPressButton) {
             m_isFirstPressButton = true;
-
-
-
         } else {
             m_dragAction = getDirection(event);
 
@@ -258,7 +255,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             if (m_toolBar->isVisible()) {
                 m_toolBar->showToolBar(QPoint(m_recordX + m_recordWidth,
                                               m_recordY + m_recordHeight));
-            } else {
+            } else if (m_isFirstPressButton){
                 m_zoomIndicator->showMagnifier(QPoint(m_recordX + m_recordWidth,
                                                      m_recordY + m_recordHeight));
             }
