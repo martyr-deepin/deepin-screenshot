@@ -13,7 +13,9 @@ namespace {
     const int BUTTON_SPACING = 3;
 }
 ToolBar::ToolBar(QWidget *parent)
-    : QLabel(parent) {
+    : QLabel(parent),
+      m_isChecked(false)
+{
     initWidgets();
 
 }
@@ -71,10 +73,10 @@ void ToolBar::initWidgets() {
 
     m_baseLayout = new QHBoxLayout(m_topLabel);
     m_baseLayout->setMargin(0);
-    m_baseLayout->addSpacing(4);
-    m_baseLayout->addWidget(ovalBtn);
-    m_baseLayout->addSpacing(BUTTON_SPACING);
+    m_baseLayout->addSpacing(4);    
     m_baseLayout->addWidget(rectBtn);
+    m_baseLayout->addSpacing(BUTTON_SPACING);
+    m_baseLayout->addWidget(ovalBtn);
     m_baseLayout->addSpacing(BUTTON_SPACING);
     m_baseLayout->addWidget(arrowBtn);
     m_baseLayout->addSpacing(BUTTON_SPACING);
@@ -114,11 +116,11 @@ void ToolBar::initWidgets() {
     m_layout->addSpacing(3);
     m_layout->addStretch();
 
-    connect(ovalBtn, &ToolButton::clicked, this, [=](bool checked){
-        setExpandMode(checked, "Oval");
-    });
     connect(rectBtn, &ToolButton::clicked, this, [=](bool checked){
         setExpandMode(checked, "Rect");
+    });
+    connect(ovalBtn, &ToolButton::clicked, this, [=](bool checked){
+        setExpandMode(checked, "Oval");
     });
     connect(arrowBtn, &ToolButton::clicked, this, [=](bool checked){
         setExpandMode(checked, "Arrow");
@@ -154,13 +156,18 @@ void ToolBar::showToolBar(QPoint pos) {
 
 void ToolBar::setExpandMode(bool expand, QString type) {
     if (expand) {
-        this->setFixedHeight(28*2+1);
+        m_isChecked = true;
+        emit buttonChecked(type);
+        setFixedHeight(28*2+1);
         m_separator->show();
     } else {
         m_separator->hide();
-        this->setFixedHeight(28);
+        setFixedHeight(28);
     }
-    Q_UNUSED(type);
+}
+
+bool ToolBar::isButtonChecked() {
+    return m_isChecked;
 }
 
 bool ToolBar::eventFilter(QObject *watched, QEvent *event) {

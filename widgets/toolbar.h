@@ -24,15 +24,22 @@ public:
     ToolBar(QWidget* parent = 0);
     ~ToolBar();
 
+signals:
+    void buttonChecked(QString type);
+
+public slots:
     void initWidgets();
     void showToolBar(QPoint pos);
     void setExpandMode(bool expand, QString type = "");
+    bool isButtonChecked();
+
 protected:
 //    void enterEvent(QEvent *event);
 //    void leaveEvent(QEvent *event);
 //    void paintEvent(QPaintEvent *event);
     void mouseMoveEvent(QMouseEvent *ev);
     bool eventFilter(QObject *watched, QEvent *event);
+
 private:
 
     QLabel* m_topLabel;
@@ -42,6 +49,7 @@ private:
     QHBoxLayout* m_baseLayout;
     QHBoxLayout* m_expandLayout;
 
+    bool m_isChecked;
 
 };
 

@@ -24,11 +24,11 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::initUI() {
-    setWindowFlags(Qt::Tool | Qt::FramelessWindowHint |
-                   Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus);
+    setWindowFlags(Qt::Tool | Qt::FramelessWindowHint /*|
+                   Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus*/);
     setAttribute(Qt::WA_TranslucentBackground, true);
     setMouseTracking(true);   // make MouseMove can response
-    installEventFilter(this);
+
 
     m_windowManager = new WindowManager();
     QList<xcb_window_t> windows = m_windowManager->getWindows();
@@ -50,6 +50,7 @@ void MainWindow::initUI() {
     m_toolBar->hide();
     m_zoomIndicator = new ZoomIndicator(this);
     m_zoomIndicator->hide();
+    installEventFilter(this);
 
     m_isFirstDrag = false;
     m_isFirstMove = false;
@@ -72,6 +73,7 @@ void MainWindow::initUI() {
 
     m_selectAreaName = "";
 
+    connect(m_toolBar, &ToolBar::buttonChecked, this, &MainWindow::initShapeWidget);
     connect(&m_eventMonitor, SIGNAL(buttonedPress(int, int)), this,
             SLOT(showPressFeedback(int, int)), Qt::QueuedConnection);
     connect(&m_eventMonitor, SIGNAL(buttonedDrag(int, int)), this,
@@ -85,6 +87,9 @@ void MainWindow::initUI() {
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
 {
+    if (m_toolBar->isButtonChecked()) {
+        return false;
+    }
 #undef KeyPress
 #undef KeyRelease
     if (event->type() == QEvent::MouseButtonDblClick) {
@@ -247,7 +252,6 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
         needRepaint = true;
     } else if (event->type() == QEvent::MouseMove) {
-
         if (m_recordWidth > 0 && m_recordHeight >0) {
             m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
                 QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
@@ -480,6 +484,15 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
                                m_recordY - DRAG_POINT_RADIUS + m_recordHeight), m_resizeSmallPix);
         }
     }
+}
+
+void MainWindow::initShapeWidget(QString type) {
+    qDebug() << "show shapesWidget";
+    m_shapesWidget = new ShapesWidget(this);
+    m_shapesWidget->setFixedSize(m_recordWidth, m_recordHeight);
+    m_shapesWidget->move(m_recordX, m_recordY);
+    m_shapesWidget->show();
+    update();
 }
 
 void MainWindow::updateCursor(QEvent *event)

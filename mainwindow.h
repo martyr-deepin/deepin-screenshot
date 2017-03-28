@@ -13,6 +13,7 @@
 #include "widgets/toptips.h"
 #include "widgets/toolbar.h"
 #include "widgets/zoomIndicator.h"
+#include "widgets/shapeswidget.h"
 
 #include "windowmanager.h"
 #include "eventmonitor.h"
@@ -43,6 +44,7 @@ public:
         Right,
     };
     void initUI();
+    void initShapeWidget(QString type);
 
 public slots:
     void startScreenshot();
@@ -98,6 +100,7 @@ private:
     TopTips* m_sizeTips;
     ToolBar* m_toolBar;
     ZoomIndicator* m_zoomIndicator;
+    ShapesWidget* m_shapesWidget;
 };
 
 #endif // MAINWINDOW_H
