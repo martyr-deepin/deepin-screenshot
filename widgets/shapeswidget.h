@@ -4,6 +4,8 @@
 #include <QFrame>
 #include <QMouseEvent>
 
+#include "shapesutils.h"
+
 class ShapesWidget : public QFrame {
     Q_OBJECT
 public:
@@ -29,5 +31,8 @@ private:
 
     QString m_currentShape;
     QMap<int, QString> m_shapesMap;
+
+    DiagPointsList m_diagPointsList;
+    DiagPoints m_currentDiagPoints;
 };
 #endif // SHAPESWIDGET_H

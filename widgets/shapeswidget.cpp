@@ -8,7 +8,6 @@ ShapesWidget::ShapesWidget(QWidget *parent)
     : QFrame(parent),
       m_shapesMap(QMap<int ,QString>())
 {
-//    setStyleSheet("background-color: rgba(255, 0, 0, 100);");
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     setAcceptDrops(true);
@@ -29,6 +28,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
     if (m_pos1 == QPoint(0, 0)) {
         m_pos1 = QPoint(e->x(), e->y());
         qDebug() << "m_pos1:" << m_pos1;
+        m_currentDiagPoints.masterPoint = m_pos1;
         m_shapesMap.insert(m_shapesMap.count(), m_currentShape);
     }
 
@@ -39,13 +39,20 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
     m_isRecording = false;
 
     m_pos2 = QPoint(e->x(), e->y());
+    m_currentDiagPoints.deputyPoint = m_pos2;
+    m_diagPointsList.append(m_currentDiagPoints);
+    m_pos1 =QPoint(0, 0);
+    m_pos2 = QPoint(0, 0);
     update();
+
 
     QFrame::mouseMoveEvent(e);
 }
 
 void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
     m_pos2 = QPoint(e->x(), e->y());
+    m_currentDiagPoints.deputyPoint = m_pos2;
+
     if (m_isRecording)
         update();
 
@@ -55,10 +62,24 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
 void ShapesWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
 
-    QRect mainRect(m_pos1.x(), m_pos1.y(), m_pos2.x() - m_pos1.x(),
-                   m_pos2.y() - m_pos1.y());
+    QPen pen;
+    pen.setColor(Qt::red);
+    pen.setWidth(2);
+    painter.setPen(pen);
 
-    painter.drawRect(mainRect);
+    QRect curRect = QRect(qMin(m_currentDiagPoints.masterPoint.x(), m_currentDiagPoints.deputyPoint.x()),
+                          qMin(m_currentDiagPoints.masterPoint.y(), m_currentDiagPoints.deputyPoint.y()),
+                          qAbs(m_currentDiagPoints.masterPoint.x() - m_currentDiagPoints.deputyPoint.x()),
+                          qAbs(m_currentDiagPoints.masterPoint.y() - m_currentDiagPoints.deputyPoint.y()));
+    painter.drawRect(curRect);
+
+    for(int i = 0; i < m_diagPointsList.length(); i++) {
+        QRect diagRect = QRect(qMin(m_diagPointsList[i].masterPoint.x(), m_diagPointsList[i].deputyPoint.x()),
+                               qMin(m_diagPointsList[i].masterPoint.y(), m_diagPointsList[i].deputyPoint.y()),
+                               qAbs(m_diagPointsList[i].masterPoint.x() - m_diagPointsList[i].deputyPoint.x()),
+                               qAbs(m_diagPointsList[i].masterPoint.y() - m_diagPointsList[i].deputyPoint.y()));
+        painter.drawRect(diagRect);
+    }
 }
 
 bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
