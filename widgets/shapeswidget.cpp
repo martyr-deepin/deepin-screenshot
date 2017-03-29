@@ -6,9 +6,12 @@
 #include <QPainter>
 #include <QDebug>
 
+const int DRAG_BOUND_RADIUS = 8;
+
 ShapesWidget::ShapesWidget(QWidget *parent)
     : QFrame(parent),
-      m_shapesMap(QMap<int ,QString>())
+      m_shapesMap(QMap<int ,QString>()),
+      m_isMoving(false)
 {
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
@@ -26,6 +29,10 @@ void ShapesWidget::setCurrentShape(QString shapeType) {
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e) {
     m_isRecording = true;
+    m_isMoving = false;
+
+    m_currentSelectedDiagPoints.deputyPoint = QPoint(0, 0);
+    m_currentSelectedDiagPoints.masterPoint = QPoint(0, 0);
 
     if (m_pos1 == QPoint(0, 0)) {
         m_pos1 = QPoint(e->x(), e->y());
@@ -39,6 +46,18 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
 
 void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
     m_isRecording = false;
+    if (!m_isMoving) {
+        for(int i = 0; i < m_diagPointsList.length(); i++) {
+            if (pointOnRect(m_diagPointsList[i], e->pos())) {
+                m_currentSelectedDiagPoints = m_diagPointsList[i];
+                qDebug() << "#############";
+                update();
+                break;
+            } else {
+                continue;
+            }
+        }
+    }
 
     m_pos2 = QPoint(e->x(), e->y());
     m_currentDiagPoints.deputyPoint = m_pos2;
@@ -55,9 +74,10 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
     m_pos2 = QPoint(e->x(), e->y());
     m_currentDiagPoints.deputyPoint = m_pos2;
 
-    if (m_isRecording)
+    if (m_isRecording) {
         update();
-    else {
+        m_isMoving = true;
+    } else {
         m_currentHoverDiagPoints.masterPoint = QPoint(0, 0);
         m_currentHoverDiagPoints.deputyPoint = QPoint(0, 0);
         if (m_diagPointsList.length() != 0) {
@@ -74,6 +94,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
                     qDebug() << "!!!!!!!!!!!!!!!";
                 }
             }
+            update();
         }
     }
 
@@ -104,6 +125,17 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         pen.setColor(QColor(0, 0, 255));
         painter.setPen(pen);
         painter.drawRect(diagPointsRect(m_currentHoverDiagPoints));
+    }
+
+    if (m_currentSelectedDiagPoints.masterPoint != QPoint(0, 0)) {
+        QList<QPoint> tmpPoints = fourPointsOnRect(m_currentSelectedDiagPoints);
+        for(int i = 0; i < tmpPoints.length(); i++) {
+            painter.drawPixmap(QPoint(tmpPoints[i].x() - DRAG_BOUND_RADIUS,
+                                      tmpPoints[i].y() - DRAG_BOUND_RADIUS),
+                    QPixmap(":/resources/images/size/resize_handle_big.png"));
+
+            qDebug() << "i =" << i << tmpPoints[i];
+        }
     }
 }
 

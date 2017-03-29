@@ -28,6 +28,7 @@ private:
     QPoint m_pos2 = QPoint(0, 0);
     QPoint m_pos3, m_pos4;
     bool m_isRecording;
+    bool m_isMoving;
 
     QString m_currentShape;
     QMap<int, QString> m_shapesMap;
@@ -35,5 +36,7 @@ private:
     DiagPointsList m_diagPointsList;
     DiagPoints m_currentDiagPoints;
     DiagPoints m_currentHoverDiagPoints;
+    DiagPoints m_currentSelectedDiagPoints;
+
 };
 #endif // SHAPESWIDGET_H

@@ -8,4 +8,6 @@ QRect   diagPointsRect(DiagPoints diagPoints);
 bool    pointOnLine(QPoint point1, QPoint point2, QPoint point3);
 bool    pointOnRect(DiagPoints diagPoints, QPoint pos);
 
+QList<QPoint> fourPointsOnRect(DiagPoints diagPoints);
+
 #endif // CALCULATERECT_H

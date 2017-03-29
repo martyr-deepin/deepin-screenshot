@@ -40,3 +40,21 @@ bool pointOnRect(DiagPoints diagPoints, QPoint pos) {
         return false;
     }
 }
+
+QList<QPoint> fourPointsOnRect(DiagPoints diagPoints) {
+    QList<QPoint>  fourPoints;
+    QPoint point1 = QPoint(qMin(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
+                           qMin(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
+    QPoint point2 = QPoint(qMin(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
+                           qMax(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
+    QPoint point3 = QPoint(qMax(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
+                           qMin(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
+    QPoint point4 = QPoint(qMax(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
+                           qMax(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
+    fourPoints.clear();
+    fourPoints.append(point1);
+    fourPoints.append(point2);
+    fourPoints.append(point3);
+    fourPoints.append(point4);
+    return fourPoints;
+}

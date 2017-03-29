@@ -54,5 +54,31 @@
         <file>resources/images/action/magnifier.png</file>
         <file>resources/qss/zoomindicator.qss</file>
         <file>resources/images/action/center_rect.png</file>
+        <file>resources/images/size/add_hover.png</file>
+        <file>resources/images/size/add_normal.png</file>
+        <file>resources/images/size/add_press.png</file>
+        <file>resources/images/size/blur_checked.png</file>
+        <file>resources/images/size/blur_hover.png</file>
+        <file>resources/images/size/blur_normal.png</file>
+        <file>resources/images/size/fine_checked.png</file>
+        <file>resources/images/size/fine_hover.png</file>
+        <file>resources/images/size/fine_normal.png</file>
+        <file>resources/images/size/medium_checked.png</file>
+        <file>resources/images/size/medium_hover.png</file>
+        <file>resources/images/size/medium_normal.png</file>
+        <file>resources/images/size/mosaic_checked.png</file>
+        <file>resources/images/size/mosaic_hover.png</file>
+        <file>resources/images/size/mosaic_normal.png</file>
+        <file>resources/images/size/reduce_hover.png</file>
+        <file>resources/images/size/reduce_normal.png</file>
+        <file>resources/images/size/reduce_press.png</file>
+        <file>resources/images/size/resize_handle_big.png</file>
+        <file>resources/images/size/resize_handle_small.png</file>
+        <file>resources/images/size/thick_checked.png</file>
+        <file>resources/images/size/thick_hover.png</file>
+        <file>resources/images/size/thick_normal.png</file>
+        <file>resources/images/size/unarrow_active.png</file>
+        <file>resources/images/size/unarrow_hover.png</file>
+        <file>resources/images/size/unarrow_normal.png</file>
     </qresource>
 </RCC>
