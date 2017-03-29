@@ -25,3 +25,10 @@ QDataStream &operator>>(QDataStream &in, DiagPoints &obj) {
     in >> obj.masterPoint;
     return in;
 }
+
+DiagPoints DiagPoints::operator=(DiagPoints obj){
+     masterPoint = obj.masterPoint;
+     deputyPoint = obj.deputyPoint;
+
+    return (*this);
+}

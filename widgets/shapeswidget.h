@@ -34,5 +34,6 @@ private:
 
     DiagPointsList m_diagPointsList;
     DiagPoints m_currentDiagPoints;
+    DiagPoints m_currentHoverDiagPoints;
 };
 #endif // SHAPESWIDGET_H

@@ -1,5 +1,7 @@
 #include "shapeswidget.h"
 
+#include "utils/calculaterect.h"
+
 #include <QApplication>
 #include <QPainter>
 #include <QDebug>
@@ -55,6 +57,25 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
 
     if (m_isRecording)
         update();
+    else {
+        m_currentHoverDiagPoints.masterPoint = QPoint(0, 0);
+        m_currentHoverDiagPoints.deputyPoint = QPoint(0, 0);
+        if (m_diagPointsList.length() != 0) {
+            for(int i = 0; i < m_diagPointsList.length(); i++) {
+                if (pointOnRect(m_diagPointsList[i], e->pos())) {
+
+                    m_currentHoverDiagPoints = m_diagPointsList[i];
+                    qDebug() << "%%%%%%%%%%%%%%%%%%%%" << m_currentHoverDiagPoints;
+                    update();
+                    break;
+
+                } else {
+                    continue;
+                    qDebug() << "!!!!!!!!!!!!!!!";
+                }
+            }
+        }
+    }
 
     QFrame::mouseMoveEvent(e);
 }
@@ -64,23 +85,25 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
 
     QPen pen;
     pen.setColor(Qt::red);
-    pen.setWidth(2);
+    pen.setWidth(1);
     painter.setPen(pen);
 
     if (m_pos1 != QPoint(0, 0)) {
-        QRect curRect = QRect(qMin(m_currentDiagPoints.masterPoint.x(), m_currentDiagPoints.deputyPoint.x()),
-                              qMin(m_currentDiagPoints.masterPoint.y(), m_currentDiagPoints.deputyPoint.y()),
-                              qAbs(m_currentDiagPoints.masterPoint.x() - m_currentDiagPoints.deputyPoint.x()),
-                              qAbs(m_currentDiagPoints.masterPoint.y() - m_currentDiagPoints.deputyPoint.y()));
+        QRect curRect = diagPointsRect(m_currentDiagPoints);
         painter.drawRect(curRect);
     }
 
     for(int i = 0; i < m_diagPointsList.length(); i++) {
-        QRect diagRect = QRect(qMin(m_diagPointsList[i].masterPoint.x(), m_diagPointsList[i].deputyPoint.x()),
-                               qMin(m_diagPointsList[i].masterPoint.y(), m_diagPointsList[i].deputyPoint.y()),
-                               qAbs(m_diagPointsList[i].masterPoint.x() - m_diagPointsList[i].deputyPoint.x()),
-                               qAbs(m_diagPointsList[i].masterPoint.y() - m_diagPointsList[i].deputyPoint.y()));
+        QRect diagRect = diagPointsRect(m_diagPointsList[i]);
         painter.drawRect(diagRect);
+    }
+
+
+    if (m_currentHoverDiagPoints.masterPoint != QPoint(0, 0)) {
+        pen.setWidth(1);
+        pen.setColor(QColor(0, 0, 255));
+        painter.setPen(pen);
+        painter.drawRect(diagPointsRect(m_currentHoverDiagPoints));
     }
 }
 

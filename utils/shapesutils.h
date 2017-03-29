@@ -14,6 +14,7 @@ public:
 
     friend QDebug &operator<<(QDebug &argument, const DiagPoints &obj);
     friend QDataStream &operator>>(QDataStream &in, DiagPoints &obj);
+    DiagPoints operator=(DiagPoints obj);
 
     static void registerMetaType();
 };
