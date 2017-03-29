@@ -21,12 +21,10 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     windowmanager.cpp \
     eventmonitor.cpp \
-    utils.cpp \
 
 HEADERS  += mainwindow.h \
     windowmanager.h \
     eventmonitor.h \
-    utils.h \
 
 RESOURCES += \
     res.qrc
@@ -36,6 +34,7 @@ isEmpty(PREFIX){
 }
 
 include (widgets/widgets.pri)
+include (utils/utils.pri)
 
 BINDIR = $$PREFIX/bin
 APPSHAREDIR = $$PREFIX/share/deepin-screenshot

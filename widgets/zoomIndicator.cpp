@@ -1,5 +1,5 @@
 #include "zoomIndicator.h"
-#include "utils.h"
+#include "utils/baseutils.h"
 
 #include <QCursor>
 #include <QTextOption>

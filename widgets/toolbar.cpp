@@ -1,5 +1,5 @@
 #include "toolbar.h"
-#include "utils.h"
+#include "utils/baseutils.h"
 #include "bigcolorbutton.h"
 
 #include <QApplication>

@@ -4,7 +4,7 @@
 #include <QFrame>
 #include <QMouseEvent>
 
-#include "shapesutils.h"
+#include "utils/shapesutils.h"
 
 class ShapesWidget : public QFrame {
     Q_OBJECT

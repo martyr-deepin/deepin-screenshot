@@ -1,6 +1,6 @@
 #include "toptips.h"
 
-#include "utils.h"
+#include "utils/baseutils.h"
 #include <QDebug>
 
 TopTips::TopTips(QWidget *parent)

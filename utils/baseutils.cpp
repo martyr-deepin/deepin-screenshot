@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "baseutils.h"
 #include <QPixmap>
 #include <QFile>
 
@@ -7,8 +7,9 @@ QCursor setCursorShape(QString cursorName) {
     if (cursorName == "start") {
         customShape = QCursor(QPixmap(
                       ":/image/mouse_style/shape/start_mouse.png"), 8, 8);
-        return customShape;
     }
+
+    return customShape;
 }
 
 int stringWidth(const QFont &f, const QString &str)

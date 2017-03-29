@@ -1,5 +1,5 @@
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef BASEUTILS_H
+#define BASEUTILS_H
 
 #include <QCursor>
 #include <QFont>
@@ -9,4 +9,4 @@ QCursor setCursorShape(QString cursorName);
 int stringWidth(const QFont &f, const QString &str);
 QString     getFileContent(const QString &file);
 
-#endif // UTILS_H
+#endif // BASEUTILS_H
