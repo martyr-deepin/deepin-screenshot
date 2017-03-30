@@ -7,8 +7,13 @@ QCursor setCursorShape(QString cursorName) {
     if (cursorName == "start") {
         customShape = QCursor(QPixmap(
                       ":/image/mouse_style/shape/start_mouse.png"), 8, 8);
+    } else if (cursorName == "rotate") {
+        customShape = QCursor(QPixmap(
+                      ":/image/mouse_style/shape/rotate.png"), 5, 5);
+    } else if (cursorName == "rect") {
+        customShape = QCursor(QPixmap(
+                      ":/image/mouse_style/shape/rect_mouse.png"), 5, 5);
     }
-
     return customShape;
 }
 

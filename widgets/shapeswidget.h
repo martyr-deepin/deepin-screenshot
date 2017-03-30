@@ -36,7 +36,7 @@ private:
     bool m_isPressed;
 
     int m_selectedIndex;
-    QString m_currentShape;
+    QString m_currentShape = "rect";
     QMap<int, QString> m_shapesMap;
 
     DiagPointsList m_diagPointsList;

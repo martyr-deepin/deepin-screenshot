@@ -1,6 +1,7 @@
 #include "shapeswidget.h"
 
 #include "utils/calculaterect.h"
+#include "utils/baseutils.h"
 
 #include <QApplication>
 #include <QPainter>
@@ -98,7 +99,6 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
         m_diagPointsList[m_selectedIndex].deputyPoint = QPoint(
                     m_diagPointsList[m_selectedIndex].deputyPoint.x() + (m_movingPoint.x() - m_pressedPoint.x()),
                     m_diagPointsList[m_selectedIndex].deputyPoint.y() + (m_movingPoint.y() - m_pressedPoint.y()));
-        m_currentHoverDiagPoints = m_diagPointsList[m_selectedIndex];
         m_currentSelectedDiagPoints = m_diagPointsList[m_selectedIndex];
         m_pressedPoint = e->pos();
         update();
@@ -106,7 +106,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
 
     if (m_isRecording) {
         update();
-    } else if (!m_isSelected){
+    } else {
         m_currentHoverDiagPoints.masterPoint = QPoint(0, 0);
         m_currentHoverDiagPoints.deputyPoint = QPoint(0, 0);
 
@@ -149,13 +149,6 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     }
 
 
-    if (m_currentHoverDiagPoints.masterPoint != QPoint(0, 0)) {
-        pen.setWidth(1);
-        pen.setColor(QColor(0, 0, 255));
-        painter.setPen(pen);
-        painter.drawRect(diagPointsRect(m_currentHoverDiagPoints));
-    }
-
     if (m_currentSelectedDiagPoints.masterPoint != QPoint(0, 0)) {
         QList<QPoint> tmpPoints = fourPointsOnRect(m_currentSelectedDiagPoints);
         for(int i = 0; i < tmpPoints.length(); i++) {
@@ -171,18 +164,28 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
                 tmpPoints[2], tmpPoints[3]);
         QPoint middlePoint((tmpPoints[0].x() + tmpPoints[2].x())/2,
                            (tmpPoints[0].y() + tmpPoints[2].y())/2);
+        painter.setPen(QColor(Qt::white));
         painter.drawLine(rotatePoint, middlePoint);
         painter.drawPixmap(QPoint(rotatePoint.x() - 12, rotatePoint.y() - 12),
                            QPixmap(":/resources/images/size/rotate.png"));
     }
+
+    if (m_currentHoverDiagPoints.masterPoint != QPoint(0, 0)) {
+        pen.setWidth(1);
+        pen.setColor(QColor(0, 0, 255));
+        painter.setPen(pen);
+        painter.drawRect(diagPointsRect(m_currentHoverDiagPoints));
+    }
+
 }
 
 bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
     Q_UNUSED(watched);
 
     if (event->type() == QEvent::Enter) {
-        setCursor(Qt::ArrowCursor);
-        qApp->setOverrideCursor(Qt::ArrowCursor);
+        if (m_currentShape == "rect") {
+            qApp->setOverrideCursor(setCursorShape("rect"));
+        }
     }
 
     return false;
