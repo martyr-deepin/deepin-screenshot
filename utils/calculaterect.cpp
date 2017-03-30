@@ -1,6 +1,6 @@
 #include "calculaterect.h"
 
-const int padding = 0;
+const int padding = 2;
 
 QRect diagPointsRect(DiagPoints diagPoints) {
     return QRect(qMin(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),

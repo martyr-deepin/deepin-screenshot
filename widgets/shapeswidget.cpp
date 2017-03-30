@@ -11,7 +11,8 @@ const int DRAG_BOUND_RADIUS = 8;
 ShapesWidget::ShapesWidget(QWidget *parent)
     : QFrame(parent),
       m_shapesMap(QMap<int ,QString>()),
-      m_isMoving(false)
+      m_isMoving(false),
+      m_isSelected(false)
 {
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
@@ -28,64 +29,93 @@ void ShapesWidget::setCurrentShape(QString shapeType) {
 }
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e) {
-    m_isRecording = true;
+
+    m_pressedPoint = e->pos();
+    m_isPressed = true;
+    m_isSelected = false;
     m_isMoving = false;
 
-    m_currentSelectedDiagPoints.deputyPoint = QPoint(0, 0);
-    m_currentSelectedDiagPoints.masterPoint = QPoint(0, 0);
-
-    if (m_pos1 == QPoint(0, 0)) {
-        m_pos1 = QPoint(e->x(), e->y());
-        qDebug() << "m_pos1:" << m_pos1;
-        m_currentDiagPoints.masterPoint = m_pos1;
-        m_shapesMap.insert(m_shapesMap.count(), m_currentShape);
+    for(int i = 0; i < m_diagPointsList.length(); i++) {
+        if (pointOnRect(m_diagPointsList[i], e->pos())) {
+            m_currentSelectedDiagPoints = m_diagPointsList[i];
+            m_currentHoverDiagPoints = m_diagPointsList[i];
+            m_selectedIndex = i;
+            m_isSelected = true;
+            update();
+            break;
+        } else {
+            continue;
+        }
     }
+
+    if (!m_isSelected) {
+        m_isRecording = true;
+        m_currentSelectedDiagPoints.deputyPoint = QPoint(0, 0);
+        m_currentSelectedDiagPoints.masterPoint = QPoint(0, 0);
+
+        if (m_pos1 == QPoint(0, 0)) {
+            m_pos1 = e->pos();
+            qDebug() << "m_pos1:" << m_pos1;
+            m_currentDiagPoints.masterPoint = m_pos1;
+            m_shapesMap.insert(m_shapesMap.count(), m_currentShape);
+        }
+    } else {
+        m_isRecording = false;
+        m_pos1 = QPoint(0, 0);
+    }
+
 
     QFrame::mousePressEvent(e);
 }
 
 void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
-    m_isRecording = false;
-    if (!m_isMoving) {
-        for(int i = 0; i < m_diagPointsList.length(); i++) {
-            if (pointOnRect(m_diagPointsList[i], e->pos())) {
-                m_currentSelectedDiagPoints = m_diagPointsList[i];
-                qDebug() << "#############";
-                update();
-                break;
-            } else {
-                continue;
-            }
-        }
+    m_isMoving = false;
+    m_isPressed = false;
+
+    if (!m_isSelected && m_isRecording) {
+        m_isRecording = false;
+
+        m_currentDiagPoints.deputyPoint = m_pos2;
+        m_diagPointsList.append(m_currentDiagPoints);
     }
 
-    m_pos2 = QPoint(e->x(), e->y());
-    m_currentDiagPoints.deputyPoint = m_pos2;
-    m_diagPointsList.append(m_currentDiagPoints);
     m_pos1 =QPoint(0, 0);
     m_pos2 = QPoint(0, 0);
     update();
-
 
     QFrame::mouseMoveEvent(e);
 }
 
 void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
-    m_pos2 = QPoint(e->x(), e->y());
+    m_pos2 = e->pos();
+    m_movingPoint = e->pos();
     m_currentDiagPoints.deputyPoint = m_pos2;
+    m_isMoving = true;
+
+    if (m_isSelected && !m_isRecording && m_isPressed) {
+        m_diagPointsList[m_selectedIndex].masterPoint = QPoint(
+                    m_diagPointsList[m_selectedIndex].masterPoint.x() + (m_movingPoint.x() - m_pressedPoint.x()),
+                    m_diagPointsList[m_selectedIndex].masterPoint.y() + (m_movingPoint.y() - m_pressedPoint.y()));
+        m_diagPointsList[m_selectedIndex].deputyPoint = QPoint(
+                    m_diagPointsList[m_selectedIndex].deputyPoint.x() + (m_movingPoint.x() - m_pressedPoint.x()),
+                    m_diagPointsList[m_selectedIndex].deputyPoint.y() + (m_movingPoint.y() - m_pressedPoint.y()));
+        m_currentHoverDiagPoints = m_diagPointsList[m_selectedIndex];
+        m_currentSelectedDiagPoints = m_diagPointsList[m_selectedIndex];
+        m_pressedPoint = e->pos();
+        update();
+    }
 
     if (m_isRecording) {
         update();
-        m_isMoving = true;
-    } else {
+    } else if (!m_isSelected){
         m_currentHoverDiagPoints.masterPoint = QPoint(0, 0);
         m_currentHoverDiagPoints.deputyPoint = QPoint(0, 0);
+
         if (m_diagPointsList.length() != 0) {
+
             for(int i = 0; i < m_diagPointsList.length(); i++) {
                 if (pointOnRect(m_diagPointsList[i], e->pos())) {
-
                     m_currentHoverDiagPoints = m_diagPointsList[i];
-                    qDebug() << "%%%%%%%%%%%%%%%%%%%%" << m_currentHoverDiagPoints;
                     update();
                     break;
 
@@ -106,7 +136,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
 
     QPen pen;
     pen.setColor(Qt::red);
-    pen.setWidth(1);
+    pen.setWidth(3);
     painter.setPen(pen);
 
     if (m_pos1 != QPoint(0, 0)) {
