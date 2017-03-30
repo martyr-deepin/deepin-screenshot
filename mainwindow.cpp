@@ -3,8 +3,6 @@
 #include <QApplication>
 #include <QPainter>
 
-#include "utils/baseutils.h"
-
 namespace {
 const int RECORD_MIN_SIZE = 220;
 const int DRAG_POINT_RADIUS = 8;

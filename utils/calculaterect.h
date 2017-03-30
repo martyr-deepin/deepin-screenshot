@@ -6,6 +6,7 @@
 #include "shapesutils.h"
 
 QRect   diagPointsRect(DiagPoints diagPoints);
+bool    pointClickIn(QPoint point2, QPoint point1, int padding = 3);
 bool    pointOnLine(QPoint point1, QPoint point2, QPoint point3);
 bool    pointOnRect(DiagPoints diagPoints, QPoint pos);
 

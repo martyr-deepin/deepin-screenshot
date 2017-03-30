@@ -10,6 +10,16 @@ QRect diagPointsRect(DiagPoints diagPoints) {
                  qAbs(diagPoints.masterPoint.y() - diagPoints.deputyPoint.y()));
 }
 
+/* judge whether the point1 is on the point2 or not */
+bool pointClickIn(QPoint point2, QPoint point1, int padding) {
+    if (point2.x() >= point1.x() - padding && point2.x() <= point1.x() + padding &&
+            point2.y() >= point1.y() - padding && point2.y() <= point1.y() + padding) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 bool pointOnLine(QPoint point1, QPoint point2, QPoint point3) {
     if (point1.x() == point2.x()) {
            if (point3.x() >= point1.x() - padding && point3.x() <= point1.x() + padding &&

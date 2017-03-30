@@ -1,7 +1,6 @@
 #include "shapeswidget.h"
 
 #include "utils/calculaterect.h"
-#include "utils/baseutils.h"
 
 #include <QApplication>
 #include <QPainter>
@@ -27,6 +26,40 @@ ShapesWidget::~ShapesWidget() {
 
 void ShapesWidget::setCurrentShape(QString shapeType) {
     m_currentShape = shapeType;
+}
+
+ResizeDirection ShapesWidget::getResizeDirection(QPoint point1, QPoint point2,
+                                    QPoint point3, QPoint point4, QPoint pos) {
+    QPoint rotatePoint = getRotatePoint(point1, point2, point3, point4);
+    if (pointClickIn(rotatePoint, pos)) {
+        m_isResize = true;
+        m_resizeDirection = Rotate;
+    } else if (pointClickIn(point1, pos)) {
+        m_isResize = true;
+        m_resizeDirection = TopLeft;
+    } else if (pointClickIn(point2, pos)) {
+        m_isResize = true;
+        m_resizeDirection = BottomLeft;
+    } else if (pointClickIn(point3, pos)) {
+        m_isResize = true;
+        m_resizeDirection = TopRight;
+    } else if (pointClickIn(point4, pos)) {
+        m_isResize = true;
+        m_resizeDirection = BottomRight;
+    } else if (pointOnLine(point1, point2, pos)) {
+        m_isResize = true;
+        m_resizeDirection = Left;
+    } else if (pointOnLine(point1, point3, pos)) {
+        m_isResize = true;
+        m_resizeDirection = Top;
+    } else if (pointOnLine(point3, point4, pos)) {
+        m_isResize = true;
+        m_resizeDirection = Right;
+    } else if (pointOnLine(point2, point4, pos)) {
+        m_isResize = true;
+        m_resizeDirection = Bottom;
+    }
+    return m_resizeDirection;
 }
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e) {
@@ -172,7 +205,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
 
     if (m_currentHoverDiagPoints.masterPoint != QPoint(0, 0)) {
         pen.setWidth(1);
-        pen.setColor(QColor(0, 0, 255));
+        pen.setColor(QColor(Qt::white));
         painter.setPen(pen);
         painter.drawRect(diagPointsRect(m_currentHoverDiagPoints));
     }

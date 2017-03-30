@@ -5,6 +5,7 @@
 #include <QMouseEvent>
 
 #include "utils/shapesutils.h"
+#include "utils/baseutils.h"
 
 class ShapesWidget : public QFrame {
     Q_OBJECT
@@ -14,7 +15,9 @@ public:
 
 public slots:
     void setCurrentShape(QString shapeType);
-
+    ResizeDirection getResizeDirection(QPoint point1, QPoint point2,
+                                       QPoint point3, QPoint point4,
+                                       QPoint pos);
 protected:
     void mousePressEvent(QMouseEvent* e);
     void mouseReleaseEvent(QMouseEvent* e);
@@ -34,6 +37,9 @@ private:
     bool m_isMoving;
     bool m_isSelected;
     bool m_isPressed;
+
+    bool m_isResize;
+    ResizeDirection m_resizeDirection;
 
     int m_selectedIndex;
     QString m_currentShape = "rect";

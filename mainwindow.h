@@ -14,6 +14,7 @@
 #include "widgets/toolbar.h"
 #include "widgets/zoomIndicator.h"
 #include "widgets/shapeswidget.h"
+#include "utils/baseutils.h"
 
 #include "windowmanager.h"
 #include "eventmonitor.h"
@@ -32,17 +33,7 @@ public:
         Wait,
         Shoting,
     };
-    enum ResizeDirection {
-        Moving,
-        TopLeft,
-        TopRight,
-        BottomLeft,
-        BottomRight,
-        Top,
-        Bottom,
-        Left,
-        Right,
-    };
+
     void initUI();
     void initShapeWidget(QString type);
 
