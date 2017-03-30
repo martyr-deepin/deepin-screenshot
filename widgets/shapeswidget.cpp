@@ -64,7 +64,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
         m_pos1 = QPoint(0, 0);
     }
 
-
     QFrame::mousePressEvent(e);
 }
 
@@ -165,7 +164,16 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
                     QPixmap(":/resources/images/size/resize_handle_big.png"));
 
             qDebug() << "i =" << i << tmpPoints[i];
+
+
         }
+        QPoint rotatePoint = getRotatePoint(tmpPoints[0], tmpPoints[1],
+                tmpPoints[2], tmpPoints[3]);
+        QPoint middlePoint((tmpPoints[0].x() + tmpPoints[2].x())/2,
+                           (tmpPoints[0].y() + tmpPoints[2].y())/2);
+        painter.drawLine(rotatePoint, middlePoint);
+        painter.drawPixmap(QPoint(rotatePoint.x() - 12, rotatePoint.y() - 12),
+                           QPixmap(":/resources/images/size/rotate.png"));
     }
 }
 
@@ -176,5 +184,6 @@ bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
         setCursor(Qt::ArrowCursor);
         qApp->setOverrideCursor(Qt::ArrowCursor);
     }
+
     return false;
 }

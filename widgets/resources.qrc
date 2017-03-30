@@ -80,5 +80,6 @@
         <file>resources/images/size/unarrow_active.png</file>
         <file>resources/images/size/unarrow_hover.png</file>
         <file>resources/images/size/unarrow_normal.png</file>
+        <file>resources/images/size/rotate.png</file>
     </qresource>
 </RCC>
