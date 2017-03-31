@@ -18,6 +18,8 @@ public slots:
     ResizeDirection getResizeDirection(QPoint point1, QPoint point2,
                                        QPoint point3, QPoint point4,
                                        QPoint pos);
+    void updateCursor();
+
 protected:
     void mousePressEvent(QMouseEvent* e);
     void mouseReleaseEvent(QMouseEvent* e);
