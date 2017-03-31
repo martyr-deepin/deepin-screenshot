@@ -32,3 +32,40 @@ DiagPoints DiagPoints::operator=(DiagPoints obj){
 
     return (*this);
 }
+
+FourPoints::FourPoints() {
+}
+
+FourPoints::~FourPoints() {
+}
+
+void FourPoints::registerMetaType() {
+    qRegisterMetaType<DiagPoints>();
+}
+
+QDebug &operator<<(QDebug &argument, const FourPoints &obj) {
+    argument.nospace()
+            << obj.point1 << ","
+            << obj.point2 << ","
+            << obj.point3 << ","
+            << obj.point4;
+    return argument.space();
+}
+
+QDataStream &operator>>(QDataStream &in, FourPoints &obj) {
+    in >> obj.point4;
+    in >> obj.point3;
+    in >> obj.point2;
+    in >> obj.point1;
+    return in;
+}
+
+FourPoints FourPoints::operator =(FourPoints obj) {
+    point1 = obj.point1;
+    point2 = obj.point2;
+    point3 = obj.point3;
+    point4 = obj.point4;
+
+    return (*this);
+}
+

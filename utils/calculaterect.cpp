@@ -37,7 +37,7 @@ bool pointOnLine(QPoint point1, QPoint point2, QPoint point3) {
        }
        return false;
 }
-
+/* To determine whether a point on the rectangle*/
 bool pointOnRect(DiagPoints diagPoints, QPoint pos) {
     QPoint point1 = diagPoints.masterPoint;
     QPoint point3 = diagPoints.deputyPoint;
@@ -52,6 +52,7 @@ bool pointOnRect(DiagPoints diagPoints, QPoint pos) {
     }
 }
 
+/* get the point who splid a distance on a line */
 QPoint      pointSplid(QPoint point1, QPoint point2, int padding) {
     if (point1.x() == point2.x()) {
         return QPoint(0, padding);
@@ -122,3 +123,60 @@ QList<QPoint> fourPointsOnRect(DiagPoints diagPoints) {
     fourPoints.append(point4);
     return fourPoints;
 }
+
+/*
+ *  this function is get the angle of the mouse'moving*/
+/* the angle in point3 */
+
+qreal calculateAngle(QPoint point1, QPoint point2, QPoint point3) {
+    if (point1 == point2) {
+        return 0;
+    }
+
+    qreal a = qPow(point1.x() - point3.x(), 2) + qPow(point1.y() - point3.y(), 2);
+    qreal b = qPow(point2.x() - point3.x(), 2) + qPow(point2.y() - point3.y(), 2);
+    qreal c = qPow(point1.x() - point2.x(), 2) + qPow(point1.y() - point2.y(), 2);
+
+    qreal angle =qAcos(( a + b - c)/(2*qSqrt(a)*qSqrt(b)));
+    if (point1.x() <= point3.x() && point1.y() < point3.y()) {
+        if (point2.x() < point1.x() || point2.y() > point1.y()) {
+            angle = - angle;
+        }
+    }
+    if (point1.x() < point3.x() && point1.y() >= point3.y()) {
+        if (point2.x() > point1.x() || point2.y() > point1.y()) {
+            angle = - angle;
+        }
+    }
+    if (point1.x() >= point3.x() && point1.y() > point3.y()) {
+        if (point2.x() > point1.x() || point2.y() < point1.y()) {
+            angle = - angle;
+        }
+    }
+    if (point1.x() > point3.x() && point1.y() <= point3.y()) {
+        if (point2.x() < point1.x() || point2.y() < point1.y()) {
+            angle = - angle;
+        }
+    }
+    return angle;
+}
+
+/* point2 is the rotatePoint, point1 is the centerPoint, point3 is point2 who rotate */
+QPoint pointRotate(QPoint point1, QPoint point2, qreal angle) {
+    QPoint middlePoint = QPoint(point2.x() - point1.x(), point2.y() - point1.y());
+    QPoint tmpPoint = QPoint(middlePoint.x() * qAcos(angle) - middlePoint.y() * qAsin(angle),
+                             middlePoint.x() * qAsin(angle) + middlePoint.y() * qAcos(angle));
+    QPoint point3 = QPoint(tmpPoint.x() + point1.x(), tmpPoint.y() + point1.y());
+
+    return point3;
+}
+
+
+
+
+
+
+
+
+
+

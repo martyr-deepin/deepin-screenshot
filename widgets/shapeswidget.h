@@ -52,5 +52,6 @@ private:
     DiagPoints m_currentHoverDiagPoints;
     DiagPoints m_currentSelectedDiagPoints;
 
+    MPointsList m_mFourPointList;
 };
 #endif // SHAPESWIDGET_H

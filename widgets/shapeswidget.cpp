@@ -143,6 +143,15 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
 
         m_currentDiagPoints.deputyPoint = m_pos2;
         m_diagPointsList.append(m_currentDiagPoints);
+
+        QList<QPoint> fourPointList = fourPointsOnRect(m_currentDiagPoints);
+        FourPoints tmpPoints;
+        tmpPoints.point1 = fourPointList[0];
+        tmpPoints.point2 = fourPointList[1];
+        tmpPoints.point3 = fourPointList[2];
+        tmpPoints.point4 = fourPointList[3];
+
+        m_mFourPointList.append(tmpPoints);
     }
 
     m_pos1 =QPoint(0, 0);
