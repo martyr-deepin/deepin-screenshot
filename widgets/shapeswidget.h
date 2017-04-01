@@ -13,12 +13,32 @@ public:
     ShapesWidget(QWidget* parent = 0);
     ~ShapesWidget();
 
+    enum ClickedKey {
+        First,
+        Second,
+        Third,
+        Fourth,
+    };
 public slots:
     void setCurrentShape(QString shapeType);
     ResizeDirection getResizeDirection(QPoint point1, QPoint point2,
                                        QPoint point3, QPoint point4,
                                        QPoint pos);
-    void updateCursor();
+
+    void handleRotate(QPoint pos);
+    bool clickedOnShapes(QPoint pos);
+    bool clickedOnPoint(QPoint point1, QPoint point2,
+                        QPoint point3, QPoint point4,
+                        QPoint pos);
+    bool rotateOnPoint(QPoint point1, QPoint point2,
+                       QPoint point3, QPoint point4,
+                       QPoint pos);
+    bool hoverOnRotatePoint(QPoint point1, QPoint point2,
+                            QPoint point3, QPoint point4,
+                            QPoint pos);
+    bool hoverOnShapes(QPoint point1, QPoint point2,
+                       QPoint point3, QPoint point4,
+                       QPoint pos);
 
 protected:
     void mousePressEvent(QMouseEvent* e);
@@ -39,9 +59,12 @@ private:
     bool m_isMoving;
     bool m_isSelected;
     bool m_isPressed;
+    bool m_isHovered;
+    bool m_isRotated;
 
     bool m_isResize;
     ResizeDirection m_resizeDirection;
+    ClickedKey m_clickedKey;
 
     int m_selectedIndex;
     QString m_currentShape = "rect";

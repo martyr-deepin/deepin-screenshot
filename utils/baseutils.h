@@ -16,6 +16,7 @@ enum ResizeDirection {
     Bottom,
     Left,
     Right,
+    Outting,
 };
 
 QCursor setCursorShape(QString cursorName);
