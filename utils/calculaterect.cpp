@@ -106,8 +106,8 @@ QPoint       getRotatePoint(QPoint point1, QPoint point2, QPoint point3, QPoint 
     return rotatePoint;
 }
 
-QList<QPoint> fourPointsOnRect(DiagPoints diagPoints) {
-    QList<QPoint>  fourPoints;
+FourPoints fourPointsOnRect(DiagPoints diagPoints) {
+    FourPoints  fourPoints;
     QPoint point1 = QPoint(qMin(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
                            qMin(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
     QPoint point2 = QPoint(qMin(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
@@ -116,11 +116,12 @@ QList<QPoint> fourPointsOnRect(DiagPoints diagPoints) {
                            qMin(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
     QPoint point4 = QPoint(qMax(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
                            qMax(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
-    fourPoints.clear();
-    fourPoints.append(point1);
-    fourPoints.append(point2);
-    fourPoints.append(point3);
-    fourPoints.append(point4);
+
+    fourPoints.point1 = point1;
+    fourPoints.point2 = point2;
+    fourPoints.point3 = point3;
+    fourPoints.point4 = point4;
+
     return fourPoints;
 }
 
