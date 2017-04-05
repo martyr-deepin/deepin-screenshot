@@ -1,20 +1,20 @@
 #ifndef CALCULATERECT_H
 #define CALCULATERECT_H
 
-#include <QPoint>
+#include <QPointF>
 #include <QtMath>
 #include "shapesutils.h"
 
 QRect   diagPointsRect(DiagPoints diagPoints);
-bool    pointClickIn(QPoint point2, QPoint point1, int padding = 4);
-bool    pointOnLine(QPoint point1, QPoint point2, QPoint point3);
-bool    pointOnRect(DiagPoints diagPoints, QPoint pos);
+bool    pointClickIn(QPointF point2, QPointF point1, int padding = 4);
+bool    pointOnLine(QPointF point1, QPointF point2, QPointF point3);
+bool    pointOnRect(DiagPoints diagPoints, QPointF pos);
 
-QPoint        pointSplid(QPoint point1, QPoint point2, int padding);
-QPoint        getRotatePoint(QPoint point1, QPoint point2,
-                             QPoint point3, QPoint point4);
+QPointF        pointSplid(QPointF point1, QPointF point2, int padding);
+QPointF        getRotatePoint(QPointF point1, QPointF point2,
+                             QPointF point3, QPointF point4);
 FourPoints    fourPointsOnRect(DiagPoints diagPoints);
-qreal         calculateAngle(QPoint point1, QPoint point2, QPoint point3);
-QPoint        pointRotate(QPoint point1, QPoint point2, qreal angle);
+qreal         calculateAngle(QPointF point1, QPointF point2, QPointF point3);
+QPointF        pointRotate(QPointF point1, QPointF point2, qreal angle);
 //QRect         fPointsRect(FourPoints fourPoints);
 #endif // CALCULATERECT_H

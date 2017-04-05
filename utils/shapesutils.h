@@ -6,8 +6,8 @@
 //Dialognal Points on a line
 class DiagPoints {
 public:
-    QPoint masterPoint;
-    QPoint deputyPoint;
+    QPointF masterPoint;
+    QPointF deputyPoint;
 
     DiagPoints();
     ~DiagPoints();
@@ -26,10 +26,10 @@ Q_DECLARE_METATYPE(DiagPointsList)
 
 class FourPoints {
 public:
-    QPoint point1;
-    QPoint point2;
-    QPoint point3;
-    QPoint point4;
+    QPointF point1;
+    QPointF point2;
+    QPointF point3;
+    QPointF point4;
 
     FourPoints();
     ~FourPoints();

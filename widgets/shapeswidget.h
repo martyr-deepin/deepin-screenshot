@@ -21,24 +21,24 @@ public:
     };
 public slots:
     void setCurrentShape(QString shapeType);
-    ResizeDirection getResizeDirection(QPoint point1, QPoint point2,
-                                       QPoint point3, QPoint point4,
-                                       QPoint pos);
+    ResizeDirection getResizeDirection(QPointF point1, QPointF point2,
+                                       QPointF point3, QPointF point4,
+                                       QPointF pos);
 
-    void handleRotate(QPoint pos);
-    bool clickedOnShapes(QPoint pos);
-    bool clickedOnPoint(QPoint point1, QPoint point2,
-                        QPoint point3, QPoint point4,
-                        QPoint pos);
-    bool rotateOnPoint(QPoint point1, QPoint point2,
-                       QPoint point3, QPoint point4,
-                       QPoint pos);
-    bool hoverOnRotatePoint(QPoint point1, QPoint point2,
-                            QPoint point3, QPoint point4,
-                            QPoint pos);
-    bool hoverOnShapes(QPoint point1, QPoint point2,
-                       QPoint point3, QPoint point4,
-                       QPoint pos);
+    void handleRotate(QPointF pos);
+    bool clickedOnShapes(QPointF pos);
+    bool clickedOnPoint(QPointF point1, QPointF point2,
+                        QPointF point3, QPointF point4,
+                        QPointF pos);
+    bool rotateOnPoint(QPointF point1, QPointF point2,
+                       QPointF point3, QPointF point4,
+                       QPointF pos);
+    bool hoverOnRotatePoint(QPointF point1, QPointF point2,
+                            QPointF point3, QPointF point4,
+                            QPointF pos);
+    bool hoverOnShapes(QPointF point1, QPointF point2,
+                       QPointF point3, QPointF point4,
+                       QPointF pos);
 
 protected:
     void mousePressEvent(QMouseEvent* e);
@@ -49,11 +49,11 @@ protected:
 
 private:
 
-    QPoint m_pos1 = QPoint(0, 0);
-    QPoint m_pos2 = QPoint(0, 0);
-    QPoint m_pos3, m_pos4;
-    QPoint m_pressedPoint;
-    QPoint m_movingPoint;
+    QPointF m_pos1 = QPointF(0, 0);
+    QPointF m_pos2 = QPointF(0, 0);
+    QPointF m_pos3, m_pos4;
+    QPointF m_pressedPoint;
+    QPointF m_movingPoint;
 
     bool m_isRecording;
     bool m_isMoving;
