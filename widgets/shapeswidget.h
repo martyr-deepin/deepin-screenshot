@@ -26,6 +26,7 @@ public slots:
                                        QPointF pos);
 
     void handleRotate(QPointF pos);
+    void handleResize(QPointF pos, int key);
     bool clickedOnShapes(QPointF pos);
     bool clickedOnPoint(QPointF point1, QPointF point2,
                         QPointF point3, QPointF point4,
@@ -61,8 +62,9 @@ private:
     bool m_isPressed;
     bool m_isHovered;
     bool m_isRotated;
-
     bool m_isResize;
+    bool m_isShiftPressed;
+
     ResizeDirection m_resizeDirection;
     ClickedKey m_clickedKey;
 

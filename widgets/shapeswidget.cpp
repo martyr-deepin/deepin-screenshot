@@ -14,7 +14,8 @@ ShapesWidget::ShapesWidget(QWidget *parent)
       m_shapesMap(QMap<int ,QString>()),
       m_selectedIndex(-1),
       m_isMoving(false),
-      m_isSelected(false)
+      m_isSelected(false),
+      m_isShiftPressed(false)
 {
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
@@ -251,6 +252,34 @@ void ShapesWidget::handleRotate(QPointF pos) {
     m_pressedPoint = pos;
 }
 
+void ShapesWidget::handleResize(QPointF pos, int key) {
+        if (m_isResize) {
+            QList<QPointF> tmpFourPoint;
+            tmpFourPoint.append(m_currentSelectedFPoints.point1);
+            tmpFourPoint.append(m_currentSelectedFPoints.point2);
+            tmpFourPoint.append(m_currentSelectedFPoints.point3);
+            tmpFourPoint.append(m_currentSelectedFPoints.point4);
+            FourPoints newResizeFPoints = resizePointPosition(tmpFourPoint[0], tmpFourPoint[1],
+                    tmpFourPoint[2], tmpFourPoint[3], pos, key,  m_isShiftPressed);
+        qDebug() << "___________newResizeFPoints:" << newResizeFPoints.point1 << "\n"
+                 << newResizeFPoints.point2 << "\n"
+                 << newResizeFPoints.point3 <<  "\n"
+                 << newResizeFPoints.point4 << "\n";
+            m_mFPointsList[m_selectedIndex].point1 = newResizeFPoints.point1;
+            m_mFPointsList[m_selectedIndex].point2 = newResizeFPoints.point2;
+            m_mFPointsList[m_selectedIndex].point3 = newResizeFPoints.point3;
+            m_mFPointsList[m_selectedIndex].point4 = newResizeFPoints.point4;
+            m_currentSelectedFPoints.point1 = newResizeFPoints.point1;
+            m_currentSelectedFPoints.point2 = newResizeFPoints.point2;
+            m_currentSelectedFPoints.point3 = newResizeFPoints.point3;
+            m_currentSelectedFPoints.point4 = newResizeFPoints.point4;
+            m_currentHoveredFPoints.point1 = newResizeFPoints.point1;
+            m_currentHoveredFPoints.point2 = newResizeFPoints.point2;
+            m_currentHoveredFPoints.point3 = newResizeFPoints.point3;
+            m_currentHoveredFPoints.point4 = newResizeFPoints.point4;
+        }
+}
+
 void ShapesWidget::mousePressEvent(QMouseEvent *e) {
     m_pressedPoint = e->pos();
     m_isPressed = true;
@@ -318,8 +347,10 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
 
         if (m_isResize && m_isPressed) {
             //TODO resize function
-            //handleResize(e->pos, m_clickedKey);
+            qDebug() << "$$$$$$" << m_clickedKey;
+             handleResize(QPointF(e->pos()), m_clickedKey);
             update();
+            return;
         }
 
         if (m_isSelected && m_isPressed && m_selectedIndex != -1) {
