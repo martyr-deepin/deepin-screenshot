@@ -3,6 +3,7 @@
 const int padding = 2;
 const int ROTATEPOINT_PADDING = 30;
 
+/* get a rect by diagPoints */
 QRect diagPointsRect(DiagPoints diagPoints) {
     return QRect(std::min(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
                  std::min(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()),
@@ -20,6 +21,7 @@ bool pointClickIn(QPointF point2, QPointF point1, int padding) {
     }
 }
 
+/* judge whether the point3 is on the segment*/
 bool pointOnLine(QPointF point1, QPointF point2, QPointF point3) {
     if (point1.x() == point2.x()) {
            if (point3.x() >= point1.x() - padding && point3.x() <= point1.x() + padding &&
@@ -37,6 +39,7 @@ bool pointOnLine(QPointF point1, QPointF point2, QPointF point3) {
        }
        return false;
 }
+
 /* To determine whether a point on the rectangle*/
 bool pointOnRect(DiagPoints diagPoints, QPointF pos) {
     QPointF point1 = diagPoints.masterPoint;
@@ -53,7 +56,7 @@ bool pointOnRect(DiagPoints diagPoints, QPointF pos) {
 }
 
 /* get the point who splid a distance on a line */
-QPointF      pointSplid(QPointF point1, QPointF point2, int padding) {
+QPointF pointSplid(QPointF point1, QPointF point2, int padding) {
     if (point1.x() == point2.x()) {
         return QPointF(0, padding);
     } else {
@@ -63,7 +66,8 @@ QPointF      pointSplid(QPointF point1, QPointF point2, int padding) {
     }
 }
 
-QPointF       getRotatePoint(QPointF point1, QPointF point2, QPointF point3, QPointF point4) {
+/* get the rotate point by four points in a rectangle*/
+QPointF getRotatePoint(QPointF point1, QPointF point2, QPointF point3, QPointF point4) {
     QPointF leftPoint = QPointF(0, 0);
     QPointF rightPoint = QPointF(0, 0);
     QPointF rotatePoint = QPointF(0, 0);
@@ -172,7 +176,16 @@ QPointF pointRotate(QPointF point1, QPointF point2, qreal angle) {
     return point3;
 }
 
-
+/* the distance from a point(point3) to a line(point1, point2) */
+qreal pointToLineDistance(QPoint point1, QPoint point2, QPoint point3) {
+    if (point1.x() == point2.x()) {
+        return std::abs(point3.x() - point1.x());
+    } else {
+        qreal k = (point1.y() - point2.y()) / (point1.x() - point2.x());
+        qreal b = point1.y() - point1.x() * k;
+        return std::abs(point3.x() * k + b - point3.y()) / std::sqrt(std::pow(k, 2) + 1);
+    }
+}
 
 
 

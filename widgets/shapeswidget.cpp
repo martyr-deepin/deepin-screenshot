@@ -226,7 +226,7 @@ void ShapesWidget::handleRotate(QPointF pos) {
     QPointF centerInPoint = QPointF((m_currentSelectedFPoints.point1.x() + m_currentSelectedFPoints.point4.x())/2,
                                   (m_currentSelectedFPoints.point1.y() + m_currentSelectedFPoints.point4.y())/2);
 
-    qreal angle = calculateAngle(m_pressedPoint, pos, centerInPoint)/30;
+    qreal angle = calculateAngle(m_pressedPoint, pos, centerInPoint)/35;
     for (int i = 0; i < 4; i++) {
         tmpFourPoint[i] = pointRotate(centerInPoint, tmpFourPoint[i], angle);
     }  
@@ -256,6 +256,14 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
     m_isPressed = true;
     if (!clickedOnShapes(m_pressedPoint)) {
         qDebug() << "no one shape be clicked!";
+        m_currentDiagPoints.masterPoint = QPoint(0, 0);
+        m_currentDiagPoints.deputyPoint = QPoint(0, 0);
+        m_currentSelectedFPoints.point1 = QPoint(0, 0);
+        m_currentSelectedFPoints.point2 = QPoint(0, 0);
+        m_currentSelectedFPoints.point3 = QPoint(0, 0);
+        m_currentSelectedFPoints.point4 = QPoint(0, 0);
+
+        m_selectedIndex = -1;
         m_isRecording = true;
         if (m_pos1 == QPointF(0, 0)) {
 
@@ -314,7 +322,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
             update();
         }
 
-        if (m_isSelected && m_isPressed) {
+        if (m_isSelected && m_isPressed && m_selectedIndex != -1) {
             m_mFPointsList[m_selectedIndex].point1 = QPointF(
                         m_mFPointsList[m_selectedIndex].point1.x() + (m_movingPoint.x() - m_pressedPoint.x()),
                         m_mFPointsList[m_selectedIndex].point1.y() + (m_movingPoint.y() - m_pressedPoint.y()));
