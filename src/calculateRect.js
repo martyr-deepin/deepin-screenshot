@@ -2616,7 +2616,7 @@ function point8Resize4(point1, point2, point3, point4, p, isShift) {
     }
     return points
 }
-/* special positon in new compute process */
+/* special position in new compute process */
 function point1Resize5(point1, point2, point3, point4, p,isShift) {
     isShift = typeof isShift !== 'undefined' ? isShift : false
     var points = [point1, point2, point3, point4]
