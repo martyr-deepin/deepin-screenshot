@@ -39,6 +39,10 @@ qreal   pointToLineDistance(QPointF point1, QPointF point2, QPointF point3);
 /* judge the direction of point3 of line(point1, point2) */
 qreal pointLineDir(QPointF point1, QPointF point2, QPointF point3);
 
+/*get another four points in rectangle (Top/Bottom/Left/Right) */
+FourPoints getAnotherFPoints(QPointF point1, QPointF point2,
+                             QPointF point3, QPointF point4);
+
 /* handle resize of eight points in rectangle */
 FourPoints resizePointPosition(QPointF point1, QPointF point2, QPointF point3, QPointF point4,
                           QPointF pos, int key, bool isShift = false);
@@ -65,7 +69,6 @@ FourPoints point1Resize6(QPointF point1, QPointF point2, QPointF point3,
 /* point1 in the seventh position */
 FourPoints point1Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift= false);
-
 
 /***************** second point2 *******************/
 /* point2 in the first position */
@@ -134,5 +137,97 @@ FourPoints point4Resize6(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift= false);
 /* point4 in the seventh position */
 FourPoints point4Resize7(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift= false);
+
+/********************** fifth point5 ************************/
+/* point5 in the first position */
+FourPoints point5Resize1(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift = false);
+/* point5 in the second position */
+FourPoints point5Resize2(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift = false);
+/* point5 in the third position */
+FourPoints point5Resize3(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift = false);
+/* point5 in the fourth position */
+FourPoints point5Resize4(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift = false);
+/* point5 in the fifth position */
+FourPoints point5Resize5(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift= false);
+/* point5 in the sixth position */
+FourPoints point5Resize6(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift= false);
+/* point5 in the seventh position */
+FourPoints point5Resize7(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift= false);
+
+/********************** sixth point6 ************************/
+/* point6 in the first position */
+FourPoints point6Resize1(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift = false);
+/* point6 in the second position */
+FourPoints point6Resize2(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift = false);
+/* point6 in the third position */
+FourPoints point6Resize3(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift = false);
+/* point6 in the fourth position */
+FourPoints point6Resize4(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift = false);
+/* point6 in the fifth position */
+FourPoints point6Resize5(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift= false);
+/* point6 in the sixth position */
+FourPoints point6Resize6(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift= false);
+/* point6 in the seventh position */
+FourPoints point6Resize7(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift= false);
+
+/********************** seventh point7 ************************/
+/* point7 in the first position */
+FourPoints point7Resize1(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift = false);
+/* point7 in the second position */
+FourPoints point7Resize2(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift = false);
+/* point7 in the third position */
+FourPoints point7Resize3(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift = false);
+/* point7 in the fourth position */
+FourPoints point7Resize4(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift = false);
+/* point7 in the fifth position */
+FourPoints point7Resize5(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift= false);
+/* point7 in the sixth position */
+FourPoints point7Resize6(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift= false);
+/* point7 in the seventh position */
+FourPoints point7Resize7(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift= false);
+
+/********************** eighth point8 ************************/
+/* point8 in the first position */
+FourPoints point8Resize1(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift = false);
+/* point8 in the second position */
+FourPoints point8Resize2(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift = false);
+/* point8 in the third position */
+FourPoints point8Resize3(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift = false);
+/* point8 in the fourth position */
+FourPoints point8Resize4(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift = false);
+/* point8 in the fifth position */
+FourPoints point8Resize5(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift= false);
+/* point8 in the sixth position */
+FourPoints point8Resize6(QPointF point1, QPointF point2, QPointF point3,
+                         QPointF point4, QPointF pos, bool isShift= false);
+/* point8 in the seventh position */
+FourPoints point8Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift= false);
 #endif // CALCULATERECT_H
