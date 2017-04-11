@@ -29,10 +29,6 @@ from dbus_interfaces import notificationsInterface
 from dbus_interfaces import FileManagerInterface
 from constants import MAIN_QML, GTK_CLIP
 
-ACTION_ID_OPEN = "id_open"
-ACTION_ID_MANUAL = "id_show_manual"
-
-
 def validFormat(suffixname):
     pictureformat = [".bmp",".jpg",".jpeg",".png",".pbm",".pgm",".ppm",".xbm",".xpm"]
     return suffixname in pictureformat
@@ -54,54 +50,34 @@ class AppContext(QObject):
         self.window = None
         self.pixmap = None
 
-        self._notificationId = None
         self._fileSaveLocation = None
-        self.callHelpManual = False
-
-        self._waitNotificationTimer = QTimer()
-        self._waitNotificationTimer.setInterval(10 * 1000)
-        self._waitNotificationTimer.setSingleShot(True)
-        self._waitNotificationTimer.timeout.connect(self.finished)
 
     def _notify(self, *args, **kwargs):
         noNotificationValue = self.argValues["noNotification"]
         if noNotificationValue:
             self.finished.emit()
         else:
-            self._waitNotificationTimer.start()
-            time.sleep(1)
             return notificationsInterface.notify(_("Deepin Screenshot"),
                                                  *args, **kwargs)
 
-    def _actionInvoked(self, notificationId, actionId):
-        self._waitNotificationTimer.stop()
-        # if self._notificationId == notificationId:
+    def _constructNotifyHints(self, path):
+        if os.path.exists("/usr/bin/dde-file-manager"):
+            encode = lambda x : QUrl.fromLocalFile(x).toString()
+            argDict = {
+                "directory" : encode(dirname(path)),
+                "item" : encode(path)
+            }
+            arg = "{directory}?selectUrl={item}".format(**argDict)
+            command = "dde-file-manager,%s" % arg
+        else:
+            command = "xdg-open,%s" % path
 
-        if actionId == ACTION_ID_OPEN:
-            fileManager = FileManagerInterface()
-            if fileManager.isValid():
-                fileManager.showItems([self._fileSaveLocation])
-                # TODO(hualet): remove this workaround after dde-file-manager's
-                # done supporting org.freedesktop.FileManager1 interface.
-            elif os.path.exists("/usr/bin/dde-file-manager"):
-                encode = lambda x : QUrl.fromLocalFile(x).toString()
-                argDict = {
-                    "directory" : encode(dirname(self._fileSaveLocation)),
-                    "item" : encode(self._fileSaveLocation)
-                }
-                arg = "{directory}?selectUrl={item}".format(**argDict)
-                ubprocess.Popen(["dde-file-manager", arg])
-        elif actionId == ACTION_ID_MANUAL:
-            subprocess.Popen(["dman", "deepin-screenshot"])
-        self.window.windowClosing.emit()
-        self.window.close()
-        self.finished.emit()
 
-    def _notificationClosed(self, notificationId, reason):
-        self._waitNotificationTimer.stop()
+        hints = {
+            "x-deepin-action-view": command
+        }
 
-        if self._notificationId == notificationId:
-            self.finished.emit()
+        return hints
 
     def _windowVisibleChanged(self, visible):
         if visible:
@@ -135,9 +111,7 @@ class AppContext(QObject):
         pixmap.save(_temp)
         subprocess.call([GTK_CLIP, _temp])
 
-        if not self.callHelpManual:
-            self._notificationId = self._notify(
-            _("Picture has been saved to clipboard"))
+        self._notify(_("Picture has been saved to clipboard"))
 
     def savePixmap(self, pixmap, fileName):
         pixmap.save(fileName)
@@ -197,40 +171,30 @@ class AppContext(QObject):
                     QStandardPaths.PicturesLocation)
                 absSavePath = os.path.join(saveDir, fileName)
             else: copyToClipborad = True
+
+        actions = ["view", _("View")]
         if savePathValue:
             self.savePixmap(pixmap, savePathValue)
-            self._notificationId = self._notify(
-                    _("Picture has been saved to %s") % savePathValue,
-                    [ACTION_ID_OPEN, _("View")])
-            if self.callHelpManual:
-                self._notificationId = self._notify(
-                        _(" View Manual, the picture is automatically saved."),
-                        [ACTION_ID_MANUAL, _("View")])
-            else:
-                self.finished.emit()
+
+            hints = self._constructNotifyHints(savePathValue)
+            self._notify(_("Picture has been saved to %s") % savePathValue,
+                         actions, hints)
         elif absSavePath or copyToClipborad:
             if copyToClipborad:
                 self.copyPixmap(pixmap)
             if absSavePath:
                 copyToClipborad = False
                 self.savePixmap(pixmap, absSavePath)
-            if self.callHelpManual:
-                self._notificationId = self._notify(
-                        _(" View Manual, the picture is automatically saved."),
-                        [ACTION_ID_MANUAL, _("View")])
 
-            if absSavePath:
-                self._notificationId = self._notify(
-                        _("Picture has been saved to %s") % absSavePath,
-                        [ACTION_ID_OPEN, _("View")])
-        else:
-            self.finished.emit()
+                hints = self._constructNotifyHints(absSavePath)
+                self._notify(_("Picture has been saved to %s") % absSavePath,
+                             actions, hints)
+
+        self.finished.emit()
 
     def helpManual(self):
-        self.callHelpManual = True
-        self.window.ungrabFocus()
-        self.window.hide()
-        self.saveScreenshot(self.pixmap)
+        subprocess.Popen(["dman", "deepin-screenshot"])
+        self.finished.emit()
 
     def main(self):
         fullscreenValue = self.argValues["fullscreen"]
@@ -257,12 +221,6 @@ class AppContext(QObject):
             self.settings.showOSD = False
         self.menu_controller = MenuController()
         self.windowInfo = WindowInfo(screen_num)
-
-        if not noNotificationValue:
-            notificationsInterface.ActionInvoked.connect(
-                self._actionInvoked)
-            notificationsInterface.NotificationClosed.connect(
-                self._notificationClosed)
 
         self.pixmap = pixmap
         self.window = Window(ref(self)())

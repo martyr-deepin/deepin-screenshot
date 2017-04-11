@@ -40,18 +40,20 @@ class NotificationsInterface(QDBusAbstractInterface):
             QDBusConnection.sessionBus(),
             None)
 
-    def notify(self, summary, body, actions=[]):
+    def notify(self, summary, body, actions=[], hints={}):
         varRPlaceId = QVariant(0)
         varRPlaceId.convert(QVariant.UInt)
         varActions = QVariant(actions)
         varActions.convert(QVariant.StringList)
+        varHints = QVariant(hints)
+        varHints.convert(QVariant.Map)
 
         msg = self.call("Notify",
             "Deepin Screenshot",
             varRPlaceId,
             "deepin-screenshot",
             summary,
-            body, varActions, {}, -1)
+            body, varActions, varHints, -1)
 
         reply = QDBusReply(msg)
         if reply.isValid():
