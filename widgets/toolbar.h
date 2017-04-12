@@ -2,55 +2,30 @@
 #define TOOLBAR_H
 
 #include <QLabel>
-#include <QPushButton>
-#include <QHBoxLayout>
 
-class ToolButton : public QPushButton {
-    Q_OBJECT
-public:
-    ToolButton(QWidget* parent = 0) {
-        Q_UNUSED(parent);
-        setFixedSize(22, 22);
-        setCheckable(true);
-    }
-    ~ToolButton(){}
-};
+#include "majtoolbar.h"
+#include "subtoolbar.h"
 
 class ToolBar : public QLabel {
     Q_OBJECT
-
-
 public:
     ToolBar(QWidget* parent = 0);
     ~ToolBar();
 
 signals:
-    void buttonChecked(QString type);
+    void buttonChecked(QString shapeType);
 
 public slots:
-    void initWidgets();
-    void showToolBar(QPoint pos);
-    void setExpandMode(bool expand, QString type = "");
     bool isButtonChecked();
-
-protected:
-//    void enterEvent(QEvent *event);
-//    void leaveEvent(QEvent *event);
-//    void paintEvent(QPaintEvent *event);
-    void mouseMoveEvent(QMouseEvent *ev);
-    bool eventFilter(QObject *watched, QEvent *event);
+    void setExpand(bool expand, QString shapeType);
+    void showAt(QPoint pos);
 
 private:
-
-    QLabel* m_topLabel;
-    QLabel* m_separator;
-    QLabel* m_bottomLabel;
-    QVBoxLayout* m_layout;
-    QHBoxLayout* m_baseLayout;
-    QHBoxLayout* m_expandLayout;
+    MajToolBar* m_majToolbar;
+    QLabel* m_hSeperatorLine;
+    SubToolBar* m_subToolbar;
 
     bool m_isChecked;
-
 };
 
 #endif // TOOLBAR_H

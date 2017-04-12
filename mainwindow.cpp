@@ -201,7 +201,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
             m_mouseStatus = ShotMouseStatus::Normal;
             m_zoomIndicator->hide();
-            m_toolBar->showToolBar(QPoint(m_recordX + m_recordWidth, m_recordY
+            m_toolBar->showAt(QPoint(m_recordX + m_recordWidth, m_recordY
                                           + m_recordHeight));
             updateCursor(event);
 
@@ -255,7 +255,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                 QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
 
             if (m_toolBar->isVisible()) {
-                m_toolBar->showToolBar(QPoint(m_recordX + m_recordWidth,
+                m_toolBar->showAt(QPoint(m_recordX + m_recordWidth,
                                               m_recordY + m_recordHeight));
             } else if (m_isFirstPressButton){
                 m_zoomIndicator->showMagnifier(QPoint(m_recordX + m_recordWidth,

@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>resources/qss/toolbar.qss</file>
         <file>resources/images/action/oval_checked.png</file>
         <file>resources/images/action/oval_hover.png</file>
         <file>resources/images/action/oval_normal.png</file>
@@ -81,5 +80,8 @@
         <file>resources/images/size/unarrow_hover.png</file>
         <file>resources/images/size/unarrow_normal.png</file>
         <file>resources/images/size/rotate.png</file>
+        <file>resources/qss/subtoolbar.qss</file>
+        <file>resources/qss/majtoolbar.qss</file>
+        <file>resources/qss/toolbar.qss</file>
     </qresource>
 </RCC>
