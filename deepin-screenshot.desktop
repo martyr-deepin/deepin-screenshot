@@ -113,9 +113,9 @@ GenericName[zh_CN]=屏幕截图程序
 Name[zh_CN]=深度截图
 Comment[zh_HK]=螢幕擷取程式
 GenericName[zh_HK]=螢幕擷取程式
-Comment[zh_TW]=螢幕擷取程式
-GenericName[zh_TW]=螢幕擷取程式
-Name[zh_TW]=深度截圖
+Comment[zh_TW]=螢幕截圖程式
+GenericName[zh_TW]=螢幕截圖程式
+Name[zh_TW]=Deepin 截圖
 Comment[es_AR]=Aplicación de Captura de Pantalla
 GenericName[es_AR]=Aplicación de Captura de Pantalla
 Name[es_AR]=Capturador de Pantalla Deepin
@@ -141,9 +141,10 @@ Name[sk]=Celý snímok obrazovky
 Name[sl]=Zajem celotnega zaslona
 Name[zh_CN]=截取全屏
 Name[zh_HK]=擷取全螢幕
-Name[zh_TW]=擷取全螢幕
+Name[zh_TW]=全螢幕截圖
 
 [Delay_Screenshot Shortcut Group]
 Exec=deepin-screenshot -d 5
 Name=Delay Screenshot
 Name[zh_CN]=延时截图
+Name[zh_TW]=延時截圖
