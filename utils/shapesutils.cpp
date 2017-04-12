@@ -48,11 +48,13 @@ QDebug &operator<<(QDebug &argument, const FourPoints &obj) {
             << obj.point1 << ","
             << obj.point2 << ","
             << obj.point3 << ","
-            << obj.point4;
+            << obj.point4  << ","
+            << obj.shapeType;
     return argument.space();
 }
 
 QDataStream &operator>>(QDataStream &in, FourPoints &obj) {
+    in >> obj.shapeType;
     in >> obj.point4;
     in >> obj.point3;
     in >> obj.point2;
@@ -65,7 +67,7 @@ FourPoints FourPoints::operator =(FourPoints obj) {
     point2 = obj.point2;
     point3 = obj.point3;
     point4 = obj.point4;
-
+    shapeType = obj.shapeType;
     return (*this);
 }
 

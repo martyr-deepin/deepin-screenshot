@@ -30,6 +30,7 @@ public:
     QPointF point2;
     QPointF point3;
     QPointF point4;
+    QString shapeType;
 
     FourPoints();
     ~FourPoints();

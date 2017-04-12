@@ -31,51 +31,6 @@ void ShapesWidget::setCurrentShape(QString shapeType) {
     m_currentShape = shapeType;
 }
 
-ResizeDirection ShapesWidget::getResizeDirection(QPointF point1, QPointF point2,
-                                    QPointF point3, QPointF point4, QPointF pos) {
-
-    QPointF rotatePoint = getRotatePoint(point1, point2, point3, point4);
-    rotatePoint = QPointF(rotatePoint.x() - 5, rotatePoint.y() - 5);
-
-    if (pointClickIn(rotatePoint, pos)) {
-        m_isResize = true;
-        m_resizeDirection = Rotate;
-    } else if (pointClickIn(point1, pos)) {
-        m_isResize = true;
-        m_resizeDirection = TopLeft;
-    } else if (pointClickIn(point2, pos)) {
-        m_isResize = true;
-        m_resizeDirection = BottomLeft;
-    } else if (pointClickIn(point3, pos)) {
-        m_isResize = true;
-        m_resizeDirection = TopRight;
-    } else if (pointClickIn(point4, pos)) {
-        m_isResize = true;
-        m_resizeDirection = BottomRight;
-    }/* else if (pointOnLine(point1, point2, pos)) {
-        m_isResize = true;
-//        m_resizeDirection = Left;
-        m_resizeDirection == Moving;
-    } else if (pointOnLine(point1, point3, pos)) {
-        m_isResize = true;
-//        m_resizeDirection = Top;
-        m_resizeDirection = Moving;
-    } else if (pointOnLine(point3, point4, pos)) {
-        m_isResize = true;
-//        m_resizeDirection = Right;
-        m_resizeDirection = Moving;
-    } else if (pointOnLine(point2, point4, pos)) {
-        m_isResize = true;
-//        m_resizeDirection = Bottom;
-        m_resizeDirection = Moving;
-    }*/
-    else {
-        m_resizeDirection = Moving;
-    }
-
-    return m_resizeDirection;
-}
-
 bool ShapesWidget::clickedOnShapes(QPointF pos) {
     bool onShapes = false;
     m_currentDiagPoints.masterPoint = QPointF(0, 0);
@@ -113,7 +68,7 @@ bool ShapesWidget::clickedOnPoint(QPointF point1, QPointF point2,
     m_isRotated = false;
 
     m_pressedPoint = QPoint(0, 0);
-
+    FourPoints otherFPoints = getAnotherFPoints(point1, point2, point3, point4);
     if (pointClickIn(point1, pos)) {
         m_isSelected = true;
         m_isResize = true;
@@ -142,6 +97,34 @@ bool ShapesWidget::clickedOnPoint(QPointF point1, QPointF point2,
         m_resizeDirection = BottomRight;
         m_pressedPoint = pos;
         return true;
+    }  else if (pointClickIn(otherFPoints.point1, pos)) {
+        m_isSelected = true;
+        m_isResize = true;
+        m_clickedKey = Fifth;
+        m_resizeDirection = Left;
+        m_pressedPoint = pos;
+        return true;
+    } else if (pointClickIn(otherFPoints.point2, pos)) {
+        m_isSelected = true;
+        m_isResize = true;
+        m_clickedKey = Sixth;
+        m_resizeDirection = Top;
+        m_pressedPoint = pos;
+        return true;
+    } else if (pointClickIn(otherFPoints.point3, pos)) {
+        m_isSelected = true;
+        m_isResize = true;
+        m_clickedKey = Seventh;
+        m_resizeDirection = Right;
+        m_pressedPoint = pos;
+        return true;
+    } else if (pointClickIn(otherFPoints.point4, pos)) {
+        m_isSelected = true;
+        m_isResize = true;
+        m_clickedKey = Eighth;
+        m_resizeDirection = Bottom;
+        m_pressedPoint = pos;
+        return true;
     } else if (rotateOnPoint(point1, point2, point3, point4, pos)) {
         m_isSelected = true;
         m_isRotated = true;
@@ -167,6 +150,7 @@ bool ShapesWidget::clickedOnPoint(QPointF point1, QPointF point2,
 
 bool ShapesWidget::hoverOnShapes(QPointF point1, QPointF point2,
                                   QPointF point3, QPointF point4, QPointF pos) {
+    FourPoints tmpFPoints = getAnotherFPoints(point1, point2, point3, point4);
     if (pointClickIn(point1, pos)) {
         m_resizeDirection = TopLeft;
         return true;
@@ -181,6 +165,18 @@ bool ShapesWidget::hoverOnShapes(QPointF point1, QPointF point2,
         return true;
     } else if (rotateOnPoint(point1, point2, point3, point4, pos)) {
         m_resizeDirection = Rotate;
+        return true;
+    }  else if (pointClickIn(tmpFPoints.point1, pos)) {
+        m_resizeDirection = Left;
+        return true;
+    } else if (pointClickIn(tmpFPoints.point2, pos)) {
+        m_resizeDirection = Top;
+        return true;
+    }  else if (pointClickIn(tmpFPoints.point3, pos)) {
+        m_resizeDirection = Right;
+        return true;
+    } else if (pointClickIn(tmpFPoints.point4, pos)) {
+        m_resizeDirection = Bottom;
         return true;
     } else if (pointOnLine(point1, point2, pos) || pointOnLine(point1, point3, pos)
              || pointOnLine(point2, point4, pos) || pointOnLine(point3, point4, pos)) {
@@ -306,7 +302,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
         qDebug() << "some on shape be clicked!";
     }
 
-
     QFrame::mousePressEvent(e);
 }
 
@@ -317,6 +312,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
         m_diagPointsList.append(m_currentDiagPoints);
 
         FourPoints tmpPoints = fourPointsOnRect(m_currentDiagPoints);
+        tmpPoints.shapeType = m_currentShape;
         m_mFPointsList.append(tmpPoints);
         m_isRecording = false;
         m_isMoving = false;
@@ -346,8 +342,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
         }
 
         if (m_isResize && m_isPressed) {
-            //TODO resize function
-            qDebug() << "$$$$$$" << m_clickedKey;
+            // resize function
              handleResize(QPointF(e->pos()), m_clickedKey);
             update();
             return;
@@ -384,7 +379,31 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
                      m_isHovered = true;
                      m_currentHoverDiagPoints = m_diagPointsList[i];
                      m_currentHoveredFPoints = tmpHoverFPoints;
-                     if (m_resizeDirection == TopLeft) {
+                     if (m_resizeDirection == Left) {
+                         if (m_isSelected || m_isRotated) {
+                            qApp->setOverrideCursor(Qt::SizeHorCursor);
+                         } else {
+                            qApp->setOverrideCursor(Qt::ClosedHandCursor);
+                         }
+                     } else if (m_resizeDirection == Top) {
+                         if (m_isSelected || m_isRotated) {
+                            qApp->setOverrideCursor(Qt::SizeVerCursor);
+                         } else {
+                            qApp->setOverrideCursor(Qt::ClosedHandCursor);
+                         }
+                     } else if (m_resizeDirection == Right) {
+                         if (m_isSelected || m_isRotated) {
+                            qApp->setOverrideCursor(Qt::SizeHorCursor);
+                         } else {
+                            qApp->setOverrideCursor(Qt::ClosedHandCursor);
+                         }
+                     } else if (m_resizeDirection == Bottom) {
+                         if (m_isSelected || m_isRotated) {
+                            qApp->setOverrideCursor(Qt::SizeVerCursor);
+                         } else {
+                            qApp->setOverrideCursor(Qt::ClosedHandCursor);
+                         }
+                     }  else if (m_resizeDirection == TopLeft) {
                          if (m_isSelected || m_isRotated) {
                             qApp->setOverrideCursor(Qt::SizeFDiagCursor);
                          } else {
@@ -480,6 +499,21 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
                            QPixmap(":/resources/images/size/resize_handle_big.png"));
         painter.drawPixmap(QPointF(m_currentSelectedFPoints.point4.x() - DRAG_BOUND_RADIUS,
                                   m_currentSelectedFPoints.point4.y() - DRAG_BOUND_RADIUS),
+                           QPixmap(":/resources/images/size/resize_handle_big.png"));
+        FourPoints anotherFPoints = getAnotherFPoints(m_currentSelectedFPoints.point1,
+                             m_currentSelectedFPoints.point2, m_currentSelectedFPoints.point3, m_currentSelectedFPoints.point4);
+
+        painter.drawPixmap(QPointF(anotherFPoints.point1.x() - DRAG_BOUND_RADIUS,
+                                  anotherFPoints.point1.y() - DRAG_BOUND_RADIUS),
+                           QPixmap(":/resources/images/size/resize_handle_big.png"));
+        painter.drawPixmap(QPointF(anotherFPoints.point2.x() - DRAG_BOUND_RADIUS,
+                                  anotherFPoints.point2.y() - DRAG_BOUND_RADIUS),
+                           QPixmap(":/resources/images/size/resize_handle_big.png"));
+        painter.drawPixmap(QPointF(anotherFPoints.point3.x() - DRAG_BOUND_RADIUS,
+                                  anotherFPoints.point3.y() - DRAG_BOUND_RADIUS),
+                           QPixmap(":/resources/images/size/resize_handle_big.png"));
+        painter.drawPixmap(QPointF(anotherFPoints.point4.x() - DRAG_BOUND_RADIUS,
+                                  anotherFPoints.point4.y() - DRAG_BOUND_RADIUS),
                            QPixmap(":/resources/images/size/resize_handle_big.png"));
 
         QPointF rotatePoint = getRotatePoint(m_currentSelectedFPoints.point1, m_currentSelectedFPoints.point2,

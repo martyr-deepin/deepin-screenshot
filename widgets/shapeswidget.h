@@ -18,12 +18,13 @@ public:
         Second,
         Third,
         Fourth,
+        Fifth,
+        Sixth,
+        Seventh,
+        Eighth,
     };
 public slots:
     void setCurrentShape(QString shapeType);
-    ResizeDirection getResizeDirection(QPointF point1, QPointF point2,
-                                       QPointF point3, QPointF point4,
-                                       QPointF pos);
 
     void handleRotate(QPointF pos);
     void handleResize(QPointF pos, int key);
