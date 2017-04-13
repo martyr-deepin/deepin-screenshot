@@ -43,6 +43,22 @@ qreal pointLineDir(QPointF point1, QPointF point2, QPointF point3);
 FourPoints getAnotherFPoints(QPointF point1, QPointF point2,
                              QPointF point3, QPointF point4);
 
+/* calculate the control point of the beizer */
+QPointF getControlPoint(QPointF point1, QPointF point2, bool direction) ;
+
+/* get eight control points */
+QList<QPointF> getEightControlPoint(FourPoints rectFPoints);
+
+/* judge whether the clickOnPoint is on the bezier */
+/* 0 <= pos.x() <= 1*/
+bool pointOnBezier(QPointF point1, QPointF point2, QPointF point3,
+                   QPointF point4, QPointF pos);
+
+/* judge whether the clickOnPoint is on the ellipse */
+bool pointOnEllipse(FourPoints rectFPoints, QPointF pos);
+
+/* judge whether the clickOnPoint is in the ellipse*/
+//bool pointInEllipse(QPointF point1, QPointF point2, QPointF point3, QPointF point4, QPointF pos);
 /* handle resize of eight points in rectangle */
 FourPoints resizePointPosition(QPointF point1, QPointF point2, QPointF point3, QPointF point4,
                           QPointF pos, int key, bool isShift = false);

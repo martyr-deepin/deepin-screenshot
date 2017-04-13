@@ -5,6 +5,7 @@ const int ROTATEPOINT_PADDING = 30;
 const int TANT_EDGEVALUE = 0.78539;
 const int TANT2_EDGEVALUE = 2.35619;
 const int MIN_PADDING = 3;
+const qreal SLOPE = 0.5522848;
 /* get a rect by diagPoints */
 QRect diagPointsRect(DiagPoints diagPoints) {
     return QRect(std::min(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
@@ -215,6 +216,81 @@ qreal pointLineDir(QPointF point1, QPointF point2, QPointF point3) {
         }
     }
  }
+
+/* calculate the control point of the beizer */
+QPointF getControlPoint(QPointF point1, QPointF point2, bool direction)  {
+    qreal k1 = SLOPE;
+    qreal k2 = 1 - SLOPE;
+    qreal k3;
+
+    if (direction) {
+        k3 = k2/k1;
+    } else {
+        k3 = k1/k2;
+    }
+    QPointF resultPoint = QPoint((point1.x() + k3*point2.x())/(1+k3),
+                                                         (point1.y() + k3*point2.y())/(1+k3));
+    return resultPoint;
+}
+
+/* get eight control points */
+QList<QPointF> getEightControlPoint(FourPoints rectFPoints) {
+    FourPoints anotherFPoints = getAnotherFPoints(rectFPoints.point1, rectFPoints.point2,
+                                                  rectFPoints.point3, rectFPoints.point4);
+
+    QList<QPointF> resultPointList;
+    resultPointList.append(getControlPoint(rectFPoints.point1, anotherFPoints.point1, true));
+    resultPointList.append(getControlPoint(rectFPoints.point1, anotherFPoints.point2, true));
+    resultPointList.append(getControlPoint(anotherFPoints.point1, rectFPoints.point2, false));
+    resultPointList.append(getControlPoint(rectFPoints.point2, anotherFPoints.point4, true));
+    resultPointList.append(getControlPoint(anotherFPoints.point2, rectFPoints.point3, false));
+    resultPointList.append(getControlPoint(rectFPoints.point3, anotherFPoints.point3, true));
+    resultPointList.append(getControlPoint(anotherFPoints.point3, rectFPoints.point4, false));
+    resultPointList.append(getControlPoint(rectFPoints.point4, anotherFPoints.point4, true));
+    qDebug() << resultPointList;
+    return resultPointList;
+}
+
+/* judge whether the clickOnPoint is on the bezier */
+/* 0 <= pos.x() <= 1*/
+bool pointOnBezier(QPointF point1, QPointF point2, QPointF point3, QPointF point4, QPointF pos) {
+    for (qreal t = 0; t <= 1; t = t + 0.1) {
+        qreal bx = point1.x()*(1-t)*std::pow(1-t, 2) + 3*point1.x()*t*std::pow(1-t, 2)
+                + 3*point2.x()*std::pow(t, 2)*(1-t) + point3.x()*t*std::pow(t, 2);
+        qreal by = point1.y()*(1-t)*std::pow(1-t, 2) + 3*point1.y()*t*std::pow(1-t, 2)
+                + 3*point2.y()*std::pow(t, 2)*(1-t) + point3.y()*t*std::pow(t, 2);
+        if (pos.x() >= bx - MIN_PADDING && pos.x() <= bx + MIN_PADDING &&
+                pos.y() >= by - MIN_PADDING && pos.y() <= by + MIN_PADDING) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/* judge whether the clickOnPoint is on the ellipse */
+bool pointOnEllipse(FourPoints rectFPoints, QPointF pos) {
+    FourPoints anotherFPoints = getAnotherFPoints(rectFPoints.point1, rectFPoints.point2,
+                                                  rectFPoints.point3, rectFPoints.point4);
+    QList<QPointF> controlPointList;
+    controlPointList.append(getControlPoint(rectFPoints.point1, anotherFPoints.point1, true));
+    controlPointList.append(getControlPoint(rectFPoints.point1, anotherFPoints.point2, true));
+    controlPointList.append(getControlPoint(anotherFPoints.point1, rectFPoints.point2, false));
+    controlPointList.append(getControlPoint(rectFPoints.point2, anotherFPoints.point4, true));
+    controlPointList.append(getControlPoint(anotherFPoints.point1, rectFPoints.point3, true));
+    controlPointList.append(getControlPoint(rectFPoints.point3, anotherFPoints.point3, true));
+    controlPointList.append(getControlPoint(anotherFPoints.point3, rectFPoints.point4, true));
+    controlPointList.append(getControlPoint(rectFPoints.point4, anotherFPoints.point4, true));
+
+    if (pointOnBezier(anotherFPoints.point1, controlPointList[0], controlPointList[1],
+        anotherFPoints.point2, pos) || pointOnBezier(anotherFPoints.point2, controlPointList[4],
+      controlPointList[5], anotherFPoints.point3, pos) || pointOnBezier(anotherFPoints.point3,
+      controlPointList[6], controlPointList[7], anotherFPoints.point1, pos) || pointOnBezier(
+      anotherFPoints.point4, controlPointList[3], controlPointList[2], anotherFPoints.point3, pos)) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 /* handle resize of eight points in rectangle */
 FourPoints resizePointPosition(QPointF point1, QPointF point2, QPointF point3, QPointF point4,

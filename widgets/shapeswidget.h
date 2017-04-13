@@ -70,7 +70,6 @@ private:
 
     int m_selectedIndex;
     QString m_currentShape = "rectangle";
-    QMap<int, QString> m_shapesMap;
 
     DiagPointsList m_diagPointsList;
     DiagPoints m_currentDiagPoints;
@@ -82,5 +81,7 @@ private:
     MPointsList m_mFPointsList;
 
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
+    void paintRect(QPainter &painter, FourPoints rectFPoints);
+    void paintEllipse(QPainter &painter, FourPoints ellipseFPoints);
 };
 #endif // SHAPESWIDGET_H

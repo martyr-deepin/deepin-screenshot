@@ -11,7 +11,6 @@ const int SPACING = 12;
 
 ShapesWidget::ShapesWidget(QWidget *parent)
     : QFrame(parent),
-      m_shapesMap(QMap<int ,QString>()),
       m_selectedIndex(-1),
       m_isMoving(false),
       m_isSelected(false),
@@ -285,14 +284,13 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
         m_currentSelectedFPoints.point2 = QPoint(0, 0);
         m_currentSelectedFPoints.point3 = QPoint(0, 0);
         m_currentSelectedFPoints.point4 = QPoint(0, 0);
-
+        m_currentSelectedFPoints.shapeType = m_currentShape;
         m_selectedIndex = -1;
         m_isRecording = true;
         if (m_pos1 == QPointF(0, 0)) {
 
             m_pos1 = e->pos();
             m_currentDiagPoints.masterPoint = m_pos1;
-            m_shapesMap.insert(m_shapesMap.count(), m_currentShape);
             update();
         }
     } else {
@@ -362,8 +360,10 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
 
             m_currentSelectedFPoints = m_mFPointsList[m_selectedIndex];
             m_currentHoveredFPoints = m_mFPointsList[m_selectedIndex];
+            m_currentSelectedFPoints.shapeType = m_mFPointsList[m_selectedIndex].shapeType;
             m_currentSelectedDiagPoints.masterPoint = m_mFPointsList[m_selectedIndex].point1;
             m_currentSelectedDiagPoints.deputyPoint = m_mFPointsList[m_selectedIndex].point4;
+
             m_pressedPoint = e->pos();
             update();
         }
@@ -469,6 +469,26 @@ void ShapesWidget::paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bo
         }
 }
 
+void ShapesWidget::paintRect(QPainter &painter, FourPoints rectFPoints) {
+    painter.drawLine(rectFPoints.point1, rectFPoints.point2);
+    painter.drawLine(rectFPoints.point2, rectFPoints.point4);
+    painter.drawLine(rectFPoints.point4, rectFPoints.point3);
+    painter.drawLine(rectFPoints.point3, rectFPoints.point1);
+}
+
+void ShapesWidget::paintEllipse(QPainter &painter, FourPoints ellipseFPoints) {
+    FourPoints minorPoints = getAnotherFPoints(ellipseFPoints.point1, ellipseFPoints.point2,
+                         ellipseFPoints.point3, ellipseFPoints.point4);
+    QList<QPointF> eightControlPoints = getEightControlPoint(ellipseFPoints);
+    QPainterPath ellipsePath;
+    ellipsePath.moveTo(minorPoints.point1.x(), minorPoints.point1.y());
+    ellipsePath.cubicTo(eightControlPoints[0], eightControlPoints[1], minorPoints.point2);
+    ellipsePath.cubicTo(eightControlPoints[4], eightControlPoints[5], minorPoints.point3);
+    ellipsePath.cubicTo(eightControlPoints[6], eightControlPoints[7], minorPoints.point4);
+    ellipsePath.cubicTo(eightControlPoints[3], eightControlPoints[2], minorPoints.point1);
+    painter.drawPath(ellipsePath);
+}
+
 void ShapesWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing);
@@ -480,19 +500,20 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     if (m_currentDiagPoints.masterPoint != QPointF(0, 0) &&
             m_currentDiagPoints.deputyPoint != QPointF(0, 0)) {
         FourPoints currentFPoint = fourPointsOnRect(m_currentDiagPoints);
-        painter.drawLine(currentFPoint.point1, currentFPoint.point2);
-        painter.drawLine(currentFPoint.point2, currentFPoint.point4);
-        painter.drawLine(currentFPoint.point4, currentFPoint.point3);
-        painter.drawLine(currentFPoint.point3, currentFPoint.point1);
+        if (m_currentShape == "rectangle") {
+            paintRect(painter, currentFPoint);
+        } else if (m_currentShape == "oval") {
+            paintEllipse(painter, currentFPoint);
+        }
     }
 
     for(int i = 0; i < m_mFPointsList.length(); i++) {
-        painter.drawLine(m_mFPointsList[i].point1, m_mFPointsList[i].point2);
-        painter.drawLine(m_mFPointsList[i].point2, m_mFPointsList[i].point4);
-        painter.drawLine(m_mFPointsList[i].point4, m_mFPointsList[i].point3);
-        painter.drawLine(m_mFPointsList[i].point3, m_mFPointsList[i].point1);
+        if (m_mFPointsList[i].shapeType == "rectangle") {
+            paintRect(painter, m_mFPointsList[i]);
+        } else if (m_mFPointsList[i].shapeType == "oval") {
+            paintEllipse(painter, m_mFPointsList[i]);
+        }
     }
-
 
     if (m_currentSelectedDiagPoints.masterPoint != QPointF(0, 0) &&
             m_currentSelectedDiagPoints.deputyPoint != QPointF(0, 0)) {
@@ -518,16 +539,22 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         painter.drawLine(rotatePoint, middlePoint);
         QPixmap rotatePointImg(":/resources/images/size/rotate.png");
         paintImgPoint(painter, rotatePoint, rotatePointImg, false);
+
+        qDebug() << "m_currentSelectedFPoint shapeType:" << m_currentSelectedFPoints.shapeType;
+        if (m_currentSelectedFPoints.shapeType == "oval") {
+            paintRect(painter, m_currentSelectedFPoints);
+        }
     }
 
     if (m_currentHoverDiagPoints.masterPoint != QPointF(0, 0)) {
         pen.setWidth(1);
         pen.setColor(QColor(Qt::white));
         painter.setPen(pen);
-        painter.drawLine(m_currentHoveredFPoints.point1, m_currentHoveredFPoints.point2);
-        painter.drawLine(m_currentHoveredFPoints.point2, m_currentHoveredFPoints.point4);
-        painter.drawLine(m_currentHoveredFPoints.point4, m_currentHoveredFPoints.point3);
-        painter.drawLine(m_currentHoveredFPoints.point3, m_currentHoveredFPoints.point1);
+        if (m_currentHoveredFPoints.shapeType == "rectangle") {
+            paintRect(painter, m_currentHoveredFPoints);
+        } else if (m_currentHoveredFPoints.shapeType == "oval") {
+            paintEllipse(painter, m_currentHoveredFPoints);
+        }
     }
 }
 
@@ -538,5 +565,12 @@ bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
         qApp->setOverrideCursor(setCursorShape(m_currentShape));
     }
 
+    if (event->type() == QKeyEvent::KeyPress) {
+        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+        if (keyEvent->key() == Qt::Key_Escape) {
+            qApp->quit();
+        }
+    }
     return false;
+
 }
