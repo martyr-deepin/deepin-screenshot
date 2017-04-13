@@ -27,9 +27,9 @@ ToolBar::ToolBar(QWidget *parent)
     vLayout->setMargin(0);
     vLayout->setSpacing(0);
     vLayout->addStretch();
-    vLayout->addWidget(m_majToolbar);
-    vLayout->addWidget(m_hSeperatorLine);
-    vLayout->addWidget(m_subToolbar);
+    vLayout->addWidget(m_majToolbar, 0, Qt::AlignVCenter);
+    vLayout->addWidget(m_hSeperatorLine, 0, Qt::AlignVCenter);
+    vLayout->addWidget(m_subToolbar, 0, Qt::AlignVCenter);
     vLayout->addStretch();
     setLayout(vLayout);
 
