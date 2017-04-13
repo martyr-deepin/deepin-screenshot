@@ -45,19 +45,16 @@ bool ToolBar::isButtonChecked() {
 
 void ToolBar::setExpand(bool expand, QString shapeType) {
     emit buttonChecked(shapeType);
-    qDebug() << "expandLLL" << expand;
     if (expand) {
         m_isChecked = true;
         setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT*2);
         m_hSeperatorLine->show();
         m_subToolbar->show();
-        qDebug() << "expand show:" << height();
     } else {
         m_isChecked = false;
         setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
         m_hSeperatorLine->hide();
         m_subToolbar->hide();
-        qDebug() << "expand hide height:" << height();
     }
     update();
 }

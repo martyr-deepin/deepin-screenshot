@@ -15,7 +15,8 @@ namespace {
 }
 MajToolBar::MajToolBar(QWidget *parent)
     : QLabel(parent),
-      m_isChecked(false)
+      m_isChecked(false),
+      m_currentShape("")
 {
     initWidgets();
 }
@@ -93,35 +94,92 @@ void MajToolBar::initWidgets() {
     setLayout(m_baseLayout);
 
     connect(rectBtn, &ToolButton::clicked, this, [=](){
-        m_isChecked = !m_isChecked;
+        if (m_currentShape != "rectangle") {
+            m_currentShape = "rectangle";
+            m_isChecked = true;
+        } else {
+            m_currentShape = "";
+            m_isChecked = false;
+        }
+        rectBtn->setChecked(m_isChecked);
+        rectBtn->update();
         emit buttonChecked(m_isChecked, "rectangle");
     });
     connect(ovalBtn, &ToolButton::clicked, this, [=](){
-        m_isChecked = !m_isChecked;
+        if (m_currentShape != "Oval") {
+            m_currentShape = "Oval";
+            m_isChecked = true;
+        } else {
+            m_currentShape = "";
+            m_isChecked = false;
+        }
+        ovalBtn->setChecked(m_isChecked);
         emit buttonChecked(m_isChecked, "Oval");
     });
     connect(arrowBtn, &ToolButton::clicked, this, [=](){
-                m_isChecked = !m_isChecked;
+        if (m_currentShape != "Oval") {
+            m_currentShape = "Oval";
+            m_isChecked = true;
+        } else {
+            m_currentShape = "";
+            m_isChecked = false;
+        }
+        arrowBtn->setChecked(m_isChecked);
         emit buttonChecked(m_isChecked, "Arrow");
     });
     connect(penBtn, &ToolButton::clicked, this, [=](){
-                m_isChecked = !m_isChecked;
+        if (m_currentShape != "Oval") {
+            m_currentShape = "Oval";
+            m_isChecked = true;
+        } else {
+            m_currentShape = "";
+            m_isChecked = false;
+        }
+        penBtn->setChecked(m_isChecked);
         emit buttonChecked(m_isChecked, "Pen");
     });
     connect(textBtn, &ToolButton::clicked, this, [=](){
-                m_isChecked = !m_isChecked;
+        if (m_currentShape != "Oval") {
+            m_currentShape = "Oval";
+            m_isChecked = true;
+        } else {
+            m_currentShape = "";
+            m_isChecked = false;
+        }
+        textBtn->setChecked(m_isChecked);
         emit buttonChecked(m_isChecked, "Text");
     });
     connect(colorBtn, &ToolButton::clicked, this, [=](){
-                m_isChecked = !m_isChecked;
+        if (m_currentShape != "Oval") {
+            m_currentShape = "Oval";
+            m_isChecked = true;
+        } else {
+            m_currentShape = "";
+            m_isChecked = false;
+        }
+        colorBtn->setChecked(m_isChecked);
         emit buttonChecked(m_isChecked, "Color");
     });
     connect(saveBtn, &ToolButton::clicked, this, [=](){
-                m_isChecked = !m_isChecked;
+        if (m_currentShape != "Oval") {
+            m_currentShape = "Oval";
+            m_isChecked = true;
+        } else {
+            m_currentShape = "";
+            m_isChecked = false;
+        }
+        saveBtn->setChecked(m_isChecked);
         emit buttonChecked(m_isChecked, "Save");
     });
     connect(saveListBtn, &ToolButton::clicked, this, [=](){
-        m_isChecked = !m_isChecked;
+        if (m_currentShape != "Oval") {
+            m_currentShape = "Oval";
+            m_isChecked = true;
+        } else {
+            m_currentShape = "";
+            m_isChecked = false;
+        }
+        saveListBtn->setChecked(m_isChecked);
         emit buttonChecked(m_isChecked, "SaveList");
     });
 

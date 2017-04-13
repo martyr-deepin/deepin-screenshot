@@ -32,7 +32,7 @@ private:
     QHBoxLayout* m_baseLayout;
 
     bool m_isChecked;
-
+    QString m_currentShape;
 };
 
 #endif // MAJTOOLBAR_H
