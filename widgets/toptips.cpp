@@ -25,9 +25,6 @@ void TopTips::updateTips(QPoint pos, QString text) {
         this->show();
 
     QPoint startPoint = pos;
-//    if (pos.x() > this->width()) {
-//        startPoint.setX(pos.x() - this->width());
-//    }
 
     if (pos.y() > this->height()) {
         startPoint.setY(pos.y() - this->height() - 5);

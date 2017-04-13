@@ -71,7 +71,15 @@ void MainWindow::initUI() {
 
     m_selectAreaName = "";
 
-    connect(m_toolBar, &ToolBar::buttonChecked, this, &MainWindow::initShapeWidget);
+    m_isShapesWidgetExist = false;
+    connect(m_toolBar, &ToolBar::buttonChecked, this,  [=](QString shape){
+        if (m_isShapesWidgetExist) {
+            m_shapesWidget->setCurrentShape(shape);
+        } else {
+            initShapeWidget(shape);
+            m_isShapesWidgetExist = true;
+        }
+    });
     connect(&m_eventMonitor, SIGNAL(buttonedPress(int, int)), this,
             SLOT(showPressFeedback(int, int)), Qt::QueuedConnection);
     connect(&m_eventMonitor, SIGNAL(buttonedDrag(int, int)), this,
@@ -85,7 +93,7 @@ void MainWindow::initUI() {
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
 {
-    if (m_toolBar->isButtonChecked()) {
+    if (m_isShapesWidgetExist) {
         return false;
     }
 #undef KeyPress

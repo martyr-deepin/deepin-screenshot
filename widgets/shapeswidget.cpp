@@ -29,6 +29,8 @@ ShapesWidget::~ShapesWidget() {
 
 void ShapesWidget::setCurrentShape(QString shapeType) {
     m_currentShape = shapeType;
+    qDebug() << "shape" << m_currentShape;
+    qApp->setOverrideCursor(setCursorShape(m_currentShape));
 }
 
 bool ShapesWidget::clickedOnShapes(QPointF pos) {
@@ -257,10 +259,6 @@ void ShapesWidget::handleResize(QPointF pos, int key) {
             tmpFourPoint.append(m_currentSelectedFPoints.point4);
             FourPoints newResizeFPoints = resizePointPosition(tmpFourPoint[0], tmpFourPoint[1],
                     tmpFourPoint[2], tmpFourPoint[3], pos, key,  m_isShiftPressed);
-        qDebug() << "___________newResizeFPoints:" << newResizeFPoints.point1 << "\n"
-                 << newResizeFPoints.point2 << "\n"
-                 << newResizeFPoints.point3 <<  "\n"
-                 << newResizeFPoints.point4 << "\n";
             m_mFPointsList[m_selectedIndex].point1 = newResizeFPoints.point1;
             m_mFPointsList[m_selectedIndex].point2 = newResizeFPoints.point2;
             m_mFPointsList[m_selectedIndex].point3 = newResizeFPoints.point3;
@@ -461,6 +459,16 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
     QFrame::mouseMoveEvent(e);
 }
 
+void ShapesWidget::paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize) {
+        if (isResize) {
+                painter.drawPixmap(QPoint(pos.x() - DRAG_BOUND_RADIUS,
+                                  pos.y() - DRAG_BOUND_RADIUS), img);
+        } else {
+            painter.drawPixmap(QPoint(pos.x() - 12,
+                              pos.y() - 12), img);
+        }
+}
+
 void ShapesWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing);
@@ -488,33 +496,19 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
 
     if (m_currentSelectedDiagPoints.masterPoint != QPointF(0, 0) &&
             m_currentSelectedDiagPoints.deputyPoint != QPointF(0, 0)) {
-        painter.drawPixmap(QPointF(m_currentSelectedFPoints.point1.x() - DRAG_BOUND_RADIUS,
-                                  m_currentSelectedFPoints.point1.y() - DRAG_BOUND_RADIUS),
-                           QPixmap(":/resources/images/size/resize_handle_big.png"));
-        painter.drawPixmap(QPointF(m_currentSelectedFPoints.point2.x() - DRAG_BOUND_RADIUS,
-                                  m_currentSelectedFPoints.point2.y() - DRAG_BOUND_RADIUS),
-                           QPixmap(":/resources/images/size/resize_handle_big.png"));
-        painter.drawPixmap(QPointF(m_currentSelectedFPoints.point3.x() - DRAG_BOUND_RADIUS,
-                                  m_currentSelectedFPoints.point3.y() - DRAG_BOUND_RADIUS),
-                           QPixmap(":/resources/images/size/resize_handle_big.png"));
-        painter.drawPixmap(QPointF(m_currentSelectedFPoints.point4.x() - DRAG_BOUND_RADIUS,
-                                  m_currentSelectedFPoints.point4.y() - DRAG_BOUND_RADIUS),
-                           QPixmap(":/resources/images/size/resize_handle_big.png"));
-        FourPoints anotherFPoints = getAnotherFPoints(m_currentSelectedFPoints.point1,
-                             m_currentSelectedFPoints.point2, m_currentSelectedFPoints.point3, m_currentSelectedFPoints.point4);
+        QPixmap resizePointImg(":/resources/images/size/resize_handle_big.png");
+        paintImgPoint(painter, m_currentSelectedFPoints.point1, resizePointImg);
+        paintImgPoint(painter, m_currentSelectedFPoints.point2, resizePointImg);
+        paintImgPoint(painter, m_currentSelectedFPoints.point3, resizePointImg);
+        paintImgPoint(painter, m_currentSelectedFPoints.point4, resizePointImg);
 
-        painter.drawPixmap(QPointF(anotherFPoints.point1.x() - DRAG_BOUND_RADIUS,
-                                  anotherFPoints.point1.y() - DRAG_BOUND_RADIUS),
-                           QPixmap(":/resources/images/size/resize_handle_big.png"));
-        painter.drawPixmap(QPointF(anotherFPoints.point2.x() - DRAG_BOUND_RADIUS,
-                                  anotherFPoints.point2.y() - DRAG_BOUND_RADIUS),
-                           QPixmap(":/resources/images/size/resize_handle_big.png"));
-        painter.drawPixmap(QPointF(anotherFPoints.point3.x() - DRAG_BOUND_RADIUS,
-                                  anotherFPoints.point3.y() - DRAG_BOUND_RADIUS),
-                           QPixmap(":/resources/images/size/resize_handle_big.png"));
-        painter.drawPixmap(QPointF(anotherFPoints.point4.x() - DRAG_BOUND_RADIUS,
-                                  anotherFPoints.point4.y() - DRAG_BOUND_RADIUS),
-                           QPixmap(":/resources/images/size/resize_handle_big.png"));
+        FourPoints anotherFPoints = getAnotherFPoints(m_currentSelectedFPoints.point1,
+       m_currentSelectedFPoints.point2, m_currentSelectedFPoints.point3, m_currentSelectedFPoints.point4);
+        paintImgPoint(painter, anotherFPoints.point1, resizePointImg);
+        paintImgPoint(painter, anotherFPoints.point2, resizePointImg);
+        paintImgPoint(painter, anotherFPoints.point3, resizePointImg);
+        paintImgPoint(painter, anotherFPoints.point4, resizePointImg);
+
 
         QPointF rotatePoint = getRotatePoint(m_currentSelectedFPoints.point1, m_currentSelectedFPoints.point2,
                 m_currentSelectedFPoints.point3, m_currentSelectedFPoints.point4);
@@ -522,8 +516,8 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
                            (m_currentSelectedFPoints.point1.y() + m_currentSelectedFPoints.point3.y())/2);
         painter.setPen(QColor(Qt::white));
         painter.drawLine(rotatePoint, middlePoint);
-        painter.drawPixmap(QPointF(rotatePoint.x() - 12, rotatePoint.y() - 12),
-                           QPixmap(":/resources/images/size/rotate.png"));
+        QPixmap rotatePointImg(":/resources/images/size/rotate.png");
+        paintImgPoint(painter, rotatePoint, rotatePointImg, false);
     }
 
     if (m_currentHoverDiagPoints.masterPoint != QPointF(0, 0)) {
@@ -541,9 +535,7 @@ bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
     Q_UNUSED(watched);
 
     if (event->type() == QEvent::Enter) {
-        if (m_currentShape == "rect") {
-            qApp->setOverrideCursor(setCursorShape("rect"));
-        }
+        qApp->setOverrideCursor(setCursorShape(m_currentShape));
     }
 
     return false;

@@ -50,7 +50,6 @@ protected:
     bool eventFilter(QObject *watched, QEvent *event);
 
 private:
-
     QPointF m_pos1 = QPointF(0, 0);
     QPointF m_pos2 = QPointF(0, 0);
     QPointF m_pos3, m_pos4;
@@ -70,7 +69,7 @@ private:
     ClickedKey m_clickedKey;
 
     int m_selectedIndex;
-    QString m_currentShape = "rect";
+    QString m_currentShape = "rectangle";
     QMap<int, QString> m_shapesMap;
 
     DiagPointsList m_diagPointsList;
@@ -81,5 +80,7 @@ private:
     FourPoints m_currentSelectedFPoints;
     FourPoints m_currentHoveredFPoints;
     MPointsList m_mFPointsList;
+
+    void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
 };
 #endif // SHAPESWIDGET_H

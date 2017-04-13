@@ -10,7 +10,7 @@ QCursor setCursorShape(QString cursorName) {
     } else if (cursorName == "rotate") {
         customShape = QCursor(QPixmap(
                       ":/image/mouse_style/shape/rotate_mouse.png"), 5, 5);
-    } else if (cursorName == "rect") {
+    } else if (cursorName == "rectangle") {
         customShape = QCursor(QPixmap(
                       ":/image/mouse_style/shape/rect_mouse.png"), 5, 5);
     } else if (cursorName == "oval") {

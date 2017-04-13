@@ -92,6 +92,8 @@ private:
     ToolBar* m_toolBar;
     ZoomIndicator* m_zoomIndicator;
     ShapesWidget* m_shapesWidget;
+
+    bool m_isShapesWidgetExist;
 };
 
 #endif // MAINWINDOW_H
