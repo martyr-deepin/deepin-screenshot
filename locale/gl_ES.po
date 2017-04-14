@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-18 15:20+0800\n"
-"PO-Revision-Date: 2015-07-13 17:36+0000\n"
+"PO-Revision-Date: 2015-12-25 20:05+0000\n"
 "Last-Translator: Xurxo Guerra Perez <xguerrap@gmail.com>\n"
 "Language-Team: Galician (Spain) (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/gl_ES/)\n"
 "MIME-Version: 1.0\n"
@@ -158,7 +158,7 @@ msgstr "Diminuír ancho cara a dereita"
 #: ../src/app_context.py:75 ../src/app_controller.py:133
 #: ../src/app_window.py:73 ../src/dbus_interfaces.py:80
 msgid "Deepin Screenshot"
-msgstr "Captura de pantalla do Deepin"
+msgstr "Captura de pantalla"
 
 #: ../src/app_context.py:130
 msgid "Picture has been saved to clipboard"
@@ -184,4 +184,4 @@ msgstr "Vista manual, a imaxe gardase automaticamente."
 #: ../src/app_controller.py:134
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
-msgstr "Captura de pantalla do Deepin iniciarase despois de %s segundos."
+msgstr "Captura de pantalla iniciarase despois de %s segundos."

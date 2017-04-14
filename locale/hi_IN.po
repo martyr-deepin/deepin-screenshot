@@ -3,189 +3,185 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# TorpedoXL <alptoros111@gmail.com>, 2015
-# Ömer GÖK <omergok@outlook.com>, 2014
-# Sinan Eldem, 2014
-# Vahap Karataş <k.vahap@gmail.com>, 2014
-# yakup <mutouk@yandex.ru>, 2014-2015
+# AnandVivek, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-18 15:20+0800\n"
-"PO-Revision-Date: 2015-06-21 21:49+0000\n"
-"Last-Translator: TorpedoXL <alptoros111@gmail.com>\n"
-"Language-Team: Turkish (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/tr/)\n"
+"PO-Revision-Date: 2015-12-22 10:33+0000\n"
+"Last-Translator: e2f_in_c3 <e2f_in_c3@outlook.com>\n"
+"Language-Team: Hindi (India) (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/hi_IN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: hi_IN\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/Main.qml:1146 ../src/menu_controller.py:39
 msgid "Save to desktop"
-msgstr "Masaüstüne kaydet"
+msgstr "डेस्कटॉप पर सहेजें"
 
 #: ../src/Main.qml:1168 ../src/menu_controller.py:40
 msgid "Autosave"
-msgstr "Otomatik kayıt"
+msgstr "स्वतःसहेजें"
 
 #: ../src/Main.qml:1190 ../src/menu_controller.py:41
 msgid "Save to specified folder"
-msgstr "Belirtilen klasöre kaydet"
+msgstr "किसी फोंल्डर पर सहेजें"
 
 #: ../src/Main.qml:1212 ../src/menu_controller.py:42
 msgid "Copy to clipboard"
-msgstr "Panoya kopyala"
+msgstr "पटल पर प्रति"
 
 #: ../src/Main.qml:1233 ../src/menu_controller.py:43
 msgid "Autosave and copy to clipboard"
-msgstr "Otomatik kaydet ve panoya kopyala"
+msgstr "पटल पर स्वतः सहेज कर प्रति करने"
 
 #: ../src/OSD.qml:59
 msgid "Tips"
-msgstr "İpuçları"
+msgstr "सुझाव"
 
 #: ../src/OSD.qml:70
 msgid "You can use \"Ctrl+Alt+A\" to start the screenshot"
-msgstr "Ekran görüntüsünü başlatmak için \"Ctrl+Alt+A\" kullan."
+msgstr "स्क्रीनशॉट शुरू करने हेतु \"Ctrl+Alt+A\" दबाएँ"
 
 #: ../src/SaveQuality.qml:24
 msgid "Low"
-msgstr "Düşük"
+msgstr "निम्न"
 
 #: ../src/SaveQuality.qml:44
 msgid "High"
-msgstr "Yüksek"
+msgstr "उच्च"
 
 #: ../src/ShortcutsLabel.qml:23
 msgid "None"
-msgstr "Yok"
+msgstr "कुछ नहीं"
 
 #: ../src/ShortcutsViewer.qml:46
 msgid "Start/Screenshot"
-msgstr "Başlat/Ekran Görüntüsü"
+msgstr "शुरू/स्क्रीनशॉट"
 
 #: ../src/ShortcutsViewer.qml:49
 msgid "Quick start"
-msgstr "Hızlı başlat"
+msgstr "जल्दी शुरू"
 
 #: ../src/ShortcutsViewer.qml:57
 msgid "Delay screenshot"
-msgstr "Ekran görüntüsü gecikmesi"
+msgstr "देरी से स्क्रीनशॉट"
 
 #: ../src/ShortcutsViewer.qml:53
 msgid "Full screenshot"
-msgstr "Tam ekran görüntüsü"
+msgstr "पूर्ण स्क्रीनशॉट"
 
 #: ../src/ShortcutsViewer.qml:61 ../src/menu_controller.py:55
 msgid "Exit"
-msgstr "Çık"
+msgstr "बाहर"
 
 #: ../src/ShortcutsViewer.qml:67
 msgid "Save/Share"
-msgstr "Kaydet/Paylaş"
+msgstr "सहेजें/साँझा"
 
 #: ../src/ShortcutsViewer.qml:70 ../src/menu_controller.py:53
 #: ../src/app_context.py:162
 msgid "Save"
-msgstr "Kayıt"
+msgstr "सहेजें"
 
 #: ../src/ShortcutsViewer.qml:74 ../src/menu_controller.py:54
 msgid "Share"
-msgstr "Paylaş"
+msgstr "साँझा"
 
 #: ../src/ShortcutsViewer.qml:82
 msgid "Painting"
-msgstr "Boyama"
+msgstr "चित्रकारी"
 
 #: ../src/ShortcutsViewer.qml:85 ../src/menu_controller.py:47
 msgid "Rectangle"
-msgstr "Dikdörtgen"
+msgstr "त्रिकोण"
 
 #: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:48
 msgid "Ellipse"
-msgstr "Elips"
+msgstr "छुपाएँ"
 
 #: ../src/ShortcutsViewer.qml:93 ../src/menu_controller.py:49
 msgid "Arrow"
-msgstr "Ok"
+msgstr "तीर"
 
 #: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:50
 msgid "Brush"
-msgstr "Fırça"
+msgstr "ब्रश"
 
 #: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:51
 msgid "Text"
-msgstr "Yazı"
+msgstr "पाठ्य"
 
 #: ../src/ShortcutsViewer.qml:105
 msgid "Color"
-msgstr "Renk"
+msgstr "रंग"
 
 #: ../src/ShortcutsViewer.qml:114
 msgid "Size Adjustment"
-msgstr "Boyutu Ayarla"
+msgstr "आकार व्यवस्थित करें"
 
 #: ../src/ShortcutsViewer.qml:117
 msgid "Increase height up"
-msgstr "Üst yükselkliği arttır"
+msgstr "लम्बाई ऊपर बढ़ाएँ"
 
 #: ../src/ShortcutsViewer.qml:122
 msgid "Increase height down"
-msgstr "Alt yükselkliği arttır"
+msgstr "लम्बाई नीचे बढ़ाएँ"
 
 #: ../src/ShortcutsViewer.qml:127
 msgid "Increase width left"
-msgstr "Sol genişliği arttır"
+msgstr "चौड़ाई बाएँ बढ़ाएँ"
 
 #: ../src/ShortcutsViewer.qml:132
 msgid "Increase width right"
-msgstr "Sağ genişliği arttır"
+msgstr "चौड़ाई दाएँ बढ़ाएँ"
 
 #: ../src/ShortcutsViewer.qml:137
 msgid "Decrease height up"
-msgstr "Üst yükselkliği azalt"
+msgstr "लम्बाई ऊपर घटाएँ"
 
 #: ../src/ShortcutsViewer.qml:142
 msgid "Decrease height down"
-msgstr "Alt yükselkliği azalt"
+msgstr "लम्बाई नीचे घटाएँ"
 
 #: ../src/ShortcutsViewer.qml:147
 msgid "Decrease width left"
-msgstr "Sol genişliği azalt"
+msgstr "चौड़ाई बाएँ घटाएँ"
 
 #: ../src/ShortcutsViewer.qml:152
 msgid "Decrease width right"
-msgstr "Sağ genişliği azalt"
+msgstr "चौड़ाई दाएँ घटाएँ"
 
 #: ../src/app_context.py:75 ../src/app_controller.py:133
 #: ../src/app_window.py:73 ../src/dbus_interfaces.py:80
 msgid "Deepin Screenshot"
-msgstr "Deepin Ekran görüntüsü"
+msgstr "डीपइन स्क्रीनशॉट"
 
 #: ../src/app_context.py:130
 msgid "Picture has been saved to clipboard"
-msgstr "Resim panoya kaydedildi"
+msgstr "तस्वीर पटल पर सहेजी गई है।"
 
 #: ../src/app_context.py:142
 msgid "DeepinScreenshot"
-msgstr "DeepinScreenshot"
+msgstr "डीपइनस्क्रीनछवि"
 
 #: ../src/app_context.py:178
 #, python-format
 msgid "Picture has been saved to %s"
-msgstr "Resim %s 'e kaydedildi"
+msgstr "तस्वीर %s नाम से सहेजी गई है।"
 
 #: ../src/app_context.py:179 ../src/app_context.py:181
 msgid "View"
-msgstr "Görünüm"
+msgstr "देखें"
 
 #: ../src/app_context.py:181
 msgid " View Manual, the picture is automatically saved."
-msgstr "Resim otomatik olarak kaydedilir, bilgi için kılavuza bakın."
+msgstr "विधि देखें, यह तस्वीर स्वतः सहेजा गया है।"
 
 #: ../src/app_controller.py:134
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
-msgstr "Deepin Screenshot %s saniye sonra başlayacak."
+msgstr "डीपइन का स्क्रीनछवि %s सेकंड में शुरू होगा।"

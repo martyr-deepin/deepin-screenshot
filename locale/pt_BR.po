@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Pablo Alessandro Barbosa Viana <pablo.alessandro@gmail.com>, 2015
+# Pablo Alessandro <pablo.alessandro@gmail.com>, 2015
 # RAFAEL GAUNA <rafaelgt.mbin@gmail.com>, 2014-2015
+# Raphael Miquelis <raphaelmiquelis@gmail.com>, 2016-2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-18 15:20+0800\n"
-"PO-Revision-Date: 2015-07-26 06:39+0000\n"
-"Last-Translator: Pablo Alessandro Barbosa Viana <pablo.alessandro@gmail.com>\n"
+"PO-Revision-Date: 2017-03-22 21:17+0000\n"
+"Last-Translator: Raphael Miquelis <raphaelmiquelis@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,23 +22,23 @@ msgstr ""
 
 #: ../src/Main.qml:1146 ../src/menu_controller.py:39
 msgid "Save to desktop"
-msgstr "Salvar para área de trabalho"
+msgstr "Salvar na área de trabalho"
 
 #: ../src/Main.qml:1168 ../src/menu_controller.py:40
 msgid "Autosave"
-msgstr "Salvar Autom."
+msgstr "Salvar Automaticamente"
 
 #: ../src/Main.qml:1190 ../src/menu_controller.py:41
 msgid "Save to specified folder"
-msgstr "Salvar para pasta específica"
+msgstr "Salvar na pasta específica"
 
 #: ../src/Main.qml:1212 ../src/menu_controller.py:42
 msgid "Copy to clipboard"
-msgstr "Copiar para a área de transf."
+msgstr "Copiar para a área de transferência "
 
 #: ../src/Main.qml:1233 ../src/menu_controller.py:43
 msgid "Autosave and copy to clipboard"
-msgstr "Salvar autom. e copiar para área de transf."
+msgstr "Salvar automaticamente e copiar para área de transferência "
 
 #: ../src/OSD.qml:59
 msgid "Tips"
@@ -73,7 +74,7 @@ msgstr "Captura com atraso"
 
 #: ../src/ShortcutsViewer.qml:53
 msgid "Full screenshot"
-msgstr "Captura de tela inteira"
+msgstr "Captura de tela cheia"
 
 #: ../src/ShortcutsViewer.qml:61 ../src/menu_controller.py:55
 msgid "Exit"
@@ -81,7 +82,7 @@ msgstr "Sair"
 
 #: ../src/ShortcutsViewer.qml:67
 msgid "Save/Share"
-msgstr "Salvar/Compart."
+msgstr "Salvar/Compartilhar"
 
 #: ../src/ShortcutsViewer.qml:70 ../src/menu_controller.py:53
 #: ../src/app_context.py:162
@@ -126,48 +127,48 @@ msgstr "Ajuste de Tamanho"
 
 #: ../src/ShortcutsViewer.qml:117
 msgid "Increase height up"
-msgstr "Aumentar altura acima"
+msgstr "Aumentar a altura acima"
 
 #: ../src/ShortcutsViewer.qml:122
 msgid "Increase height down"
-msgstr "Aumentar altura abaixo"
+msgstr "Aumentar a altura abaixo"
 
 #: ../src/ShortcutsViewer.qml:127
 msgid "Increase width left"
-msgstr "Aumentar largura à esquerda"
+msgstr "Aumentar a largura à esquerda"
 
 #: ../src/ShortcutsViewer.qml:132
 msgid "Increase width right"
-msgstr "Aumentar largura à direita"
+msgstr "Aumentar a largura à direita"
 
 #: ../src/ShortcutsViewer.qml:137
 msgid "Decrease height up"
-msgstr "Diminuir altura acima"
+msgstr "Diminuir a altura acima"
 
 #: ../src/ShortcutsViewer.qml:142
 msgid "Decrease height down"
-msgstr "Diminuir altura abaixo"
+msgstr "Diminuir a altura abaixo"
 
 #: ../src/ShortcutsViewer.qml:147
 msgid "Decrease width left"
-msgstr "Diminuir largura à esquerda"
+msgstr "Diminuir a largura à esquerda"
 
 #: ../src/ShortcutsViewer.qml:152
 msgid "Decrease width right"
-msgstr "Diminuir largura à direita"
+msgstr "Diminuir a largura à direita"
 
 #: ../src/app_context.py:75 ../src/app_controller.py:133
 #: ../src/app_window.py:73 ../src/dbus_interfaces.py:80
 msgid "Deepin Screenshot"
-msgstr "Deepin Screenshot"
+msgstr "Captura de Tela"
 
 #: ../src/app_context.py:130
 msgid "Picture has been saved to clipboard"
-msgstr "Captura foi copiada para a área de tranferência"
+msgstr "A captura foi copiada para a área de tranferência"
 
 #: ../src/app_context.py:142
 msgid "DeepinScreenshot"
-msgstr "DeepinScreenshot"
+msgstr "Captura de Tela"
 
 #: ../src/app_context.py:178
 #, python-format
@@ -176,13 +177,13 @@ msgstr "Imagem foi salva em %s"
 
 #: ../src/app_context.py:179 ../src/app_context.py:181
 msgid "View"
-msgstr "Ver"
+msgstr "Visualizar"
 
 #: ../src/app_context.py:181
 msgid " View Manual, the picture is automatically saved."
-msgstr "Veja o Manual, a captura será salva automaticamente."
+msgstr "Veja o manual, a captura será salva automaticamente."
 
 #: ../src/app_controller.py:134
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
-msgstr "Deepin Screenshot iniciará após %s segundos."
+msgstr "Captura de Tela iniciará após %s segundos."

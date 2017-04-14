@@ -3,189 +3,191 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# TorpedoXL <alptoros111@gmail.com>, 2015
-# Ömer GÖK <omergok@outlook.com>, 2014
-# Sinan Eldem, 2014
-# Vahap Karataş <k.vahap@gmail.com>, 2014
-# yakup <mutouk@yandex.ru>, 2014-2015
+# Automatically generated, 2012
+# 鄭子凡（凡凡不想平凡） <freddy4212@gmail.com>, 2013-2016
+# Catherinelin <linhongxia@linuxdeepin.com>, 2014
+# Peter Dave Hello <hsu@peterdavehello.org>, 2014
+# Peter Dave Hello <hsu@peterdavehello.org>, 2014
+# 鄭子凡（凡凡不想平凡） <freddy4212@gmail.com>, 2017
+# 鄭子凡（凡凡不想平凡） <freddy4212@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-18 15:20+0800\n"
-"PO-Revision-Date: 2015-06-21 21:49+0000\n"
-"Last-Translator: TorpedoXL <alptoros111@gmail.com>\n"
-"Language-Team: Turkish (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/tr/)\n"
+"PO-Revision-Date: 2017-04-12 16:12+0000\n"
+"Last-Translator: 鄭子凡（凡凡不想平凡） <freddy4212@gmail.com>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../src/Main.qml:1146 ../src/menu_controller.py:39
 msgid "Save to desktop"
-msgstr "Masaüstüne kaydet"
+msgstr "儲存到桌面"
 
 #: ../src/Main.qml:1168 ../src/menu_controller.py:40
 msgid "Autosave"
-msgstr "Otomatik kayıt"
+msgstr "儲存到圖片"
 
 #: ../src/Main.qml:1190 ../src/menu_controller.py:41
 msgid "Save to specified folder"
-msgstr "Belirtilen klasöre kaydet"
+msgstr "儲存到指定資料夾"
 
 #: ../src/Main.qml:1212 ../src/menu_controller.py:42
 msgid "Copy to clipboard"
-msgstr "Panoya kopyala"
+msgstr "複製到剪貼板"
 
 #: ../src/Main.qml:1233 ../src/menu_controller.py:43
 msgid "Autosave and copy to clipboard"
-msgstr "Otomatik kaydet ve panoya kopyala"
+msgstr "儲存到圖片並複製到剪貼板"
 
 #: ../src/OSD.qml:59
 msgid "Tips"
-msgstr "İpuçları"
+msgstr "提示"
 
 #: ../src/OSD.qml:70
 msgid "You can use \"Ctrl+Alt+A\" to start the screenshot"
-msgstr "Ekran görüntüsünü başlatmak için \"Ctrl+Alt+A\" kullan."
+msgstr "可以用「Ctrl+Alt+A」啟動 Deepin 截圖"
 
 #: ../src/SaveQuality.qml:24
 msgid "Low"
-msgstr "Düşük"
+msgstr "低"
 
 #: ../src/SaveQuality.qml:44
 msgid "High"
-msgstr "Yüksek"
+msgstr "高"
 
 #: ../src/ShortcutsLabel.qml:23
 msgid "None"
-msgstr "Yok"
+msgstr "無"
 
 #: ../src/ShortcutsViewer.qml:46
 msgid "Start/Screenshot"
-msgstr "Başlat/Ekran Görüntüsü"
+msgstr "啟動╱截圖"
 
 #: ../src/ShortcutsViewer.qml:49
 msgid "Quick start"
-msgstr "Hızlı başlat"
+msgstr "快速啟動"
 
 #: ../src/ShortcutsViewer.qml:57
 msgid "Delay screenshot"
-msgstr "Ekran görüntüsü gecikmesi"
+msgstr "延時截圖"
 
 #: ../src/ShortcutsViewer.qml:53
 msgid "Full screenshot"
-msgstr "Tam ekran görüntüsü"
+msgstr "全螢幕截圖"
 
 #: ../src/ShortcutsViewer.qml:61 ../src/menu_controller.py:55
 msgid "Exit"
-msgstr "Çık"
+msgstr "結束"
 
 #: ../src/ShortcutsViewer.qml:67
 msgid "Save/Share"
-msgstr "Kaydet/Paylaş"
+msgstr "儲存／分享"
 
 #: ../src/ShortcutsViewer.qml:70 ../src/menu_controller.py:53
 #: ../src/app_context.py:162
 msgid "Save"
-msgstr "Kayıt"
+msgstr "儲存"
 
 #: ../src/ShortcutsViewer.qml:74 ../src/menu_controller.py:54
 msgid "Share"
-msgstr "Paylaş"
+msgstr "分享"
 
 #: ../src/ShortcutsViewer.qml:82
 msgid "Painting"
-msgstr "Boyama"
+msgstr "畫畫"
 
 #: ../src/ShortcutsViewer.qml:85 ../src/menu_controller.py:47
 msgid "Rectangle"
-msgstr "Dikdörtgen"
+msgstr "長方形"
 
 #: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:48
 msgid "Ellipse"
-msgstr "Elips"
+msgstr "橢圓形"
 
 #: ../src/ShortcutsViewer.qml:93 ../src/menu_controller.py:49
 msgid "Arrow"
-msgstr "Ok"
+msgstr "箭頭"
 
 #: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:50
 msgid "Brush"
-msgstr "Fırça"
+msgstr "筆刷"
 
 #: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:51
 msgid "Text"
-msgstr "Yazı"
+msgstr "文字"
 
 #: ../src/ShortcutsViewer.qml:105
 msgid "Color"
-msgstr "Renk"
+msgstr "顏色"
 
 #: ../src/ShortcutsViewer.qml:114
 msgid "Size Adjustment"
-msgstr "Boyutu Ayarla"
+msgstr "尺寸調整"
 
 #: ../src/ShortcutsViewer.qml:117
 msgid "Increase height up"
-msgstr "Üst yükselkliği arttır"
+msgstr "頂部增長"
 
 #: ../src/ShortcutsViewer.qml:122
 msgid "Increase height down"
-msgstr "Alt yükselkliği arttır"
+msgstr "底部增長"
 
 #: ../src/ShortcutsViewer.qml:127
 msgid "Increase width left"
-msgstr "Sol genişliği arttır"
+msgstr "左側增長"
 
 #: ../src/ShortcutsViewer.qml:132
 msgid "Increase width right"
-msgstr "Sağ genişliği arttır"
+msgstr "右側增長"
 
 #: ../src/ShortcutsViewer.qml:137
 msgid "Decrease height up"
-msgstr "Üst yükselkliği azalt"
+msgstr "頂部縮短"
 
 #: ../src/ShortcutsViewer.qml:142
 msgid "Decrease height down"
-msgstr "Alt yükselkliği azalt"
+msgstr "底部縮短"
 
 #: ../src/ShortcutsViewer.qml:147
 msgid "Decrease width left"
-msgstr "Sol genişliği azalt"
+msgstr "左側縮短"
 
 #: ../src/ShortcutsViewer.qml:152
 msgid "Decrease width right"
-msgstr "Sağ genişliği azalt"
+msgstr "右側縮短"
 
 #: ../src/app_context.py:75 ../src/app_controller.py:133
 #: ../src/app_window.py:73 ../src/dbus_interfaces.py:80
 msgid "Deepin Screenshot"
-msgstr "Deepin Ekran görüntüsü"
+msgstr "Deepin 截圖"
 
 #: ../src/app_context.py:130
 msgid "Picture has been saved to clipboard"
-msgstr "Resim panoya kaydedildi"
+msgstr "圖片已存到剪貼板"
 
 #: ../src/app_context.py:142
 msgid "DeepinScreenshot"
-msgstr "DeepinScreenshot"
+msgstr "Deepin 截圖"
 
 #: ../src/app_context.py:178
 #, python-format
 msgid "Picture has been saved to %s"
-msgstr "Resim %s 'e kaydedildi"
+msgstr "圖片已存到 %s"
 
 #: ../src/app_context.py:179 ../src/app_context.py:181
 msgid "View"
-msgstr "Görünüm"
+msgstr "瀏覽"
 
 #: ../src/app_context.py:181
 msgid " View Manual, the picture is automatically saved."
-msgstr "Resim otomatik olarak kaydedilir, bilgi için kılavuza bakın."
+msgstr "瀏覽說明時圖片自動儲存。"
 
 #: ../src/app_controller.py:134
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
-msgstr "Deepin Screenshot %s saniye sonra başlayacak."
+msgstr "Deepin 截圖將在 %s 秒後啟動。"

@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Automatically generated, 2012
-# szd_liufei <liufei@linuxdeepin.com>, 2015
+# szd_liufei <maggie.liufei@gmail.com>, 2015
 # 李洪武 <lihongwu1987@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-18 15:20+0800\n"
-"PO-Revision-Date: 2015-08-19 06:23+0000\n"
-"Last-Translator: szd_liufei <liufei@linuxdeepin.com>\n"
+"PO-Revision-Date: 2017-02-04 05:44+0000\n"
+"Last-Translator: szd_liufei <maggie.liufei@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

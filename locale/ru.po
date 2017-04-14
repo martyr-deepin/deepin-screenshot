@@ -8,13 +8,14 @@
 # Serge Kukharski, 2014
 # Vasilii Rusu <basil_russu@hotmail.com>, 2015
 # Анатолий Валерианович <ffox909@mail.ru>, 2015
+# Валерий Владимирович, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-18 15:20+0800\n"
-"PO-Revision-Date: 2015-06-27 08:03+0000\n"
-"Last-Translator: Vasilii Rusu <basil_russu@hotmail.com>\n"
+"PO-Revision-Date: 2016-10-01 09:57+0000\n"
+"Last-Translator: Валерий Владимирович\n"
 "Language-Team: Russian (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,19 +65,19 @@ msgstr "Ничего"
 
 #: ../src/ShortcutsViewer.qml:46
 msgid "Start/Screenshot"
-msgstr "Пуск/Скриншот"
+msgstr "Пуск/Снимок экрана"
 
 #: ../src/ShortcutsViewer.qml:49
 msgid "Quick start"
-msgstr "Быстрый пуск"
+msgstr "Быстрый старт"
 
 #: ../src/ShortcutsViewer.qml:57
 msgid "Delay screenshot"
-msgstr "Скриншот с задержкой"
+msgstr "Снимок экрана с задержкой"
 
 #: ../src/ShortcutsViewer.qml:53
 msgid "Full screenshot"
-msgstr "Полноэкранный скриншот "
+msgstr "Полноэкранный снимок экрана"
 
 #: ../src/ShortcutsViewer.qml:61 ../src/menu_controller.py:55
 msgid "Exit"
@@ -84,7 +85,7 @@ msgstr "Выход"
 
 #: ../src/ShortcutsViewer.qml:67
 msgid "Save/Share"
-msgstr "Сохранить/Делиться"
+msgstr "Сохранить/Поделиться"
 
 #: ../src/ShortcutsViewer.qml:70 ../src/menu_controller.py:53
 #: ../src/app_context.py:162
@@ -93,7 +94,7 @@ msgstr "Сохранить"
 
 #: ../src/ShortcutsViewer.qml:74 ../src/menu_controller.py:54
 msgid "Share"
-msgstr "Делиться"
+msgstr "Поделиться"
 
 #: ../src/ShortcutsViewer.qml:82
 msgid "Painting"
@@ -179,7 +180,7 @@ msgstr "Изображение сохранено в %s"
 
 #: ../src/app_context.py:179 ../src/app_context.py:181
 msgid "View"
-msgstr "Вид"
+msgstr "Просмотр"
 
 #: ../src/app_context.py:181
 msgid " View Manual, the picture is automatically saved."
@@ -188,4 +189,4 @@ msgstr "См. Руководство, изображение автоматич�
 #: ../src/app_controller.py:134
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
-msgstr "Deepin Скриншотер будет запущен через %s секунд."
+msgstr "Приложение для снимков экрана Deepin будет запущен через %s секунд."

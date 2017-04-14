@@ -3,189 +3,185 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# TorpedoXL <alptoros111@gmail.com>, 2015
-# Ömer GÖK <omergok@outlook.com>, 2014
-# Sinan Eldem, 2014
-# Vahap Karataş <k.vahap@gmail.com>, 2014
-# yakup <mutouk@yandex.ru>, 2014-2015
+# samson <sambelet@yahoo.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-18 15:20+0800\n"
-"PO-Revision-Date: 2015-06-21 21:49+0000\n"
-"Last-Translator: TorpedoXL <alptoros111@gmail.com>\n"
-"Language-Team: Turkish (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/tr/)\n"
+"PO-Revision-Date: 2016-12-28 17:36+0000\n"
+"Last-Translator: samson <sambelet@yahoo.com>\n"
+"Language-Team: Amharic (Ethiopia) (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/am_ET/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: am_ET\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/Main.qml:1146 ../src/menu_controller.py:39
 msgid "Save to desktop"
-msgstr "Masaüstüne kaydet"
+msgstr "ዴስክቶፕ ላይ ማስቀመጫ"
 
 #: ../src/Main.qml:1168 ../src/menu_controller.py:40
 msgid "Autosave"
-msgstr "Otomatik kayıt"
+msgstr "በራሱ ማስቀመጫ"
 
 #: ../src/Main.qml:1190 ../src/menu_controller.py:41
 msgid "Save to specified folder"
-msgstr "Belirtilen klasöre kaydet"
+msgstr "ወደ ተወሰነ ፎልደር ውስጥ ማስቀመጫ"
 
 #: ../src/Main.qml:1212 ../src/menu_controller.py:42
 msgid "Copy to clipboard"
-msgstr "Panoya kopyala"
+msgstr "ወደ ቁራጭ ሰሌዳ ኮፒ ማድረጊያ"
 
 #: ../src/Main.qml:1233 ../src/menu_controller.py:43
 msgid "Autosave and copy to clipboard"
-msgstr "Otomatik kaydet ve panoya kopyala"
+msgstr "በራሱ ማሰቀመጫ እና ወደ ቁራጭ ሰሌዳ መለጠፊያ"
 
 #: ../src/OSD.qml:59
 msgid "Tips"
-msgstr "İpuçları"
+msgstr "ጠቃሚ ምክር"
 
 #: ../src/OSD.qml:70
 msgid "You can use \"Ctrl+Alt+A\" to start the screenshot"
-msgstr "Ekran görüntüsünü başlatmak için \"Ctrl+Alt+A\" kullan."
+msgstr "እርስዎ መጠቀም ይችላሉ \"Ctrl+Alt+A\" መመልከቻውን ፎቶ ለማንሳት"
 
 #: ../src/SaveQuality.qml:24
 msgid "Low"
-msgstr "Düşük"
+msgstr "ዝቅተኛ"
 
 #: ../src/SaveQuality.qml:44
 msgid "High"
-msgstr "Yüksek"
+msgstr "ከፍተኛ"
 
 #: ../src/ShortcutsLabel.qml:23
 msgid "None"
-msgstr "Yok"
+msgstr "ምንም"
 
 #: ../src/ShortcutsViewer.qml:46
 msgid "Start/Screenshot"
-msgstr "Başlat/Ekran Görüntüsü"
+msgstr "ማስጀመሪያ/መመልከቻውን ፎቶ ማንሻ"
 
 #: ../src/ShortcutsViewer.qml:49
 msgid "Quick start"
-msgstr "Hızlı başlat"
+msgstr "በፍጥነት ማስጀመሪያ"
 
 #: ../src/ShortcutsViewer.qml:57
 msgid "Delay screenshot"
-msgstr "Ekran görüntüsü gecikmesi"
+msgstr "መመልከቻውን ፎቶ ማንሻ ማዘግያ"
 
 #: ../src/ShortcutsViewer.qml:53
 msgid "Full screenshot"
-msgstr "Tam ekran görüntüsü"
+msgstr "ሙሉ መመልከቻውን ፎቶ ማንሻ"
 
 #: ../src/ShortcutsViewer.qml:61 ../src/menu_controller.py:55
 msgid "Exit"
-msgstr "Çık"
+msgstr "መውጫ"
 
 #: ../src/ShortcutsViewer.qml:67
 msgid "Save/Share"
-msgstr "Kaydet/Paylaş"
+msgstr "ማስቀመጫ/ማካፈያ"
 
 #: ../src/ShortcutsViewer.qml:70 ../src/menu_controller.py:53
 #: ../src/app_context.py:162
 msgid "Save"
-msgstr "Kayıt"
+msgstr "ማስቀመጫ"
 
 #: ../src/ShortcutsViewer.qml:74 ../src/menu_controller.py:54
 msgid "Share"
-msgstr "Paylaş"
+msgstr "ማካፈያ"
 
 #: ../src/ShortcutsViewer.qml:82
 msgid "Painting"
-msgstr "Boyama"
+msgstr "በ መሳል ላይ"
 
 #: ../src/ShortcutsViewer.qml:85 ../src/menu_controller.py:47
 msgid "Rectangle"
-msgstr "Dikdörtgen"
+msgstr "አራት ማእዘን"
 
 #: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:48
 msgid "Ellipse"
-msgstr "Elips"
+msgstr "ኤሊፕስ"
 
 #: ../src/ShortcutsViewer.qml:93 ../src/menu_controller.py:49
 msgid "Arrow"
-msgstr "Ok"
+msgstr "ቀስት"
 
 #: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:50
 msgid "Brush"
-msgstr "Fırça"
+msgstr "ቡሩሽ"
 
 #: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:51
 msgid "Text"
-msgstr "Yazı"
+msgstr "ጽሁፍ"
 
 #: ../src/ShortcutsViewer.qml:105
 msgid "Color"
-msgstr "Renk"
+msgstr "ቀለም"
 
 #: ../src/ShortcutsViewer.qml:114
 msgid "Size Adjustment"
-msgstr "Boyutu Ayarla"
+msgstr "መጠን ማስተካከያ"
 
 #: ../src/ShortcutsViewer.qml:117
 msgid "Increase height up"
-msgstr "Üst yükselkliği arttır"
+msgstr "እርዝመት ወደ ላይ መጨመሪያ"
 
 #: ../src/ShortcutsViewer.qml:122
 msgid "Increase height down"
-msgstr "Alt yükselkliği arttır"
+msgstr "እርዝመት ወደ ታች መጨመሪያ"
 
 #: ../src/ShortcutsViewer.qml:127
 msgid "Increase width left"
-msgstr "Sol genişliği arttır"
+msgstr "ስፋት ወደ ግራ መጨመሪያ"
 
 #: ../src/ShortcutsViewer.qml:132
 msgid "Increase width right"
-msgstr "Sağ genişliği arttır"
+msgstr "ስፋት ወደ ቀኝ መጨመሪያ"
 
 #: ../src/ShortcutsViewer.qml:137
 msgid "Decrease height up"
-msgstr "Üst yükselkliği azalt"
+msgstr "እርዝመት ወደ ላይ መቀነሻ"
 
 #: ../src/ShortcutsViewer.qml:142
 msgid "Decrease height down"
-msgstr "Alt yükselkliği azalt"
+msgstr "እርዝመት ወደ ታች መቀነሻ"
 
 #: ../src/ShortcutsViewer.qml:147
 msgid "Decrease width left"
-msgstr "Sol genişliği azalt"
+msgstr "ስፋት ወደ ግራ መቀነሻ"
 
 #: ../src/ShortcutsViewer.qml:152
 msgid "Decrease width right"
-msgstr "Sağ genişliği azalt"
+msgstr "ስፋት ወደ ቀኝ መቀነሻ"
 
 #: ../src/app_context.py:75 ../src/app_controller.py:133
 #: ../src/app_window.py:73 ../src/dbus_interfaces.py:80
 msgid "Deepin Screenshot"
-msgstr "Deepin Ekran görüntüsü"
+msgstr "መመልከቻውን ፎቶ ማንሻ"
 
 #: ../src/app_context.py:130
 msgid "Picture has been saved to clipboard"
-msgstr "Resim panoya kaydedildi"
+msgstr "ስእሉ በ ቁራጭ ሰሌዳ ውስጥ ተቀምጧል"
 
 #: ../src/app_context.py:142
 msgid "DeepinScreenshot"
-msgstr "DeepinScreenshot"
+msgstr "የ ዲፕኢን መመልከቻ ፎቶ"
 
 #: ../src/app_context.py:178
 #, python-format
 msgid "Picture has been saved to %s"
-msgstr "Resim %s 'e kaydedildi"
+msgstr "ስእሉ ተቀምጧል ወደ %s"
 
 #: ../src/app_context.py:179 ../src/app_context.py:181
 msgid "View"
-msgstr "Görünüm"
+msgstr "መመልከቻ"
 
 #: ../src/app_context.py:181
 msgid " View Manual, the picture is automatically saved."
-msgstr "Resim otomatik olarak kaydedilir, bilgi için kılavuza bakın."
+msgstr "መምሪያውን መመልከቻ: ስእሉ ራሱ በራሱ ይቀመጣል"
 
 #: ../src/app_controller.py:134
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
-msgstr "Deepin Screenshot %s saniye sonra başlayacak."
+msgstr "ድፕኢን የ መመልከቻ ፎቶ ማንሻ ይጀምራል በ %s ሰክንዶች ውስጥ"

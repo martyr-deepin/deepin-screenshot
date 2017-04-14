@@ -3,189 +3,184 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# TorpedoXL <alptoros111@gmail.com>, 2015
-# Ömer GÖK <omergok@outlook.com>, 2014
-# Sinan Eldem, 2014
-# Vahap Karataş <k.vahap@gmail.com>, 2014
-# yakup <mutouk@yandex.ru>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-18 15:20+0800\n"
-"PO-Revision-Date: 2015-06-21 21:49+0000\n"
-"Last-Translator: TorpedoXL <alptoros111@gmail.com>\n"
-"Language-Team: Turkish (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/tr/)\n"
+"PO-Revision-Date: 2016-01-15 08:06+0000\n"
+"Last-Translator: deepin_transifex <xiabin@linuxdeepin.com>\n"
+"Language-Team: Korean (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../src/Main.qml:1146 ../src/menu_controller.py:39
 msgid "Save to desktop"
-msgstr "Masaüstüne kaydet"
+msgstr "데스크톱으로 저장하기"
 
 #: ../src/Main.qml:1168 ../src/menu_controller.py:40
 msgid "Autosave"
-msgstr "Otomatik kayıt"
+msgstr "자동 저장"
 
 #: ../src/Main.qml:1190 ../src/menu_controller.py:41
 msgid "Save to specified folder"
-msgstr "Belirtilen klasöre kaydet"
+msgstr "지정된 폴더에 저장"
 
 #: ../src/Main.qml:1212 ../src/menu_controller.py:42
 msgid "Copy to clipboard"
-msgstr "Panoya kopyala"
+msgstr "클립보드에 복사"
 
 #: ../src/Main.qml:1233 ../src/menu_controller.py:43
 msgid "Autosave and copy to clipboard"
-msgstr "Otomatik kaydet ve panoya kopyala"
+msgstr "자동 저장 및 클립보드 복사"
 
 #: ../src/OSD.qml:59
 msgid "Tips"
-msgstr "İpuçları"
+msgstr "팁"
 
 #: ../src/OSD.qml:70
 msgid "You can use \"Ctrl+Alt+A\" to start the screenshot"
-msgstr "Ekran görüntüsünü başlatmak için \"Ctrl+Alt+A\" kullan."
+msgstr "\"Ctrl+Alt+A\"를 사용하여 스크린샷을 시작할 수 있습니다"
 
 #: ../src/SaveQuality.qml:24
 msgid "Low"
-msgstr "Düşük"
+msgstr "낮음"
 
 #: ../src/SaveQuality.qml:44
 msgid "High"
-msgstr "Yüksek"
+msgstr "높음"
 
 #: ../src/ShortcutsLabel.qml:23
 msgid "None"
-msgstr "Yok"
+msgstr "없음"
 
 #: ../src/ShortcutsViewer.qml:46
 msgid "Start/Screenshot"
-msgstr "Başlat/Ekran Görüntüsü"
+msgstr "시작/스크린샷"
 
 #: ../src/ShortcutsViewer.qml:49
 msgid "Quick start"
-msgstr "Hızlı başlat"
+msgstr "빠른 시작"
 
 #: ../src/ShortcutsViewer.qml:57
 msgid "Delay screenshot"
-msgstr "Ekran görüntüsü gecikmesi"
+msgstr "지연 스크린샷"
 
 #: ../src/ShortcutsViewer.qml:53
 msgid "Full screenshot"
-msgstr "Tam ekran görüntüsü"
+msgstr "전체 스크린샷"
 
 #: ../src/ShortcutsViewer.qml:61 ../src/menu_controller.py:55
 msgid "Exit"
-msgstr "Çık"
+msgstr "나가기"
 
 #: ../src/ShortcutsViewer.qml:67
 msgid "Save/Share"
-msgstr "Kaydet/Paylaş"
+msgstr "저장/공유"
 
 #: ../src/ShortcutsViewer.qml:70 ../src/menu_controller.py:53
 #: ../src/app_context.py:162
 msgid "Save"
-msgstr "Kayıt"
+msgstr "저장"
 
 #: ../src/ShortcutsViewer.qml:74 ../src/menu_controller.py:54
 msgid "Share"
-msgstr "Paylaş"
+msgstr "공유하기"
 
 #: ../src/ShortcutsViewer.qml:82
 msgid "Painting"
-msgstr "Boyama"
+msgstr "그림"
 
 #: ../src/ShortcutsViewer.qml:85 ../src/menu_controller.py:47
 msgid "Rectangle"
-msgstr "Dikdörtgen"
+msgstr "사각형"
 
 #: ../src/ShortcutsViewer.qml:89 ../src/menu_controller.py:48
 msgid "Ellipse"
-msgstr "Elips"
+msgstr "타원 "
 
 #: ../src/ShortcutsViewer.qml:93 ../src/menu_controller.py:49
 msgid "Arrow"
-msgstr "Ok"
+msgstr "화살표"
 
 #: ../src/ShortcutsViewer.qml:97 ../src/menu_controller.py:50
 msgid "Brush"
-msgstr "Fırça"
+msgstr "브러쉬"
 
 #: ../src/ShortcutsViewer.qml:101 ../src/menu_controller.py:51
 msgid "Text"
-msgstr "Yazı"
+msgstr "텍스트"
 
 #: ../src/ShortcutsViewer.qml:105
 msgid "Color"
-msgstr "Renk"
+msgstr "색상"
 
 #: ../src/ShortcutsViewer.qml:114
 msgid "Size Adjustment"
-msgstr "Boyutu Ayarla"
+msgstr "크기 조절"
 
 #: ../src/ShortcutsViewer.qml:117
 msgid "Increase height up"
-msgstr "Üst yükselkliği arttır"
+msgstr "높이를 위쪽으로 키우기"
 
 #: ../src/ShortcutsViewer.qml:122
 msgid "Increase height down"
-msgstr "Alt yükselkliği arttır"
+msgstr "높이를 아래로 증가"
 
 #: ../src/ShortcutsViewer.qml:127
 msgid "Increase width left"
-msgstr "Sol genişliği arttır"
+msgstr "왼쪽 폭 늘이기"
 
 #: ../src/ShortcutsViewer.qml:132
 msgid "Increase width right"
-msgstr "Sağ genişliği arttır"
+msgstr "너비를 오른쪽으로 늘리기 "
 
 #: ../src/ShortcutsViewer.qml:137
 msgid "Decrease height up"
-msgstr "Üst yükselkliği azalt"
+msgstr "하이트 업 감소"
 
 #: ../src/ShortcutsViewer.qml:142
 msgid "Decrease height down"
-msgstr "Alt yükselkliği azalt"
+msgstr "높이 낮추기"
 
 #: ../src/ShortcutsViewer.qml:147
 msgid "Decrease width left"
-msgstr "Sol genişliği azalt"
+msgstr "너비를 왼쪽으로 줄이세요."
 
 #: ../src/ShortcutsViewer.qml:152
 msgid "Decrease width right"
-msgstr "Sağ genişliği azalt"
+msgstr "너비를 오른쪽으로 줄이세요."
 
 #: ../src/app_context.py:75 ../src/app_controller.py:133
 #: ../src/app_window.py:73 ../src/dbus_interfaces.py:80
 msgid "Deepin Screenshot"
-msgstr "Deepin Ekran görüntüsü"
+msgstr "Deepin 스크린샷"
 
 #: ../src/app_context.py:130
 msgid "Picture has been saved to clipboard"
-msgstr "Resim panoya kaydedildi"
+msgstr "클립보드에 사진 저장됨"
 
 #: ../src/app_context.py:142
 msgid "DeepinScreenshot"
-msgstr "DeepinScreenshot"
+msgstr "Deepin스크린샷"
 
 #: ../src/app_context.py:178
 #, python-format
 msgid "Picture has been saved to %s"
-msgstr "Resim %s 'e kaydedildi"
+msgstr "사진이 %s에 저장됨"
 
 #: ../src/app_context.py:179 ../src/app_context.py:181
 msgid "View"
-msgstr "Görünüm"
+msgstr "ㅂㅗ기"
 
 #: ../src/app_context.py:181
 msgid " View Manual, the picture is automatically saved."
-msgstr "Resim otomatik olarak kaydedilir, bilgi için kılavuza bakın."
+msgstr "설명서를 보세요, 그 그림은 자동으로 저장됩니다."
 
 #: ../src/app_controller.py:134
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
-msgstr "Deepin Screenshot %s saniye sonra başlayacak."
+msgstr "Deepin 스크린샷이 %s초 뒤에 시작됩니다."

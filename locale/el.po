@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Francesko Isallari <francesko1989@gmail.com>, 2015
-# Jim Spentzos <jimspentzos2000@gmail.com>, 2014
+# Jim Spentzos, 2014
 # Wasilis Mandratzis-Walz, 2015
 msgid ""
 msgstr ""
