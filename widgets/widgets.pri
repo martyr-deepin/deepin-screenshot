@@ -7,7 +7,8 @@ HEADERS += \
     $$PWD/subtoolbar.h \
     $$PWD/toolbutton.h \
     $$PWD/majtoolbar.h \
-    $$PWD/toolbar.h
+    $$PWD/toolbar.h \
+    $$PWD/colorbutton.h
 
 SOURCES += \
     $$PWD/toptips.cpp \
@@ -16,7 +17,8 @@ SOURCES += \
     $$PWD/shapeswidget.cpp \
     $$PWD/subtoolbar.cpp \
     $$PWD/majtoolbar.cpp \
-    $$PWD/toolbar.cpp
+    $$PWD/toolbar.cpp \
+    $$PWD/colorbutton.cpp
 
 RESOURCES += \
     $$PWD/resources.qrc

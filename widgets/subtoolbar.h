@@ -20,6 +20,9 @@ public:
 
     void switchContent(QString shapeType);
 
+signals:
+    void setCurrentColor(QColor color);
+
 private:
     QLabel* m_rectLabel;
     QLabel* m_arrowLabel;

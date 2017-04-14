@@ -38,6 +38,7 @@ ToolBar::ToolBar(QWidget *parent)
 
     connect(m_majToolbar, &MajToolBar::buttonChecked, this, &ToolBar::setExpand);
     connect(this, &ToolBar::buttonChecked, m_subToolbar, &SubToolBar::switchContent);
+
 }
 
 bool ToolBar::isButtonChecked() {
