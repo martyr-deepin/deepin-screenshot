@@ -29,19 +29,25 @@ public slots:
     void handleRotate(QPointF pos);
     void handleResize(QPointF pos, int key);
     bool clickedOnShapes(QPointF pos);
-    bool clickedOnPoint(QPointF point1, QPointF point2,
-                        QPointF point3, QPointF point4,
-                        QPointF pos);
+    bool clickedOnRectPoint(QPointF point1, QPointF point2,
+                        QPointF point3, QPointF point4, QPointF pos);
+
+    bool clickedOnEllipsePoint(QPointF point1, QPointF point2,
+                               QPointF point3, QPointF point4, QPointF pos);
     bool rotateOnPoint(QPointF point1, QPointF point2,
                        QPointF point3, QPointF point4,
                        QPointF pos);
     bool hoverOnRotatePoint(QPointF point1, QPointF point2,
                             QPointF point3, QPointF point4,
                             QPointF pos);
-    bool hoverOnShapes(QPointF point1, QPointF point2,
-                       QPointF point3, QPointF point4,
+    bool hoverOnShapes(FourPoints fourPoints,
                        QPointF pos);
-
+    bool hoverOnRect(QPointF point1, QPointF point2,
+                     QPointF point3, QPointF point4,
+                     QPointF pos);
+    bool hoverOnEllipse(QPointF point1, QPointF point2,
+                        QPointF point3, QPointF point4,
+                        QPointF pos);
 protected:
     void mousePressEvent(QMouseEvent* e);
     void mouseReleaseEvent(QMouseEvent* e);

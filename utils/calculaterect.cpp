@@ -254,11 +254,12 @@ QList<QPointF> getEightControlPoint(FourPoints rectFPoints) {
 /* judge whether the clickOnPoint is on the bezier */
 /* 0 <= pos.x() <= 1*/
 bool pointOnBezier(QPointF point1, QPointF point2, QPointF point3, QPointF point4, QPointF pos) {
+    const int MIN_PADDING = 10;
     for (qreal t = 0; t <= 1; t = t + 0.1) {
-        qreal bx = point1.x()*(1-t)*std::pow(1-t, 2) + 3*point1.x()*t*std::pow(1-t, 2)
-                + 3*point2.x()*std::pow(t, 2)*(1-t) + point3.x()*t*std::pow(t, 2);
-        qreal by = point1.y()*(1-t)*std::pow(1-t, 2) + 3*point1.y()*t*std::pow(1-t, 2)
-                + 3*point2.y()*std::pow(t, 2)*(1-t) + point3.y()*t*std::pow(t, 2);
+        qreal bx = point1.x()*(1-t)*std::pow(1-t, 2) + 3*point2.x()*t*std::pow(1-t, 2)
+                + 3*point3.x()*std::pow(t, 2)*(1-t) + point4.x()*t*std::pow(t, 2);
+        qreal by = point1.y()*(1-t)*std::pow(1-t, 2) + 3*point2.y()*t*std::pow(1-t, 2)
+                + 3*point3.y()*std::pow(t, 2)*(1-t) + point4.y()*t*std::pow(t, 2);
         if (pos.x() >= bx - MIN_PADDING && pos.x() <= bx + MIN_PADDING &&
                 pos.y() >= by - MIN_PADDING && pos.y() <= by + MIN_PADDING) {
             return true;
@@ -276,16 +277,16 @@ bool pointOnEllipse(FourPoints rectFPoints, QPointF pos) {
     controlPointList.append(getControlPoint(rectFPoints.point1, anotherFPoints.point2, true));
     controlPointList.append(getControlPoint(anotherFPoints.point1, rectFPoints.point2, false));
     controlPointList.append(getControlPoint(rectFPoints.point2, anotherFPoints.point4, true));
-    controlPointList.append(getControlPoint(anotherFPoints.point1, rectFPoints.point3, true));
+    controlPointList.append(getControlPoint(anotherFPoints.point2, rectFPoints.point3, false));
     controlPointList.append(getControlPoint(rectFPoints.point3, anotherFPoints.point3, true));
-    controlPointList.append(getControlPoint(anotherFPoints.point3, rectFPoints.point4, true));
+    controlPointList.append(getControlPoint(anotherFPoints.point3, rectFPoints.point4, false));
     controlPointList.append(getControlPoint(rectFPoints.point4, anotherFPoints.point4, true));
 
     if (pointOnBezier(anotherFPoints.point1, controlPointList[0], controlPointList[1],
         anotherFPoints.point2, pos) || pointOnBezier(anotherFPoints.point2, controlPointList[4],
       controlPointList[5], anotherFPoints.point3, pos) || pointOnBezier(anotherFPoints.point3,
-      controlPointList[6], controlPointList[7], anotherFPoints.point1, pos) || pointOnBezier(
-      anotherFPoints.point4, controlPointList[3], controlPointList[2], anotherFPoints.point3, pos)) {
+      controlPointList[6], controlPointList[7], anotherFPoints.point4, pos) || pointOnBezier(
+      anotherFPoints.point4, controlPointList[3], controlPointList[2], anotherFPoints.point1, pos)) {
         return true;
     } else {
         return false;
