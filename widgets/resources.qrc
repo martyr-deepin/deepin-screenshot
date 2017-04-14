@@ -32,19 +32,14 @@
         <file>resources/images/save/save_normal.png</file>
         <file>resources/images/save/save_to_clipboard_hover.png</file>
         <file>resources/images/save/save_to_clipboard_normal.png</file>
-        <file>resources/images/save/save_to_clipboard_press.png</file>
         <file>resources/images/save/save_to_desktop_hover.png</file>
         <file>resources/images/save/save_to_desktop_normal.png</file>
-        <file>resources/images/save/save_to_desktop_press.png</file>
         <file>resources/images/save/save_to_dir_hover.png</file>
         <file>resources/images/save/save_to_dir_normal.png</file>
-        <file>resources/images/save/save_to_dir_press.png</file>
         <file>resources/images/save/save_to_pic_clipboard_hover.png</file>
         <file>resources/images/save/save_to_pic_clipboard_normal.png</file>
-        <file>resources/images/save/save_to_pic_clipboard_press.png</file>
         <file>resources/images/save/save_to_pic_hover.png</file>
         <file>resources/images/save/save_to_pic_normal.png</file>
-        <file>resources/images/save/save_to_pic_press.png</file>
         <file>resources/images/save/slider_fg.png</file>
         <file>resources/images/action/close_checked.png</file>
         <file>resources/images/action/close_hover.png</file>
@@ -76,12 +71,20 @@
         <file>resources/images/size/thick_checked.png</file>
         <file>resources/images/size/thick_hover.png</file>
         <file>resources/images/size/thick_normal.png</file>
-        <file>resources/images/size/unarrow_active.png</file>
-        <file>resources/images/size/unarrow_hover.png</file>
-        <file>resources/images/size/unarrow_normal.png</file>
         <file>resources/images/size/rotate.png</file>
         <file>resources/qss/subtoolbar.qss</file>
         <file>resources/qss/majtoolbar.qss</file>
         <file>resources/qss/toolbar.qss</file>
+        <file>resources/images/size/arrow_checked.png</file>
+        <file>resources/images/size/arrow_hover.png</file>
+        <file>resources/images/size/arrow_normal.png</file>
+        <file>resources/images/size/line_checked.png</file>
+        <file>resources/images/size/line_hover.png</file>
+        <file>resources/images/size/line_normal.png</file>
+        <file>resources/images/save/save_to_clipboard_checked.png</file>
+        <file>resources/images/save/save_to_desktop_checked.png</file>
+        <file>resources/images/save/save_to_dir_checked.png</file>
+        <file>resources/images/save/save_to_pic_checked.png</file>
+        <file>resources/images/save/save_to_pic_clipboard_checked.png</file>
     </qresource>
 </RCC>

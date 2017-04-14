@@ -18,6 +18,8 @@ public:
     void initColorLabel();
     void initSaveLabel();
 
+    void switchContent(QString shapeType);
+
 private:
     QLabel* m_rectLabel;
     QLabel* m_arrowLabel;

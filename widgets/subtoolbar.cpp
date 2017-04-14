@@ -165,7 +165,8 @@ void SubToolBar::initSaveLabel() {
      m_saveLabel = new QLabel(this);
     QHBoxLayout* saveLayout = new QHBoxLayout();
     saveLayout->setMargin(0);
-    saveLayout->setSpacing(2);
+    saveLayout->setSpacing(8);
+    saveLayout->addSpacing(4);
     saveLayout->addWidget(saveDesktopBtn);
     saveLayout->addWidget(savePicBtn);
     saveLayout->addWidget(saveSpecificDirBtn);
@@ -174,6 +175,22 @@ void SubToolBar::initSaveLabel() {
     saveLayout->addStretch();
     m_saveLabel->setLayout(saveLayout);
     addWidget(m_saveLabel);
+}
+
+void SubToolBar::switchContent(QString shapeType) {
+    if (shapeType == "rectangle" || shapeType == "oval") {
+        setCurrentWidget(m_rectLabel);
+    }   else if (shapeType == "arrow") {
+        setCurrentWidget(m_arrowLabel);
+    } else if (shapeType == "pen") {
+        setCurrentWidget(m_lineLabel);
+    } else if (shapeType == "text") {
+        setCurrentWidget(m_textLabel);
+    } else if (shapeType == "color") {
+        setCurrentWidget(m_colorLabel);
+    } else if (shapeType == "saveList") {
+        setCurrentWidget(m_saveLabel);
+    }
 }
 
 SubToolBar::~SubToolBar() {}

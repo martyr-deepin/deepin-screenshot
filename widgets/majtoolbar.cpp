@@ -172,15 +172,15 @@ void MajToolBar::initWidgets() {
         emit buttonChecked(m_isChecked, "save");
     });
     connect(saveListBtn, &ToolButton::clicked, this, [=](){
-        if (m_currentShape != "savelist") {
-            m_currentShape = "savelist";
+        if (m_currentShape != "saveList") {
+            m_currentShape = "saveList";
             m_isChecked = true;
         } else {
             m_currentShape = "";
             m_isChecked = false;
         }
         saveListBtn->setChecked(m_isChecked);
-        emit buttonChecked(m_isChecked, "savelist");
+        emit buttonChecked(m_isChecked, "saveList");
     });
 
     connect(closeBtn, &ToolButton::clicked, this, [=](bool checked){
