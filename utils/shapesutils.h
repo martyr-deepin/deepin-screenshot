@@ -2,6 +2,7 @@
 #define SHAPESUTILS_H
 
 #include <QtCore>
+#include <QColor>
 
 //Dialognal Points on a line
 class DiagPoints {
@@ -43,8 +44,36 @@ public:
     static void registerMetaType();
 };
 
-typedef QList<FourPoints> MPointsList;
-
+//typedef QList<QPointF> FourPoints;
+typedef QList <FourPoints> MPointsList;
 Q_DECLARE_METATYPE(FourPoints)
 Q_DECLARE_METATYPE(MPointsList)
+
+/* shape*/
+class Toolshape {
+public:
+     QString type;
+     FourPoints mainPoints;
+     int lineWidth;
+     QColor penColor;
+     bool isBlur = false;
+     bool isMosaic = false;
+     int fontSize = 1;
+    QList<QPointF> points;
+
+    Toolshape();
+    ~Toolshape();
+
+    friend QDebug &operator<<(QDebug &argument, const Toolshape &obj);
+    friend QDataStream &operator>>(QDataStream &in, Toolshape &obj);
+    Toolshape operator=(Toolshape obj);
+
+    static void registerMetaType();
+};
+
+//typedef QList<QPointF> FourPoints;
+typedef QList <Toolshape> Toolshapes;
+Q_DECLARE_METATYPE(Toolshape)
+Q_DECLARE_METATYPE(Toolshapes)
+
 #endif // SHAPESUTILS_H
