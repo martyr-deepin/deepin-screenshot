@@ -50,21 +50,16 @@ void MajToolBar::initWidgets() {
     buttonGroup->addButton(textBtn);
     BigColorButton* colorBtn = new BigColorButton();
     colorBtn->setObjectName("ColorBtn");
-    buttonGroup->addButton(colorBtn);
     ToolButton* saveBtn = new ToolButton();
     saveBtn->setObjectName("SaveBtn");
     saveBtn->setFixedSize(15, 22);
-    buttonGroup->addButton(saveBtn);
     ToolButton* saveListBtn = new ToolButton();
     saveListBtn->setObjectName("ListBtn");
     saveListBtn->setFixedSize(10, 22);
-    buttonGroup->addButton(saveListBtn);
     ToolButton* shareBtn = new ToolButton();
     shareBtn->setObjectName("ShareBtn");
-    buttonGroup->addButton(shareBtn);
     ToolButton* closeBtn = new ToolButton();
     closeBtn->setObjectName("CloseBtn");
-    buttonGroup->addButton(closeBtn);
 
     m_baseLayout = new QHBoxLayout();
     m_baseLayout->setMargin(0);
