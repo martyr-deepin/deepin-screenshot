@@ -161,6 +161,7 @@ void MajToolBar::initWidgets() {
         emit buttonChecked(m_isChecked, "color");
     });
 
+    connect(this, &MajToolBar::setCurrentColor, colorBtn, &BigColorButton::setColor);
     connect(saveBtn, &ToolButton::clicked, this, [=](){
         if (m_currentShape != "save") {
             m_currentShape = "save";

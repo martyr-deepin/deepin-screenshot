@@ -1,4 +1,5 @@
 #include "bigcolorbutton.h"
+#include <QDebug>
 
 const int COLOR_RADIUS = 4;
 
@@ -45,6 +46,11 @@ void BigColorButton::paintEvent(QPaintEvent *) {
     }
 
 
+}
+
+void BigColorButton::setColor(QColor color) {
+    m_color = color;
+    update();
 }
 
 void BigColorButton::setCheckedStatus(bool checked) {

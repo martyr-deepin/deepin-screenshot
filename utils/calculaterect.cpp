@@ -247,7 +247,6 @@ QList<QPointF> getEightControlPoint(FourPoints rectFPoints) {
     resultPointList.append(getControlPoint(rectFPoints.point3, anotherFPoints.point3, true));
     resultPointList.append(getControlPoint(anotherFPoints.point3, rectFPoints.point4, false));
     resultPointList.append(getControlPoint(rectFPoints.point4, anotherFPoints.point4, true));
-    qDebug() << resultPointList;
     return resultPointList;
 }
 

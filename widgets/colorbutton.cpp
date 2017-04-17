@@ -20,6 +20,10 @@ void ColorButton::setColorBtnChecked() {
     m_isChecked = !m_isChecked;
     setChecked(m_isChecked);
     update();
+    if (m_isChecked) {
+        qDebug() << "emit m_bgColor" << m_bgColor;
+        emit updatePaintColor(m_bgColor);
+    }
 }
 
 void ColorButton::paintEvent(QPaintEvent *) {
