@@ -40,6 +40,9 @@ ToolBar::ToolBar(QWidget *parent)
     connect(this, &ToolBar::buttonChecked, m_subToolbar, &SubToolBar::switchContent);
     connect(m_subToolbar, &SubToolBar::setCurrentColor,
             m_majToolbar, &MajToolBar::setCurrentColor);
+    connect(m_subToolbar, &SubToolBar::setCurrentColor,
+            m_majToolbar, &MajToolBar::setCurrentColor);
+    connect(m_subToolbar, &SubToolBar::setCurrentColor, this, &ToolBar::updateColor);
 }
 
 bool ToolBar::isButtonChecked() {

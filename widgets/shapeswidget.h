@@ -25,6 +25,7 @@ public:
     };
 public slots:
     void setCurrentShape(QString shapeType);
+    void setPenColor(QColor color);
 
     void handleRotate(QPointF pos);
     void handleResize(QPointF pos, int key);
@@ -76,6 +77,7 @@ private:
 
     int m_selectedIndex;
     QString m_currentShape = "rectangle";
+    QColor m_penColor;
 
     DiagPointsList m_diagPointsList;
     DiagPoints m_currentDiagPoints;

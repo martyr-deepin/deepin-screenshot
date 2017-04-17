@@ -14,7 +14,8 @@ ShapesWidget::ShapesWidget(QWidget *parent)
       m_selectedIndex(-1),
       m_isMoving(false),
       m_isSelected(false),
-      m_isShiftPressed(false)
+      m_isShiftPressed(false),
+      m_penColor(Qt::red)
 {
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
@@ -30,6 +31,12 @@ void ShapesWidget::setCurrentShape(QString shapeType) {
     m_currentShape = shapeType;
     qDebug() << "shape" << m_currentShape;
     qApp->setOverrideCursor(setCursorShape(m_currentShape));
+}
+
+void ShapesWidget::setPenColor(QColor color) {
+    m_penColor = color;
+    qDebug() << "shapesWidget Color:" << color;
+    update();
 }
 
 bool ShapesWidget::clickedOnShapes(QPointF pos) {
@@ -673,7 +680,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing);
     QPen pen;
-    pen.setColor(Qt::red);
+    pen.setColor(m_penColor);
     pen.setWidth(3);
     painter.setPen(pen);
 
