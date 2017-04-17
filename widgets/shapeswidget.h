@@ -27,6 +27,7 @@ public:
 public slots:
     void setCurrentShape(QString shapeType);
     void setPenColor(QColor color);
+    void clearSelected();
 
     void handleRotate(QPointF pos);
     void handleResize(QPointF pos, int key);
@@ -85,6 +86,8 @@ private:
     DiagPoints m_currentHoverDiagPoints;
     DiagPoints m_currentSelectedDiagPoints;
 
+    FourPoints m_currentFPoints;
+
     FourPoints m_currentSelectedFPoints;
     FourPoints m_currentHoveredFPoints;
     MPointsList m_mFPointsList;
@@ -92,5 +95,6 @@ private:
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
     void paintRect(QPainter &painter, FourPoints rectFPoints);
     void paintEllipse(QPainter &painter, FourPoints ellipseFPoints);
+    void paintLine(QPainter &painter, FourPoints lineFPoints);
 };
 #endif // SHAPESWIDGET_H

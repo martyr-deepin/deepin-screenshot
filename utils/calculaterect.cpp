@@ -131,6 +131,24 @@ FourPoints fourPointsOnRect(DiagPoints diagPoints) {
     return fourPoints;
 }
 
+/* get the four points from a line */
+FourPoints fourPointsOfLine(QList<QPointF> points) {
+    QPointF minPointF(0, 0);
+    QPointF maxPointF(0, 0);
+    foreach (QPointF point, points) {
+        minPointF.setX(std::min(minPointF.x(), point.x()));
+        minPointF.setY(std::min(minPointF.y(), point.y()));
+        maxPointF.setX(std::max(maxPointF.x(), point.y()));
+        maxPointF.setY(std::max(maxPointF.y(), point.y()));
+    }
+
+    FourPoints resultFPoint;
+    resultFPoint.point1 = minPointF;
+    resultFPoint.point2 = QPointF(minPointF.x(), maxPointF.y());
+    resultFPoint.point3 = QPointF(maxPointF.x(), minPointF.y());
+    resultFPoint.point4 =  maxPointF;
+    return resultFPoint;
+}
 FourPoints getAnotherFPoints(QPointF point1, QPointF point2,
                              QPointF point3, QPointF point4) {
 FourPoints  otherFPoints;

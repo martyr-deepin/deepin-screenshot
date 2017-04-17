@@ -31,7 +31,7 @@ public:
     QPointF point3;
     QPointF point4;
     QString shapeType;
-    QList<QPoint> points = QList<QPoint>();
+    QList<QPointF> points = QList<QPointF>();
 
     FourPoints();
     ~FourPoints();

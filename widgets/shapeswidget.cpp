@@ -39,6 +39,13 @@ void ShapesWidget::setPenColor(QColor color) {
     update();
 }
 
+void ShapesWidget::clearSelected() {
+    m_currentSelectedFPoints.point1 = QPoint(0, 0);
+    m_currentSelectedFPoints.point2 = QPoint(0, 0);
+    m_currentSelectedFPoints.point3 = QPoint(0, 0);
+    m_currentSelectedFPoints.point4 = QPoint(0, 0);
+}
+
 bool ShapesWidget::clickedOnShapes(QPointF pos) {
     bool onShapes = false;
     m_currentDiagPoints.masterPoint = QPointF(0, 0);
@@ -462,17 +469,16 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
         qDebug() << "no one shape be clicked!";
         m_currentDiagPoints.masterPoint = QPoint(0, 0);
         m_currentDiagPoints.deputyPoint = QPoint(0, 0);
-        m_currentSelectedFPoints.point1 = QPoint(0, 0);
-        m_currentSelectedFPoints.point2 = QPoint(0, 0);
-        m_currentSelectedFPoints.point3 = QPoint(0, 0);
-        m_currentSelectedFPoints.point4 = QPoint(0, 0);
-        m_currentSelectedFPoints.shapeType = m_currentShape;
+        clearSelected();
+        m_currentFPoints.shapeType = m_currentShape;
         m_selectedIndex = -1;
         m_isRecording = true;
         if (m_pos1 == QPointF(0, 0)) {
-
             m_pos1 = e->pos();
             m_currentDiagPoints.masterPoint = m_pos1;
+            if (m_currentShape == "line") {
+                m_currentFPoints.points.append(m_pos1);
+            }
             update();
         }
     } else {
@@ -489,17 +495,34 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
         m_currentDiagPoints.deputyPoint = m_pos2;
         m_diagPointsList.append(m_currentDiagPoints);
 
-        FourPoints tmpPoints = fourPointsOnRect(m_currentDiagPoints);
-        tmpPoints.shapeType = m_currentShape;
-        m_mFPointsList.append(tmpPoints);
+        if (m_currentShape != "line") {
+            FourPoints rectFPoints = fourPointsOnRect(m_currentDiagPoints);
+            m_currentFPoints.point1 = rectFPoints.point1;
+            m_currentFPoints.point2 = rectFPoints.point2;
+            m_currentFPoints.point3 = rectFPoints.point3;
+            m_currentFPoints.point4 = rectFPoints.point4;
+            m_mFPointsList.append(m_currentFPoints);
+
+        } else {
+            FourPoints lineFPoints = fourPointsOfLine(m_currentFPoints.points);
+            m_currentFPoints.point1 = lineFPoints.point1;
+            m_currentFPoints.point2 = lineFPoints.point2;
+            m_currentFPoints.point3 = lineFPoints.point3;
+            m_currentFPoints.point4 = lineFPoints.point4;
+            m_mFPointsList.append(m_currentFPoints);
+            m_currentFPoints.points.clear();
+            m_currentFPoints.point1 = QPointF(0, 0);
+            m_currentFPoints.point2 = QPointF(0, 0);
+            m_currentFPoints.point3 = QPointF(0, 0);
+            m_currentFPoints.point4 = QPointF(0, 0);
+        }
+
+        qDebug() << "ShapesWidget num:" << m_mFPointsList.length();
         m_isRecording = false;
         m_isMoving = false;
         m_currentDiagPoints.masterPoint = QPoint(0, 0);
         m_currentDiagPoints.deputyPoint = QPoint(0, 0);
-        m_currentSelectedFPoints.point1 = QPoint(0, 0);
-        m_currentSelectedFPoints.point2 = QPoint(0, 0);
-        m_currentSelectedFPoints.point3 = QPoint(0, 0);
-        m_currentSelectedFPoints.point4 = QPoint(0, 0);
+        clearSelected();
     }
 
     m_pos1 = QPointF(0, 0);
@@ -518,6 +541,9 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
     if (m_isRecording && m_isPressed) {
         m_pos2 = e->pos();
         m_currentDiagPoints.deputyPoint = m_pos2;
+        if (m_currentFPoints.shapeType == "line") {
+            m_currentFPoints.points.append(m_pos2);
+        }
         update();
     } else if (!m_isRecording && m_isPressed) {
         if (m_isRotated && m_isPressed) {
@@ -676,6 +702,13 @@ void ShapesWidget::paintEllipse(QPainter &painter, FourPoints ellipseFPoints) {
     painter.drawPath(ellipsePath);
 }
 
+void ShapesWidget::paintLine(QPainter &painter, FourPoints lineFPoints) {
+    qDebug() << "paintLine:" << lineFPoints.points.length();
+    for (int k = 0; k < lineFPoints.points.length() - 2; k++) {
+        painter.drawLine(lineFPoints.points[k], lineFPoints.points[k+1]);
+    }
+}
+
 void ShapesWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing);
@@ -687,11 +720,15 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     if (m_currentDiagPoints.masterPoint != QPointF(0, 0) &&
             m_currentDiagPoints.deputyPoint != QPointF(0, 0)) {
         FourPoints currentFPoint = fourPointsOnRect(m_currentDiagPoints);
+
         if (m_currentShape == "rectangle") {
             paintRect(painter, currentFPoint);
         } else if (m_currentShape == "oval") {
             paintEllipse(painter, currentFPoint);
+        } else if (m_currentShape == "line") {
+            paintLine(painter, m_currentFPoints);
         }
+
     }
 
     for(int i = 0; i < m_mFPointsList.length(); i++) {
@@ -699,6 +736,8 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             paintRect(painter, m_mFPointsList[i]);
         } else if (m_mFPointsList[i].shapeType == "oval") {
             paintEllipse(painter, m_mFPointsList[i]);
+        } else if (m_currentShape == "line") {
+            paintLine(painter, m_mFPointsList[i]);
         }
     }
 

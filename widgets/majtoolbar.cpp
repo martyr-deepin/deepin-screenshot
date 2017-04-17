@@ -42,9 +42,9 @@ void MajToolBar::initWidgets() {
     ToolButton* arrowBtn = new ToolButton();
     arrowBtn->setObjectName("ArrowBtn");
     buttonGroup->addButton(arrowBtn);
-    ToolButton* penBtn = new ToolButton();
-    penBtn->setObjectName("PenBtn");
-    buttonGroup->addButton(penBtn);
+    ToolButton* lineBtn = new ToolButton();
+    lineBtn->setObjectName("PenBtn");
+    buttonGroup->addButton(lineBtn);
     ToolButton* textBtn = new ToolButton();
     textBtn->setObjectName("TextBtn");
     buttonGroup->addButton(textBtn);
@@ -70,7 +70,7 @@ void MajToolBar::initWidgets() {
     m_baseLayout->addSpacing(BUTTON_SPACING);
     m_baseLayout->addWidget(arrowBtn);
     m_baseLayout->addSpacing(BUTTON_SPACING);
-    m_baseLayout->addWidget(penBtn);
+    m_baseLayout->addWidget(lineBtn);
     m_baseLayout->addSpacing(BUTTON_SPACING);
     m_baseLayout->addWidget(textBtn);
     m_baseLayout->addSpacing(BUTTON_SPACING);
@@ -122,16 +122,16 @@ void MajToolBar::initWidgets() {
         arrowBtn->setChecked(m_isChecked);
         emit buttonChecked(m_isChecked, "arrow");
     });
-    connect(penBtn, &ToolButton::clicked, this, [=](){
-        if (m_currentShape != "pen") {
-            m_currentShape = "pen";
+    connect(lineBtn, &ToolButton::clicked, this, [=](){
+        if (m_currentShape != "line") {
+            m_currentShape = "line";
             m_isChecked = true;
         } else {
             m_currentShape = "";
             m_isChecked = false;
         }
-        penBtn->setChecked(m_isChecked);
-        emit buttonChecked(m_isChecked, "pen");
+        lineBtn->setChecked(m_isChecked);
+        emit buttonChecked(m_isChecked, "line");
     });
     connect(textBtn, &ToolButton::clicked, this, [=](){
         if (m_currentShape != "text") {

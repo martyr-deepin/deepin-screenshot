@@ -27,6 +27,9 @@ QPointF  getRotatePoint(QPointF point1, QPointF point2,
 /* get the four points from a rectangle which isn't rotated!*/
 FourPoints  fourPointsOnRect(DiagPoints diagPoints);
 
+/* get the four points from a line */
+FourPoints fourPointsOfLine(QList<QPointF> points);
+
 /* get the rotate angle by three points*/
 qreal  calculateAngle(QPointF point1, QPointF point2, QPointF point3);
 
