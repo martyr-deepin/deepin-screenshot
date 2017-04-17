@@ -28,9 +28,9 @@ ShapesWidget::~ShapesWidget() {
 }
 
 void ShapesWidget::setCurrentShape(QString shapeType) {
-    m_currentShape = shapeType;
-    qDebug() << "shape" << m_currentShape;
-    qApp->setOverrideCursor(setCursorShape(m_currentShape));
+    m_currentType = shapeType;
+    qDebug() << "shape" << m_currentType;
+    qApp->setOverrideCursor(setCursorShape(m_currentType));
 }
 
 void ShapesWidget::setPenColor(QColor color) {
@@ -40,10 +40,9 @@ void ShapesWidget::setPenColor(QColor color) {
 }
 
 void ShapesWidget::clearSelected() {
-    m_currentSelectedFPoints.point1 = QPoint(0, 0);
-    m_currentSelectedFPoints.point2 = QPoint(0, 0);
-    m_currentSelectedFPoints.point3 = QPoint(0, 0);
-    m_currentSelectedFPoints.point4 = QPoint(0, 0);
+    for(int j = 0; j < m_selectedShape.mainPoints.length(); j++) {
+        m_selectedShape.mainPoints[j] = QPointF(0, 0);
+    }
 }
 
 bool ShapesWidget::clickedOnShapes(QPointF pos) {
@@ -52,28 +51,24 @@ bool ShapesWidget::clickedOnShapes(QPointF pos) {
     m_currentDiagPoints.deputyPoint = QPointF(0, 0);
     m_selectedIndex = -1;
 
-    for (int i = 0; i < m_mFPointsList.length(); i++) {
+    for (int i = 0; i < m_shapes.length(); i++) {
         bool currentOnShape = false;
-        if (m_mFPointsList[i].shapeType == "rectangle") {
-            if (clickedOnRectPoint(m_mFPointsList[i].point1, m_mFPointsList[i].point2,
-                                   m_mFPointsList[i].point3, m_mFPointsList[i].point4, pos)) {
+        if (m_shapes[i].type == "rectangle") {
+            if (clickedOnRectPoint(m_shapes[i].mainPoints, pos)) {
                 currentOnShape = true;
             }
         }
-        if (m_mFPointsList[i].shapeType == "oval") {
-            if (clickedOnEllipsePoint(m_mFPointsList[i].point1, m_mFPointsList[i].point2,
-                                      m_mFPointsList[i].point3, m_mFPointsList[i].point4, pos)) {
+        if (m_shapes[i].type == "oval") {
+            if (clickedOnEllipsePoint(m_shapes[i].mainPoints, pos)) {
                 currentOnShape = true;
             }
         }
 
         if (currentOnShape) {
-            m_currentSelectedDiagPoints.masterPoint = m_mFPointsList[i].point1;
-            m_currentSelectedDiagPoints.deputyPoint = m_mFPointsList[i].point4;
-            m_currentSelectedFPoints.point1 = m_mFPointsList[i].point1;
-            m_currentSelectedFPoints.point2 = m_mFPointsList[i].point2;
-            m_currentSelectedFPoints.point3 = m_mFPointsList[i].point3;
-            m_currentSelectedFPoints.point4 = m_mFPointsList[i].point4;
+            m_currentSelectedDiagPoints.masterPoint = m_shapes[i].mainPoints[0];
+            m_currentSelectedDiagPoints.deputyPoint = m_shapes[i].mainPoints[3];
+            m_selectedShape.mainPoints = m_shapes[i].mainPoints;
+            m_selectedShape.type = m_shapes[i].type;
             m_selectedIndex = i;
 
             onShapes = true;
@@ -89,14 +84,18 @@ bool ShapesWidget::clickedOnShapes(QPointF pos) {
 
 
     //TODO: selectUnique
-bool ShapesWidget::clickedOnRectPoint(QPointF point1, QPointF point2,
-                                  QPointF point3, QPointF point4, QPointF pos) {
+bool ShapesWidget::clickedOnRectPoint(FourPoints rectPoints, QPointF pos) {
     m_isSelected = false;
     m_isResize = false;
     m_isRotated = false;
 
-    m_pressedPoint = QPoint(0, 0);
-    FourPoints otherFPoints = getAnotherFPoints(point1, point2, point3, point4);
+    m_pressedPoint = QPointF(0, 0);
+    QPointF point1 = rectPoints[0];
+    QPointF point2 = rectPoints[1];
+    QPointF point3 = rectPoints[2];
+    QPointF point4 = rectPoints[3];
+
+    FourPoints otherFPoints = getAnotherFPoints(rectPoints);
     if (pointClickIn(point1, pos)) {
         m_isSelected = true;
         m_isResize = true;
@@ -125,43 +124,44 @@ bool ShapesWidget::clickedOnRectPoint(QPointF point1, QPointF point2,
         m_resizeDirection = BottomRight;
         m_pressedPoint = pos;
         return true;
-    }  else if (pointClickIn(otherFPoints.point1, pos)) {
+    }  else if (pointClickIn(otherFPoints[0], pos)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Fifth;
         m_resizeDirection = Left;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(otherFPoints.point2, pos)) {
+    } else if (pointClickIn(otherFPoints[1], pos)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Sixth;
         m_resizeDirection = Top;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(otherFPoints.point3, pos)) {
+    } else if (pointClickIn(otherFPoints[2], pos)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Seventh;
         m_resizeDirection = Right;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(otherFPoints.point4, pos)) {
+    } else if (pointClickIn(otherFPoints[3], pos)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Eighth;
         m_resizeDirection = Bottom;
         m_pressedPoint = pos;
         return true;
-    } else if (rotateOnPoint(point1, point2, point3, point4, pos)) {
+    } else if (rotateOnPoint(rectPoints, pos)) {
         m_isSelected = true;
         m_isRotated = true;
         m_isResize = false;
         m_resizeDirection = Rotate;
         m_pressedPoint = pos;
         return true;
-    } else if (pointOnLine(point1, point2, pos) || pointOnLine(point1, point3, pos)
-             || pointOnLine(point2, point4, pos) || pointOnLine(point3, point4, pos)) {
+    } else if (pointOnLine(rectPoints[0], rectPoints[1], pos) || pointOnLine(rectPoints[1],
+        rectPoints[3], pos) || pointOnLine(rectPoints[3], rectPoints[2], pos) ||
+        pointOnLine(rectPoints[2], rectPoints[0], pos)) {
         m_isSelected = true;
         m_isResize = false;
         m_resizeDirection = Moving;
@@ -176,90 +176,77 @@ bool ShapesWidget::clickedOnRectPoint(QPointF point1, QPointF point2,
     return false;
 }
 
-bool ShapesWidget::clickedOnEllipsePoint(QPointF point1, QPointF point2,
-                                         QPointF point3, QPointF point4, QPointF pos) {
+bool ShapesWidget::clickedOnEllipsePoint(FourPoints mainPoints, QPointF pos) {
     m_isSelected = false;
     m_isResize = false;
     m_isRotated = false;
 
     m_pressedPoint = QPoint(0, 0);
-    FourPoints mainFPoints;
-    mainFPoints.point1 = point1;
-    mainFPoints.point2 = point2;
-    mainFPoints.point3 = point3;
-    mainFPoints.point4 = point4;
-    FourPoints otherFPoints = getAnotherFPoints(point1, point2, point3, point4);
-    if (pointClickIn(point1, pos)) {
+    FourPoints otherFPoints = getAnotherFPoints(mainPoints);
+    if (pointClickIn(mainPoints[0], pos)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = First;
         m_resizeDirection = TopLeft;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(point2, pos)) {
+    } else if (pointClickIn(mainPoints[1], pos)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Second;
         m_resizeDirection = BottomLeft;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(point3, pos)) {
+    } else if (pointClickIn(mainPoints[2], pos)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Third;
         m_resizeDirection = TopRight;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(point4, pos)) {
+    } else if (pointClickIn(mainPoints[3], pos)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Fourth;
         m_resizeDirection = BottomRight;
         m_pressedPoint = pos;
         return true;
-    }  else if (pointClickIn(otherFPoints.point1, pos)) {
+    }  else if (pointClickIn(otherFPoints[0], pos)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Fifth;
         m_resizeDirection = Left;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(otherFPoints.point2, pos)) {
+    } else if (pointClickIn(otherFPoints[1], pos)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Sixth;
         m_resizeDirection = Top;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(otherFPoints.point3, pos)) {
+    } else if (pointClickIn(otherFPoints[2], pos)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Seventh;
         m_resizeDirection = Right;
         m_pressedPoint = pos;
         return true;
-    } else if (pointClickIn(otherFPoints.point4, pos)) {
+    } else if (pointClickIn(otherFPoints[3], pos)) {
         m_isSelected = true;
         m_isResize = true;
         m_clickedKey = Eighth;
         m_resizeDirection = Bottom;
         m_pressedPoint = pos;
         return true;
-    } else if (rotateOnPoint(point1, point2, point3, point4, pos)) {
+    } else if (rotateOnPoint(mainPoints, pos)) {
         m_isSelected = true;
         m_isRotated = true;
         m_isResize = false;
         m_resizeDirection = Rotate;
         m_pressedPoint = pos;
         return true;
-    } else if (pointOnLine(point1, point2, pos) || pointOnLine(point1, point3, pos)
-             || pointOnLine(point2, point4, pos) || pointOnLine(point3, point4, pos)) {
-        m_isSelected = true;
-        m_isResize = false;
-        m_resizeDirection = Moving;
-        m_pressedPoint = pos;
-        return true;
-    } else if (pointOnEllipse(mainFPoints, pos)) {
+    }  else if (pointOnEllipse(mainPoints, pos)) {
             m_isSelected = true;
             m_isResize = false;
 
@@ -275,38 +262,38 @@ bool ShapesWidget::clickedOnEllipsePoint(QPointF point1, QPointF point2,
     return false;
 }
 
-bool ShapesWidget::hoverOnRect(QPointF point1, QPointF point2,
-                               QPointF point3, QPointF point4, QPointF pos) {
-    FourPoints tmpFPoints = getAnotherFPoints(point1, point2, point3, point4);
-    if (pointClickIn(point1, pos)) {
+bool ShapesWidget::hoverOnRect(FourPoints rectPoints, QPointF pos) {
+    FourPoints tmpFPoints = getAnotherFPoints(rectPoints);
+    if (pointClickIn(rectPoints[0], pos)) {
         m_resizeDirection = TopLeft;
         return true;
-    } else if (pointClickIn(point2, pos)) {
+    } else if (pointClickIn(rectPoints[1], pos)) {
         m_resizeDirection = BottomLeft;
         return true;
-    } else if (pointClickIn(point3, pos)) {
+    } else if (pointClickIn(rectPoints[2], pos)) {
         m_resizeDirection = TopRight;
         return true;
-    } else if (pointClickIn(point4, pos)) {
+    } else if (pointClickIn(rectPoints[3], pos)) {
         m_resizeDirection = BottomRight;
         return true;
-    } else if (rotateOnPoint(point1, point2, point3, point4, pos)) {
+    } else if (rotateOnPoint(rectPoints, pos)) {
         m_resizeDirection = Rotate;
         return true;
-    }  else if (pointClickIn(tmpFPoints.point1, pos)) {
+    }  else if (pointClickIn(tmpFPoints[0], pos)) {
         m_resizeDirection = Left;
         return true;
-    } else if (pointClickIn(tmpFPoints.point2, pos)) {
+    } else if (pointClickIn(tmpFPoints[1], pos)) {
         m_resizeDirection = Top;
         return true;
-    }  else if (pointClickIn(tmpFPoints.point3, pos)) {
+    }  else if (pointClickIn(tmpFPoints[2], pos)) {
         m_resizeDirection = Right;
         return true;
-    } else if (pointClickIn(tmpFPoints.point4, pos)) {
+    } else if (pointClickIn(tmpFPoints[3], pos)) {
         m_resizeDirection = Bottom;
         return true;
-    } else if (pointOnLine(point1, point2, pos) || pointOnLine(point1, point3, pos)
-             || pointOnLine(point2, point4, pos) || pointOnLine(point3, point4, pos)) {
+    } else if (pointOnLine(rectPoints[0],  rectPoints[1], pos) || pointOnLine(rectPoints[1],
+        rectPoints[3], pos)|| pointOnLine(rectPoints[3], rectPoints[2], pos) ||
+               pointOnLine(rectPoints[2], rectPoints[0], pos)) {
         m_resizeDirection = Moving;
         return true;
     } else {
@@ -315,46 +302,37 @@ bool ShapesWidget::hoverOnRect(QPointF point1, QPointF point2,
     return false;
 }
 
-bool ShapesWidget::hoverOnEllipse(QPointF point1, QPointF point2,
-                                  QPointF point3, QPointF point4, QPointF pos) {
-    FourPoints mainFPoints;
-    mainFPoints.point1 = point1;
-    mainFPoints.point2 = point2;
-    mainFPoints.point3 = point3;
-    mainFPoints.point4 = point4;
-    FourPoints tmpFPoints = getAnotherFPoints(point1, point2, point3, point4);
-    if (pointClickIn(point1, pos)) {
+bool ShapesWidget::hoverOnEllipse(FourPoints mainPoints, QPointF pos) {
+    FourPoints tmpFPoints = getAnotherFPoints(mainPoints);
+
+    if (pointClickIn(mainPoints[0], pos)) {
         m_resizeDirection = TopLeft;
         return true;
-    } else if (pointClickIn(point2, pos)) {
+    } else if (pointClickIn(mainPoints[1], pos)) {
         m_resizeDirection = BottomLeft;
         return true;
-    } else if (pointClickIn(point3, pos)) {
+    } else if (pointClickIn(mainPoints[2], pos)) {
         m_resizeDirection = TopRight;
         return true;
-    } else if (pointClickIn(point4, pos)) {
+    } else if (pointClickIn(mainPoints[3], pos)) {
         m_resizeDirection = BottomRight;
         return true;
-    } else if (rotateOnPoint(point1, point2, point3, point4, pos)) {
+    } else if (rotateOnPoint(mainPoints, pos)) {
         m_resizeDirection = Rotate;
         return true;
-    }  else if (pointClickIn(tmpFPoints.point1, pos)) {
+    }  else if (pointClickIn(tmpFPoints[0], pos)) {
         m_resizeDirection = Left;
         return true;
-    } else if (pointClickIn(tmpFPoints.point2, pos)) {
+    } else if (pointClickIn(tmpFPoints[1], pos)) {
         m_resizeDirection = Top;
         return true;
-    }  else if (pointClickIn(tmpFPoints.point3, pos)) {
+    }  else if (pointClickIn(tmpFPoints[2], pos)) {
         m_resizeDirection = Right;
         return true;
-    } else if (pointClickIn(tmpFPoints.point4, pos)) {
+    } else if (pointClickIn(tmpFPoints[3], pos)) {
         m_resizeDirection = Bottom;
         return true;
-    } else if (pointOnLine(point1, point2, pos) || pointOnLine(point1, point3, pos)
-               || pointOnLine(point2, point4, pos) || pointOnLine(point3, point4, pos)) {
-        m_resizeDirection = Moving;
-        return true;
-    }  else if (pointOnEllipse(mainFPoints, pos)) {
+    }  else if (pointOnEllipse(mainPoints, pos)) {
         m_isSelected = true;
         m_isResize = false;
 
@@ -366,29 +344,28 @@ bool ShapesWidget::hoverOnEllipse(QPointF point1, QPointF point2,
     }
     return false;
 }
-bool ShapesWidget::hoverOnShapes(FourPoints fourPoints, QPointF pos) {
-    if (fourPoints.shapeType == "rectangle") {
-        return hoverOnRect(fourPoints.point1, fourPoints.point2,
-                           fourPoints.point3, fourPoints.point4, pos);
-    } else if (fourPoints.shapeType == "oval") {
-        return hoverOnEllipse(fourPoints.point1, fourPoints.point2,
-                              fourPoints.point3, fourPoints.point4, pos);
+bool ShapesWidget::hoverOnShapes(Toolshape toolShape, QPointF pos) {
+
+    if (toolShape.type == "rectangle") {
+        qDebug() << "judge hover status on rectangle!!!!!!!!!!!";
+        return hoverOnRect(toolShape.mainPoints, pos);
+    } else if (toolShape.type == "oval") {
+        return hoverOnEllipse(toolShape.mainPoints, pos);
     }
 
     return false;
 }
 
-bool ShapesWidget::rotateOnPoint(QPointF point1, QPointF point2,
-                                 QPointF point3, QPointF point4,
+bool ShapesWidget::rotateOnPoint(FourPoints mainPoints,
                                  QPointF pos) {
-    bool result = hoverOnRotatePoint(point1, point2, point3, point4, pos);
+    bool result = hoverOnRotatePoint(mainPoints, pos);
     return result;
 }
 
-bool ShapesWidget::hoverOnRotatePoint(QPointF point1, QPointF point2,
-                                      QPointF point3, QPointF point4,
+bool ShapesWidget::hoverOnRotatePoint(FourPoints mainPoints,
                                       QPointF pos) {
-    QPointF rotatePoint = getRotatePoint(point1, point2, point3, point4);
+    QPointF rotatePoint = getRotatePoint(mainPoints[0], mainPoints[1],
+                                                                        mainPoints[2], mainPoints[3]);
     rotatePoint = QPointF(rotatePoint.x() - 5, rotatePoint.y() - 5);
     bool result = false;
     if (pos.x() >= rotatePoint.x() - SPACING && pos.x() <= rotatePoint.x() + SPACING
@@ -402,63 +379,50 @@ bool ShapesWidget::hoverOnRotatePoint(QPointF point1, QPointF point2,
     return result;
 }
 
+void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)  {
+    if (m_shapes[m_selectedIndex].mainPoints.length() == 4) {
+        for(int i = 0; i < m_shapes[m_selectedIndex].mainPoints.length(); i++) {
+            m_shapes[m_selectedIndex].mainPoints[i] = QPointF(
+                        m_shapes[m_selectedIndex].mainPoints[i].x() + (newPoint.x() - oldPoint.x()),
+                        m_shapes[m_selectedIndex].mainPoints[i].y() + (newPoint.y() - oldPoint.y())
+                        );
+        }
+    }
+}
+
 ////////////////////TODO: perfect handleRotate..
 void ShapesWidget::handleRotate(QPointF pos) {
-    QList<QPointF> tmpFourPoint;
-    tmpFourPoint.append(m_currentSelectedFPoints.point1);
-    tmpFourPoint.append(m_currentSelectedFPoints.point2);
-    tmpFourPoint.append(m_currentSelectedFPoints.point3);
-    tmpFourPoint.append(m_currentSelectedFPoints.point4);
+    FourPoints tmpFourPoint;
+    tmpFourPoint = m_selectedShape.mainPoints;
 
-    QPointF centerInPoint = QPointF((m_currentSelectedFPoints.point1.x() + m_currentSelectedFPoints.point4.x())/2,
-                                  (m_currentSelectedFPoints.point1.y() + m_currentSelectedFPoints.point4.y())/2);
+    QPointF centerInPoint = QPointF((m_selectedShape.mainPoints[0].x() + m_selectedShape.mainPoints[3].x())/2,
+                                                                 (m_selectedShape.mainPoints[0].y()+ m_selectedShape.mainPoints[3].y())/2);
 
     qreal angle = calculateAngle(m_pressedPoint, pos, centerInPoint)/35;
+
     for (int i = 0; i < 4; i++) {
         tmpFourPoint[i] = pointRotate(centerInPoint, tmpFourPoint[i], angle);
     }  
     m_diagPointsList[m_selectedIndex].masterPoint = tmpFourPoint[0];
     m_diagPointsList[m_selectedIndex].deputyPoint = tmpFourPoint[3];
 
-    m_mFPointsList[m_selectedIndex].point1 = tmpFourPoint[0];
-    m_mFPointsList[m_selectedIndex].point2 = tmpFourPoint[1];
-    m_mFPointsList[m_selectedIndex].point3 = tmpFourPoint[2];
-    m_mFPointsList[m_selectedIndex].point4 = tmpFourPoint[3];
-
-    m_currentSelectedFPoints.point1 = tmpFourPoint[0];
-    m_currentSelectedFPoints.point2 = tmpFourPoint[1];
-    m_currentSelectedFPoints.point3 = tmpFourPoint[2];
-    m_currentSelectedFPoints.point4 = tmpFourPoint[3];
-
-    m_currentHoveredFPoints.point1 = tmpFourPoint[0];
-    m_currentHoveredFPoints.point2 = tmpFourPoint[1];
-    m_currentHoveredFPoints.point3 = tmpFourPoint[2];
-    m_currentHoveredFPoints.point4 = tmpFourPoint[3];
+    m_shapes[m_selectedIndex].mainPoints = tmpFourPoint;
+    m_selectedShape.mainPoints = tmpFourPoint;
+    m_hoveredShape.mainPoints = tmpFourPoint;
 
     m_pressedPoint = pos;
 }
 
 void ShapesWidget::handleResize(QPointF pos, int key) {
         if (m_isResize) {
-            QList<QPointF> tmpFourPoint;
-            tmpFourPoint.append(m_currentSelectedFPoints.point1);
-            tmpFourPoint.append(m_currentSelectedFPoints.point2);
-            tmpFourPoint.append(m_currentSelectedFPoints.point3);
-            tmpFourPoint.append(m_currentSelectedFPoints.point4);
+            FourPoints tmpFourPoint;
+            tmpFourPoint = m_selectedShape.mainPoints;
+            qDebug() << "handleResize" << key << tmpFourPoint;
             FourPoints newResizeFPoints = resizePointPosition(tmpFourPoint[0], tmpFourPoint[1],
-                    tmpFourPoint[2], tmpFourPoint[3], pos, key,  m_isShiftPressed);
-            m_mFPointsList[m_selectedIndex].point1 = newResizeFPoints.point1;
-            m_mFPointsList[m_selectedIndex].point2 = newResizeFPoints.point2;
-            m_mFPointsList[m_selectedIndex].point3 = newResizeFPoints.point3;
-            m_mFPointsList[m_selectedIndex].point4 = newResizeFPoints.point4;
-            m_currentSelectedFPoints.point1 = newResizeFPoints.point1;
-            m_currentSelectedFPoints.point2 = newResizeFPoints.point2;
-            m_currentSelectedFPoints.point3 = newResizeFPoints.point3;
-            m_currentSelectedFPoints.point4 = newResizeFPoints.point4;
-            m_currentHoveredFPoints.point1 = newResizeFPoints.point1;
-            m_currentHoveredFPoints.point2 = newResizeFPoints.point2;
-            m_currentHoveredFPoints.point3 = newResizeFPoints.point3;
-            m_currentHoveredFPoints.point4 = newResizeFPoints.point4;
+                                                 tmpFourPoint[2], tmpFourPoint[3], pos, key,  m_isShiftPressed);
+            m_shapes[m_selectedIndex].mainPoints = newResizeFPoints;
+            m_selectedShape.mainPoints = newResizeFPoints;
+            m_hoveredShape.mainPoints = newResizeFPoints;
         }
 }
 
@@ -470,14 +434,15 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
         m_currentDiagPoints.masterPoint = QPoint(0, 0);
         m_currentDiagPoints.deputyPoint = QPoint(0, 0);
         clearSelected();
-        m_currentFPoints.shapeType = m_currentShape;
+
+        m_currentShape.type = m_currentType;
         m_selectedIndex = -1;
         m_isRecording = true;
         if (m_pos1 == QPointF(0, 0)) {
             m_pos1 = e->pos();
             m_currentDiagPoints.masterPoint = m_pos1;
-            if (m_currentShape == "line") {
-                m_currentFPoints.points.append(m_pos1);
+            if (m_currentType == "line") {
+                m_currentShape.points.append(m_pos1);
             }
             update();
         }
@@ -495,29 +460,21 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
         m_currentDiagPoints.deputyPoint = m_pos2;
         m_diagPointsList.append(m_currentDiagPoints);
 
-        if (m_currentShape != "line") {
+        if (m_currentType != "line") {
             FourPoints rectFPoints = fourPointsOnRect(m_currentDiagPoints);
-            m_currentFPoints.point1 = rectFPoints.point1;
-            m_currentFPoints.point2 = rectFPoints.point2;
-            m_currentFPoints.point3 = rectFPoints.point3;
-            m_currentFPoints.point4 = rectFPoints.point4;
-            m_mFPointsList.append(m_currentFPoints);
-
+            m_currentShape.mainPoints = rectFPoints;
+            m_shapes.append(m_currentShape);
         } else {
-            FourPoints lineFPoints = fourPointsOfLine(m_currentFPoints.points);
-            m_currentFPoints.point1 = lineFPoints.point1;
-            m_currentFPoints.point2 = lineFPoints.point2;
-            m_currentFPoints.point3 = lineFPoints.point3;
-            m_currentFPoints.point4 = lineFPoints.point4;
-            m_mFPointsList.append(m_currentFPoints);
-            m_currentFPoints.points.clear();
-            m_currentFPoints.point1 = QPointF(0, 0);
-            m_currentFPoints.point2 = QPointF(0, 0);
-            m_currentFPoints.point3 = QPointF(0, 0);
-            m_currentFPoints.point4 = QPointF(0, 0);
+            FourPoints lineFPoints = fourPointsOfLine(m_currentShape.points);
+            m_currentShape.mainPoints = lineFPoints;
+            m_shapes.append(m_currentShape);
+            m_currentShape.points.clear();
         }
 
-        qDebug() << "ShapesWidget num:" << m_mFPointsList.length();
+        for (int i = 0; i < m_currentShape.mainPoints.length(); i++) {
+            m_currentShape.mainPoints[i] = QPointF(0, 0);
+        }
+        qDebug() << "ShapesWidget num:" << m_shapes.length();
         m_isRecording = false;
         m_isMoving = false;
         m_currentDiagPoints.masterPoint = QPoint(0, 0);
@@ -528,9 +485,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
     m_pos1 = QPointF(0, 0);
     m_pos2 = QPointF(0, 0);
 
-
     update();
-
     QFrame::mouseMoveEvent(e);
 }
 
@@ -541,8 +496,8 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
     if (m_isRecording && m_isPressed) {
         m_pos2 = e->pos();
         m_currentDiagPoints.deputyPoint = m_pos2;
-        if (m_currentFPoints.shapeType == "line") {
-            m_currentFPoints.points.append(m_pos2);
+        if (m_currentShape.type == "line") {
+             m_currentShape.points.append(m_pos2);
         }
         update();
     } else if (!m_isRecording && m_isPressed) {
@@ -559,24 +514,12 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
         }
 
         if (m_isSelected && m_isPressed && m_selectedIndex != -1) {
-            m_mFPointsList[m_selectedIndex].point1 = QPointF(
-                        m_mFPointsList[m_selectedIndex].point1.x() + (m_movingPoint.x() - m_pressedPoint.x()),
-                        m_mFPointsList[m_selectedIndex].point1.y() + (m_movingPoint.y() - m_pressedPoint.y()));
-            m_mFPointsList[m_selectedIndex].point2 = QPointF(
-                        m_mFPointsList[m_selectedIndex].point2.x() + (m_movingPoint.x() - m_pressedPoint.x()),
-                        m_mFPointsList[m_selectedIndex].point2.y() + (m_movingPoint.y() - m_pressedPoint.y()));
-            m_mFPointsList[m_selectedIndex].point3 = QPointF(
-                        m_mFPointsList[m_selectedIndex].point3.x() + (m_movingPoint.x() - m_pressedPoint.x()),
-                        m_mFPointsList[m_selectedIndex].point3.y() + (m_movingPoint.y() - m_pressedPoint.y()));
-            m_mFPointsList[m_selectedIndex].point4 = QPointF(
-                        m_mFPointsList[m_selectedIndex].point4.x() + (m_movingPoint.x() - m_pressedPoint.x()),
-                        m_mFPointsList[m_selectedIndex].point4.y() + (m_movingPoint.y() - m_pressedPoint.y()));
+            handleDrag(m_pressedPoint, m_movingPoint);
+            m_selectedShape.mainPoints = m_shapes[m_selectedIndex].mainPoints;
+            m_hoveredShape.mainPoints = m_shapes[m_selectedIndex].mainPoints;
 
-            m_currentSelectedFPoints = m_mFPointsList[m_selectedIndex];
-            m_currentHoveredFPoints = m_mFPointsList[m_selectedIndex];
-            m_currentSelectedFPoints.shapeType = m_mFPointsList[m_selectedIndex].shapeType;
-            m_currentSelectedDiagPoints.masterPoint = m_mFPointsList[m_selectedIndex].point1;
-            m_currentSelectedDiagPoints.deputyPoint = m_mFPointsList[m_selectedIndex].point4;
+            m_currentSelectedDiagPoints.masterPoint = m_shapes[m_selectedIndex].mainPoints[0];
+            m_currentSelectedDiagPoints.deputyPoint =  m_shapes[m_selectedIndex].mainPoints[3];
 
             m_pressedPoint = e->pos();
             update();
@@ -584,12 +527,11 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
     } else {
         if (!m_isRecording) {
             m_isHovered = false;
-            for (int i = 0; i < m_mFPointsList.length(); i++) {
-                 FourPoints tmpHoverFPoints =  m_mFPointsList[i];
-                 if (hoverOnShapes(tmpHoverFPoints,  e->pos())) {
+            for (int i = 0; i < m_shapes.length(); i++) {
+                 if (hoverOnShapes(m_shapes[i],  e->pos())) {
                      m_isHovered = true;
-                     m_currentHoverDiagPoints = m_diagPointsList[i];
-                     m_currentHoveredFPoints = tmpHoverFPoints;
+                     m_hoveredShape.mainPoints = m_shapes[i].mainPoints;
+                     m_hoveredShape.type = m_shapes[i].type;
                      if (m_resizeDirection == Left) {
                          if (m_isSelected || m_isRotated) {
                             qApp->setOverrideCursor(Qt::SizeHorCursor);
@@ -648,21 +590,21 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
                      update();
                      break;
                  } else {
-                     qApp->setOverrideCursor(setCursorShape(m_currentShape));
+                     qApp->setOverrideCursor(setCursorShape(m_currentType));
                      update();
                  }
             }
             if (!m_isHovered) {
-                m_currentHoveredFPoints.point1 = QPointF(0, 0);
-                m_currentHoveredFPoints.point2 = QPointF(0, 0);
-                m_currentHoveredFPoints.point3 = QPointF(0, 0);
-                m_currentHoveredFPoints.point4 = QPointF(0, 0);
+                for(int j = 0; j < m_hoveredShape.mainPoints.length(); j++) {
+                    m_hoveredShape.mainPoints[j] = QPointF(0, 0);
+                }
+
                 m_currentHoverDiagPoints.masterPoint = QPointF(0, 0);
                 m_currentHoverDiagPoints.deputyPoint = QPointF(0, 0);
                 update();
             }
-            if (m_mFPointsList.length() == 0) {
-                qApp->setOverrideCursor(setCursorShape(m_currentShape));
+            if (m_shapes.length() == 0) {
+                qApp->setOverrideCursor(setCursorShape(m_currentType));
             }
         } else {
             //TODO text
@@ -683,29 +625,28 @@ void ShapesWidget::paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bo
 }
 
 void ShapesWidget::paintRect(QPainter &painter, FourPoints rectFPoints) {
-    painter.drawLine(rectFPoints.point1, rectFPoints.point2);
-    painter.drawLine(rectFPoints.point2, rectFPoints.point4);
-    painter.drawLine(rectFPoints.point4, rectFPoints.point3);
-    painter.drawLine(rectFPoints.point3, rectFPoints.point1);
+    painter.drawLine(rectFPoints[0], rectFPoints[1]);
+    painter.drawLine(rectFPoints[1], rectFPoints[3]);
+    painter.drawLine(rectFPoints[3], rectFPoints[2]);
+    painter.drawLine(rectFPoints[2], rectFPoints[0]);
 }
 
 void ShapesWidget::paintEllipse(QPainter &painter, FourPoints ellipseFPoints) {
-    FourPoints minorPoints = getAnotherFPoints(ellipseFPoints.point1, ellipseFPoints.point2,
-                         ellipseFPoints.point3, ellipseFPoints.point4);
+    FourPoints minorPoints = getAnotherFPoints(ellipseFPoints);
     QList<QPointF> eightControlPoints = getEightControlPoint(ellipseFPoints);
     QPainterPath ellipsePath;
-    ellipsePath.moveTo(minorPoints.point1.x(), minorPoints.point1.y());
-    ellipsePath.cubicTo(eightControlPoints[0], eightControlPoints[1], minorPoints.point2);
-    ellipsePath.cubicTo(eightControlPoints[4], eightControlPoints[5], minorPoints.point3);
-    ellipsePath.cubicTo(eightControlPoints[6], eightControlPoints[7], minorPoints.point4);
-    ellipsePath.cubicTo(eightControlPoints[3], eightControlPoints[2], minorPoints.point1);
+    ellipsePath.moveTo(minorPoints[0].x(), minorPoints[0].y());
+    ellipsePath.cubicTo(eightControlPoints[0], eightControlPoints[1], minorPoints[1]);
+    ellipsePath.cubicTo(eightControlPoints[4], eightControlPoints[5], minorPoints[2]);
+    ellipsePath.cubicTo(eightControlPoints[6], eightControlPoints[7], minorPoints[3]);
+    ellipsePath.cubicTo(eightControlPoints[3], eightControlPoints[2], minorPoints[0]);
     painter.drawPath(ellipsePath);
 }
 
-void ShapesWidget::paintLine(QPainter &painter, FourPoints lineFPoints) {
-    qDebug() << "paintLine:" << lineFPoints.points.length();
-    for (int k = 0; k < lineFPoints.points.length() - 2; k++) {
-        painter.drawLine(lineFPoints.points[k], lineFPoints.points[k+1]);
+void ShapesWidget::paintLine(QPainter &painter, QList<QPointF> lineFPoints) {
+    qDebug() << "paintLine:" << lineFPoints.length();
+    for (int k = 0; k < lineFPoints.length() - 2; k++) {
+        painter.drawLine(lineFPoints[k], lineFPoints[k+1]);
     }
 }
 
@@ -721,64 +662,62 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             m_currentDiagPoints.deputyPoint != QPointF(0, 0)) {
         FourPoints currentFPoint = fourPointsOnRect(m_currentDiagPoints);
 
-        if (m_currentShape == "rectangle") {
+        if (m_currentType == "rectangle") {
             paintRect(painter, currentFPoint);
-        } else if (m_currentShape == "oval") {
+        } else if (m_currentType == "oval") {
             paintEllipse(painter, currentFPoint);
-        } else if (m_currentShape == "line") {
-            paintLine(painter, m_currentFPoints);
+        } else if (m_currentType == "line") {
+            paintLine(painter, m_currentShape.points);
         }
 
     }
 
-    for(int i = 0; i < m_mFPointsList.length(); i++) {
-        if (m_mFPointsList[i].shapeType == "rectangle") {
-            paintRect(painter, m_mFPointsList[i]);
-        } else if (m_mFPointsList[i].shapeType == "oval") {
-            paintEllipse(painter, m_mFPointsList[i]);
-        } else if (m_currentShape == "line") {
-            paintLine(painter, m_mFPointsList[i]);
+    for(int i = 0; i < m_shapes.length(); i++) {
+        if (m_shapes[i].type == "rectangle") {
+            paintRect(painter, m_shapes[i].mainPoints);
+        } else if (m_shapes[i].type == "oval") {
+            paintEllipse(painter, m_shapes[i].mainPoints);
+        } else if (m_currentType == "line") {
+            paintLine(painter, m_shapes[i].points);
         }
     }
 
-    if (m_currentSelectedDiagPoints.masterPoint != QPointF(0, 0) &&
-            m_currentSelectedDiagPoints.deputyPoint != QPointF(0, 0)) {
+    if (m_selectedShape.mainPoints[0] != QPointF(0, 0)) {
         QPixmap resizePointImg(":/resources/images/size/resize_handle_big.png");
-        paintImgPoint(painter, m_currentSelectedFPoints.point1, resizePointImg);
-        paintImgPoint(painter, m_currentSelectedFPoints.point2, resizePointImg);
-        paintImgPoint(painter, m_currentSelectedFPoints.point3, resizePointImg);
-        paintImgPoint(painter, m_currentSelectedFPoints.point4, resizePointImg);
+        for ( int i = 0; i < m_selectedShape.mainPoints.length(); i ++) {
+            paintImgPoint(painter, m_selectedShape.mainPoints[i], resizePointImg);
+        }
 
-        FourPoints anotherFPoints = getAnotherFPoints(m_currentSelectedFPoints.point1,
-       m_currentSelectedFPoints.point2, m_currentSelectedFPoints.point3, m_currentSelectedFPoints.point4);
-        paintImgPoint(painter, anotherFPoints.point1, resizePointImg);
-        paintImgPoint(painter, anotherFPoints.point2, resizePointImg);
-        paintImgPoint(painter, anotherFPoints.point3, resizePointImg);
-        paintImgPoint(painter, anotherFPoints.point4, resizePointImg);
+        FourPoints anotherFPoints = getAnotherFPoints(m_selectedShape.mainPoints);
+        for (int j = 0; j < anotherFPoints.length(); j++) {
+            paintImgPoint(painter, anotherFPoints[j], resizePointImg);
+        }
 
-
-        QPointF rotatePoint = getRotatePoint(m_currentSelectedFPoints.point1, m_currentSelectedFPoints.point2,
-                m_currentSelectedFPoints.point3, m_currentSelectedFPoints.point4);
-        QPointF middlePoint((m_currentSelectedFPoints.point1.x() + m_currentSelectedFPoints.point3.x())/2,
-                           (m_currentSelectedFPoints.point1.y() + m_currentSelectedFPoints.point3.y())/2);
+        QPointF rotatePoint = getRotatePoint(m_selectedShape.mainPoints[0], m_selectedShape.mainPoints[1],
+                m_selectedShape.mainPoints[2], m_selectedShape.mainPoints[3]);
+        QPointF middlePoint((m_selectedShape.mainPoints[0].x() +  m_selectedShape.mainPoints[2].x())/2,
+                           (m_selectedShape.mainPoints[0].y() +  m_selectedShape.mainPoints[2].y())/2);
         painter.setPen(QColor(Qt::white));
         painter.drawLine(rotatePoint, middlePoint);
         QPixmap rotatePointImg(":/resources/images/size/rotate.png");
         paintImgPoint(painter, rotatePoint, rotatePointImg, false);
 
-        if (m_currentSelectedFPoints.shapeType == "oval") {
-            paintRect(painter, m_currentSelectedFPoints);
+        if (m_selectedShape.type == "oval") {
+            qDebug() << "$$$$$";
+            paintRect(painter,  m_selectedShape.mainPoints);
+        } else {
+            qDebug() << "!!!";
         }
     }
 
-    if (m_currentHoverDiagPoints.masterPoint != QPointF(0, 0)) {
+    if (m_hoveredShape.mainPoints[0] != QPointF(0, 0)) {
         pen.setWidth(1);
         pen.setColor(QColor(Qt::white));
         painter.setPen(pen);
-        if (m_currentHoveredFPoints.shapeType == "rectangle") {
-            paintRect(painter, m_currentHoveredFPoints);
-        } else if (m_currentHoveredFPoints.shapeType == "oval") {
-            paintEllipse(painter, m_currentHoveredFPoints);
+        if (m_hoveredShape.type == "rectangle") {
+            paintRect(painter, m_hoveredShape.mainPoints);
+        } else if (m_hoveredShape.type == "oval") {
+            paintEllipse(painter, m_hoveredShape.mainPoints);
         }
     }
 }
@@ -787,7 +726,7 @@ bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
     Q_UNUSED(watched);
 
     if (event->type() == QEvent::Enter) {
-        qApp->setOverrideCursor(setCursorShape(m_currentShape));
+        qApp->setOverrideCursor(setCursorShape(m_currentType));
     }
 
     if (event->type() == QKeyEvent::KeyPress) {

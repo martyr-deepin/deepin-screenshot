@@ -29,28 +29,21 @@ public slots:
     void setPenColor(QColor color);
     void clearSelected();
 
+    void handleDrag(QPointF oldPoint, QPointF newPoint);
     void handleRotate(QPointF pos);
     void handleResize(QPointF pos, int key);
-    bool clickedOnShapes(QPointF pos);
-    bool clickedOnRectPoint(QPointF point1, QPointF point2,
-                        QPointF point3, QPointF point4, QPointF pos);
 
-    bool clickedOnEllipsePoint(QPointF point1, QPointF point2,
-                               QPointF point3, QPointF point4, QPointF pos);
-    bool rotateOnPoint(QPointF point1, QPointF point2,
-                       QPointF point3, QPointF point4,
-                       QPointF pos);
-    bool hoverOnRotatePoint(QPointF point1, QPointF point2,
-                            QPointF point3, QPointF point4,
-                            QPointF pos);
-    bool hoverOnShapes(FourPoints fourPoints,
-                       QPointF pos);
-    bool hoverOnRect(QPointF point1, QPointF point2,
-                     QPointF point3, QPointF point4,
-                     QPointF pos);
-    bool hoverOnEllipse(QPointF point1, QPointF point2,
-                        QPointF point3, QPointF point4,
-                        QPointF pos);
+    bool clickedOnShapes(QPointF pos);
+    bool clickedOnRectPoint(FourPoints rectPoints, QPointF pos);
+    bool clickedOnEllipsePoint(FourPoints mainPoints, QPointF pos);
+
+    bool rotateOnPoint(FourPoints mainPoints, QPointF pos);
+
+    bool hoverOnShapes(Toolshape toolShape, QPointF pos);
+    bool hoverOnRect(FourPoints rectPoints, QPointF pos);
+    bool hoverOnEllipse(FourPoints mainPoints, QPointF pos);
+    bool hoverOnRotatePoint(FourPoints mainPoints, QPointF pos);
+
 protected:
     void mousePressEvent(QMouseEvent* e);
     void mouseReleaseEvent(QMouseEvent* e);
@@ -78,7 +71,7 @@ private:
     ClickedKey m_clickedKey;
 
     int m_selectedIndex;
-    QString m_currentShape = "rectangle";
+    QString m_currentType = "rectangle";
     QColor m_penColor;
 
     DiagPointsList m_diagPointsList;
@@ -86,15 +79,15 @@ private:
     DiagPoints m_currentHoverDiagPoints;
     DiagPoints m_currentSelectedDiagPoints;
 
-    FourPoints m_currentFPoints;
+    Toolshape m_currentShape;
+    Toolshape m_selectedShape;
+    Toolshape m_hoveredShape;
 
-    FourPoints m_currentSelectedFPoints;
-    FourPoints m_currentHoveredFPoints;
-    MPointsList m_mFPointsList;
+    Toolshapes m_shapes;
 
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
     void paintRect(QPainter &painter, FourPoints rectFPoints);
     void paintEllipse(QPainter &painter, FourPoints ellipseFPoints);
-    void paintLine(QPainter &painter, FourPoints lineFPoints);
+    void paintLine(QPainter &painter, QList<QPointF> lineFPoints);
 };
 #endif // SHAPESWIDGET_H

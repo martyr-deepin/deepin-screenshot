@@ -33,49 +33,11 @@ DiagPoints DiagPoints::operator=(DiagPoints obj){
     return (*this);
 }
 
-FourPoints::FourPoints() {
-}
-
-FourPoints::~FourPoints() {
-}
-
-void FourPoints::registerMetaType() {
-    qRegisterMetaType<FourPoints>();
-}
-
-QDebug &operator<<(QDebug &argument, const FourPoints &obj) {
-    argument.nospace()
-            << obj.point1 << ","
-            << obj.point2 << ","
-            << obj.point3 << ","
-            << obj.point4  << ","
-            << obj.shapeType << ","
-            << obj.points;
-    return argument.space();
-}
-
-QDataStream &operator>>(QDataStream &in, FourPoints &obj) {
-    in >> obj.points;
-    in >> obj.shapeType;
-    in >> obj.point4;
-    in >> obj.point3;
-    in >> obj.point2;
-    in >> obj.point1;
-    return in;
-}
-
-FourPoints FourPoints::operator=(FourPoints obj) {
-    point1 = obj.point1;
-    point2 = obj.point2;
-    point3 = obj.point3;
-    point4 = obj.point4;
-    shapeType = obj.shapeType;
-    obj.points = obj.points;
-    return (*this);
-}
-
-/* define ToolShape     */
 Toolshape::Toolshape() {
+    mainPoints.append(QPointF(0, 0));
+    mainPoints.append(QPointF(0, 0));
+    mainPoints.append(QPointF(0, 0));
+    mainPoints.append(QPointF(0, 0));
 }
 
 Toolshape::~Toolshape() {

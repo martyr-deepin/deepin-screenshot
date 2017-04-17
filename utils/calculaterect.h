@@ -23,6 +23,8 @@ QPointF  pointSplid(QPointF point1, QPointF point2, qreal padding);
 /* get the rotate point by four points in a rectangle*/
 QPointF  getRotatePoint(QPointF point1, QPointF point2,
                              QPointF point3, QPointF point4);
+/* init FourPoints*/
+FourPoints initFourPoints(FourPoints fourPoints);
 
 /* get the four points from a rectangle which isn't rotated!*/
 FourPoints  fourPointsOnRect(DiagPoints diagPoints);
@@ -43,8 +45,7 @@ qreal   pointToLineDistance(QPointF point1, QPointF point2, QPointF point3);
 qreal pointLineDir(QPointF point1, QPointF point2, QPointF point3);
 
 /*get another four points in rectangle (Top/Bottom/Left/Right) */
-FourPoints getAnotherFPoints(QPointF point1, QPointF point2,
-                             QPointF point3, QPointF point4);
+FourPoints getAnotherFPoints(FourPoints mainPoints);
 
 /* calculate the control point of the beizer */
 QPointF getControlPoint(QPointF point1, QPointF point2, bool direction) ;

@@ -25,29 +25,8 @@ typedef QList<DiagPoints> DiagPointsList;
 Q_DECLARE_METATYPE(DiagPoints)
 Q_DECLARE_METATYPE(DiagPointsList)
 
-class FourPoints {
-public:
-    QPointF point1;
-    QPointF point2;
-    QPointF point3;
-    QPointF point4;
-    QString shapeType;
-    QList<QPointF> points = QList<QPointF>();
-
-    FourPoints();
-    ~FourPoints();
-
-    friend QDebug &operator<<(QDebug &argument, const FourPoints &obj);
-    friend QDataStream &operator>>(QDataStream &in, FourPoints &obj);
-    FourPoints operator=(FourPoints obj);
-
-    static void registerMetaType();
-};
-
-//typedef QList<QPointF> FourPoints;
-typedef QList <FourPoints> MPointsList;
+typedef QList<QPointF> FourPoints;
 Q_DECLARE_METATYPE(FourPoints)
-Q_DECLARE_METATYPE(MPointsList)
 
 /* shape*/
 class Toolshape {
