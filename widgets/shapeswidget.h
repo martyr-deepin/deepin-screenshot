@@ -23,6 +23,7 @@ public:
         Seventh,
         Eighth,
     };
+
 public slots:
     void setCurrentShape(QString shapeType);
     void setPenColor(QColor color);

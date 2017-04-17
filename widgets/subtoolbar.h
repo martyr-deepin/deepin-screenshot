@@ -24,6 +24,8 @@ signals:
     void setCurrentColor(QColor color);
 
 private:
+    int m_lineWidth;
+
     QLabel* m_rectLabel;
     QLabel* m_arrowLabel;
     QLabel* m_lineLabel;
