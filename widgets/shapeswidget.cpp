@@ -331,7 +331,7 @@ bool ShapesWidget::clickedOnLinePoint(FourPoints mainPoints,
         m_resizeDirection = Bottom;
         m_pressedPoint = pos;
         return true;
-    } else if (rotateOnPoint(points, pos)) {
+    } else if (rotateOnPoint(mainPoints, pos)) {
         m_isSelected = true;
         m_isRotated = true;
         m_isResize = false;
@@ -535,24 +535,23 @@ void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)  {
 
 ////////////////////TODO: perfect handleRotate..
 void ShapesWidget::handleRotate(QPointF pos) {
-    FourPoints tmpFourPoint;
-    tmpFourPoint = m_selectedShape.mainPoints;
-
     QPointF centerInPoint = QPointF((m_selectedShape.mainPoints[0].x() + m_selectedShape.mainPoints[3].x())/2,
                                                                  (m_selectedShape.mainPoints[0].y()+ m_selectedShape.mainPoints[3].y())/2);
 
     qreal angle = calculateAngle(m_pressedPoint, pos, centerInPoint)/35;
 
     for (int i = 0; i < 4; i++) {
-        tmpFourPoint[i] = pointRotate(centerInPoint, tmpFourPoint[i], angle);
+        m_shapes[m_selectedIndex].mainPoints[i] = pointRotate(centerInPoint,
+                                                              m_shapes[m_selectedIndex].mainPoints[i], angle);
     }  
-    m_diagPointsList[m_selectedIndex].masterPoint = tmpFourPoint[0];
-    m_diagPointsList[m_selectedIndex].deputyPoint = tmpFourPoint[3];
 
-    m_shapes[m_selectedIndex].mainPoints = tmpFourPoint;
-    m_selectedShape.mainPoints = tmpFourPoint;
-    m_hoveredShape.mainPoints = tmpFourPoint;
+    for(int k = 0; k < m_shapes[m_selectedIndex].points.length(); k++) {
+        m_shapes[m_selectedIndex].points[k] = pointRotate(centerInPoint,
+                                                              m_shapes[m_selectedIndex].points[k], angle);
+    }
 
+    m_selectedShape.mainPoints = m_shapes[m_selectedIndex].mainPoints;
+    m_hoveredShape.mainPoints =  m_shapes[m_selectedIndex].mainPoints;
     m_pressedPoint = pos;
 }
 
