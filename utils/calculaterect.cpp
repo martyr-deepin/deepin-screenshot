@@ -139,27 +139,29 @@ FourPoints fourPointsOnRect(DiagPoints diagPoints) {
 
 /* get the four points from a line */
 FourPoints fourPointsOfLine(QList<QPointF> points) {
-    QPointF minPointF(0, 0);
-    QPointF maxPointF(0, 0);
-    foreach (QPointF point, points) {
-        minPointF.setX(std::min(minPointF.x(), point.x()));
-        minPointF.setY(std::min(minPointF.y(), point.y()));
-        maxPointF.setX(std::max(maxPointF.x(), point.y()));
-        maxPointF.setY(std::max(maxPointF.y(), point.y()));
+    FourPoints resultFPoint;
+    resultFPoint = initFourPoints(resultFPoint);
+    if (points.length() < 2) {
+        return initFourPoints(resultFPoint);
     }
 
-    FourPoints resultFPoint;
-    resultFPoint.append(minPointF);
-    resultFPoint.append(QPointF(minPointF.x(), maxPointF.y()));
-    resultFPoint.append(QPointF(maxPointF.x(), minPointF.y()));
-    resultFPoint.append(maxPointF);
+    QPointF minPointF = points[0];
+    QPointF maxPointF = points[0];
+    foreach (QPointF point, points) {
+        minPointF = QPointF(std::min(minPointF.x(), point.x()), std::min(minPointF.y(), point.y()));
+        maxPointF = QPointF(std::max(maxPointF.x(), point.x()), std::max(maxPointF.y(), point.y()));
+    }
+
+    resultFPoint[0] = minPointF;
+    resultFPoint[1] = QPointF(minPointF.x(), maxPointF.y());
+    resultFPoint[2] = QPointF(maxPointF.x(), minPointF.y());
+    resultFPoint[3] = maxPointF;
     return resultFPoint;
 }
 FourPoints getAnotherFPoints(FourPoints mainPoints) {
-
 FourPoints  otherFPoints;
+otherFPoints = initFourPoints(otherFPoints);
 if (mainPoints.length() != 4) {
-    qDebug() << "UUUUUUUUUU";
     return otherFPoints;
 }
 otherFPoints.append(QPoint((mainPoints[0].x() + mainPoints[1].x())/2,
@@ -322,6 +324,19 @@ bool pointOnEllipse(FourPoints rectFPoints, QPointF pos) {
     } else {
         return false;
     }
+}
+
+/* judge whether the pos is on the points of arbitrary- curved*/
+bool pointOnArLine(QList<QPointF> points, QPointF pos) {
+    for(int i = 0; i < points.length(); i++) {
+        if (pointClickIn(points[i], pos)) {
+            return true;
+        } else {
+            continue;
+        }
+    }
+
+    return false;
 }
 
 /* init FourPoints*/

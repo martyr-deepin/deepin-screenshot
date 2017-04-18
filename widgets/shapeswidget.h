@@ -36,12 +36,14 @@ public slots:
     bool clickedOnShapes(QPointF pos);
     bool clickedOnRectPoint(FourPoints rectPoints, QPointF pos);
     bool clickedOnEllipsePoint(FourPoints mainPoints, QPointF pos);
+    bool clickedOnLinePoint(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
 
     bool rotateOnPoint(FourPoints mainPoints, QPointF pos);
 
     bool hoverOnShapes(Toolshape toolShape, QPointF pos);
     bool hoverOnRect(FourPoints rectPoints, QPointF pos);
     bool hoverOnEllipse(FourPoints mainPoints, QPointF pos);
+    bool hoverOnLine(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
     bool hoverOnRotatePoint(FourPoints mainPoints, QPointF pos);
 
 protected:
