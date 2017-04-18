@@ -83,16 +83,16 @@ void SubToolBar::initArrowLabel() {
     QButtonGroup*  arrowBtnGroup = new QButtonGroup();
     arrowBtnGroup->setExclusive(true);
     //rectangle, oval...
-    ToolButton* fineLine = new ToolButton();
-    fineLine->setObjectName("FineLine");
-    arrowBtnGroup->addButton(fineLine);
-    ToolButton*  mediumLine = new ToolButton();
-    mediumLine->setObjectName("MediumLine");
-    mediumLine->setChecked(true);
-    arrowBtnGroup->addButton(mediumLine);
-    ToolButton* thickLine = new ToolButton();
-    thickLine->setObjectName("ThickLine");
-    arrowBtnGroup->addButton(thickLine);
+    ToolButton* arrowFineLine = new ToolButton();
+    arrowFineLine->setObjectName("ArrowFineLine");
+    arrowBtnGroup->addButton(arrowFineLine);
+    ToolButton*  arrowMediumLine = new ToolButton();
+    arrowMediumLine->setObjectName("ArrowMediumLine");
+    arrowMediumLine->setChecked(true);
+    arrowBtnGroup->addButton(arrowMediumLine);
+    ToolButton* arrowThickLine = new ToolButton();
+    arrowThickLine->setObjectName("ArrowThickLine");
+    arrowBtnGroup->addButton(arrowThickLine);
     //seperator line...
     QLabel* vSeperatorLine = new QLabel();
     vSeperatorLine->setFixedSize(1, 16);
@@ -103,9 +103,9 @@ void SubToolBar::initArrowLabel() {
     QHBoxLayout* arrowLayout = new QHBoxLayout();
     arrowLayout->setMargin(0);
     arrowLayout->setSpacing(2);
-    arrowLayout->addWidget(fineLine);
-    arrowLayout->addWidget(mediumLine);
-    arrowLayout->addWidget(thickLine);
+    arrowLayout->addWidget(arrowFineLine);
+    arrowLayout->addWidget(arrowMediumLine);
+    arrowLayout->addWidget(arrowThickLine);
     arrowLayout->addSpacing(2);
     arrowLayout->addWidget(vSeperatorLine);
     arrowLayout->addSpacing(2);
@@ -261,7 +261,7 @@ void SubToolBar::switchContent(QString shapeType) {
         setCurrentWidget(m_rectLabel);
     }   else if (shapeType == "arrow") {
         setCurrentWidget(m_arrowLabel);
-    } else if (shapeType == "pen") {
+    } else if (shapeType == "line") {
         setCurrentWidget(m_lineLabel);
     } else if (shapeType == "text") {
         setCurrentWidget(m_textLabel);

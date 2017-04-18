@@ -560,8 +560,8 @@ void ShapesWidget::handleResize(QPointF pos, int key) {
         qDebug() << "handleResize" << key;
         if (m_shapes[m_selectedIndex].portion.isEmpty()) {
             for(int k = 0; k < m_shapes[m_selectedIndex].points.length(); k++) {
-                m_shapes[m_selectedIndex].portion.append(relativePosition(m_selectedShape.mainPoints,
-                                                                          m_selectedShape.points[k]));
+                m_shapes[m_selectedIndex].portion.append(relativePosition(
+                m_selectedShape.mainPoints, m_selectedShape.points[k]));
             }
         }
 
