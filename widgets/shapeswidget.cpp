@@ -611,6 +611,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
             FourPoints lineFPoints = fourPointsOfLine(m_currentShape.points);
             m_currentShape.mainPoints = lineFPoints;
             m_shapes.append(m_currentShape);
+
             m_currentShape.points.clear();
         }
 

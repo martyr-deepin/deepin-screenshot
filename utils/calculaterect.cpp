@@ -115,11 +115,7 @@ QPointF getRotatePoint(QPointF point1, QPointF point2, QPointF point3, QPointF p
 
 FourPoints fourPointsOnRect(DiagPoints diagPoints) {
     FourPoints  fourPoints;
-    fourPoints.clear();
-    fourPoints.append(QPointF(0, 0));
-    fourPoints.append(QPointF(0, 0));
-    fourPoints.append(QPointF(0, 0));
-    fourPoints.append(QPointF(0, 0));
+    fourPoints = initFourPoints(fourPoints);
     QPointF point1 = QPointF(std::min(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
                            std::min(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
     QPointF point2 = QPointF(std::min(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
@@ -164,14 +160,14 @@ otherFPoints = initFourPoints(otherFPoints);
 if (mainPoints.length() != 4) {
     return otherFPoints;
 }
-otherFPoints.append(QPoint((mainPoints[0].x() + mainPoints[1].x())/2,
-                                                      (mainPoints[0].y() + mainPoints[1].y())/2));
-otherFPoints.append(QPoint((mainPoints[0].x() + mainPoints[2].x())/2,
-                                                      (mainPoints[0].y() + mainPoints[2].y())/2));
-otherFPoints.append(QPoint((mainPoints[2].x() + mainPoints[3].x())/2,
-                                                      (mainPoints[2].y() + mainPoints[3].y())/2));
-otherFPoints.append(QPoint((mainPoints[1].x() + mainPoints[3].x())/2,
-                                                      (mainPoints[1].y() + mainPoints[3].y())/2));
+otherFPoints[0] = QPoint((mainPoints[0].x() + mainPoints[1].x())/2,
+                                              (mainPoints[0].y() + mainPoints[1].y())/2);
+otherFPoints[1] = QPoint((mainPoints[0].x() + mainPoints[2].x())/2,
+                                              (mainPoints[0].y() + mainPoints[2].y())/2);
+otherFPoints[2] = QPoint((mainPoints[2].x() + mainPoints[3].x())/2,
+                                              (mainPoints[2].y() + mainPoints[3].y())/2);
+otherFPoints[3] = (QPoint((mainPoints[1].x() + mainPoints[3].x())/2,
+                                              (mainPoints[1].y() + mainPoints[3].y())/2));
 qDebug() << otherFPoints.length();
 return otherFPoints;
 }
