@@ -599,7 +599,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
         if (m_pos1 == QPointF(0, 0)) {
             m_pos1 = e->pos();
             m_currentDiagPoints.masterPoint = m_pos1;
-            if (m_currentType == "line") {
+            if (m_currentType == "line" || m_currentType == "arrow") {
                 m_currentShape.points.append(m_pos1);
             }
             update();
@@ -618,15 +618,21 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
         m_currentDiagPoints.deputyPoint = m_pos2;
         m_diagPointsList.append(m_currentDiagPoints);
 
-        if (m_currentType != "line") {
-            FourPoints rectFPoints = fourPointsOnRect(m_currentDiagPoints);
-            m_currentShape.mainPoints = rectFPoints;
-            m_shapes.append(m_currentShape);
-        } else {
+        if (m_currentType == "arrow") {
+            if (m_currentShape.points.length() == 2) {
+                m_currentShape.points[1] = m_pos2;
+                m_shapes.append(m_currentShape);
+                m_currentShape.points.clear();
+            }
+        } else if (m_currentType == "line") {
             FourPoints lineFPoints = fourPointsOfLine(m_currentShape.points);
             m_currentShape.mainPoints = lineFPoints;
             m_shapes.append(m_currentShape);
-
+            m_currentShape.points.clear();
+        } else {
+            FourPoints rectFPoints = fourPointsOnRect(m_currentDiagPoints);
+            m_currentShape.mainPoints = rectFPoints;
+            m_shapes.append(m_currentShape);
             m_currentShape.points.clear();
         }
 
@@ -655,6 +661,13 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
     if (m_isRecording && m_isPressed) {
         m_pos2 = e->pos();
         m_currentDiagPoints.deputyPoint = m_pos2;
+        if (m_currentShape.type == "arrow") {
+            if (m_currentShape.points.length() <=1) {
+                m_currentShape.points.append(m_pos2);
+            } else {
+                m_currentShape.points[1] = m_pos2;
+            }
+        }
         if (m_currentShape.type == "line") {
              m_currentShape.points.append(m_pos2);
         }
@@ -801,6 +814,22 @@ void ShapesWidget::paintEllipse(QPainter &painter, FourPoints ellipseFPoints) {
     painter.drawPath(ellipsePath);
 }
 
+void ShapesWidget::paintArrow(QPainter &painter, QList<QPointF> lineFPoints) {
+    if (lineFPoints.length() == 2) {
+        QList<QPointF> arrowPoints = pointOfArrow(lineFPoints[0], lineFPoints[1], 16);
+        QPainterPath path;
+        if (arrowPoints.length() >=3) {
+            painter.drawLine(lineFPoints[0], arrowPoints[2]);
+            path.moveTo(arrowPoints[2].x(), arrowPoints[2].y());
+            path.lineTo(arrowPoints[0].x(), arrowPoints[0].y());
+            path.lineTo(arrowPoints[1].x(), arrowPoints[1].y());
+            path.lineTo(arrowPoints[2].x(), arrowPoints[2].y());
+        }
+        painter.drawPath(path);
+        painter.fillPath(path, QBrush(QColor(m_penColor)));
+    }
+}
+
 void ShapesWidget::paintLine(QPainter &painter, QList<QPointF> lineFPoints) {
     for (int k = 0; k < lineFPoints.length() - 2; k++) {
         painter.drawLine(lineFPoints[k], lineFPoints[k+1]);
@@ -818,22 +847,26 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     if (m_currentDiagPoints.masterPoint != QPointF(0, 0) &&
             m_currentDiagPoints.deputyPoint != QPointF(0, 0)) {
         FourPoints currentFPoint = fourPointsOnRect(m_currentDiagPoints);
-
         if (m_currentType == "rectangle") {
             paintRect(painter, currentFPoint);
         } else if (m_currentType == "oval") {
             paintEllipse(painter, currentFPoint);
+        } else if (m_currentType == "arrow") {
+            paintArrow(painter, m_currentShape.points);
         } else if (m_currentType == "line") {
             paintLine(painter, m_currentShape.points);
         }
     }
 
     for(int i = 0; i < m_shapes.length(); i++) {
+        qDebug() << m_shapes.length() << i << m_shapes[i].type;
         if (m_shapes[i].type == "rectangle") {
             paintRect(painter, m_shapes[i].mainPoints);
         } else if (m_shapes[i].type == "oval") {
             paintEllipse(painter, m_shapes[i].mainPoints);
-        } else if (m_currentType == "line") {
+        } else if (m_shapes[i].type == "arrow") {
+            paintArrow(painter, m_shapes[i].points);
+        } else if (m_shapes[i].type == "line") {
             paintLine(painter, m_shapes[i].points);
         }
     }

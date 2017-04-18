@@ -16,7 +16,7 @@ namespace {
 MajToolBar::MajToolBar(QWidget *parent)
     : QLabel(parent),
       m_isChecked(false),
-      m_currentShape("")
+      m_currentShape("rectangle")
 {
     initWidgets();
 }

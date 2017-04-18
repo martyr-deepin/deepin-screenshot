@@ -495,6 +495,7 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
 void MainWindow::initShapeWidget(QString type) {
     qDebug() << "show shapesWidget";
     m_shapesWidget = new ShapesWidget(this);
+    m_shapesWidget->setCurrentShape(type);
     m_shapesWidget->setFixedSize(m_recordWidth, m_recordHeight);
     m_shapesWidget->move(m_recordX, m_recordY);
     m_shapesWidget->show();

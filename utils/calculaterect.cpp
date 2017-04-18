@@ -1,4 +1,5 @@
 #include "calculaterect.h"
+#include <cmath>
 
 const int padding = 2;
 const int ROTATEPOINT_PADDING = 30;
@@ -321,6 +322,35 @@ bool pointOnEllipse(FourPoints rectFPoints, QPointF pos) {
     } else {
         return false;
     }
+}
+
+/* get the three points of arrow A/B/D */
+QList<QPointF> pointOfArrow(QPointF startPoint, QPointF endPoint, qreal arrowLength) {
+    qreal xMultiplier, yMultiplier;
+    if (startPoint.x() == endPoint.x()) {
+        xMultiplier = 1;
+    } else {
+        xMultiplier = (startPoint.x() - endPoint.x())/std::abs(startPoint.x() - endPoint.x());
+    }
+
+    if (startPoint.y() == endPoint.y()) {
+        yMultiplier = 1;
+    } else {
+        yMultiplier = (startPoint.y() - endPoint.y())/std::abs(startPoint.y() - endPoint.y());
+    }
+
+    QPointF add = pointSplid(startPoint, endPoint, arrowLength);
+    QPointF pointA = QPointF(endPoint.x() + xMultiplier*add.x(), endPoint.y() + yMultiplier*add.y());
+    qreal angle = qreal(M_PI/12);
+    QPointF pointB = pointRotate(endPoint, pointA, angle);
+    QPointF pointD = pointRotate(endPoint, pointA,  angle*11+ M_PI);
+    add = pointSplid(startPoint, endPoint, arrowLength/8);
+    QPointF pointE = QPointF(endPoint.x() + xMultiplier*add.x(), endPoint.y() + yMultiplier*add.y());
+    QList<QPointF> arrowPoints;
+    arrowPoints.append(pointB);
+    arrowPoints.append(pointD);
+    arrowPoints.append(pointE);
+    return arrowPoints;
 }
 
 /* judge whether the pos is on the points of arbitrary- curved*/

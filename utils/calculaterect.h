@@ -63,6 +63,9 @@ bool pointOnEllipse(FourPoints rectFPoints, QPointF pos);
 
 /* judge whether the clickOnPoint is in the ellipse*/
 
+/* get the three points of arrow A/B/D */
+QList<QPointF> pointOfArrow(QPointF startPoint, QPointF endPoint, qreal arrowLength);
+
 /* judge whether the pos is on the points*/
 bool pointOnArLine(QList<QPointF> points, QPointF pos);
 
