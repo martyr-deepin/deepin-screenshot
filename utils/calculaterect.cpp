@@ -136,6 +136,7 @@ FourPoints fourPointsOnRect(DiagPoints diagPoints) {
 /* get the four points from a line */
 FourPoints fourPointsOfLine(QList<QPointF> points) {
     FourPoints resultFPoint;
+    const int MIN_PADDING = 10;
     resultFPoint = initFourPoints(resultFPoint);
     if (points.length() < 2) {
         return initFourPoints(resultFPoint);
@@ -148,10 +149,10 @@ FourPoints fourPointsOfLine(QList<QPointF> points) {
         maxPointF = QPointF(std::max(maxPointF.x(), point.x()), std::max(maxPointF.y(), point.y()));
     }
 
-    resultFPoint[0] = minPointF;
-    resultFPoint[1] = QPointF(minPointF.x(), maxPointF.y());
-    resultFPoint[2] = QPointF(maxPointF.x(), minPointF.y());
-    resultFPoint[3] = maxPointF;
+    resultFPoint[0] = QPointF(minPointF.x() - MIN_PADDING, minPointF.y() - MIN_PADDING);
+    resultFPoint[1] = QPointF(minPointF.x() - MIN_PADDING, maxPointF.y() + MIN_PADDING);
+    resultFPoint[2] = QPointF(maxPointF.x() + MIN_PADDING, minPointF.y() - MIN_PADDING);
+    resultFPoint[3] = QPointF(maxPointF.x() + MIN_PADDING, maxPointF.y() + MIN_PADDING);
     return resultFPoint;
 }
 FourPoints getAnotherFPoints(FourPoints mainPoints) {
@@ -333,6 +334,74 @@ bool pointOnArLine(QList<QPointF> points, QPointF pos) {
     }
 
     return false;
+}
+
+/* resize arbitrary curved */
+QList<qreal> relativePosition(FourPoints mainPoints,  QPointF pos) {
+    if (mainPoints.length() != 4) {
+        return QList<qreal>();
+    }
+    qreal firstRelaPosit, secondRelaPosit;
+    qreal distance12 = pointToLineDistance(mainPoints[0], mainPoints[1], pos);
+    qreal distance34 = pointToLineDistance(mainPoints[2], mainPoints[3], pos);
+    qreal distance13 = pointToLineDistance(mainPoints[0], mainPoints[2], pos);
+    qreal distance24 = pointToLineDistance(mainPoints[1], mainPoints[3], pos);
+
+    if (distance34 == 0) {
+        firstRelaPosit = -2;
+    } else {
+        firstRelaPosit = distance12/distance34;
+    }
+
+    if (distance24 == 0) {
+        secondRelaPosit = -2;
+    } else {
+        secondRelaPosit = distance13/distance24;
+    }
+    QList<qreal> relativePosit;
+    relativePosit.append(0);
+    relativePosit.append(0);
+    relativePosit[0] = firstRelaPosit;
+    relativePosit[1] = secondRelaPosit;
+    return relativePosit;
+}
+
+QPointF           getNewPosition(FourPoints mainPoints, QList<qreal> re) {
+    qreal changeX, changeY;
+
+    if (re[0] == -2) {
+        changeX = mainPoints[2].x();
+        changeY = (mainPoints[0].y() + re[1]*mainPoints[1].y())/(1 + re[1]);
+    }
+    if (re[1] == -2) {
+        changeX = (mainPoints[1].x() + re[0]*mainPoints[3].x())/(1 + re[0]);
+        changeY = mainPoints[1].y();
+    }
+    if (re[0] != -2 && re[1] != -2) {
+        QPointF pointi = QPointF((mainPoints[1].x() + re[0]*mainPoints[3].x())/(1 + re[0]),
+                                                       (mainPoints[1].y() + re[0]*mainPoints[3].y())/(1 + re[0]));
+        QPointF pointj = QPointF((mainPoints[0].x() + re[1]*mainPoints[1].x())/(1 + re[1]),
+                                                       (mainPoints[0].y() + re[1]*mainPoints[1].y())/(1 + re[1]));
+        if (mainPoints[0].x() == mainPoints[1].x()) {
+            changeX = pointi.x();
+            changeY = pointj.y();
+        }
+        if (mainPoints[0].x() == mainPoints[2].x()) {
+            changeX = pointj.x();
+            changeY = pointi.y();
+        }
+        if (mainPoints[0].x() != mainPoints[1].x() && mainPoints[0].x() != mainPoints[2].x()) {
+            qreal k1 = (mainPoints[0].y() - mainPoints[1].y())/(mainPoints[0].x() - mainPoints[1].x());
+            qreal b1 = pointi.y() - k1*pointi.x();
+
+            qreal k2 = (mainPoints[0].y() - mainPoints[2].y())/(mainPoints[0].x() - mainPoints[2].x());
+            qreal b2 = pointj.y() - k2*pointj.x();
+
+            changeX = (b1 - b2)/(k2 - k1);
+            changeY = changeX*k1 + b1;
+        }
+    }
+    return QPointF(changeX, changeY);
 }
 
 /* init FourPoints*/

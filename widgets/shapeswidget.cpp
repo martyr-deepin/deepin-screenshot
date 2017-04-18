@@ -556,16 +556,32 @@ void ShapesWidget::handleRotate(QPointF pos) {
 }
 
 void ShapesWidget::handleResize(QPointF pos, int key) {
-        if (m_isResize) {
-            FourPoints tmpFourPoint;
-            tmpFourPoint = m_selectedShape.mainPoints;
-            qDebug() << "handleResize" << key << tmpFourPoint;
-            FourPoints newResizeFPoints = resizePointPosition(tmpFourPoint[0], tmpFourPoint[1],
-                                                 tmpFourPoint[2], tmpFourPoint[3], pos, key,  m_isShiftPressed);
-            m_shapes[m_selectedIndex].mainPoints = newResizeFPoints;
-            m_selectedShape.mainPoints = newResizeFPoints;
-            m_hoveredShape.mainPoints = newResizeFPoints;
+    if (m_isResize) {
+        qDebug() << "handleResize" << key;
+        if (m_shapes[m_selectedIndex].portion.isEmpty()) {
+            for(int k = 0; k < m_shapes[m_selectedIndex].points.length(); k++) {
+                m_shapes[m_selectedIndex].portion.append(relativePosition(m_selectedShape.mainPoints,
+                                                                          m_selectedShape.points[k]));
+            }
         }
+
+        FourPoints newResizeFPoints = resizePointPosition(m_shapes[m_selectedIndex].mainPoints[0],
+                m_shapes[m_selectedIndex].mainPoints[1], m_shapes[m_selectedIndex].mainPoints[2],
+                m_shapes[m_selectedIndex].mainPoints[3], pos, key);
+
+        m_shapes[m_selectedIndex].mainPoints = newResizeFPoints;
+        m_selectedShape.mainPoints = newResizeFPoints;
+        m_hoveredShape.mainPoints = newResizeFPoints;
+
+        for (int j = 0; j <  m_shapes[m_selectedIndex].portion.length(); j++) {
+              m_shapes[m_selectedIndex].points[j] =
+                      getNewPosition(m_shapes[m_selectedIndex].mainPoints,
+                                     m_shapes[m_selectedIndex].portion[j]);
+        }
+
+        m_selectedShape.points = m_shapes[m_selectedIndex].points;
+        m_hoveredShape.points = m_shapes[m_selectedIndex].points;
+    }
 }
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e) {

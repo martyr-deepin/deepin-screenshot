@@ -39,7 +39,7 @@ public:
      bool isMosaic = false;
      int fontSize = 1;
     QList<QPointF> points;
-
+    QList<QList<qreal>> portion;
     Toolshape();
     ~Toolshape();
 

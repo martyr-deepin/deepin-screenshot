@@ -66,6 +66,10 @@ bool pointOnEllipse(FourPoints rectFPoints, QPointF pos);
 /* judge whether the pos is on the points*/
 bool pointOnArLine(QList<QPointF> points, QPointF pos);
 
+/* resize arbitrary curved */
+QList<qreal> relativePosition(FourPoints mainPoints, QPointF pos);
+QPointF           getNewPosition(FourPoints mainPoints, QList<qreal> re);
+
 //bool pointInEllipse(QPointF point1, QPointF point2, QPointF point3, QPointF point4, QPointF pos);
 /* handle resize of eight points in rectangle */
 FourPoints resizePointPosition(QPointF point1, QPointF point2, QPointF point3, QPointF point4,

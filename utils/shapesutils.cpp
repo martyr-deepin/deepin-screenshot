@@ -38,6 +38,7 @@ Toolshape::Toolshape() {
     mainPoints.append(QPointF(0, 0));
     mainPoints.append(QPointF(0, 0));
     mainPoints.append(QPointF(0, 0));
+    portion.clear();
 }
 
 Toolshape::~Toolshape() {
