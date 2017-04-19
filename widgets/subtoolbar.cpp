@@ -97,6 +97,8 @@ void SubToolBar::initArrowLabel() {
     QLabel* vSeperatorLine = new QLabel();
     vSeperatorLine->setFixedSize(1, 16);
     vSeperatorLine->setObjectName("VerticalSeperatorLine");
+    ToolButton*  lineBtn = new ToolButton();
+    lineBtn->setObjectName("LineBtn");
     ToolButton* arrowBtn = new ToolButton();
     arrowBtn->setObjectName("ArrowBtn");
 
@@ -108,6 +110,8 @@ void SubToolBar::initArrowLabel() {
     arrowLayout->addWidget(arrowThickLine);
     arrowLayout->addSpacing(2);
     arrowLayout->addWidget(vSeperatorLine);
+    arrowLayout->addSpacing(2);
+    arrowLayout->addWidget(lineBtn);
     arrowLayout->addSpacing(2);
     arrowLayout->addWidget(arrowBtn);
     arrowLayout->addStretch();
@@ -131,23 +135,12 @@ void SubToolBar::initLineLabel() {
     thickLine->setObjectName("ThickLine");
     lineBtnGroup->addButton(thickLine);
 
-    //seperator line...
-    QLabel* vSeperatorLine = new QLabel();
-    vSeperatorLine->setFixedSize(1, 16);
-    vSeperatorLine->setObjectName("VerticalSeperatorLine");
-    ToolButton*  lineBtn = new ToolButton();
-    lineBtn->setObjectName("LineBtn");
-
     QHBoxLayout* lineLayout = new QHBoxLayout();
     lineLayout->setMargin(0);
     lineLayout->setSpacing(2);
     lineLayout->addWidget(fineLine);
     lineLayout->addWidget(mediumLine);
     lineLayout->addWidget(thickLine);
-    lineLayout->addSpacing(2);
-    lineLayout->addWidget(vSeperatorLine);
-    lineLayout->addSpacing(2);
-    lineLayout->addWidget(lineBtn);
     lineLayout->addStretch();
     m_lineLabel->setLayout(lineLayout);
     addWidget(m_lineLabel);
