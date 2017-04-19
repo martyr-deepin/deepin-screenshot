@@ -95,5 +95,14 @@
         <file>resources/images/size/arrow_thick_hover.png</file>
         <file>resources/images/size/arrow_thick_normal.png</file>
         <file>resources/images/size/arrow_medium_checked.png</file>
+        <file>resources/images/size/line_fine_checked.png</file>
+        <file>resources/images/size/line_fine_hover.png</file>
+        <file>resources/images/size/line_fine_normal.png</file>
+        <file>resources/images/size/line_medium_checked.png</file>
+        <file>resources/images/size/line_medium_hover.png</file>
+        <file>resources/images/size/line_medium_normal.png</file>
+        <file>resources/images/size/line_thick_checked.png</file>
+        <file>resources/images/size/line_thick_hover.png</file>
+        <file>resources/images/size/line_thick_normal.png</file>
     </qresource>
 </RCC>

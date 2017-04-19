@@ -1,5 +1,7 @@
 #include "baseutils.h"
+
 #include <QPixmap>
+#include <QLayoutItem>
 #include <QFile>
 
 QCursor setCursorShape(QString cursorName) {
@@ -42,4 +44,18 @@ QString getFileContent(const QString &file) {
         f.close();
     }
     return fileContent;
+}
+
+void clearLayout(QLayout *layout) {
+    QLayoutItem *item;
+    while((item = layout->takeAt(0))) {
+        if (item->layout()) {
+            clearLayout(item->layout());
+            delete item->layout();
+        }
+        if (item->widget()) {
+            delete item->widget();
+        }
+        delete item;
+    }
 }

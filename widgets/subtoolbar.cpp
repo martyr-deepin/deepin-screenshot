@@ -80,27 +80,46 @@ void SubToolBar::initRectLabel() {
 
 void SubToolBar::initArrowLabel() {
     m_arrowLabel = new QLabel(this);
+    //arrow
     QButtonGroup*  arrowBtnGroup = new QButtonGroup();
     arrowBtnGroup->setExclusive(true);
-    //rectangle, oval...
     ToolButton* arrowFineLine = new ToolButton();
-    arrowFineLine->setObjectName("ArrowFineLine");
+    arrowFineLine->setObjectName("ArrowFine");
     arrowBtnGroup->addButton(arrowFineLine);
     ToolButton*  arrowMediumLine = new ToolButton();
-    arrowMediumLine->setObjectName("ArrowMediumLine");
+    arrowMediumLine->setObjectName("ArrowMedium");
     arrowMediumLine->setChecked(true);
     arrowBtnGroup->addButton(arrowMediumLine);
     ToolButton* arrowThickLine = new ToolButton();
-    arrowThickLine->setObjectName("ArrowThickLine");
+    arrowThickLine->setObjectName("ArrowThick");
     arrowBtnGroup->addButton(arrowThickLine);
+    //line
+    QButtonGroup*  lineBtnGroup = new QButtonGroup();
+    lineBtnGroup->setExclusive(true);
+    //rectangle, oval...
+    ToolButton* fineLine = new ToolButton();
+    fineLine->setObjectName("ArrowFineLine");
+    lineBtnGroup->addButton(fineLine);
+    ToolButton*  mediumLine = new ToolButton();
+    mediumLine->setObjectName("ArrowMediumLine");
+    mediumLine->setChecked(true);
+    lineBtnGroup->addButton(mediumLine);
+    ToolButton* thickLine = new ToolButton();
+    thickLine->setObjectName("ArrowThickLine");
+    lineBtnGroup->addButton(thickLine);
     //seperator line...
     QLabel* vSeperatorLine = new QLabel();
     vSeperatorLine->setFixedSize(1, 16);
     vSeperatorLine->setObjectName("VerticalSeperatorLine");
+    QButtonGroup* styleBtnGroup = new QButtonGroup;
+    styleBtnGroup->setExclusive(true);
     ToolButton*  lineBtn = new ToolButton();
-    lineBtn->setObjectName("LineBtn");
+    lineBtn->setObjectName("LineBtn"); 
+    styleBtnGroup->addButton(lineBtn, 0);
     ToolButton* arrowBtn = new ToolButton();
     arrowBtn->setObjectName("ArrowBtn");
+    arrowBtn->setChecked(true);
+    styleBtnGroup->addButton(arrowBtn, 1);
 
     QHBoxLayout* arrowLayout = new QHBoxLayout();
     arrowLayout->setMargin(0);
@@ -108,6 +127,9 @@ void SubToolBar::initArrowLabel() {
     arrowLayout->addWidget(arrowFineLine);
     arrowLayout->addWidget(arrowMediumLine);
     arrowLayout->addWidget(arrowThickLine);
+    arrowLayout->addWidget(fineLine);
+    arrowLayout->addWidget(mediumLine);
+    arrowLayout->addWidget(thickLine);
     arrowLayout->addSpacing(2);
     arrowLayout->addWidget(vSeperatorLine);
     arrowLayout->addSpacing(2);
@@ -117,6 +139,29 @@ void SubToolBar::initArrowLabel() {
     arrowLayout->addStretch();
     m_arrowLabel->setLayout(arrowLayout);
     addWidget(m_arrowLabel);
+
+    fineLine->hide();
+    mediumLine->hide();
+    thickLine->hide();
+
+    connect(arrowBtn, &ToolButton::toggled, this, [=](bool checked){
+        if (checked) {
+            arrowFineLine->show();
+            arrowMediumLine->show();
+            arrowThickLine->show();
+            fineLine->hide();
+            mediumLine->hide();
+            thickLine->hide();
+        } else {
+            arrowFineLine->hide();
+            arrowMediumLine->hide();
+            arrowThickLine->hide();
+            fineLine->show();
+            mediumLine->show();
+            thickLine->show();
+        }
+
+    });
 }
 
 void SubToolBar::initLineLabel() {
