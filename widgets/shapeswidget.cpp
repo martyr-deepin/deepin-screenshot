@@ -437,6 +437,22 @@ bool ShapesWidget::hoverOnEllipse(FourPoints mainPoints, QPointF pos) {
     return false;
 }
 
+bool ShapesWidget::hoverOnArrow(QList<QPointF> points, QPointF pos) {
+    if (points.length() !=2)
+        return false;
+
+    if (pointClickIn(points[0], pos) || pointClickIn(points[1], pos)) {
+        m_resizeDirection = Rotate;
+        return true;
+    } else if(pointOnLine(points[0], points[1], pos)) {
+        m_resizeDirection = Moving;
+        return true;
+    } else {
+        m_resizeDirection = Outting;
+        return false;
+    }
+}
+
 bool ShapesWidget::hoverOnLine(FourPoints mainPoints, QList<QPointF> points, QPointF pos) {
     FourPoints tmpFPoints = getAnotherFPoints(mainPoints);
 
@@ -485,10 +501,13 @@ bool ShapesWidget::hoverOnShapes(Toolshape toolShape, QPointF pos) {
         return hoverOnRect(toolShape.mainPoints, pos);
     } else if (toolShape.type == "oval") {
         return hoverOnEllipse(toolShape.mainPoints, pos);
+    }  else if (toolShape.type == "arrow") {
+        return hoverOnArrow(toolShape.points, pos);
     } else if (toolShape.type == "line") {
         return hoverOnLine(toolShape.mainPoints, toolShape.points, pos);
     }
 
+    m_hoveredShape.type = "";
     return false;
 }
 
@@ -769,7 +788,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
                 for(int j = 0; j < m_hoveredShape.mainPoints.length(); j++) {
                     m_hoveredShape.mainPoints[j] = QPointF(0, 0);
                 }
-
+                m_hoveredShape.type = "";
                 m_currentHoverDiagPoints.masterPoint = QPointF(0, 0);
                 m_currentHoverDiagPoints.deputyPoint = QPointF(0, 0);
                 update();
@@ -814,19 +833,23 @@ void ShapesWidget::paintEllipse(QPainter &painter, FourPoints ellipseFPoints) {
     painter.drawPath(ellipsePath);
 }
 
-void ShapesWidget::paintArrow(QPainter &painter, QList<QPointF> lineFPoints) {
+void ShapesWidget::paintArrow(QPainter &painter, QList<QPointF> lineFPoints, bool isStraight) {
     if (lineFPoints.length() == 2) {
-        QList<QPointF> arrowPoints = pointOfArrow(lineFPoints[0], lineFPoints[1], 16);
-        QPainterPath path;
-        if (arrowPoints.length() >=3) {
-            painter.drawLine(lineFPoints[0], arrowPoints[2]);
-            path.moveTo(arrowPoints[2].x(), arrowPoints[2].y());
-            path.lineTo(arrowPoints[0].x(), arrowPoints[0].y());
-            path.lineTo(arrowPoints[1].x(), arrowPoints[1].y());
-            path.lineTo(arrowPoints[2].x(), arrowPoints[2].y());
+        if (!isStraight) {
+            QList<QPointF> arrowPoints = pointOfArrow(lineFPoints[0], lineFPoints[1], 16);
+            QPainterPath path;
+            if (arrowPoints.length() >=3) {
+                painter.drawLine(lineFPoints[0], arrowPoints[2]);
+                path.moveTo(arrowPoints[2].x(), arrowPoints[2].y());
+                path.lineTo(arrowPoints[0].x(), arrowPoints[0].y());
+                path.lineTo(arrowPoints[1].x(), arrowPoints[1].y());
+                path.lineTo(arrowPoints[2].x(), arrowPoints[2].y());
+            }
+            painter.drawPath(path);
+            painter.fillPath(path, QBrush(QColor(m_penColor)));
+        } else {
+            painter.drawLine(lineFPoints[0], lineFPoints[1]);
         }
-        painter.drawPath(path);
-        painter.fillPath(path, QBrush(QColor(m_penColor)));
     }
 }
 
@@ -896,7 +919,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         }
     }
 
-    if (m_hoveredShape.mainPoints[0] != QPointF(0, 0)) {
+    if (m_hoveredShape.mainPoints[0] != QPointF(0, 0) || m_hoveredShape.points.length()!=0) {
         pen.setWidth(1);
         pen.setColor(QColor(Qt::white));
         painter.setPen(pen);
@@ -904,6 +927,9 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             paintRect(painter, m_hoveredShape.mainPoints);
         } else if (m_hoveredShape.type == "oval") {
             paintEllipse(painter, m_hoveredShape.mainPoints);
+        } else if (m_hoveredShape.type == "arrow") {
+            qDebug() << "painter hoverStatus" << m_hoveredShape.type << m_hoveredShape.points;
+            paintArrow(painter, m_hoveredShape.points, true);
         } else if (m_hoveredShape.type == "line") {
             paintLine(painter, m_hoveredShape.points);
         }

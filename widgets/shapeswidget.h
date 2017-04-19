@@ -43,6 +43,7 @@ public slots:
     bool hoverOnShapes(Toolshape toolShape, QPointF pos);
     bool hoverOnRect(FourPoints rectPoints, QPointF pos);
     bool hoverOnEllipse(FourPoints mainPoints, QPointF pos);
+    bool hoverOnArrow(QList<QPointF> points, QPointF pos);
     bool hoverOnLine(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
     bool hoverOnRotatePoint(FourPoints mainPoints, QPointF pos);
 
@@ -90,7 +91,7 @@ private:
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
     void paintRect(QPainter &painter, FourPoints rectFPoints);
     void paintEllipse(QPainter &painter, FourPoints ellipseFPoints);
-    void paintArrow(QPainter &painter, QList<QPointF> lineFPoints);
+    void paintArrow(QPainter &painter, QList<QPointF> lineFPoints, bool isStraight = false);
     void paintLine(QPainter &painter, QList<QPointF> lineFPoints);
 
 };
