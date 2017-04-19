@@ -34,9 +34,10 @@ public slots:
     void handleResize(QPointF pos, int key);
 
     bool clickedOnShapes(QPointF pos);
-    bool clickedOnRectPoint(FourPoints rectPoints, QPointF pos);
-    bool clickedOnEllipsePoint(FourPoints mainPoints, QPointF pos);
-    bool clickedOnLinePoint(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
+    bool clickedOnRect(FourPoints rectPoints, QPointF pos);
+    bool clickedOnEllipse(FourPoints mainPoints, QPointF pos);
+    bool clickedOnArrow(QList<QPointF> points, QPointF pos);
+    bool clickedOnLine(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
 
     bool rotateOnPoint(FourPoints mainPoints, QPointF pos);
 
