@@ -295,8 +295,11 @@ void SubToolBar::initSaveLabel() {
     lowQualityText->setObjectName("LowQualityLabel");
     lowQualityText->setText("Low");
     QSlider* saveQualitySlider = new QSlider(Qt::Horizontal);
-
     saveQualitySlider->setObjectName("SaveQualitySlider");
+    saveQualitySlider->setMinimum(1);
+    saveQualitySlider->setMaximum(100);
+    saveQualitySlider->setPageStep(1);
+    saveQualitySlider->setSliderPosition(100);
     QLabel* highQualityText = new QLabel();
     highQualityText->setObjectName("HighQualityLabel");
     highQualityText->setText("High");

@@ -105,5 +105,7 @@
         <file>resources/images/size/line_thick_hover.png</file>
         <file>resources/images/size/line_thick_normal.png</file>
         <file>resources/qss/fontsizewidget.qss</file>
+        <file>resources/images/save/slider_hover.png</file>
+        <file>resources/images/save/slider_pressed.png</file>
     </qresource>
 </RCC>

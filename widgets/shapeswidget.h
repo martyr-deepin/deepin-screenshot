@@ -3,7 +3,7 @@
 
 #include <QFrame>
 #include <QMouseEvent>
-
+#include <QTextEdit>
 #include "utils/shapesutils.h"
 #include "utils/baseutils.h"
 
@@ -87,6 +87,7 @@ private:
     Toolshape m_selectedShape;
     Toolshape m_hoveredShape;
 
+//    QMap<int, QTextEdit*> editMap;
     Toolshapes m_shapes;
 
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
@@ -94,6 +95,6 @@ private:
     void paintEllipse(QPainter &painter, FourPoints ellipseFPoints);
     void paintArrow(QPainter &painter, QList<QPointF> lineFPoints, bool isStraight = false);
     void paintLine(QPainter &painter, QList<QPointF> lineFPoints);
-
+//    void paintText(QPainter &painter, FourPoints rectFPoints, QString text);
 };
 #endif // SHAPESWIDGET_H

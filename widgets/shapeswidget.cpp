@@ -674,6 +674,17 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
             if (m_currentType == "line" || m_currentType == "arrow") {
                 m_currentShape.points.append(m_pos1);
             }
+//            if (m_currentType == "text") {
+//                m_currentShape.mainPoints[0] = m_pos1;
+//                QTextEdit* edit = new QTextEdit(this);
+//                edit->resize(20, edit->contentsRect().height() + 100);
+//                edit->setFocus();
+//                edit->move(m_pos1.x(), m_pos1.y());
+//                edit->show();
+//                m_currentShape.mainPoints[1] = QPointF(m_pos1.x(), m_pos1.y() + edit->height());
+//                m_currentShape.mainPoints[2] = QPointF(m_pos1.x() + edit->width(), m_pos1.y());
+//                m_currentShape.mainPoints[3] = QPointF(m_pos1.x() + edit->width(), m_pos1.y() + edit->height());
+//            }
             update();
         }
     } else {
@@ -910,6 +921,13 @@ void ShapesWidget::paintLine(QPainter &painter, QList<QPointF> lineFPoints) {
     }
 }
 
+//void ShapesWidget::paintText(QPainter &painter, FourPoints rectFPoints, QString text) {
+//    painter.drawLine(rectFPoints[0], rectFPoints[1]);
+//    painter.drawLine(rectFPoints[1], rectFPoints[3]);
+//    painter.drawLine(rectFPoints[3], rectFPoints[2]);
+//    painter.drawLine(rectFPoints[2], rectFPoints[0]);
+//}
+
 void ShapesWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing);
@@ -918,8 +936,9 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     pen.setWidth(3);
     painter.setPen(pen);
 
-    if (m_currentDiagPoints.masterPoint != QPointF(0, 0) &&
-            m_currentDiagPoints.deputyPoint != QPointF(0, 0)) {
+    if ((m_currentDiagPoints.masterPoint != QPointF(0, 0) &&
+            m_currentDiagPoints.deputyPoint != QPointF(0, 0))||
+            m_currentShape.type == "text") {
         FourPoints currentFPoint = fourPointsOnRect(m_currentDiagPoints);
         if (m_currentType == "rectangle") {
             paintRect(painter, currentFPoint);
@@ -929,6 +948,8 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             paintArrow(painter, m_currentShape.points);
         } else if (m_currentType == "line") {
             paintLine(painter, m_currentShape.points);
+        } else if (m_currentType == "text") {
+//            paintText(painter, m_currentShape.mainPoints, "@@");
         }
     }
 
@@ -1006,5 +1027,4 @@ bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
         }
     }
     return false;
-
 }
