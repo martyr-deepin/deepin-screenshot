@@ -104,5 +104,6 @@
         <file>resources/images/size/line_thick_checked.png</file>
         <file>resources/images/size/line_thick_hover.png</file>
         <file>resources/images/size/line_thick_normal.png</file>
+        <file>resources/qss/fontsizewidget.qss</file>
     </qresource>
 </RCC>

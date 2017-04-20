@@ -1,6 +1,7 @@
 #include "subtoolbar.h"
 #include "toolbutton.h"
 #include "colorbutton.h"
+#include "fontsizewidget.h"
 #include "utils/baseutils.h"
 
 #include <QLineEdit>
@@ -193,13 +194,13 @@ void SubToolBar::initLineLabel() {
 
 void SubToolBar::initTextLabel() {
     //text...
-    QLineEdit* lineEdit = new QLineEdit();
-    lineEdit->setObjectName("TextBtn");
+    FontSizeWidget* fontsizeWidget = new FontSizeWidget;
     m_textLabel = new QLabel(this);
     QHBoxLayout* textLayout = new QHBoxLayout();
     textLayout->setMargin(0);
     textLayout->setSpacing(0);
-    textLayout->addWidget(lineEdit);
+    textLayout->addSpacing(4);
+    textLayout->addWidget(fontsizeWidget);
     textLayout->addStretch();
     m_textLabel->setLayout(textLayout);
     addWidget(m_textLabel);
