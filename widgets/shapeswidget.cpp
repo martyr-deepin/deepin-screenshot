@@ -584,13 +584,12 @@ void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)  {
                         m_shapes[m_selectedIndex].mainPoints[i].y() + (newPoint.y() - oldPoint.y())
                         );
         }
-
-        for(int i = 0; i < m_shapes[m_selectedIndex].points.length(); i++) {
-            m_shapes[m_selectedIndex].points[i] = QPointF(
-                        m_shapes[m_selectedIndex].points[i].x() + (newPoint.x() - oldPoint.x()),
-                        m_shapes[m_selectedIndex].points[i].y() + (newPoint.y() - oldPoint.y())
-                        );
-        }
+    }
+    for(int i = 0; i < m_shapes[m_selectedIndex].points.length(); i++) {
+        m_shapes[m_selectedIndex].points[i] = QPointF(
+                    m_shapes[m_selectedIndex].points[i].x() + (newPoint.x() - oldPoint.x()),
+                    m_shapes[m_selectedIndex].points[i].y() + (newPoint.y() - oldPoint.y())
+                    );
     }
 }
 
