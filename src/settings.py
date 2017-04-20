@@ -71,3 +71,6 @@ class ScreenshotSettings(QSettings):
         self.beginGroup(group_name)
         self.setValue(op_name, QVariant(op_index))
         self.endGroup()
+        # Normally there's no need to call sync, but now that qApp quit immediatelly after
+        # we save the screenshot, there won't be any time left for QSettings to sync its content.
+        self.sync()
