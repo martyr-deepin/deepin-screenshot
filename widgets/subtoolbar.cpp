@@ -7,6 +7,7 @@
 #include <QLineEdit>
 #include <QButtonGroup>
 #include <QHBoxLayout>
+#include <QSlider>
 #include <QDebug>
 
 namespace {
@@ -280,16 +281,32 @@ void SubToolBar::initSaveLabel() {
     ToolButton* saveAutoClipboardBtn = new ToolButton();
     saveAutoClipboardBtn->setObjectName("SaveToAutoClipboard");
 
+    QLabel* lowQualityText = new QLabel();
+    lowQualityText->setObjectName("LowQualityLabel");
+    lowQualityText->setText("Low");
+    QSlider* saveQualitySlider = new QSlider(Qt::Horizontal);
+
+    saveQualitySlider->setObjectName("SaveQualitySlider");
+    QLabel* highQualityText = new QLabel();
+    highQualityText->setObjectName("HighQualityLabel");
+    highQualityText->setText("High");
+
      m_saveLabel = new QLabel(this);
     QHBoxLayout* saveLayout = new QHBoxLayout();
     saveLayout->setMargin(0);
-    saveLayout->setSpacing(8);
-    saveLayout->addSpacing(4);
+    saveLayout->setSpacing(3);
+    saveLayout->addSpacing(5);
     saveLayout->addWidget(saveDesktopBtn);
     saveLayout->addWidget(savePicBtn);
     saveLayout->addWidget(saveSpecificDirBtn);
     saveLayout->addWidget(saveClipboardBtn);
     saveLayout->addWidget(saveAutoClipboardBtn);
+    saveLayout->addWidget(lowQualityText);
+    saveLayout->addSpacing(2);
+    saveLayout->addWidget(saveQualitySlider);
+    saveLayout->addSpacing(2);
+    saveLayout->addWidget(highQualityText);
+    saveLayout->addSpacing(2);
     saveLayout->addStretch();
     m_saveLabel->setLayout(saveLayout);
     addWidget(m_saveLabel);
