@@ -495,7 +495,8 @@ bool ShapesWidget::hoverOnArrow(QList<QPointF> points, QPointF pos) {
     }
 }
 
-bool ShapesWidget::hoverOnLine(FourPoints mainPoints, QList<QPointF> points, QPointF pos) {
+bool ShapesWidget::hoverOnLine(FourPoints mainPoints, QList<QPointF> points,
+                               QPointF pos) {
     FourPoints tmpFPoints = getAnotherFPoints(mainPoints);
 
     if (pointClickIn(mainPoints[0], pos)) {
@@ -607,9 +608,10 @@ void ShapesWidget::handleRotate(QPointF pos) {
         return;
     }
 
-    QPointF centerInPoint = QPointF((m_selectedShape.mainPoints[0].x() + m_selectedShape.mainPoints[3].x())/2,
-                                                                 (m_selectedShape.mainPoints[0].y()+ m_selectedShape.mainPoints[3].y())/2);
-
+    QPointF centerInPoint = QPointF((m_selectedShape.mainPoints[0].x() +
+                                                                 m_selectedShape.mainPoints[3].x())/2,
+                                                                 (m_selectedShape.mainPoints[0].y()+
+                                                                 m_selectedShape.mainPoints[3].y())/2);
     qreal angle = calculateAngle(m_pressedPoint, pos, centerInPoint)/35;
 
     for (int i = 0; i < 4; i++) {
@@ -637,9 +639,11 @@ void ShapesWidget::handleResize(QPointF pos, int key) {
             }
         }
 
-        FourPoints newResizeFPoints = resizePointPosition(m_shapes[m_selectedIndex].mainPoints[0],
-                m_shapes[m_selectedIndex].mainPoints[1], m_shapes[m_selectedIndex].mainPoints[2],
-                m_shapes[m_selectedIndex].mainPoints[3], pos, key);
+        FourPoints newResizeFPoints = resizePointPosition(
+            m_shapes[m_selectedIndex].mainPoints[0],
+            m_shapes[m_selectedIndex].mainPoints[1],
+            m_shapes[m_selectedIndex].mainPoints[2],
+            m_shapes[m_selectedIndex].mainPoints[3], pos, key);
 
         m_shapes[m_selectedIndex].mainPoints = newResizeFPoints;
         m_selectedShape.mainPoints = newResizeFPoints;
@@ -980,22 +984,26 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
                 paintImgPoint(painter, anotherFPoints[j], resizePointImg);
             }
 
-            QPointF rotatePoint = getRotatePoint(m_selectedShape.mainPoints[0], m_selectedShape.mainPoints[1],
-                    m_selectedShape.mainPoints[2], m_selectedShape.mainPoints[3]);
-            QPointF middlePoint((m_selectedShape.mainPoints[0].x() +  m_selectedShape.mainPoints[2].x())/2,
-                    (m_selectedShape.mainPoints[0].y() +  m_selectedShape.mainPoints[2].y())/2);
+            QPointF rotatePoint = getRotatePoint(m_selectedShape.mainPoints[0],
+                    m_selectedShape.mainPoints[1], m_selectedShape.mainPoints[2],
+                    m_selectedShape.mainPoints[3]);
+            QPointF middlePoint((m_selectedShape.mainPoints[0].x() +
+                    m_selectedShape.mainPoints[2].x())/2,
+                    (m_selectedShape.mainPoints[0].y() +
+                    m_selectedShape.mainPoints[2].y())/2);
+
             painter.setPen(QColor(Qt::white));
             painter.drawLine(rotatePoint, middlePoint);
             QPixmap rotatePointImg(":/resources/images/size/rotate.png");
             paintImgPoint(painter, rotatePoint, rotatePointImg, false);
-
             if (m_selectedShape.type == "oval" || m_selectedShape.type == "line") {
                 paintRect(painter,  m_selectedShape.mainPoints);
             }
         }
     }
 
-    if (m_hoveredShape.mainPoints[0] != QPointF(0, 0) || m_hoveredShape.points.length()!=0) {
+    if (m_hoveredShape.mainPoints[0] != QPointF(0, 0) ||
+            m_hoveredShape.points.length()!=0) {
         pen.setWidth(1);
         pen.setColor(QColor(Qt::white));
         painter.setPen(pen);
