@@ -15,6 +15,7 @@ public:
 signals:
     void buttonChecked(QString shapeType);
     void updateColor(QColor color);
+    void updateSaveOption(int saveOption);
 
 public slots:
     bool isButtonChecked();

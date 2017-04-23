@@ -1,7 +1,11 @@
+#include <gdk/gdk.h>
+#include <gtk/gtk.h>
+#include <gtk/gtkclipboard.h>
 #include "mainwindow.h"
 
 #include <QApplication>
 #include <QPainter>
+#include <QFileDialog>
 
 namespace {
 const int RECORD_MIN_SIZE = 220;
@@ -89,6 +93,8 @@ void MainWindow::initUI() {
     connect(&m_eventMonitor, SIGNAL(pressEsc()), this,
             SLOT(responseEsc()), Qt::QueuedConnection);
     m_eventMonitor.start();
+
+    connect(m_toolBar, &ToolBar::updateSaveOption, this, &MainWindow::setSaveOption);
 }
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
@@ -634,17 +640,59 @@ void MainWindow::responseEsc()
 //    }
 }
 
+void MainWindow::setSaveOption(int saveOption) {
+    m_saveIndex = saveOption;
+    saveScreenshot();
+}
+
 void MainWindow::saveScreenshot() {
     QDateTime currentDate;
-    QString currentTime =  currentDate.currentDateTime().toString("yyyyMMddHHmmss");
-    QString fileName = QString("%1/DeepinScreenshot%2.png").arg(
-                QStandardPaths::writableLocation(QStandardPaths::PicturesLocation
-                 )).arg(currentTime);
-
-    QList<xcb_window_t> windows = m_windowManager->getWindows();
-    QPixmap screenShotPix = qApp->primaryScreen()->grabWindow(windows[windows.length()-1]);
+    QPixmap screenShotPix(TMPFILE_URL);
     screenShotPix = screenShotPix.copy(QRect(m_recordX + 2, m_recordY + 2,
-                                             m_recordWidth - 4 , m_recordHeight - 4));
-    screenShotPix.save(fileName, "PNG");
+        m_recordWidth - 4 , m_recordHeight - 4));
+    QString currentTime =  currentDate.currentDateTime().toString("yyyyMMddHHmmss");
+    QString fileName = "";
+    QStandardPaths::StandardLocation saveOption = QStandardPaths::TempLocation;
+    bool copyToClipboard = false;
+
+    switch (m_saveIndex) {
+    case 0: {
+        saveOption = QStandardPaths::DesktopLocation;
+        break;
+    }
+    case 1: {
+        saveOption = QStandardPaths::PicturesLocation;
+        break;
+    }
+    case 2: {
+        QFileDialog fileDialog;
+        fileName =  fileDialog.getSaveFileName(NULL, "Save");
+        break;
+    }
+    case 3: {
+        copyToClipboard = true;
+        break;
+    }
+    case 4: {
+        copyToClipboard = true;
+        break;
+    }
+    default:
+        break;
+    }
+    if (saveOption != QStandardPaths::TempLocation || fileName.isEmpty()) {
+        fileName = QString("%1/DeepinScreenshot%2.png").arg(
+                    QStandardPaths::writableLocation(saveOption)).arg(currentTime);
+                     screenShotPix.save(fileName, "PNG");
+    }
+    if (copyToClipboard) {
+        GError *err = NULL;
+        screenShotPix.save("/tmp/deepin-screenshot.png", "PNG");
+        GdkPixbuf*   pixbuf =  gdk_pixbuf_new_from_file(QString(
+            "/tmp/deepin-screenshot.png").toLatin1().data(), &err);
+        GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+        gtk_clipboard_set_image(clipboard, pixbuf);
+        gtk_clipboard_store(clipboard);
+    }
     qApp->quit();
 }

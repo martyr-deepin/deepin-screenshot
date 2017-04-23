@@ -22,6 +22,7 @@ public:
 
 signals:
     void setCurrentColor(QColor color);
+    void setSaveBtn(int saveOption);
 
 private:
     int m_lineWidth;

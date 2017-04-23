@@ -270,16 +270,26 @@ void SubToolBar::initColorLabel() {
 
 void SubToolBar::initSaveLabel() {
     //save to...
+    QList<ToolButton*> toolBtnList;
     ToolButton* saveDesktopBtn = new ToolButton();
     saveDesktopBtn->setObjectName("SaveToDesktop");
+    toolBtnList.append(saveDesktopBtn);
+
     ToolButton* savePicBtn = new ToolButton();
     savePicBtn->setObjectName("SaveToPictureDir");
+    toolBtnList.append(savePicBtn);
+
     ToolButton* saveSpecificDirBtn = new ToolButton();
     saveSpecificDirBtn->setObjectName("SaveToSpecificDir");
+    toolBtnList.append(saveSpecificDirBtn);
+
     ToolButton* saveClipboardBtn = new ToolButton();
     saveClipboardBtn->setObjectName("SaveToClipboard");
+    toolBtnList.append(saveClipboardBtn);
+
     ToolButton* saveAutoClipboardBtn = new ToolButton();
     saveAutoClipboardBtn->setObjectName("SaveToAutoClipboard");
+    toolBtnList.append(saveAutoClipboardBtn);
 
     QLabel* lowQualityText = new QLabel();
     lowQualityText->setObjectName("LowQualityLabel");
@@ -296,11 +306,12 @@ void SubToolBar::initSaveLabel() {
     saveLayout->setMargin(0);
     saveLayout->setSpacing(3);
     saveLayout->addSpacing(5);
-    saveLayout->addWidget(saveDesktopBtn);
-    saveLayout->addWidget(savePicBtn);
-    saveLayout->addWidget(saveSpecificDirBtn);
-    saveLayout->addWidget(saveClipboardBtn);
-    saveLayout->addWidget(saveAutoClipboardBtn);
+    foreach (ToolButton* btn, toolBtnList) {
+        saveLayout->addWidget(btn);
+        connect(btn, &ToolButton::clicked, this,  [=]{
+            setSaveBtn(toolBtnList.indexOf(btn));
+        });
+    }
     saveLayout->addWidget(lowQualityText);
     saveLayout->addSpacing(2);
     saveLayout->addWidget(saveQualitySlider);

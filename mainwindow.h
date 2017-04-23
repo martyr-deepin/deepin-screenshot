@@ -44,6 +44,7 @@ public slots:
     void showReleaseFeedback(int x, int y);
     void responseEsc();
     void saveScreenshot();
+    void setSaveOption(int saveOption);
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
@@ -94,6 +95,7 @@ private:
     ShapesWidget* m_shapesWidget;
 
     bool m_isShapesWidgetExist;
+    int m_saveIndex;
 };
 
 #endif // MAINWINDOW_H
