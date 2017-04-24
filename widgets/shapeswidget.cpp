@@ -15,6 +15,7 @@ ShapesWidget::ShapesWidget(QWidget *parent)
       m_isMoving(false),
       m_isSelected(false),
       m_isShiftPressed(false),
+      m_editing(false),
       m_penColor(Qt::red)
 {
     setFocusPolicy(Qt::StrongFocus);
@@ -678,22 +679,35 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
             if (m_currentType == "line" || m_currentType == "arrow") {
                 m_currentShape.points.append(m_pos1);
             }
-//            if (m_currentType == "text") {
-//                m_currentShape.mainPoints[0] = m_pos1;
-//                QTextEdit* edit = new QTextEdit(this);
-//                edit->resize(20, edit->contentsRect().height() + 100);
-//                edit->setFocus();
-//                edit->move(m_pos1.x(), m_pos1.y());
-//                edit->show();
-//                m_currentShape.mainPoints[1] = QPointF(m_pos1.x(), m_pos1.y() + edit->height());
-//                m_currentShape.mainPoints[2] = QPointF(m_pos1.x() + edit->width(), m_pos1.y());
-//                m_currentShape.mainPoints[3] = QPointF(m_pos1.x() + edit->width(), m_pos1.y() + edit->height());
-//            }
+            if (m_currentType == "text") {
+                if (m_editing) {
+                    m_editing = false;
+                } else {
+                    m_currentShape.mainPoints[0] = m_pos1;
+                    TextEdit* edit = new TextEdit(m_shapes.length(), this);
+                    m_selectedIndex = m_shapes.length();
+                    m_editing = true;
+                    edit->setFocus();
+                    edit->move(m_pos1.x(), m_pos1.y());
+                    edit->show();
+                    m_currentShape.mainPoints[0] = m_pos1;
+                    m_currentShape.mainPoints[1] = QPointF(m_pos1.x(), m_pos1.y() + edit->height());
+                    m_currentShape.mainPoints[2] = QPointF(m_pos1.x() + edit->width(), m_pos1.y());
+                    m_currentShape.mainPoints[3] = QPointF(m_pos1.x() + edit->width(),
+                                                           m_pos1.y() + edit->height());
+                    m_editMap.insert(m_shapes.length(), edit);
+                    connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
+                    m_shapes.append(m_currentShape);
+                }
+            }
             update();
         }
     } else {
         m_isRecording = false;
         qDebug() << "some on shape be clicked!";
+        if (m_editing) {
+            m_editMap.value(m_selectedIndex)->setReadOnly(true);
+        }
     }
 
     QFrame::mousePressEvent(e);
@@ -765,7 +779,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
 
         if (m_isResize && m_isPressed) {
             // resize function
-             handleResize(QPointF(e->pos()), m_clickedKey);
+            handleResize(QPointF(e->pos()), m_clickedKey);
             update();
             return;
         }
@@ -870,6 +884,21 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
     QFrame::mouseMoveEvent(e);
 }
 
+void ShapesWidget::updateTextRect(TextEdit* edit, int contentWidth, int contentHeight) {
+    int index = edit->getIndex();
+    if (m_shapes.length() - 1 >= index) {
+        m_shapes[index].mainPoints[1] = QPointF(m_shapes[index].mainPoints[0].x() ,
+                m_shapes[index].mainPoints[0].y() + contentHeight);
+        m_shapes[index].mainPoints[2] = QPointF(m_shapes[index].mainPoints[0].x()
+                + contentWidth, m_shapes[index].mainPoints[0].y());
+        m_shapes[index].mainPoints[3] = QPointF(m_shapes[index].mainPoints[2].x(),
+                m_shapes[index].mainPoints[0].y() + contentHeight);
+        m_currentShape.mainPoints = m_shapes[index].mainPoints;
+    }
+
+    update();
+}
+
 void ShapesWidget::paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize) {
         if (isResize) {
                 painter.drawPixmap(QPoint(pos.x() - DRAG_BOUND_RADIUS,
@@ -925,12 +954,19 @@ void ShapesWidget::paintLine(QPainter &painter, QList<QPointF> lineFPoints) {
     }
 }
 
-//void ShapesWidget::paintText(QPainter &painter, FourPoints rectFPoints, QString text) {
-//    painter.drawLine(rectFPoints[0], rectFPoints[1]);
-//    painter.drawLine(rectFPoints[1], rectFPoints[3]);
-//    painter.drawLine(rectFPoints[3], rectFPoints[2]);
-//    painter.drawLine(rectFPoints[2], rectFPoints[0]);
-//}
+void ShapesWidget::paintText(QPainter &painter, FourPoints rectFPoints) {
+    QPen textPen;
+    textPen.setStyle(Qt::DashLine);
+    textPen.setColor(Qt::white);
+    painter.setPen(textPen);
+    painter.drawLine(rectFPoints[0], rectFPoints[1]);
+    painter.drawLine(rectFPoints[1], rectFPoints[3]);
+    painter.drawLine(rectFPoints[3], rectFPoints[2]);
+    painter.drawLine(rectFPoints[2], rectFPoints[0]);
+    textPen.setStyle(Qt::SolidLine);
+    textPen.setColor(Qt::red);
+    painter.setPen(textPen);
+}
 
 void ShapesWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
@@ -953,7 +989,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         } else if (m_currentType == "line") {
             paintLine(painter, m_currentShape.points);
         } else if (m_currentType == "text") {
-//            paintText(painter, m_currentShape.mainPoints, "@@");
+            paintText(painter, m_currentShape.mainPoints);
         }
     }
 

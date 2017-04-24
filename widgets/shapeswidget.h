@@ -3,9 +3,10 @@
 
 #include <QFrame>
 #include <QMouseEvent>
-#include <QTextEdit>
+
 #include "utils/shapesutils.h"
 #include "utils/baseutils.h"
+#include "textedit.h"
 
 class ShapesWidget : public QFrame {
     Q_OBJECT
@@ -70,6 +71,7 @@ private:
     bool m_isRotated;
     bool m_isResize;
     bool m_isShiftPressed;
+    bool m_editing;
 
     ResizeDirection m_resizeDirection;
     ClickedKey m_clickedKey;
@@ -87,7 +89,8 @@ private:
     Toolshape m_selectedShape;
     Toolshape m_hoveredShape;
 
-//    QMap<int, QTextEdit*> editMap;
+    QMap<int, TextEdit*> m_editMap;
+    void updateTextRect(TextEdit* edit, int contentWidth, int contentHeight);
     Toolshapes m_shapes;
 
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
@@ -95,6 +98,6 @@ private:
     void paintEllipse(QPainter &painter, FourPoints ellipseFPoints);
     void paintArrow(QPainter &painter, QList<QPointF> lineFPoints, bool isStraight = false);
     void paintLine(QPainter &painter, QList<QPointF> lineFPoints);
-//    void paintText(QPainter &painter, FourPoints rectFPoints, QString text);
+    void paintText(QPainter &painter, FourPoints rectFPoints);
 };
 #endif // SHAPESWIDGET_H
