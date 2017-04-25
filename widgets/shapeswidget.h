@@ -90,7 +90,7 @@ private:
     Toolshape m_hoveredShape;
 
     QMap<int, TextEdit*> m_editMap;
-    void updateTextRect(TextEdit* edit, int contentWidth, int contentHeight);
+    void updateTextRect(TextEdit* edit, QRectF newRect);
     Toolshapes m_shapes;
 
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);

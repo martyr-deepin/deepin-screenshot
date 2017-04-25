@@ -707,6 +707,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
         qDebug() << "some on shape be clicked!";
         if (m_editing) {
             m_editMap.value(m_selectedIndex)->setReadOnly(true);
+            m_editMap.value(m_selectedIndex)->setCursorVisible(false);
+            m_editMap.value(m_selectedIndex)->setFocusPolicy(Qt::NoFocus);
         }
     }
 
@@ -884,15 +886,14 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
     QFrame::mouseMoveEvent(e);
 }
 
-void ShapesWidget::updateTextRect(TextEdit* edit, int contentWidth, int contentHeight) {
+void ShapesWidget::updateTextRect(TextEdit* edit, QRectF newRect) {
     int index = edit->getIndex();
     if (m_shapes.length() - 1 >= index) {
-        m_shapes[index].mainPoints[1] = QPointF(m_shapes[index].mainPoints[0].x() ,
-                m_shapes[index].mainPoints[0].y() + contentHeight);
-        m_shapes[index].mainPoints[2] = QPointF(m_shapes[index].mainPoints[0].x()
-                + contentWidth, m_shapes[index].mainPoints[0].y());
-        m_shapes[index].mainPoints[3] = QPointF(m_shapes[index].mainPoints[2].x(),
-                m_shapes[index].mainPoints[0].y() + contentHeight);
+        m_shapes[index].mainPoints[0] = QPointF(newRect.x(), newRect.y());
+        m_shapes[index].mainPoints[1] = QPointF(newRect.x() , newRect.y() + newRect.height());
+        m_shapes[index].mainPoints[2] = QPointF(newRect.x() + newRect.width(), newRect.y());
+        m_shapes[index].mainPoints[3] = QPointF(newRect.x() + newRect.width(),
+                                                                                     newRect.y() + newRect.height());
         m_currentShape.mainPoints = m_shapes[index].mainPoints;
     }
 
@@ -1070,5 +1071,6 @@ bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
             qApp->quit();
         }
     }
+
     return false;
 }
