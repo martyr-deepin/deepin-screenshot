@@ -58,6 +58,7 @@ class AppController(QObject):
         if sender in self.contexts:
             # TODO: the remove _doesn't_ get the sender object
             # garbage collected, there must be some reference cycles.
+            sender.settings.sync()
             self.contexts.remove(sender)
         self._checkContexts()
 
