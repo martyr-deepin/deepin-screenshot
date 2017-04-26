@@ -12,6 +12,7 @@ public:
     ~BigColorButton();
 
     void setColor(QColor color);
+    void setColorIndex();
     void setCheckedStatus(bool checked);
 
 protected:

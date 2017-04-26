@@ -12,17 +12,16 @@ ConfigSettings::ConfigSettings(QObject *parent)
     m_settings = new  QSettings("Deepin","DeepinScreenshot", this);
     if (!QFileInfo(CONFIG_PATH).exists()) {
         setValue("common", "color_index", 3);
-        setValue("common", "linewidth_index", 1);
 
         setValue("arrow", "color_index", 3);
         setValue("arrow", "linewidth_index", 1);
         setValue("oval", "color_index", 3);
-        setValue("oval", "linewdith_index", 1);
+        setValue("oval", "linewidth_index", 1);
         setValue("line", "color_index", 3);
         setValue("line", "linewidth_index", 1);
         setValue("rectangle", "color_index", 3);
         setValue("rectangle", "linewidth_index", 1);
-        setValue("text", "color_index", 5);
+        setValue("text", "color_index", 3);
         setValue("text", "fontsize", 12);
 
         setValue("save", "save_op", 1);
@@ -42,10 +41,14 @@ ConfigSettings* ConfigSettings::instance() {
 }
 
 void ConfigSettings::setValue(const QString &group, const QString &key,
-              const QVariant &value) {
+              QVariant val) {
     m_settings->beginGroup(group);
-    m_settings->setValue(key, value);
+    m_settings->setValue(key, val);
     m_settings->endGroup();
+
+    if (group == "common") {
+        emit colorChanged();
+    }
 }
 
 QVariant ConfigSettings::value(const QString &group, const QString &key,

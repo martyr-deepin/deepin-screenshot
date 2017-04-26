@@ -29,8 +29,7 @@ void FontSizeWidget::initWidget() {
     m_fontSizeEdit->setObjectName("FontSizeEdit");
     m_fontSizeEdit->setFixedSize(LINE_EDIT_SIZE);
 
-    m_fontSize = ConfigSettings::instance()->value("text", "fontsize_index").toInt();
-
+    m_fontSize = ConfigSettings::instance()->value("text", "fontsize").toInt();
     m_fontSizeEdit->setText(QString("%1").arg(m_fontSize));
     m_addSizeBtn = new QPushButton(this);
     m_addSizeBtn->setObjectName("AddSizeBtn");

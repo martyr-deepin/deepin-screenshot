@@ -38,10 +38,10 @@ ToolBar::ToolBar(QWidget *parent)
 
     connect(m_majToolbar, &MajToolBar::buttonChecked, this, &ToolBar::setExpand);
     connect(this, &ToolBar::buttonChecked, m_subToolbar, &SubToolBar::switchContent);
-    connect(m_subToolbar, &SubToolBar::setCurrentColor,
-            m_majToolbar, &MajToolBar::setCurrentColor);
+    connect(m_subToolbar, &SubToolBar::currentColorChanged,
+            m_majToolbar, &MajToolBar::mainColorChanged);
     connect(m_subToolbar, &SubToolBar::setSaveBtn, this, &ToolBar::updateSaveOption);
-    connect(m_subToolbar, &SubToolBar::setCurrentColor, this, &ToolBar::updateColor);
+    connect(m_subToolbar, &SubToolBar::currentColorChanged, this, &ToolBar::updateColor);
 }
 
 bool ToolBar::isButtonChecked() {

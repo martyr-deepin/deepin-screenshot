@@ -21,7 +21,7 @@ public:
     void switchContent(QString shapeType);
 
 signals:
-    void setCurrentColor(QColor color);
+    void currentColorChanged(QColor color);
     void setSaveBtn(int saveOption);
 
 private:

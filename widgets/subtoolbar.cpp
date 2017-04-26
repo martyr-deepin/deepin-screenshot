@@ -268,7 +268,7 @@ void SubToolBar::initColorLabel() {
     for(int i = 0; i < colorBtnList.length(); i++) {
         colorLayout->addWidget(colorBtnList[i]);
         connect(colorBtnList[i], &ColorButton::updatePaintColor,
-                this, &SubToolBar::setCurrentColor);
+                this, &SubToolBar::currentColorChanged);
     }
     colorLayout->addStretch();
     m_colorLabel->setLayout(colorLayout);

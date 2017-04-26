@@ -14,7 +14,7 @@ public:
 
 signals:
     void buttonChecked(bool checked, QString type);
-    void setCurrentColor(QColor currentColor);
+    void mainColorChanged(QColor currentColor);
 
 public slots:
     void initWidgets();

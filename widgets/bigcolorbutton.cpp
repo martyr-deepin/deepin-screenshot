@@ -1,4 +1,8 @@
 #include "bigcolorbutton.h"
+
+#include "utils/baseutils.h"
+#include "utils/configsettings.h"
+
 #include <QDebug>
 
 const int COLOR_RADIUS = 4;
@@ -11,6 +15,9 @@ BigColorButton::BigColorButton(QWidget *parent)
 {
     setFixedSize(21, 21);
     setCheckable(true);
+    int colIndex = ConfigSettings::instance()->value(
+                              "common", "color_index").toInt();
+    m_color = colorIndexOf(colIndex);
 
     connect(this, &QPushButton::clicked, this,
             &BigColorButton::setCheckedStatus);
@@ -50,6 +57,14 @@ void BigColorButton::paintEvent(QPaintEvent *) {
 
 void BigColorButton::setColor(QColor color) {
     m_color = color;
+    int colorNum = colorIndex(color);
+    ConfigSettings::instance()->setValue("common", "color_index", colorNum);
+    update();
+}
+
+void BigColorButton::setColorIndex() {
+   int colorNum = ConfigSettings::instance()->value("common", "color_index").toInt();
+    m_color = colorIndexOf(colorNum);
     update();
 }
 

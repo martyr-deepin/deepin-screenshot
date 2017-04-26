@@ -507,6 +507,8 @@ void MainWindow::initShapeWidget(QString type) {
     m_shapesWidget->move(m_recordX, m_recordY);
     m_shapesWidget->show();
     update();
+
+    connect(m_toolBar, &ToolBar::updateColor, m_shapesWidget, &ShapesWidget::setPenColor);
 }
 
 void MainWindow::updateCursor(QEvent *event)

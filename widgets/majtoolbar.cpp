@@ -1,5 +1,6 @@
 #include "majtoolbar.h"
 #include "utils/baseutils.h"
+#include "utils/configsettings.h"
 #include "bigcolorbutton.h"
 #include "toolbutton.h"
 
@@ -92,6 +93,9 @@ void MajToolBar::initWidgets() {
         if (m_currentShape != "rectangle") {
             m_currentShape = "rectangle";
             m_isChecked = true;
+            int rectColorIndex = ConfigSettings::instance()->value("rectangle", "color_index").toInt();
+            ConfigSettings::instance()->setValue("common", "color_index", rectColorIndex);
+
         } else {
             m_currentShape = "";
             m_isChecked = false;
@@ -104,6 +108,8 @@ void MajToolBar::initWidgets() {
         if (m_currentShape != "oval") {
             m_currentShape = "oval";
             m_isChecked = true;
+            int ovalColorIndex = ConfigSettings::instance()->value("oval", "color_index").toInt();
+            ConfigSettings::instance()->setValue("common", "color_index", ovalColorIndex);
         } else {
             m_currentShape = "";
             m_isChecked = false;
@@ -115,6 +121,8 @@ void MajToolBar::initWidgets() {
         if (m_currentShape != "arrow") {
             m_currentShape = "arrow";
             m_isChecked = true;
+            int rectColorIndex = ConfigSettings::instance()->value("arrow", "color_index").toInt();
+            ConfigSettings::instance()->setValue("common", "color_index", rectColorIndex);
         } else {
             m_currentShape = "";
             m_isChecked = false;
@@ -126,6 +134,8 @@ void MajToolBar::initWidgets() {
         if (m_currentShape != "line") {
             m_currentShape = "line";
             m_isChecked = true;
+            int rectColorIndex = ConfigSettings::instance()->value("line", "color_index").toInt();
+            ConfigSettings::instance()->setValue("common", "color_index", rectColorIndex);
         } else {
             m_currentShape = "";
             m_isChecked = false;
@@ -137,6 +147,8 @@ void MajToolBar::initWidgets() {
         if (m_currentShape != "text") {
             m_currentShape = "text";
             m_isChecked = true;
+            int rectColorIndex = ConfigSettings::instance()->value("text", "color_index").toInt();
+            ConfigSettings::instance()->setValue("common", "color_index", rectColorIndex);
         } else {
             m_currentShape = "";
             m_isChecked = false;
@@ -144,12 +156,14 @@ void MajToolBar::initWidgets() {
         textBtn->setChecked(m_isChecked);
         emit buttonChecked(m_isChecked, "text");
     });
-    connect(colorBtn, &BigColorButton::clicked, this, [=](bool clicked){
+    connect(colorBtn, &BigColorButton::clicked, this, [=]{
         colorBtn->setChecked(true);
         emit buttonChecked(true, "color");
     });
+    connect(ConfigSettings::instance(), &ConfigSettings::colorChanged,
+            colorBtn, &BigColorButton::setColorIndex);
 
-    connect(this, &MajToolBar::setCurrentColor, colorBtn, &BigColorButton::setColor);
+    connect(this, &MajToolBar::mainColorChanged, colorBtn, &BigColorButton::setColor);
     connect(saveBtn, &ToolButton::clicked, this, [=](){
         if (m_currentShape != "save") {
             m_currentShape = "save";

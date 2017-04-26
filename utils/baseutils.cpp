@@ -69,3 +69,24 @@ QColor colorIndexOf(int index) {
 
     return QColor("#ffd903");
 }
+
+int colorIndex(QColor color) {
+    QList<QColor> colorList;
+    colorList.append(QColor("#ffd903"));
+    colorList.append(QColor("#ff5e1a"));
+    colorList.append(QColor("#ff3305"));
+    colorList.append(QColor("#ff1c49"));
+    colorList.append(QColor("#fb00ff"));
+    colorList.append(QColor("#7700ed"));
+    colorList.append(QColor("#3d08ff"));
+    colorList.append(QColor("#3467ff"));
+    colorList.append(QColor("#00aaff"));
+    colorList.append(QColor("#08ff77"));
+    colorList.append(QColor("#03a60e"));
+    colorList.append(QColor("#3c7d00"));
+    colorList.append(QColor("#ffffff"));
+    colorList.append(QColor("#666666"));
+    colorList.append(QColor("#2b2b2b"));
+    colorList.append(QColor("#000000"));
+    return colorList.indexOf(color);
+}

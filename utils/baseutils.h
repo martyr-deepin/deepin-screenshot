@@ -24,4 +24,5 @@ QCursor setCursorShape(QString cursorName);
 int stringWidth(const QFont &f, const QString &str);
 QString     getFileContent(const QString &file);
 QColor       colorIndexOf(int index);
+int                colorIndex(QColor color);
 #endif // BASEUTILS_H

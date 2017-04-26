@@ -35,8 +35,11 @@ void ShapesWidget::setCurrentShape(QString shapeType) {
 }
 
 void ShapesWidget::setPenColor(QColor color) {
-    m_penColor = color;
-    qDebug() << "shapesWidget Color:" << color;
+    int colorNum = colorIndex(color);
+    if ( !m_currentType.isEmpty()) {
+        ConfigSettings::instance()->setValue(m_currentType, "color_index", colorNum);
+    }
+
     update();
 }
 
@@ -685,6 +688,11 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
         clearSelected();
 
         m_currentShape.type = m_currentType;
+        m_currentShape.colorIndex = ConfigSettings::instance()->value(
+                    m_currentType, "color_index").toInt();
+        m_currentShape.lineWidth = ConfigSettings::instance()->value(
+                   m_currentType, "linewidth_index").toInt()*2+1;
+
         m_selectedIndex = -1;
         m_isRecording = true;
         if (m_pos1 == QPointF(0, 0)) {
@@ -692,10 +700,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
             m_currentDiagPoints.masterPoint = m_pos1;
             if (m_currentType == "line" || m_currentType == "arrow") {
                 m_currentShape.points.append(m_pos1);
-                m_currentShape.colorIndex = ConfigSettings::instance()->value(
-                           m_currentType, "color_index").toInt();
-                m_currentShape.lineWidth = ConfigSettings::instance()->value(
-                           m_currentType, "linewidth_index").toInt();
             }
             if (m_currentType == "text") {
                 if (m_editing) {
@@ -995,14 +999,13 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing);
     QPen pen;
-    pen.setColor(m_penColor);
-    pen.setWidth(3);
-    painter.setPen(pen);
-
     if ((m_currentDiagPoints.masterPoint != QPointF(0, 0) &&
             m_currentDiagPoints.deputyPoint != QPointF(0, 0))||
             m_currentShape.type == "text") {
         FourPoints currentFPoint = fourPointsOnRect(m_currentDiagPoints);
+        pen.setColor(colorIndexOf(m_currentShape.colorIndex));
+        pen.setWidth(m_currentShape.lineWidth);
+        painter.setPen(pen);
         if (m_currentType == "rectangle") {
             paintRect(painter, currentFPoint);
         } else if (m_currentType == "oval") {
@@ -1017,6 +1020,9 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     }
 
     for(int i = 0; i < m_shapes.length(); i++) {
+        pen.setColor(colorIndexOf(m_shapes[i].colorIndex));
+        pen.setWidth(m_shapes[i].lineWidth);
+        painter.setPen(pen);
         if (m_shapes[i].type == "rectangle") {
             paintRect(painter, m_shapes[i].mainPoints);
         } else if (m_shapes[i].type == "oval") {

@@ -11,10 +11,13 @@ public:
     static ConfigSettings *instance();
 
     void setValue(const QString &group, const QString &key,
-                  const QVariant &value);
+                  QVariant val);
     QVariant value(const QString &group, const QString &key,
                    const QVariant &defaultValue = QVariant());
     QStringList keys(const QString &group);
+
+signals:
+    void colorChanged();
 
 private:
     ConfigSettings(QObject* parent = 0);
