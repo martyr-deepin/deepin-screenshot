@@ -8,8 +8,6 @@
 
 class MajToolBar : public QLabel {
     Q_OBJECT
-
-
 public:
     MajToolBar(QWidget* parent = 0);
     ~MajToolBar();

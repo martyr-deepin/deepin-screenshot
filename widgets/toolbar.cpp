@@ -40,8 +40,6 @@ ToolBar::ToolBar(QWidget *parent)
     connect(this, &ToolBar::buttonChecked, m_subToolbar, &SubToolBar::switchContent);
     connect(m_subToolbar, &SubToolBar::setCurrentColor,
             m_majToolbar, &MajToolBar::setCurrentColor);
-    connect(m_subToolbar, &SubToolBar::setCurrentColor,
-            m_majToolbar, &MajToolBar::setCurrentColor);
     connect(m_subToolbar, &SubToolBar::setSaveBtn, this, &ToolBar::updateSaveOption);
     connect(m_subToolbar, &SubToolBar::setCurrentColor, this, &ToolBar::updateColor);
 }
@@ -51,7 +49,8 @@ bool ToolBar::isButtonChecked() {
 }
 
 void ToolBar::setExpand(bool expand, QString shapeType) {
-    emit buttonChecked(shapeType);
+     emit buttonChecked(shapeType);
+
     if (expand) {
         m_isChecked = true;
         setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT*2);

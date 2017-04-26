@@ -144,16 +144,9 @@ void MajToolBar::initWidgets() {
         textBtn->setChecked(m_isChecked);
         emit buttonChecked(m_isChecked, "text");
     });
-    connect(colorBtn, &ToolButton::clicked, this, [=](){
-        if (m_currentShape != "color") {
-            m_currentShape = "color";
-            m_isChecked = true;
-        } else {
-            m_currentShape = "";
-            m_isChecked = false;
-        }
-        colorBtn->setChecked(m_isChecked);
-        emit buttonChecked(m_isChecked, "color");
+    connect(colorBtn, &BigColorButton::clicked, this, [=](bool clicked){
+        colorBtn->setChecked(true);
+        emit buttonChecked(true, "color");
     });
 
     connect(this, &MajToolBar::setCurrentColor, colorBtn, &BigColorButton::setColor);
@@ -169,13 +162,6 @@ void MajToolBar::initWidgets() {
         emit buttonChecked(m_isChecked, "save");
     });
     connect(saveListBtn, &ToolButton::clicked, this, [=](){
-        if (m_currentShape != "saveList") {
-            m_currentShape = "saveList";
-            m_isChecked = true;
-        } else {
-            m_currentShape = "";
-            m_isChecked = false;
-        }
         saveListBtn->setChecked(m_isChecked);
         emit buttonChecked(m_isChecked, "saveList");
     });

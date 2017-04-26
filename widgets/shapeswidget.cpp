@@ -31,7 +31,6 @@ ShapesWidget::~ShapesWidget() {
 
 void ShapesWidget::setCurrentShape(QString shapeType) {
     m_currentType = shapeType;
-    qDebug() << "shape" << m_currentType;
     qApp->setOverrideCursor(setCursorShape(m_currentType));
 }
 
