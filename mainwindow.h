@@ -15,6 +15,7 @@
 #include "widgets/zoomIndicator.h"
 #include "widgets/shapeswidget.h"
 #include "utils/baseutils.h"
+#include "utils/configsettings.h"
 
 #include "windowmanager.h"
 #include "eventmonitor.h"
@@ -93,6 +94,7 @@ private:
     ToolBar* m_toolBar;
     ZoomIndicator* m_zoomIndicator;
     ShapesWidget* m_shapesWidget;
+    ConfigSettings* m_configSettings;
 
     bool m_isShapesWidgetExist;
     int m_saveIndex;

@@ -30,7 +30,7 @@ void MainWindow::initUI() {
                    Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus*/);
     setAttribute(Qt::WA_TranslucentBackground, true);
     setMouseTracking(true);   // make MouseMove can response
-
+    m_configSettings =  ConfigSettings::instance();
 
     m_windowManager = new WindowManager();
     QList<xcb_window_t> windows = m_windowManager->getWindows();

@@ -4,6 +4,7 @@
 #include <QDebug>
 
 #include "utils/baseutils.h"
+#include "utils/configsettings.h"
 
 const QSize BUTTON_SIZE = QSize(20, 16);
 const QSize LINE_EDIT_SIZE = QSize(43, 16);
@@ -27,6 +28,9 @@ void FontSizeWidget::initWidget() {
     m_fontSizeEdit = new QLineEdit(this);
     m_fontSizeEdit->setObjectName("FontSizeEdit");
     m_fontSizeEdit->setFixedSize(LINE_EDIT_SIZE);
+
+    m_fontSize = ConfigSettings::instance()->value("text", "fontsize_index").toInt();
+
     m_fontSizeEdit->setText(QString("%1").arg(m_fontSize));
     m_addSizeBtn = new QPushButton(this);
     m_addSizeBtn->setObjectName("AddSizeBtn");
@@ -57,6 +61,10 @@ void FontSizeWidget::initWidget() {
     });
 }
 
+void FontSizeWidget::setFontSize(int fontSize) {
+    m_fontSize = fontSize;
+}
+
 void FontSizeWidget::adjustFontSize(bool add) {
     if (add) {
         m_fontSize = m_fontSize + 1;
@@ -67,6 +75,7 @@ void FontSizeWidget::adjustFontSize(bool add) {
     }
 
     m_fontSizeEdit->setText(QString("%1").arg(m_fontSize));
+    emit fontSizeChanged(m_fontSize);
 }
 
 FontSizeWidget::~FontSizeWidget() {

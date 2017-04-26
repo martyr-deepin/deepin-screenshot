@@ -26,6 +26,7 @@ signals:
 
 private:
     int m_lineWidth;
+    QString m_currentShapeType;
 
     QLabel* m_rectLabel;
     QLabel* m_arrowLabel;

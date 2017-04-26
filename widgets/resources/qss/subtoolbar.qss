@@ -80,7 +80,7 @@ QPushButton#ArrowFine:checked:hover {
     outline: none;
     border-image: url(:/resources/images/size/arrow_fine_checked.png);
 }
-QPushButton#FineLine:checked {
+QPushButton#ArrowFineLine:checked {
     outline: none;
     border: none;
     border-image: url(:/resources/images/size/arrow_fine_checked.png);

@@ -3,6 +3,7 @@
 #include "colorbutton.h"
 #include "fontsizewidget.h"
 #include "utils/baseutils.h"
+#include "utils/configsettings.h"
 
 #include <QLineEdit>
 #include <QButtonGroup>
@@ -42,17 +43,20 @@ void SubToolBar::initRectLabel() {
     m_rectLabel = new QLabel(this);
     QButtonGroup* rectBtnGroup = new QButtonGroup();
     rectBtnGroup->setExclusive(true);
+    QList<ToolButton*> btnList;
     //rectangle, oval...
     ToolButton* fineLine = new ToolButton();
     fineLine->setObjectName("FineLine");
     rectBtnGroup->addButton(fineLine);
+    btnList.append(fineLine);
     ToolButton*  mediumLine = new ToolButton();
     mediumLine->setObjectName("MediumLine");
-    mediumLine->setChecked(true);
     rectBtnGroup->addButton(mediumLine);
+    btnList.append(mediumLine);
     ToolButton* thickLine = new ToolButton();
     thickLine->setObjectName("ThickLine");
     rectBtnGroup->addButton(thickLine);
+    btnList.append(thickLine);
     //seperator line...
     QLabel* vSeperatorLine = new QLabel();
     vSeperatorLine->setFixedSize(1, 16);
@@ -63,13 +67,20 @@ void SubToolBar::initRectLabel() {
     ToolButton* mosaicBtn = new ToolButton();
     mosaicBtn->setObjectName("MosaicBtn");
 
+    int lineWidthIndex = ConfigSettings::instance()->value("rectangle",
+                                                      "linewidth_index").toInt();
+    btnList[lineWidthIndex]->setChecked(true);
+
     QHBoxLayout* rectLayout = new QHBoxLayout();
     rectLayout->setMargin(0);
     rectLayout->setSpacing(4);
     rectLayout->addSpacing(4);
-    rectLayout->addWidget(fineLine);
-    rectLayout->addWidget(mediumLine);
-    rectLayout->addWidget(thickLine);
+    for (int i = 0; i < btnList.length(); i++) {
+        rectLayout->addWidget(btnList[i]);
+        connect(btnList[i], &ToolButton::clicked, this, [=]{
+                ConfigSettings::instance()->setValue("rectangle", "linewidth_index", i);
+        });
+    }
     rectLayout->addSpacing(2);
     rectLayout->addWidget(vSeperatorLine);
     rectLayout->addSpacing(2);
@@ -85,16 +96,19 @@ void SubToolBar::initArrowLabel() {
     //arrow
     QButtonGroup*  arrowBtnGroup = new QButtonGroup();
     arrowBtnGroup->setExclusive(true);
+    QList<ToolButton*> arrowBtnList;
     ToolButton* arrowFineLine = new ToolButton();
     arrowFineLine->setObjectName("ArrowFine");
     arrowBtnGroup->addButton(arrowFineLine);
+    arrowBtnList.append(arrowFineLine);
     ToolButton*  arrowMediumLine = new ToolButton();
     arrowMediumLine->setObjectName("ArrowMedium");
-    arrowMediumLine->setChecked(true);
     arrowBtnGroup->addButton(arrowMediumLine);
+    arrowBtnList.append(arrowMediumLine);
     ToolButton* arrowThickLine = new ToolButton();
     arrowThickLine->setObjectName("ArrowThick");
     arrowBtnGroup->addButton(arrowThickLine);
+    arrowBtnList.append(arrowThickLine);
     //line
     QButtonGroup*  lineBtnGroup = new QButtonGroup();
     lineBtnGroup->setExclusive(true);
@@ -102,13 +116,15 @@ void SubToolBar::initArrowLabel() {
     ToolButton* fineLine = new ToolButton();
     fineLine->setObjectName("ArrowFineLine");
     lineBtnGroup->addButton(fineLine);
+    arrowBtnList.append(fineLine);
     ToolButton*  mediumLine = new ToolButton();
     mediumLine->setObjectName("ArrowMediumLine");
-    mediumLine->setChecked(true);
     lineBtnGroup->addButton(mediumLine);
+    arrowBtnList.append(mediumLine);
     ToolButton* thickLine = new ToolButton();
     thickLine->setObjectName("ArrowThickLine");
     lineBtnGroup->addButton(thickLine);
+    arrowBtnList.append(thickLine);
     //seperator line...
     QLabel* vSeperatorLine = new QLabel();
     vSeperatorLine->setFixedSize(1, 16);
@@ -123,15 +139,24 @@ void SubToolBar::initArrowLabel() {
     arrowBtn->setChecked(true);
     styleBtnGroup->addButton(arrowBtn, 1);
 
+
+    int arrowWidthIndex = ConfigSettings::instance()->value("arrow",
+                                                      "linewidth_index").toInt();
+    arrowBtnList[arrowWidthIndex]->setChecked(true);
+    arrowBtnList[arrowWidthIndex+3]->setChecked(true);
     QHBoxLayout* arrowLayout = new QHBoxLayout();
     arrowLayout->setMargin(0);
     arrowLayout->setSpacing(2);
-    arrowLayout->addWidget(arrowFineLine);
-    arrowLayout->addWidget(arrowMediumLine);
-    arrowLayout->addWidget(arrowThickLine);
-    arrowLayout->addWidget(fineLine);
-    arrowLayout->addWidget(mediumLine);
-    arrowLayout->addWidget(thickLine);
+    for (int j = 0; j < arrowBtnList.length(); j++) {
+        arrowLayout->addWidget(arrowBtnList[j]);
+        connect(arrowBtnList[j], &ToolButton::clicked, this, [=]{
+            if (j < 3) {
+                 ConfigSettings::instance()->setValue("arrow", "linewidth_index", j);
+            } else {
+                ConfigSettings::instance()->setValue("arrow", "linewidth_index", j - 3);
+            }
+        });
+    }
     arrowLayout->addSpacing(2);
     arrowLayout->addWidget(vSeperatorLine);
     arrowLayout->addSpacing(2);
@@ -171,23 +196,35 @@ void SubToolBar::initLineLabel() {
      //rectangle, oval...
     QButtonGroup* lineBtnGroup = new QButtonGroup();
     lineBtnGroup->setExclusive(true);
+    QList<ToolButton*> btnList;
+
     ToolButton* fineLine = new ToolButton();
     fineLine->setObjectName("FineLine");
     lineBtnGroup->addButton(fineLine);
+    btnList.append(fineLine);
     ToolButton*  mediumLine = new ToolButton();
     mediumLine->setObjectName("MediumLine");
-    mediumLine->setChecked(true);
     lineBtnGroup->addButton(mediumLine);
+    btnList.append(mediumLine);
     ToolButton* thickLine = new ToolButton();
     thickLine->setObjectName("ThickLine");
     lineBtnGroup->addButton(thickLine);
+    btnList.append(thickLine);
+
+    int lineWidthIndex = ConfigSettings::instance()->value("line",
+                                                      "linewidth_index").toInt();
+    btnList[lineWidthIndex]->setChecked(true);
 
     QHBoxLayout* lineLayout = new QHBoxLayout();
     lineLayout->setMargin(0);
     lineLayout->setSpacing(2);
-    lineLayout->addWidget(fineLine);
-    lineLayout->addWidget(mediumLine);
-    lineLayout->addWidget(thickLine);
+    for(int k = 0; k < btnList.length(); k++) {
+        lineLayout->addWidget(btnList[k]);
+        connect(btnList[k], &ToolButton::clicked, this, [=]{
+            ConfigSettings::instance()->setValue("line", "linewidth_index", k);
+        });
+    }
+
     lineLayout->addStretch();
     m_lineLabel->setLayout(lineLayout);
     addWidget(m_lineLabel);
@@ -205,6 +242,10 @@ void SubToolBar::initTextLabel() {
     textLayout->addStretch();
     m_textLabel->setLayout(textLayout);
     addWidget(m_textLabel);
+
+    connect(fontsizeWidget, &FontSizeWidget::fontSizeChanged, this, [=](int index){
+        ConfigSettings::instance()->setValue("text", "fontsize_index", index);
+    });
 }
 
 void SubToolBar::initColorLabel() {
