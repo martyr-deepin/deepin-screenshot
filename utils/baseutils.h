@@ -23,5 +23,5 @@ enum ResizeDirection {
 QCursor setCursorShape(QString cursorName);
 int stringWidth(const QFont &f, const QString &str);
 QString     getFileContent(const QString &file);
-void clearLayout(QLayout *layout);
+
 #endif // BASEUTILS_H

@@ -170,7 +170,6 @@ otherFPoints[2] = QPoint((mainPoints[2].x() + mainPoints[3].x())/2,
                                               (mainPoints[2].y() + mainPoints[3].y())/2);
 otherFPoints[3] = (QPoint((mainPoints[1].x() + mainPoints[3].x())/2,
                                               (mainPoints[1].y() + mainPoints[3].y())/2));
-qDebug() << otherFPoints.length();
 return otherFPoints;
 }
 /*

@@ -45,17 +45,3 @@ QString getFileContent(const QString &file) {
     }
     return fileContent;
 }
-
-void clearLayout(QLayout *layout) {
-    QLayoutItem *item;
-    while((item = layout->takeAt(0))) {
-        if (item->layout()) {
-            clearLayout(item->layout());
-            delete item->layout();
-        }
-        if (item->widget()) {
-            delete item->widget();
-        }
-        delete item;
-    }
-}

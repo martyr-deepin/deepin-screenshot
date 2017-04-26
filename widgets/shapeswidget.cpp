@@ -100,7 +100,6 @@ bool ShapesWidget::clickedOnRect(FourPoints rectPoints, QPointF pos) {
     m_isResize = false;
     m_isRotated = false;
 
-    m_pressedPoint = QPointF(0, 0);
     QPointF point1 = rectPoints[0];
     QPointF point2 = rectPoints[1];
     QPointF point3 = rectPoints[2];
@@ -192,7 +191,7 @@ bool ShapesWidget::clickedOnEllipse(FourPoints mainPoints, QPointF pos) {
     m_isResize = false;
     m_isRotated = false;
 
-    m_pressedPoint = QPoint(0, 0);
+    m_pressedPoint = pos;
     FourPoints otherFPoints = getAnotherFPoints(mainPoints);
     if (pointClickIn(mainPoints[0], pos)) {
         m_isSelected = true;
@@ -285,22 +284,26 @@ bool ShapesWidget::clickedOnArrow(QList<QPointF> points, QPointF pos) {
         m_isSelected = true;
         m_isRotated = true;
         m_resizeDirection = Rotate;
+        m_pressedPoint = pos;
         return true;
     } else if (pointClickIn(points[1], pos)) {
         m_isSelected = true;
         m_isRotated = true;
         m_resizeDirection = Rotate;
+        m_pressedPoint = pos;
         return true;
     } else if (pointOnLine(points[0], points[1], pos)) {
         m_isSelected = true;
         m_isRotated = false;
         m_resizeDirection = Moving;
+        m_pressedPoint = pos;
         return true;
     } else {
         m_isSelected = false;
         m_isRotated = false;
         m_isResize = false;
         m_resizeDirection = Outting;
+        m_pressedPoint = pos;
         return false;
     }
 }
@@ -579,6 +582,16 @@ bool ShapesWidget::hoverOnRotatePoint(FourPoints mainPoints,
 }
 
 void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)  {
+    if (m_shapes[m_selectedIndex].type == "arrow") {
+        for(int i = 0; i < m_shapes[m_selectedIndex].points.length(); i++) {
+            m_shapes[m_selectedIndex].points[i] = QPointF(
+                        m_shapes[m_selectedIndex].points[i].x() + (newPoint.x() - oldPoint.x()),
+                        m_shapes[m_selectedIndex].points[i].y() + (newPoint.y() - oldPoint.y())
+                        );
+        }
+        return;
+    }
+
     if (m_shapes[m_selectedIndex].mainPoints.length() == 4) {
         for(int i = 0; i < m_shapes[m_selectedIndex].mainPoints.length(); i++) {
             m_shapes[m_selectedIndex].mainPoints[i] = QPointF(
@@ -618,7 +631,7 @@ void ShapesWidget::handleRotate(QPointF pos) {
     for (int i = 0; i < 4; i++) {
         m_shapes[m_selectedIndex].mainPoints[i] = pointRotate(centerInPoint,
                                                               m_shapes[m_selectedIndex].mainPoints[i], angle);
-    }  
+    }
 
     for(int k = 0; k < m_shapes[m_selectedIndex].points.length(); k++) {
         m_shapes[m_selectedIndex].points[k] = pointRotate(centerInPoint,
@@ -632,7 +645,6 @@ void ShapesWidget::handleRotate(QPointF pos) {
 
 void ShapesWidget::handleResize(QPointF pos, int key) {
     if (m_isResize) {
-        qDebug() << "handleResize" << key;
         if (m_shapes[m_selectedIndex].portion.isEmpty()) {
             for(int k = 0; k < m_shapes[m_selectedIndex].points.length(); k++) {
                 m_shapes[m_selectedIndex].portion.append(relativePosition(
@@ -659,11 +671,13 @@ void ShapesWidget::handleResize(QPointF pos, int key) {
         m_selectedShape.points = m_shapes[m_selectedIndex].points;
         m_hoveredShape.points = m_shapes[m_selectedIndex].points;
     }
+    m_pressedPoint = pos;
 }
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e) {
     m_pressedPoint = e->pos();
     m_isPressed = true;
+
     if (!clickedOnShapes(m_pressedPoint)) {
         qDebug() << "no one shape be clicked!";
         m_currentDiagPoints.masterPoint = QPoint(0, 0);
@@ -758,6 +772,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
 void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
     m_isMoving = true;
     m_movingPoint = e->pos();
+    qDebug() << "mouseMoveEvent" << e->pos();
 
     if (m_isRecording && m_isPressed) {
         m_pos2 = e->pos();
@@ -794,7 +809,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
             m_currentSelectedDiagPoints.masterPoint = m_shapes[m_selectedIndex].mainPoints[0];
             m_currentSelectedDiagPoints.deputyPoint =  m_shapes[m_selectedIndex].mainPoints[3];
 
-            m_pressedPoint = e->pos();
+            m_pressedPoint = m_movingPoint;
             update();
         }
     } else {
