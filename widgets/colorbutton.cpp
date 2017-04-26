@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QDebug>
 
-const QSize BUTTON_SIZE = QSize(13, 13);
+const QSize BUTTON_SIZE = QSize(15, 15);
 const int  ELLIPSE_MARGIN = 1;
 ColorButton::ColorButton(QColor bgColor, QWidget *parent)
     : QPushButton(parent) {

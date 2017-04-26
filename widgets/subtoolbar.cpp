@@ -225,11 +225,10 @@ void SubToolBar::initColorLabel() {
     ColorButton* tenthColor = new ColorButton(QColor("#08ff77"));
     ColorButton* eleventhColor = new ColorButton(QColor("#03a60e"));
     ColorButton* twelfthColor  = new ColorButton(QColor("#3c7d00"));
-    ColorButton* thirteenthColor = new ColorButton(QColor("#ffd903"));
-    ColorButton* fourteenthColor = new ColorButton(QColor("#ffffff"));
-    ColorButton* fifteenthColor  = new ColorButton(QColor("#666666"));
-    ColorButton* sixteenthColor = new ColorButton(QColor("#2b2b2b"));
-    ColorButton* eighteenthColor = new ColorButton(QColor("#000000"));
+    ColorButton* thirteenthColor = new ColorButton(QColor("#ffffff"));
+    ColorButton* fourteenthColor  = new ColorButton(QColor("#666666"));
+    ColorButton* fifteenthColor = new ColorButton(QColor("#2b2b2b"));
+    ColorButton* sixteenthColor = new ColorButton(QColor("#000000"));
 
     colorBtnList.append(firstColor);
     colorBtnList.append(secondColor);
@@ -247,7 +246,6 @@ void SubToolBar::initColorLabel() {
     colorBtnList.append(fourteenthColor);
     colorBtnList.append(fifteenthColor);
     colorBtnList.append(sixteenthColor);
-    colorBtnList.append(eighteenthColor);
 
     for(int i = 0; i < colorBtnList.length(); i++) {
         colorBtnGroup->addButton(colorBtnList[i]);
@@ -255,7 +253,7 @@ void SubToolBar::initColorLabel() {
 
     QHBoxLayout* colorLayout = new QHBoxLayout();
     colorLayout->setMargin(0);
-    colorLayout->setSpacing(3);
+    colorLayout->setSpacing(2);
     colorLayout->addStretch();
     for(int i = 0; i < colorBtnList.length(); i++) {
         colorLayout->addWidget(colorBtnList[i]);
