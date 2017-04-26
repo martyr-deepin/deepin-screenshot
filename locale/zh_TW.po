@@ -4,19 +4,19 @@
 # 
 # Translators:
 # Automatically generated, 2012
-# 鄭子凡（凡凡不想平凡） <freddy4212@gmail.com>, 2013-2016
+# 凡凡不想平凡 <freddy4212@gmail.com>, 2013-2016
 # Catherinelin <linhongxia@linuxdeepin.com>, 2014
 # Peter Dave Hello <hsu@peterdavehello.org>, 2014
 # Peter Dave Hello <hsu@peterdavehello.org>, 2014
-# 鄭子凡（凡凡不想平凡） <freddy4212@gmail.com>, 2017
-# 鄭子凡（凡凡不想平凡） <freddy4212@gmail.com>, 2017
+# 凡凡不想平凡 <freddy4212@gmail.com>, 2017
+# 凡凡不想平凡 <freddy4212@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-18 15:20+0800\n"
 "PO-Revision-Date: 2017-04-12 16:12+0000\n"
-"Last-Translator: 鄭子凡（凡凡不想平凡） <freddy4212@gmail.com>\n"
+"Last-Translator: 凡凡不想平凡 <freddy4212@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
