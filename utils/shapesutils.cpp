@@ -53,7 +53,7 @@ QDebug &operator<<(QDebug &argument, const Toolshape &obj) {
             << obj.type << ","
             << "[" << obj.mainPoints << "]" << ","
             << obj.lineWidth << ","
-            << obj.penColor <<","
+            << obj.colorIndex <<","
             << obj.isBlur << ","
             << obj.isMosaic << ","
             << obj.fontSize << ","
@@ -66,7 +66,7 @@ QDataStream &operator>>(QDataStream &in, Toolshape &obj) {
     in >> obj.fontSize;
     in >> obj.isBlur;
     in >> obj.isMosaic;
-    in >> obj.penColor;
+    in >> obj.colorIndex;
     in >> obj.lineWidth;
     in >> obj.mainPoints;
     in >> obj.type;
@@ -78,7 +78,7 @@ Toolshape Toolshape::operator=(Toolshape obj) {
     type = obj.type;
     mainPoints = obj.mainPoints;
     lineWidth = obj.lineWidth;
-    penColor = obj.penColor;
+    colorIndex = obj.colorIndex;
     isBlur = obj.isBlur;
     isMosaic = obj.isMosaic;
     fontSize = obj.fontSize;

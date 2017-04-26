@@ -1,6 +1,7 @@
 #include "shapeswidget.h"
 
 #include "utils/calculaterect.h"
+#include "utils/configsettings.h"
 
 #include <QApplication>
 #include <QPainter>
@@ -692,6 +693,10 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
             m_currentDiagPoints.masterPoint = m_pos1;
             if (m_currentType == "line" || m_currentType == "arrow") {
                 m_currentShape.points.append(m_pos1);
+                m_currentShape.colorIndex = ConfigSettings::instance()->value(
+                           m_currentType, "color_index").toInt();
+                m_currentShape.lineWidth = ConfigSettings::instance()->value(
+                           m_currentType, "linewidth_index").toInt();
             }
             if (m_currentType == "text") {
                 if (m_editing) {
@@ -701,6 +706,9 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                     TextEdit* edit = new TextEdit(m_shapes.length(), this);
                     m_selectedIndex = m_shapes.length();
                     m_editing = true;
+                    int defaultFontSize = ConfigSettings::instance()->value("text", "fontsize").toInt();
+                    edit->setFontPointSize(qreal(defaultFontSize));
+                    m_currentShape.fontSize = defaultFontSize;
                     edit->setFocus();
                     edit->move(m_pos1.x(), m_pos1.y());
                     edit->show();

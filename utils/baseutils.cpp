@@ -45,3 +45,27 @@ QString getFileContent(const QString &file) {
     }
     return fileContent;
 }
+
+QColor colorIndexOf(int index) {
+    switch(index) {
+    case 0: { return QColor("#ffd903");}
+    case 1: { return QColor("#ff5e1a");}
+    case 2: { return QColor("#ff3305");}
+    case 3: { return QColor("#ff1c49");}
+    case 4: { return QColor("#fb00ff");}
+    case 5: { return QColor("#7700ed");}
+    case 6: { return QColor("#3d08ff");}
+    case 7: { return QColor("#3467ff");}
+    case 8: { return QColor("#00aaff");}
+    case 9: { return QColor("#08ff77");}
+    case 10: { return QColor("#03a60e");}
+    case 11: { return QColor("#3c7d00");}
+    case 12: { return QColor("#ffffff");}
+    case 13: { return QColor("#666666");}
+    case 14: { return QColor("#2b2b2b");}
+    case 15: { return QColor("#000000");}
+    default:  {return QColor("#ffd903");}
+    }
+
+    return QColor("#ffd903");
+}

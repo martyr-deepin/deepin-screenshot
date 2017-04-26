@@ -23,7 +23,7 @@ ConfigSettings::ConfigSettings(QObject *parent)
         setValue("rectangle", "color_index", 3);
         setValue("rectangle", "linewidth_index", 1);
         setValue("text", "color_index", 5);
-        setValue("text", "fontsize_index", 12);
+        setValue("text", "fontsize", 12);
 
         setValue("save", "save_op", 1);
         setValue("showOSD", "show", true);

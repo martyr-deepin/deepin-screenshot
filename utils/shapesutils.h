@@ -34,7 +34,7 @@ public:
      QString type;
      FourPoints mainPoints;
      int lineWidth;
-     QColor penColor;
+     int colorIndex;
      bool isBlur = false;
      bool isMosaic = false;
      int fontSize = 1;

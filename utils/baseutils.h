@@ -23,5 +23,5 @@ enum ResizeDirection {
 QCursor setCursorShape(QString cursorName);
 int stringWidth(const QFont &f, const QString &str);
 QString     getFileContent(const QString &file);
-
+QColor       colorIndexOf(int index);
 #endif // BASEUTILS_H

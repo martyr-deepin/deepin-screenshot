@@ -15,6 +15,7 @@ namespace {
     const int TOOLBAR_HEIGHT = 28;
     const int TOOLBAR_WIDTH = 284;
     const int BUTTON_SPACING = 3;
+    const int COLOR_NUM = 16;
 }
 
 SubToolBar::SubToolBar(QWidget *parent)
@@ -254,42 +255,10 @@ void SubToolBar::initColorLabel() {
     QButtonGroup* colorBtnGroup = new QButtonGroup(m_colorLabel);
     colorBtnGroup->setExclusive(true);
 
-    ColorButton* firstColor = new ColorButton(QColor("#ffd903"));
-    ColorButton* secondColor = new ColorButton(QColor("#ff5e1a"));
-    ColorButton* thirdColor  = new ColorButton(QColor("#ff3305"));
-    ColorButton* fourthColor = new ColorButton(QColor("#ff1c49"));
-    ColorButton* fifthColor = new ColorButton(QColor("#fb00ff"));
-    ColorButton* sixthColor  = new ColorButton(QColor("#7700ed"));
-    ColorButton* seventhColor = new ColorButton(QColor("#3d08ff"));
-    ColorButton* eighthColor = new ColorButton(QColor("#3467ff"));
-    ColorButton* ninthColor  = new ColorButton(QColor("#00aaff"));
-    ColorButton* tenthColor = new ColorButton(QColor("#08ff77"));
-    ColorButton* eleventhColor = new ColorButton(QColor("#03a60e"));
-    ColorButton* twelfthColor  = new ColorButton(QColor("#3c7d00"));
-    ColorButton* thirteenthColor = new ColorButton(QColor("#ffffff"));
-    ColorButton* fourteenthColor  = new ColorButton(QColor("#666666"));
-    ColorButton* fifteenthColor = new ColorButton(QColor("#2b2b2b"));
-    ColorButton* sixteenthColor = new ColorButton(QColor("#000000"));
-
-    colorBtnList.append(firstColor);
-    colorBtnList.append(secondColor);
-    colorBtnList.append(thirdColor);
-    colorBtnList.append(fourthColor);
-    colorBtnList.append(fifthColor);
-    colorBtnList.append(sixthColor);
-    colorBtnList.append(seventhColor);
-    colorBtnList.append(eighthColor);
-    colorBtnList.append(ninthColor);
-    colorBtnList.append(tenthColor);
-    colorBtnList.append(eleventhColor);
-    colorBtnList.append(twelfthColor);
-    colorBtnList.append(thirteenthColor);
-    colorBtnList.append(fourteenthColor);
-    colorBtnList.append(fifteenthColor);
-    colorBtnList.append(sixteenthColor);
-
-    for(int i = 0; i < colorBtnList.length(); i++) {
-        colorBtnGroup->addButton(colorBtnList[i]);
+    for(int i = 0; i < COLOR_NUM; i ++) {
+        ColorButton* colorBtn = new ColorButton(colorIndexOf(i));
+        colorBtnList.append(colorBtn);
+        colorBtnGroup->addButton(colorBtn);
     }
 
     QHBoxLayout* colorLayout = new QHBoxLayout();
