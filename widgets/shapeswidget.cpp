@@ -546,7 +546,6 @@ bool ShapesWidget::hoverOnLine(FourPoints mainPoints, QList<QPointF> points,
     return false;
 }
 bool ShapesWidget::hoverOnShapes(Toolshape toolShape, QPointF pos) {
-
     if (toolShape.type == "rectangle") {
         return hoverOnRect(toolShape.mainPoints, pos);
     } else if (toolShape.type == "oval") {
@@ -710,7 +709,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                     m_selectedIndex = m_shapes.length();
                     m_editing = true;
                     int defaultFontSize = ConfigSettings::instance()->value("text", "fontsize").toInt();
-                    edit->setFontPointSize(qreal(defaultFontSize));
                     m_currentShape.fontSize = defaultFontSize;
                     edit->setFocus();
                     edit->move(m_pos1.x(), m_pos1.y());
@@ -990,9 +988,6 @@ void ShapesWidget::paintText(QPainter &painter, FourPoints rectFPoints) {
     painter.drawLine(rectFPoints[1], rectFPoints[3]);
     painter.drawLine(rectFPoints[3], rectFPoints[2]);
     painter.drawLine(rectFPoints[2], rectFPoints[0]);
-    textPen.setStyle(Qt::SolidLine);
-    textPen.setColor(Qt::red);
-    painter.setPen(textPen);
 }
 
 void ShapesWidget::paintEvent(QPaintEvent *) {

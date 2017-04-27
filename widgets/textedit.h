@@ -2,11 +2,11 @@
 #define TEXTEDIT_H
 
 #include <QWidget>
-#include <QTextEdit>
+#include <QPlainTextEdit>
 #include <QPainter>
 #include <QMouseEvent>
 
-class TextEdit : public QTextEdit {
+class TextEdit : public QPlainTextEdit {
     Q_OBJECT
 public:
     TextEdit(int index, QWidget* parent);

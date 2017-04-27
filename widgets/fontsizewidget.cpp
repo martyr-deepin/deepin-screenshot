@@ -75,6 +75,10 @@ void FontSizeWidget::adjustFontSize(bool add) {
 
     m_fontSizeEdit->setText(QString("%1").arg(m_fontSize));
     emit fontSizeChanged(m_fontSize);
+
+    connect(this, &FontSizeWidget::fontSizeChanged, this, [=](int fontSize){
+        ConfigSettings::instance()->setValue("text", "fontsize", fontSize);
+    });
 }
 
 FontSizeWidget::~FontSizeWidget() {

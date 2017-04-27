@@ -260,10 +260,6 @@ void SubToolBar::initTextLabel() {
     textLayout->addStretch();
     m_textLabel->setLayout(textLayout);
     addWidget(m_textLabel);
-
-    connect(fontsizeWidget, &FontSizeWidget::fontSizeChanged, this, [=](int index){
-        ConfigSettings::instance()->setValue("text", "fontsize_index", index);
-    });
 }
 
 void SubToolBar::initColorLabel() {

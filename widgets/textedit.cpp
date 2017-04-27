@@ -7,23 +7,36 @@
 #include <QFontMetricsF>
 #include <QApplication>
 
+#include "utils/configsettings.h"
+#include "utils/baseutils.h"
+
 const QSize CURSOR_SIZE = QSize(5, 20);
+const int TEXT_MARGIN = 10;
 
 TextEdit::TextEdit(int index, QWidget *parent)
-    : QTextEdit(parent),
+    : QPlainTextEdit(parent),
       m_textColor(Qt::red)
 {
     m_index = index;
-    setLineWrapMode(QTextEdit::NoWrap);
+    setLineWrapMode(QPlainTextEdit::NoWrap);
+    int defaultColorIndex = ConfigSettings::instance()->value(
+                                               "text", "color_index").toInt();
+    QColor defaultColor = colorIndexOf(defaultColorIndex);
+    setColor(defaultColor);
+    QFont textFont;
+    int defaultFontSize = ConfigSettings::instance()->value("text", "fontsize").toInt();
+    textFont.setPixelSize(defaultFontSize);
+    this->setFont(textFont);
 
     QTextCursor cursor = textCursor();
     QTextBlockFormat textBlockFormat = cursor.blockFormat();
     textBlockFormat.setAlignment(Qt::AlignLeft);
     cursor.mergeBlockFormat(textBlockFormat);
 
-    setStyleSheet("background-color:  transparent; color: white; border: none;");
+
     QFontMetricsF fontMetric(this->document()->defaultFont());
-    QSizeF originSize = QSizeF(fontMetric.boundingRect(this->toPlainText()).width() + 10, 30);
+    QSizeF originSize = QSizeF(fontMetric.boundingRect(
+                                   this->toPlainText()).width() + 10, 30);
     this->resize(originSize.width(), originSize.height());
     updateCursor();
     installEventFilter(this);
@@ -33,10 +46,10 @@ TextEdit::TextEdit(int index, QWidget *parent)
 
     connect(this->document(), &QTextDocument::contentsChange, [=]{
         QSizeF docSize =  fontMetric.size(0, this->toPlainText());
-
-        this->setMinimumSize(docSize.width() + 10, docSize.height() + 10);
-        this->resize(docSize.width() + 10, docSize.height() + 10);
-        emit  repaintTextRect(this,  QRectF(this->x(), this->y(), docSize.width() + 10, docSize.height() + 10));
+        this->setMinimumSize(docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN);
+        this->resize(docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN);
+        emit  repaintTextRect(this,  QRectF(this->x(), this->y(),
+                                                docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN));
     });
 }
 
@@ -46,10 +59,12 @@ int TextEdit::getIndex() {
 
 void TextEdit::setColor(QColor c) {
     m_textColor = c;
+    setStyleSheet(QString("background-color:  transparent;"
+                                            " color: %1; border: none;").arg(m_textColor.name()));
 }
 
 void TextEdit::updateCursor() {
-    setTextColor(Qt::green);
+//    setTextColor(Qt::green);
 }
 
 void TextEdit::setCursorVisible(bool visible) {
@@ -88,7 +103,7 @@ void TextEdit::mousePressEvent(QMouseEvent *e) {
     }
 
     m_pressPoint = e->pos();
-    QTextEdit::mousePressEvent(e);
+    QPlainTextEdit::mousePressEvent(e);
 }
 
 void TextEdit::mouseMoveEvent(QMouseEvent *e) {
@@ -106,7 +121,7 @@ void TextEdit::mouseReleaseEvent(QMouseEvent *e) {
         return;
     }
 
-    QTextEdit::mouseReleaseEvent(e);
+    QPlainTextEdit::mouseReleaseEvent(e);
 }
 
 void TextEdit::enterEvent(QEnterEvent *e) {
@@ -118,7 +133,7 @@ void TextEdit::enterEvent(QEnterEvent *e) {
         qApp->setOverrideCursor(Qt::ArrowCursor);
     }
 
-    QTextEdit::enterEvent(e);
+    QPlainTextEdit::enterEvent(e);
 }
 
 TextEdit::~TextEdit() {}
