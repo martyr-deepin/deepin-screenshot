@@ -79,7 +79,7 @@ void SubToolBar::initRectLabel() {
     for (int i = 0; i < btnList.length(); i++) {
         rectLayout->addWidget(btnList[i]);
         connect(btnList[i], &ToolButton::clicked, this, [=]{
-                ConfigSettings::instance()->setValue("rectangle", "linewidth_index", i);
+                ConfigSettings::instance()->setValue(m_currentType, "linewidth_index", i);
         });
     }
     rectLayout->addSpacing(2);
@@ -90,6 +90,12 @@ void SubToolBar::initRectLabel() {
     rectLayout->addStretch();
     m_rectLabel->setLayout(rectLayout);
     addWidget(m_rectLabel);
+
+    connect(this, &SubToolBar::shapeChanged, this, [=]{
+        int lineIndex = ConfigSettings::instance()->value(m_currentType,
+                                                          "linewidth_index").toInt();
+        btnList[lineIndex]->setChecked(true);
+    });
 }
 
 void SubToolBar::initArrowLabel() {
@@ -188,7 +194,12 @@ void SubToolBar::initArrowLabel() {
             mediumLine->show();
             thickLine->show();
         }
-
+    });
+    connect(this, &SubToolBar::shapeChanged, this, [=]{
+        int lineIndex = ConfigSettings::instance()->value(m_currentType,
+                                                          "linewidth_index").toInt();
+        arrowBtnList[lineIndex]->setChecked(true);
+        arrowBtnList[lineIndex+3]->setChecked(true);
     });
 }
 
@@ -229,6 +240,12 @@ void SubToolBar::initLineLabel() {
     lineLayout->addStretch();
     m_lineLabel->setLayout(lineLayout);
     addWidget(m_lineLabel);
+
+    connect(this, &SubToolBar::shapeChanged, this, [=]{
+        int lineIndex = ConfigSettings::instance()->value(m_currentType,
+                                                          "linewidth_index").toInt();
+        btnList[lineIndex]->setChecked(true);
+    });
 }
 
 void SubToolBar::initTextLabel() {
@@ -337,17 +354,26 @@ void SubToolBar::initSaveLabel() {
 void SubToolBar::switchContent(QString shapeType) {
     if (shapeType == "rectangle" || shapeType == "oval") {
         setCurrentWidget(m_rectLabel);
+        m_currentType = shapeType;
+        emit shapeChanged();
     }   else if (shapeType == "arrow") {
         setCurrentWidget(m_arrowLabel);
+        m_currentType = shapeType;
+         emit shapeChanged();
     } else if (shapeType == "line") {
         setCurrentWidget(m_lineLabel);
+        m_currentType = shapeType;
+         emit shapeChanged();
     } else if (shapeType == "text") {
         setCurrentWidget(m_textLabel);
+        m_currentType = shapeType;
+         emit shapeChanged();
     } else if (shapeType == "color") {
         setCurrentWidget(m_colorLabel);
     } else if (shapeType == "saveList") {
         setCurrentWidget(m_saveLabel);
     }
+    qDebug() << "subToolBar shape:" << shapeType;
 }
 
 SubToolBar::~SubToolBar() {}

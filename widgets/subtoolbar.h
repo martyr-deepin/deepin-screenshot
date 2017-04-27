@@ -22,11 +22,12 @@ public:
 
 signals:
     void currentColorChanged(QColor color);
+    void shapeChanged();
     void setSaveBtn(int saveOption);
 
 private:
     int m_lineWidth;
-    QString m_currentShapeType;
+    QString m_currentType;
 
     QLabel* m_rectLabel;
     QLabel* m_arrowLabel;
