@@ -96,7 +96,8 @@ private:
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
     void paintRect(QPainter &painter, FourPoints rectFPoints);
     void paintEllipse(QPainter &painter, FourPoints ellipseFPoints);
-    void paintArrow(QPainter &painter, QList<QPointF> lineFPoints, bool isStraight = false);
+    void paintArrow(QPainter &painter, QList<QPointF> lineFPoints,
+                                  int lineWidth, bool isStraight = false);
     void paintLine(QPainter &painter, QList<QPointF> lineFPoints);
     void paintText(QPainter &painter, FourPoints rectFPoints);
 };

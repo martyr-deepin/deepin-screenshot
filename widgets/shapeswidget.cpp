@@ -953,20 +953,23 @@ void ShapesWidget::paintEllipse(QPainter &painter, FourPoints ellipseFPoints) {
     painter.drawPath(ellipsePath);
 }
 
-void ShapesWidget::paintArrow(QPainter &painter, QList<QPointF> lineFPoints, bool isStraight) {
+void ShapesWidget::paintArrow(QPainter &painter, QList<QPointF> lineFPoints,
+                                                          int lineWidth, bool isStraight) {
     if (lineFPoints.length() == 2) {
         if (!isStraight) {
-            QList<QPointF> arrowPoints = pointOfArrow(lineFPoints[0], lineFPoints[1], 16);
+            QList<QPointF> arrowPoints = pointOfArrow(lineFPoints[0],
+                                                         lineFPoints[1], 8+(lineWidth - 1)*2);
             QPainterPath path;
+            const QPen oldPen = painter.pen();
             if (arrowPoints.length() >=3) {
-                painter.drawLine(lineFPoints[0], arrowPoints[2]);
+                 painter.drawLine(lineFPoints[0], lineFPoints[1]);
                 path.moveTo(arrowPoints[2].x(), arrowPoints[2].y());
                 path.lineTo(arrowPoints[0].x(), arrowPoints[0].y());
                 path.lineTo(arrowPoints[1].x(), arrowPoints[1].y());
                 path.lineTo(arrowPoints[2].x(), arrowPoints[2].y());
             }
-            painter.drawPath(path);
-            painter.fillPath(path, QBrush(QColor(m_penColor)));
+            painter.setPen (Qt :: NoPen);
+            painter.fillPath (path, QBrush (oldPen.color()));
         } else {
             painter.drawLine(lineFPoints[0], lineFPoints[1]);
         }
@@ -1006,7 +1009,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         } else if (m_currentType == "oval") {
             paintEllipse(painter, currentFPoint);
         } else if (m_currentType == "arrow") {
-            paintArrow(painter, m_currentShape.points);
+            paintArrow(painter, m_currentShape.points, pen.width());
         } else if (m_currentType == "line") {
             paintLine(painter, m_currentShape.points);
         } else if (m_currentType == "text") {
@@ -1023,7 +1026,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         } else if (m_shapes[i].type == "oval") {
             paintEllipse(painter, m_shapes[i].mainPoints);
         } else if (m_shapes[i].type == "arrow") {
-            paintArrow(painter, m_shapes[i].points);
+            paintArrow(painter, m_shapes[i].points, pen.width());
         } else if (m_shapes[i].type == "line") {
             paintLine(painter, m_shapes[i].points);
         }
