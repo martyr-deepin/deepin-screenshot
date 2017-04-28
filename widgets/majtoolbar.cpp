@@ -174,6 +174,7 @@ void MajToolBar::initWidgets() {
         }
         saveBtn->setChecked(m_isChecked);
         emit buttonChecked(m_isChecked, "save");
+        emit saveImage();
     });
     connect(saveListBtn, &ToolButton::clicked, this, [=](){
         saveListBtn->setChecked(m_isChecked);

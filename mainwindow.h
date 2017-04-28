@@ -45,6 +45,7 @@ public slots:
     void showReleaseFeedback(int x, int y);
     void responseEsc();
     void saveScreenshot();
+    void saveOverLoad();
     void setSaveOption(int saveOption);
 
 protected:

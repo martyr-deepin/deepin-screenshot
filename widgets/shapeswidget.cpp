@@ -1082,6 +1082,8 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     } else {
         qDebug() << "hoveredShape.type:" << m_hoveredShape.type;
     }
+
+    emit updateImgFile();
 }
 
 bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {

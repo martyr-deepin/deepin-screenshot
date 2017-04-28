@@ -25,6 +25,9 @@ public:
         Eighth,
     };
 
+signals:
+    void updateImgFile();
+
 public slots:
     void setCurrentShape(QString shapeType);
     void setPenColor(QColor color);
