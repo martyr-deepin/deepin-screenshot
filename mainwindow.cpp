@@ -1,11 +1,9 @@
-#include <gdk/gdk.h>
-#include <gtk/gtk.h>
-#include <gtk/gtkclipboard.h>
 #include "mainwindow.h"
 
 #include <QApplication>
 #include <QPainter>
 #include <QFileDialog>
+#include <QClipboard>
 
 namespace {
 const int RECORD_MIN_SIZE = 220;
@@ -687,13 +685,9 @@ void MainWindow::saveScreenshot() {
                      screenShotPix.save(fileName, "PNG");
     }
     if (copyToClipboard) {
-        GError *err = NULL;
-        screenShotPix.save("/tmp/deepin-screenshot.png", "PNG");
-        GdkPixbuf*   pixbuf =  gdk_pixbuf_new_from_file(QString(
-            "/tmp/deepin-screenshot.png").toLatin1().data(), &err);
-        GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
-        gtk_clipboard_set_image(clipboard, pixbuf);
-        gtk_clipboard_store(clipboard);
+        Q_ASSERT(!screenShotPix.isNull());
+        QClipboard* cb = qApp->clipboard();
+        cb->setPixmap(screenShotPix, QClipboard::Clipboard);
     }
     qApp->quit();
 }
