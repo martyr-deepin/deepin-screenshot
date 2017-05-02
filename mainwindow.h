@@ -76,7 +76,7 @@ private:
     int m_dragStartX;
     int m_dragStartY;
 
-    bool m_drawDragPoint;
+    bool m_needDrawSelectedPoint;
     bool m_isFirstDrag;
     bool m_isFirstMove;
     bool m_isFirstPressButton;

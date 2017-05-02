@@ -63,7 +63,7 @@ void MainWindow::initUI() {
     m_dragRecordX = -1;
     m_dragRecordY = -1;
 
-    m_drawDragPoint = false;
+    m_needDrawSelectedPoint = false;
     m_mouseStatus = ShotMouseStatus::Shoting;
 
     m_selectAreaName = "";
@@ -333,8 +333,8 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
             int mousePosition =  getDirection(event);
             bool drawPoint = mousePosition != ResizeDirection::Moving;
-            if (drawPoint != m_drawDragPoint) {
-                m_drawDragPoint = drawPoint;
+            if (drawPoint != m_needDrawSelectedPoint) {
+                m_needDrawSelectedPoint = drawPoint;
                 needRepaint = true;
             }
         } else {
@@ -419,6 +419,7 @@ int MainWindow::getDirection(QEvent *event) {
 }
 void MainWindow::paintEvent(QPaintEvent *event)  {
     Q_UNUSED(event);
+    saveOverLoad();
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
 
@@ -453,7 +454,7 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
         }
 
         // Draw drag pint.
-        if (m_mouseStatus != ShotMouseStatus::Wait && m_drawDragPoint) {
+        if (m_mouseStatus != ShotMouseStatus::Wait && m_needDrawSelectedPoint) {
             int margin = m_resizeBigPix.width() / 2 + 1;
             int paintX = frameRect.x() - margin;
             int paintY = frameRect.y() - margin;
@@ -472,7 +473,7 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
             paintSelectedPoint(painter, QPoint(paintHalfWidth, paintHeight), m_resizeBigPix);
         }
     }
-    saveOverLoad();
+
 }
 
 void MainWindow::initShapeWidget(QString type) {
@@ -625,8 +626,6 @@ void MainWindow::saveScreenshot() {
     QDateTime currentDate;
     using namespace utils;
     QPixmap screenShotPix(TMP_FILE);
-    screenShotPix = screenShotPix.copy(QRect(m_recordX, m_recordY,
-        m_recordWidth, m_recordHeight));
     QString currentTime =  currentDate.currentDateTime().
             toString("yyyyMMddHHmmss");
     QString fileName = "";
@@ -677,13 +676,16 @@ void MainWindow::saveOverLoad() {
     if (m_recordWidth == 0 || m_recordHeight == 0)
         return;
 
+    m_needDrawSelectedPoint = false;
+    update();
+
      QList<xcb_window_t> windows = m_windowManager->getWindows();
     QPixmap tmpImg = qApp->primaryScreen()->grabWindow(
                                                          windows[windows.length()-1]);
-    int imgX = m_recordX;
-    int imgY = m_recordY;
-    int imgWidth = m_recordWidth - 2;
-    int imgHeight = m_recordHeight - 2;
+    int imgX = m_recordX + 1;
+    int imgY = m_recordY + 1;
+    int imgWidth = m_recordWidth - 2.5;
+    int imgHeight = m_recordHeight - 2.5;
 
     tmpImg = tmpImg.copy(QRect(imgX, imgY, imgWidth, imgHeight));
      using namespace utils;
