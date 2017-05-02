@@ -19,11 +19,12 @@ public:
     void initSaveLabel();
 
     void switchContent(QString shapeType);
+    void setSaveOption(int saveOption);
 
 signals:
     void currentColorChanged(QColor color);
     void shapeChanged();
-    void setSaveBtn(int saveOption);
+    void  saveAction();
 
 private:
     int m_lineWidth;

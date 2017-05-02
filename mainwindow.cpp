@@ -88,7 +88,6 @@ void MainWindow::initUI() {
             SLOT(responseEsc()), Qt::QueuedConnection);
     m_eventMonitor.start();
 
-    connect(m_toolBar, &ToolBar::updateSaveOption, this, &MainWindow::setSaveOption);
     connect(m_toolBar, &ToolBar::requestSaveScreenshot, this,
             &MainWindow::saveScreenshot);
 }
@@ -491,6 +490,7 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
                                m_recordY - DRAG_POINT_RADIUS + m_recordHeight), m_resizeSmallPix);
         }
     }
+    saveOverLoad();
 }
 
 void MainWindow::initShapeWidget(QString type) {
@@ -639,23 +639,20 @@ void MainWindow::responseEsc()
 //    }
 }
 
-void MainWindow::setSaveOption(int saveOption) {
-    m_saveIndex = saveOption;
-    saveScreenshot();
-}
-
 void MainWindow::saveScreenshot() {
     QDateTime currentDate;
     using namespace utils;
     QPixmap screenShotPix(TMP_FILE);
     screenShotPix = screenShotPix.copy(QRect(m_recordX, m_recordY,
         m_recordWidth, m_recordHeight));
-    QString currentTime =  currentDate.currentDateTime().toString("yyyyMMddHHmmss");
+    QString currentTime =  currentDate.currentDateTime().
+            toString("yyyyMMddHHmmss");
     QString fileName = "";
     QStandardPaths::StandardLocation saveOption = QStandardPaths::TempLocation;
     bool copyToClipboard = false;
-
-    switch (m_saveIndex) {
+    int saveIndex =  ConfigSettings::instance()->value(
+                                   "save", "save_op").toInt();
+    switch (saveIndex) {
     case 0: {
         saveOption = QStandardPaths::DesktopLocation;
         break;
@@ -695,6 +692,9 @@ void MainWindow::saveScreenshot() {
 
 void MainWindow::saveOverLoad() {
     //**save tmp image file
+    if (m_recordWidth == 0 || m_recordHeight == 0)
+        return;
+
      QList<xcb_window_t> windows = m_windowManager->getWindows();
     QPixmap tmpImg = qApp->primaryScreen()->grabWindow(
                                                          windows[windows.length()-1]);
@@ -715,7 +715,6 @@ void MainWindow::saveOverLoad() {
         mosaImg = mosaImg.scaled(imgWidth/radius, imgHeight/radius, Qt::IgnoreAspectRatio,
                                  Qt::SmoothTransformation);
         mosaImg = mosaImg.scaled(imgWidth, imgHeight);
-        qDebug() << "mosaic:" << mosaImg.isNull() << mosaImg.size();
         mosaImg.save(TMP_MOSA_FILE, "png");
     }
     //blur

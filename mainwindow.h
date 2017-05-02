@@ -46,7 +46,6 @@ public slots:
     void responseEsc();
     void saveScreenshot();
     void saveOverLoad();
-    void setSaveOption(int saveOption);
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;

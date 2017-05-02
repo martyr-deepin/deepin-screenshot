@@ -333,7 +333,7 @@ void SubToolBar::initSaveLabel() {
     foreach (ToolButton* btn, toolBtnList) {
         saveLayout->addWidget(btn);
         connect(btn, &ToolButton::clicked, this,  [=]{
-            setSaveBtn(toolBtnList.indexOf(btn));
+            setSaveOption(toolBtnList.indexOf(btn));
         });
     }
     saveLayout->addWidget(lowQualityText);
@@ -370,6 +370,11 @@ void SubToolBar::switchContent(QString shapeType) {
         setCurrentWidget(m_saveLabel);
     }
     qDebug() << "subToolBar shape:" << shapeType;
+}
+
+void SubToolBar::setSaveOption(int saveOption) {
+    ConfigSettings::instance()->setValue("save", "save_op", saveOption);
+    emit saveAction();
 }
 
 SubToolBar::~SubToolBar() {}

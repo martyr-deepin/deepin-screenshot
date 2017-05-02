@@ -3,6 +3,7 @@
 #include "utils/configsettings.h"
 #include "bigcolorbutton.h"
 #include "toolbutton.h"
+#include "savebutton.h"
 
 #include <QApplication>
 #include <QButtonGroup>
@@ -12,7 +13,7 @@
 namespace {
     const int TOOLBAR_HEIGHT = 28;
     const int TOOLBAR_WIDTH = 284;
-    const int BUTTON_SPACING = 3;
+    const int BTN_SPACING = 3;
 }
 MajToolBar::MajToolBar(QWidget *parent)
     : QLabel(parent),
@@ -32,31 +33,29 @@ void MajToolBar::initWidgets() {
     setAcceptDrops(true);
     installEventFilter(this);
 
+    QList<ToolButton*> toolBtnList;
     QButtonGroup* buttonGroup = new QButtonGroup(this);
     buttonGroup->setExclusive(true);
     ToolButton* rectBtn = new ToolButton();
     rectBtn->setObjectName("RectBtn");
-    buttonGroup->addButton(rectBtn);
+    toolBtnList.append(rectBtn);
     ToolButton* ovalBtn = new ToolButton();
     ovalBtn->setObjectName("OvalBtn");
-    buttonGroup->addButton(ovalBtn);
+    toolBtnList.append(ovalBtn);
     ToolButton* arrowBtn = new ToolButton();
     arrowBtn->setObjectName("ArrowBtn");
-    buttonGroup->addButton(arrowBtn);
+    toolBtnList.append(arrowBtn);
     ToolButton* lineBtn = new ToolButton();
     lineBtn->setObjectName("PenBtn");
-    buttonGroup->addButton(lineBtn);
+    toolBtnList.append(lineBtn);
     ToolButton* textBtn = new ToolButton();
     textBtn->setObjectName("TextBtn");
-    buttonGroup->addButton(textBtn);
+    toolBtnList.append(textBtn);
+
+
     BigColorButton* colorBtn = new BigColorButton();
     colorBtn->setObjectName("ColorBtn");
-    ToolButton* saveBtn = new ToolButton();
-    saveBtn->setObjectName("SaveBtn");
-    saveBtn->setFixedSize(15, 22);
-    ToolButton* saveListBtn = new ToolButton();
-    saveListBtn->setObjectName("ListBtn");
-    saveListBtn->setFixedSize(10, 22);
+    SaveButton* saveBtn = new SaveButton();
     ToolButton* shareBtn = new ToolButton();
     shareBtn->setObjectName("ShareBtn");
     ToolButton* closeBtn = new ToolButton();
@@ -65,24 +64,16 @@ void MajToolBar::initWidgets() {
     m_baseLayout = new QHBoxLayout();
     m_baseLayout->setMargin(0);
     m_baseLayout->addSpacing(4);
-    m_baseLayout->addWidget(rectBtn);
-    m_baseLayout->addSpacing(BUTTON_SPACING);
-    m_baseLayout->addWidget(ovalBtn);
-    m_baseLayout->addSpacing(BUTTON_SPACING);
-    m_baseLayout->addWidget(arrowBtn);
-    m_baseLayout->addSpacing(BUTTON_SPACING);
-    m_baseLayout->addWidget(lineBtn);
-    m_baseLayout->addSpacing(BUTTON_SPACING);
-    m_baseLayout->addWidget(textBtn);
-    m_baseLayout->addSpacing(BUTTON_SPACING);
+    for (int k = 0; k < toolBtnList.length(); k++) {
+        m_baseLayout->addWidget(toolBtnList[k]);
+        m_baseLayout->addSpacing(BTN_SPACING);
+        buttonGroup->addButton(toolBtnList[k]);
+    }
     m_baseLayout->addWidget(colorBtn);
-    m_baseLayout->addSpacing(BUTTON_SPACING);
+    m_baseLayout->addSpacing(BTN_SPACING);
     m_baseLayout->addWidget(saveBtn);
-    m_baseLayout->addSpacing(0);
-    m_baseLayout->addWidget(saveListBtn);
-    m_baseLayout->addSpacing(BUTTON_SPACING);
     m_baseLayout->addWidget(shareBtn);
-    m_baseLayout->addSpacing(BUTTON_SPACING);
+    m_baseLayout->addSpacing(BTN_SPACING);
     m_baseLayout->addWidget(closeBtn);
     m_baseLayout->addSpacing(4);
     m_baseLayout->addStretch();
@@ -164,21 +155,11 @@ void MajToolBar::initWidgets() {
             colorBtn, &BigColorButton::setColorIndex);
 
     connect(this, &MajToolBar::mainColorChanged, colorBtn, &BigColorButton::setColor);
-    connect(saveBtn, &ToolButton::clicked, this, [=](){
-        if (m_currentShape != "save") {
-            m_currentShape = "save";
-            m_isChecked = true;
-        } else {
-            m_currentShape = "";
-            m_isChecked = false;
-        }
-        saveBtn->setChecked(m_isChecked);
-        emit buttonChecked(m_isChecked, "save");
+    connect(saveBtn, &SaveButton::saveAction, this, [=](){
         emit saveImage();
     });
-    connect(saveListBtn, &ToolButton::clicked, this, [=](){
-        saveListBtn->setChecked(m_isChecked);
-        emit buttonChecked(m_isChecked, "saveList");
+    connect(saveBtn, &SaveButton::expandSaveOption, this, [=](bool expand){
+        emit buttonChecked(expand, "saveList");
     });
 
     connect(closeBtn, &ToolButton::clicked, this, [=](bool checked){

@@ -107,5 +107,6 @@
         <file>resources/qss/fontsizewidget.qss</file>
         <file>resources/images/save/slider_hover.png</file>
         <file>resources/images/save/slider_pressed.png</file>
+        <file>resources/qss/toolsavebutton.qss</file>
     </qresource>
 </RCC>

@@ -41,7 +41,7 @@ ToolBar::ToolBar(QWidget *parent)
     connect(this, &ToolBar::buttonChecked, m_subToolbar, &SubToolBar::switchContent);
     connect(m_subToolbar, &SubToolBar::currentColorChanged,
             m_majToolbar, &MajToolBar::mainColorChanged);
-    connect(m_subToolbar, &SubToolBar::setSaveBtn, this, &ToolBar::updateSaveOption);
+    connect(m_subToolbar, &SubToolBar::saveAction, this, &ToolBar::requestSaveScreenshot);
     connect(m_subToolbar, &SubToolBar::currentColorChanged, this, &ToolBar::updateColor);
 }
 
