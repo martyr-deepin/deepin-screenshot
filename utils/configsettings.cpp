@@ -5,11 +5,12 @@
 #include <QDebug>
 
 const QString CONFIG_PATH =   QDir::homePath() +
-        "/.config/Deepin/DeepinScreenshot.conf";
+        "/.config/deepin/deepin-screenshot/tools.conf";
 
 ConfigSettings::ConfigSettings(QObject *parent)
     : QObject(parent) {
-    m_settings = new  QSettings("Deepin","DeepinScreenshot", this);
+    m_settings = new  QSettings("deepin","/deepin-screenshot/tools", this);
+
     if (!QFileInfo(CONFIG_PATH).exists()) {
         setValue("common", "color_index", 3);
 
@@ -27,6 +28,9 @@ ConfigSettings::ConfigSettings(QObject *parent)
         setValue("save", "save_op", 1);
         setValue("showOSD", "show", true);
     }
+
+    setValue("effect", "is_blur", false);
+    setValue("effect", "is_mosaic", false);
 
     qDebug() << "Setting file:" << m_settings->fileName();
 }

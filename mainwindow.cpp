@@ -15,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     initUI();
     startScreenshot();
-    saveOverLoad();
 }
 
 MainWindow::~MainWindow()
@@ -419,7 +418,6 @@ int MainWindow::getDirection(QEvent *event) {
 }
 void MainWindow::paintEvent(QPaintEvent *event)  {
     Q_UNUSED(event);
-    saveOverLoad();
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
 
@@ -488,8 +486,8 @@ void MainWindow::initShapeWidget(QString type) {
 
     connect(m_toolBar, &ToolBar::updateColor,
             m_shapesWidget, &ShapesWidget::setPenColor);
-    connect(m_shapesWidget, &ShapesWidget::updateImgFile,
-            this, &MainWindow::saveOverLoad);
+    connect(m_toolBar, &ToolBar::requestSaveScreenshot,
+            this, &MainWindow::saveScreenshot);
 }
 
 void MainWindow::updateCursor(QEvent *event)
@@ -622,9 +620,30 @@ void MainWindow::responseEsc()
 //    }
 }
 
+void MainWindow::shotCurrentImg() {
+    if (m_recordWidth == 0 || m_recordHeight == 0)
+        return;
+
+    m_needDrawSelectedPoint = false;
+    update();
+
+     QList<xcb_window_t> windows = m_windowManager->getWindows();
+    QPixmap tmpImg = qApp->primaryScreen()->grabWindow(
+                                                         windows[windows.length()-1]);
+    int imgX = m_recordX + 1;
+    int imgY = m_recordY + 1;
+    int imgWidth = m_recordWidth - 2.5;
+    int imgHeight = m_recordHeight - 2.5;
+
+    tmpImg = tmpImg.copy(QRect(imgX, imgY, imgWidth, imgHeight));
+     using namespace utils;
+    tmpImg.save(TMP_FILE, "png");
+}
+
 void MainWindow::saveScreenshot() {
     QDateTime currentDate;
     using namespace utils;
+    shotCurrentImg();
     QPixmap screenShotPix(TMP_FILE);
     QString currentTime =  currentDate.currentDateTime().
             toString("yyyyMMddHHmmss");
@@ -671,42 +690,28 @@ void MainWindow::saveScreenshot() {
     qApp->quit();
 }
 
-void MainWindow::saveOverLoad() {
+void MainWindow::reloadImage(QString effect) {
     //**save tmp image file
-    if (m_recordWidth == 0 || m_recordHeight == 0)
-        return;
-
-    m_needDrawSelectedPoint = false;
-    update();
-
-     QList<xcb_window_t> windows = m_windowManager->getWindows();
-    QPixmap tmpImg = qApp->primaryScreen()->grabWindow(
-                                                         windows[windows.length()-1]);
-    int imgX = m_recordX + 1;
-    int imgY = m_recordY + 1;
-    int imgWidth = m_recordWidth - 2.5;
-    int imgHeight = m_recordHeight - 2.5;
-
-    tmpImg = tmpImg.copy(QRect(imgX, imgY, imgWidth, imgHeight));
-     using namespace utils;
-    tmpImg.save(TMP_FILE, "png");
-
-    QPixmap mosaImg;
-    QPixmap blurImg;
+    shotCurrentImg();
+    using namespace utils;
     const int radius = 10;
-    //mosaic
-    if (mosaImg.load(TMP_FILE)) {
-        mosaImg = mosaImg.scaled(imgWidth/radius, imgHeight/radius, Qt::IgnoreAspectRatio,
-                                 Qt::SmoothTransformation);
-        mosaImg = mosaImg.scaled(imgWidth, imgHeight);
-        mosaImg.save(TMP_MOSA_FILE, "png");
-    }
-    //blur
-    if (blurImg.load(TMP_FILE)) {
-        blurImg = blurImg.scaled(imgWidth/radius, imgHeight/radius, Qt::IgnoreAspectRatio,
-                                 Qt::SmoothTransformation);
-        blurImg = blurImg.scaled(imgWidth, imgHeight, Qt::IgnoreAspectRatio,
-                                 Qt::SmoothTransformation);
-        blurImg.save(TMP_BLUR_FILE, "png");
+    QPixmap tmpImg(TMP_FILE);
+    int imgWidth = tmpImg.width();
+    int imgHeight = tmpImg.height();
+    if (effect == "blur") {
+        if (!tmpImg.isNull()) {
+            tmpImg = tmpImg.scaled(imgWidth/radius, imgHeight/radius,
+                                     Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            tmpImg = tmpImg.scaled(imgWidth, imgHeight, Qt::IgnoreAspectRatio,
+                                     Qt::SmoothTransformation);
+            tmpImg.save(TMP_BLUR_FILE, "png");
+        }
+    } else {
+        if (!tmpImg.isNull()) {
+            tmpImg = tmpImg.scaled(imgWidth/radius, imgHeight/radius,
+                                   Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+            tmpImg = tmpImg.scaled(imgWidth, imgHeight);
+            tmpImg.save(TMP_MOSA_FILE, "png");
+        }
     }
 }

@@ -44,8 +44,9 @@ public slots:
     void showDragFeedback(int x, int y);
     void showReleaseFeedback(int x, int y);
     void responseEsc();
+    void shotCurrentImg();
     void saveScreenshot();
-    void saveOverLoad();
+    void reloadImage(QString effect);
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
