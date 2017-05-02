@@ -89,6 +89,8 @@ void MainWindow::initUI() {
     m_eventMonitor.start();
 
     connect(m_toolBar, &ToolBar::updateSaveOption, this, &MainWindow::setSaveOption);
+    connect(m_toolBar, &ToolBar::requestSaveScreenshot, this,
+            &MainWindow::saveScreenshot);
 }
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
@@ -646,8 +648,8 @@ void MainWindow::saveScreenshot() {
     QDateTime currentDate;
     using namespace utils;
     QPixmap screenShotPix(TMP_FILE);
-    screenShotPix = screenShotPix.copy(QRect(m_recordX + 2, m_recordY + 2,
-        m_recordWidth - 4 , m_recordHeight - 4));
+    screenShotPix = screenShotPix.copy(QRect(m_recordX, m_recordY,
+        m_recordWidth, m_recordHeight));
     QString currentTime =  currentDate.currentDateTime().toString("yyyyMMddHHmmss");
     QString fileName = "";
     QStandardPaths::StandardLocation saveOption = QStandardPaths::TempLocation;
@@ -696,10 +698,10 @@ void MainWindow::saveOverLoad() {
      QList<xcb_window_t> windows = m_windowManager->getWindows();
     QPixmap tmpImg = qApp->primaryScreen()->grabWindow(
                                                          windows[windows.length()-1]);
-    int imgX = m_recordX + 2;
-    int imgY = m_recordY + 2;
-    int imgWidth = m_recordWidth - 4;
-    int imgHeight = m_recordHeight - 4;
+    int imgX = m_recordX;
+    int imgY = m_recordY;
+    int imgWidth = m_recordWidth;
+    int imgHeight = m_recordHeight;
 
     tmpImg = tmpImg.copy(QRect(imgX, imgY, imgWidth, imgHeight));
      using namespace utils;

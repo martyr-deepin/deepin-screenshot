@@ -37,6 +37,7 @@ ToolBar::ToolBar(QWidget *parent)
     m_subToolbar->hide();
 
     connect(m_majToolbar, &MajToolBar::buttonChecked, this, &ToolBar::setExpand);
+    connect(m_majToolbar, &MajToolBar::saveImage, this, &ToolBar::requestSaveScreenshot);
     connect(this, &ToolBar::buttonChecked, m_subToolbar, &SubToolBar::switchContent);
     connect(m_subToolbar, &SubToolBar::currentColorChanged,
             m_majToolbar, &MajToolBar::mainColorChanged);

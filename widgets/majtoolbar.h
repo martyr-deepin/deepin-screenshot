@@ -15,6 +15,7 @@ public:
 signals:
     void buttonChecked(bool checked, QString type);
     void mainColorChanged(QColor currentColor);
+    void saveImage();
 
 public slots:
     void initWidgets();
