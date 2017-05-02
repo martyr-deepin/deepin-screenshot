@@ -90,3 +90,7 @@ int colorIndex(QColor color) {
     colorList.append(QColor("#000000"));
     return colorList.indexOf(color);
 }
+
+void   paintSelectedPoint(QPainter &painter, QPoint pos, QPixmap pointImg) {
+    painter.drawPixmap(pos, pointImg);
+}
