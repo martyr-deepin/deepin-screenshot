@@ -38,7 +38,8 @@ WindowManager::WindowManager(QObject *parent) : QObject(parent)
 
 WindowManager::~WindowManager()
 {
-    delete conn;
+    xcb_disconnect(conn);
+    conn = NULL;
 }
 
 xcb_atom_t WindowManager::getAtom(QString name)

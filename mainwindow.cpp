@@ -700,8 +700,8 @@ void MainWindow::saveOverLoad() {
                                                          windows[windows.length()-1]);
     int imgX = m_recordX;
     int imgY = m_recordY;
-    int imgWidth = m_recordWidth;
-    int imgHeight = m_recordHeight;
+    int imgWidth = m_recordWidth - 2;
+    int imgHeight = m_recordHeight - 2;
 
     tmpImg = tmpImg.copy(QRect(imgX, imgY, imgWidth, imgHeight));
      using namespace utils;
