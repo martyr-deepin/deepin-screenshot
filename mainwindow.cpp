@@ -488,6 +488,8 @@ void MainWindow::initShapeWidget(QString type) {
             m_shapesWidget, &ShapesWidget::setPenColor);
     connect(m_toolBar, &ToolBar::requestSaveScreenshot,
             this, &MainWindow::saveScreenshot);
+    connect(m_shapesWidget, &ShapesWidget::reloadEffectImg,
+            this, &MainWindow::reloadImage);
 }
 
 void MainWindow::updateCursor(QEvent *event)

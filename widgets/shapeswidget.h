@@ -26,7 +26,7 @@ public:
     };
 
 signals:
-    void updateImgFile();
+    void reloadEffectImg(QString effect);
 
 public slots:
     void setCurrentShape(QString shapeType);
@@ -97,8 +97,10 @@ private:
     Toolshapes m_shapes;
 
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
-    void paintRect(QPainter &painter, FourPoints rectFPoints);
-    void paintEllipse(QPainter &painter, FourPoints ellipseFPoints);
+    void paintRect(QPainter &painter, FourPoints rectFPoints,
+                               bool isBlur = false, bool isMosaic = false);
+    void paintEllipse(QPainter &painter, FourPoints ellipseFPoints,
+                                  bool isBlur = false, bool isMosaic = false);
     void paintArrow(QPainter &painter, QList<QPointF> lineFPoints,
                                   int lineWidth, bool isStraight = false);
     void paintLine(QPainter &painter, QList<QPointF> lineFPoints);

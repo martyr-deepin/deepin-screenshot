@@ -699,8 +699,15 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
             m_currentDiagPoints.masterPoint = m_pos1;
             if (m_currentType == "line" || m_currentType == "arrow") {
                 m_currentShape.points.append(m_pos1);
-            }
-            if (m_currentType == "text") {
+            } else if (m_currentType == "rectangle" || m_currentType == "oval") {
+                m_currentShape.isBlur = ConfigSettings::instance()->value("effect", "is_blur").toBool();
+                m_currentShape.isMosaic = ConfigSettings::instance()->value("effect", "is_mosaic").toBool();
+                if (m_currentShape.isBlur) {
+                    emit reloadEffectImg("blur");
+                } else if (m_currentShape.isMosaic){
+                    emit reloadEffectImg("mosaic");
+                }
+            } else if (m_currentType == "text") {
                 if (m_editing) {
                     m_editing = false;
                 } else {
@@ -934,14 +941,32 @@ void ShapesWidget::paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bo
         }
 }
 
-void ShapesWidget::paintRect(QPainter &painter, FourPoints rectFPoints) {
-    painter.drawLine(rectFPoints[0], rectFPoints[1]);
-    painter.drawLine(rectFPoints[1], rectFPoints[3]);
-    painter.drawLine(rectFPoints[3], rectFPoints[2]);
-    painter.drawLine(rectFPoints[2], rectFPoints[0]);
+void ShapesWidget::paintRect(QPainter &painter, FourPoints rectFPoints,
+                                                       bool isBlur, bool isMosaic) {
+    QPainterPath rectPath;
+    rectPath.moveTo(rectFPoints[0].x(), rectFPoints[0].y());
+    rectPath.lineTo(rectFPoints[1].x(),rectFPoints[1].y());
+    rectPath.lineTo(rectFPoints[3].x(),rectFPoints[3].y());
+    rectPath.lineTo(rectFPoints[2].x(),rectFPoints[2].y());
+    rectPath.lineTo(rectFPoints[0].x(),rectFPoints[0].y());
+    painter.drawPath(rectPath);
+
+    using namespace utils;
+    if (isBlur) {
+        painter.setClipPath(rectPath);
+        painter.drawPixmap(0, 0,  width(), height(),  TMP_BLUR_FILE);
+        painter.drawPath(rectPath);
+    }
+    if (isMosaic) {
+        painter.setClipPath(rectPath);
+        painter.drawPixmap(0, 0,  width(), height(),  TMP_MOSA_FILE);
+        painter.drawPath(rectPath);
+    }
+    painter.setClipping(false);
 }
 
-void ShapesWidget::paintEllipse(QPainter &painter, FourPoints ellipseFPoints) {
+void ShapesWidget::paintEllipse(QPainter &painter, FourPoints ellipseFPoints,
+                                                           bool isBlur, bool isMosaic) {
     FourPoints minorPoints = getAnotherFPoints(ellipseFPoints);
     QList<QPointF> eightControlPoints = getEightControlPoint(ellipseFPoints);
     QPainterPath ellipsePath;
@@ -951,6 +976,19 @@ void ShapesWidget::paintEllipse(QPainter &painter, FourPoints ellipseFPoints) {
     ellipsePath.cubicTo(eightControlPoints[6], eightControlPoints[7], minorPoints[3]);
     ellipsePath.cubicTo(eightControlPoints[3], eightControlPoints[2], minorPoints[0]);
     painter.drawPath(ellipsePath);
+
+    using namespace utils;
+    if (isBlur) {
+        painter.setClipPath(ellipsePath);
+        painter.drawPixmap(0, 0,  width(), height(),  TMP_BLUR_FILE);
+        painter.drawPath(ellipsePath);
+    }
+    if (isMosaic) {
+        painter.setClipPath(ellipsePath);
+        painter.drawPixmap(0, 0,  width(), height(),  TMP_MOSA_FILE);
+        painter.drawPath(ellipsePath);
+    }
+    painter.setClipping(false);
 }
 
 void ShapesWidget::paintArrow(QPainter &painter, QList<QPointF> lineFPoints,
@@ -997,6 +1035,22 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing);
     QPen pen;
+
+    for(int i = 0; i < m_shapes.length(); i++) {
+        pen.setColor(colorIndexOf(m_shapes[i].colorIndex));
+        pen.setWidth(m_shapes[i].lineWidth);
+        painter.setPen(pen);
+        if (m_shapes[i].type == "rectangle") {
+            paintRect(painter, m_shapes[i].mainPoints, m_shapes[i].isBlur, m_shapes[i].isMosaic);
+        } else if (m_shapes[i].type == "oval") {
+            paintEllipse(painter, m_shapes[i].mainPoints, m_shapes[i].isBlur, m_shapes[i].isMosaic);
+        } else if (m_shapes[i].type == "arrow") {
+            paintArrow(painter, m_shapes[i].points, pen.width());
+        } else if (m_shapes[i].type == "line") {
+            paintLine(painter, m_shapes[i].points);
+        }
+    }
+
     if ((m_currentDiagPoints.masterPoint != QPointF(0, 0) &&
             m_currentDiagPoints.deputyPoint != QPointF(0, 0))||
             m_currentShape.type == "text") {
@@ -1005,9 +1059,9 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         pen.setWidth(m_currentShape.lineWidth);
         painter.setPen(pen);
         if (m_currentType == "rectangle") {
-            paintRect(painter, currentFPoint);
+            paintRect(painter, currentFPoint, m_currentShape.isBlur, m_currentShape.isMosaic);
         } else if (m_currentType == "oval") {
-            paintEllipse(painter, currentFPoint);
+            paintEllipse(painter, currentFPoint, m_currentShape.isBlur, m_currentShape.isMosaic);
         } else if (m_currentType == "arrow") {
             paintArrow(painter, m_currentShape.points, pen.width());
         } else if (m_currentType == "line") {
@@ -1017,20 +1071,6 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         }
     }
 
-    for(int i = 0; i < m_shapes.length(); i++) {
-        pen.setColor(colorIndexOf(m_shapes[i].colorIndex));
-        pen.setWidth(m_shapes[i].lineWidth);
-        painter.setPen(pen);
-        if (m_shapes[i].type == "rectangle") {
-            paintRect(painter, m_shapes[i].mainPoints);
-        } else if (m_shapes[i].type == "oval") {
-            paintEllipse(painter, m_shapes[i].mainPoints);
-        } else if (m_shapes[i].type == "arrow") {
-            paintArrow(painter, m_shapes[i].points, pen.width());
-        } else if (m_shapes[i].type == "line") {
-            paintLine(painter, m_shapes[i].points);
-        }
-    }
     QPixmap resizePointImg(":/resources/images/size/resize_handle_big.png");
     if (m_selectedShape.type == "arrow" && m_selectedShape.points.length() == 2) {
         paintImgPoint(painter, m_selectedShape.points[0], resizePointImg);
@@ -1071,7 +1111,8 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         pen.setColor(QColor(Qt::white));
         painter.setPen(pen);
         if (m_hoveredShape.type == "rectangle") {
-            paintRect(painter, m_hoveredShape.mainPoints);
+            paintRect(painter, m_hoveredShape.mainPoints,
+                              false, false);
         } else if (m_hoveredShape.type == "oval") {
             paintEllipse(painter, m_hoveredShape.mainPoints);
         } else if (m_hoveredShape.type == "arrow") {
@@ -1082,8 +1123,6 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     } else {
         qDebug() << "hoveredShape.type:" << m_hoveredShape.type;
     }
-
-    emit updateImgFile();
 }
 
 bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
