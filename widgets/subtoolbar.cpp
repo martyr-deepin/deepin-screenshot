@@ -67,7 +67,20 @@ void SubToolBar::initRectLabel() {
     blurBtn->setObjectName("BlurBtn");
     ToolButton* mosaicBtn = new ToolButton();
     mosaicBtn->setObjectName("MosaicBtn");
-
+    connect(blurBtn, &ToolButton::clicked, this, [=]{
+        ConfigSettings::instance()->setValue("effect", "is_blur", blurBtn->isChecked());
+        if (blurBtn->isChecked()) {
+            mosaicBtn->setChecked(false);
+            ConfigSettings::instance()->setValue("effect", "is_mosaic", false);
+        }
+    });
+    connect(mosaicBtn, &ToolButton::clicked, this, [=]{
+        ConfigSettings::instance()->setValue("effect", "is_mosaic", mosaicBtn->isChecked());
+        if (mosaicBtn->isChecked()) {
+            blurBtn->setChecked(false);
+            ConfigSettings::instance()->setValue("effect", "is_blur", false);
+        }
+    });
     int lineWidthIndex = ConfigSettings::instance()->value("rectangle",
                                                       "linewidth_index").toInt();
     btnList[lineWidthIndex]->setChecked(true);
