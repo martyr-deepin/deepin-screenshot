@@ -158,7 +158,11 @@ void SubToolBar::initArrowLabel() {
     arrowBtn->setObjectName("ArrowBtn");
     arrowBtn->setChecked(true);
     styleBtnGroup->addButton(arrowBtn, 1);
-
+    if (ConfigSettings::instance()->value("arrow", "is_straight").toBool()) {
+        lineBtn->setChecked(true);
+    } else {
+        arrowBtn->setChecked(true);
+    }
 
     int arrowWidthIndex = ConfigSettings::instance()->value("arrow",
                                                       "linewidth_index").toInt();
@@ -207,6 +211,7 @@ void SubToolBar::initArrowLabel() {
             mediumLine->show();
             thickLine->show();
         }
+        ConfigSettings::instance()->setValue("arrow", "is_straight", !checked);
     });
     connect(this, &SubToolBar::shapeChanged, this, [=]{
         int lineIndex = ConfigSettings::instance()->value(m_currentType,

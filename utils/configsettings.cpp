@@ -16,6 +16,7 @@ ConfigSettings::ConfigSettings(QObject *parent)
 
         setValue("arrow", "color_index", 3);
         setValue("arrow", "linewidth_index", 1);
+        setValue("arrow", "is_straight", false);
         setValue("oval", "color_index", 3);
         setValue("oval", "linewidth_index", 1);
         setValue("line", "color_index", 3);

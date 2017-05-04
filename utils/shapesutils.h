@@ -37,6 +37,7 @@ public:
      int colorIndex;
      bool isBlur = false;
      bool isMosaic = false;
+     bool isStraight = false;
      int fontSize = 1;
     QList<QPointF> points;
     QList<QList<qreal>> portion;
