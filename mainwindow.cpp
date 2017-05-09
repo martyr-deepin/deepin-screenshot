@@ -62,6 +62,7 @@ void MainWindow::initUI() {
     m_toolBar->hide();
     m_zoomIndicator = new ZoomIndicator(this);
     m_zoomIndicator->hide();
+
     installEventFilter(this);
 
     m_isFirstDrag = false;
@@ -229,9 +230,19 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             m_zoomIndicator->hide();
 
             QPoint toolbarPoint;
-            toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width() - 5, std::max(m_recordY + m_recordHeight + 5, 0));
-            if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height() - 28*3) {
-                toolbarPoint.setY(m_recordY + 5);
+            toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width() - 5,
+                                                    std::max(m_recordY + m_recordHeight + 5, 0));
+
+            if (m_toolBar->width() > m_recordX + m_recordWidth) {
+                toolbarPoint.setX(m_recordX + 5);
+            }
+            if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height()
+                    - m_toolBar->height() - 28) {
+                if (m_recordY > 28*2 + 10) {
+                    toolbarPoint.setY(m_recordY - m_toolBar->height() - 5);
+                } else {
+                    toolbarPoint.setY(m_recordY + 5);
+                }
             }
 
             m_toolBar->showAt(toolbarPoint);
@@ -291,8 +302,17 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                 QPoint toolbarPoint;
                 toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width() - 5,
                                                         std::max(m_recordY + m_recordHeight + 5, 0));
-                if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height() - 28*3) {
-                    toolbarPoint.setY(m_recordY + 5);
+                if (m_toolBar->width() > m_recordX + m_recordWidth) {
+                    toolbarPoint.setX(m_recordX + 5);
+                }
+
+                if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height()
+                        - m_toolBar->height() - 28 ) {
+                    if (m_recordY > 28*2 + 10) {
+                        toolbarPoint.setY(m_recordY - m_toolBar->height() - 5);
+                    } else {
+                        toolbarPoint.setY(m_recordY + 5);
+                    }
                 }
 
                 m_toolBar->showAt(toolbarPoint);
@@ -317,9 +337,27 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             }
         }
 
-        if (!m_isFirstMove) {
+        if ( !m_isFirstMove) {
             m_isFirstMove = true;
             needRepaint = true;
+        } else {
+            if (!m_toolBar->isVisible()) {
+                QPoint curPos = this->cursor().pos();
+                QPoint tmpPoint;
+                tmpPoint = QPoint(std::min(curPos.x() + 5 - m_backgroundRect.x(), curPos.x() + 5),
+                                  curPos.y() + 5);
+
+                if (curPos.x() >= m_backgroundRect.x() + m_backgroundRect.width() - m_zoomIndicator->width()) {
+                    tmpPoint.setX(std::min(m_backgroundRect.width() - m_zoomIndicator->width() - 5, curPos.x() + 5));
+                }
+
+                if (curPos.y() >= m_backgroundRect.y() + m_backgroundRect.height() - m_zoomIndicator->height()) {
+                    tmpPoint.setY(curPos.y()  - m_zoomIndicator->height() - 5);
+                }
+
+                qDebug() << "show zoomIndicator:" << tmpPoint;
+                m_zoomIndicator->showMagnifier(tmpPoint);
+            }
         }
 
         if (m_isPressButton && m_isFirstPressButton) {
