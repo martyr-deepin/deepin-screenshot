@@ -685,13 +685,17 @@ void MainWindow::shotCurrentImg() {
     m_needDrawSelectedPoint = false;
     update();
 
-    QPixmap tmpImg = QPixmap::grabWindow(qApp->desktop()->screen(m_screenNum)->winId(),
-                                         m_recordX + m_backgroundRect.x(), m_recordY, m_recordWidth, m_recordHeight);
+    QList<QScreen*> screenList = qApp->screens();
+
+    QPixmap tmpImg =  screenList[m_screenNum]->grabWindow(
+        qApp->desktop()->screen(m_screenNum)->winId(),
+        m_recordX + m_backgroundRect.x(), m_recordY, m_recordWidth, m_recordHeight);
+
     using namespace utils;
-    int imgX = m_recordX + 1;
-    int imgY = m_recordY + 1;
-    int imgWidth = m_recordWidth - 2.5;
-    int imgHeight = m_recordHeight - 2.5;
+    int imgX = 3;
+    int imgY = 3;
+    int imgWidth = tmpImg.width() - 6;
+    int imgHeight = tmpImg.height() - 6;
 
     tmpImg = tmpImg.copy(QRect(imgX, imgY, imgWidth, imgHeight));
      using namespace utils;
