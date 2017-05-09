@@ -23,6 +23,7 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QRect>
 #include <QtX11Extras/QX11Info>
 #include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>
@@ -267,18 +268,26 @@ QList<xcb_window_t> WindowManager::getWindows()
     return windows;
 }
 
+void WindowManager::setRootWindowRect(QRect rect) {
+    m_rootWindowRect.x = rect.x();
+    m_rootWindowRect.y = rect.y();
+    m_rootWindowRect.width = rect.width();
+    m_rootWindowRect.height = rect.height();
+}
+
 WindowRect WindowManager::getRootWindowRect() {
-    WindowRect rect;
-    xcb_get_geometry_reply_t *geometry = xcb_get_geometry_reply(conn, xcb_get_geometry(conn, rootWindow), 0);
+//    WindowRect rect;
+//    xcb_get_geometry_reply_t *geometry = xcb_get_geometry_reply(conn, xcb_get_geometry(conn, rootWindow), 0);
 
-    rect.x = 0;
-    rect.y = 0;
-    rect.width = geometry->width;
-    rect.height = geometry->height;
+//    rect.x = 0;
+//    rect.y = 0;
+//    rect.width = geometry->width;
+//    rect.height = geometry->height;
 
-    free(geometry);
+//    free(geometry);
 
-    return rect;
+//    return rect;
+    return m_rootWindowRect;
 }
 
 void WindowManager::translateCoords(xcb_window_t window, int32_t& x, int32_t& y)

@@ -14,6 +14,8 @@ public:
     void showMagnifier(QPoint pos);
 protected:
     void paintEvent(QPaintEvent *);
+
+    QPoint m_pos;
 };
 
 #endif // MAGNIFIER_H

@@ -60,8 +60,10 @@ private:
     WindowRect m_rootWindowRect;
 
     QList<WindowRect> m_windowRects;
-    QList<QString> m_windowNames;
+    QRect m_backgroundRect;
+//    QList<QString> m_windowNames;
 
+    int m_screenNum;
     int m_recordX;
     int m_recordY;
     int m_recordWidth;

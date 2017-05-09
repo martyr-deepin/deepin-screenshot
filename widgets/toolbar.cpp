@@ -70,7 +70,7 @@ void ToolBar::showAt(QPoint pos) {
     if (!isVisible())
         show();
 
-    move(pos.x() - TOOLBAR_WIDTH, pos.y());
+    move(pos.x(), pos.y());
 }
 
 ToolBar::~ToolBar() {}

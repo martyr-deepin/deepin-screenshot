@@ -51,6 +51,7 @@ public:
     QStringList getWindowTypes(xcb_window_t window);
     QStringList getWindowStates(xcb_window_t window);
     WindowRect getRootWindowRect();
+    void setRootWindowRect(QRect rect);
     WindowRect getWindowRect(xcb_window_t window);
     int getCurrentWorkspace(xcb_window_t window);
     int getWindowWorkspace(xcb_window_t window);
@@ -64,6 +65,7 @@ public:
     
 private:
     xcb_connection_t* conn;
+    WindowRect m_rootWindowRect;
 };
 
 #endif

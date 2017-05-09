@@ -25,7 +25,7 @@ ZoomIndicator::~ZoomIndicator() {}
 
 
 void ZoomIndicator::paintEvent(QPaintEvent *) {
-    QPoint centerPos = this->cursor().pos();
+    QPoint centerPos =  m_pos;
     QRgb centerRectRgb = QImage(TMPFILE_URL).pixel(centerPos);
     QPixmap zoomPix = QPixmap(TMPFILE_URL).copy(centerPos.x() - IMG_WIDTH/2,
             centerPos.y() - IMG_WIDTH/2, IMG_WIDTH, IMG_WIDTH);
@@ -61,7 +61,7 @@ void ZoomIndicator::showMagnifier(QPoint pos) {
     if (!this->isVisible())
         this->show();
 
-    QPoint movePos = cursor().pos();
-    this->move(movePos.x() + 10 , movePos.y() + 10);
+    m_pos = pos;
+    this->move(m_pos);
     update();
 }

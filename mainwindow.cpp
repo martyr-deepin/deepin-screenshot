@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 
 #include <QApplication>
+#include <QDesktopWidget>
 #include <QPainter>
 #include <QFileDialog>
 #include <QClipboard>
@@ -13,7 +14,7 @@ const int SPACING = 5;
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
 {
-    initUI();
+     initUI();
     startScreenshot();
 }
 
@@ -28,14 +29,31 @@ void MainWindow::initUI() {
     setMouseTracking(true);   // make MouseMove can response
     m_configSettings =  ConfigSettings::instance();
 
-    m_windowManager = new WindowManager();
-    QList<xcb_window_t> windows = m_windowManager->getWindows();
-    m_rootWindowRect =  m_windowManager->getRootWindowRect();
+    QPoint curPos = this->cursor().pos();
+     m_screenNum = qApp->desktop()->screenNumber(curPos);
+     QList<QScreen*> screenList = qApp->screens();
+     if (m_screenNum != 0 && m_screenNum < screenList.length()) {
+        m_backgroundRect = screenList[m_screenNum]->geometry();
+     } else {
+         m_backgroundRect =  qApp->primaryScreen()->geometry();
+     }
+     qDebug() << "this screen geometry:" << m_screenNum << m_backgroundRect;
+     this->move(m_backgroundRect.x(), m_backgroundRect.y());
 
-    for (int i = 0; i < windows.length(); i++) {
-        m_windowRects.append(m_windowManager->adjustRectInScreenArea(
-                                 m_windowManager->getWindowRect(windows[i])));
-        m_windowNames.append(m_windowManager->getWindowClass(windows[i]));
+    m_windowManager = new WindowManager();
+    m_windowManager->setRootWindowRect(m_backgroundRect);
+
+    m_rootWindowRect.x = 0;
+    m_rootWindowRect.y = 0;
+    m_rootWindowRect.width = m_backgroundRect.width();
+    m_rootWindowRect.height = m_backgroundRect.height();
+
+    if (m_screenNum == 0) {
+        QList<xcb_window_t> windows = m_windowManager->getWindows();
+        for (int i = 0; i < windows.length(); i++) {
+            m_windowRects.append(m_windowManager->adjustRectInScreenArea(
+                                     m_windowManager->getWindowRect(windows[i])));
+        }
     }
 
     m_sizeTips = new TopTips(this);
@@ -76,6 +94,7 @@ void MainWindow::initUI() {
             m_isShapesWidgetExist = true;
         }
     });
+
     connect(&m_eventMonitor, SIGNAL(buttonedPress(int, int)), this,
             SLOT(showPressFeedback(int, int)), Qt::QueuedConnection);
     connect(&m_eventMonitor, SIGNAL(buttonedDrag(int, int)), this,
@@ -208,8 +227,14 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
             m_mouseStatus = ShotMouseStatus::Normal;
             m_zoomIndicator->hide();
-            m_toolBar->showAt(QPoint(m_recordX + m_recordWidth, m_recordY
-                                          + m_recordHeight));
+
+            QPoint toolbarPoint;
+            toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width() - 5, std::max(m_recordY + m_recordHeight + 5, 0));
+            if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height() - 28*3) {
+                toolbarPoint.setY(m_recordY + 5);
+            }
+
+            m_toolBar->showAt(toolbarPoint);
             updateCursor(event);
 
             // Record select area name with window name if just click (no drag).
@@ -223,7 +248,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                     int ex = mouseEvent->x();
                     int ey = mouseEvent->y();
                     if (ex > wx && ex < wx + ww && ey > wy && ey < wy + wh) {
-                        m_selectAreaName = m_windowNames[i];
+//                        m_selectAreaName = m_windowNames[i];
 
                         break;
                     }
@@ -257,21 +282,44 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
         needRepaint = true;
     } else if (event->type() == QEvent::MouseMove) {
+        qDebug() <<QDateTime::currentDateTime() << "event filter mouse move";
         if (m_recordWidth > 0 && m_recordHeight >0) {
             m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
                 QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
 
-            if (m_toolBar->isVisible()) {
-                m_toolBar->showAt(QPoint(m_recordX + m_recordWidth,
-                                              m_recordY + m_recordHeight));
-            } else if (m_isFirstPressButton){
-                m_zoomIndicator->showMagnifier(QPoint(m_recordX + m_recordWidth,
-                                                     m_recordY + m_recordHeight));
+            if (m_toolBar->isVisible() && m_isPressButton) {
+                QPoint toolbarPoint;
+                toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width() - 5,
+                                                        std::max(m_recordY + m_recordHeight + 5, 0));
+                if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height() - 28*3) {
+                    toolbarPoint.setY(m_recordY + 5);
+                }
+
+                m_toolBar->showAt(toolbarPoint);
+
+            } else if (m_isFirstPressButton && !m_toolBar->isVisible()) {
+                QPoint curPos = this->cursor().pos();
+                QPoint tmpPoint;
+                tmpPoint = QPoint(std::min(curPos.x() + 5 - m_backgroundRect.x(), curPos.x() + 5),
+                                  curPos.y() + 5);
+
+                if (curPos.x() >= m_backgroundRect.x() + m_backgroundRect.width() - m_zoomIndicator->width()) {
+                    tmpPoint.setX(std::min(m_backgroundRect.width() - m_zoomIndicator->width() - 5, curPos.x() + 5));
+                }
+
+                if (curPos.y() >= m_backgroundRect.y() + m_backgroundRect.height() - m_zoomIndicator->height()) {
+                    tmpPoint.setY(curPos.y()  - m_zoomIndicator->height() - 5);
+                }
+
+                m_zoomIndicator->showMagnifier(tmpPoint);
+
+                qDebug() << "ZoomIndicator showsAt:" << tmpPoint << m_backgroundRect;
             }
         }
 
         if (!m_isFirstMove) {
             m_isFirstMove = true;
+            needRepaint = true;
         }
 
         if (m_isPressButton && m_isFirstPressButton) {
@@ -337,23 +385,31 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                 needRepaint = true;
             }
         } else {
-            for (int i = 0; i < m_windowRects.length(); i++) {
-                int wx = m_windowRects[i].x;
-                int wy = m_windowRects[i].y;
-                int ww = m_windowRects[i].width;
-                int wh = m_windowRects[i].height;
-                int ex = mouseEvent->x();
-                int ey = mouseEvent->y();
-                if (ex > wx && ex < wx + ww && ey > wy && ey < wy + wh) {
-                    m_recordX = wx;
-                    m_recordY = wy;
-                    m_recordWidth = ww;
-                    m_recordHeight = wh;
+            if (m_screenNum == 0) {
+                for (int i = 0; i < m_windowRects.length(); i++) {
+                    int wx = m_windowRects[i].x;
+                    int wy = m_windowRects[i].y;
+                    int ww = m_windowRects[i].width;
+                    int wh = m_windowRects[i].height;
+                    int ex = mouseEvent->x();
+                    int ey = mouseEvent->y();
+                    if (ex > wx && ex < wx + ww && ey > wy && ey < wy + wh) {
+                        m_recordX = wx;
+                        m_recordY = wy;
+                        m_recordWidth = ww;
+                        m_recordHeight = wh;
 
-                    needRepaint = true;
+                        needRepaint = true;
 
-                    break;
+                        break;
+                    }
                 }
+            } else {
+                m_recordX = 0;
+                m_recordY = 0;
+                m_recordWidth = m_rootWindowRect.width;
+                m_recordHeight = m_rootWindowRect.height;
+                needRepaint = true;
             }
         }
     }
@@ -421,38 +477,38 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
 
-    if (m_recordWidth > 0 && m_recordHeight > 0) {
-        QRect backgroundRect = QRect(m_rootWindowRect.x, m_rootWindowRect.y,
-                                     m_rootWindowRect.width, m_rootWindowRect.height);
-        QRect frameRect = QRect(m_recordX, m_recordY, m_recordWidth, m_recordHeight);
-        qDebug() << frameRect << backgroundRect;
-        // Draw background.
+    QRect backgroundRect = QRect(m_rootWindowRect.x, m_rootWindowRect.y,
+                                 m_rootWindowRect.width, m_rootWindowRect.height);
+    // Draw background.
+    qDebug() << "backgroundRect" << backgroundRect << m_backgroundRect;
+    if (!m_isFirstMove) {
         painter.setBrush(QBrush("#000000"));
-        painter.setOpacity(0.2);
-
-        painter.setClipping(true);
-        painter.setClipRegion(QRegion(backgroundRect).subtracted(QRegion(frameRect)));
+        painter.setOpacity(0.5);
         painter.drawRect(backgroundRect);
-
-        // Reset clip.
-        painter.setClipRegion(QRegion(backgroundRect));
-
+    } else if (m_recordWidth > 0 && m_recordHeight > 0) {
+        QRect frameRect = QRect(m_recordX + 2, m_recordY + 2, m_recordWidth - 4, m_recordHeight - 4);
         // Draw frame.
         if (m_mouseStatus != ShotMouseStatus::Wait) {
             painter.setRenderHint(QPainter::Antialiasing, false);
+            painter.setBrush(QBrush("#000000"));
+            painter.setOpacity(0.2);
+            painter.setClipping(true);
+            painter.setClipRegion(QRegion(backgroundRect).subtracted(QRegion(frameRect)));
+            painter.drawRect(backgroundRect);
+
+            painter.setClipRegion(backgroundRect);
             QPen framePen(QColor("#01bdff"));
             framePen.setWidth(2);
             painter.setOpacity(1);
-            painter.setBrush(QBrush());  // clear brush
+            painter.setBrush(Qt::transparent);
             painter.setPen(framePen);
-            painter.drawRect(QRect(std::max(frameRect.x(), 1),std::max(frameRect.y(), 1),
-                                 std::min(frameRect.width() - 1, m_rootWindowRect.width - 2),
-                                 std::min(frameRect.height() - 1, m_rootWindowRect.height - 2)));
-            painter.setRenderHint(QPainter::Antialiasing, true);
+            painter.drawRect(QRect(frameRect.x(), frameRect.y(), frameRect.width(), frameRect.height()));
+            painter.setClipping(false);
         }
 
         // Draw drag pint.
         if (m_mouseStatus != ShotMouseStatus::Wait && m_needDrawSelectedPoint) {
+            painter.setOpacity(1);
             int margin = m_resizeBigPix.width() / 2 + 1;
             int paintX = frameRect.x() - margin;
             int paintY = frameRect.y() - margin;
@@ -629,9 +685,9 @@ void MainWindow::shotCurrentImg() {
     m_needDrawSelectedPoint = false;
     update();
 
-     QList<xcb_window_t> windows = m_windowManager->getWindows();
-    QPixmap tmpImg = qApp->primaryScreen()->grabWindow(
-                                                         windows[windows.length()-1]);
+    QPixmap tmpImg = QPixmap::grabWindow(qApp->desktop()->screen(m_screenNum)->winId(),
+                                         m_recordX + m_backgroundRect.x(), m_recordY, m_recordWidth, m_recordHeight);
+    using namespace utils;
     int imgX = m_recordX + 1;
     int imgY = m_recordY + 1;
     int imgWidth = m_recordWidth - 2.5;

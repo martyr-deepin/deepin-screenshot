@@ -5,10 +5,10 @@
 
 TopTips::TopTips(QWidget *parent)
     : QLabel(parent) {
-    setStyleSheet("color: white;"
+    this->setStyleSheet(" TopTips {color: white;"
                   "background-color: rgba(0, 0, 0, 100); "
                   "border: 1px solid rgba(255, 255, 255, 100);"
-                  "border-radius: 4px;");
+                  "border-radius: 4px;}");
 }
 
 void TopTips::setContent(QString widthXHeight) {
@@ -26,8 +26,12 @@ void TopTips::updateTips(QPoint pos, QString text) {
 
     QPoint startPoint = pos;
 
+    startPoint.setX(pos.x() + 3);
+
     if (pos.y() > this->height()) {
         startPoint.setY(pos.y() - this->height() - 5);
+    } else {
+        startPoint.setY(pos.y() + 5);
     }
 
     this->move(startPoint);
