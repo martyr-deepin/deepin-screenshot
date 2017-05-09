@@ -4,6 +4,7 @@
 #include "bigcolorbutton.h"
 #include "toolbutton.h"
 #include "savebutton.h"
+#include "savetips.h"
 
 #include <QApplication>
 #include <QButtonGroup>
@@ -14,6 +15,7 @@ namespace {
     const int TOOLBAR_HEIGHT = 28;
     const int TOOLBAR_WIDTH = 284;
     const int BTN_SPACING = 6;
+    const int TOOLBUTTON_WIDTH = 22;
 }
 MajToolBar::MajToolBar(QWidget *parent)
     : QLabel(parent),
@@ -33,6 +35,7 @@ void MajToolBar::initWidgets() {
     setAcceptDrops(true);
     installEventFilter(this);
 
+    SaveTips* saveTips = new SaveTips();
     QList<ToolButton*> toolBtnList;
     QButtonGroup* buttonGroup = new QButtonGroup(this);
     buttonGroup->setExclusive(true);
@@ -64,6 +67,7 @@ void MajToolBar::initWidgets() {
     m_baseLayout = new QHBoxLayout();
     m_baseLayout->setMargin(0);
     m_baseLayout->addSpacing(BTN_SPACING);
+    m_baseLayout->addWidget(saveTips);
     for (int k = 0; k < toolBtnList.length(); k++) {
         m_baseLayout->addWidget(toolBtnList[k]);
         m_baseLayout->addSpacing(BTN_SPACING);
@@ -79,6 +83,48 @@ void MajToolBar::initWidgets() {
     m_baseLayout->addStretch();
 
     setLayout(m_baseLayout);
+
+    connect(saveTips, &SaveTips::tipWidthChanged, this,  [=](int value){
+        int num = (TOOLBAR_WIDTH - value)/(TOOLBUTTON_WIDTH + BTN_SPACING);
+        qDebug() << "LLPP:" << num;
+        if (num > 4) {
+            closeBtn->hide();
+            saveBtn->hide();
+            colorBtn->hide();
+            textBtn->hide();
+            lineBtn->hide();
+        }
+        if (num  > 5) {
+            lineBtn->show();
+        }
+
+        if (num > 6) {
+            colorBtn->show();
+        }
+
+        if (num <= 3) {
+            arrowBtn->hide();
+            textBtn->hide();
+        }
+
+        if (num > 8) {
+            rectBtn->show();
+            ovalBtn->show();
+            arrowBtn->show();
+            lineBtn->show();
+            textBtn->show();
+            colorBtn->show();
+            saveBtn->show();
+            closeBtn->show();
+        }
+    });
+    connect(this, &MajToolBar::showSaveTooltip, this, [=](QString tips){
+        saveTips->setSaveText(tips);
+        saveTips->startAnimation();
+    });
+    connect(this, &MajToolBar::hideSaveTooltip, this, [=]{
+        saveTips->endAnimation();
+    });
 
     connect(rectBtn, &ToolButton::clicked, this, [=](){
         if (m_currentShape != "rectangle") {

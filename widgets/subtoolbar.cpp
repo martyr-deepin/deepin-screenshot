@@ -312,22 +312,27 @@ void SubToolBar::initSaveLabel() {
     QList<ToolButton*> toolBtnList;
     ToolButton* saveDesktopBtn = new ToolButton();
     saveDesktopBtn->setObjectName("SaveToDesktop");
+    saveDesktopBtn->setTips(tr("Save to desktop"));
     toolBtnList.append(saveDesktopBtn);
 
     ToolButton* savePicBtn = new ToolButton();
     savePicBtn->setObjectName("SaveToPictureDir");
+    savePicBtn->setTips(tr("Autosave"));
     toolBtnList.append(savePicBtn);
 
     ToolButton* saveSpecificDirBtn = new ToolButton();
     saveSpecificDirBtn->setObjectName("SaveToSpecificDir");
+    saveSpecificDirBtn->setTips(tr("Save to specified folder"));
     toolBtnList.append(saveSpecificDirBtn);
 
     ToolButton* saveClipboardBtn = new ToolButton();
     saveClipboardBtn->setObjectName("SaveToClipboard");
+    saveClipboardBtn->setTips(tr("Copy to clipboard"));
     toolBtnList.append(saveClipboardBtn);
 
     ToolButton* saveAutoClipboardBtn = new ToolButton();
     saveAutoClipboardBtn->setObjectName("SaveToAutoClipboard");
+    saveAutoClipboardBtn->setTips(tr("Autosave and copy to clipboard"));
     toolBtnList.append(saveAutoClipboardBtn);
 
     QLabel* lowQualityText = new QLabel();
@@ -352,6 +357,12 @@ void SubToolBar::initSaveLabel() {
         saveLayout->addWidget(btn);
         connect(btn, &ToolButton::clicked, this,  [=]{
             setSaveOption(toolBtnList.indexOf(btn));
+        });
+        connect(btn, &ToolButton::onEnter, this, [=]{
+            emit showSaveTip(btn->getTips());
+        });
+        connect(btn, &ToolButton::onExist, this, [=]{
+            emit hideSaveTip();
         });
     }
     saveLayout->addWidget(lowQualityText);

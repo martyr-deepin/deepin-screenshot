@@ -16,6 +16,8 @@ signals:
     void buttonChecked(bool checked, QString type);
     void mainColorChanged(QColor currentColor);
     void saveImage();
+    void showSaveTooltip(QString tooltips);
+    void hideSaveTooltip();
 
 public slots:
     void initWidgets();

@@ -24,7 +24,9 @@ public:
 signals:
     void currentColorChanged(QColor color);
     void shapeChanged();
-    void  saveAction();
+    void saveAction();
+    void showSaveTip(QString tips);
+    void hideSaveTip();
 
 private:
     int m_lineWidth;
