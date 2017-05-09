@@ -40,6 +40,8 @@ void MainWindow::initUI() {
      qDebug() << "this screen geometry:" << m_screenNum << m_backgroundRect;
      this->move(m_backgroundRect.x(), m_backgroundRect.y());
 
+     shotFullScreen();
+
     m_windowManager = new WindowManager();
     m_windowManager->setRootWindowRect(m_backgroundRect);
 
@@ -716,6 +718,17 @@ void MainWindow::responseEsc()
 //    }
 }
 
+void MainWindow::shotFullScreen() {
+    QList<QScreen*> screenList = qApp->screens();
+    QPixmap tmpImg =  screenList[m_screenNum]->grabWindow(
+                qApp->desktop()->screen(m_screenNum)->winId(),
+                m_backgroundRect.x(), m_backgroundRect.y(),
+                m_backgroundRect.width(), m_backgroundRect.height());
+
+    using namespace utils;
+    tmpImg.save(TMP_FULLSCREEN_FILE, "png");
+}
+
 void MainWindow::shotCurrentImg() {
     if (m_recordWidth == 0 || m_recordHeight == 0)
         return;
@@ -736,7 +749,6 @@ void MainWindow::shotCurrentImg() {
     int imgHeight = tmpImg.height() - 6;
 
     tmpImg = tmpImg.copy(QRect(imgX, imgY, imgWidth, imgHeight));
-     using namespace utils;
     tmpImg.save(TMP_FILE, "png");
 }
 

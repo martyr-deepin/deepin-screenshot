@@ -23,6 +23,7 @@ enum ResizeDirection {
 
 namespace utils {
 const QString TMP_FILE = "/tmp/deepin-screenshot.png";
+const QString TMP_FULLSCREEN_FILE = "/tmp/deepin-screenshot-fullscreen.png";
 const QString TMP_MOSA_FILE = "/tmp/deepin-screenshot-mosa.png";
 const QString TMP_BLUR_FILE = "/tmp/deepin-screenshot-blur.png";
 }

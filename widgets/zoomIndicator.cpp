@@ -7,7 +7,6 @@
 #include <QRgb>
 
 namespace {
-const QString TMPFILE_URL = "/tmp/deepin-screenshot.png";
 const QSize BACKGROUND_SIZE = QSize(59, 59);
 const int SCALE_VALUE = 4;
 const int IMG_WIDTH =  12;
@@ -25,11 +24,12 @@ ZoomIndicator::~ZoomIndicator() {}
 
 
 void ZoomIndicator::paintEvent(QPaintEvent *) {
+    using namespace utils;
     QPoint centerPos =  this->cursor().pos();
 
     qDebug() << "centerPos" << centerPos;
-    QRgb centerRectRgb = QImage(TMPFILE_URL).pixel(centerPos);
-    QPixmap zoomPix = QPixmap(TMPFILE_URL).copy(centerPos.x() - IMG_WIDTH/2,
+    QRgb centerRectRgb = QImage(TMP_FULLSCREEN_FILE).pixel(centerPos);
+    QPixmap zoomPix = QPixmap(TMP_FULLSCREEN_FILE).copy(centerPos.x() - IMG_WIDTH/2,
             centerPos.y() - IMG_WIDTH/2, IMG_WIDTH, IMG_WIDTH);
 
     zoomPix = zoomPix.scaled(QSize(INDICATOR_WIDTH,  INDICATOR_WIDTH),

@@ -44,6 +44,7 @@ public slots:
     void showDragFeedback(int x, int y);
     void showReleaseFeedback(int x, int y);
     void responseEsc();
+    void shotFullScreen();
     void shotCurrentImg();
     void saveScreenshot();
     void reloadImage(QString effect);
