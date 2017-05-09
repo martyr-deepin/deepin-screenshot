@@ -13,7 +13,7 @@
 namespace {
     const int TOOLBAR_HEIGHT = 28;
     const int TOOLBAR_WIDTH = 284;
-    const int BTN_SPACING = 3;
+    const int BTN_SPACING = 6;
 }
 MajToolBar::MajToolBar(QWidget *parent)
     : QLabel(parent),
@@ -56,14 +56,14 @@ void MajToolBar::initWidgets() {
     BigColorButton* colorBtn = new BigColorButton();
     colorBtn->setObjectName("ColorBtn");
     SaveButton* saveBtn = new SaveButton();
-    ToolButton* shareBtn = new ToolButton();
-    shareBtn->setObjectName("ShareBtn");
+//    ToolButton* shareBtn = new ToolButton();
+//    shareBtn->setObjectName("ShareBtn");
     ToolButton* closeBtn = new ToolButton();
     closeBtn->setObjectName("CloseBtn");
 
     m_baseLayout = new QHBoxLayout();
     m_baseLayout->setMargin(0);
-    m_baseLayout->addSpacing(4);
+    m_baseLayout->addSpacing(BTN_SPACING);
     for (int k = 0; k < toolBtnList.length(); k++) {
         m_baseLayout->addWidget(toolBtnList[k]);
         m_baseLayout->addSpacing(BTN_SPACING);
@@ -72,7 +72,7 @@ void MajToolBar::initWidgets() {
     m_baseLayout->addWidget(colorBtn);
     m_baseLayout->addSpacing(BTN_SPACING);
     m_baseLayout->addWidget(saveBtn);
-    m_baseLayout->addWidget(shareBtn);
+//    m_baseLayout->addWidget(shareBtn);
     m_baseLayout->addSpacing(BTN_SPACING);
     m_baseLayout->addWidget(closeBtn);
     m_baseLayout->addSpacing(4);
