@@ -9,5 +9,19 @@
         <file>image/mouse_style/shape/text_mouse.png</file>
         <file>image/icons/resize_handle_big.png</file>
         <file>image/icons/resize_handle_small.png</file>
+        <file>image/menu_icons/arrow-menu-norml.png</file>
+        <file>image/menu_icons/ellipse-menu-norml.png</file>
+        <file>image/menu_icons/exit-menu-norml.png</file>
+        <file>image/menu_icons/line-menu-norml.png</file>
+        <file>image/menu_icons/rectangle-menu-norml.png</file>
+        <file>image/menu_icons/save-menu-norml.png</file>
+        <file>image/menu_icons/text-menu-norml.png</file>
+        <file>image/menu_icons/arrow-menu-hover.png</file>
+        <file>image/menu_icons/ellipse-menu-hover.png</file>
+        <file>image/menu_icons/exit-menu-hover.png</file>
+        <file>image/menu_icons/line-menu-hover.png</file>
+        <file>image/menu_icons/rectangle-menu-hover.png</file>
+        <file>image/menu_icons/save-menu-hover.png</file>
+        <file>image/menu_icons/text-menu-hover.png</file>
     </qresource>
 </RCC>

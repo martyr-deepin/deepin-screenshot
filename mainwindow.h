@@ -8,6 +8,7 @@
 #include <QDir>
 #include <QStandardPaths>
 #include <QScreen>
+#include <QMenu>
 #include <QDateTime>
 
 #include "widgets/toptips.h"
@@ -37,6 +38,7 @@ public:
 
     void initUI();
     void initShapeWidget(QString type);
+    void initMenu();
 
 public slots:
     void startScreenshot();
@@ -102,6 +104,8 @@ private:
 
     bool m_isShapesWidgetExist;
     int m_saveIndex;
+
+    QMenu* m_menu;
 };
 
 #endif // MAINWINDOW_H
