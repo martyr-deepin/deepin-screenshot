@@ -21,7 +21,7 @@ void SaveTips::setSaveText(QString text) {
 }
 
 int SaveTips::tipWidth() const {
-    return m_tipsWidth;
+    return  this->width();
 }
 
 void SaveTips::setTipWidth(int tipsWidth) {
@@ -34,15 +34,12 @@ SaveTips::~SaveTips() {
 
 void SaveTips::startAnimation() {
     m_animation->stop();
-    m_animation->setDuration(150);
-    m_animation->setStartValue(0);
-    m_animation->setEndValue(m_tipsWidth);
-    m_animation->setEasingCurve(QEasingCurve::OutSine);
-    m_animation->start();
+    setTipWidth(m_tipsWidth);
+    emit tipWidthChanged(m_tipsWidth);
+    this->show();
 }
 
 void SaveTips::endAnimation() {
-    m_animation->stop();
     m_animation->setDuration(150);
     m_animation->setStartValue(m_tipsWidth);
     m_animation->setEndValue(0);

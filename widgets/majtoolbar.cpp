@@ -87,24 +87,25 @@ void MajToolBar::initWidgets() {
     connect(saveTips, &SaveTips::tipWidthChanged, this,  [=](int value){
         int num = (TOOLBAR_WIDTH - value)/(TOOLBUTTON_WIDTH + BTN_SPACING);
         qDebug() << "LLPP:" << num;
-        if (num > 4) {
+        if (num > 2) {
             closeBtn->hide();
             saveBtn->hide();
             colorBtn->hide();
             textBtn->hide();
             lineBtn->hide();
+            arrowBtn->hide();
         }
+
+        if (num > 4) {
+            arrowBtn->show();
+        }
+
         if (num  > 5) {
             lineBtn->show();
         }
 
         if (num > 6) {
             colorBtn->show();
-        }
-
-        if (num <= 3) {
-            arrowBtn->hide();
-            textBtn->hide();
         }
 
         if (num > 8) {
