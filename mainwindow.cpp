@@ -30,6 +30,7 @@ void MainWindow::initUI() {
     setAttribute(Qt::WA_TranslucentBackground, true);
     setMouseTracking(true);   // make MouseMove can response
     m_configSettings =  ConfigSettings::instance();
+    installEventFilter(this);
 
     QPoint curPos = this->cursor().pos();
      m_screenNum = qApp->desktop()->screenNumber(curPos);
@@ -67,8 +68,6 @@ void MainWindow::initUI() {
     m_zoomIndicator = new ZoomIndicator(this);
     m_zoomIndicator->hide();
 
-    installEventFilter(this);
-
     m_menuController = new MenuController;
 
     m_isFirstDrag = false;
@@ -102,16 +101,6 @@ void MainWindow::initUI() {
         }
     });
 
-    connect(&m_eventMonitor, SIGNAL(buttonedPress(int, int)), this,
-            SLOT(showPressFeedback(int, int)), Qt::QueuedConnection);
-    connect(&m_eventMonitor, SIGNAL(buttonedDrag(int, int)), this,
-            SLOT(showDragFeedback(int, int)), Qt::QueuedConnection);
-    connect(&m_eventMonitor, SIGNAL(buttonedRelease(int, int)), this,
-            SLOT(showReleaseFeedback(int, int)), Qt::QueuedConnection);
-    connect(&m_eventMonitor, SIGNAL(pressEsc()), this,
-            SLOT(responseEsc()), Qt::QueuedConnection);
-    m_eventMonitor.start();
-
     connect(m_toolBar, &ToolBar::requestSaveScreenshot, this,
             &MainWindow::saveScreenshot);
 }
@@ -127,22 +116,19 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         saveScreenshot();
     }
     bool needRepaint = false;
-    if (event->type() ==  QEvent::KeyPress) {
-        QKeyEvent* keyEvent = static_cast<QKeyEvent*> (event);
-        if (keyEvent->key() == Qt::Key_Escape) {
-            qApp->quit();
-        }
-    }
 
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if (keyEvent->key() == Qt::Key_Escape) {
+            qApp->quit();
+        }
 
         if (m_mouseStatus == ShotMouseStatus::Normal) {
             if (/*qApp->keyboardModifiers() & */Qt::ControlModifier) {
                 if (keyEvent->key() == Qt::Key_Left) {
                     m_recordX = std::max(0, m_recordX - 1);
                     m_recordWidth = std::min(m_recordWidth + 1,
-                                             m_rootWindowRect.width);
+                                                      m_rootWindowRect.width);
 
                     needRepaint = true;
                 } else if (keyEvent->key() == Qt::Key_Right) {
@@ -465,11 +451,15 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
     // Use flag instead call `repaint` directly,
     // to avoid repaint many times in one event function.
+    this->grabKeyboard();
     if (needRepaint) {
         repaint();
+        return false;
+    } else {
+        return false;
     }
 
-    return false;
+//    return  true;
 }
 
 int MainWindow::getDirection(QEvent *event) {
@@ -527,9 +517,12 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
     painter.setRenderHint(QPainter::Antialiasing, true);
 
     QRect backgroundRect = QRect(m_rootWindowRect.x, m_rootWindowRect.y,
-                                 m_rootWindowRect.width, m_rootWindowRect.height);
+                                                              m_rootWindowRect.width, m_rootWindowRect.height);
     // Draw background.
-    qDebug() << "backgroundRect" << backgroundRect << m_backgroundRect;
+    using namespace utils;
+
+    painter.drawPixmap(backgroundRect, QPixmap(TMP_FULLSCREEN_FILE));
+    qDebug() << "backgroundRect" << backgroundRect;
     if (!m_isFirstMove) {
         painter.setBrush(QBrush("#000000"));
         painter.setOpacity(0.5);
@@ -729,6 +722,7 @@ void MainWindow::responseEsc()
 
 void MainWindow::shotFullScreen() {
     QList<QScreen*> screenList = qApp->screens();
+
     QPixmap tmpImg =  screenList[m_screenNum]->grabWindow(
                 qApp->desktop()->screen(m_screenNum)->winId(),
                 m_backgroundRect.x(), m_backgroundRect.y(),
@@ -736,6 +730,7 @@ void MainWindow::shotFullScreen() {
 
     using namespace utils;
     tmpImg.save(TMP_FULLSCREEN_FILE, "png");
+    update();
 }
 
 void MainWindow::shotCurrentImg() {

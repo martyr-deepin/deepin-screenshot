@@ -94,8 +94,6 @@ private:
     QPixmap m_resizeBigPix;
     QPixmap m_resizeSmallPix;
 
-    EventMonitor m_eventMonitor;
-
     TopTips* m_sizeTips;
     ToolBar* m_toolBar;
     ZoomIndicator* m_zoomIndicator;
