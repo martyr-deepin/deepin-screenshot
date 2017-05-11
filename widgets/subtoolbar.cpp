@@ -365,6 +365,9 @@ void SubToolBar::initSaveLabel() {
             emit hideSaveTip();
         });
     }
+    int saveOptionIndex = ConfigSettings::instance()->value("save", "save_op").toInt();
+    toolBtnList[saveOptionIndex]->setChecked(true);
+
     saveLayout->addWidget(lowQualityText);
     saveLayout->addSpacing(2);
     saveLayout->addWidget(saveQualitySlider);
