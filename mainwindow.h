@@ -17,6 +17,7 @@
 #include "widgets/shapeswidget.h"
 #include "utils/baseutils.h"
 #include "utils/configsettings.h"
+#include "controller/menucontroller.h"
 
 #include "windowmanager.h"
 #include "eventmonitor.h"
@@ -38,7 +39,6 @@ public:
 
     void initUI();
     void initShapeWidget(QString type);
-    void initMenu();
 
 public slots:
     void startScreenshot();
@@ -105,7 +105,7 @@ private:
     bool m_isShapesWidgetExist;
     int m_saveIndex;
 
-    QMenu* m_menu;
+    MenuController* m_menuController;
 };
 
 #endif // MAINWINDOW_H

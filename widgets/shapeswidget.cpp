@@ -17,7 +17,8 @@ ShapesWidget::ShapesWidget(QWidget *parent)
       m_isSelected(false),
       m_isShiftPressed(false),
       m_editing(false),
-      m_penColor(Qt::red)
+      m_penColor(Qt::red),
+      m_menuController(new MenuController)
 {
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
@@ -679,6 +680,12 @@ void ShapesWidget::handleResize(QPointF pos, int key) {
 void ShapesWidget::mousePressEvent(QMouseEvent *e) {
     m_pressedPoint = e->pos();
     m_isPressed = true;
+
+    if (e->button() == Qt::RightButton) {
+        m_menuController->showMenu(QPoint(mapToParent(e->pos())));
+        QFrame::mousePressEvent(e);
+        return;
+    }
 
     if (!clickedOnShapes(m_pressedPoint)) {
         qDebug() << "no one shape be clicked!";
