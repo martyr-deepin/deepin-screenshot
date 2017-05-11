@@ -23,7 +23,7 @@
 #include "eventmonitor.h"
 
 
-class MainWindow : public QWidget
+class MainWindow : public QLabel
 {
     Q_OBJECT
 

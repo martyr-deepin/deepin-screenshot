@@ -14,7 +14,7 @@ const int SPACING = 5;
 }
 
 MainWindow::MainWindow(QWidget *parent)
-    : QWidget(parent)
+    : QLabel(parent)
 {
      initUI();
     startScreenshot();
@@ -25,9 +25,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::initUI() {
-    setWindowFlags(Qt::Tool | Qt::FramelessWindowHint /*|
-                   Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus*/);
-    setAttribute(Qt::WA_TranslucentBackground, true);
+    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
     setMouseTracking(true);   // make MouseMove can response
     m_configSettings =  ConfigSettings::instance();
     installEventFilter(this);
@@ -519,9 +517,6 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
     QRect backgroundRect = QRect(m_rootWindowRect.x, m_rootWindowRect.y,
                                                               m_rootWindowRect.width, m_rootWindowRect.height);
     // Draw background.
-    using namespace utils;
-
-    painter.drawPixmap(backgroundRect, QPixmap(TMP_FULLSCREEN_FILE));
     qDebug() << "backgroundRect" << backgroundRect;
     if (!m_isFirstMove) {
         painter.setBrush(QBrush("#000000"));
@@ -730,6 +725,10 @@ void MainWindow::shotFullScreen() {
 
     using namespace utils;
     tmpImg.save(TMP_FULLSCREEN_FILE, "png");
+    setAttribute(Qt::WA_TranslucentBackground, false);
+    this->setStyleSheet(QString("MainWindow{ border-image: url(%1);}"
+                                       ).arg(TMP_FULLSCREEN_FILE));
+
     update();
 }
 
