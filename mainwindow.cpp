@@ -16,8 +16,9 @@ const int SPACING = 5;
 MainWindow::MainWindow(QWidget *parent)
     : QLabel(parent)
 {
+    initDBusInterface();
      initUI();
-    startScreenshot();
+     startScreenshot();
 }
 
 MainWindow::~MainWindow()
@@ -25,8 +26,9 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::initUI() {
-    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::Tool | Qt::WindowStaysOnTopHint);
     setMouseTracking(true);   // make MouseMove can response
+
     m_configSettings =  ConfigSettings::instance();
     installEventFilter(this);
 
@@ -40,7 +42,7 @@ void MainWindow::initUI() {
      }
      qDebug() << "this screen geometry:" << m_screenNum << m_backgroundRect;
      this->move(m_backgroundRect.x(), m_backgroundRect.y());
-
+     this->setFixedSize(m_backgroundRect.size());
      shotFullScreen();
 
     m_windowManager = new WindowManager();
@@ -101,6 +103,12 @@ void MainWindow::initUI() {
 
     connect(m_toolBar, &ToolBar::requestSaveScreenshot, this,
             &MainWindow::saveScreenshot);
+}
+
+void MainWindow::initDBusInterface() {
+    m_controlCenterDBInterface = new DBusControlCenter(this);
+    m_notifyDBInterface = new DBusNotify(this);
+    m_soundEffectInterface = new DBusSoundEffect(this);
 }
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
@@ -728,8 +736,7 @@ void MainWindow::shotFullScreen() {
     setAttribute(Qt::WA_TranslucentBackground, false);
     this->setStyleSheet(QString("MainWindow{ border-image: url(%1);}"
                                        ).arg(TMP_FULLSCREEN_FILE));
-
-    update();
+//    update();
 }
 
 void MainWindow::shotCurrentImg() {
@@ -740,7 +747,6 @@ void MainWindow::shotCurrentImg() {
     update();
 
     QList<QScreen*> screenList = qApp->screens();
-
     QPixmap tmpImg =  screenList[m_screenNum]->grabWindow(
         qApp->desktop()->screen(m_screenNum)->winId(),
         m_recordX + m_backgroundRect.x(), m_recordY, m_recordWidth, m_recordHeight);

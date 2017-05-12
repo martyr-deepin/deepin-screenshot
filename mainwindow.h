@@ -19,6 +19,10 @@
 #include "utils/configsettings.h"
 #include "controller/menucontroller.h"
 
+#include "dbusinterface/dbuscontrolcenter.h"
+#include "dbusinterface/dbusnotify.h"
+#include "dbusinterface/dbussoundeffect.h"
+
 #include "windowmanager.h"
 #include "eventmonitor.h"
 
@@ -39,6 +43,7 @@ public:
 
     void initUI();
     void initShapeWidget(QString type);
+    void initDBusInterface();
 
 public slots:
     void startScreenshot();
@@ -104,6 +109,9 @@ private:
     int m_saveIndex;
 
     MenuController* m_menuController;
+    DBusControlCenter* m_controlCenterDBInterface;
+    DBusNotify* m_notifyDBInterface;
+    DBusSoundEffect* m_soundEffectInterface;
 };
 
 #endif // MAINWINDOW_H

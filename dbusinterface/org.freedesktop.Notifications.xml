@@ -1,0 +1,79 @@
+  <interface name="org.freedesktop.Notifications">\n
+    <method name="CloseNotification">\n
+      <arg direction="in" type="u"/>\n
+    </method>\n
+    <method name="GetCapbilities">\n
+      <arg direction="out" type="as"/>\n
+    </method>\n
+    <method name="GetServerInformation">\n
+      <arg direction="out" type="s"/>\n
+      <arg direction="out" type="s"/>\n
+      <arg direction="out" type="s"/>\n
+      <arg direction="out" type="s"/>\n
+    </method>\n
+    <method name="Notify">\n
+      <arg direction="in" type="s"/>\n
+      <arg direction="in" type="u"/>\n
+      <arg direction="in" type="s"/>\n
+      <arg direction="in" type="s"/>\n
+      <arg direction="in" type="s"/>\n
+      <arg direction="in" type="as"/>\n
+      <arg direction="in" type="a{sv}"/>\n
+      <annotation value="QVariantMap" name="org.qtproject.QtDBus.QtTypeName.In6"/>\n
+        <arg direction="in" type="i"/>\n
+       <arg direction="out" type="u"/>\n
+     </method>\n
+     <method name="GetAllRecords">\n
+       <arg direction="out" type="s"/>\n
+     </method>\n
+     <method name="RemoveRecord">\n
+       <arg direction="in" type="s"/>\n
+     </method>\n
+     <method name="ClearRecords">\n
+     </method>\n
+     <signal name="NotificationClosed">\n
+       <arg type="u"/>\n
+       <arg type="u"/>\n
+     </signal>\n
+     <signal name="ActionInvoked">\n
+       <arg type="u"/>\n
+       <arg type="s"/>\n
+     </signal>\n
+     <signal name="RecordAdded">\n
+       <arg type="s"/>\n
+     </signal>\n
+   </interface>\n
+   <interface name="org.freedesktop.DBus.Properties">\n
+     <method name="Get">\n
+       <arg name="interface_name" type="s" direction="in"/>\n
+       <arg name="property_name" type="s" direction="in"/>\n
+       <arg name="value" type="v" direction="out"/>\n
+     </method>\n
+     <method name="Set">\n
+       <arg name="interface_name" type="s" direction="in"/>\n
+       <arg name="property_name" type="s" direction="in"/>\n
+       <arg name="value" type="v" direction="in"/>\n
+     </method>\n
+     <method name="GetAll">\n
+       <arg name="interface_name" type="s" direction="in"/>\n
+       <arg name="values" type="a{sv}" direction="out"/>\n
+       <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QVariantMap"/>\n
+     </method>\n
+     <signal name="PropertiesChanged">\n
+       <arg name="interface_name" type="s" direction="out"/>\n
+       <arg name="changed_properties" type="a{sv}" direction="out"/>\n
+       <annotation name="org.qtproject.QtDBus.QtTypeName.Out1" value="QVariantMap"/>\n
+       <arg name="invalidated_properties" type="as" direction="out"/>\n
+     </signal>\n
+   </interface>\n
+   <interface name="org.freedesktop.DBus.Introspectable">\n
+     <method name="Introspect">\n
+       <arg name="xml_data" type="s" direction="out"/>\n
+     </method>\n
+   </interface>\n
+   <interface name="org.freedesktop.DBus.Peer">\n
+     <method name="Ping"/>\n
+     <method name="GetMachineId">\n
+       <arg name="machine_uuid" type="s" direction="out"/>\n
+     </method>\n
+   </interface>\n

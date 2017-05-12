@@ -36,6 +36,7 @@ isEmpty(PREFIX){
 include (widgets/widgets.pri)
 include (utils/utils.pri)
 include (controller/controller.pri)
+include (dbusinterface/dbusinterface.pri)
 
 BINDIR = $$PREFIX/bin
 APPSHAREDIR = $$PREFIX/share/deepin-screenshot
