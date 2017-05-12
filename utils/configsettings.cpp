@@ -50,6 +50,7 @@ void ConfigSettings::setValue(const QString &group, const QString &key,
     m_settings->beginGroup(group);
     m_settings->setValue(key, val);
     m_settings->endGroup();
+    m_settings->sync();
 
     if (group == "common") {
         emit colorChanged();

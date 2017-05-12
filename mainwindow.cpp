@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QClipboard>
 #include <QAction>
+#include <QMap>
 #include <QStyleFactory>
 
 namespace {
@@ -587,8 +588,6 @@ void MainWindow::initShapeWidget(QString type) {
 
     connect(m_toolBar, &ToolBar::updateColor,
             m_shapesWidget, &ShapesWidget::setPenColor);
-    connect(m_toolBar, &ToolBar::requestSaveScreenshot,
-            this, &MainWindow::saveScreenshot);
     connect(m_shapesWidget, &ShapesWidget::reloadEffectImg,
             this, &MainWindow::reloadImage);
 }
@@ -808,6 +807,25 @@ void MainWindow::saveScreenshot() {
         QClipboard* cb = qApp->clipboard();
         cb->setPixmap(screenShotPix, QClipboard::Clipboard);
     }
+
+    QStringList actions;
+    actions << "_open" << tr("View");
+    QVariantMap hints;
+    QString fileDir = QUrl::fromLocalFile(QFileInfo(fileName).absoluteDir().absolutePath()).toString();
+    QString filePath =  QUrl::fromLocalFile(fileName).toString();
+    QString command;
+    if (QFile("/usr/bin/dde-file-manager").exists()) {
+        command = QString("/usr/bin/dde-file-manager,%1?selectUrl=%2"
+                          ).arg(fileDir).arg(filePath);
+    } else {
+        command = QString("xdg-open,%1").arg(filePath);
+    }
+
+    hints["x-deepin-action-_open"] = command;
+
+   QString summary = QString("Picture has been saved to %1").arg(fileName);
+   m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
+                               summary, actions, hints, 0);
     qApp->quit();
 }
 

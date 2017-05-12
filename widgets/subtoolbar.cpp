@@ -406,6 +406,7 @@ void SubToolBar::switchContent(QString shapeType) {
 
 void SubToolBar::setSaveOption(int saveOption) {
     ConfigSettings::instance()->setValue("save", "save_op", saveOption);
+
     emit saveAction();
 }
 
