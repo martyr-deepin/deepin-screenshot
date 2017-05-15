@@ -764,6 +764,7 @@ void MainWindow::saveScreenshot() {
     QDateTime currentDate;
     using namespace utils;
     shotCurrentImg();
+
     QPixmap screenShotPix(TMP_FILE);
     QString currentTime =  currentDate.currentDateTime().
             toString("yyyyMMddHHmmss");
@@ -800,7 +801,10 @@ void MainWindow::saveScreenshot() {
     if (saveOption != QStandardPaths::TempLocation || fileName.isEmpty()) {
         fileName = QString("%1/DeepinScreenshot%2.png").arg(
                     QStandardPaths::writableLocation(saveOption)).arg(currentTime);
-                     screenShotPix.save(fileName, "PNG");
+        screenShotPix.save(fileName, "PNG");
+        if (m_soundEffectInterface->enabled()) {
+            m_soundEffectInterface->asyncCall("PlaySystemSound", "camera-shutter");
+        }
     }
     if (copyToClipboard) {
         Q_ASSERT(!screenShotPix.isNull());
