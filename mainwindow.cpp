@@ -732,10 +732,8 @@ void MainWindow::shotFullScreen() {
 
     using namespace utils;
     tmpImg.save(TMP_FULLSCREEN_FILE, "png");
-    setAttribute(Qt::WA_TranslucentBackground, false);
     this->setStyleSheet(QString("MainWindow{ border-image: url(%1);}"
                                        ).arg(TMP_FULLSCREEN_FILE));
-//    update();
 }
 
 void MainWindow::shotCurrentImg() {
@@ -783,8 +781,12 @@ void MainWindow::saveScreenshot() {
         break;
     }
     case 2: {
+        this->hide();
         QFileDialog fileDialog;
-        fileName =  fileDialog.getSaveFileName(NULL, "Save");
+        QString  lastFileName = QString("%1DeepinScreenshot%2.png").arg(QStandardPaths::writableLocation(
+                                                                            QStandardPaths::PicturesLocation)).arg(currentTime);
+        fileName =  fileDialog.getSaveFileName(NULL, "Save",  lastFileName,  tr("")) + ".png";
+
         break;
     }
     case 3: {
@@ -798,7 +800,13 @@ void MainWindow::saveScreenshot() {
     default:
         break;
     }
-    if (saveOption != QStandardPaths::TempLocation || fileName.isEmpty()) {
+
+    if (saveIndex == 2) {
+        screenShotPix.save(fileName, "PNG");
+        if (m_soundEffectInterface->enabled()) {
+            m_soundEffectInterface->asyncCall("PlaySystemSound", "camera-shutter");
+        }
+    } else if (saveOption != QStandardPaths::TempLocation || fileName.isEmpty()) {
         fileName = QString("%1/DeepinScreenshot%2.png").arg(
                     QStandardPaths::writableLocation(saveOption)).arg(currentTime);
         screenShotPix.save(fileName, "PNG");
@@ -806,6 +814,7 @@ void MainWindow::saveScreenshot() {
             m_soundEffectInterface->asyncCall("PlaySystemSound", "camera-shutter");
         }
     }
+
     if (copyToClipboard) {
         Q_ASSERT(!screenShotPix.isNull());
         QClipboard* cb = qApp->clipboard();
