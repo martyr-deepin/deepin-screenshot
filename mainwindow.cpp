@@ -114,11 +114,25 @@ void MainWindow::initDBusInterface() {
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
 {
-    if (m_isShapesWidgetExist) {
-        return false;
-    }
 #undef KeyPress
 #undef KeyRelease
+    if (m_isShapesWidgetExist) {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if (keyEvent->key() == Qt::Key_Escape) {
+                qApp->quit();
+                return false;
+            } else if (keyEvent->key() == Qt::Key_Delete) {
+                emit  deleteShapes();
+            } else {
+                qDebug() << "keyEvent:" << keyEvent->key();
+            }
+            return false;
+        }
+
+        return false;
+    }
+
     if (event->type() == QEvent::MouseButtonDblClick) {
         saveScreenshot();
     }
@@ -578,6 +592,7 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
 
 void MainWindow::initShapeWidget(QString type) {
     qDebug() << "show shapesWidget";
+    this->releaseKeyboard();
     m_shapesWidget = new ShapesWidget(this);
     if (type != "color")
         m_shapesWidget->setCurrentShape(type);
@@ -590,6 +605,8 @@ void MainWindow::initShapeWidget(QString type) {
             m_shapesWidget, &ShapesWidget::setPenColor);
     connect(m_shapesWidget, &ShapesWidget::reloadEffectImg,
             this, &MainWindow::reloadImage);
+    connect(this, &MainWindow::deleteShapes, m_shapesWidget,
+            &ShapesWidget::deleteCurrentShape);
 }
 
 void MainWindow::updateCursor(QEvent *event)

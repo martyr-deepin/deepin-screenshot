@@ -89,3 +89,13 @@ Toolshape Toolshape::operator=(Toolshape obj) {
 
     return (*this);
 }
+
+bool Toolshape::operator==(const Toolshape &other) const {
+    if (this->mainPoints == other.mainPoints && this->colorIndex == other.colorIndex &&
+            this->fontSize == other.fontSize && this->isBlur == other.isBlur && this->isMosaic
+            == other.isMosaic && this->isStraight == other.isStraight && this->points == other.points) {
+        return true;
+    } else {
+        return false;
+    }
+}

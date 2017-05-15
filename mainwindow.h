@@ -45,6 +45,9 @@ public:
     void initShapeWidget(QString type);
     void initDBusInterface();
 
+signals:
+    void deleteShapes();
+
 public slots:
     void startScreenshot();
     void showPressFeedback(int x, int y);
@@ -105,7 +108,7 @@ private:
     ShapesWidget* m_shapesWidget;
     ConfigSettings* m_configSettings;
 
-    bool m_isShapesWidgetExist;
+    bool m_isShapesWidgetExist = false;
     int m_saveIndex;
 
     MenuController* m_menuController;

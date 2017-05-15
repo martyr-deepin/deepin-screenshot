@@ -23,7 +23,7 @@ ShapesWidget::ShapesWidget(QWidget *parent)
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     setAcceptDrops(true);
-    installEventFilter(this);
+//    installEventFilter(this);
 }
 
 ShapesWidget::~ShapesWidget() {
@@ -47,8 +47,21 @@ void ShapesWidget::setPenColor(QColor color) {
 void ShapesWidget::clearSelected() {
     for(int j = 0; j < m_selectedShape.mainPoints.length(); j++) {
         m_selectedShape.mainPoints[j] = QPointF(0, 0);
+        m_hoveredShape.mainPoints[j] = QPointF(0, 0);
     }
+
+    m_isSelected = false;
     m_selectedShape.points.clear();
+    m_hoveredShape.points.clear();
+}
+
+void ShapesWidget::setAllTextEditReadOnly() {
+//    QMap<int, TextEdit*>::iterator i = m_editMap.begin();
+//    while (i != m_editMap.end()) {
+//        i.value()->setReadOnly(true);
+//        i.value()->setFocusPolicy(Qt::NoFocus);
+//        ++i;
+//    }
 }
 
 bool ShapesWidget::clickedOnShapes(QPointF pos) {
@@ -687,6 +700,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
         return;
     }
 
+    qDebug() << "checked length:::" << m_shapes.length() << m_isPressed;
     if (!clickedOnShapes(m_pressedPoint)) {
         qDebug() << "no one shape be clicked!";
         m_currentDiagPoints.masterPoint = QPoint(0, 0);
@@ -724,8 +738,10 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                 if (m_editing) {
                     m_editing = false;
                 } else {
+                    setAllTextEditReadOnly();
                     m_currentShape.mainPoints[0] = m_pos1;
                     TextEdit* edit = new TextEdit(m_shapes.length(), this);
+                    edit->grabKeyboard();
                     m_selectedIndex = m_shapes.length();
                     m_editing = true;
                     int defaultFontSize = ConfigSettings::instance()->value("text", "fontsize").toInt();
@@ -760,9 +776,11 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
 
 void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
     m_isPressed = false;
+    qDebug() << m_isRecording << m_isSelected << m_pos2;
     if (m_isRecording && !m_isSelected && m_pos2 != QPointF(0, 0)) {
         m_currentDiagPoints.deputyPoint = m_pos2;
         m_diagPointsList.append(m_currentDiagPoints);
+        qDebug() << "m_currentType:" << m_currentType;
 
         if (m_currentType == "arrow") {
             if (m_currentShape.points.length() == 2) {
@@ -774,6 +792,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
             m_currentShape.mainPoints = lineFPoints;
             m_shapes.append(m_currentShape);
         } else {
+            qDebug() << "%%%%%%%%%%%";
             FourPoints rectFPoints = fourPointsOnRect(m_currentDiagPoints);
             m_currentShape.mainPoints = rectFPoints;
             m_shapes.append(m_currentShape);
@@ -801,7 +820,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
 void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
     m_isMoving = true;
     m_movingPoint = e->pos();
-    qDebug() << "mouseMoveEvent" << e->pos();
+    qDebug() << "mouseMoveEvent" << e->pos() << m_isRecording << m_isPressed;
 
     if (m_isRecording && m_isPressed) {
         m_pos2 = e->pos();
@@ -932,7 +951,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
 
 void ShapesWidget::updateTextRect(TextEdit* edit, QRectF newRect) {
     int index = edit->getIndex();
-    if (m_shapes.length() - 1 >= index) {
+    if (m_shapes.length() - 1 >= index)  {
         m_shapes[index].mainPoints[0] = QPointF(newRect.x(), newRect.y());
         m_shapes[index].mainPoints[1] = QPointF(newRect.x() , newRect.y() + newRect.height());
         m_shapes[index].mainPoints[2] = QPointF(newRect.x() + newRect.width(), newRect.y());
@@ -1006,10 +1025,8 @@ void ShapesWidget::paintEllipse(QPainter &painter, FourPoints ellipseFPoints,
 
 void ShapesWidget::paintArrow(QPainter &painter, QList<QPointF> lineFPoints,
                                                           int lineWidth, bool isStraight) {
-    qDebug() << "~~~~~~~~~ paintArrow" << isStraight;
     if (lineFPoints.length() == 2) {
         if (!isStraight) {
-            qDebug() << "xxxxxxx";
             QList<QPointF> arrowPoints = pointOfArrow(lineFPoints[0],
                                                          lineFPoints[1], 8+(lineWidth - 1)*2);
             QPainterPath path;
@@ -1153,10 +1170,40 @@ bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
 
     if (event->type() == QKeyEvent::KeyPress) {
         QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+        qDebug() << "QKeyEvent::KeyPress ########";
         if (keyEvent->key() == Qt::Key_Escape) {
             qApp->quit();
+        }
+
+        if (keyEvent->key() == Qt::Key_Delete) {
+            qDebug() << "delete!!!!!!!";
+            deleteCurrentShape();
+        }
+
+        if (m_currentShape.type == "text") {
+            m_editMap[m_selectedIndex]->grabKeyboard();
         }
     }
 
     return false;
+}
+
+void ShapesWidget::deleteCurrentShape() {
+    qDebug() << "delete currentShape:" << m_shapes.length();
+     m_shapes.removeOne(m_selectedShape);
+     clearSelected();
+     qDebug() << "after delete:" << m_shapes.length();
+     update();
+     m_selectedIndex = -1;
+}
+
+QString ShapesWidget::getCurrentType() {
+    return m_currentShape.type;
+}
+
+void ShapesWidget::setTextEditGrabKeyboard() {
+    if (m_editMap.count() > m_selectedIndex) {
+        qDebug() << "ShapesWidget: setTextEdit grabKeyboard";
+        m_editMap[m_selectedIndex]->grabKeyboard();
+    }
 }

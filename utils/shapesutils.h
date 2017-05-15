@@ -47,7 +47,7 @@ public:
     friend QDebug &operator<<(QDebug &argument, const Toolshape &obj);
     friend QDataStream &operator>>(QDataStream &in, Toolshape &obj);
     Toolshape operator=(Toolshape obj);
-
+    bool operator==(const Toolshape &other) const;
     static void registerMetaType();
 };
 

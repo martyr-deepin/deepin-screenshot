@@ -33,6 +33,7 @@ public slots:
     void setCurrentShape(QString shapeType);
     void setPenColor(QColor color);
     void clearSelected();
+    void setAllTextEditReadOnly();
 
     void handleDrag(QPointF oldPoint, QPointF newPoint);
     void handleRotate(QPointF pos);
@@ -52,6 +53,10 @@ public slots:
     bool hoverOnArrow(QList<QPointF> points, QPointF pos);
     bool hoverOnLine(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
     bool hoverOnRotatePoint(FourPoints mainPoints, QPointF pos);
+
+    void deleteCurrentShape();
+    QString  getCurrentType();
+    void setTextEditGrabKeyboard();
 
 protected:
     void mousePressEvent(QMouseEvent* e);
