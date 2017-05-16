@@ -129,7 +129,6 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             }
             return false;
         }
-
         return false;
     }
 
@@ -145,7 +144,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         }
 
         if (m_mouseStatus == ShotMouseStatus::Normal) {
-            if (/*qApp->keyboardModifiers() & */Qt::ControlModifier) {
+            if (qApp->keyboardModifiers() & Qt::ControlModifier) {
                 if (keyEvent->key() == Qt::Key_Left) {
                     m_recordX = std::max(0, m_recordX - 1);
                     m_recordWidth = std::min(m_recordWidth + 1,
@@ -194,6 +193,23 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             if (m_mouseStatus == ShotMouseStatus::Normal && needRepaint) {
 //                hideRecordButton();
             }
+
+            QPoint toolbarPoint;
+            toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width() - 5,
+                                                    std::max(m_recordY + m_recordHeight + 5, 0));
+
+            if (m_toolBar->width() > m_recordX + m_recordWidth) {
+                toolbarPoint.setX(m_recordX + 5);
+            }
+            if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height()
+                    - m_toolBar->height() - 28) {
+                if (m_recordY > 28*2 + 10) {
+                    toolbarPoint.setY(m_recordY - m_toolBar->height() - 5);
+                } else {
+                    toolbarPoint.setY(m_recordY + 5);
+                }
+            }
+            m_toolBar->showAt(toolbarPoint);
         }
     } else if (event->type() == QEvent::KeyRelease) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
