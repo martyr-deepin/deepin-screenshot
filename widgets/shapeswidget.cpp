@@ -711,7 +711,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
         m_currentShape.colorIndex = ConfigSettings::instance()->value(
                     m_currentType, "color_index").toInt();
         m_currentShape.lineWidth = ConfigSettings::instance()->value(
-                   m_currentType, "linewidth_index").toInt()*2+1;
+                   m_currentType, "linewidth_index").toInt()*2+3;
 
         m_selectedIndex = -1;
         m_isRecording = true;
@@ -1206,4 +1206,20 @@ void ShapesWidget::setTextEditGrabKeyboard() {
         qDebug() << "ShapesWidget: setTextEdit grabKeyboard";
         m_editMap[m_selectedIndex]->grabKeyboard();
     }
+}
+
+void ShapesWidget::microAdjust(QString direction, bool big) {
+
+    qDebug() << "shapesWidget micro adjust:" << direction << big << m_selectedIndex << m_shapes.length()
+             << m_shapes[m_selectedIndex].type;
+    if (m_selectedIndex != -1 && m_selectedIndex < m_shapes.length()) {
+        if (m_shapes[m_selectedIndex].type == "rectangle" || m_shapes[m_selectedIndex].type == "oval") {
+            if (direction == "Left" || direction == "Right" || direction == "Up" || direction == "Down") {
+                m_shapes[m_selectedIndex].mainPoints = pointMoveMicro(m_shapes[m_selectedIndex].mainPoints, direction, big);
+            }
+        }
+    }
+
+    m_selectedShape.mainPoints = m_shapes[m_selectedIndex].mainPoints;
+    update();
 }

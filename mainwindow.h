@@ -47,6 +47,7 @@ public:
 
 signals:
     void deleteShapes();
+//    void microAdjust(QString left, QString adjustDirection);
 
 public slots:
     void startScreenshot();

@@ -122,7 +122,32 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             if (keyEvent->key() == Qt::Key_Escape) {
                 qApp->quit();
                 return false;
-            } else if (keyEvent->key() == Qt::Key_Delete) {
+            }
+
+            if (qApp->keyboardModifiers() & Qt::ControlModifier) {
+                if (keyEvent->key() == Qt::Key_Left) {
+                    m_shapesWidget->microAdjust("Left", true);
+                } else if (keyEvent->key() == Qt::Key_Right) {
+                    m_shapesWidget->microAdjust("Right", true);
+                } else if (keyEvent->key() == Qt::Key_Up) {
+                    m_shapesWidget->microAdjust("Up", true);
+                } else if (keyEvent->key() == Qt::Key_Down) {
+                    m_shapesWidget->microAdjust("Down", true);
+                }
+            } else {
+                qDebug() << "left micro";
+                if (keyEvent->key() == Qt::Key_Left) {
+                    m_shapesWidget->microAdjust("Left", false);
+                } else if (keyEvent->key() == Qt::Key_Right) {
+                    m_shapesWidget->microAdjust("Right", false);
+                } else if (keyEvent->key() == Qt::Key_Up) {
+                    m_shapesWidget->microAdjust("Up", false);
+                } else if (keyEvent->key() == Qt::Key_Down) {
+                    m_shapesWidget->microAdjust("Down", false);
+                }
+            }
+
+            if (keyEvent->key() == Qt::Key_Delete) {
                 emit  deleteShapes();
             } else {
                 qDebug() << "keyEvent:" << keyEvent->key();

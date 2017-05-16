@@ -59,6 +59,11 @@ bool pointOnRect(DiagPoints diagPoints, QPointF pos) {
     }
 }
 
+/* get the distance between two points*/
+qreal getDistance(QPointF point1, QPointF point2) {
+    return std::sqrt(std::pow(point1.x() - point2.x(), 2) + std::pow(point1.y() - point2.y(), 2));
+}
+
 /* get the point who splid a distance on a line */
 QPointF pointSplid(QPointF point1, QPointF point2, qreal padding) {
     if (point1.x() == point2.x()) {
@@ -3767,4 +3772,280 @@ FourPoints point8Resize7(QPointF point1, QPointF point2, QPointF point3,
     newResizeFPoints[3] = point4;
 
     return newResizeFPoints;
+}
+
+/************************ micro-adjust  **************************/
+FourPoints pointMoveMicro(FourPoints fourPoints, QString dir, bool isBig) {
+    Q_UNUSED(isBig);
+    QPointF point1 = fourPoints[0];
+    QPointF point2 = fourPoints[1];
+    QPointF point3 = fourPoints[2];
+    QPointF point4 = fourPoints[3];
+    if (dir == "Left") {
+        point1 = QPoint(point1.x() - 1, point1.y());
+        point2 = QPoint(point2.x() - 1, point2.y());
+        point3 = QPoint(point3.x() - 1, point3.y());
+        point4 = QPoint(point4.x() - 1, point4.y());
+    }
+    if (dir == "Right") {
+        point1 = QPoint(point1.x() + 1, point1.y());
+        point2 = QPoint(point2.x() + 1, point2.y());
+        point3 = QPoint(point3.x() + 1, point3.y());
+        point4 = QPoint(point4.x() + 1, point4.y());
+    }
+    if (dir == "Up") {
+        point1 = QPoint(point1.x() , point1.y() - 1);
+        point2 = QPoint(point2.x(), point2.y() - 1);
+        point3 = QPoint(point3.x(), point3.y() - 1);
+        point4 = QPoint(point4.x(), point4.y() - 1);
+    }
+    if (dir == "Down") {
+        point1 = QPoint(point1.x() , point1.y() + 1);
+        point2 = QPoint(point2.x(), point2.y() + 1);
+        point3 = QPoint(point3.x(), point3.y() + 1);
+        point4 = QPoint(point4.x(), point4.y() + 1);
+    }
+    fourPoints[0] = point1;
+    fourPoints[1] = point2;
+    fourPoints[2] = point3;
+    fourPoints[3] = point4;
+    return fourPoints;
+}
+
+FourPoints pointResizeMicro(FourPoints fourPoints, QString dir, bool isBig) {
+    Q_UNUSED(isBig);
+    if (dir == "Ctrl+Left" || dir == "Ctrl+Shift+Left") {
+        fourPoints = point5ResizeMicro(fourPoints, isBig);
+    }
+    if (dir == "Ctrl+Right" || dir == "Ctrl+Shift+Right") {
+        fourPoints = point7ResizeMicro(fourPoints, isBig);
+    }
+    if (dir == "Ctrl+Up" || dir == "Ctrl+Shift+Up") {
+        fourPoints = point6ResizeMicro(fourPoints, isBig);
+    }
+    if (dir == "Ctrl+Down" || dir == "Ctrl+Shift+Down") {
+        fourPoints = point8ResizeMicro(fourPoints, isBig);
+    }
+    return fourPoints;
+}
+FourPoints point5ResizeMicro(FourPoints fourPoints, bool isBig) {
+    QPointF point1 = fourPoints[0];
+    QPointF point2 = fourPoints[1];
+    QPointF point3 = fourPoints[2];
+    QPointF point4 = fourPoints[3];
+    if (getDistance(point1, point3) < MIN_PADDING && !isBig) {
+        return fourPoints;
+    } else {
+        qreal distance = 1;
+        qreal weight = 1;
+        if (isBig) {
+            weight = 1;
+        } else {
+            weight = -1;
+        }
+
+        if (point1.x() - point2.x() <= 0 && point1.y() - point2.y() <= 0 &&
+        point1.x() - point3.x() <= 0 && point1.y() - point3.y() >= 0) {
+            QPointF add = pointSplid(point1, point3, distance);
+            point1 = QPointF(point1.x() - weight*add.x(), point1.y() + weight*add.y());
+            point2 = QPointF(point2.x() - weight*add.x(), point2.y() + weight*add.y());
+            fourPoints[0] = point1;
+            fourPoints[1] = point2;
+            return fourPoints;
+        }
+        if (point1.x() - point2.x() < 0 && point1.y() - point2.y() > 0 &&
+        point1.x() - point3.x() > 0 && point1.y() - point3.y() > 0) {
+            QPointF add = pointSplid(point1, point3, distance);
+            point1 = QPointF(point1.x() + weight*add.x(), point1.y() + weight*add.y());
+            point2 = QPointF(point2.x() + weight*add.x(), point2.y() + weight*add.y());
+            fourPoints[0] = point1;
+            fourPoints[1] = point2;
+            return fourPoints;
+        }
+        if (point1.x() - point2.x() > 0 && point1.y() - point2.y() < 0 &&
+        point1.x() - point3.x() < 0 && point1.y() - point3.y() < 0) {
+            QPointF add = pointSplid(point1, point3, distance);
+            point1 = QPointF(point1.x() - weight*add.x(), point1.y() - weight*add.y());
+            point2 = QPointF(point2.x() - weight*add.x(), point2.y() - weight*add.y());
+            fourPoints[0] = point1;
+            fourPoints[1] = point2;
+            return fourPoints;
+        }
+        if (point1.x() - point2.x() > 0 && point1.y() - point2.y() > 0 &&
+        point1.x() - point3.x() > 0 && point1.y() - point3.y() < 0) {
+            QPointF add = pointSplid(point1, point3, distance);
+            point1 = QPointF(point1.x() + weight*add.x(), point1.y() - weight*add.y());
+            point2 = QPointF(point2.x() + weight*add.x(), point2.y() - weight*add.y());
+            fourPoints[0] = point1;
+            fourPoints[1] = point2;
+            return fourPoints;
+        }
+    }
+    return fourPoints;
+}
+FourPoints point6ResizeMicro(FourPoints fourPoints,  bool isBig) {
+    QPointF point1 = fourPoints[0];
+    QPointF point2 = fourPoints[1];
+    QPointF point3 = fourPoints[2];
+    QPointF point4 = fourPoints[3];
+    if (getDistance(point1, point2) < MIN_PADDING && !isBig) {
+        return fourPoints;
+    } else {
+        qreal distance = 1;
+        qreal weight = 1;
+        if (isBig) {
+            weight = 1;
+        } else {
+            weight = -1;
+        }
+
+        if (point1.x() - point2.x() <= 0 && point1.y() - point2.y() <= 0 &&
+        point1.x() - point3.x() <= 0 && point1.y() - point3.y() >= 0) {
+            QPointF add = pointSplid(point1, point2, distance);
+            point1 = QPointF(point1.x() - weight*add.x(), point1.y() - weight*add.y());
+            point3= QPointF(point3.x() - weight*add.x(), point3.y() - weight*add.y());
+            fourPoints[0] = point1;
+            fourPoints[2] = point3;
+            return fourPoints;
+        }
+        if (point1.x() - point2.x() < 0 && point1.y() - point2.y() > 0 &&
+        point1.x() - point3.x() > 0 && point1.y() - point3.y() > 0) {
+            QPointF add = pointSplid(point1, point2, distance);
+            point1 = QPointF(point1.x() - weight*add.x(), point1.y() + weight*add.y());
+            point3 = QPointF(point3.x() - weight*add.x(), point3.y() + weight*add.y());
+            fourPoints[0] = point1;
+            fourPoints[2] = point3;
+            return fourPoints;
+        }
+        if (point1.x() - point2.x() > 0 && point1.y() - point2.y() < 0 &&
+        point1.x() - point3.x() < 0 && point1.y() - point3.y() < 0) {
+            QPointF add = pointSplid(point1, point2, distance);
+            point1 = QPointF(point1.x() + weight*add.x(), point1.y() - weight*add.y());
+            point3 = QPointF(point3.x() + weight*add.x(), point3.y() - weight*add.y());
+            fourPoints[0] = point1;
+            fourPoints[2] = point3;
+            return fourPoints;
+        }
+        if (point1.x() - point2.x() > 0 && point1.y() - point2.y() > 0 &&
+        point1.x() - point3.x() > 0 && point1.y() - point3.y() < 0) {
+            QPointF add = pointSplid(point1, point2, distance);
+            point1 = QPointF(point1.x() + weight*add.x(), point1.y() + weight*add.y());
+            point3 = QPointF(point3.x() + weight*add.x(), point3.y() + weight*add.y());
+            fourPoints[0] = point1;
+            fourPoints[2] = point3;
+            return fourPoints;
+        }
+    }
+    return fourPoints;
+}
+FourPoints point7ResizeMicro(FourPoints fourPoints,  bool isBig) {
+    QPointF point1 = fourPoints[0];
+    QPointF point2 = fourPoints[1];
+    QPointF point3 = fourPoints[2];
+    QPointF point4 = fourPoints[3];
+    if (getDistance(point1, point3) < MIN_PADDING && !isBig) {
+        return fourPoints;
+    } else {
+        qreal distance = 1;
+        qreal weight = 1;
+        if (isBig) {
+            weight = 1;
+        } else {
+            weight = -1;
+        }
+
+        if (point1.x() - point2.x() <= 0 && point1.y() - point2.y() <= 0 &&
+        point1.x() - point3.x() <= 0 && point1.y() - point3.y() >= 0) {
+            QPointF add = pointSplid(point1, point3, distance);
+            point3 = QPointF(point3.x() + weight*add.x(), point3.y() - weight*add.y());
+            point4 = QPointF(point4.x() + weight*add.x(), point4.y() - weight*add.y());
+            fourPoints[2] = point3;
+            fourPoints[3] = point4;
+            return fourPoints;
+        }
+        if (point1.x() - point2.x() < 0 && point1.y() - point2.y() > 0 &&
+        point1.x() - point3.x() > 0 && point1.y() - point3.y() > 0) {
+            QPointF add = pointSplid(point1, point3, distance);
+            point3 = QPointF(point3.x() - weight*add.x(), point3.y() - weight*add.y());
+            point4 = QPointF(point4.x() - weight*add.x(), point4.y() - weight*add.y());
+            fourPoints[2] = point3;
+            fourPoints[3] = point4;
+            return fourPoints;
+        }
+        if (point1.x() - point2.x() > 0 && point1.y() - point2.y() < 0 &&
+        point1.x() - point3.x() < 0 && point1.y() - point3.y() < 0) {
+            QPointF add = pointSplid(point1, point3, distance);
+            point3 = QPointF(point3.x() + weight*add.x(), point3.y() + weight*add.y());
+            point4 = QPointF(point4.x() + weight*add.x(), point4.y() + weight*add.y());
+            fourPoints[2] = point3;
+            fourPoints[3] = point4;
+            return fourPoints;
+        }
+        if (point1.x() - point2.x() > 0 && point1.y() - point2.y() > 0 &&
+        point1.x() - point3.x() > 0 && point1.y() - point3.y() < 0) {
+            QPointF add = pointSplid(point1, point3, distance);
+            point3 = QPointF(point3.x() - weight*add.x(), point3.y() + weight*add.y());
+            point4 = QPointF(point4.x() - weight*add.x(), point4.y() + weight*add.y());
+            fourPoints[2] = point3;
+            fourPoints[3] = point4;
+            return fourPoints;
+        }
+    }
+    return fourPoints;
+}
+
+FourPoints point8ResizeMicro(FourPoints fourPoints,  bool isBig) {
+    QPointF point1 = fourPoints[0];
+    QPointF point2 = fourPoints[1];
+    QPointF point3 = fourPoints[2];
+    QPointF point4 = fourPoints[3];
+    if (getDistance(point1, point2) < MIN_PADDING && !isBig) {
+        return fourPoints;
+    } else {
+        qreal distance = 1;
+        qreal weight = 1;
+        if (isBig) {
+            weight = 1;
+        } else {
+            weight = -1;
+        }
+
+        if (point1.x() - point2.x() <= 0 && point1.y() - point2.y() <= 0 &&
+        point1.x() - point3.x() <= 0 && point1.y() - point3.y() >= 0) {
+            QPointF add = pointSplid(point1, point2, distance);
+            point2 = QPointF(point2.x() + weight*add.x(), point2.y() + weight*add.y());
+            point4 = QPointF(point4.x() + weight*add.x(), point4.y() + weight*add.y());
+            fourPoints[1] = point2;
+            fourPoints[3] = point4;
+            return fourPoints;
+        }
+        if (point1.x() - point2.x() < 0 && point1.y() - point2.y() > 0 &&
+        point1.x() - point3.x() > 0 && point1.y() - point3.y() > 0) {
+            QPointF add = pointSplid(point1, point2, distance);
+            point2 = QPointF(point2.x() + weight*add.x(), point2.y() - weight*add.y());
+            point4 = QPointF(point4.x() + weight*add.x(), point4.y() - weight*add.y());
+            fourPoints[1] = point2;
+            fourPoints[3] = point4;
+            return fourPoints;
+        }
+        if (point1.x() - point2.x() > 0 && point1.y() - point2.y() < 0 &&
+        point1.x() - point3.x() < 0 && point1.y() - point3.y() < 0) {
+            QPointF add = pointSplid(point1, point2, distance);
+            point2 = QPointF(point2.x() - weight*add.x(), point2.y() + weight*add.y());
+            point4 = QPointF(point4.x() - weight*add.x(), point4.y() + weight*add.y());
+            fourPoints[1] = point2;
+            fourPoints[3] = point4;
+            return fourPoints;
+        }
+        if (point1.x() - point2.x() > 0 && point1.y() - point2.y() > 0 &&
+        point1.x() - point3.x() > 0 && point1.y() - point3.y() < 0) {
+            QPointF add = pointSplid(point1, point2, distance);
+            point2 = QPointF(point2.x() - weight*add.x(), point2.y() - weight*add.y());
+            point4 = QPointF(point4.x() - weight*add.x(), point4.y() - weight*add.y());
+            fourPoints[1] = point2;
+            fourPoints[3] = point4;
+            return fourPoints;
+        }
+    }
+    return fourPoints;
 }

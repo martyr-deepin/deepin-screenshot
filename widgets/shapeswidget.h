@@ -57,6 +57,7 @@ public slots:
     void deleteCurrentShape();
     QString  getCurrentType();
     void setTextEditGrabKeyboard();
+    void microAdjust(QString direction, bool big);
 
 protected:
     void mousePressEvent(QMouseEvent* e);

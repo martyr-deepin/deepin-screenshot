@@ -17,6 +17,9 @@ bool    pointOnLine(QPointF point1, QPointF point2, QPointF point3);
 /* To determine whether a point on the rectangle*/
 bool    pointOnRect(DiagPoints diagPoints, QPointF pos);
 
+/* get the distance between two points*/
+qreal getDistance(QPointF point1, QPointF point2);
+
 /* get the point who splid a distance on a line */
 QPointF  pointSplid(QPointF point1, QPointF point2, qreal padding);
 
@@ -261,4 +264,13 @@ FourPoints point8Resize6(QPointF point1, QPointF point2, QPointF point3,
 /* point8 in the seventh position */
 FourPoints point8Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift= false);
+
+/************************ micro-adjust  **************************/
+FourPoints pointMoveMicro(FourPoints fourPoints,  QString dir, bool isBig);
+FourPoints pointResizeMicro(FourPoints fourPoints, QString dir, bool isBig);
+FourPoints point5ResizeMicro(FourPoints fourPoints, bool isBig);
+FourPoints point6ResizeMicro(FourPoints fourPoints,  bool isBig);
+FourPoints point7ResizeMicro(FourPoints fourPoints,  bool isBig);
+FourPoints point8ResizeMicro(FourPoints fourPoints,  bool isBig);
+
 #endif // CALCULATERECT_H
