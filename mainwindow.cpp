@@ -672,8 +672,9 @@ void MainWindow::initShapeWidget(QString type) {
     m_shapesWidget = new ShapesWidget(this);
     if (type != "color")
         m_shapesWidget->setCurrentShape(type);
-    m_shapesWidget->setFixedSize(m_recordWidth, m_recordHeight);
-    m_shapesWidget->move(m_recordX, m_recordY);
+
+    m_shapesWidget->setFixedSize(m_recordWidth - 4, m_recordHeight - 4);
+    m_shapesWidget->move(m_recordX + 2, m_recordY + 2);
     m_shapesWidget->show();
     update();
 
