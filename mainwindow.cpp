@@ -621,7 +621,7 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
         painter.setBrush(QBrush("#000000"));
         painter.setOpacity(0.5);
         painter.drawRect(backgroundRect);
-    } else if (m_recordWidth > 0 && m_recordHeight > 0) {
+    } else if (m_recordWidth > 0 && m_recordHeight > 0 && !m_drawNothing) {
         QRect frameRect = QRect(m_recordX + 2, m_recordY + 2, m_recordWidth - 4, m_recordHeight - 4);
         // Draw frame.
         if (m_mouseStatus != ShotMouseStatus::Wait) {
@@ -683,6 +683,8 @@ void MainWindow::initShapeWidget(QString type) {
             this, &MainWindow::reloadImage);
     connect(this, &MainWindow::deleteShapes, m_shapesWidget,
             &ShapesWidget::deleteCurrentShape);
+    connect(m_shapesWidget, &ShapesWidget::requestScreenshot,
+            this, &MainWindow::saveScreenshot);
 }
 
 void MainWindow::updateCursor(QEvent *event)
@@ -817,7 +819,6 @@ void MainWindow::responseEsc()
 
 void MainWindow::shotFullScreen() {
     QList<QScreen*> screenList = qApp->screens();
-
     QPixmap tmpImg =  screenList[m_screenNum]->grabWindow(
                 qApp->desktop()->screen(m_screenNum)->winId(),
                 m_backgroundRect.x(), m_backgroundRect.y(),
@@ -834,26 +835,30 @@ void MainWindow::shotCurrentImg() {
         return;
 
     m_needDrawSelectedPoint = false;
+    m_drawNothing = true;
     update();
 
+    QEventLoop eventloop;
+    QTimer::singleShot(100, &eventloop, SLOT(quit()));
+    eventloop.exec();
+
+    qDebug() << m_toolBar->isVisible() << m_sizeTips->isVisible();
     QList<QScreen*> screenList = qApp->screens();
     QPixmap tmpImg =  screenList[m_screenNum]->grabWindow(
-        qApp->desktop()->screen(m_screenNum)->winId(),
-        m_recordX + m_backgroundRect.x(), m_recordY, m_recordWidth, m_recordHeight);
+                qApp->desktop()->screen(m_screenNum)->winId(),
+                m_recordX + m_backgroundRect.x(), m_recordY, m_recordWidth, m_recordHeight);
+    qDebug() << tmpImg.isNull() << tmpImg.size();
 
     using namespace utils;
-    int imgX = 3;
-    int imgY = 3;
-    int imgWidth = tmpImg.width() - 6;
-    int imgHeight = tmpImg.height() - 6;
-
-    tmpImg = tmpImg.copy(QRect(imgX, imgY, imgWidth, imgHeight));
     tmpImg.save(TMP_FILE, "png");
 }
 
 void MainWindow::saveScreenshot() {
     QDateTime currentDate;
     using namespace utils;
+    m_toolBar->setVisible(false);
+    m_sizeTips->setVisible(false);
+
     shotCurrentImg();
 
     QPixmap screenShotPix(TMP_FILE);

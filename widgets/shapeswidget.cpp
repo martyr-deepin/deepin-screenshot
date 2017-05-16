@@ -25,7 +25,7 @@ ShapesWidget::ShapesWidget(QWidget *parent)
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     setAcceptDrops(true);
-//    installEventFilter(this);
+    installEventFilter(this);
 }
 
 ShapesWidget::~ShapesWidget() {
@@ -1191,20 +1191,14 @@ bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
         qApp->setOverrideCursor(setCursorShape(m_currentType));
     }
 
+    if (event->type() == QEvent::MouseButtonDblClick) {
+        emit requestScreenshot();
+    }
+
     if (event->type() == QKeyEvent::KeyPress) {
         QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
-        qDebug() << "QKeyEvent::KeyPress ########";
         if (keyEvent->key() == Qt::Key_Escape) {
             qApp->quit();
-        }
-
-        if (keyEvent->key() == Qt::Key_Delete) {
-            qDebug() << "delete!!!!!!!";
-            deleteCurrentShape();
-        }
-
-        if (m_currentShape.type == "text") {
-            m_editMap[m_selectedIndex]->grabKeyboard();
         }
     }
 
