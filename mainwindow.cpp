@@ -250,6 +250,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                 }
             }
 
+           m_sizeTips->setText(QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
             if (m_mouseStatus == ShotMouseStatus::Normal && needRepaint) {
 //                hideRecordButton();
             }

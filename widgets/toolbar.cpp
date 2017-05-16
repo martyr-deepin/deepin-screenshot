@@ -15,6 +15,8 @@ ToolBar::ToolBar(QWidget *parent)
     setObjectName("ToolBar");
     setStyleSheet(getFileContent(":/resources/qss/toolbar.qss"));
     setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
+    setFocus();
+    setFocusPolicy(Qt::StrongFocus);
 
     m_hSeperatorLine = new QLabel(this);
     m_hSeperatorLine->setObjectName("HorSeperatorLine");
