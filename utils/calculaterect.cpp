@@ -3775,8 +3775,7 @@ FourPoints point8Resize7(QPointF point1, QPointF point2, QPointF point3,
 }
 
 /************************ micro-adjust  **************************/
-FourPoints pointMoveMicro(FourPoints fourPoints, QString dir, bool isBig) {
-    Q_UNUSED(isBig);
+FourPoints pointMoveMicro(FourPoints fourPoints, QString dir) {
     QPointF point1 = fourPoints[0];
     QPointF point2 = fourPoints[1];
     QPointF point3 = fourPoints[2];

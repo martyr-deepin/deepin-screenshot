@@ -266,7 +266,7 @@ FourPoints point8Resize7(QPointF point1, QPointF point2, QPointF point3,
                          QPointF point4, QPointF pos, bool isShift= false);
 
 /************************ micro-adjust  **************************/
-FourPoints pointMoveMicro(FourPoints fourPoints,  QString dir, bool isBig);
+FourPoints pointMoveMicro(FourPoints fourPoints,  QString dir);
 FourPoints pointResizeMicro(FourPoints fourPoints, QString dir, bool isBig);
 FourPoints point5ResizeMicro(FourPoints fourPoints, bool isBig);
 FourPoints point6ResizeMicro(FourPoints fourPoints,  bool isBig);

@@ -1208,14 +1208,19 @@ void ShapesWidget::setTextEditGrabKeyboard() {
     }
 }
 
-void ShapesWidget::microAdjust(QString direction, bool big) {
+void ShapesWidget::microAdjust(QString direction) {
 
-    qDebug() << "shapesWidget micro adjust:" << direction << big << m_selectedIndex << m_shapes.length()
+    qDebug() << "shapesWidget micro adjust:" << direction << m_selectedIndex << m_shapes.length()
              << m_shapes[m_selectedIndex].type;
     if (m_selectedIndex != -1 && m_selectedIndex < m_shapes.length()) {
         if (m_shapes[m_selectedIndex].type == "rectangle" || m_shapes[m_selectedIndex].type == "oval") {
             if (direction == "Left" || direction == "Right" || direction == "Up" || direction == "Down") {
-                m_shapes[m_selectedIndex].mainPoints = pointMoveMicro(m_shapes[m_selectedIndex].mainPoints, direction, big);
+                m_shapes[m_selectedIndex].mainPoints = pointMoveMicro(m_shapes[m_selectedIndex].mainPoints, direction);
+            } else if (direction == "Ctrl+Shift+Left" || direction == "Ctrl+Shift+Right" || direction == "Ctrl+Shift+Up"
+               || direction == "Ctrl+Shift+Down") {
+                m_shapes[m_selectedIndex].mainPoints = pointResizeMicro(m_shapes[m_selectedIndex].mainPoints, direction, false);
+            } else {
+                m_shapes[m_selectedIndex].mainPoints = pointResizeMicro(m_shapes[m_selectedIndex].mainPoints, direction, true);
             }
         }
     }

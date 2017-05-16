@@ -124,26 +124,37 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                 return false;
             }
 
-            if (qApp->keyboardModifiers() & Qt::ControlModifier) {
+            if (keyEvent->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier)) {
                 if (keyEvent->key() == Qt::Key_Left) {
-                    m_shapesWidget->microAdjust("Left", true);
+                    m_shapesWidget->microAdjust("Ctrl+Shift+Left");
                 } else if (keyEvent->key() == Qt::Key_Right) {
-                    m_shapesWidget->microAdjust("Right", true);
+                    m_shapesWidget->microAdjust("Ctrl+Shift+Right");
                 } else if (keyEvent->key() == Qt::Key_Up) {
-                    m_shapesWidget->microAdjust("Up", true);
+                    m_shapesWidget->microAdjust("Ctrl+Shift+Up");
                 } else if (keyEvent->key() == Qt::Key_Down) {
-                    m_shapesWidget->microAdjust("Down", true);
+                    m_shapesWidget->microAdjust("Ctrl+Shift+Down");
                 }
-            } else {
+            } else if (qApp->keyboardModifiers() & Qt::ControlModifier) {
+                qDebug() << "Control";
+                if (keyEvent->key() == Qt::Key_Left) {
+                    m_shapesWidget->microAdjust("Ctrl+Left");
+                } else if (keyEvent->key() == Qt::Key_Right) {
+                    m_shapesWidget->microAdjust("Ctrl+Right");
+                } else if (keyEvent->key() == Qt::Key_Up) {
+                    m_shapesWidget->microAdjust("Ctrl+Up");
+                } else if (keyEvent->key() == Qt::Key_Down) {
+                    m_shapesWidget->microAdjust("Ctrl+Down");
+                }
+            }  else {
                 qDebug() << "left micro";
                 if (keyEvent->key() == Qt::Key_Left) {
-                    m_shapesWidget->microAdjust("Left", false);
+                    m_shapesWidget->microAdjust("Left");
                 } else if (keyEvent->key() == Qt::Key_Right) {
-                    m_shapesWidget->microAdjust("Right", false);
+                    m_shapesWidget->microAdjust("Right");
                 } else if (keyEvent->key() == Qt::Key_Up) {
-                    m_shapesWidget->microAdjust("Up", false);
+                    m_shapesWidget->microAdjust("Up");
                 } else if (keyEvent->key() == Qt::Key_Down) {
-                    m_shapesWidget->microAdjust("Down", false);
+                    m_shapesWidget->microAdjust("Down");
                 }
             }
 
@@ -169,7 +180,31 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         }
 
         if (m_mouseStatus == ShotMouseStatus::Normal) {
-            if (qApp->keyboardModifiers() & Qt::ControlModifier) {
+              if (keyEvent->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier)) {
+                  if (keyEvent->key() == Qt::Key_Left) {
+                      m_recordX = std::max(0, m_recordX + 1);
+                      m_recordWidth = std::min(m_recordWidth - 1,
+                                                        m_rootWindowRect.width);
+
+                      needRepaint = true;
+                  } else if (keyEvent->key() == Qt::Key_Right) {
+                      m_recordWidth = std::min(m_recordWidth - 1,
+                                               m_rootWindowRect.width);
+
+                      needRepaint = true;
+                  } else if (keyEvent->key() == Qt::Key_Up) {
+                      m_recordY = std::max(0, m_recordY + 1);
+                      m_recordHeight = std::min(m_recordHeight - 1,
+                                                m_rootWindowRect.height);
+
+                      needRepaint = true;
+                  } else if (keyEvent->key() == Qt::Key_Down) {
+                      m_recordHeight = std::min(m_recordHeight - 1,
+                                                m_rootWindowRect.height);
+
+                      needRepaint = true;
+                  }
+              } else if (qApp->keyboardModifiers() & Qt::ControlModifier) {
                 if (keyEvent->key() == Qt::Key_Left) {
                     m_recordX = std::max(0, m_recordX - 1);
                     m_recordWidth = std::min(m_recordWidth + 1,
