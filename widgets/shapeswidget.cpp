@@ -1210,8 +1210,6 @@ void ShapesWidget::setTextEditGrabKeyboard() {
 
 void ShapesWidget::microAdjust(QString direction) {
 
-    qDebug() << "shapesWidget micro adjust:" << direction << m_selectedIndex << m_shapes.length()
-             << m_shapes[m_selectedIndex].type;
     if (m_selectedIndex != -1 && m_selectedIndex < m_shapes.length()) {
         if (m_shapes[m_selectedIndex].type == "rectangle" || m_shapes[m_selectedIndex].type == "oval") {
             if (direction == "Left" || direction == "Right" || direction == "Up" || direction == "Down") {
@@ -1223,8 +1221,10 @@ void ShapesWidget::microAdjust(QString direction) {
                 m_shapes[m_selectedIndex].mainPoints = pointResizeMicro(m_shapes[m_selectedIndex].mainPoints, direction, true);
             }
         }
+
+
+        m_selectedShape.mainPoints = m_shapes[m_selectedIndex].mainPoints;
+        update();
     }
 
-    m_selectedShape.mainPoints = m_shapes[m_selectedIndex].mainPoints;
-    update();
 }
