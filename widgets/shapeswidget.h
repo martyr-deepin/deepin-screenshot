@@ -40,8 +40,8 @@ public slots:
     void handleResize(QPointF pos, int key);
 
     bool clickedOnShapes(QPointF pos);
-    bool clickedOnRect(FourPoints rectPoints, QPointF pos);
-    bool clickedOnEllipse(FourPoints mainPoints, QPointF pos);
+    bool clickedOnRect(FourPoints rectPoints, QPointF pos, bool isBlurMosaic = false);
+    bool clickedOnEllipse(FourPoints mainPoints, QPointF pos, bool isBlurMosaic = false);
     bool clickedOnArrow(QList<QPointF> points, QPointF pos);
     bool clickedOnLine(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
 
@@ -87,6 +87,8 @@ private:
     ClickedKey m_clickedKey;
 
     int m_selectedIndex;
+    bool m_blurEffectExist = false;
+    bool m_mosaicEffectExist = false;
     QString m_currentType = "rectangle";
     QColor m_penColor;
 
@@ -105,9 +107,9 @@ private:
     MenuController* m_menuController;
 
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
-    void paintRect(QPainter &painter, FourPoints rectFPoints,
+    void paintRect(QPainter &painter, FourPoints rectFPoints, int index,
                                bool isBlur = false, bool isMosaic = false);
-    void paintEllipse(QPainter &painter, FourPoints ellipseFPoints,
+    void paintEllipse(QPainter &painter, FourPoints ellipseFPoints, int index,
                                   bool isBlur = false, bool isMosaic = false);
     void paintArrow(QPainter &painter, QList<QPointF> lineFPoints,
                                   int lineWidth, bool isStraight = false);

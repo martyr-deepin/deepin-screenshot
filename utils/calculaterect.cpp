@@ -4048,3 +4048,37 @@ FourPoints point8ResizeMicro(FourPoints fourPoints,  bool isBig) {
     }
     return fourPoints;
 }
+
+/***********************  special process   ***************************/
+bool pointInRect(FourPoints fourPoints, QPointF pos) {
+    QPointF point1 = fourPoints[0];
+    QPointF point2 = fourPoints[1];
+    QPointF point3 = fourPoints[2];
+    QPointF point4 = fourPoints[3];
+    qreal sumArea = std::sqrt(std::pow(point1.x() - point2.x(), 2) + std::pow(point1.y() - point2.y(), 2))*std::sqrt(
+                std::pow(point4.x() - point2.x(), 2) + std::pow(point4.y() - point2.y(), 2));
+
+    qreal sumArea_1 = pointToLineDistance(point1, point2, pos)*std::sqrt(std::pow(point1.x() - point2.x(), 2) +
+                std::pow(point1.y() - point2.y(), 2));
+    qreal sumArea_2 = pointToLineDistance(point4, point2, pos)*std::sqrt(std::pow(point4.x() - point2.x(), 2) +
+                std::pow(point4.y() - point2.y(), 2));
+    qreal sumArea_3 = pointToLineDistance(point4, point3, pos)*std::sqrt(std::pow(point4.x() - point3.x(), 2) +
+                std::pow(point4.y() - point3.y(), 2));
+    qreal sumArea_4 = pointToLineDistance(point1, point3, pos)*std::sqrt(std::pow(point1.x() - point3.x(), 2) +
+                std::pow(point1.y() - point3.y(), 2));
+
+    if (sumArea_1 >= sumArea) {
+        return false;
+    }
+    if (sumArea_2 >= sumArea || sumArea_2 + sumArea_1 > sumArea) {
+        return false;
+    }
+    if (sumArea_3 >= sumArea || sumArea_3 + sumArea_2 + sumArea_1 > sumArea) {
+        return false;
+    }
+    if (sumArea_4 >= sumArea || sumArea_4 + sumArea_3 + sumArea_2 + sumArea_1 > sumArea) {
+        return false;
+    }
+
+    return true;
+}
