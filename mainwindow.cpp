@@ -33,6 +33,7 @@ void MainWindow::initUI() {
     m_configSettings =  ConfigSettings::instance();
     installEventFilter(this);
 
+
     QPoint curPos = this->cursor().pos();
      m_screenNum = qApp->desktop()->screenNumber(curPos);
      QList<QScreen*> screenList = qApp->screens();

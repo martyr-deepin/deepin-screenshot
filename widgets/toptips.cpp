@@ -5,9 +5,11 @@
 
 TopTips::TopTips(QWidget *parent)
     : QLabel(parent) {
+    setFixedHeight(20);
     this->setStyleSheet(" TopTips { background-color: transparent;"
                         "border-image: url(:/resources/images/action/sizetip.png) stretch;"
-                        "color: white;}");
+                        "color: white;"
+                        "font-size: 12px;}");
 }
 
 void TopTips::setContent(QString widthXHeight) {
@@ -28,9 +30,9 @@ void TopTips::updateTips(QPoint pos, QString text) {
     startPoint.setX(pos.x() + 3);
 
     if (pos.y() > this->height()) {
-        startPoint.setY(pos.y() - this->height() - 5);
+        startPoint.setY(pos.y() - this->height() - 3);
     } else {
-        startPoint.setY(pos.y() + 5);
+        startPoint.setY(pos.y() + 3);
     }
 
     this->move(startPoint);
