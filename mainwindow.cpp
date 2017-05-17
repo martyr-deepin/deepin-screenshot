@@ -32,7 +32,7 @@ void MainWindow::initUI() {
 
     m_configSettings =  ConfigSettings::instance();
     installEventFilter(this);
-
+    m_hotZoneInterface->asyncCall("EnableZoneDetected", false);
 
     QPoint curPos = this->cursor().pos();
      m_screenNum = qApp->desktop()->screenNumber(curPos);
@@ -111,6 +111,7 @@ void MainWindow::initDBusInterface() {
     m_controlCenterDBInterface = new DBusControlCenter(this);
     m_notifyDBInterface = new DBusNotify(this);
     m_soundEffectInterface = new DBusSoundEffect(this);
+    m_hotZoneInterface = new DBusZone(this);
 }
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
@@ -121,6 +122,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         if (event->type() == QEvent::KeyPress) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
             if (keyEvent->key() == Qt::Key_Escape) {
+                m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
                 qApp->quit();
                 return false;
             }
@@ -877,6 +879,7 @@ void MainWindow::shotCurrentImg() {
 }
 
 void MainWindow::saveScreenshot() {
+    m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
     QDateTime currentDate;
     using namespace utils;
     m_toolBar->setVisible(false);
@@ -941,6 +944,7 @@ void MainWindow::saveScreenshot() {
         QClipboard* cb = qApp->clipboard();
         cb->setPixmap(screenShotPix, QClipboard::Clipboard);
     }
+
 
     QStringList actions;
     actions << "_open" << tr("View");

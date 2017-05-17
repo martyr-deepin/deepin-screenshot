@@ -22,6 +22,7 @@
 #include "dbusinterface/dbuscontrolcenter.h"
 #include "dbusinterface/dbusnotify.h"
 #include "dbusinterface/dbussoundeffect.h"
+#include "dbusinterface/dbuszone.h"
 
 #include "windowmanager.h"
 #include "eventmonitor.h"
@@ -117,6 +118,7 @@ private:
     DBusControlCenter* m_controlCenterDBInterface;
     DBusNotify* m_notifyDBInterface;
     DBusSoundEffect* m_soundEffectInterface;
+    DBusZone* m_hotZoneInterface;
 };
 
 #endif // MAINWINDOW_H

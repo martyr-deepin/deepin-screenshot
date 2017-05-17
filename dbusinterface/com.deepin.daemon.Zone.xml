@@ -1,0 +1,61 @@
+  <interface name="com.deepin.daemon.Zone">\n
+        <method name="BottomLeftAction">\n
+             <arg type="s" direction="out"></arg>\n
+        </method>\n
+        <method name="BottomRightAction">\n
+             <arg type="s" direction="out"></arg>\n
+        </method>\n
+        <method name="EnableZoneDetected">\n
+             <arg type="b" direction="in"></arg>\n
+        </method>\n
+        <method name="SetBottomLeft">\n
+             <arg type="s" direction="in"></arg>\n
+        </method>\n
+        <method name="SetBottomRight">\n
+             <arg type="s" direction="in"></arg>\n
+        </method>\n
+        <method name="SetTopLeft">\n
+             <arg type="s" direction="in"></arg>\n
+        </method>\n
+        <method name="SetTopRight">\n
+             <arg type="s" direction="in"></arg>\n
+        </method>\n
+        <method name="TopLeftAction">\n
+             <arg type="s" direction="out"></arg>\n
+        </method>\n
+        <method name="TopRightAction">\n
+             <arg type="s" direction="out"></arg>\n
+        </method>\n
+   </interface>\n
+   <interface name="org.freedesktop.DBus.Introspectable">\n
+        <method name="InterfaceName">\n
+             <arg type="s" direction="out"></arg>\n
+        </method>\n
+        <method name="Introspect">\n
+             <arg type="s" direction="out"></arg>\n
+        </method>\n
+   </interface>\n
+   <interface name="org.freedesktop.DBus.Properties">\n
+        <method name="Get">\n
+             <arg type="s" direction="in"></arg>\n
+             <arg type="s" direction="in"></arg>\n
+             <arg type="v" direction="out"></arg>\n
+        </method>\n
+        <method name="GetAll">\n
+             <arg type="s" direction="in"></arg>\n
+             <arg type="a{sv}" direction="out"></arg>\n
+        </method>\n
+        <method name="InterfaceName">\n
+             <arg type="s" direction="out"></arg>\n
+        </method>\n
+        <method name="Set">\n
+             <arg type="s" direction="in"></arg>\n
+             <arg type="s" direction="in"></arg>\n
+             <arg type="v" direction="in"></arg>\n
+        </method>\n
+        <signal name="PropertiesChanged">\n
+             <arg type="s"></arg>\n
+             <arg type="a{sv}"></arg>\n
+             <arg type="as"></arg>\n
+        </signal>\n
+   </interface>\n
