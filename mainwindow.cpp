@@ -674,9 +674,29 @@ void MainWindow::initShapeWidget(QString type) {
     if (type != "color")
         m_shapesWidget->setCurrentShape(type);
 
+    m_shapesWidget->show();
     m_shapesWidget->setFixedSize(m_recordWidth - 4, m_recordHeight - 4);
     m_shapesWidget->move(m_recordX + 2, m_recordY + 2);
-    m_shapesWidget->show();
+
+    QPoint toolbarPoint;
+    toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width() - 5,
+                          std::max(m_recordY + m_recordHeight + 5, 0));
+
+    if (m_toolBar->width() > m_recordX + m_recordWidth) {
+        toolbarPoint.setX(m_recordX + 5);
+    }
+    if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height()
+            - m_toolBar->height() - 28) {
+        if (m_recordY > 28*2 + 10) {
+            toolbarPoint.setY(m_recordY - m_toolBar->height() - 5);
+        } else {
+            toolbarPoint.setY(m_recordY + 5);
+        }
+    }
+
+    m_toolBar->showAt(toolbarPoint);
+    m_toolBar->raise();
+
     update();
 
     connect(m_toolBar, &ToolBar::updateColor,
