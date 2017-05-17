@@ -109,5 +109,6 @@
         <file>resources/images/save/slider_pressed.png</file>
         <file>resources/qss/toolsavebutton.qss</file>
         <file>resources/qss/savetips.qss</file>
+        <file>resources/images/action/sizetip.png</file>
     </qresource>
 </RCC>

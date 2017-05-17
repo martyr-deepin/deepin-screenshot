@@ -5,10 +5,9 @@
 
 TopTips::TopTips(QWidget *parent)
     : QLabel(parent) {
-    this->setStyleSheet(" TopTips {color: white;"
-                  "background-color: rgba(0, 0, 0, 100); "
-                  "border: 1px solid rgba(255, 255, 255, 100);"
-                  "border-radius: 4px;}");
+    this->setStyleSheet(" TopTips { background-color: transparent;"
+                        "border-image: url(:/resources/images/action/sizetip.png) stretch;"
+                        "color: white;}");
 }
 
 void TopTips::setContent(QString widthXHeight) {
