@@ -855,12 +855,15 @@ void MainWindow::shotFullScreen() {
                                        ).arg(TMP_FULLSCREEN_FILE));
 }
 
-void MainWindow::shotCurrentImg() {
+void MainWindow::shotCurrentImg(QString content) {
     if (m_recordWidth == 0 || m_recordHeight == 0)
         return;
 
     m_needDrawSelectedPoint = false;
-    m_drawNothing = true;
+    if (content.isEmpty())
+        m_drawNothing = true;
+    else
+        m_drawNothing = false;
     update();
 
     QEventLoop eventloop;
@@ -969,7 +972,7 @@ void MainWindow::saveScreenshot() {
 
 void MainWindow::reloadImage(QString effect) {
     //**save tmp image file
-    shotCurrentImg();
+    shotCurrentImg("drawBorder");
     using namespace utils;
     const int radius = 10;
     QPixmap tmpImg(TMP_FILE);

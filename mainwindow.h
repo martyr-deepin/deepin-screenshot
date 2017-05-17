@@ -57,7 +57,7 @@ public slots:
     void showReleaseFeedback(int x, int y);
     void responseEsc();
     void shotFullScreen();
-    void shotCurrentImg();
+    void shotCurrentImg(QString content = "");
     void saveScreenshot();
     void reloadImage(QString effect);
 
