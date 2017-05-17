@@ -253,7 +253,8 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                 }
             }
 
-           m_sizeTips->setText(QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
+           m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
+               QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
             if (m_mouseStatus == ShotMouseStatus::Normal && needRepaint) {
 //                hideRecordButton();
             }
@@ -626,7 +627,7 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
         painter.setOpacity(0.5);
         painter.drawRect(backgroundRect);
     } else if (m_recordWidth > 0 && m_recordHeight > 0 && !m_drawNothing) {
-        QRect frameRect = QRect(m_recordX + 2, m_recordY + 2, m_recordWidth - 4, m_recordHeight - 4);
+        QRect frameRect = QRect(m_recordX + 1, m_recordY + 1, m_recordWidth - 2, m_recordHeight - 2);
         // Draw frame.
         if (m_mouseStatus != ShotMouseStatus::Wait) {
             painter.setRenderHint(QPainter::Antialiasing, false);
@@ -855,15 +856,12 @@ void MainWindow::shotFullScreen() {
                                        ).arg(TMP_FULLSCREEN_FILE));
 }
 
-void MainWindow::shotCurrentImg(QString content) {
+void MainWindow::shotCurrentImg() {
     if (m_recordWidth == 0 || m_recordHeight == 0)
         return;
 
     m_needDrawSelectedPoint = false;
-    if (content.isEmpty())
-        m_drawNothing = true;
-    else
-        m_drawNothing = false;
+    m_drawNothing = true;
     update();
 
     QEventLoop eventloop;
@@ -879,6 +877,27 @@ void MainWindow::shotCurrentImg(QString content) {
 
     using namespace utils;
     tmpImg.save(TMP_FILE, "png");
+}
+
+void MainWindow::shotImgWidthEffect() {
+    if (m_recordWidth == 0 || m_recordHeight == 0)
+        return;
+
+    m_needDrawSelectedPoint = false;
+    m_drawNothing = true;
+    update();
+
+    qDebug() << m_toolBar->isVisible() << m_sizeTips->isVisible();
+    QList<QScreen*> screenList = qApp->screens();
+    QPixmap tmpImg =  screenList[m_screenNum]->grabWindow(
+                qApp->desktop()->screen(m_screenNum)->winId(),
+                m_recordX + m_backgroundRect.x(), m_recordY, m_recordWidth, m_recordHeight);
+    qDebug() << tmpImg.isNull() << tmpImg.size();
+
+    using namespace utils;
+    tmpImg.save(TMP_FILE, "png");
+    m_drawNothing = false;
+    update();
 }
 
 void MainWindow::saveScreenshot() {
@@ -972,7 +991,7 @@ void MainWindow::saveScreenshot() {
 
 void MainWindow::reloadImage(QString effect) {
     //**save tmp image file
-    shotCurrentImg("drawBorder");
+    shotImgWidthEffect();
     using namespace utils;
     const int radius = 10;
     QPixmap tmpImg(TMP_FILE);
