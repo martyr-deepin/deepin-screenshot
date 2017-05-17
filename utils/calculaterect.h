@@ -275,4 +275,5 @@ FourPoints point8ResizeMicro(FourPoints fourPoints,  bool isBig);
 
 /***********************  special process   ***************************/
 bool pointInRect(FourPoints fourPoints, QPointF pos);
+FourPoints getMainPoints(QPointF point1, QPointF point2);
 #endif // CALCULATERECT_H

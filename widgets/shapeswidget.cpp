@@ -803,6 +803,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
         if (m_currentType == "arrow") {
             if (m_currentShape.points.length() == 2) {
                 m_currentShape.points[1] = m_pos2;
+                m_currentShape.mainPoints = getMainPoints(m_currentShape.points[0], m_currentShape.points[1]);
                 m_shapes.append(m_currentShape);
             }
         } else if (m_currentType == "line") {
@@ -1227,18 +1228,32 @@ void ShapesWidget::setTextEditGrabKeyboard() {
 
 void ShapesWidget::microAdjust(QString direction) {
     if (m_selectedIndex != -1 && m_selectedIndex < m_shapes.length()) {
-        if (m_shapes[m_selectedIndex].type == "rectangle" || m_shapes[m_selectedIndex].type == "oval") {
-            if (direction == "Left" || direction == "Right" || direction == "Up" || direction == "Down") {
-                m_shapes[m_selectedIndex].mainPoints = pointMoveMicro(m_shapes[m_selectedIndex].mainPoints, direction);
-            } else if (direction == "Ctrl+Shift+Left" || direction == "Ctrl+Shift+Right" || direction == "Ctrl+Shift+Up"
-               || direction == "Ctrl+Shift+Down") {
-                m_shapes[m_selectedIndex].mainPoints = pointResizeMicro(m_shapes[m_selectedIndex].mainPoints, direction, false);
-            } else {
-                m_shapes[m_selectedIndex].mainPoints = pointResizeMicro(m_shapes[m_selectedIndex].mainPoints, direction, true);
+
+        if (direction == "Left" || direction == "Right" || direction == "Up" || direction == "Down") {
+            m_shapes[m_selectedIndex].mainPoints = pointMoveMicro(m_shapes[m_selectedIndex].mainPoints, direction);
+        } else if (direction == "Ctrl+Shift+Left" || direction == "Ctrl+Shift+Right" || direction == "Ctrl+Shift+Up"
+                   || direction == "Ctrl+Shift+Down") {
+            m_shapes[m_selectedIndex].mainPoints = pointResizeMicro(m_shapes[m_selectedIndex].mainPoints, direction, false);
+        } else {
+            m_shapes[m_selectedIndex].mainPoints = pointResizeMicro(m_shapes[m_selectedIndex].mainPoints, direction, true);
+        }
+        if (m_shapes[m_selectedIndex].type  == "text") {
+            return;
+        } else if (m_shapes[m_selectedIndex].type == "line" || m_shapes[m_selectedIndex].type == "arrow") {
+            if (m_shapes[m_selectedIndex].portion.length() == 0) {
+                for(int k = 0; k < m_shapes[m_selectedIndex].points.length(); k++) {
+                    m_shapes[m_selectedIndex].portion.append(relativePosition(m_shapes[m_selectedIndex].mainPoints,
+                                                                              m_shapes[m_selectedIndex].points[k]));
+                }
+            }
+            for(int j = 0; j < m_shapes[m_selectedIndex].points.length(); j++) {
+                m_shapes[m_selectedIndex].points[j] = getNewPosition(
+                m_shapes[m_selectedIndex].mainPoints, m_shapes[m_selectedIndex].portion[j]);
             }
         }
 
         m_selectedShape.mainPoints = m_shapes[m_selectedIndex].mainPoints;
+        m_selectedShape.points = m_shapes[m_selectedIndex].points;
         update();
     }
 

@@ -4083,3 +4083,12 @@ bool pointInRect(FourPoints fourPoints, QPointF pos) {
 
     return true;
 }
+
+FourPoints getMainPoints(QPointF point1, QPointF point2) {
+    FourPoints fourPoints;
+    fourPoints.append(QPointF(std::min(point1.x(), point2.x()), std::min(point1.y(), point2.y())));
+    fourPoints.append(QPointF(std::min(point1.x(), point2.x()), std::max(point1.y(), point2.y())));
+    fourPoints.append(QPointF(std::max(point1.x(), point2.x()), std::min(point1.y(), point2.y())));
+    fourPoints.append(QPointF(std::max(point1.x(), point2.x()), std::max(point1.y(), point2.y())));
+    return fourPoints;
+}
