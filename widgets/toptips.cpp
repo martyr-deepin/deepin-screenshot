@@ -5,18 +5,14 @@
 
 TopTips::TopTips(QWidget *parent)
     : QLabel(parent) {
-    setFixedHeight(20);
+    setFixedSize(75, 20);
     this->setStyleSheet(" TopTips { background-color: transparent;"
-                        "border-image: url(:/resources/images/action/sizetip.png) stretch;"
+                        "border-image: url(:/resources/images/action/sizetip.png)  no-repeat;"
                         "color: white;"
                         "font-size: 12px;}");
 }
 
 void TopTips::setContent(QString widthXHeight) {
-    int minWidth = stringWidth(this->font(),
-                               widthXHeight);
-
-    this->setMinimumWidth(minWidth + 30);
     setText(widthXHeight);
     setAlignment(Qt::AlignCenter);
 }

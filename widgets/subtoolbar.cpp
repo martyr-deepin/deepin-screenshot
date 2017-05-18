@@ -171,6 +171,7 @@ void SubToolBar::initArrowLabel() {
     QHBoxLayout* arrowLayout = new QHBoxLayout();
     arrowLayout->setMargin(0);
     arrowLayout->setSpacing(2);
+    arrowLayout->addSpacing(4);
     for (int j = 0; j < arrowBtnList.length(); j++) {
         arrowLayout->addWidget(arrowBtnList[j]);
         connect(arrowBtnList[j], &ToolButton::clicked, this, [=]{
@@ -266,6 +267,7 @@ void SubToolBar::initLineLabel() {
     QHBoxLayout* lineLayout = new QHBoxLayout();
     lineLayout->setMargin(0);
     lineLayout->setSpacing(2);
+    lineLayout->addSpacing(4);
     for(int k = 0; k < btnList.length(); k++) {
         lineLayout->addWidget(btnList[k]);
         connect(btnList[k], &ToolButton::clicked, this, [=]{
