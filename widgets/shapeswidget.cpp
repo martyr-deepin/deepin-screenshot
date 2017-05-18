@@ -712,7 +712,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
         return;
     }
 
-    qDebug() << "checked length:" << m_shapes.length() << m_isPressed;
     if (!clickedOnShapes(m_pressedPoint)) {
         m_isRecording = true;
         qDebug() << "no one shape be clicked!";
@@ -788,10 +787,11 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
 
 void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
     m_isPressed = false;
+    m_isMoving = false;
+
     qDebug() << m_isRecording << m_isSelected << m_pos2;
 
     if (m_isRecording && !m_isSelected && m_pos2 != QPointF(0, 0)) {
-        qDebug() << "m_currentType:" << m_currentType;
 
         if (m_currentType == "arrow") {
             if (m_currentShape.points.length() == 2) {
@@ -809,39 +809,38 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
             m_shapes.append(m_currentShape);
         }
 
-        m_currentShape.points.clear();
         for (int i = 0; i < m_currentShape.mainPoints.length(); i++) {
             m_currentShape.mainPoints[i] = QPointF(0, 0);
         }
         qDebug() << "ShapesWidget num:" << m_shapes.length();
-        m_isRecording = false;
-        m_isMoving = false;
+
         clearSelected();
-    } else if (m_pos2 == QPointF(0, 0)) {
-        m_pos1 = QPointF(0, 0);
-        m_isPressed = false;
     }
 
+    m_isRecording = false;
+    m_currentShape.mainPoints.clear();
+    m_currentShape.points.clear();
     m_pos1 = QPointF(0, 0);
     m_pos2 = QPointF(0, 0);
 
     update();
-    QFrame::mouseMoveEvent(e);
+    QFrame::mouseReleaseEvent(e);
 }
 
 void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
     m_isMoving = true;
     m_movingPoint = e->pos();
-    qDebug() << "mouseMoveEvent" << e->pos() << m_isRecording << m_isPressed;
 
     if (m_isRecording && m_isPressed) {
         m_pos2 = e->pos();
+
         if (m_currentShape.type == "arrow") {
             if (m_currentShape.points.length() <=1) {
                 m_currentShape.points.append(m_pos2);
             } else {
                 m_currentShape.points[1] = m_pos2;
             }
+
         }
         if (m_currentShape.type == "line") {
              m_currentShape.points.append(m_pos2);
@@ -857,6 +856,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
             // resize function
             handleResize(QPointF(e->pos()), m_clickedKey);
             update();
+            QFrame::mouseMoveEvent(e);
             return;
         }
 

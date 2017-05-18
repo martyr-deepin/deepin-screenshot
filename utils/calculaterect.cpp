@@ -97,26 +97,6 @@ QPointF getRotatePoint(QPointF point1, QPointF point2, QPointF point3, QPointF p
     return rotatePoint;
 }
 
-//FourPoints fourPointsOnRect(DiagPoints diagPoints) {
-//    FourPoints  fourPoints;
-//    fourPoints = initFourPoints(fourPoints);
-//    QPointF point1 = QPointF(std::min(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
-//                           std::min(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
-//    QPointF point2 = QPointF(std::min(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
-//                           std::max(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
-//    QPointF point3 = QPointF(std::max(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
-//                           std::min(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
-//    QPointF point4 = QPointF(std::max(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
-//                           std::max(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
-
-//    fourPoints[0] = point1;
-//    fourPoints[1] = point2;
-//    fourPoints[2] = point3;
-//    fourPoints[3] = point4;
-
-//    return fourPoints;
-//}
-
 /* get the four points from a line */
 FourPoints fourPointsOfLine(QList<QPointF> points) {
     FourPoints resultFPoint;
