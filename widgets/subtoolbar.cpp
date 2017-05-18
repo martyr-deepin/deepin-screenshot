@@ -213,11 +213,46 @@ void SubToolBar::initArrowLabel() {
         }
         ConfigSettings::instance()->setValue("arrow", "is_straight", !checked);
     });
+    connect(lineBtn, &ToolButton::toggled, this, [=](bool checked){
+        if (!checked) {
+            arrowFineLine->show();
+            arrowMediumLine->show();
+            arrowThickLine->show();
+            fineLine->hide();
+            mediumLine->hide();
+            thickLine->hide();
+        } else {
+            arrowFineLine->hide();
+            arrowMediumLine->hide();
+            arrowThickLine->hide();
+            fineLine->show();
+            mediumLine->show();
+            thickLine->show();
+        }
+        ConfigSettings::instance()->setValue("arrow", "is_straight", !checked);
+    });
     connect(this, &SubToolBar::shapeChanged, this, [=]{
+        if (ConfigSettings::instance()->value("arrow", "is_straight").toBool()) {
+            arrowFineLine->hide();
+            arrowMediumLine->hide();
+            arrowThickLine->hide();
+            fineLine->show();
+            mediumLine->show();
+            thickLine->show();
+        } else {
+            arrowFineLine->show();
+            arrowMediumLine->show();
+            arrowThickLine->show();
+            fineLine->hide();
+            mediumLine->hide();
+            thickLine->hide();
+        }
+
         int lineIndex = ConfigSettings::instance()->value(m_currentType,
                                                           "linewidth_index").toInt();
         arrowBtnList[lineIndex]->setChecked(true);
         arrowBtnList[lineIndex+3]->setChecked(true);
+        this->setCurrentWidget(m_arrowLabel);
     });
 }
 
@@ -387,6 +422,8 @@ void SubToolBar::switchContent(QString shapeType) {
     }   else if (shapeType == "arrow") {
         setCurrentWidget(m_arrowLabel);
         m_currentType = shapeType;
+        qDebug() << "arrow shapeType Changed!";
+
          emit shapeChanged();
     } else if (shapeType == "line") {
         setCurrentWidget(m_lineLabel);
