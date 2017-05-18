@@ -120,6 +120,8 @@ private:
     DBusNotify* m_notifyDBInterface;
     DBusSoundEffect* m_soundEffectInterface;
     DBusZone* m_hotZoneInterface;
+
+//    EventMonitor m_eventMonitor;
 };
 
 #endif // MAINWINDOW_H

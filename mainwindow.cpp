@@ -105,6 +105,16 @@ void MainWindow::initUI() {
 
     connect(m_toolBar, &ToolBar::requestSaveScreenshot, this,
             &MainWindow::saveScreenshot);
+
+//    connect(&m_eventMonitor, SIGNAL(buttonedPress(int, int)), this,
+//            SLOT(showPressFeedback(int, int)), Qt::QueuedConnection);
+//    connect(&m_eventMonitor, SIGNAL(buttonedDrag(int, int)), this,
+//            SLOT(showDragFeedback(int, int)), Qt::QueuedConnection);
+//    connect(&m_eventMonitor, SIGNAL(buttonedRelease(int, int)), this,
+//            SLOT(showReleaseFeedback(int, int)), Qt::QueuedConnection);
+//    connect(&m_eventMonitor, SIGNAL(pressEsc()), this,
+//            SLOT(responseEsc()), Qt::QueuedConnection);
+//    m_eventMonitor.start();
 }
 
 void MainWindow::initDBusInterface() {

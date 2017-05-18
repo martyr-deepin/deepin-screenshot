@@ -765,6 +765,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                     m_currentShape.mainPoints[2] = QPointF(m_pos1.x() + edit->width(), m_pos1.y());
                     m_currentShape.mainPoints[3] = QPointF(m_pos1.x() + edit->width(),
                                                            m_pos1.y() + edit->height());
+
                     m_editMap.insert(m_shapes.length(), edit);
                     connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
                     m_shapes.append(m_currentShape);
@@ -1070,10 +1071,12 @@ void ShapesWidget::paintText(QPainter &painter, FourPoints rectFPoints) {
     textPen.setStyle(Qt::DashLine);
     textPen.setColor(Qt::white);
     painter.setPen(textPen);
+    if (rectFPoints.length() >= 4) {
     painter.drawLine(rectFPoints[0], rectFPoints[1]);
     painter.drawLine(rectFPoints[1], rectFPoints[3]);
     painter.drawLine(rectFPoints[3], rectFPoints[2]);
     painter.drawLine(rectFPoints[2], rectFPoints[0]);
+    }
 }
 
 void ShapesWidget::paintEvent(QPaintEvent *) {
