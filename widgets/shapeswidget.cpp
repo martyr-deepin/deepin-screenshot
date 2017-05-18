@@ -58,12 +58,12 @@ void ShapesWidget::clearSelected() {
 }
 
 void ShapesWidget::setAllTextEditReadOnly() {
-//    QMap<int, TextEdit*>::iterator i = m_editMap.begin();
-//    while (i != m_editMap.end()) {
-//        i.value()->setReadOnly(true);
-//        i.value()->setFocusPolicy(Qt::NoFocus);
-//        ++i;
-//    }
+    QMap<int, TextEdit*>::iterator i = m_editMap.begin();
+    while (i != m_editMap.end()) {
+        i.value()->setReadOnly(true);
+        i.value()->setFocusPolicy(Qt::NoFocus);
+        ++i;
+    }
 }
 
 bool ShapesWidget::clickedOnShapes(QPointF pos) {
@@ -746,6 +746,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                     m_mosaicEffectExist = true;
                 }
             } else if (m_currentType == "text") {
+                qDebug() << "MMMM";
                 if (m_editing) {
                     m_editing = false;
                 } else {
@@ -765,7 +766,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                     m_currentShape.mainPoints[2] = QPointF(m_pos1.x() + edit->width(), m_pos1.y());
                     m_currentShape.mainPoints[3] = QPointF(m_pos1.x() + edit->width(),
                                                            m_pos1.y() + edit->height());
-
                     m_editMap.insert(m_shapes.length(), edit);
                     connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
                     m_shapes.append(m_currentShape);
@@ -819,7 +819,10 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
     }
 
     m_isRecording = false;
-    m_currentShape.mainPoints.clear();
+    for(int i = 0; i < m_currentShape.mainPoints.length(); i++) {
+        m_currentShape.mainPoints[i] = QPointF(0, 0);
+    }
+
     m_currentShape.points.clear();
     m_pos1 = QPointF(0, 0);
     m_pos2 = QPointF(0, 0);
@@ -1072,10 +1075,10 @@ void ShapesWidget::paintText(QPainter &painter, FourPoints rectFPoints) {
     textPen.setColor(Qt::white);
     painter.setPen(textPen);
     if (rectFPoints.length() >= 4) {
-    painter.drawLine(rectFPoints[0], rectFPoints[1]);
-    painter.drawLine(rectFPoints[1], rectFPoints[3]);
-    painter.drawLine(rectFPoints[3], rectFPoints[2]);
-    painter.drawLine(rectFPoints[2], rectFPoints[0]);
+        painter.drawLine(rectFPoints[0], rectFPoints[1]);
+        painter.drawLine(rectFPoints[1], rectFPoints[3]);
+        painter.drawLine(rectFPoints[3], rectFPoints[2]);
+        painter.drawLine(rectFPoints[2], rectFPoints[0]);
     }
 }
 
