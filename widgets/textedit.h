@@ -34,6 +34,7 @@ private:
      QPainter* m_painter;
 
      QPointF m_pressPoint;
+     bool m_isPressed;
 };
 
 #endif // TEXTEDIT_H

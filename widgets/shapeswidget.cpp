@@ -749,6 +749,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                 qDebug() << "MMMM";
                 if (m_editing) {
                     m_editing = false;
+                    setAllTextEditReadOnly();
                 } else {
                     setAllTextEditReadOnly();
                     m_currentShape.mainPoints[0] = m_pos1;

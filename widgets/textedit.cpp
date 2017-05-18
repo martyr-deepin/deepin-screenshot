@@ -96,30 +96,38 @@ bool TextEdit::eventFilter(QObject *watched, QEvent *event) {
 }
 
 void TextEdit::mousePressEvent(QMouseEvent *e) {
+    m_isPressed = true;
+    m_pressPoint = e->pos();
+
     if (this->isReadOnly()) {
         setMouseTracking(false);
         setCursorVisible(false);
         return;
     }
 
-    m_pressPoint = e->pos();
     QPlainTextEdit::mousePressEvent(e);
 }
 
 void TextEdit::mouseMoveEvent(QMouseEvent *e) {
     QPoint movePos = e->pos();
-    this->move(this->x() + movePos.x() - m_pressPoint.x(),
-                         this->y() + movePos.y() - m_pressPoint.y());
+    if (m_isPressed) {
+        this->move(this->x() + movePos.x() - m_pressPoint.x(),
+                   this->y() + movePos.y() - m_pressPoint.y());
 
-    emit  repaintTextRect(this,  QRectF(this->x(), this->y(),
-                                           this->width(),  this->height()));
+        emit  repaintTextRect(this,  QRectF(this->x(), this->y(),
+                                            this->width(),  this->height()));
+    }
+    m_pressPoint = movePos;
+    QPlainTextEdit::mouseMoveEvent(e);
 }
 
 void TextEdit::mouseReleaseEvent(QMouseEvent *e) {
+    m_isPressed = false;
     if (this->isReadOnly()) {
         setMouseTracking(false);
         return;
     }
+
 
     QPlainTextEdit::mouseReleaseEvent(e);
 }
