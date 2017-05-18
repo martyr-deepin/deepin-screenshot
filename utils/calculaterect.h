@@ -5,8 +5,8 @@
 #include <QtMath>
 #include "shapesutils.h"
 
-/* get a rect by diagPoints */
-QRect   diagPointsRect(DiagPoints diagPoints);
+///* get a rect by diagPoints */
+//QRect   diagPointsRect(DiagPoints diagPoints);
 
 /* judge whether the point1 is on the point2 or not */
 bool    pointClickIn(QPointF point2, QPointF point1, int padding = 4);
@@ -14,8 +14,8 @@ bool    pointClickIn(QPointF point2, QPointF point1, int padding = 4);
 /* judge whether the point3 is on the segment*/
 bool    pointOnLine(QPointF point1, QPointF point2, QPointF point3);
 
-/* To determine whether a point on the rectangle*/
-bool    pointOnRect(DiagPoints diagPoints, QPointF pos);
+///* To determine whether a point on the rectangle*/
+//bool    pointOnRect(DiagPoints diagPoints, QPointF pos);
 
 /* get the distance between two points*/
 qreal getDistance(QPointF point1, QPointF point2);
@@ -30,7 +30,7 @@ QPointF  getRotatePoint(QPointF point1, QPointF point2,
 FourPoints initFourPoints(FourPoints fourPoints);
 
 /* get the four points from a rectangle which isn't rotated!*/
-FourPoints  fourPointsOnRect(DiagPoints diagPoints);
+//FourPoints  fourPointsOnRect(DiagPoints diagPoints);
 
 /* get the four points from a line */
 FourPoints fourPointsOfLine(QList<QPointF> points);

@@ -7,13 +7,6 @@ const int TANT_EDGEVALUE = 0.78539;
 const int TANT2_EDGEVALUE = 2.35619;
 const int MIN_PADDING = 3;
 const qreal SLOPE = 0.5522848;
-/* get a rect by diagPoints */
-QRect diagPointsRect(DiagPoints diagPoints) {
-    return QRect(std::min(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
-                 std::min(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()),
-                 std::abs(diagPoints.masterPoint.x() - diagPoints.deputyPoint.x()),
-                 std::abs(diagPoints.masterPoint.y() - diagPoints.deputyPoint.y()));
-}
 
 /* judge whether the point1 is on the point2 or not */
 bool pointClickIn(QPointF point2, QPointF point1, int padding) {
@@ -42,21 +35,6 @@ bool pointOnLine(QPointF point1, QPointF point2, QPointF point3) {
            }
        }
        return false;
-}
-
-/* To determine whether a point on the rectangle*/
-bool pointOnRect(DiagPoints diagPoints, QPointF pos) {
-    QPointF point1 = diagPoints.masterPoint;
-    QPointF point3 = diagPoints.deputyPoint;
-    QPointF point2 = QPointF(diagPoints.masterPoint.x(), diagPoints.deputyPoint.y());
-    QPointF point4 = QPointF(diagPoints.deputyPoint.x(), diagPoints.masterPoint.y());
-
-    if (pointOnLine(point1, point2, pos) || pointOnLine(point1, point4, pos) ||
-            pointOnLine(point2, point3, pos) || pointOnLine(point3, point4, pos)) {
-        return true;
-    } else {
-        return false;
-    }
 }
 
 /* get the distance between two points*/
@@ -119,25 +97,25 @@ QPointF getRotatePoint(QPointF point1, QPointF point2, QPointF point3, QPointF p
     return rotatePoint;
 }
 
-FourPoints fourPointsOnRect(DiagPoints diagPoints) {
-    FourPoints  fourPoints;
-    fourPoints = initFourPoints(fourPoints);
-    QPointF point1 = QPointF(std::min(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
-                           std::min(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
-    QPointF point2 = QPointF(std::min(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
-                           std::max(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
-    QPointF point3 = QPointF(std::max(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
-                           std::min(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
-    QPointF point4 = QPointF(std::max(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
-                           std::max(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
+//FourPoints fourPointsOnRect(DiagPoints diagPoints) {
+//    FourPoints  fourPoints;
+//    fourPoints = initFourPoints(fourPoints);
+//    QPointF point1 = QPointF(std::min(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
+//                           std::min(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
+//    QPointF point2 = QPointF(std::min(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
+//                           std::max(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
+//    QPointF point3 = QPointF(std::max(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
+//                           std::min(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
+//    QPointF point4 = QPointF(std::max(diagPoints.masterPoint.x(), diagPoints.deputyPoint.x()),
+//                           std::max(diagPoints.masterPoint.y(), diagPoints.deputyPoint.y()));
 
-    fourPoints[0] = point1;
-    fourPoints[1] = point2;
-    fourPoints[2] = point3;
-    fourPoints[3] = point4;
+//    fourPoints[0] = point1;
+//    fourPoints[1] = point2;
+//    fourPoints[2] = point3;
+//    fourPoints[3] = point4;
 
-    return fourPoints;
-}
+//    return fourPoints;
+//}
 
 /* get the four points from a line */
 FourPoints fourPointsOfLine(QList<QPointF> points) {

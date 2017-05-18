@@ -4,27 +4,6 @@
 #include <QtCore>
 #include <QColor>
 
-//Dialognal Points on a line
-class DiagPoints {
-public:
-    QPointF masterPoint;
-    QPointF deputyPoint;
-
-    DiagPoints();
-    ~DiagPoints();
-
-    friend QDebug &operator<<(QDebug &argument, const DiagPoints &obj);
-    friend QDataStream &operator>>(QDataStream &in, DiagPoints &obj);
-    DiagPoints operator=(DiagPoints obj);
-
-    static void registerMetaType();
-};
-
-typedef QList<DiagPoints> DiagPointsList;
-
-Q_DECLARE_METATYPE(DiagPoints)
-Q_DECLARE_METATYPE(DiagPointsList)
-
 typedef QList<QPointF> FourPoints;
 Q_DECLARE_METATYPE(FourPoints)
 

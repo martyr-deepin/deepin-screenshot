@@ -68,8 +68,6 @@ void ShapesWidget::setAllTextEditReadOnly() {
 
 bool ShapesWidget::clickedOnShapes(QPointF pos) {
     bool onShapes = false;
-    m_currentDiagPoints.masterPoint = QPointF(0, 0);
-    m_currentDiagPoints.deputyPoint = QPointF(0, 0);
     m_selectedIndex = -1;
 
     for (int i = 0; i < m_shapes.length(); i++) {
@@ -98,8 +96,6 @@ bool ShapesWidget::clickedOnShapes(QPointF pos) {
         }
 
         if (currentOnShape) {
-            m_currentSelectedDiagPoints.masterPoint = m_shapes[i].mainPoints[0];
-            m_currentSelectedDiagPoints.deputyPoint = m_shapes[i].mainPoints[3];
             m_selectedShape = m_shapes[i];
             m_selectedIndex = i;
 
@@ -718,9 +714,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
 
     qDebug() << "checked length:" << m_shapes.length() << m_isPressed;
     if (!clickedOnShapes(m_pressedPoint)) {
+        m_isRecording = true;
         qDebug() << "no one shape be clicked!";
-        m_currentDiagPoints.masterPoint = QPoint(0, 0);
-        m_currentDiagPoints.deputyPoint = QPoint(0, 0);
         clearSelected();
 
         m_currentShape.type = m_currentType;
@@ -730,10 +725,9 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                    m_currentType, "linewidth_index").toInt()*2+3;
 
         m_selectedIndex = -1;
-        m_isRecording = true;
+
         if (m_pos1 == QPointF(0, 0)) {
             m_pos1 = e->pos();
-            m_currentDiagPoints.masterPoint = m_pos1;
             if (m_currentType == "line") {
                 m_currentShape.points.append(m_pos1);
             } else if (m_currentType == "arrow") {
@@ -795,9 +789,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
 void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
     m_isPressed = false;
     qDebug() << m_isRecording << m_isSelected << m_pos2;
+
     if (m_isRecording && !m_isSelected && m_pos2 != QPointF(0, 0)) {
-        m_currentDiagPoints.deputyPoint = m_pos2;
-        m_diagPointsList.append(m_currentDiagPoints);
         qDebug() << "m_currentType:" << m_currentType;
 
         if (m_currentType == "arrow") {
@@ -811,7 +804,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
             m_currentShape.mainPoints = lineFPoints;
             m_shapes.append(m_currentShape);
         } else {
-            FourPoints rectFPoints = fourPointsOnRect(m_currentDiagPoints);
+            FourPoints rectFPoints = getMainPoints(m_pos1, m_pos2);
             m_currentShape.mainPoints = rectFPoints;
             m_shapes.append(m_currentShape);
         }
@@ -823,9 +816,10 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
         qDebug() << "ShapesWidget num:" << m_shapes.length();
         m_isRecording = false;
         m_isMoving = false;
-        m_currentDiagPoints.masterPoint = QPoint(0, 0);
-        m_currentDiagPoints.deputyPoint = QPoint(0, 0);
         clearSelected();
+    } else if (m_pos2 == QPointF(0, 0)) {
+        m_pos1 = QPointF(0, 0);
+        m_isPressed = false;
     }
 
     m_pos1 = QPointF(0, 0);
@@ -842,7 +836,6 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
 
     if (m_isRecording && m_isPressed) {
         m_pos2 = e->pos();
-        m_currentDiagPoints.deputyPoint = m_pos2;
         if (m_currentShape.type == "arrow") {
             if (m_currentShape.points.length() <=1) {
                 m_currentShape.points.append(m_pos2);
@@ -871,9 +864,6 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
             handleDrag(m_pressedPoint, m_movingPoint);
             m_selectedShape = m_shapes[m_selectedIndex];
             m_hoveredShape = m_shapes[m_selectedIndex];
-
-            m_currentSelectedDiagPoints.masterPoint = m_shapes[m_selectedIndex].mainPoints[0];
-            m_currentSelectedDiagPoints.deputyPoint =  m_shapes[m_selectedIndex].mainPoints[3];
 
             m_pressedPoint = m_movingPoint;
             update();
@@ -952,8 +942,6 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
                     m_hoveredShape.mainPoints[j] = QPointF(0, 0);
                 }
                 m_hoveredShape.type = "";
-                m_currentHoverDiagPoints.masterPoint = QPointF(0, 0);
-                m_currentHoverDiagPoints.deputyPoint = QPointF(0, 0);
                 update();
             }
             if (m_shapes.length() == 0) {
@@ -1109,10 +1097,10 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         }
     }
 
-    if ((m_currentDiagPoints.masterPoint != QPointF(0, 0) &&
-            m_currentDiagPoints.deputyPoint != QPointF(0, 0))||
+    if ((m_pos1 != QPointF(0, 0) &&
+            m_pos2 != QPointF(0, 0))||
             m_currentShape.type == "text") {
-        FourPoints currentFPoint = fourPointsOnRect(m_currentDiagPoints);
+        FourPoints currentFPoint =  getMainPoints(m_pos1, m_pos2);
         pen.setColor(colorIndexOf(m_currentShape.colorIndex));
         pen.setWidth(m_currentShape.lineWidth);
         painter.setPen(pen);

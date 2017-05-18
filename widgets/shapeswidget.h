@@ -93,11 +93,6 @@ private:
     QString m_currentType = "rectangle";
     QColor m_penColor;
 
-    DiagPointsList m_diagPointsList;
-    DiagPoints m_currentDiagPoints;
-    DiagPoints m_currentHoverDiagPoints;
-    DiagPoints m_currentSelectedDiagPoints;
-
     Toolshape m_currentShape;
     Toolshape m_selectedShape;
     Toolshape m_hoveredShape;
