@@ -61,7 +61,7 @@ void ShapesWidget::setAllTextEditReadOnly() {
     QMap<int, TextEdit*>::iterator i = m_editMap.begin();
     while (i != m_editMap.end()) {
         i.value()->setReadOnly(true);
-        i.value()->setFocusPolicy(Qt::NoFocus);
+        i.value()->releaseKeyboard();
         ++i;
     }
 }
@@ -91,6 +91,12 @@ bool ShapesWidget::clickedOnShapes(QPointF pos) {
         }
         if (m_shapes[i].type == "line") {
             if (clickedOnLine(m_shapes[i].mainPoints, m_shapes[i].points, pos)) {
+                currentOnShape = true;
+            }
+        }
+
+        if (m_shapes[i].type == "text") {
+            if (clickedOnText(m_shapes[i].mainPoints, pos)) {
                 currentOnShape = true;
             }
         }
@@ -422,6 +428,21 @@ bool ShapesWidget::clickedOnLine(FourPoints mainPoints,
     }
 
     return false;
+}
+
+bool ShapesWidget::clickedOnText(FourPoints mainPoints, QPointF pos) {
+    if (pointInRect(mainPoints, pos)) {
+        m_isSelected = true;
+        m_isResize = false;
+        m_resizeDirection = Moving;
+
+        return true;
+    } else {
+        m_isSelected = false;
+        m_isResize = false;
+
+        return false;
+    }
 }
 
 bool ShapesWidget::hoverOnRect(FourPoints rectPoints, QPointF pos) {
@@ -769,6 +790,9 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                                                            m_pos1.y() + edit->height());
                     m_editMap.insert(m_shapes.length(), edit);
                     connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
+                    connect(edit, &TextEdit::backToEditing, this, [=]{
+                        m_editing = true;
+                    });
                     m_shapes.append(m_currentShape);
                 }
             }
@@ -1216,13 +1240,6 @@ void ShapesWidget::deleteCurrentShape() {
 
 QString ShapesWidget::getCurrentType() {
     return m_currentShape.type;
-}
-
-void ShapesWidget::setTextEditGrabKeyboard() {
-    if (m_editMap.count() > m_selectedIndex) {
-        qDebug() << "ShapesWidget: setTextEdit grabKeyboard";
-        m_editMap[m_selectedIndex]->grabKeyboard();
-    }
 }
 
 void ShapesWidget::microAdjust(QString direction) {

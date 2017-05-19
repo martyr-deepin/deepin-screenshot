@@ -20,6 +20,7 @@ public:
 
 signals:
      void repaintTextRect(TextEdit* edit,  QRectF newPositiRect);
+     void backToEditing();
 
 protected:
     void mousePressEvent(QMouseEvent* e);

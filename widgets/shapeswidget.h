@@ -45,7 +45,7 @@ public slots:
     bool clickedOnEllipse(FourPoints mainPoints, QPointF pos, bool isBlurMosaic = false);
     bool clickedOnArrow(QList<QPointF> points, QPointF pos);
     bool clickedOnLine(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
-
+    bool clickedOnText(FourPoints mainPoints, QPointF pos);
     bool rotateOnPoint(FourPoints mainPoints, QPointF pos);
 
     bool hoverOnShapes(Toolshape toolShape, QPointF pos);
@@ -57,7 +57,6 @@ public slots:
 
     void deleteCurrentShape();
     QString  getCurrentType();
-    void setTextEditGrabKeyboard();
     void microAdjust(QString direction);
 
 protected:
