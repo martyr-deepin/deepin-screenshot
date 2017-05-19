@@ -38,7 +38,6 @@ TextEdit::TextEdit(int index, QWidget *parent)
     QSizeF originSize = QSizeF(fontMetric.boundingRect(
                                    this->toPlainText()).width() + 10, 30);
     this->resize(originSize.width(), originSize.height());
-    updateCursor();
     installEventFilter(this);
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -97,7 +96,7 @@ bool TextEdit::eventFilter(QObject *watched, QEvent *event) {
 
 void TextEdit::mousePressEvent(QMouseEvent *e) {
     m_isPressed = true;
-    m_pressPoint = e->pos();
+    m_pressPoint = QPointF(mapToGlobal(e->pos()));
 
     if (this->isReadOnly()) {
         setMouseTracking(false);
@@ -109,15 +108,19 @@ void TextEdit::mousePressEvent(QMouseEvent *e) {
 }
 
 void TextEdit::mouseMoveEvent(QMouseEvent *e) {
-    QPoint movePos = e->pos();
-    if (m_isPressed) {
+    QPointF posOrigin = QPointF(mapToGlobal(e->pos()));
+
+    QPointF movePos = QPointF(posOrigin.x(), posOrigin.y());
+    if (m_isPressed && movePos != m_pressPoint) {
         this->move(this->x() + movePos.x() - m_pressPoint.x(),
                    this->y() + movePos.y() - m_pressPoint.y());
 
-        emit  repaintTextRect(this,  QRectF(this->x(), this->y(),
-                                            this->width(),  this->height()));
+        emit  repaintTextRect(this,  QRectF(qreal(this->x()), qreal(this->y()),
+                                                                        this->width(),  this->height()));
+        m_pressPoint = movePos;
     }
-    m_pressPoint = movePos;
+
+
     QPlainTextEdit::mouseMoveEvent(e);
 }
 
@@ -127,7 +130,6 @@ void TextEdit::mouseReleaseEvent(QMouseEvent *e) {
         setMouseTracking(false);
         return;
     }
-
 
     QPlainTextEdit::mouseReleaseEvent(e);
 }
