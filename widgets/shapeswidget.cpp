@@ -104,7 +104,6 @@ bool ShapesWidget::clickedOnShapes(QPointF pos) {
         if (currentOnShape) {
             m_selectedShape = m_shapes[i];
             m_selectedIndex = i;
-
             onShapes = true;
             break;
         } else {
@@ -793,6 +792,10 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                     connect(edit, &TextEdit::backToEditing, this, [=]{
                         m_editing = true;
                     });
+                    connect(edit, &TextEdit::textEditSelected, this, [=](int index){
+                        m_selectedIndex = index;
+                        m_selectedShape = m_shapes[index];
+                    });
                     m_shapes.append(m_currentShape);
                 }
             }
@@ -830,7 +833,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
             FourPoints lineFPoints = fourPointsOfLine(m_currentShape.points);
             m_currentShape.mainPoints = lineFPoints;
             m_shapes.append(m_currentShape);
-        } else {
+        } else if (m_currentType != "text"){
             FourPoints rectFPoints = getMainPoints(m_pos1, m_pos2);
             m_currentShape.mainPoints = rectFPoints;
             m_shapes.append(m_currentShape);
@@ -1157,7 +1160,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     if (m_selectedShape.type == "arrow" && m_selectedShape.points.length() == 2) {
         paintImgPoint(painter, m_selectedShape.points[0], resizePointImg);
         paintImgPoint(painter, m_selectedShape.points[1], resizePointImg);
-    } else {
+    } else if (m_selectedShape.type != "text") {
         if (m_selectedShape.mainPoints[0] != QPointF(0, 0) || m_selectedShape.type == "arrow") {
 
             for ( int i = 0; i < m_selectedShape.mainPoints.length(); i ++) {
@@ -1230,12 +1233,26 @@ bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
 }
 
 void ShapesWidget::deleteCurrentShape() {
-    qDebug() << "delete currentShape:" << m_shapes.length();
-     m_shapes.removeOne(m_selectedShape);
-     clearSelected();
-     qDebug() << "after delete:" << m_shapes.length();
-     update();
-     m_selectedIndex = -1;
+    if (m_selectedIndex < m_shapes.length()) {
+        m_shapes.removeAt(m_selectedIndex);
+    } else {
+        qWarning() << "Invalid index";
+    }
+
+    clearSelected();
+    if (m_selectedShape.type == "text") {
+        m_editMap.value(m_selectedIndex)->clear();
+        delete m_editMap.value(m_selectedIndex);
+        m_editMap.remove(m_selectedIndex);
+
+    }
+    m_selectedShape.type = "";
+    m_currentShape.type = "";
+    for(int i = 0; i < m_currentShape.mainPoints.length(); i++) {
+        m_currentShape.mainPoints[i] = QPointF(0, 0);
+    }
+    update();
+    m_selectedIndex = -1;
 }
 
 QString ShapesWidget::getCurrentType() {
