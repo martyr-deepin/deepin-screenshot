@@ -19,6 +19,7 @@ TextEdit::TextEdit(int index, QWidget *parent)
 {
     m_index = index;
     setLineWrapMode(QPlainTextEdit::NoWrap);
+    setContextMenuPolicy(Qt::NoContextMenu);
     int defaultColorIndex = ConfigSettings::instance()->value(
                                                "text", "color_index").toInt();
     QColor defaultColor = colorIndexOf(defaultColorIndex);

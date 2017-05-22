@@ -10,7 +10,7 @@
 #include <QStyleFactory>
 
 namespace {
-const int RECORD_MIN_SIZE = 220;
+const int RECORD_MIN_SIZE = 10;
 const int SPACING = 5;
 }
 
@@ -196,48 +196,48 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
               if (keyEvent->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier)) {
                   if (keyEvent->key() == Qt::Key_Left) {
                       m_recordX = std::max(0, m_recordX + 1);
-                      m_recordWidth = std::min(m_recordWidth - 1,
-                                                        m_rootWindowRect.width);
+                      m_recordWidth = std::max(std::min(m_recordWidth - 1,
+                                                        m_rootWindowRect.width), RECORD_MIN_SIZE);
 
                       needRepaint = true;
                   } else if (keyEvent->key() == Qt::Key_Right) {
-                      m_recordWidth = std::min(m_recordWidth - 1,
-                                               m_rootWindowRect.width);
+                      m_recordWidth = std::max(std::min(m_recordWidth - 1,
+                                               m_rootWindowRect.width), RECORD_MIN_SIZE);
 
                       needRepaint = true;
                   } else if (keyEvent->key() == Qt::Key_Up) {
                       m_recordY = std::max(0, m_recordY + 1);
-                      m_recordHeight = std::min(m_recordHeight - 1,
-                                                m_rootWindowRect.height);
+                      m_recordHeight = std::max(std::min(m_recordHeight - 1,
+                                                m_rootWindowRect.height), RECORD_MIN_SIZE);
 
                       needRepaint = true;
                   } else if (keyEvent->key() == Qt::Key_Down) {
-                      m_recordHeight = std::min(m_recordHeight - 1,
-                                                m_rootWindowRect.height);
+                      m_recordHeight = std::max(std::min(m_recordHeight - 1,
+                                                m_rootWindowRect.height), RECORD_MIN_SIZE);
 
                       needRepaint = true;
                   }
               } else if (qApp->keyboardModifiers() & Qt::ControlModifier) {
                 if (keyEvent->key() == Qt::Key_Left) {
                     m_recordX = std::max(0, m_recordX - 1);
-                    m_recordWidth = std::min(m_recordWidth + 1,
-                                                      m_rootWindowRect.width);
+                    m_recordWidth = std::max(std::min(m_recordWidth + 1,
+                                                      m_rootWindowRect.width), RECORD_MIN_SIZE);
 
                     needRepaint = true;
                 } else if (keyEvent->key() == Qt::Key_Right) {
-                    m_recordWidth = std::min(m_recordWidth + 1,
-                                             m_rootWindowRect.width);
+                    m_recordWidth = std::max(std::min(m_recordWidth + 1,
+                                             m_rootWindowRect.width), RECORD_MIN_SIZE);
 
                     needRepaint = true;
                 } else if (keyEvent->key() == Qt::Key_Up) {
                     m_recordY = std::max(0, m_recordY - 1);
-                    m_recordHeight = std::min(m_recordHeight + 1,
-                                              m_rootWindowRect.height);
+                    m_recordHeight = std::max(std::min(m_recordHeight + 1,
+                                              m_rootWindowRect.height), RECORD_MIN_SIZE);
 
                     needRepaint = true;
                 } else if (keyEvent->key() == Qt::Key_Down) {
-                    m_recordHeight = std::min(m_recordHeight + 1,
-                                              m_rootWindowRect.height);
+                    m_recordHeight = std::max(std::min(m_recordHeight + 1,
+                                              m_rootWindowRect.height), RECORD_MIN_SIZE);
 
                     needRepaint = true;
                 }
