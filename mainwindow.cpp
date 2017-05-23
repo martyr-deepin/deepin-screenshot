@@ -137,6 +137,11 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                 return false;
             }
 
+            if (keyEvent->key() == Qt::Key_Shift) {
+                m_isShiftPressed = !m_isShiftPressed;
+                m_shapesWidget->setShiftKeyPressed(m_isShiftPressed);
+            }
+
             if (keyEvent->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier)) {
                 if (keyEvent->key() == Qt::Key_Left) {
                     m_shapesWidget->microAdjust("Ctrl+Shift+Left");
@@ -190,6 +195,10 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
         if (keyEvent->key() == Qt::Key_Escape) {
             qApp->quit();
+        }
+
+        if (keyEvent->key() == Qt::Key_Shift) {
+            m_isShiftPressed = !m_isShiftPressed;
         }
 
         if (m_mouseStatus == ShotMouseStatus::Normal) {
@@ -683,6 +692,8 @@ void MainWindow::initShapeWidget(QString type) {
     qDebug() << "show shapesWidget";
     this->releaseKeyboard();
     m_shapesWidget = new ShapesWidget(this);
+    m_shapesWidget->setShiftKeyPressed(m_isShiftPressed);
+
     if (type != "color")
         m_shapesWidget->setCurrentShape(type);
 

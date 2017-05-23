@@ -26,6 +26,7 @@ QDebug &operator<<(QDebug &argument, const Toolshape &obj) {
             << obj.isBlur << ","
             << obj.isMosaic << ","
             << obj.isStraight << ","
+            << obj.isShiftPressed << ","
             << obj.fontSize << ","
             << obj.points;
     return argument.space();
@@ -34,6 +35,7 @@ QDebug &operator<<(QDebug &argument, const Toolshape &obj) {
 QDataStream &operator>>(QDataStream &in, Toolshape &obj) {
     in >> obj.points;
     in >> obj.fontSize;
+    in >> obj.isShiftPressed;
     in >> obj.isBlur;
     in >> obj.isMosaic;
     in >> obj.isStraight;
@@ -53,6 +55,7 @@ Toolshape Toolshape::operator=(Toolshape obj) {
     isBlur = obj.isBlur;
     isMosaic = obj.isMosaic;
     isStraight = obj.isStraight;
+    isShiftPressed = obj.isShiftPressed;
     fontSize = obj.fontSize;
     points = obj.points;
 
@@ -62,7 +65,8 @@ Toolshape Toolshape::operator=(Toolshape obj) {
 bool Toolshape::operator==(const Toolshape &other) const {
     if (this->mainPoints == other.mainPoints && this->colorIndex == other.colorIndex &&
             this->fontSize == other.fontSize && this->isBlur == other.isBlur && this->isMosaic
-            == other.isMosaic && this->isStraight == other.isStraight && this->points == other.points) {
+            == other.isMosaic && this->isShiftPressed == other.isShiftPressed
+            && this->isStraight == other.isStraight && this->points == other.points) {
         return true;
     } else {
         return false;

@@ -58,6 +58,7 @@ public slots:
     void deleteCurrentShape();
     QString  getCurrentType();
     void microAdjust(QString direction);
+    void setShiftKeyPressed(bool isShift);
 
 protected:
     void mousePressEvent(QMouseEvent* e);

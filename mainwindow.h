@@ -100,6 +100,7 @@ private:
     bool m_isFirstReleaseButton;
     bool m_isPressButton;
     bool m_isReleaseButton;
+    bool m_isShiftPressed = false;
 
     QString m_selectAreaName;
     QPixmap m_resizeBigPix;

@@ -3,6 +3,8 @@
 #include "utils/calculaterect.h"
 #include "utils/configsettings.h"
 
+#include <cmath>
+
 #include <QApplication>
 #include <QPainter>
 #include <QDebug>
@@ -28,9 +30,7 @@ ShapesWidget::ShapesWidget(QWidget *parent)
     installEventFilter(this);
 }
 
-ShapesWidget::~ShapesWidget() {
-
-}
+ShapesWidget::~ShapesWidget() {}
 
 void ShapesWidget::setCurrentShape(QString shapeType) {
     m_currentType = shapeType;
@@ -659,11 +659,30 @@ void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)  {
 ////////////////////TODO: perfect handleRotate..
 void ShapesWidget::handleRotate(QPointF pos) {
     if (m_selectedShape.type == "arrow") {
-        if (m_clickedKey == First) {
-            m_shapes[m_selectedIndex].points[0] = m_pressedPoint;
-        } else if (m_clickedKey == Second) {
-            m_shapes[m_selectedIndex].points[1] = m_pressedPoint;
+        if (m_shapes[m_selectedIndex].isShiftPressed) {
+            if (m_shapes[m_selectedIndex].points[0].x() == m_shapes[m_selectedIndex].points[1].x()) {
+                if (m_clickedKey == First) {
+                    m_shapes[m_selectedIndex].points[0] = QPointF(m_shapes[m_selectedIndex].points[1].x(),
+                            pos.y());
+                } else if (m_clickedKey == Second) {
+                    m_shapes[m_selectedIndex].points[1] = QPointF(m_shapes[m_selectedIndex].points[0].x(),
+                            pos.y());
+                }
+            } else {
+                if (m_clickedKey == First) {
+                    m_shapes[m_selectedIndex].points[0] = QPointF(pos.x(), m_shapes[m_selectedIndex].points[1].y());
+                } else if (m_clickedKey == Second) {
+                    m_shapes[m_selectedIndex].points[1] = QPointF(pos.x(), m_shapes[m_selectedIndex].points[0].y());
+                }
+            }
+        } else {
+            if (m_clickedKey == First) {
+                m_shapes[m_selectedIndex].points[0] = m_pressedPoint;
+            } else if (m_clickedKey == Second) {
+                m_shapes[m_selectedIndex].points[1] = m_pressedPoint;
+            }
         }
+
         m_selectedShape.points  =  m_shapes[m_selectedIndex].points;
         m_hoveredShape.points = m_shapes[m_selectedIndex].points;
         m_pressedPoint = pos;
@@ -704,8 +723,10 @@ void ShapesWidget::handleResize(QPointF pos, int key) {
             m_shapes[m_selectedIndex].mainPoints[0],
             m_shapes[m_selectedIndex].mainPoints[1],
             m_shapes[m_selectedIndex].mainPoints[2],
-            m_shapes[m_selectedIndex].mainPoints[3], pos, key);
+            m_shapes[m_selectedIndex].mainPoints[3], pos, key,
+            m_shapes[m_selectedIndex].isShiftPressed);
 
+       qDebug() << "handleResize:" << m_selectedIndex << m_shapes[m_selectedIndex].isShiftPressed;
         m_shapes[m_selectedIndex].mainPoints = newResizeFPoints;
         m_selectedShape.mainPoints = newResizeFPoints;
         m_hoveredShape.mainPoints = newResizeFPoints;
@@ -750,6 +771,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
             if (m_currentType == "line") {
                 m_currentShape.points.append(m_pos1);
             } else if (m_currentType == "arrow") {
+                m_currentShape.isShiftPressed = m_isShiftPressed;
                 m_currentShape.points.append(m_pos1);
                 m_currentShape.isStraight = ConfigSettings::instance()->value(
                                                                     "arrow", "is_straight").toBool();
@@ -758,6 +780,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                                                               "effect", "is_blur").toBool();
                 m_currentShape.isMosaic = ConfigSettings::instance()->value(
                                                                   "effect", "is_mosaic").toBool();
+                m_currentShape.isShiftPressed = m_isShiftPressed;
                 if (m_currentShape.isBlur && !m_blurEffectExist) {
                     emit reloadEffectImg("blur");
                     m_blurEffectExist = true;
@@ -822,9 +845,17 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
     qDebug() << m_isRecording << m_isSelected << m_pos2;
 
     if (m_isRecording && !m_isSelected && m_pos2 != QPointF(0, 0)) {
-
         if (m_currentType == "arrow") {
             if (m_currentShape.points.length() == 2) {
+                if (m_currentShape.isShiftPressed) {
+                    if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()), std::abs(m_pos2.x() - m_pos1.x()))
+                            *180/M_PI < 45) {
+                        m_pos2 = QPointF(m_pos2.x(), m_pos1.y());
+                    } else {
+                        m_pos2 = QPointF(m_pos1.x(), m_pos2.y());
+                    }
+                }
+
                 m_currentShape.points[1] = m_pos2;
                 m_currentShape.mainPoints = getMainPoints(m_currentShape.points[0], m_currentShape.points[1]);
                 m_shapes.append(m_currentShape);
@@ -834,7 +865,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
             m_currentShape.mainPoints = lineFPoints;
             m_shapes.append(m_currentShape);
         } else if (m_currentType != "text"){
-            FourPoints rectFPoints = getMainPoints(m_pos1, m_pos2);
+            FourPoints rectFPoints = getMainPoints(m_pos1, m_pos2, m_currentShape.isShiftPressed);
             m_currentShape.mainPoints = rectFPoints;
             m_shapes.append(m_currentShape);
         }
@@ -866,12 +897,29 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
         m_pos2 = e->pos();
 
         if (m_currentShape.type == "arrow") {
-            if (m_currentShape.points.length() <=1) {
-                m_currentShape.points.append(m_pos2);
+            if (m_currentShape.points.length() <= 1) {
+                if (m_currentShape.isShiftPressed) {
+                        if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()),
+                                       std::abs(m_pos2.x() - m_pos1.x()))*180/M_PI < 45) {
+                            m_currentShape.points.append(QPointF(m_pos2.x(), m_pos1.y()));
+                        } else {
+                            m_currentShape.points.append(QPointF(m_pos1.x(), m_pos2.y()));
+                        }
+                } else {
+                    m_currentShape.points.append(m_pos2);
+                }
             } else {
-                m_currentShape.points[1] = m_pos2;
+                if (m_currentShape.isShiftPressed) {
+                    if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()),
+                                   std::abs(m_pos2.x() - m_pos1.x()))*180/M_PI < 45) {
+                        m_currentShape.points[1] = QPointF(m_pos2.x(), m_pos1.y());
+                    } else {
+                        m_currentShape.points[1] = QPointF(m_pos1.x(), m_pos2.y());
+                    }
+                } else {
+                    m_currentShape.points[1] = m_pos2;
+                }
             }
-
         }
         if (m_currentShape.type == "line") {
              m_currentShape.points.append(m_pos2);
@@ -1079,7 +1127,7 @@ void ShapesWidget::paintArrow(QPainter &painter, QList<QPointF> lineFPoints,
             QPainterPath path;
             const QPen oldPen = painter.pen();
             if (arrowPoints.length() >=3) {
-                 painter.drawLine(lineFPoints[0], lineFPoints[1]);
+                painter.drawLine(lineFPoints[0], lineFPoints[1]);
                 path.moveTo(arrowPoints[2].x(), arrowPoints[2].y());
                 path.lineTo(arrowPoints[0].x(), arrowPoints[0].y());
                 path.lineTo(arrowPoints[1].x(), arrowPoints[1].y());
@@ -1135,10 +1183,8 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         }
     }
 
-    if ((m_pos1 != QPointF(0, 0) &&
-            m_pos2 != QPointF(0, 0))||
-            m_currentShape.type == "text") {
-        FourPoints currentFPoint =  getMainPoints(m_pos1, m_pos2);
+    if ((m_pos1 != QPointF(0, 0) && m_pos2 != QPointF(0, 0))||m_currentShape.type == "text") {
+        FourPoints currentFPoint =  getMainPoints(m_pos1, m_pos2, m_currentShape.isShiftPressed);
         pen.setColor(colorIndexOf(m_currentShape.colorIndex));
         pen.setWidth(m_currentShape.lineWidth);
         painter.setPen(pen);
@@ -1147,7 +1193,6 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         } else if (m_currentType == "oval") {
             paintEllipse(painter, currentFPoint, m_shapes.length(), m_currentShape.isBlur, m_currentShape.isMosaic);
         } else if (m_currentType == "arrow") {
-            qDebug() << "current paint";
             paintArrow(painter, m_currentShape.points, pen.width(), m_currentShape.isStraight);
         } else if (m_currentType == "line") {
             paintLine(painter, m_currentShape.points);
@@ -1162,7 +1207,6 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         paintImgPoint(painter, m_selectedShape.points[1], resizePointImg);
     } else if (m_selectedShape.type != "text") {
         if (m_selectedShape.mainPoints[0] != QPointF(0, 0) || m_selectedShape.type == "arrow") {
-
             for ( int i = 0; i < m_selectedShape.mainPoints.length(); i ++) {
                 paintImgPoint(painter, m_selectedShape.mainPoints[i], resizePointImg);
             }
@@ -1201,8 +1245,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         } else if (m_hoveredShape.type == "oval") {
             paintEllipse(painter, m_hoveredShape.mainPoints, -1);
         } else if (m_hoveredShape.type == "arrow") {
-            qDebug() << "hover";
-            paintArrow(painter, m_hoveredShape.points, m_hoveredShape.isStraight);
+            paintArrow(painter, m_hoveredShape.points, pen.width(), true);
         } else if (m_hoveredShape.type == "line") {
             paintLine(painter, m_hoveredShape.points);
         }
@@ -1261,7 +1304,6 @@ QString ShapesWidget::getCurrentType() {
 
 void ShapesWidget::microAdjust(QString direction) {
     if (m_selectedIndex != -1 && m_selectedIndex < m_shapes.length()) {
-
         if (direction == "Left" || direction == "Right" || direction == "Up" || direction == "Down") {
             m_shapes[m_selectedIndex].mainPoints = pointMoveMicro(m_shapes[m_selectedIndex].mainPoints, direction);
         } else if (direction == "Ctrl+Shift+Left" || direction == "Ctrl+Shift+Right" || direction == "Ctrl+Shift+Up"
@@ -1289,5 +1331,8 @@ void ShapesWidget::microAdjust(QString direction) {
         m_selectedShape.points = m_shapes[m_selectedIndex].points;
         update();
     }
+}
 
+void ShapesWidget::setShiftKeyPressed(bool isShift) {
+    m_isShiftPressed = isShift;
 }
