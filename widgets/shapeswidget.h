@@ -29,6 +29,8 @@ public:
 signals:
     void reloadEffectImg(QString effect);
     void requestScreenshot();
+    void shapePressed(QString shape);
+    void saveBtnPressed(int index);
 
 public slots:
     void setCurrentShape(QString shapeType);

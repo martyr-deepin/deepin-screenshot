@@ -64,6 +64,24 @@ void MajToolBar::initWidgets() {
     ToolButton* closeBtn = new ToolButton();
     closeBtn->setObjectName("CloseBtn");
 
+    connect(this, &MajToolBar::shapePressed, this, [=](QString shape) {
+        if (shape == "rectangle") {
+            qDebug() << "rect clicked!";
+            rectBtn->click();
+        } else if (shape == "oval") {
+            ovalBtn->click();
+            qDebug() << "oval clicked!";
+        } else if (shape == "arrow") {
+            arrowBtn->click();
+        } else if (shape == "line") {
+            lineBtn->click();
+        } else if (shape == "text") {
+            textBtn->click();
+        } else if (shape == "close") {
+            closeBtn->click();
+        }
+    });
+
     m_baseLayout = new QHBoxLayout();
     m_baseLayout->setMargin(0);
     m_baseLayout->addSpacing(BTN_SPACING);

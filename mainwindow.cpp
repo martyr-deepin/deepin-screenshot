@@ -105,7 +105,10 @@ void MainWindow::initUI() {
 
     connect(m_toolBar, &ToolBar::requestSaveScreenshot, this,
             &MainWindow::saveScreenshot);
-
+    connect(m_menuController, &MenuController::shapePressed, m_toolBar,
+            &ToolBar::shapePressed);
+    connect(m_menuController, &MenuController::saveBtnPressed, m_toolBar,
+            &ToolBar::saveBtnPressed);
 //    connect(&m_eventMonitor, SIGNAL(buttonedPress(int, int)), this,
 //            SLOT(showPressFeedback(int, int)), Qt::QueuedConnection);
 //    connect(&m_eventMonitor, SIGNAL(buttonedDrag(int, int)), this,
@@ -730,6 +733,10 @@ void MainWindow::initShapeWidget(QString type) {
             &ShapesWidget::deleteCurrentShape);
     connect(m_shapesWidget, &ShapesWidget::requestScreenshot,
             this, &MainWindow::saveScreenshot);
+    connect(m_shapesWidget, &ShapesWidget::shapePressed,
+            m_toolBar, &ToolBar::shapePressed);
+    connect(m_shapesWidget, &ShapesWidget::saveBtnPressed,
+            m_toolBar, &ToolBar::saveBtnPressed);
 }
 
 void MainWindow::updateCursor(QEvent *event)

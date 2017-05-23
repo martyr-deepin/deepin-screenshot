@@ -27,6 +27,7 @@ signals:
     void saveAction();
     void showSaveTip(QString tips);
     void hideSaveTip();
+    void  saveBtnPressed(int index = 0);
 
 private:
     int m_lineWidth;

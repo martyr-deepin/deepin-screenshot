@@ -18,6 +18,7 @@ signals:
     void saveImage();
     void showSaveTooltip(QString tooltips);
     void hideSaveTooltip();
+    void shapePressed(QString shape);
 
 public slots:
     void initWidgets();

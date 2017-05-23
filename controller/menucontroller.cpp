@@ -2,6 +2,7 @@
 #include "utils/configsettings.h"
 
 #include <QStyleFactory>
+#include <QDebug>
 
 MenuController::MenuController(QObject *parent)
     : QObject(parent) {
@@ -11,26 +12,41 @@ MenuController::MenuController(QObject *parent)
     rectIcon.addPixmap(QPixmap(":/image/menu_icons/rectangle-menu-norml.png"), QIcon::Normal);
     rectIcon.addPixmap(QPixmap(":/image/menu_icons/rectangle-menu-hover.png"), QIcon::Active);
     QAction* rectAct = new QAction(rectIcon, tr("rectangle-tool"), this);
+    connect(rectAct, &QAction::triggered, [=] {
+        emit shapePressed("rectangle");
+    });
 
     QIcon ovalIcon;
     ovalIcon.addPixmap(QPixmap(":/image/menu_icons/ellipse-menu-norml.png"), QIcon::Normal);
     ovalIcon.addPixmap(QPixmap(":/image/menu_icons/ellipse-menu-hover.png"), QIcon::Active);
     QAction* ovalAct = new QAction(ovalIcon, tr("ellipse-tool"), this);
+    connect(ovalAct, &QAction::triggered, [=]{
+        emit shapePressed("oval");
+    });
 
     QIcon arrowIcon;
     arrowIcon.addPixmap(QPixmap(":/image/menu_icons/arrow-menu-norml.png"), QIcon::Normal);
     arrowIcon.addPixmap(QPixmap(":/image/menu_icons/arrow-menu-hover.png"), QIcon::Active);
     QAction* arrowAct = new QAction(arrowIcon, tr("arrow-tool"), this);
+    connect(arrowAct, &QAction::triggered, [=]{
+        emit shapePressed("arrow");
+    });
 
     QIcon penIcon;
     penIcon.addPixmap(QPixmap(":/image/menu_icons/line-menu-norml.png"), QIcon::Normal);
     penIcon.addPixmap(QPixmap(":/image/menu_icons/line-menu-hover.png"), QIcon::Active);
     QAction* penAct = new QAction(penIcon, tr("line-tool"), this);
+    connect(penAct, &QAction::triggered, [=]{
+        emit shapePressed("line");
+    });
 
     QIcon textIcon;
     textIcon.addPixmap(QPixmap(":/image/menu_icons/text-menu-norml.png"), QIcon::Normal);
     textIcon.addPixmap(QPixmap(":/image/menu_icons/text-menu-hover.png"), QIcon::Active);
     QAction* textAct = new QAction(textIcon, tr("text-tool"), this);
+    connect(textAct, &QAction::triggered, [=]{
+        emit shapePressed("text");
+    });
 
     m_menu->addAction(rectAct);
     m_menu->addAction(ovalAct);
@@ -58,6 +74,9 @@ MenuController::MenuController(QObject *parent)
     actionList.append(saveAct5);
     for(int k = 0; k < actionList.length(); k++) {
         saveMenu->addAction(actionList[k]);
+        connect(actionList[k], &QAction::triggered, [=]{
+            emit saveBtnPressed(k);
+        });
     }
 
     int saveOptionIndex = ConfigSettings::instance()->value("save", "save_op").toInt();
@@ -69,6 +88,9 @@ MenuController::MenuController(QObject *parent)
     exitIcon.addPixmap(QPixmap(":/image/menu_icons/exit-menu-hover.png"), QIcon::Active);
     QAction* closeAct = new QAction(exitIcon, tr("close"), this);
     m_menu->addAction(closeAct);
+    connect(closeAct, &QAction::triggered, this, [=]{
+        emit shapePressed("close");
+    });
 }
 
 void MenuController::showMenu(QPoint pos) {

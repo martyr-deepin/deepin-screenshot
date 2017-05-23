@@ -45,6 +45,8 @@ ToolBar::ToolBar(QWidget *parent)
     connect(m_subToolbar, &SubToolBar::currentColorChanged, this, &ToolBar::updateColor);
     connect(m_subToolbar, &SubToolBar::showSaveTip, m_majToolbar, &MajToolBar::showSaveTooltip);
     connect(m_subToolbar, &SubToolBar::hideSaveTip, m_majToolbar, &MajToolBar::hideSaveTooltip);
+    connect(this, &ToolBar::shapePressed, m_majToolbar, &MajToolBar::shapePressed);
+    connect(this, &ToolBar::saveBtnPressed, m_subToolbar, &SubToolBar::saveBtnPressed);
 }
 
 bool ToolBar::isButtonChecked() {

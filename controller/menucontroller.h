@@ -9,6 +9,10 @@ public:
     MenuController(QObject* parent = 0);
     ~MenuController();
 
+signals:
+    void shapePressed(QString currentShape);
+    void saveBtnPressed(int index);
+
 public slots:
     void showMenu(QPoint pos);
 

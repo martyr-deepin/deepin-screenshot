@@ -28,6 +28,11 @@ ShapesWidget::ShapesWidget(QWidget *parent)
     setMouseTracking(true);
     setAcceptDrops(true);
     installEventFilter(this);
+
+    connect(m_menuController, &MenuController::shapePressed,
+                   this, &ShapesWidget::shapePressed);
+    connect(m_menuController, &MenuController::saveBtnPressed,
+            this, &ShapesWidget::saveBtnPressed);
 }
 
 ShapesWidget::~ShapesWidget() {}

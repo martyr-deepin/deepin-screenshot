@@ -385,6 +385,10 @@ void SubToolBar::initSaveLabel() {
             emit hideSaveTip();
         });
     }
+    connect(this, &SubToolBar::saveBtnPressed, this, [=](int index){
+        if (index < toolBtnList.length())
+            toolBtnList[index]->click();
+    });
     int saveOptionIndex = ConfigSettings::instance()->value("save", "save_op").toInt();
     toolBtnList[saveOptionIndex]->setChecked(true);
 
