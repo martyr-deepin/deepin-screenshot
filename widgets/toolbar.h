@@ -23,6 +23,7 @@ public slots:
     bool isButtonChecked();
     void setExpand(bool expand, QString shapeType);
     void showAt(QPoint pos);
+    int    getSaveQualityIndex();
 
 private:
     MajToolBar* m_majToolbar;

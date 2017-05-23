@@ -5,11 +5,16 @@
 #include "utils/baseutils.h"
 #include "utils/configsettings.h"
 
+#include <dslider.h>
+
 #include <QLineEdit>
 #include <QButtonGroup>
 #include <QHBoxLayout>
 #include <QSlider>
+#include <QStyleFactory>
 #include <QDebug>
+
+DWIDGET_USE_NAMESPACE
 
 namespace {
     const int TOOLBAR_HEIGHT = 28;
@@ -360,10 +365,15 @@ void SubToolBar::initSaveLabel() {
     lowQualityText->setText("Low");
     QSlider* saveQualitySlider = new QSlider(Qt::Horizontal);
     saveQualitySlider->setObjectName("SaveQualitySlider");
-    saveQualitySlider->setMinimum(1);
+    saveQualitySlider->setMinimum(50);
     saveQualitySlider->setMaximum(100);
     saveQualitySlider->setPageStep(1);
     saveQualitySlider->setSliderPosition(100);
+    setSaveQualityIndex(saveQualitySlider->value());
+
+    connect(saveQualitySlider, &QSlider::valueChanged,
+                   this, &SubToolBar::setSaveQualityIndex);
+
     QLabel* highQualityText = new QLabel();
     highQualityText->setObjectName("HighQualityLabel");
     highQualityText->setText("High");
@@ -432,6 +442,14 @@ void SubToolBar::setSaveOption(int saveOption) {
     ConfigSettings::instance()->setValue("save", "save_op", saveOption);
 
     emit saveAction();
+}
+
+void SubToolBar::setSaveQualityIndex(int saveQuality) {
+    m_saveIndex = saveQuality;
+}
+
+int SubToolBar::getSaveQualityIndex() {
+    return m_saveIndex;
 }
 
 SubToolBar::~SubToolBar() {}

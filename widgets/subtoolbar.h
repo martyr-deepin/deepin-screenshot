@@ -20,6 +20,8 @@ public:
 
     void switchContent(QString shapeType);
     void setSaveOption(int saveOption);
+    void setSaveQualityIndex(int saveQuality);
+    int    getSaveQualityIndex();
 
 signals:
     void currentColorChanged(QColor color);
@@ -31,6 +33,7 @@ signals:
 
 private:
     int m_lineWidth;
+    int m_saveIndex;
     QString m_currentType;
 
     QLabel* m_rectLabel;

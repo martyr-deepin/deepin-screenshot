@@ -70,6 +70,10 @@ void ToolBar::setExpand(bool expand, QString shapeType) {
     update();
 }
 
+int ToolBar::getSaveQualityIndex() {
+    return m_subToolbar->getSaveQualityIndex();
+}
+
 void ToolBar::showAt(QPoint pos) {
     if (!isVisible())
         show();
