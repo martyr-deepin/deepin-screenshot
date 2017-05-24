@@ -1275,7 +1275,27 @@ bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
         if (keyEvent->key() == Qt::Key_Escape) {
             qApp->quit();
         }
+        QFrame::keyPressEvent(keyEvent);
     }
+
+    if (event->type() == QEvent::KeyRelease) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+
+        //NOTE: must be use 'isAutoRepeat' to filter KeyRelease event
+        // send by Qt.
+        if (!keyEvent->isAutoRepeat()) {
+            if (keyEvent->modifiers() ==  (Qt::ShiftModifier | Qt::ControlModifier)) {
+                qDebug() << "UUUUUUU";
+                QProcess::startDetached("killall deepin-shortcut-viewer");
+            } else if (keyEvent->key() == Qt::Key_Question) {
+                qDebug() << "LLLL";
+                QProcess::startDetached("killall deepin-shortcut-viewer");
+            }
+        }
+
+        QFrame::keyReleaseEvent(keyEvent);
+    }
+
 
     return false;
 }

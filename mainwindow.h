@@ -16,6 +16,7 @@
 #include "widgets/zoomIndicator.h"
 #include "widgets/shapeswidget.h"
 #include "utils/baseutils.h"
+#include "utils/shortcut.h"
 #include "utils/configsettings.h"
 #include "controller/menucontroller.h"
 
@@ -61,6 +62,7 @@ public slots:
     void shotImgWidthEffect();
     void saveScreenshot();
     void reloadImage(QString effect);
+    void onViewShortcut();
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;

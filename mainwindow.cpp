@@ -30,7 +30,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::initUI() {
-    setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::Tool | Qt::WindowStaysOnTopHint);
+//    setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::Tool | Qt::WindowStaysOnTopHint);
     setMouseTracking(true);   // make MouseMove can response
     this->setFocus();
     m_configSettings =  ConfigSettings::instance();
@@ -157,6 +157,10 @@ void MainWindow::initShortcut() {
         emit m_toolBar->shapePressed("color");
     });
 
+    QShortcut* viewSC = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+    viewSC->setAutoRepeat(false);
+    connect(viewSC,  SIGNAL(activated()), this, SLOT(onViewShortcut()));
+
 }
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)
@@ -164,7 +168,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 #undef KeyPress
 #undef KeyRelease
     if (m_isShapesWidgetExist) {
-        if (event->type() == QEvent::KeyPress) {
+        if (event->type() == QEvent::KeyPress)  {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
             if (keyEvent->key() == Qt::Key_Escape) {
                 m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
@@ -188,7 +192,6 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                     m_shapesWidget->microAdjust("Ctrl+Shift+Down");
                 }
             } else if (qApp->keyboardModifiers() & Qt::ControlModifier) {
-                qDebug() << "Control";
                 if (keyEvent->key() == Qt::Key_Left) {
                     m_shapesWidget->microAdjust("Ctrl+Left");
                 } else if (keyEvent->key() == Qt::Key_Right) {
@@ -199,7 +202,6 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                     m_shapesWidget->microAdjust("Ctrl+Down");
                 }
             }  else {
-                qDebug() << "left micro";
                 if (keyEvent->key() == Qt::Key_Left) {
                     m_shapesWidget->microAdjust("Left");
                 } else if (keyEvent->key() == Qt::Key_Right) {
@@ -214,10 +216,15 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             if (keyEvent->key() == Qt::Key_Delete) {
                 emit  deleteShapes();
             } else {
-                qDebug() << "keyEvent:" << keyEvent->key();
+                qDebug() << "ShapeWidget Exist keyEvent:" << keyEvent->key();
             }
             return false;
-        }
+        }/* else if (event->type() == QEvent::KeyRelease) {
+            QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+            if (keyEvent->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier)) {
+                 QProcess::startDetached("killall deepin-shortcut-viewer");
+            }
+        }*/
         return false;
     }
 
@@ -336,11 +343,19 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         // NOTE: must be use 'isAutoRepeat' to filter KeyRelease event
         //send by Qt.
         if (!keyEvent->isAutoRepeat()) {
+            if (keyEvent->modifiers() ==  (Qt::ShiftModifier | Qt::ControlModifier)) {
+                QProcess::startDetached("killall deepin-shortcut-viewer");
+            }
+            if (keyEvent->key() == Qt::Key_Question) {
+                QProcess::startDetached("killall deepin-shortcut-viewer");
+            }
+
             if (keyEvent->key() == Qt::Key_Left || keyEvent->key()
                 == Qt::Key_Right || keyEvent->key() == Qt::Key_Up ||
                 keyEvent->key() == Qt::Key_Down) {
                 needRepaint = true;
             }
+
 
             if (m_mouseStatus == ShotMouseStatus::Normal && needRepaint) {
 //                showRecordButton();
@@ -1088,4 +1103,19 @@ void MainWindow::reloadImage(QString effect) {
             tmpImg.save(TMP_MOSA_FILE, "png");
         }
     }
+}
+
+void MainWindow::onViewShortcut() {
+    QRect rect = window()->geometry();
+    QPoint pos(rect.x() + rect.width()/2, rect.y() + rect.height()/2);
+    Shortcut sc;
+    QStringList shortcutString;
+    QString param1 = "-j=" + sc.toStr();
+    QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
+    shortcutString << param1 << param2;
+
+    QProcess* shortcutViewProc = new QProcess();
+    shortcutViewProc->startDetached("deepin-shortcut-viewer", shortcutString);
+
+    connect(shortcutViewProc, SIGNAL(finished(int)), shortcutViewProc, SLOT(deleteLater()));
 }
