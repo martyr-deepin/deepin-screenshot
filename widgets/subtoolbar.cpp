@@ -1,7 +1,7 @@
 #include "subtoolbar.h"
 #include "toolbutton.h"
 #include "colorbutton.h"
-#include "fontsizewidget.h"
+#include "textbutton.h"
 #include "utils/baseutils.h"
 #include "utils/configsettings.h"
 
@@ -293,13 +293,31 @@ void SubToolBar::initLineLabel() {
 
 void SubToolBar::initTextLabel() {
     //text...
-    FontSizeWidget* fontsizeWidget = new FontSizeWidget;
     m_textLabel = new QLabel(this);
+    QList<int> fontSizeList;
+    fontSizeList << 9 << 10 << 12 << 14 << 18 << 24 << 36 << 48 << 64 << 72 << 96;
+    QButtonGroup* textBtnGroup = new QButtonGroup(m_textLabel);
+
+    QList<TextButton*> textButtonList;
+    for(int i = 0; i < fontSizeList.length(); i++) {
+        TextButton* textButton = new TextButton(fontSizeList[i], m_textLabel);
+        textBtnGroup->addButton(textButton);
+        textButtonList.append(textButton);
+    }
+    textBtnGroup->setExclusive(true);
+      int defaultFontSize = ConfigSettings::instance()->value("text", "fontsize").toInt();
+
     QHBoxLayout* textLayout = new QHBoxLayout();
     textLayout->setMargin(0);
     textLayout->setSpacing(0);
     textLayout->addSpacing(4);
-    textLayout->addWidget(fontsizeWidget);
+    for(int k = 0; k < textButtonList.length(); k++) {
+        textLayout->addWidget(textButtonList[k]);
+        textLayout->addSpacing(4);
+        if (fontSizeList[k] == defaultFontSize) {
+            textButtonList[k]->setChecked(true);
+        }
+    }
     textLayout->addStretch();
     m_textLabel->setLayout(textLayout);
     addWidget(m_textLabel);

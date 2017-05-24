@@ -12,7 +12,8 @@ HEADERS += \
     $$PWD/fontsizewidget.h \
     $$PWD/textedit.h \
     $$PWD/savebutton.h \
-    $$PWD/savetips.h
+    $$PWD/savetips.h \
+    $$PWD/textbutton.h
 
 SOURCES += \
     $$PWD/toptips.cpp \
@@ -26,7 +27,8 @@ SOURCES += \
     $$PWD/fontsizewidget.cpp \
     $$PWD/textedit.cpp \
     $$PWD/savebutton.cpp \
-    $$PWD/savetips.cpp
+    $$PWD/savetips.cpp \
+    $$PWD/textbutton.cpp
 
 RESOURCES += \
     $$PWD/resources.qrc

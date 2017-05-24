@@ -1285,10 +1285,8 @@ bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
         // send by Qt.
         if (!keyEvent->isAutoRepeat()) {
             if (keyEvent->modifiers() ==  (Qt::ShiftModifier | Qt::ControlModifier)) {
-                qDebug() << "UUUUUUU";
                 QProcess::startDetached("killall deepin-shortcut-viewer");
             } else if (keyEvent->key() == Qt::Key_Question) {
-                qDebug() << "LLLL";
                 QProcess::startDetached("killall deepin-shortcut-viewer");
             }
         }

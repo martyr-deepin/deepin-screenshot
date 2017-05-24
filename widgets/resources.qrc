@@ -110,5 +110,6 @@
         <file>resources/qss/toolsavebutton.qss</file>
         <file>resources/qss/savetips.qss</file>
         <file>resources/images/action/sizetip.png</file>
+        <file>resources/qss/textbutton.qss</file>
     </qresource>
 </RCC>
