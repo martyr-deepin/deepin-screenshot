@@ -82,6 +82,14 @@
     </message>
 </context>
 <context>
+    <name>QObject</name>
+    <message>
+        <location filename="../main.cpp" line="21"/>
+        <source>Deepin Screenshot</source>
+        <translation>深度截图</translation>
+    </message>
+</context>
+<context>
     <name>Shortcut</name>
     <message>
         <location filename="../utils/shortcut.cpp" line="10"/>
@@ -229,7 +237,7 @@
         <location filename="../windowmanager.cpp" line="152"/>
         <location filename="../windowmanager.cpp" line="171"/>
         <source>Desktop</source>
-        <translation type="unfinished"></translation>
+        <translation>桌面</translation>
     </message>
 </context>
 </TS>

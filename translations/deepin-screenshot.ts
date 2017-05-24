@@ -78,6 +78,14 @@
     </message>
 </context>
 <context>
+    <name>QObject</name>
+    <message>
+        <location filename="../main.cpp" line="21"/>
+        <source>Deepin Screenshot</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Shortcut</name>
     <message>
         <location filename="../utils/shortcut.cpp" line="10"/>
