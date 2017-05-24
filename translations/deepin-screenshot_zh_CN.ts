@@ -230,6 +230,16 @@
         <source>Autosave and copy to clipboard</source>
         <translation>自动保存并复制到剪切板</translation>
     </message>
+    <message>
+        <location filename="../widgets/subtoolbar.cpp" line="365"/>
+        <source>Low</source>
+        <translation>低</translation>
+    </message>
+    <message>
+        <location filename="../widgets/subtoolbar.cpp" line="379"/>
+        <source>High</source>
+        <translation>高</translation>
+    </message>
 </context>
 <context>
     <name>WindowManager</name>

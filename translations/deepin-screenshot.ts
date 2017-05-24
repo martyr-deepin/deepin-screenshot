@@ -226,6 +226,16 @@
         <source>Autosave and copy to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../widgets/subtoolbar.cpp" line="365"/>
+        <source>Low</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../widgets/subtoolbar.cpp" line="379"/>
+        <source>High</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WindowManager</name>
