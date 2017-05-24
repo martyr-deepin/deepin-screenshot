@@ -2,6 +2,8 @@
 #include <DApplication>
 
 #include <dutility.h>
+#include <QObject>
+#include <QTranslator>
 
 DWIDGET_USE_NAMESPACE
 
@@ -14,8 +16,9 @@ int main(int argc, char *argv[])
     DApplication::loadDXcbPlugin();
 
      DApplication a(argc, argv);
-     a.setOrganizationName("Deepin");
-     a.setApplicationName("Deepin Screenshot");
+     a.loadTranslator(QList<QLocale>() << QLocale::system());
+     a.setOrganizationName("deepin");
+     a.setApplicationName(QObject::tr("Deepin Screenshot"));
      a.setApplicationVersion("4.0");
      a.setQuitOnLastWindowClosed(false);
 

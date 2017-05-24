@@ -23,7 +23,7 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
     ShortcutItem(tr("Rectangle"),  "Alt+1")<<
     ShortcutItem(tr("Ellipse"),        "Alt+2")<<
     ShortcutItem(tr("Arrow"),        "Alt+3")<<
-    ShortcutItem(tr("Brush"),        "Alt+4")<<
+    ShortcutItem(tr("Pencil"),        "Alt+4")<<
     ShortcutItem(tr("Text"),           "Alt+5")<<
     ShortcutItem(tr("Color"),         "Alt+6");
 
