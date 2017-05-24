@@ -8,6 +8,8 @@
 #include <QAction>
 #include <QMap>
 #include <QStyleFactory>
+#include <QShortcut>
+#include <QKeySequence>
 
 namespace {
 const int RECORD_MIN_SIZE = 10;
@@ -20,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     initDBusInterface();
      initUI();
      startScreenshot();
+     initShortcut();
 }
 
 MainWindow::~MainWindow()
@@ -125,6 +128,35 @@ void MainWindow::initDBusInterface() {
     m_notifyDBInterface = new DBusNotify(this);
     m_soundEffectInterface = new DBusSoundEffect(this);
     m_hotZoneInterface = new DBusZone(this);
+}
+
+void MainWindow::initShortcut() {
+    QShortcut* rectSC = new QShortcut(QKeySequence("Alt+1"), this);
+    QShortcut* ovalSC = new QShortcut(QKeySequence("Alt+2"), this);
+    QShortcut* arrowSC = new QShortcut(QKeySequence("Alt+3"), this);
+    QShortcut* lineSC = new QShortcut(QKeySequence("Alt+4"), this);
+    QShortcut* textSC = new QShortcut(QKeySequence("Alt+5"), this);
+    QShortcut* colorSC = new QShortcut(QKeySequence("Alt+6"), this);
+
+    connect(rectSC, &QShortcut::activated, this, [=]{
+        emit m_toolBar->shapePressed("rectangle");
+    });
+    connect(ovalSC, &QShortcut::activated, this, [=]{
+        emit m_toolBar->shapePressed("oval");
+    });
+    connect(arrowSC, &QShortcut::activated, this, [=]{
+        emit m_toolBar->shapePressed("arrow");
+    });
+    connect(lineSC, &QShortcut::activated, this, [=]{
+        emit m_toolBar->shapePressed("line");
+    });
+    connect(textSC, &QShortcut::activated, this, [=]{
+        emit m_toolBar->shapePressed("text");
+    });
+    connect(colorSC, &QShortcut::activated, this, [=]{
+        emit m_toolBar->shapePressed("color");
+    });
+
 }
 
 bool MainWindow::eventFilter(QObject *, QEvent *event)

@@ -77,6 +77,8 @@ void MajToolBar::initWidgets() {
             lineBtn->click();
         } else if (shape == "text") {
             textBtn->click();
+        } else if (shape == "color") {
+           colorBtn->click();
         } else if (shape == "close") {
             closeBtn->click();
         }

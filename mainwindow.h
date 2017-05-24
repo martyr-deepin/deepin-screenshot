@@ -45,6 +45,7 @@ public:
     void initUI();
     void initShapeWidget(QString type);
     void initDBusInterface();
+    void initShortcut();
 
 signals:
     void deleteShapes();
