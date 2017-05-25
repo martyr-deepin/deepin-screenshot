@@ -94,8 +94,7 @@ MenuController::MenuController(QObject *parent)
 }
 
 void MenuController::showMenu(QPoint pos) {
-    m_menu->show();
-    m_menu->move(pos);
+    m_menu->popup(pos);
 }
 
 MenuController::~MenuController() {
