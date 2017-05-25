@@ -1,22 +1,16 @@
 QPushButton#ToolSaveBtn {
-    outline: none;
-    border: none;
     background-color: transparent;
-}
-
-QPushButton#ToolSaveBtn:hover {
-    outline: none;
-    background-color: rgba(0, 0, 0, 0.3);
-    border: solid 1px transparent;
-    border-radius: 4px;
 }
 
 QPushButton#SaveBtn {
     outline: none;
+    background-color: transparent;
     border-image:url(:/resources/images/save/save_normal.png);
+    border: none;
 }
 QPushButton#SaveBtn:hover {
     outline: none;
+    background-color: rgba(0, 0, 0, 0.08);
     border-image:url(:/resources/images/save/save_hover.png);
 }
 QPushButton#SaveBtn:checked:hover {
@@ -30,10 +24,12 @@ QPushButton#SaveBtn:pressed {
 
 QPushButton#ListBtn {
     outline: none;
+    background-color: transparent;
     border-image:url(:/resources/images/save/save_list_normal.png);
 }
 QPushButton#ListBtn:hover {
     outline: none;
+    background-color: rgba(0, 0, 0, 0.08);
     border-image:url(:/resources/images/save/save_list_hover.png);
 }
 QPushButton#ListBtn:checked:hover {

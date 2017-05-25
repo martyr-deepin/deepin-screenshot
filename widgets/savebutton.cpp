@@ -10,7 +10,6 @@ const QSize LIST_BTN = QSize(11, 22);
 SaveButton::SaveButton(QWidget *parent)
     : QPushButton(parent) {
     setFixedSize(TOOL_SAVE_BTN);
-    setObjectName("ToolSaveBtn");
     setStyleSheet(getFileContent(":/resources/qss/toolsavebutton.qss"));
     m_saveBtn = new ToolButton(this);
     m_saveBtn->setObjectName("SaveBtn");

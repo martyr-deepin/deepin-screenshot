@@ -14,8 +14,10 @@
 namespace {
     const int TOOLBAR_HEIGHT = 28;
     const int TOOLBAR_WIDTH = 280;
-    const int BTN_SPACING = 6;
+    const int BTN_SPACING = 12;
     const int TOOLBUTTON_WIDTH = 22;
+    const QSize SAVE_BTN = QSize(21, 22);
+    const QSize LIST_BTN = QSize(11, 22);
 }
 MajToolBar::MajToolBar(QWidget *parent)
     : QLabel(parent),
@@ -58,9 +60,15 @@ void MajToolBar::initWidgets() {
 
     BigColorButton* colorBtn = new BigColorButton();
     colorBtn->setObjectName("ColorBtn");
-    SaveButton* saveBtn = new SaveButton();
 //    ToolButton* shareBtn = new ToolButton();
 //    shareBtn->setObjectName("ShareBtn");
+    ToolButton* saveBtn = new ToolButton(this);
+    saveBtn->setObjectName("SaveBtn");
+    saveBtn->setFixedSize(SAVE_BTN);
+    ToolButton* listBtn = new ToolButton(this);
+    listBtn->setObjectName("ListBtn");
+    listBtn->setFixedSize(LIST_BTN);
+
     ToolButton* closeBtn = new ToolButton();
     closeBtn->setObjectName("CloseBtn");
 
@@ -86,7 +94,8 @@ void MajToolBar::initWidgets() {
 
     m_baseLayout = new QHBoxLayout();
     m_baseLayout->setMargin(0);
-    m_baseLayout->addSpacing(1);
+    m_baseLayout->setSpacing(0);
+    m_baseLayout->addSpacing(6);
     m_baseLayout->addWidget(saveTips);
     for (int k = 0; k < toolBtnList.length(); k++) {
         m_baseLayout->addWidget(toolBtnList[k]);
@@ -96,20 +105,21 @@ void MajToolBar::initWidgets() {
     m_baseLayout->addWidget(colorBtn);
     m_baseLayout->addSpacing(BTN_SPACING);
     m_baseLayout->addWidget(saveBtn);
-//    m_baseLayout->addWidget(shareBtn);
+    m_baseLayout->addSpacing(0);
+    m_baseLayout->addWidget(listBtn);
     m_baseLayout->addSpacing(BTN_SPACING);
     m_baseLayout->addWidget(closeBtn);
     m_baseLayout->addSpacing(4);
     m_baseLayout->addStretch();
-
     setLayout(m_baseLayout);
 
     connect(saveTips, &SaveTips::tipWidthChanged, this,  [=](int value){
-        int num = (TOOLBAR_WIDTH - value)/(TOOLBUTTON_WIDTH + BTN_SPACING);
+        int num = (TOOLBAR_WIDTH - value)/(TOOLBUTTON_WIDTH + 6);
         qDebug() << "LLPP:" << num;
         if (num > 2) {
             closeBtn->hide();
             saveBtn->hide();
+            listBtn->hide();
             colorBtn->hide();
             textBtn->hide();
             lineBtn->hide();
@@ -136,6 +146,7 @@ void MajToolBar::initWidgets() {
             textBtn->show();
             colorBtn->show();
             saveBtn->show();
+            listBtn->show();
             closeBtn->show();
         }
     });
@@ -222,10 +233,11 @@ void MajToolBar::initWidgets() {
             colorBtn, &BigColorButton::setColorIndex);
 
     connect(this, &MajToolBar::mainColorChanged, colorBtn, &BigColorButton::setColor);
-    connect(saveBtn, &SaveButton::saveAction, this, [=](){
+    connect(saveBtn,  &ToolButton::clicked, this, [=](){
         emit saveImage();
     });
-    connect(saveBtn, &SaveButton::expandSaveOption, this, [=](bool expand){
+    connect(listBtn, &ToolButton::clicked, this, [=] {
+        bool expand = listBtn->isChecked();
         emit buttonChecked(expand, "saveList");
     });
 
