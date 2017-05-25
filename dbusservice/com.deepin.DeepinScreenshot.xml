@@ -1,0 +1,9 @@
+<interface name="com.deepin.DeepinScreenshot">
+    <method name="DelayScreenshot">
+        <arg direction="in" type="x" />
+    </method>    
+    <method name="FullscreenShot"/>
+    <method name="SavePath">
+        <arg direction="in" type="s"/>
+    </method>
+</interface>

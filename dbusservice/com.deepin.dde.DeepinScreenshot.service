@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=com.deepin.DeepinScreenshot
+Exec=/usr/bin/deepin-screenshot

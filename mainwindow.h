@@ -52,6 +52,13 @@ signals:
     void deleteShapes();
 
 public slots:
+    void fullScreenshot();
+    void savePath(QString path);
+    void delayScreenshot(int num);
+//    void topWindow();
+    //Indicate that this program's started by clicking desktop file.
+//    void startByIcon();
+
     void startScreenshot();
     void showPressFeedback(int x, int y);
     void showDragFeedback(int x, int y);

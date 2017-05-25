@@ -30,7 +30,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::initUI() {
-    setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::Tool);
+    setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::Tool /*| Qt::WindowStaysOnTopHint*/);
     setMouseTracking(true);   // make MouseMove can response
     this->setFocus();
     m_configSettings =  ConfigSettings::instance();
@@ -889,6 +889,14 @@ void MainWindow::resizeDirection(ResizeDirection direction,
     default:break;
     }
 
+}
+
+void MainWindow::fullScreenshot() {
+}
+
+void MainWindow::savePath(QString path) {
+}
+void MainWindow::delayScreenshot(int num) {
 }
 
 void MainWindow::startScreenshot() {
