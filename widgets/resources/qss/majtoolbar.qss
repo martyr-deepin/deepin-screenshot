@@ -4,7 +4,7 @@ QPushButton#OvalBtn {
 }
 QPushButton#OvalBtn:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.08);
     border: solid 1px transparent;
     border-radius: 4px;
     border-image:url(:/resources/images/action/oval_hover.png);
@@ -26,9 +26,9 @@ QPushButton#RectBtn {
 }
 QPushButton#RectBtn:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.08);
     border: solid 1px transparent;
-    border-radius: 4px;
+    border-radius: 3px;
     border-image:url(:/resources/images/action/rectangle_hover.png);
 }
 QPushButton#RectBtn:checked:hover {
@@ -47,7 +47,7 @@ QPushButton#ArrowBtn {
 }
 QPushButton#ArrowBtn:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.08);
     border: solid 1px transparent;
     border-radius: 4px;
     border-image:url(:/resources/images/action/arrow_hover.png);
@@ -68,7 +68,7 @@ QPushButton#PenBtn {
 }
 QPushButton#PenBtn:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.08);
     border: solid 1px transparent;
     border-radius: 4px;
     border-image:url(:/resources/images/action/pencil_hover.png);
@@ -88,7 +88,7 @@ QPushButton#TextBtn {
 }
 QPushButton#TextBtn:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.08);
     border: solid 1px transparent;
     border-radius: 4px;
     border-image:url(:/resources/images/action/text_hover.png);
@@ -109,7 +109,7 @@ QPushButton#ColorBtn {
 }
 QPushButton#ColorBtn:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.08);
     border: solid 1px transparent;
     border-radius: 4px;
     border-image:url(:/resources/images/action/colors_hover.png);
@@ -131,7 +131,7 @@ QPushButton#ShareBtn {
 }
 QPushButton#ShareBtn:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.08);
     border: solid 1px transparent;
     border-radius: 4px;
     border-image:url(:/resources/images/action/share_hover.png);
@@ -152,7 +152,7 @@ QPushButton#CloseBtn {
 }
 QPushButton#CloseBtn:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.08);
     border: solid 1px transparent;
     border-radius: 4px;
     border-image:url(:/resources/images/action/close_hover.png);
