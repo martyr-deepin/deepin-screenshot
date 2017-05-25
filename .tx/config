@@ -4,7 +4,7 @@ minimum_perc = 80
 mode = master
 
 ;translation file
-[deepin-screenshot.deepin-screenshot]
+[deepin-screenshot.deepin-screenshot-ts]
 file_filter = translations/deepin-screenshot_<lang>.ts
 source_file = translations/deepin-screenshot.ts
 source_lang = en
