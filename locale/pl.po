@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# novacausekey <m.z.nowakowski@gmail.com>, 2014
+# novacausekey <inactive+novacausekey@transifex.com>, 2014
 # Piotr Strębski <strebski@gmail.com>, 2014-2015
 # suore <suore@outlook.com>, 2014
 msgid ""

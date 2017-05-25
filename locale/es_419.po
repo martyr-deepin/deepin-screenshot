@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Alejandro Hamann <linkstat@gmail.com>, 2016
+# alvarosamudio <alvarosamudio1@gmail.com>, 2017
 # walt santos <walt.eh93@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Deepin Screenshot\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-18 15:20+0800\n"
-"PO-Revision-Date: 2016-07-28 17:17+0000\n"
-"Last-Translator: Alejandro Hamann <linkstat@gmail.com>\n"
+"PO-Revision-Date: 2017-04-16 02:10+0000\n"
+"Last-Translator: alvarosamudio <alvarosamudio1@gmail.com>\n"
 "Language-Team: Spanish (Latin America) (http://www.transifex.com/linuxdeepin/deepin-screenshot/language/es_419/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -159,7 +160,7 @@ msgstr "Reducir anchura derecha"
 #: ../src/app_context.py:75 ../src/app_controller.py:133
 #: ../src/app_window.py:73 ../src/dbus_interfaces.py:80
 msgid "Deepin Screenshot"
-msgstr "Capturador de pantalla Deepin"
+msgstr "Deepin Screenshot"
 
 #: ../src/app_context.py:130
 msgid "Picture has been saved to clipboard"
@@ -167,7 +168,7 @@ msgstr "La imagen ha sido copiada al portapapeles"
 
 #: ../src/app_context.py:142
 msgid "DeepinScreenshot"
-msgstr "Captura de pantalla Deepin"
+msgstr "DeepinScreenshot"
 
 #: ../src/app_context.py:178
 #, python-format
@@ -185,4 +186,4 @@ msgstr "Ver manual, la imagen se guardará automáticamente"
 #: ../src/app_controller.py:134
 #, python-format
 msgid "Deepin Screenshot will start after %s seconds."
-msgstr "Capturador de pantalla Deepin se iniciará después de %s segundos."
+msgstr "Deepin Screenshot  se iniciará después de %s segundos."
