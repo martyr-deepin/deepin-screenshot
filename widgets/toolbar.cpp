@@ -1,11 +1,15 @@
 #include "toolbar.h"
 #include "utils/baseutils.h"
+
+#include <QPainter>
 #include <QDebug>
 
 namespace {
     const int TOOLBAR_HEIGHT = 28;
-    const int TOOLBAR_WIDTH = 284;
+    const int TOOLBAR_WIDTH = 280;
     const int BUTTON_SPACING = 3;
+    const int TOOLBAR_BG_HEIGHT = 30;
+    const int TOOLBAR_BG_WIDTH = 282;
 }
 
 ToolBar::ToolBar(QWidget *parent)
@@ -14,12 +18,14 @@ ToolBar::ToolBar(QWidget *parent)
 {
     setObjectName("ToolBar");
     setStyleSheet(getFileContent(":/resources/qss/toolbar.qss"));
-    setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
+    setFixedSize(TOOLBAR_BG_WIDTH, TOOLBAR_BG_HEIGHT);
 
     m_hSeperatorLine = new QLabel(this);
     m_hSeperatorLine->setObjectName("HorSeperatorLine");
     m_hSeperatorLine->setFixedHeight(1);
 
+    m_bgLabel = new QLabel(this);
+    m_bgLabel->setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
     m_majToolbar = new MajToolBar(this);
     m_subToolbar = new SubToolBar(this);
 
@@ -31,10 +37,18 @@ ToolBar::ToolBar(QWidget *parent)
     vLayout->addWidget(m_hSeperatorLine, 0, Qt::AlignVCenter);
     vLayout->addWidget(m_subToolbar, 0, Qt::AlignVCenter);
     vLayout->addStretch();
-    setLayout(vLayout);
+    m_bgLabel->setLayout(vLayout);
 
     m_hSeperatorLine->hide();
     m_subToolbar->hide();
+
+    QHBoxLayout* hLayout = new QHBoxLayout();
+    hLayout->setMargin(0);
+    hLayout->setSpacing(0);
+    hLayout->addStretch();
+    hLayout->addWidget(m_bgLabel);
+    hLayout->addStretch();
+    setLayout(hLayout);
 
     connect(m_majToolbar, &MajToolBar::buttonChecked, this, &ToolBar::setExpand);
     connect(m_majToolbar, &MajToolBar::saveImage, this, &ToolBar::requestSaveScreenshot);
@@ -74,6 +88,16 @@ int ToolBar::getSaveQualityIndex() {
     return m_subToolbar->getSaveQualityIndex();
 }
 
+void ToolBar::paintEvent(QPaintEvent *) {
+    QPainter painter(this);
+    painter.setPen(QColor(0, 0, 0, 25));
+    painter.setRenderHint(QPainter::Antialiasing);
+    QRectF rect(0, 0, this->width() -1, this->height() - 1);
+
+    painter.setBrush(QColor(255, 255, 255, 204));
+    painter.drawRoundedRect(rect.translated(0.5, 0.5), 3, 3, Qt::AbsoluteSize);
+
+}
 void ToolBar::showAt(QPoint pos) {
     if (!isVisible())
         show();

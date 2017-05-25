@@ -5,7 +5,7 @@
 
 #include <QDebug>
 
-const int COLOR_RADIUS = 4;
+const qreal COLOR_RADIUS = 4;
 
 BigColorButton::BigColorButton(QWidget *parent)
     : QPushButton(parent),
@@ -13,7 +13,7 @@ BigColorButton::BigColorButton(QWidget *parent)
       m_isHover(false),
       m_isChecked(false)
 {
-    setFixedSize(21, 21);
+    setFixedSize(22, 22);
     setCheckable(true);
     int colIndex = ConfigSettings::instance()->value(
                               "common", "color_index").toInt();
@@ -38,7 +38,7 @@ void BigColorButton::paintEvent(QPaintEvent *) {
     }
 
     painter.setBrush(QBrush(QColor(m_color)));
-    painter.drawEllipse(QPoint(11, 10),
+    painter.drawEllipse(QPointF(11, 11),
                         COLOR_RADIUS, COLOR_RADIUS);
 
     if (m_isChecked) {

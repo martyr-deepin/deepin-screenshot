@@ -18,7 +18,7 @@ DWIDGET_USE_NAMESPACE
 
 namespace {
     const int TOOLBAR_HEIGHT = 28;
-    const int TOOLBAR_WIDTH = 284;
+    const int TOOLBAR_WIDTH = 280;
     const int BUTTON_SPACING = 3;
     const int COLOR_NUM = 16;
 }

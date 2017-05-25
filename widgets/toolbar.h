@@ -2,6 +2,7 @@
 #define TOOLBAR_H
 
 #include <QLabel>
+#include <QPainter>
 
 #include "majtoolbar.h"
 #include "subtoolbar.h"
@@ -25,10 +26,14 @@ public slots:
     void showAt(QPoint pos);
     int    getSaveQualityIndex();
 
+protected:
+    void paintEvent(QPaintEvent *);
+
 private:
     MajToolBar* m_majToolbar;
     QLabel* m_hSeperatorLine;
     SubToolBar* m_subToolbar;
+    QLabel* m_bgLabel;
 
     bool m_isChecked;
 };

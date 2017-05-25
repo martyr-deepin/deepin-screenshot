@@ -13,7 +13,7 @@
 
 namespace {
     const int TOOLBAR_HEIGHT = 28;
-    const int TOOLBAR_WIDTH = 284;
+    const int TOOLBAR_WIDTH = 280;
     const int BTN_SPACING = 6;
     const int TOOLBUTTON_WIDTH = 22;
 }
@@ -234,6 +234,8 @@ void MajToolBar::initWidgets() {
         qDebug() << "screenshot will exit!";
         qApp->quit();
     });
+
+    qDebug() << "MajToolBar width" << this->width() << this->height();
 }
 
 bool MajToolBar::isButtonChecked() {
