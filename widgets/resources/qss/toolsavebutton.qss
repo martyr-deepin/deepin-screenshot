@@ -1,0 +1,46 @@
+QPushButton#ToolSaveBtn {
+    outline: none;
+    border: none;
+    background-color: transparent;
+}
+
+QPushButton#ToolSaveBtn:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+}
+
+QPushButton#SaveBtn {
+    outline: none;
+    border-image:url(:/resources/images/save/save_normal.png);
+}
+QPushButton#SaveBtn:hover {
+    outline: none;
+    border-image:url(:/resources/images/save/save_hover.png);
+}
+QPushButton#SaveBtn:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/save/save_checked.png);
+}
+QPushButton#SaveBtn:pressed {
+    outline: none;
+    border-image: url(:/resources/images/save/save_checked.png);
+}
+
+QPushButton#ListBtn {
+    outline: none;
+    border-image:url(:/resources/images/save/save_list_normal.png);
+}
+QPushButton#ListBtn:hover {
+    outline: none;
+    border-image:url(:/resources/images/save/save_list_hover.png);
+}
+QPushButton#ListBtn:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/save/save_list_checked.png);
+}
+QPushButton#ListBtn:checked {
+    outline: none;
+    border-image: url(:/resources/images/save/save_list_checked.png);
+}

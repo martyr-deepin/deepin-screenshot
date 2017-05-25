@@ -3,11 +3,12 @@ host = https://www.transifex.com
 minimum_perc = 80
 mode = developer
 
-[deepin-screenshot.deepin-screenshot-20140619]
-file_filter = locale/<lang>.po
-source_file = locale/deepin-screenshot.pot
+;translation file
+[deepin-screenshot.deepin-screenshot]
+file_filter = translations/deepin-screenshot_<lang>.ts
+source_file = translations/deepin-screenshot.ts
 source_lang = en
-type = PO
+type = QT
 
 [deepin-screenshot.desktop]
 source_file = deepin-screenshot.desktop

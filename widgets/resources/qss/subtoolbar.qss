@@ -1,0 +1,416 @@
+QPushButton#FineLine {
+    outline: none;
+    border-image: url(:/resources/images/size/fine_normal.png);
+}
+QPushButton#FineLine:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/size/fine_hover.png);
+}
+QPushButton#FineLine:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/size/fine_checked.png);
+}
+QPushButton#FineLine:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/size/fine_checked.png);
+}
+
+QPushButton#MediumLine {
+    outline: none;
+    border-image: url(:/resources/images/size/medium_normal.png);
+}
+QPushButton#MediumLine:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/size/medium_hover.png);
+}
+QPushButton#MediumLine:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/size/medium_checked.png);
+}
+QPushButton#MediumLine:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/size/medium_checked.png);
+}
+
+QPushButton#ThickLine {
+    outline: none;
+    border-image: url(:/resources/images/size/thick_normal.png);
+}
+QPushButton#ThickLine:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/size/thick_hover.png);
+}
+QPushButton#ThickLine:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/size/thick_checked.png);
+}
+QPushButton#ThickLine:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/size/thick_checked.png);
+}
+
+QLabel#VerticalSeperatorLine {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+QPushButton#ArrowFine {
+    outline: none;
+    border-image: url(:/resources/images/size/arrow_fine_normal.png);
+}
+QPushButton#ArrowFine:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/size/arrow_fine_hover.png);
+}
+QPushButton#ArrowFine:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/size/arrow_fine_checked.png);
+}
+
+QPushButton#ArrowFine:checked {
+    outline: none;
+    border-image: url(:/resources/images/size/arrow_fine_checked.png);
+}
+
+QPushButton#ArrowMedium{
+    outline: none;
+    border-image: url(:/resources/images/size/arrow_medium_normal.png);
+}
+QPushButton#ArrowMedium:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/size/arrow_medium_hover.png);
+}
+QPushButton#ArrowMedium:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/size/arrow_medium_checked.png);
+}
+QPushButton#ArrowMedium:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/size/arrow_medium_checked.png);
+}
+
+QPushButton#ArrowThick {
+    outline: none;
+    border-image: url(:/resources/images/size/arrow_thick_normal.png);
+}
+QPushButton#ArrowThick:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/size/arrow_thick_hover.png);
+}
+QPushButton#ArrowThick:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/size/arrow_thick_checked.png);
+}
+QPushButton#ArrowThick:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/size/arrow_thick_checked.png);
+}
+
+QPushButton#HorizontalLine {
+    outline: none;
+    border-image: url(:/resources/images/size/unarrow_normal.png);
+}
+QPushButton#HorizontalLine:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/size/unarrow_hover.png);
+}
+QPushButton#HorizontalLine:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/size/unarrow_checked.png);
+}
+QPushButton#HorizontalLine:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/size/unarrow_checked.png);
+}
+
+QPushButton#BlurBtn {
+    outline: none;
+    border-image: url(:/resources/images/size/blur_normal.png);
+}
+QPushButton#BlurBtn:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/size/blur_hover.png);
+}
+QPushButton#BlurBtn:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/size/blur_checked.png);
+}
+QPushButton#BlurBtn:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/size/blur_checked.png);
+}
+
+QPushButton#MosaicBtn {
+    outline: none;
+    border-image: url(:/resources/images/size/mosaic_normal.png);
+}
+QPushButton#MosaicBtn:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/size/mosaic_hover.png);
+}
+QPushButton#MosaicBtn:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/size/mosaic_checked.png);
+}
+QPushButton#MosaicBtn:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/size/mosaic_checked.png);
+}
+
+QPushButton#ArrowBtn {
+    outline: none;
+    border-image: url(:/resources/images/size/arrow_normal.png);
+}
+QPushButton#ArrowBtn:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/size/arrow_hover.png);
+}
+QPushButton#ArrowBtn:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/size/arrow_checked.png);
+}
+QPushButton#ArrowBtn:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/size/arrow_checked.png);
+}
+
+QPushButton#LineBtn {
+    outline: none;
+    border-image: url(:/resources/images/size/line_normal.png);
+}
+QPushButton#LineBtn:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/size/line_hover.png);
+}
+QPushButton#LineBtn:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/size/line_checked.png);
+}
+QPushButton#LineBtn:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/size/line_checked.png);
+}
+
+QPushButton#SaveToDesktop {
+    outline: none;
+    border-image: url(:/resources/images/save/save_to_desktop_normal.png);
+}
+QPushButton#SaveToDesktop:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/save/save_to_desktop_hover.png);
+}
+QPushButton#SaveToDesktop:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/save/save_to_desktop_checked.png);
+}
+QPushButton#SaveToDesktop:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/save/save_to_desktop_checked.png);
+}
+
+QPushButton#SaveToPictureDir {
+    outline: none;
+    border-image: url(:/resources/images/save/save_to_pic_normal.png);
+}
+QPushButton#SaveToPictureDir:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/save/save_to_pic_hover.png);
+}
+QPushButton#SaveToPictureDir:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/save/save_to_pic_checked.png);
+}
+QPushButton#SaveToPictureDir:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/save/save_to_pic_checked.png);
+}
+
+QPushButton#SaveToSpecificDir {
+    outline: none;
+    border-image: url(:/resources/images/save/save_to_dir_normal.png);
+}
+QPushButton#SaveToSpecificDir:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/save/save_to_dir_hover.png);
+}
+QPushButton#SaveToSpecificDir:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/save/save_to_dir_checked.png);
+}
+QPushButton#SaveToSpecificDir:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/save/save_to_dir_checked.png);
+}
+QPushButton#SaveToClipboard {
+    outline: none;
+    border-image: url(:/resources/images/save/save_to_clipboard_normal.png);
+}
+QPushButton#SaveToClipboard:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/save/save_to_clipboard_hover.png);
+}
+QPushButton#SaveToClipboard:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/save/save_to_clipboard_checked.png);
+}
+QPushButton#SaveToClipboard:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/save/save_to_clipboard_checked.png);
+}
+QPushButton#SaveToAutoClipboard {
+    outline: none;
+    border-image: url(:/resources/images/save/save_to_pic_clipboard_normal.png);
+}
+QPushButton#SaveToAutoClipboard:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/save/save_to_pic_clipboard_hover.png);
+}
+QPushButton#SaveToAutoClipboard:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/save/save_to_pic_clipboard_checked.png);
+}
+QPushButton#SaveToAutoClipboard:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/save/save_to_pic_clipboard_checked.png);
+}
+
+QSlider#SaveQualitySlider {
+    outline: none;
+    margin: 0;
+}
+
+QSlider#SaveQualitySlider::groove:horizontal {
+    height: 3px;
+    position: absolute;
+}
+
+QSlider#SaveQualitySlider::handle:horizontal {
+     border-image:  url(:/resources/images/save/slider_hover.png);
+ }
+ QSlider#SaveQualitySlider::handle:horizontal:pressed {
+      border-image:  url(:/resources/images/save/slider_pressed.png);
+  }
+
+QPushButton#ArrowFineLine {
+    outline: none;
+    border-image: url(:/resources/images/size/line_fine_normal.png);
+}
+QPushButton#ArrowFineLine:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/size/line_fine_hover.png);
+}
+QPushButton#ArrowFineLine:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/size/line_fine_checked.png);
+}
+QPushButton#ArrowFineLine:checked {
+    outline: none;
+    border-image: url(:/resources/images/size/line_fine_checked.png);
+}
+
+QPushButton#ArrowMediumLine{
+    outline: none;
+    border-image: url(:/resources/images/size/line_medium_normal.png);
+}
+QPushButton#ArrowMediumLine:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/size/line_medium_hover.png);
+}
+QPushButton#ArrowMediumLine:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/size/line_medium_checked.png);
+}
+QPushButton#ArrowMediumLine:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/size/line_medium_checked.png);
+}
+
+QPushButton#ArrowThickLine {
+    outline: none;
+    border-image: url(:/resources/images/size/line_thick_normal.png);
+}
+QPushButton#ArrowThickLine:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: solid 1px transparent;
+    border-radius: 4px;
+    border-image:url(:/resources/images/size/line_thick_hover.png);
+}
+QPushButton#ArrowThickLine:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/size/line_thick_checked.png);
+}
+QPushButton#ArrowThickLine:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/size/line_thick_checked.png);
+}

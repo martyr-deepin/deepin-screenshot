@@ -1,0 +1,41 @@
+QLabel#FontSizeWidget {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+}
+QLineEdit#FontSizeEdit {
+    border: none;
+    background-color: transparent;
+}
+
+Seperator {
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+QPushButton#AddSizeBtn {
+    outline: none;
+    border-image: url(:/resources/images/size/add_normal.png);
+}
+QPushButton#AddSizeBtn:hover {
+    outline: none;
+    background-color: transparent;
+    border-image:url(:/resources/images/size/add_hover.png);
+}
+
+QPushButton#AddSizeBtn:pressed {
+    outline: none;
+    border-image:url(:/resources/images/size/add_press.png);
+}
+
+QPushButton#ReduceSizeBtn {
+    outline: none;
+    border-image: url(:/resources/images/size/reduce_normal.png);
+}
+
+QPushButton#ReduceSizeBtn:hover {
+    outline: none;
+    border-image: url(:/resources/images/size/reduce_hover.png);
+}
+
+QPushButton#ReduceSizeBtn:pressed {
+    outline: none;
+    border-image: url(:/resources/images/size/reduce_press.png);
+}

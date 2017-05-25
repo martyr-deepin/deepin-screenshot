@@ -1,0 +1,8 @@
+<node>\n
+     <interface name="com.deepin.daemon.SoundEffect">\n
+          <method name="PlaySystemSound">\n
+               <arg type="s" direction="in"></arg>\n
+          </method>\n
+          <property name="Enabled" type="b" access="readwrite"></property>\n
+     </interface>\n
+</node>

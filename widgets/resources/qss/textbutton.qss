@@ -1,0 +1,23 @@
+TextButton {
+    background-color: transparent;
+    outline: none;
+    color: #303030;
+    font-size: 12px;
+    font-weight: light;
+}
+
+TextButton:hover {
+    background-color: transparent;
+    outline: none;
+    color: #303030;
+    font-size: 12px;
+    font-weight: light;
+}
+
+TextButton:checked {
+    background-color: transparent;
+    outline: none;
+    color: #2ca7f8;
+    font-size: 12px;
+    font-weight: light;
+}
