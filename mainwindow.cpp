@@ -30,7 +30,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::initUI() {
-//    setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::Tool | Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::Tool);
     setMouseTracking(true);   // make MouseMove can response
     this->setFocus();
     m_configSettings =  ConfigSettings::instance();

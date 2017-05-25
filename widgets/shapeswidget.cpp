@@ -1184,7 +1184,9 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         } else if (m_shapes[i].type == "line") {
             paintLine(painter, m_shapes[i].points);
         } else if (m_shapes[i].type == "text") {
-            paintText(painter, m_shapes[i].mainPoints);
+            if (!(m_editMap.value(i)->isReadOnly() && m_selectedIndex != i)) {
+                paintText(painter, m_shapes[i].mainPoints);
+            }
         }
     }
 
@@ -1202,7 +1204,9 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         } else if (m_currentType == "line") {
             paintLine(painter, m_currentShape.points);
         } else if (m_currentType == "text") {
-            paintText(painter, m_currentShape.mainPoints);
+            if (m_editing) {
+                paintText(painter, m_currentShape.mainPoints);
+            }
         }
     }
 
