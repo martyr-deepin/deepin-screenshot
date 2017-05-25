@@ -72,18 +72,14 @@ void ToolBar::setExpand(bool expand, QString shapeType) {
 
     if (expand) {
         m_isChecked = true;
-        m_bgLabel->setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT*2);
-        setFixedSize(TOOLBAR_BG_WIDTH, TOOLBAR_BG_HEIGHT*2);;
+        setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT*2);
         m_hSeperatorLine->show();
         m_subToolbar->show();
-        m_bgLabel->update();
     } else {
         m_isChecked = false;
-        m_bgLabel->setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
-        setFixedSize(TOOLBAR_BG_WIDTH, TOOLBAR_BG_HEIGHT);;
+        setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
         m_hSeperatorLine->hide();
         m_subToolbar->hide();
-        m_bgLabel->update();
     }
     update();
 }
