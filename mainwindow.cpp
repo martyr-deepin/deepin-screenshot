@@ -245,6 +245,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
         if (m_mouseStatus == ShotMouseStatus::Normal) {
               if (keyEvent->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier)) {
+
                   if (keyEvent->key() == Qt::Key_Left) {
                       m_recordX = std::max(0, m_recordX + 1);
                       m_recordWidth = std::max(std::min(m_recordWidth - 1,
@@ -269,30 +270,34 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                       needRepaint = true;
                   }
               } else if (qApp->keyboardModifiers() & Qt::ControlModifier) {
-                if (keyEvent->key() == Qt::Key_Left) {
-                    m_recordX = std::max(0, m_recordX - 1);
-                    m_recordWidth = std::max(std::min(m_recordWidth + 1,
-                                                      m_rootWindowRect.width), RECORD_MIN_SIZE);
+                  if (keyEvent->key() == Qt::Key_S) {
+                        saveScreenshot();
+                  }
 
-                    needRepaint = true;
-                } else if (keyEvent->key() == Qt::Key_Right) {
-                    m_recordWidth = std::max(std::min(m_recordWidth + 1,
-                                             m_rootWindowRect.width), RECORD_MIN_SIZE);
+                  if (keyEvent->key() == Qt::Key_Left) {
+                      m_recordX = std::max(0, m_recordX - 1);
+                      m_recordWidth = std::max(std::min(m_recordWidth + 1,
+                                                        m_rootWindowRect.width), RECORD_MIN_SIZE);
 
-                    needRepaint = true;
-                } else if (keyEvent->key() == Qt::Key_Up) {
-                    m_recordY = std::max(0, m_recordY - 1);
-                    m_recordHeight = std::max(std::min(m_recordHeight + 1,
-                                              m_rootWindowRect.height), RECORD_MIN_SIZE);
+                      needRepaint = true;
+                  } else if (keyEvent->key() == Qt::Key_Right) {
+                      m_recordWidth = std::max(std::min(m_recordWidth + 1,
+                                                        m_rootWindowRect.width), RECORD_MIN_SIZE);
 
-                    needRepaint = true;
-                } else if (keyEvent->key() == Qt::Key_Down) {
-                    m_recordHeight = std::max(std::min(m_recordHeight + 1,
-                                              m_rootWindowRect.height), RECORD_MIN_SIZE);
+                      needRepaint = true;
+                  } else if (keyEvent->key() == Qt::Key_Up) {
+                      m_recordY = std::max(0, m_recordY - 1);
+                      m_recordHeight = std::max(std::min(m_recordHeight + 1,
+                                                         m_rootWindowRect.height), RECORD_MIN_SIZE);
 
-                    needRepaint = true;
-                }
-            } else {
+                      needRepaint = true;
+                  } else if (keyEvent->key() == Qt::Key_Down) {
+                      m_recordHeight = std::max(std::min(m_recordHeight + 1,
+                                                         m_rootWindowRect.height), RECORD_MIN_SIZE);
+
+                      needRepaint = true;
+                  }
+              } else {
                 if (keyEvent->key() == Qt::Key_Left) {
                     m_recordX = std::max(0, m_recordX - 1);
 
@@ -370,6 +375,10 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         m_dragStartY = mouseEvent->y();
 
         if (mouseEvent->button() == Qt::RightButton) {
+            if (!m_isFirstPressButton) {
+                qApp->quit();
+            }
+
             m_menuController->showMenu(mouseEvent->pos());
         }
 
