@@ -96,7 +96,7 @@ void MajToolBar::initWidgets() {
     m_baseLayout = new QHBoxLayout();
     m_baseLayout->setMargin(0);
     m_baseLayout->setSpacing(0);
-    m_baseLayout->addSpacing(10);
+    m_baseLayout->addSpacing(6);
     m_baseLayout->addWidget(saveTips);
     for (int k = 0; k < toolBtnList.length(); k++) {
         m_baseLayout->addWidget(toolBtnList[k]);
