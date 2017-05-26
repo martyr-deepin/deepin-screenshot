@@ -14,6 +14,7 @@
 namespace {
 const int RECORD_MIN_SIZE = 10;
 const int SPACING = 5;
+const int TOOLBAR_Y_SPACING = 10;
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -326,18 +327,18 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             }
 
             QPoint toolbarPoint;
-            toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width() - 5,
-                                                    std::max(m_recordY + m_recordHeight + 5, 0));
+            toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width(),
+                                                    std::max(m_recordY + m_recordHeight + TOOLBAR_Y_SPACING, 0));
 
             if (m_toolBar->width() > m_recordX + m_recordWidth) {
-                toolbarPoint.setX(m_recordX + 5);
+                toolbarPoint.setX(m_recordX + 8);
             }
             if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height()
                     - m_toolBar->height() - 28) {
                 if (m_recordY > 28*2 + 10) {
-                    toolbarPoint.setY(m_recordY - m_toolBar->height() - 5);
+                    toolbarPoint.setY(m_recordY - m_toolBar->height() - TOOLBAR_Y_SPACING);
                 } else {
-                    toolbarPoint.setY(m_recordY + 5);
+                    toolbarPoint.setY(m_recordY + TOOLBAR_Y_SPACING);
                 }
             }
             m_toolBar->showAt(toolbarPoint);
@@ -407,18 +408,18 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             m_zoomIndicator->hide();
 
             QPoint toolbarPoint;
-            toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width() - 5,
-                                                    std::max(m_recordY + m_recordHeight + 5, 0));
+            toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width(),
+                                                    std::max(m_recordY + m_recordHeight + TOOLBAR_Y_SPACING, 0));
 
             if (m_toolBar->width() > m_recordX + m_recordWidth) {
-                toolbarPoint.setX(m_recordX + 5);
+                toolbarPoint.setX(m_recordX + 8);
             }
             if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height()
                     - m_toolBar->height() - 28) {
                 if (m_recordY > 28*2 + 10) {
-                    toolbarPoint.setY(m_recordY - m_toolBar->height() - 5);
+                    toolbarPoint.setY(m_recordY - m_toolBar->height() - TOOLBAR_Y_SPACING);
                 } else {
-                    toolbarPoint.setY(m_recordY + 5);
+                    toolbarPoint.setY(m_recordY + TOOLBAR_Y_SPACING);
                 }
             }
 
@@ -477,18 +478,18 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
             if (m_toolBar->isVisible() && m_isPressButton) {
                 QPoint toolbarPoint;
-                toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width() - 5,
-                                                        std::max(m_recordY + m_recordHeight + 5, 0));
+                toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width(),
+                                                        std::max(m_recordY + m_recordHeight + TOOLBAR_Y_SPACING, 0));
                 if (m_toolBar->width() > m_recordX + m_recordWidth) {
-                    toolbarPoint.setX(m_recordX + 5);
+                    toolbarPoint.setX(m_recordX + 8);
                 }
 
                 if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height()
                         - m_toolBar->height() - 28 ) {
                     if (m_recordY > 28*2 + 10) {
-                        toolbarPoint.setY(m_recordY - m_toolBar->height() - 5);
+                        toolbarPoint.setY(m_recordY - m_toolBar->height() - TOOLBAR_Y_SPACING);
                     } else {
-                        toolbarPoint.setY(m_recordY + 5);
+                        toolbarPoint.setY(m_recordY + TOOLBAR_Y_SPACING);
                     }
                 }
 
@@ -761,18 +762,19 @@ void MainWindow::initShapeWidget(QString type) {
     m_shapesWidget->move(m_recordX + 2, m_recordY + 2);
 
     QPoint toolbarPoint;
-    toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width() - 5,
-                          std::max(m_recordY + m_recordHeight + 5, 0));
+    toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width(),
+                          std::max(m_recordY + m_recordHeight + TOOLBAR_Y_SPACING, 0));
 
     if (m_toolBar->width() > m_recordX + m_recordWidth) {
-        toolbarPoint.setX(m_recordX + 5);
+        toolbarPoint.setX(m_recordX + 8);
     }
+
     if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height()
             - m_toolBar->height() - 28) {
         if (m_recordY > 28*2 + 10) {
-            toolbarPoint.setY(m_recordY - m_toolBar->height() - 5);
+            toolbarPoint.setY(m_recordY - m_toolBar->height() - TOOLBAR_Y_SPACING);
         } else {
-            toolbarPoint.setY(m_recordY + 5);
+            toolbarPoint.setY(m_recordY + TOOLBAR_Y_SPACING);
         }
     }
 

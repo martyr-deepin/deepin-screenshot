@@ -1155,7 +1155,7 @@ void ShapesWidget::paintLine(QPainter &painter, QList<QPointF> lineFPoints) {
 void ShapesWidget::paintText(QPainter &painter, FourPoints rectFPoints) {
     QPen textPen;
     textPen.setStyle(Qt::DashLine);
-    textPen.setColor(Qt::white);
+    textPen.setColor("#01bdff");
     painter.setPen(textPen);
 
     if (rectFPoints.length() >= 4) {
@@ -1246,7 +1246,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     if (m_hoveredShape.mainPoints[0] != QPointF(0, 0) ||
             m_hoveredShape.points.length()!=0) {
         pen.setWidth(1);
-        pen.setColor(QColor(Qt::white));
+        pen.setColor("#01bdff");
         painter.setPen(pen);
         if (m_hoveredShape.type == "rectangle") {
             paintRect(painter, m_hoveredShape.mainPoints,
