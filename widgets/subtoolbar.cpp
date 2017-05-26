@@ -398,6 +398,7 @@ void SubToolBar::initSaveLabel() {
     lowQualityText->setObjectName("LowQualityLabel");
     lowQualityText->setText(tr("Low"));
     QSlider* saveQualitySlider = new QSlider(Qt::Horizontal);
+    saveQualitySlider->setFixedWidth(64);
     saveQualitySlider->setObjectName("SaveQualitySlider");
     saveQualitySlider->setMinimum(50);
     saveQualitySlider->setMaximum(100);
@@ -415,10 +416,11 @@ void SubToolBar::initSaveLabel() {
      m_saveLabel = new QLabel(this);
     QHBoxLayout* saveLayout = new QHBoxLayout();
     saveLayout->setMargin(0);
-    saveLayout->setSpacing(3);
-    saveLayout->addSpacing(5);
+    saveLayout->setSpacing(0);
+    saveLayout->addSpacing(6);
     foreach (ToolButton* btn, toolBtnList) {
         saveLayout->addWidget(btn);
+        saveLayout->addSpacing(8);
         connect(btn, &ToolButton::clicked, this,  [=]{
             setSaveOption(toolBtnList.indexOf(btn));
         });
@@ -435,14 +437,14 @@ void SubToolBar::initSaveLabel() {
     });
     int saveOptionIndex = ConfigSettings::instance()->value("save", "save_op").toInt();
     toolBtnList[saveOptionIndex]->setChecked(true);
-
+    saveLayout->addStretch();
     saveLayout->addWidget(lowQualityText);
     saveLayout->addSpacing(2);
     saveLayout->addWidget(saveQualitySlider);
     saveLayout->addSpacing(2);
     saveLayout->addWidget(highQualityText);
-    saveLayout->addSpacing(2);
-    saveLayout->addStretch();
+    saveLayout->addSpacing(10);
+
     m_saveLabel->setLayout(saveLayout);
     addWidget(m_saveLabel);
 }

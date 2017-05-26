@@ -10,7 +10,7 @@ SaveTips::SaveTips(QWidget *parent)
     m_animation = new QPropertyAnimation(this, "tipWidth");
 
     connect(m_animation, &QPropertyAnimation::valueChanged, [=](QVariant value){
-        emit tipWidthChanged(value.toInt());
+        emit tipWidthChanged(std::max(value.toInt(), this->width()));
     });
 }
 
@@ -34,9 +34,10 @@ SaveTips::~SaveTips() {
 
 void SaveTips::startAnimation() {
     m_animation->stop();
-    setTipWidth(m_tipsWidth);
-    emit tipWidthChanged(m_tipsWidth);
-    this->show();
+    m_animation->setDuration(100);
+    m_animation->setStartValue(this->width());
+    m_animation->setEndValue(m_tipsWidth);
+    m_animation->start();
 }
 
 void SaveTips::endAnimation() {

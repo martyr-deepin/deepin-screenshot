@@ -19,6 +19,7 @@ namespace {
     const QSize SAVE_BTN = QSize(21, 22);
     const QSize LIST_BTN = QSize(11, 22);
 }
+
 MajToolBar::MajToolBar(QWidget *parent)
     : QLabel(parent),
       m_isChecked(false),
@@ -31,7 +32,7 @@ MajToolBar::~MajToolBar() {}
 
 void MajToolBar::initWidgets() {
     setStyleSheet(getFileContent(":/resources/qss/majtoolbar.qss"));
-    setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
+    setFixedHeight(TOOLBAR_HEIGHT);
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     setAcceptDrops(true);
@@ -95,7 +96,7 @@ void MajToolBar::initWidgets() {
     m_baseLayout = new QHBoxLayout();
     m_baseLayout->setMargin(0);
     m_baseLayout->setSpacing(0);
-    m_baseLayout->addSpacing(6);
+    m_baseLayout->addSpacing(10);
     m_baseLayout->addWidget(saveTips);
     for (int k = 0; k < toolBtnList.length(); k++) {
         m_baseLayout->addWidget(toolBtnList[k]);
@@ -114,41 +115,10 @@ void MajToolBar::initWidgets() {
     setLayout(m_baseLayout);
 
     connect(saveTips, &SaveTips::tipWidthChanged, this,  [=](int value){
-        int num = (TOOLBAR_WIDTH - value)/(TOOLBUTTON_WIDTH + 6);
-        qDebug() << "LLPP:" << num;
-        if (num > 2) {
-            closeBtn->hide();
-            saveBtn->hide();
-            listBtn->hide();
-            colorBtn->hide();
-            textBtn->hide();
-            lineBtn->hide();
-            arrowBtn->hide();
-        }
-
-        if (num > 4) {
-            arrowBtn->show();
-        }
-
-        if (num  > 5) {
-            lineBtn->show();
-        }
-
-        if (num > 6) {
-            colorBtn->show();
-        }
-
-        if (num > 8) {
-            rectBtn->show();
-            ovalBtn->show();
-            arrowBtn->show();
-            lineBtn->show();
-            textBtn->show();
-            colorBtn->show();
-            saveBtn->show();
-            listBtn->show();
-            closeBtn->show();
-        }
+        setFixedWidth(TOOLBAR_WIDTH + value);
+        m_baseLayout->update();
+        setLayout(m_baseLayout);
+        this->updateGeometry();
     });
     connect(this, &MajToolBar::showSaveTooltip, this, [=](QString tips){
         saveTips->setSaveText(tips);

@@ -337,12 +337,13 @@ QPushButton#SaveToAutoClipboard:checked {
 }
 
 QSlider#SaveQualitySlider {
+    background-color: transparent;
     outline: none;
     margin: 0;
 }
 
 QSlider#SaveQualitySlider::groove:horizontal {
-    height: 3px;
+    height: 2px;
     position: absolute;
 }
 
@@ -413,4 +414,13 @@ QPushButton#ArrowThickLine:checked {
     outline: none;
     border: none;
     border-image: url(:/resources/images/size/line_thick_checked.png);
+}
+
+QLabel#LowQualityLabel {
+    font-size: 10px;
+    font-weight: light;
+}
+QLabel#HighQualityLabel {
+    font-size: 10px;
+    font-weight: light;
 }
