@@ -15,11 +15,10 @@ public:
 signals:
     void updatePaintColor(QColor paintColor);
 
-protected:
-    void paintEvent(QPaintEvent *);
+//protected:
+//    void paintEvent(QPaintEvent *);
 
 private:
-    bool m_isChecked;
     QColor m_bgColor;
 };
 

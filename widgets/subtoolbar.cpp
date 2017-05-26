@@ -334,22 +334,25 @@ void SubToolBar::initTextLabel() {
 
 void SubToolBar::initColorLabel() {
     m_colorLabel = new QLabel(this);
+    m_colorLabel->setStyleSheet(getFileContent(":/resources/qss/colorbtn.qss"));
     QList<ColorButton*> colorBtnList;
     QButtonGroup* colorBtnGroup = new QButtonGroup(m_colorLabel);
     colorBtnGroup->setExclusive(true);
 
     for(int i = 0; i < COLOR_NUM; i ++) {
         ColorButton* colorBtn = new ColorButton(colorIndexOf(i));
+        colorBtn->setObjectName(QString("ColorBtn%1").arg(i+1));
         colorBtnList.append(colorBtn);
         colorBtnGroup->addButton(colorBtn);
     }
 
     QHBoxLayout* colorLayout = new QHBoxLayout();
     colorLayout->setMargin(0);
-    colorLayout->setSpacing(2);
-    colorLayout->addStretch();
+    colorLayout->setSpacing(0);
+    colorLayout->addSpacing(4);
     for(int i = 0; i < colorBtnList.length(); i++) {
         colorLayout->addWidget(colorBtnList[i]);
+        colorLayout->addSpacing(1);
         connect(colorBtnList[i], &ColorButton::updatePaintColor,
                 this, &SubToolBar::currentColorChanged);
     }

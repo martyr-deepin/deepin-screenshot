@@ -111,5 +111,54 @@
         <file>resources/qss/savetips.qss</file>
         <file>resources/images/action/sizetip.png</file>
         <file>resources/qss/textbutton.qss</file>
+        <file>resources/images/color/color1_checked.png</file>
+        <file>resources/images/color/color1_hover.png</file>
+        <file>resources/images/color/color1_normal.png</file>
+        <file>resources/images/color/color2_checked.png</file>
+        <file>resources/images/color/color2_hover.png</file>
+        <file>resources/images/color/color2_normal.png</file>
+        <file>resources/images/color/color3_checked.png</file>
+        <file>resources/images/color/color3_hover.png</file>
+        <file>resources/images/color/color3_normal.png</file>
+        <file>resources/images/color/color4_checked.png</file>
+        <file>resources/images/color/color4_hover.png</file>
+        <file>resources/images/color/color4_normal.png</file>
+        <file>resources/images/color/color5_checked.png</file>
+        <file>resources/images/color/color5_hover.png</file>
+        <file>resources/images/color/color5_normal.png</file>
+        <file>resources/images/color/color6_checked.png</file>
+        <file>resources/images/color/color6_hover.png</file>
+        <file>resources/images/color/color6_normal.png</file>
+        <file>resources/images/color/color7_checked.png</file>
+        <file>resources/images/color/color7_hover.png</file>
+        <file>resources/images/color/color7_normal.png</file>
+        <file>resources/images/color/color8_checked.png</file>
+        <file>resources/images/color/color8_hover.png</file>
+        <file>resources/images/color/color8_normal.png</file>
+        <file>resources/images/color/color9_checked.png</file>
+        <file>resources/images/color/color9_hover.png</file>
+        <file>resources/images/color/color9_normal.png</file>
+        <file>resources/images/color/color10_checked.png</file>
+        <file>resources/images/color/color10_hover.png</file>
+        <file>resources/images/color/color10_normal.png</file>
+        <file>resources/images/color/color11_checked.png</file>
+        <file>resources/images/color/color11_hover.png</file>
+        <file>resources/images/color/color11_normal.png</file>
+        <file>resources/images/color/color12_checked.png</file>
+        <file>resources/images/color/color12_hover.png</file>
+        <file>resources/images/color/color12_normal.png</file>
+        <file>resources/images/color/color13_checked.png</file>
+        <file>resources/images/color/color13_hover.png</file>
+        <file>resources/images/color/color13_normal.png</file>
+        <file>resources/images/color/color14_checked.png</file>
+        <file>resources/images/color/color14_hover.png</file>
+        <file>resources/images/color/color14_normal.png</file>
+        <file>resources/images/color/color15_checked.png</file>
+        <file>resources/images/color/color15_hover.png</file>
+        <file>resources/images/color/color15_normal.png</file>
+        <file>resources/images/color/color16_checked.png</file>
+        <file>resources/images/color/color16_hover.png</file>
+        <file>resources/images/color/color16_normal.png</file>
+        <file>resources/qss/colorbtn.qss</file>
     </qresource>
 </RCC>

@@ -1,0 +1,209 @@
+ColorButton#ColorBtn1 {
+    outline: none;
+    border-image: url(:/resources/images/color/color1_normal.png);
+}
+ColorButton#ColorBtn1:hover {
+        outline: none;
+    border-image: url(:/resources/images/color/color1_hover.png);
+}
+
+ColorButton#ColorBtn1:checked {
+    outline: none;
+    border-image: url(:/resources/images/color/color1_checked.png);
+}
+
+ColorButton#ColorBtn2 {
+    outline: none;
+    border-image: url(:/resources/images/color/color2_normal.png);
+}
+ColorButton#ColorBtn2:hover {
+    outline: none;
+    border-image: url(:/resources/images/color/color2_hover.png);
+}
+
+ColorButton#ColorBtn2:checked {
+    outline: none;
+    border-image: url(:/resources/images/color/color2_checked.png);
+}
+ColorButton#ColorBtn3 {
+    outline: none;
+    border-image: url(:/resources/images/color/color3_normal.png);
+}
+ColorButton#ColorBtn3:hover {
+    outline: none;
+    border-image: url(:/resources/images/color/color3_hover.png);
+}
+
+ColorButton#ColorBtn3:checked {
+    outline: none;
+    border-image: url(:/resources/images/color/color3_checked.png);
+}
+ColorButton#ColorBtn4 {
+    outline: none;
+    border-image: url(:/resources/images/color/color4_normal.png);
+}
+ColorButton#ColorBtn4:hover {
+    outline: none;
+    border-image: url(:/resources/images/color/color4_hover.png);
+}
+
+ColorButton#ColorBtn4:checked {
+    outline: none;
+    border-image: url(:/resources/images/color/color4_checked.png);
+}
+ColorButton#ColorBtn5 {
+    outline: none;
+    border-image: url(:/resources/images/color/color5_normal.png);
+}
+ColorButton#ColorBtn5:hover {
+    outline: none;
+    border-image: url(:/resources/images/color/color5_hover.png);
+}
+
+ColorButton#ColorBtn5:checked {
+    outline: none;
+    border-image: url(:/resources/images/color/color5_checked.png);
+}
+ColorButton#ColorBtn6 {
+    outline: none;
+    border-image: url(:/resources/images/color/color6_normal.png);
+}
+ColorButton#ColorBtn6:hover {
+    outline: none;
+    border-image: url(:/resources/images/color/color6_hover.png);
+}
+
+ColorButton#ColorBtn6:checked {
+    outline: none;
+    border-image: url(:/resources/images/color/color6_checked.png);
+}
+ColorButton#ColorBtn7 {
+    outline: none;
+    border-image: url(:/resources/images/color/color7_normal.png);
+}
+ColorButton#ColorBtn7:hover {
+    outline: none;
+    border-image: url(:/resources/images/color/color7_hover.png);
+}
+
+ColorButton#ColorBtn7:checked {
+    outline: none;
+    border-image: url(:/resources/images/color/color7_checked.png);
+}
+ColorButton#ColorBtn8 {
+    outline: none;
+    border-image: url(:/resources/images/color/color8_normal.png);
+}
+ColorButton#ColorBtn8:hover {
+    outline: none;
+    border-image: url(:/resources/images/color/color8_hover.png);
+}
+
+ColorButton#ColorBtn8:checked {
+    outline: none;
+    border-image: url(:/resources/images/color/color8_checked.png);
+}
+ColorButton#ColorBtn9 {
+    outline: none;
+    border-image: url(:/resources/images/color/color9_normal.png);
+}
+ColorButton#ColorBtn9:hover {
+    outline: none;
+    border-image: url(:/resources/images/color/color9_hover.png);
+}
+
+ColorButton#ColorBtn9:checked {
+    outline: none;
+    border-image: url(:/resources/images/color/color9_checked.png);
+}
+ColorButton#ColorBtn10 {
+    outline: none;
+    border-image: url(:/resources/images/color/color10_normal.png);
+}
+ColorButton#ColorBtn10:hover {
+    outline: none;
+    border-image: url(:/resources/images/color/color10_hover.png);
+}
+
+ColorButton#ColorBtn10:checked {
+    outline: none;
+    border-image: url(:/resources/images/color/color10_checked.png);
+}
+ColorButton#ColorBtn11 {
+    outline: none;
+    border-image: url(:/resources/images/color/color11_normal.png);
+}
+ColorButton#ColorBtn11:hover {
+    outline: none;
+    border-image: url(:/resources/images/color/color11_hover.png);
+}
+
+ColorButton#ColorBtn11:checked {
+        outline: none;
+    border-image: url(:/resources/images/color/color11_checked.png);
+}
+ColorButton#ColorBtn12 {
+    outline: none;
+    border-image: url(:/resources/images/color/color12_normal.png);
+}
+ColorButton#ColorBtn12:hover {
+    outline: none;
+    border-image: url(:/resources/images/color/color12_hover.png);
+}
+
+ColorButton#ColorBtn12:checked {
+    outline: none;
+    border-image: url(:/resources/images/color/color12_checked.png);
+}
+ColorButton#ColorBtn13 {
+    outline: none;
+    border-image: url(:/resources/images/color/color13_normal.png);
+}
+ColorButton#ColorBtn13:hover {
+    outline: none;
+    border-image: url(:/resources/images/color/color13_hover.png);
+}
+
+ColorButton#ColorBtn13:checked {
+    outline: none;
+    border-image: url(:/resources/images/color/color13_checked.png);
+}
+ColorButton#ColorBtn14 {
+    outline: none;
+    border-image: url(:/resources/images/color/color14_normal.png);
+}
+ColorButton#ColorBtn14:hover {
+    outline: none;
+    border-image: url(:/resources/images/color/color14_hover.png);
+}
+
+ColorButton#ColorBtn14:checked {
+    outline: none;
+    border-image: url(:/resources/images/color/color14_checked.png);
+}
+ColorButton#ColorBtn15 {
+    outline: none;
+    border-image: url(:/resources/images/color/color15_normal.png);
+}
+ColorButton#ColorBtn15:hover {
+    outline: none;
+    border-image: url(:/resources/images/color/color15_hover.png);
+}
+
+ColorButton#ColorBtn15:checked {
+    outline: none;
+    border-image: url(:/resources/images/color/color15_checked.png);
+}
+ColorButton#ColorBtn16 {
+    outline: none;
+    border-image: url(:/resources/images/color/color16_normal.png);
+}
+ColorButton#ColorBtn16:hover {
+    outline: none;
+    border-image: url(:/resources/images/color/color16_hover.png);
+}
+
+ColorButton#ColorBtn16:checked {
+    outline: none;
+    border-image: url(:/resources/images/color/color16_checked.png);
+}

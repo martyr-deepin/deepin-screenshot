@@ -3,50 +3,44 @@
 #include <QPainter>
 #include <QDebug>
 
-const QSize BUTTON_SIZE = QSize(15, 15);
+const QSize BUTTON_SIZE = QSize(16, 16);
 const int  ELLIPSE_MARGIN = 1;
 ColorButton::ColorButton(QColor bgColor, QWidget *parent)
     : QPushButton(parent) {
     setFixedSize(BUTTON_SIZE);
     setCheckable(true);
     m_bgColor = bgColor;
-    m_isChecked = false;
-    update();
 
     connect(this, &ColorButton::clicked, this, &ColorButton::setColorBtnChecked);
 }
 
 void ColorButton::setColorBtnChecked() {
-    m_isChecked = !m_isChecked;
-    setChecked(m_isChecked);
     update();
-    if (m_isChecked) {
+    if (this->isChecked()) {
         qDebug() << "emit m_bgColor" << m_bgColor;
         emit updatePaintColor(m_bgColor);
     }
 }
 
-void ColorButton::paintEvent(QPaintEvent *) {
-    QPainter painter(this);
-    painter.setPen(QPen(QColor(Qt::transparent)));
-    painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    painter.setBrush(QBrush(QColor(m_bgColor)));
-    if (!this->isChecked()) {
-        painter.drawRect(this->rect());
-    } else {
-        QRect ellipseRect = this->rect();
-        painter.drawEllipse(QRect(ellipseRect.x() + 2, ellipseRect.y() + 2,
-                                  ellipseRect.width() - 4, ellipseRect.height() - 4));
+//void ColorButton::paintEvent(QPaintEvent *) {
+//    QPainter painter(this);
+//    painter.setPen(QPen(QColor(Qt::transparent)));
+//    painter.setRenderHints(QPainter::Antialiasing| QPainter::SmoothPixmapTransform);
+//    painter.setBrush(QBrush(QColor(m_bgColor)));
+//    if (!this->isChecked()) {
+//        painter.drawRect(QRect(2, 2, this->width() - 4, this->height() - 4));
+//        emit updatePaintColor(m_bgColor);
+//    } else {
+//        painter.drawEllipse(QRect(2, 2, this->width() - 4, this->height() - 4));
 
-        QPen pen;
-        pen.setWidth(1);
-        pen.setColor(Qt::white);
-        painter.setPen(pen);
-        painter.setBrush(QBrush(QColor(Qt::transparent)));
-        painter.drawEllipse(QRect(ellipseRect.x() + 1, ellipseRect.y() + 1,
-                                  ellipseRect.width() - 2, ellipseRect.height() - 2));
-        emit updatePaintColor(m_bgColor);
-    }
-}
+//        QPen pen;
+//        pen.setWidth(1);
+//        pen.setColor(Qt::red);
+//        painter.setPen(pen);
+//        painter.setBrush(QBrush(QColor(Qt::transparent)));
+//        painter.drawEllipse(QRect(1, 1, this->width() - 1, this->height() - 1));
+//        emit updatePaintColor(m_bgColor);
+//    }
+//}
 
 ColorButton::~ColorButton() {}
