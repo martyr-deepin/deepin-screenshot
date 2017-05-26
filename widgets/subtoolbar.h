@@ -30,6 +30,7 @@ signals:
     void showSaveTip(QString tips);
     void hideSaveTip();
     void  saveBtnPressed(int index = 0);
+    void defaultColorIndexChanged(int index);
 
 private:
     int m_lineWidth;

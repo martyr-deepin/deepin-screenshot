@@ -360,6 +360,10 @@ void SubToolBar::initColorLabel() {
     m_colorLabel->setLayout(colorLayout);
 
     addWidget(m_colorLabel);
+
+    connect(this, &SubToolBar::defaultColorIndexChanged, this, [=](int index){
+        colorBtnList[index]->setChecked(true);
+    });
 }
 
 void SubToolBar::initSaveLabel() {
@@ -461,6 +465,9 @@ void SubToolBar::switchContent(QString shapeType) {
         m_currentType = shapeType;
          emit shapeChanged();
     } else if (shapeType == "color") {
+        int defaultColorIndex = ConfigSettings::instance()->value("common",
+                                                  "color_index").toInt();
+        emit defaultColorIndexChanged(defaultColorIndex);
         setCurrentWidget(m_colorLabel);
     } else if (shapeType == "saveList") {
         setCurrentWidget(m_saveLabel);
