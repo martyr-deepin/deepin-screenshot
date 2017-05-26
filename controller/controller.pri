@@ -1,8 +1,8 @@
 HEADERS += \
-    $$PWD/menucontroller.h
+    $$PWD/menucontroller.h \
 
 SOURCES += \
-    $$PWD/menucontroller.cpp
+    $$PWD/menucontroller.cpp \
 
 RESOURCES += \
     $$PWD/resource.qrc

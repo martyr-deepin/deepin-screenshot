@@ -200,6 +200,27 @@ QPushButton#ListBtn:checked {
     border-radius: 3px;
 }
 
+QPushButton#OkBtn {
+    outline: none;
+    border-image:url(:/resources/images/action/ok_normal.png);
+}
+QPushButton#OkBtn:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.08);
+    border: solid 1px transparent;
+    border-radius: 3px;
+    border-image:url(:/resources/images/action/ok_hover.png);
+}
+QPushButton#OkBtn:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/action/ok_checked.png);
+}
+QPushButton#OkBtn:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/action/ok_checked.png);
+}
+
 QPushButton#CloseBtn {
     outline: none;
     border-image:url(:/resources/images/action/close_normal.png);

@@ -70,6 +70,9 @@ void MajToolBar::initWidgets() {
     listBtn->setObjectName("ListBtn");
     listBtn->setFixedSize(LIST_BTN);
 
+    ToolButton* okBtn = new ToolButton(this);
+    okBtn->setObjectName("OkBtn");
+
     ToolButton* closeBtn = new ToolButton();
     closeBtn->setObjectName("CloseBtn");
 
@@ -108,11 +111,14 @@ void MajToolBar::initWidgets() {
     m_baseLayout->addWidget(saveBtn);
     m_baseLayout->addSpacing(0);
     m_baseLayout->addWidget(listBtn);
+    m_baseLayout->addWidget(okBtn);
     m_baseLayout->addSpacing(BTN_SPACING);
     m_baseLayout->addWidget(closeBtn);
     m_baseLayout->addSpacing(4);
     m_baseLayout->addStretch();
     setLayout(m_baseLayout);
+
+    okBtn->hide();
 
     connect(saveTips, &SaveTips::tipWidthChanged, this,  [=](int value){
         setFixedWidth(TOOLBAR_WIDTH + value);
@@ -211,6 +217,15 @@ void MajToolBar::initWidgets() {
         emit buttonChecked(expand, "saveList");
     });
 
+    connect(this, &MajToolBar::specificedSavePath, this, [=]{
+        okBtn->show();
+        saveBtn->hide();
+        listBtn->hide();
+        this->updateGeometry();
+    });
+    connect(okBtn, &ToolButton::clicked, this, [=]{
+        emit this->saveSpecificedPath();
+    });
     connect(closeBtn, &ToolButton::clicked, this, [=](bool checked){
         Q_UNUSED(checked);
         qDebug() << "screenshot will exit!";

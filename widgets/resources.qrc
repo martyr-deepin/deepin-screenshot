@@ -160,5 +160,8 @@
         <file>resources/images/color/color16_hover.png</file>
         <file>resources/images/color/color16_normal.png</file>
         <file>resources/qss/colorbtn.qss</file>
+        <file>resources/images/action/ok_checked.png</file>
+        <file>resources/images/action/ok_hover.png</file>
+        <file>resources/images/action/ok_normal.png</file>
     </qresource>
 </RCC>

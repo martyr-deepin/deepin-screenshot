@@ -15,12 +15,22 @@
  * Implementation of interface class DBusScreenshot
  */
 
-DBusScreenshot::DBusScreenshot(const QString &service, const QString &path, const QDBusConnection &connection, QObject *parent)
-    : QDBusAbstractInterface(service, path, staticInterfaceName(), connection, parent)
+const QString SCREENSHOT_DBUS_NAME = "com.deepin.DeepinScreenshot";
+const QString SCREENSHOT_DBUS_PATH = "/com/deepin/DeepinScreenshot";
+
+DBusScreenshot::DBusScreenshot(QObject *parent)
+    : QDBusAbstractInterface(SCREENSHOT_DBUS_NAME, SCREENSHOT_DBUS_PATH,
+                             staticInterfaceName(), QDBusConnection::sessionBus(), parent)
 {
+    QDBusConnection::sessionBus().connect(this->service(), this->path(),
+    "org.freedesktop.DBus.Properties", "PropertiesChanged","sa{sv}as",
+                                          this, SLOT(__propertyChanged__(QDBusMessage)));
 }
 
 DBusScreenshot::~DBusScreenshot()
 {
+    QDBusConnection::sessionBus().disconnect(service(), path(),
+    "org.freedesktop.DBus.Properties", "PropertiesChanged", "sa{sv}as",
+                                             this, SLOT(propertyChanged(QDBusMessage)));
 }
 

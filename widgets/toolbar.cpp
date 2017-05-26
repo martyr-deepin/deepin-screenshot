@@ -59,6 +59,7 @@ ToolBar::ToolBar(QWidget *parent)
     connect(m_subToolbar, &SubToolBar::hideSaveTip, m_majToolbar, &MajToolBar::hideSaveTooltip);
     connect(this, &ToolBar::shapePressed, m_majToolbar, &MajToolBar::shapePressed);
     connect(this, &ToolBar::saveBtnPressed, m_subToolbar, &SubToolBar::saveBtnPressed);
+    connect(m_majToolbar, &MajToolBar::saveSpecificedPath, this, &ToolBar::saveSpecifiedPath);
 }
 
 bool ToolBar::isButtonChecked() {
@@ -88,6 +89,10 @@ void ToolBar::setExpand(bool expand, QString shapeType) {
 
 int ToolBar::getSaveQualityIndex() {
     return m_subToolbar->getSaveQualityIndex();
+}
+
+void ToolBar::specificedSavePath() {
+    emit m_majToolbar->specificedSavePath();
 }
 
 void ToolBar::paintEvent(QPaintEvent *) {

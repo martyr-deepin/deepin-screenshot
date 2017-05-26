@@ -33,6 +33,10 @@ DBusScreenshotService::~DBusScreenshotService()
     // destructor
 }
 
+void DBusScreenshotService::StartScreenshot() {
+    parent()->StartScreenshot();
+}
+
 void DBusScreenshotService::DelayScreenshot(qlonglong in0)
 {
     // handle method call com.deepin.DeepinScreenshot.DelayScreenshot

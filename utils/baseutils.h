@@ -1,4 +1,4 @@
-#ifndef BASEUTILS_H
+﻿#ifndef BASEUTILS_H
 #define BASEUTILS_H
 
 #include <QCursor>
@@ -33,5 +33,6 @@ int stringWidth(const QFont &f, const QString &str);
 QString     getFileContent(const QString &file);
 QColor       colorIndexOf(int index);
 int                colorIndex(QColor color);
+bool          isValidFormat(QString suffix);
 void  paintSelectedPoint(QPainter &painter, QPoint pos, QPixmap pointImg);
 #endif // BASEUTILS_H

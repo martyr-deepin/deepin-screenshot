@@ -21,10 +21,12 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     windowmanager.cpp \
     eventmonitor.cpp \
+    dbusservice/dbusscreenshotservice.cpp
 
 HEADERS  += mainwindow.h \
     windowmanager.h \
     eventmonitor.h \
+    dbusservice/dbusscreenshotservice.h
 
 RESOURCES += \
     res.qrc

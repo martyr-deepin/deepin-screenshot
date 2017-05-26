@@ -19,12 +19,15 @@ signals:
     void requestSaveScreenshot();
     void shapePressed(QString tool);
     void saveBtnPressed(int index = 0);
+    void saveSpecifiedPath();
 
 public slots:
     bool isButtonChecked();
     void setExpand(bool expand, QString shapeType);
     void showAt(QPoint pos);
     int    getSaveQualityIndex();
+    void specificedSavePath();
+
 
 protected:
     void paintEvent(QPaintEvent *);

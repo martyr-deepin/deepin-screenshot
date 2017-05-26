@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 
-#include <QApplication>
+//#include <QApplication>
 #include <QDesktopWidget>
 #include <QPainter>
 #include <QFileDialog>
@@ -10,20 +10,21 @@
 #include <QStyleFactory>
 #include <QShortcut>
 #include <QKeySequence>
+#include <QCommandLineParser>
+#include <QCommandLineOption>
+#include <DApplication>
+DWIDGET_USE_NAMESPACE
 
 namespace {
 const int RECORD_MIN_SIZE = 10;
 const int SPACING = 5;
-const int TOOLBAR_Y_SPACING = 10;
+const int TOOLBAR_Y_SPACING = 8;
 }
 
 MainWindow::MainWindow(QWidget *parent)
     : QLabel(parent)
 {
-    initDBusInterface();
-     initUI();
-     startScreenshot();
-     initShortcut();
+//     startScreenshot();
 }
 
 MainWindow::~MainWindow()
@@ -897,14 +898,105 @@ void MainWindow::fullScreenshot() {
 }
 
 void MainWindow::savePath(QString path) {
+    if (!QFileInfo(path).dir().exists()) {
+        qApp->quit();
+    }
+
+    startScreenshot();
+    m_toolBar->specificedSavePath();
+    m_specificedPath = path;
+
+    connect(m_toolBar, &ToolBar::saveSpecifiedPath, this, [=]{
+        saveSpecificedPath(m_specificedPath);
+    });
 }
+
+void MainWindow::saveSpecificedPath(QString path) {
+    QString savePath;
+    QString baseName = QFileInfo(path).baseName();
+    QString suffix = QFileInfo(path).completeSuffix();
+    if (!baseName.isEmpty()) {
+        if (isValidFormat(suffix)) {
+            savePath = path;
+        } else if (suffix.isEmpty()) {
+            savePath = path + ".png";
+        } else {
+            qWarning() << "Invalid image format! Screenshot will quit";
+            qApp->quit();
+        }
+    } else {
+        QDateTime currentDate;
+        QString currentTime =  currentDate.currentDateTime().
+                toString("yyyyMMddHHmmss");
+        savePath = path + QString(tr("DeepinScreenshot%1").arg(currentTime));
+    }
+
+    m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
+    using namespace utils;
+    m_toolBar->setVisible(false);
+    m_sizeTips->setVisible(false);
+
+    shotCurrentImg();
+    if (m_soundEffectInterface->enabled()) {
+        m_soundEffectInterface->asyncCall("PlaySystemSound", "camera-shutter");
+    }
+
+    QPixmap screenShotPix(TMP_FILE);
+    screenShotPix.save(savePath);
+    QStringList actions;
+    actions << "_open" << tr("View");
+    QVariantMap hints;
+    QString fileDir = QUrl::fromLocalFile(QFileInfo(savePath).absoluteDir().absolutePath()).toString();
+    QString filePath =  QUrl::fromLocalFile(savePath).toString();
+    QString command;
+    if (QFile("/usr/bin/dde-file-manager").exists()) {
+        command = QString("/usr/bin/dde-file-manager,%1?selectUrl=%2"
+                          ).arg(fileDir).arg(filePath);
+    } else {
+        command = QString("xdg-open,%1").arg(filePath);
+    }
+
+    hints["x-deepin-action-_open"] = command;
+
+    QString summary = QString("Picture has been saved to %1").arg(savePath);
+
+    m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
+                                summary, actions, hints, 0);
+    qApp->quit();
+}
+
 void MainWindow::delayScreenshot(int num) {
+    initDBusInterface();
+    QString summary = QString(tr("Deepin Screenshot will start after %1 second.").arg(num));
+    QStringList actions = QStringList();
+    QVariantMap hints;
+    if (num >= 2) {
+        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
+                                    summary, actions, hints, 0);
+        QTimer* timer = new QTimer;
+        timer->setSingleShot(true);
+        timer->start(1000*num);
+        connect(timer, &QTimer::timeout, this, [=]{
+            m_notifyDBInterface->CloseNotification(0);
+            initUI();
+            initShortcut();
+            this->show();
+        });
+    } else {
+        initUI();
+        initShortcut();
+        this->show();
+    }
 }
 
 void MainWindow::startScreenshot() {
     m_mouseStatus = ShotMouseStatus::Shoting;
     repaint();
     qApp->setOverrideCursor(setCursorShape("start"));
+    initDBusInterface();
+    initUI();
+    initShortcut();
+    this->show();
 }
 
 void MainWindow::showPressFeedback(int x, int y)

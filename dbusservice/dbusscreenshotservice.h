@@ -34,6 +34,7 @@ class DBusScreenshotService: public QDBusAbstractAdaptor
     Q_CLASSINFO("D-Bus Interface", "com.deepin.DeepinScreenshot")
     Q_CLASSINFO("D-Bus Introspection", ""
 "  <interface name=\"com.deepin.DeepinScreenshot\">\n"
+"    <method name=\"StartScreenshot\">\n"
 "    <method name=\"DelayScreenshot\">\n"
 "      <arg direction=\"in\" type=\"x\"/>\n"
 "    </method>\n"
@@ -52,6 +53,7 @@ public:
 
 public: // PROPERTIES
 public Q_SLOTS: // METHODS
+    void StartScreenshot();
     void DelayScreenshot(qlonglong in0);
     void FullscreenShot();
     void SavePath(const QString &in0);

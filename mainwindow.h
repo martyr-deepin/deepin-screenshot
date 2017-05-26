@@ -28,7 +28,6 @@
 #include "windowmanager.h"
 #include "eventmonitor.h"
 
-
 class MainWindow : public QLabel
 {
     Q_OBJECT
@@ -54,6 +53,8 @@ signals:
 public slots:
     void fullScreenshot();
     void savePath(QString path);
+    void saveSpecificedPath(QString path);
+
     void delayScreenshot(int num);
 //    void topWindow();
     //Indicate that this program's started by clicking desktop file.
@@ -124,7 +125,7 @@ private:
 
     bool m_isShapesWidgetExist = false;
     int m_saveIndex;
-
+    QString m_specificedPath;
     MenuController* m_menuController;
     DBusControlCenter* m_controlCenterDBInterface;
     DBusNotify* m_notifyDBInterface;

@@ -91,6 +91,15 @@ int colorIndex(QColor color) {
     return colorList.indexOf(color);
 }
 
+bool          isValidFormat(QString suffix) {
+    QStringList validFormat;
+    validFormat << "bmp" << "jpg" << "jpeg" << "png" << "pbm" << "pgm" << "xbm" << "xpm";
+    if (validFormat.contains(suffix)) {
+        return true;
+    } else {
+        return false;
+    }
+}
 void   paintSelectedPoint(QPainter &painter, QPoint pos, QPixmap pointImg) {
     painter.drawPixmap(pos, pointImg);
 }
