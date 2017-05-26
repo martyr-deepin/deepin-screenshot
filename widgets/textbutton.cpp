@@ -8,7 +8,8 @@ TextButton::TextButton(int num, QWidget *parent)
     setStyleSheet(getFileContent(":/resources/qss/textbutton.qss"));
     m_fontsize = num;
     setText(QString("%1").arg(m_fontsize));
-    setFixedHeight(14);
+
+     setFixedSize(20, 22);
     setCheckable(true);
 
     connect(this, &TextButton::clicked, this, [=]{

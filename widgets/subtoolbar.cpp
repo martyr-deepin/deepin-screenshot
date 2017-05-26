@@ -19,7 +19,7 @@ DWIDGET_USE_NAMESPACE
 namespace {
     const int TOOLBAR_HEIGHT = 28;
     const int TOOLBAR_WIDTH = 280;
-    const int BUTTON_SPACING = 3;
+    const int BUTTON_SPACING = 12;
     const int COLOR_NUM = 16;
 }
 
@@ -92,18 +92,20 @@ void SubToolBar::initRectLabel() {
 
     QHBoxLayout* rectLayout = new QHBoxLayout();
     rectLayout->setMargin(0);
-    rectLayout->setSpacing(4);
-    rectLayout->addSpacing(4);
+    rectLayout->setSpacing(0);
+    rectLayout->addSpacing(6);
     for (int i = 0; i < btnList.length(); i++) {
         rectLayout->addWidget(btnList[i]);
+        rectLayout->addSpacing(BUTTON_SPACING);
         connect(btnList[i], &ToolButton::clicked, this, [=]{
                 ConfigSettings::instance()->setValue(m_currentType, "linewidth_index", i);
         });
     }
-    rectLayout->addSpacing(2);
+    rectLayout->addSpacing(9.5);
     rectLayout->addWidget(vSeperatorLine);
-    rectLayout->addSpacing(2);
+    rectLayout->addSpacing(24);
     rectLayout->addWidget(blurBtn);
+    rectLayout->addSpacing(BUTTON_SPACING);
     rectLayout->addWidget(mosaicBtn);
     rectLayout->addStretch();
     m_rectLabel->setLayout(rectLayout);
@@ -157,9 +159,11 @@ void SubToolBar::initArrowLabel() {
     QButtonGroup* styleBtnGroup = new QButtonGroup;
     styleBtnGroup->setExclusive(true);
     ToolButton*  lineBtn = new ToolButton();
+    lineBtn->setFixedSize(26, 22);
     lineBtn->setObjectName("LineBtn"); 
     styleBtnGroup->addButton(lineBtn, 0);
     ToolButton* arrowBtn = new ToolButton();
+    arrowBtn->setFixedSize(26, 22);
     arrowBtn->setObjectName("ArrowBtn");
     arrowBtn->setChecked(true);
     styleBtnGroup->addButton(arrowBtn, 1);
@@ -175,10 +179,11 @@ void SubToolBar::initArrowLabel() {
     arrowBtnList[arrowWidthIndex+3]->setChecked(true);
     QHBoxLayout* arrowLayout = new QHBoxLayout();
     arrowLayout->setMargin(0);
-    arrowLayout->setSpacing(2);
-    arrowLayout->addSpacing(4);
+    arrowLayout->setSpacing(BUTTON_SPACING);
+    arrowLayout->addSpacing(6);
     for (int j = 0; j < arrowBtnList.length(); j++) {
         arrowLayout->addWidget(arrowBtnList[j]);
+//        arrowLayout->addSpacing(BUTTON_SPACING);
         connect(arrowBtnList[j], &ToolButton::clicked, this, [=]{
             if (j < 3) {
                  ConfigSettings::instance()->setValue("arrow", "linewidth_index", j);
@@ -187,11 +192,10 @@ void SubToolBar::initArrowLabel() {
             }
         });
     }
-    arrowLayout->addSpacing(2);
+    arrowLayout->addSpacing(9.5);
     arrowLayout->addWidget(vSeperatorLine);
-    arrowLayout->addSpacing(2);
+    arrowLayout->addSpacing(12);
     arrowLayout->addWidget(lineBtn);
-    arrowLayout->addSpacing(2);
     arrowLayout->addWidget(arrowBtn);
     arrowLayout->addStretch();
     m_arrowLabel->setLayout(arrowLayout);
@@ -271,10 +275,11 @@ void SubToolBar::initLineLabel() {
 
     QHBoxLayout* lineLayout = new QHBoxLayout();
     lineLayout->setMargin(0);
-    lineLayout->setSpacing(2);
-    lineLayout->addSpacing(4);
+    lineLayout->setSpacing(0);
+    lineLayout->addSpacing(6);
     for(int k = 0; k < btnList.length(); k++) {
         lineLayout->addWidget(btnList[k]);
+        lineLayout->addSpacing(BUTTON_SPACING);
         connect(btnList[k], &ToolButton::clicked, this, [=]{
             ConfigSettings::instance()->setValue("line", "linewidth_index", k);
         });
@@ -310,10 +315,14 @@ void SubToolBar::initTextLabel() {
     QHBoxLayout* textLayout = new QHBoxLayout();
     textLayout->setMargin(0);
     textLayout->setSpacing(0);
-    textLayout->addSpacing(4);
+    textLayout->addSpacing(6);
     for(int k = 0; k < textButtonList.length(); k++) {
         textLayout->addWidget(textButtonList[k]);
-        textLayout->addSpacing(4);
+        if (k == 0) {
+            textLayout->addSpacing(2);
+        } else {
+            textLayout->addSpacing(5);
+        }
         if (fontSizeList[k] == defaultFontSize) {
             textButtonList[k]->setChecked(true);
         }

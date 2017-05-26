@@ -7,11 +7,22 @@ TextButton {
 }
 
 TextButton:hover {
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.08);
     outline: none;
-    color: #303030;
+    color: #000000;
     font-size: 12px;
     font-weight: light;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+TextButton:checked:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    outline: none;
+    color: #2ca7f8;
+    font-size: 12px;
+    font-weight: light;
+    border: 1px solid transparent;
+    border-radius: 4px;
 }
 
 TextButton:checked {
