@@ -8,8 +8,6 @@ namespace {
     const int TOOLBAR_HEIGHT = 28;
     const int TOOLBAR_WIDTH = 280;
     const int BUTTON_SPACING = 3;
-    const int TOOLBAR_BG_HEIGHT = 30;
-    const int TOOLBAR_BG_WIDTH = 282;
 }
 
 ToolBar::ToolBar(QWidget *parent)
@@ -18,7 +16,7 @@ ToolBar::ToolBar(QWidget *parent)
 {
     setObjectName("ToolBar");
     setStyleSheet(getFileContent(":/resources/qss/toolbar.qss"));
-    setFixedSize(TOOLBAR_BG_WIDTH, TOOLBAR_BG_HEIGHT);
+    setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
 
     m_hSeperatorLine = new QLabel(this);
     m_hSeperatorLine->setObjectName("HorSeperatorLine");
@@ -72,15 +70,15 @@ void ToolBar::setExpand(bool expand, QString shapeType) {
 
     if (expand) {
         m_isChecked = true;
-        m_bgLabel->setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT*2);
-        setFixedSize(TOOLBAR_BG_WIDTH, TOOLBAR_BG_HEIGHT*2);;
+        m_bgLabel->setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT*2+1);
+        setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT*2+1);;
         m_hSeperatorLine->show();
         m_subToolbar->show();
         m_bgLabel->update();
     } else {
         m_isChecked = false;
         m_bgLabel->setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
-        setFixedSize(TOOLBAR_BG_WIDTH, TOOLBAR_BG_HEIGHT);;
+        setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);;
         m_hSeperatorLine->hide();
         m_subToolbar->hide();
         m_bgLabel->update();
