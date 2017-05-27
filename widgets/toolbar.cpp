@@ -11,11 +11,14 @@ namespace {
 }
 
 ToolBar::ToolBar(QWidget *parent)
-    : QLabel(parent),
+    :DBlurEffectWidget(parent),
       m_isChecked(false)
 {
-    setObjectName("ToolBar");
     setStyleSheet(getFileContent(":/resources/qss/toolbar.qss"));
+    setBlurRectXRadius(3);
+    setBlurRectYRadius(3);
+    setRadius(30);
+    setMaskColor(Qt::white);
     setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
 
     m_hSeperatorLine = new QLabel(this);
@@ -95,16 +98,18 @@ void ToolBar::specificedSavePath() {
     emit m_majToolbar->specificedSavePath();
 }
 
-void ToolBar::paintEvent(QPaintEvent *) {
+void ToolBar::paintEvent(QPaintEvent *e) {
+    DBlurEffectWidget::paintEvent(e);
+
     QPainter painter(this);
     painter.setPen(QColor(0, 0, 0, 25));
     painter.setRenderHint(QPainter::Antialiasing);
     QRectF rect(0, 0, this->width() -1, this->height() - 1);
 
-    painter.setBrush(QColor(255, 255, 255, 204));
+    painter.setBrush(QColor(255, 255, 255, 154));
     painter.drawRoundedRect(rect.translated(0.5, 0.5), 3, 3, Qt::AbsoluteSize);
-
 }
+
 void ToolBar::showAt(QPoint pos) {
     if (!isVisible())
         show();

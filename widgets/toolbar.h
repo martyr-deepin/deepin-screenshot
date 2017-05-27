@@ -3,11 +3,16 @@
 
 #include <QLabel>
 #include <QPainter>
+#include <DBlurEffectWidget>
+
+#include <QLabel>
+#include <QDebug>
 
 #include "majtoolbar.h"
 #include "subtoolbar.h"
 
-class ToolBar : public QLabel {
+DWIDGET_USE_NAMESPACE
+class ToolBar : public DBlurEffectWidget {
     Q_OBJECT
 public:
     ToolBar(QWidget* parent = 0);
@@ -30,7 +35,7 @@ public slots:
 
 
 protected:
-    void paintEvent(QPaintEvent *);
+    void paintEvent(QPaintEvent *e);
 
 private:
     MajToolBar* m_majToolbar;

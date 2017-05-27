@@ -31,7 +31,7 @@ SubToolBar::SubToolBar(QWidget *parent)
 }
 
 void SubToolBar::initWidget() {
-    setObjectName("SubToolBar");
+//    setObjectName("SubToolBar");
     setStyleSheet(getFileContent(":/resources/qss/subtoolbar.qss"));
     setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
 
