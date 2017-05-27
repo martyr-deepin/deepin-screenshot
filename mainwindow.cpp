@@ -128,7 +128,6 @@ void MainWindow::initUI() {
 void MainWindow::initDBusInterface() {
     m_controlCenterDBInterface = new DBusControlCenter(this);
     m_notifyDBInterface = new DBusNotify(this);
-    m_soundEffectInterface = new DBusSoundEffect(this);
     m_hotZoneInterface = new DBusZone(this);
 }
 
@@ -937,9 +936,6 @@ void MainWindow::saveSpecificedPath(QString path) {
     m_sizeTips->setVisible(false);
 
     shotCurrentImg();
-    if (m_soundEffectInterface->enabled()) {
-        m_soundEffectInterface->asyncCall("PlaySystemSound", "camera-shutter");
-    }
 
     QPixmap screenShotPix(TMP_FILE);
     screenShotPix.save(savePath);
@@ -1148,16 +1144,10 @@ void MainWindow::saveScreenshot() {
 
     if (saveIndex == 2) {
         screenShotPix.save(fileName, "PNG");
-        if (m_soundEffectInterface->enabled()) {
-            m_soundEffectInterface->asyncCall("PlaySystemSound", "camera-shutter");
-        }
     } else if (saveOption != QStandardPaths::TempLocation || fileName.isEmpty()) {
         fileName = QString("%1/DeepinScreenshot%2.png").arg(
                     QStandardPaths::writableLocation(saveOption)).arg(currentTime);
         screenShotPix.save(fileName, "PNG");
-        if (m_soundEffectInterface->enabled()) {
-            m_soundEffectInterface->asyncCall("PlaySystemSound", "camera-shutter");
-        }
     }
 
     if (copyToClipboard) {
