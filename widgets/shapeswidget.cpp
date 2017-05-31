@@ -1208,39 +1208,6 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         }
     }
 
-    QPixmap resizePointImg(":/resources/images/size/resize_handle_big.png");
-    if (m_selectedShape.type == "arrow" && m_selectedShape.points.length() == 2) {
-        paintImgPoint(painter, m_selectedShape.points[0], resizePointImg);
-        paintImgPoint(painter, m_selectedShape.points[1], resizePointImg);
-    } else if (m_selectedShape.type != "text") {
-        if (m_selectedShape.mainPoints[0] != QPointF(0, 0) || m_selectedShape.type == "arrow") {
-            for ( int i = 0; i < m_selectedShape.mainPoints.length(); i ++) {
-                paintImgPoint(painter, m_selectedShape.mainPoints[i], resizePointImg);
-            }
-
-            FourPoints anotherFPoints = getAnotherFPoints(m_selectedShape.mainPoints);
-            for (int j = 0; j < anotherFPoints.length(); j++) {
-                paintImgPoint(painter, anotherFPoints[j], resizePointImg);
-            }
-
-            QPointF rotatePoint = getRotatePoint(m_selectedShape.mainPoints[0],
-                    m_selectedShape.mainPoints[1], m_selectedShape.mainPoints[2],
-                    m_selectedShape.mainPoints[3]);
-            QPointF middlePoint((m_selectedShape.mainPoints[0].x() +
-                    m_selectedShape.mainPoints[2].x())/2,
-                    (m_selectedShape.mainPoints[0].y() +
-                    m_selectedShape.mainPoints[2].y())/2);
-
-            painter.setPen(QColor("#01bdff"));
-            painter.drawLine(rotatePoint, middlePoint);
-            QPixmap rotatePointImg(":/resources/images/size/rotate.png");
-            paintImgPoint(painter, rotatePoint, rotatePointImg, false);
-            if (m_selectedShape.type == "oval" || m_selectedShape.type == "line") {
-                paintRect(painter,  m_selectedShape.mainPoints, -1);
-            }
-        }
-    }
-
     if (m_hoveredShape.mainPoints[0] != QPointF(0, 0) ||
             m_hoveredShape.points.length()!=0) {
         pen.setWidth(1);
@@ -1259,6 +1226,43 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     } else {
         qDebug() << "hoveredShape.type:" << m_hoveredShape.type;
     }
+
+    QPixmap resizePointImg(":/resources/images/size/resize_handle_big.png");
+    if (m_selectedShape.type == "arrow" && m_selectedShape.points.length() == 2) {
+        paintImgPoint(painter, m_selectedShape.points[0], resizePointImg);
+        paintImgPoint(painter, m_selectedShape.points[1], resizePointImg);
+    } else if (m_selectedShape.type != "text") {
+        if (m_selectedShape.mainPoints[0] != QPointF(0, 0) || m_selectedShape.type == "arrow") {
+
+            QPointF rotatePoint = getRotatePoint(m_selectedShape.mainPoints[0],
+                    m_selectedShape.mainPoints[1], m_selectedShape.mainPoints[2],
+                    m_selectedShape.mainPoints[3]);
+            QPointF middlePoint((m_selectedShape.mainPoints[0].x() +
+                    m_selectedShape.mainPoints[2].x())/2,
+                    (m_selectedShape.mainPoints[0].y() +
+                    m_selectedShape.mainPoints[2].y())/2);
+
+            painter.setPen(QColor("#01bdff"));
+            painter.drawLine(rotatePoint, middlePoint);
+            QPixmap rotatePointImg(":/resources/images/size/rotate.png");
+            paintImgPoint(painter, rotatePoint, rotatePointImg, false);
+
+            for ( int i = 0; i < m_selectedShape.mainPoints.length(); i ++) {
+                paintImgPoint(painter, m_selectedShape.mainPoints[i], resizePointImg);
+            }
+
+            FourPoints anotherFPoints = getAnotherFPoints(m_selectedShape.mainPoints);
+            for (int j = 0; j < anotherFPoints.length(); j++) {
+                paintImgPoint(painter, anotherFPoints[j], resizePointImg);
+            }
+
+            if (m_selectedShape.type == "oval" || m_selectedShape.type == "line") {
+                paintRect(painter,  m_selectedShape.mainPoints, -1);
+            }
+        }
+    }
+
+
 }
 
 bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
