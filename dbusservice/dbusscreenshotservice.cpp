@@ -43,6 +43,18 @@ void DBusScreenshotService::DelayScreenshot(qlonglong in0)
     parent()->DelayScreenshot(in0);
 }
 
+void DBusScreenshotService::NoNotify()
+{
+    // handle method call com.deepin.DeepinScreenshot.NoNotify
+    parent()->NoNotify();
+}
+
+void DBusScreenshotService::TopWindow()
+{
+    // handle method call com.deepin.DeepinScreenshot.TopWindow
+    parent()->TopWindow();
+}
+
 void DBusScreenshotService::FullscreenShot()
 {
     // handle method call com.deepin.DeepinScreenshot.FullscreenShot

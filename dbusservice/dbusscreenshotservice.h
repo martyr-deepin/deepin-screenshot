@@ -36,6 +36,8 @@ class DBusScreenshotService: public QDBusAbstractAdaptor
 "  <interface name=\"com.deepin.DeepinScreenshot\">\n"
 "    <method name=\"StartScreenshot\">\n"
 "    <method name=\"DelayScreenshot\">\n"
+"    <method name=\"NoNotify\">\n"
+"    <method name=\"TopWindow\">\n"
 "      <arg direction=\"in\" type=\"x\"/>\n"
 "    </method>\n"
 "    <method name=\"FullscreenShot\"/>\n"
@@ -55,6 +57,8 @@ public: // PROPERTIES
 public Q_SLOTS: // METHODS
     void StartScreenshot();
     void DelayScreenshot(qlonglong in0);
+    void NoNotify();
+    void TopWindow();
     void FullscreenShot();
     void SavePath(const QString &in0);
 Q_SIGNALS: // SIGNALS

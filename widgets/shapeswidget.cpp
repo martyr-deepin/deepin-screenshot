@@ -119,8 +119,6 @@ bool ShapesWidget::clickedOnShapes(QPointF pos) {
         return onShapes;
 }
 
-
-
     //TODO: selectUnique
 bool ShapesWidget::clickedOnRect(FourPoints rectPoints, QPointF pos, bool isBlurMosaic) {
     m_isSelected = false;

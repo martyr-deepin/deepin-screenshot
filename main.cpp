@@ -37,8 +37,8 @@ int main(int argc, char *argv[])
                                                                              "Specifiy a path to save the screenshot.");
      QCommandLineOption prohibitNotifyOption(QStringList() << "n" << "no-notification",
                                                                               "Don't send notifications.");
-     QCommandLineOption iconOption(QStringList() << "i" << "icon",
-                                                                           "Indicate that this program's started by clicking.");
+//     QCommandLineOption iconOption(QStringList() << "i" << "icon",
+//                                                                           "Indicate that this program's started by clicking.");
 
      QCommandLineParser cmdParser;
      cmdParser.setApplicationDescription("deepin-screenshot");
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
      cmdParser.addOption(topWindowOption);
      cmdParser.addOption(savePathOption);
      cmdParser.addOption(prohibitNotifyOption);
-     cmdParser.addOption(iconOption);
+//     cmdParser.addOption(iconOption);
      cmdParser.process(a);
 
      MainWindow w;
@@ -76,10 +76,12 @@ int main(int argc, char *argv[])
             w.fullScreenshot();
         } else if (cmdName == "w" || cmdName == "top-window") {
             qDebug() << "screenshot topWindow";
+            w.topWindow();
         } else if (cmdName == "s" || cmdName == "save-path") {
             w.savePath(argument);
         } else if (cmdName == "n" || cmdName == "no-notification") {
             qDebug() << "screenshot no notify!";
+            w.noNotify();
         } else {
             w.startScreenshot();
         }

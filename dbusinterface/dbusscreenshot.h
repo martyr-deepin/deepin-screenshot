@@ -66,7 +66,16 @@ public Q_SLOTS: // METHODS
         argumentList << QVariant::fromValue(in0);
         return asyncCallWithArgumentList(QStringLiteral("DelayScreenshot"), argumentList);
     }
-
+    inline QDBusPendingReply<> NoNotify()
+    {
+        QList<QVariant> argumentList;
+        return asyncCallWithArgumentList(QStringLiteral("NoNotify"), argumentList);
+    }
+    inline QDBusPendingReply<> TopWindow()
+    {
+        QList<QVariant> argumentList;
+        return asyncCallWithArgumentList(QStringLiteral("TopWindow"), argumentList);
+    }
     inline QDBusPendingReply<> FullscreenShot()
     {
         QList<QVariant> argumentList;

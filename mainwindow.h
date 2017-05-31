@@ -53,9 +53,9 @@ public slots:
     void fullScreenshot();
     void savePath(QString path);
     void saveSpecificedPath(QString path);
-
     void delayScreenshot(int num);
-//    void topWindow();
+    void noNotify();
+    void topWindow();
     //Indicate that this program's started by clicking desktop file.
 //    void startByIcon();
 
@@ -111,6 +111,7 @@ private:
     bool m_isPressButton;
     bool m_isReleaseButton;
     bool m_isShiftPressed = false;
+    bool m_noNotify = false;
 
     QString m_selectAreaName;
     QPixmap m_resizeBigPix;

@@ -894,6 +894,115 @@ void MainWindow::resizeDirection(ResizeDirection direction,
 }
 
 void MainWindow::fullScreenshot() {
+    m_mouseStatus = ShotMouseStatus::Shoting;
+    repaint();
+    qApp->setOverrideCursor(setCursorShape("start"));
+    initDBusInterface();
+
+    setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::Tool /*| Qt::WindowStaysOnTopHint*/);
+    setMouseTracking(true);   // make MouseMove can response
+    this->setFocus();
+    m_configSettings =  ConfigSettings::instance();
+    installEventFilter(this);
+    m_hotZoneInterface->asyncCall("EnableZoneDetected", false);
+
+    QPoint curPos = this->cursor().pos();
+     m_screenNum = qApp->desktop()->screenNumber(curPos);
+     QList<QScreen*> screenList = qApp->screens();
+     if (m_screenNum != 0 && m_screenNum < screenList.length()) {
+        m_backgroundRect = screenList[m_screenNum]->geometry();
+     } else {
+         m_backgroundRect =  qApp->primaryScreen()->geometry();
+     }
+     qDebug() << "this screen geometry:" << m_screenNum << m_backgroundRect;
+     this->move(m_backgroundRect.x(), m_backgroundRect.y());
+     this->setFixedSize(m_backgroundRect.size());
+     shotFullScreen();
+
+    m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
+    QDateTime currentDate;
+    using namespace utils;
+    QPixmap screenShotPix(TMP_FULLSCREEN_FILE);
+    QString currentTime =  currentDate.currentDateTime().
+            toString("yyyyMMddHHmmss");
+    QString fileName = "";
+    QStandardPaths::StandardLocation saveOption = QStandardPaths::TempLocation;
+    bool copyToClipboard = false;
+    int saveIndex =  ConfigSettings::instance()->value(
+                "save", "save_op").toInt();
+    switch (saveIndex) {
+    case 0: {
+        saveOption = QStandardPaths::DesktopLocation;
+        break;
+    }
+    case 1: {
+        saveOption = QStandardPaths::PicturesLocation;
+        break;
+    }
+    case 2: {
+        this->hide();
+        QFileDialog fileDialog;
+        QString  lastFileName = QString("%1/DeepinScreenshot%2.png").arg(QStandardPaths::writableLocation(
+                                                                             QStandardPaths::PicturesLocation)).arg(currentTime);
+        fileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,  tr(""));
+        if ( !fileName.endsWith(".png")) {
+            fileName = fileName + ".png";
+        }
+        break;
+    }
+    case 3: {
+        copyToClipboard = true;
+        break;
+    }
+    case 4: {
+        copyToClipboard = true;
+        saveOption = QStandardPaths::PicturesLocation;
+        break;
+    }
+    default:
+        break;
+    }
+
+    if (saveIndex == 2) {
+        screenShotPix.save(fileName, "PNG");
+    } else if (saveOption != QStandardPaths::TempLocation || fileName.isEmpty()) {
+        fileName = QString("%1/DeepinScreenshot%2.png").arg(
+                    QStandardPaths::writableLocation(saveOption)).arg(currentTime);
+        screenShotPix.save(fileName, "PNG");
+    }
+
+    if (copyToClipboard) {
+        Q_ASSERT(!screenShotPix.isNull());
+        QClipboard* cb = qApp->clipboard();
+        cb->setPixmap(screenShotPix, QClipboard::Clipboard);
+    }
+
+    QStringList actions;
+    actions << "_open" << tr("View");
+    QVariantMap hints;
+    QString fileDir = QUrl::fromLocalFile(QFileInfo(fileName).absoluteDir().absolutePath()).toString();
+    QString filePath =  QUrl::fromLocalFile(fileName).toString();
+    QString command;
+    if (QFile("/usr/bin/dde-file-manager").exists()) {
+        command = QString("/usr/bin/dde-file-manager,%1?selectUrl=%2"
+                          ).arg(fileDir).arg(filePath);
+    } else {
+        command = QString("xdg-open,%1").arg(filePath);
+    }
+
+    hints["x-deepin-action-_open"] = command;
+
+    QString summary = QString("Picture has been saved to %1").arg(fileName);
+    if (fileName != ".png") {
+        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
+                                    summary, actions, hints, 0);
+    }
+
+    //Wait notify to exit!;
+    QTimer::singleShot(4000, this, [=]{
+        m_notifyDBInterface->CloseNotification(0);
+        qApp->quit();
+    });
 }
 
 void MainWindow::savePath(QString path) {
@@ -983,6 +1092,38 @@ void MainWindow::delayScreenshot(int num) {
         initShortcut();
         this->show();
     }
+}
+
+void MainWindow::noNotify() {
+    m_controlCenterDBInterface = new DBusControlCenter(this);
+    m_hotZoneInterface = new DBusZone(this);
+    m_noNotify = true;
+    initUI();
+    initShortcut();
+    this->show();
+}
+
+void MainWindow::topWindow() {
+    initDBusInterface();
+    if (m_screenNum == 0) {
+        QList<xcb_window_t> windows = m_windowManager->getWindows();
+        for (int i = 0; i < windows.length(); i++) {
+            m_windowRects.append(m_windowManager->adjustRectInScreenArea(
+                                     m_windowManager->getWindowRect(windows[i])));
+        }
+        m_recordX = m_windowRects[0].x;
+        m_recordY = m_windowRects[0].y;
+        m_recordWidth = m_windowRects[0].width;
+        m_recordHeight = m_windowRects[0].height;
+    } else {
+        m_recordX = m_backgroundRect.x();
+        m_recordY = m_backgroundRect.y();
+        m_recordWidth = m_backgroundRect.width();
+        m_recordHeight = m_backgroundRect.height();
+    }
+    initUI();
+    shotCurrentImg();
+    saveScreenshot();
 }
 
 void MainWindow::startScreenshot() {
@@ -1173,11 +1314,16 @@ void MainWindow::saveScreenshot() {
     hints["x-deepin-action-_open"] = command;
 
    QString summary = QString("Picture has been saved to %1").arg(fileName);
-   if (fileName != ".png") {
+   if (fileName != ".png" && !m_noNotify) {
        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                summary, actions, hints, 0);
+       QTimer::singleShot(4000, this, [=]{
+             m_notifyDBInterface->CloseNotification(0);
+             qApp->quit();
+       });
+   } else {
+        qApp->quit();
    }
-    qApp->quit();
 }
 
 void MainWindow::reloadImage(QString effect) {
