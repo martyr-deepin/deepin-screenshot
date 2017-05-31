@@ -1267,7 +1267,7 @@ void MainWindow::shotCurrentImg() {
 
     QPixmap tmpImg(TMP_FULLSCREEN_FILE);
     qDebug() << "shotFULLSCREENSHOT" << tmpImg.size();
-    tmpImg.copy(QRect(m_recordX, m_recordY, m_recordWidth, m_recordHeight));
+    tmpImg = tmpImg.copy(QRect(m_recordX, m_recordY, m_recordWidth, m_recordHeight));
     tmpImg.save(TMP_FILE, "png");
 }
 
