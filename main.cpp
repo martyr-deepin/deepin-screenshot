@@ -27,18 +27,18 @@ int main(int argc, char *argv[])
 
 
 
-     QCommandLineOption  delayOption(QStringList() << "d" << "delay <NUM>",
-                                                                             "Take a screenshot after NUM seconds.");
+     QCommandLineOption  delayOption(QStringList() << "d" << "delay",
+                                                                             "Take a screenshot after NUM seconds.", "NUM");
      QCommandLineOption fullscreenOption(QStringList() << "f" << "fullscreen",
                                                                                 "Take a screenshot the whole screen.");
      QCommandLineOption topWindowOption(QStringList() << "w" << "top-window",
-                                                                             "Take a screenshot of the most top window");
-     QCommandLineOption savePathOption(QStringList() << "s" << "save-path <PATH>",
-                                                                             "Specifiy a path to save the screenshot.");
+                                                                             "Take a screenshot of the most top window.");
+     QCommandLineOption savePathOption(QStringList() << "s" << "save-path",
+                                                                             "Specifiy a path to save the screenshot.", "PATH");
      QCommandLineOption prohibitNotifyOption(QStringList() << "n" << "no-notification",
                                                                               "Don't send notifications.");
-//     QCommandLineOption iconOption(QStringList() << "i" << "icon",
-//                                                                           "Indicate that this program's started by clicking.");
+     QCommandLineOption iconOption(QStringList() << "i" << "icon",
+                                                                           "Indicate that this program's started by clicking.");
 
      QCommandLineParser cmdParser;
      cmdParser.setApplicationDescription("deepin-screenshot");
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
      cmdParser.addOption(topWindowOption);
      cmdParser.addOption(savePathOption);
      cmdParser.addOption(prohibitNotifyOption);
-//     cmdParser.addOption(iconOption);
+     cmdParser.addOption(iconOption);
      cmdParser.process(a);
 
      MainWindow w;
@@ -59,30 +59,26 @@ int main(int argc, char *argv[])
     if (!conn.registerService("com.deepin.DeepinScreenshot") ||
             !conn.registerObject("/com/deepin/DeepinScreenshot", &w)) {
         qDebug() << "deepin-screenshot is running!";
-
         a.exit(0);
     } else {
-        const QStringList cmdNames = cmdParser.optionNames();
-        const QStringList args = cmdParser.positionalArguments();
-        QString cmdName,  argument;
-        qDebug() << "cmd" << cmdNames << args;
-        if (cmdNames.length() >= 1)
-            cmdName = cmdNames[0];
-        if (args.length() >= 1)
-            argument = args[0];
-        if (cmdName == "d" || cmdName == "delay") {
-               w.delayScreenshot(argument.toInt());
-        } else if (cmdName == "f" || cmdName == "fullscreen") {
+        qDebug() << cmdParser.isSet(delayOption) << cmdParser.value(delayOption);
+
+        if (cmdParser.isSet(delayOption)) {
+              qDebug() << "Cmd delayScreenshot";
+               w.delayScreenshot(cmdParser.value(delayOption).toInt());
+        } else if (cmdParser.isSet(fullscreenOption)) {
             w.fullScreenshot();
-        } else if (cmdName == "w" || cmdName == "top-window") {
+        } else if (cmdParser.isSet(topWindowOption)) {
             qDebug() << "screenshot topWindow";
             w.topWindow();
-        } else if (cmdName == "s" || cmdName == "save-path") {
-            w.savePath(argument);
-        } else if (cmdName == "n" || cmdName == "no-notification") {
+        } else if (cmdParser.isSet(savePathOption)) {
+            w.savePath(cmdParser.value(savePathOption));
+        } else if (cmdParser.isSet(prohibitNotifyOption)) {
             qDebug() << "screenshot no notify!";
             w.noNotify();
-        } else {
+        } else if (cmdParser.isSet(iconOption)) {
+            w.startScreenshot();
+        }  else {
             w.startScreenshot();
         }
     }

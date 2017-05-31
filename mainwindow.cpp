@@ -230,8 +230,15 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
     }
 
     if (event->type() == QEvent::MouseButtonDblClick) {
-        saveScreenshot();
+        if (m_specificedPath.isEmpty()) {
+            saveScreenshot();
+            qDebug() << "saveScreenshotPath:" << m_specificedPath;
+        } else {
+            qDebug() << "saveSpecificedPath:" << m_specificedPath;
+            saveSpecificedPath(m_specificedPath);
+        }
     }
+
     bool needRepaint = false;
 
     if (event->type() == QEvent::KeyPress) {
@@ -1062,9 +1069,8 @@ void MainWindow::delayScreenshot(int num) {
                                     summary, actions, hints, 0);
         QTimer* timer = new QTimer;
         timer->setSingleShot(true);
-        timer->start(1000*num);
+        timer->start(1000*num + 3000);
         connect(timer, &QTimer::timeout, this, [=]{
-            m_notifyDBInterface->CloseNotification(0);
             initUI();
             initShortcut();
             this->show();
@@ -1087,6 +1093,7 @@ void MainWindow::noNotify() {
 
 void MainWindow::topWindow() {
     initDBusInterface();
+    initUI();
     if (m_screenNum == 0) {
         QList<xcb_window_t> windows = m_windowManager->getWindows();
         for (int i = 0; i < windows.length(); i++) {
@@ -1103,9 +1110,92 @@ void MainWindow::topWindow() {
         m_recordWidth = m_backgroundRect.width();
         m_recordHeight = m_backgroundRect.height();
     }
-    initUI();
-    shotCurrentImg();
-    saveScreenshot();
+
+    using namespace utils;
+    QPixmap screenShotPix = QPixmap(TMP_FULLSCREEN_FILE).copy(m_recordX, m_recordY,
+                                                              m_recordWidth, m_recordHeight);
+    qDebug() << "screenShotPix" << screenShotPix.size();
+    QDateTime currentDate;
+    QString currentTime =  currentDate.currentDateTime().
+            toString("yyyyMMddHHmmss");
+    QString fileName = "";
+    QStandardPaths::StandardLocation saveOption = QStandardPaths::TempLocation;
+    bool copyToClipboard = false;
+    int saveIndex =  ConfigSettings::instance()->value(
+                                   "save", "save_op").toInt();
+    switch (saveIndex) {
+    case 0: {
+        saveOption = QStandardPaths::DesktopLocation;
+        break;
+    }
+    case 1: {
+        saveOption = QStandardPaths::PicturesLocation;
+        break;
+    }
+    case 2: {
+        this->hide();
+        QFileDialog fileDialog;
+        QString  lastFileName = QString("%1/DeepinScreenshot%2.png").arg(QStandardPaths::writableLocation(
+                                                                            QStandardPaths::PicturesLocation)).arg(currentTime);
+        fileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,  tr(""));
+        if ( !fileName.endsWith(".png")) {
+            fileName = fileName + ".png";
+        }
+        break;
+    }
+    case 3: {
+        copyToClipboard = true;
+        break;
+    }
+    case 4: {
+        copyToClipboard = true;
+        saveOption = QStandardPaths::PicturesLocation;
+        break;
+    }
+    default:
+        break;
+    }
+
+    if (saveIndex == 2) {
+        screenShotPix.save(fileName, "PNG");
+    } else if (saveOption != QStandardPaths::TempLocation || fileName.isEmpty()) {
+        fileName = QString("%1/DeepinScreenshot%2.png").arg(
+                    QStandardPaths::writableLocation(saveOption)).arg(currentTime);
+        screenShotPix.save(fileName, "PNG");
+    }
+
+    if (copyToClipboard) {
+        Q_ASSERT(!screenShotPix.isNull());
+        QClipboard* cb = qApp->clipboard();
+        cb->setPixmap(screenShotPix, QClipboard::Clipboard);
+    }
+
+    QStringList actions;
+    actions << "_open" << tr("View");
+    QVariantMap hints;
+    QString fileDir = QUrl::fromLocalFile(QFileInfo(fileName).absoluteDir().absolutePath()).toString();
+    QString filePath =  QUrl::fromLocalFile(fileName).toString();
+    QString command;
+    if (QFile("/usr/bin/dde-file-manager").exists()) {
+        command = QString("/usr/bin/dde-file-manager,%1?selectUrl=%2"
+                          ).arg(fileDir).arg(filePath);
+    } else {
+        command = QString("xdg-open,%1").arg(filePath);
+    }
+
+    hints["x-deepin-action-_open"] = command;
+
+   QString summary = QString("Picture has been saved to %1").arg(fileName);
+   if (fileName != ".png" && !m_noNotify) {
+       m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
+                               summary, actions, hints, 0);
+       QTimer::singleShot(4000, this, [=]{
+             m_notifyDBInterface->CloseNotification(0);
+             qApp->quit();
+       });
+   } else {
+        qApp->quit();
+   }
 }
 
 void MainWindow::startScreenshot() {
@@ -1172,13 +1262,12 @@ void MainWindow::shotCurrentImg() {
     eventloop.exec();
 
     qDebug() << m_toolBar->isVisible() << m_sizeTips->isVisible();
-    QList<QScreen*> screenList = qApp->screens();
-    QPixmap tmpImg =  screenList[m_screenNum]->grabWindow(
-                qApp->desktop()->screen(m_screenNum)->winId(),
-                m_recordX + m_backgroundRect.x(), m_recordY, m_recordWidth, m_recordHeight);
-    qDebug() << tmpImg.isNull() << tmpImg.size();
-
     using namespace utils;
+    shotFullScreen();
+
+    QPixmap tmpImg(TMP_FULLSCREEN_FILE);
+    qDebug() << "shotFULLSCREENSHOT" << tmpImg.size();
+    tmpImg.copy(QRect(m_recordX, m_recordY, m_recordWidth, m_recordHeight));
     tmpImg.save(TMP_FILE, "png");
 }
 
@@ -1204,6 +1293,11 @@ void MainWindow::shotImgWidthEffect() {
 }
 
 void MainWindow::saveScreenshot() {
+    if (!m_specificedPath.isEmpty()) {
+        saveSpecificedPath(m_specificedPath);
+        return;
+    }
+
     m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
     m_needSaveScreenshot = true;
     QDateTime currentDate;
@@ -1301,7 +1395,6 @@ void MainWindow::saveScreenshot() {
        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                summary, actions, hints, 0);
        QTimer::singleShot(4000, this, [=]{
-             m_notifyDBInterface->CloseNotification(0);
              qApp->quit();
        });
    } else {

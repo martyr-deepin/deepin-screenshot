@@ -126,7 +126,7 @@ private:
 
     bool m_isShapesWidgetExist = false;
     int m_saveIndex;
-    QString m_specificedPath;
+    QString m_specificedPath = "";
     MenuController* m_menuController;
     DBusControlCenter* m_controlCenterDBInterface;
     DBusNotify* m_notifyDBInterface;
