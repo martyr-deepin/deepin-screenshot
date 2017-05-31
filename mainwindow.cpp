@@ -329,9 +329,6 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
            m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
                QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
-            if (m_mouseStatus == ShotMouseStatus::Normal && needRepaint) {
-//                hideRecordButton();
-            }
 
             QPoint toolbarPoint;
             toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width(),
@@ -369,10 +366,6 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                 needRepaint = true;
             }
 
-
-            if (m_mouseStatus == ShotMouseStatus::Normal && needRepaint) {
-//                showRecordButton();
-            }
         }
 
     }
@@ -383,6 +376,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         m_dragStartY = mouseEvent->y();
 
         if (mouseEvent->button() == Qt::RightButton) {
+            m_moving = false;
             if (!m_isFirstPressButton) {
                 qApp->quit();
             }
@@ -392,7 +386,8 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
         if (!m_isFirstPressButton) {
             m_isFirstPressButton = true;
-        } else {
+        } else if (mouseEvent->button() == Qt::LeftButton) {
+            m_moving = true;
             m_dragAction = getDirection(event);
 
             m_dragRecordX = m_recordX;
@@ -400,14 +395,12 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             m_dragRecordWidth = m_recordWidth;
             m_dragRecordHeight = m_recordHeight;
 
-            if (m_mouseStatus == ShotMouseStatus::Normal) {
-//                hideRecordButton();
-            }
         }
 
         m_isPressButton = true;
         m_isReleaseButton = false;
     } else if (event->type() == QEvent::MouseButtonRelease) {
+        m_moving = false;
         if (!m_isFirstReleaseButton) {
             m_isFirstReleaseButton = true;
 
@@ -467,10 +460,6 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             }
 
             needRepaint = true;
-        } else {
-            if (m_mouseStatus == ShotMouseStatus::Normal) {
-//                showRecordButton();
-            }
         }
 
         m_isPressButton = false;
@@ -550,7 +539,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             } else if (m_isPressButton) {
                 if (m_mouseStatus != ShotMouseStatus::Wait && m_dragRecordX >= 0
                         && m_dragRecordY >= 0) {
-                    if (m_dragAction == ResizeDirection::Moving) {
+                    if (m_dragAction == ResizeDirection::Moving && m_moving) {
                         m_recordX = std::max(std::min(m_dragRecordX +
                             mouseEvent->x() - m_dragStartX, m_rootWindowRect.width
                             - m_recordWidth), 1);
@@ -675,8 +664,11 @@ int MainWindow::getDirection(QEvent *event) {
                && cursorY < m_recordY + m_recordHeight + SPACING) {
         // Bottom.
         return  ResizeDirection::Bottom;
-    } else {
+    } else if (cursorX > m_recordX && cursorX < m_recordX + m_recordWidth
+               && cursorY > m_recordY && cursorY < m_recordY + m_recordHeight) {
         return ResizeDirection::Moving;
+    } else {
+        return ResizeDirection::Outting;
     }
 }
 void MainWindow::paintEvent(QPaintEvent *event)  {

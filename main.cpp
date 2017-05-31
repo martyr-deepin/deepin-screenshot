@@ -26,7 +26,6 @@ int main(int argc, char *argv[])
      a.setQuitOnLastWindowClosed(false);
 
 
-
      QCommandLineOption  delayOption(QStringList() << "d" << "delay",
                                                                              "Take a screenshot after NUM seconds.", "NUM");
      QCommandLineOption fullscreenOption(QStringList() << "f" << "fullscreen",

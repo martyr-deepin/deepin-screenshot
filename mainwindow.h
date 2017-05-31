@@ -110,6 +110,7 @@ private:
     bool m_isFirstReleaseButton;
     bool m_isPressButton;
     bool m_isReleaseButton;
+    bool m_moving = false;
     bool m_isShiftPressed = false;
     bool m_noNotify = false;
     bool m_needSaveScreenshot = false;
