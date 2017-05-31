@@ -989,7 +989,6 @@ void MainWindow::fullScreenshot() {
 
     //Wait notify to exit!;
     QTimer::singleShot(4000, this, [=]{
-        m_notifyDBInterface->CloseNotification(0);
         qApp->quit();
     });
 }
@@ -1189,8 +1188,7 @@ void MainWindow::topWindow() {
    if (fileName != ".png" && !m_noNotify) {
        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                summary, actions, hints, 0);
-       QTimer::singleShot(4000, this, [=]{
-             m_notifyDBInterface->CloseNotification(0);
+       QTimer::singleShot(4000, this, [=] {
              qApp->quit();
        });
    } else {
@@ -1391,15 +1389,12 @@ void MainWindow::saveScreenshot() {
     hints["x-deepin-action-_open"] = command;
 
    QString summary = QString("Picture has been saved to %1").arg(fileName);
-   if (fileName != ".png" && !m_noNotify) {
+   if (fileName != ".png" && !m_noNotify && saveIndex != 3) {
        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                summary, actions, hints, 0);
-       QTimer::singleShot(4000, this, [=]{
-             qApp->quit();
-       });
-   } else {
-        qApp->quit();
    }
+
+   qApp->quit();
 }
 
 void MainWindow::reloadImage(QString effect) {
