@@ -472,7 +472,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         needRepaint = true;
     } else if (event->type() == QEvent::MouseMove) {
         qDebug() <<QDateTime::currentDateTime() << "event filter mouse move";
-        if (m_recordWidth > 0 && m_recordHeight >0) {
+        if (m_recordWidth > 0 && m_recordHeight >0 && !m_needSaveScreenshot) {
             m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
                 QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
 
@@ -494,24 +494,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                 }
 
                 m_toolBar->showAt(toolbarPoint);
-
-            } else if (m_isFirstPressButton && !m_toolBar->isVisible()) {
-                QPoint curPos = this->cursor().pos();
-                QPoint tmpPoint;
-                tmpPoint = QPoint(std::min(curPos.x() + 5 - m_backgroundRect.x(), curPos.x() + 5),
-                                  curPos.y() + 5);
-
-                if (curPos.x() >= m_backgroundRect.x() + m_backgroundRect.width() - m_zoomIndicator->width()) {
-                    tmpPoint.setX(std::min(m_backgroundRect.width() - m_zoomIndicator->width() - 5, curPos.x() + 5));
-                }
-
-                if (curPos.y() >= m_backgroundRect.y() + m_backgroundRect.height() - m_zoomIndicator->height()) {
-                    tmpPoint.setY(curPos.y()  - m_zoomIndicator->height() - 5);
-                }
-
-                m_zoomIndicator->showMagnifier(tmpPoint);
-
-                qDebug() << "ZoomIndicator showsAt:" << tmpPoint << m_backgroundRect;
+                m_zoomIndicator->hide();
             }
         }
 
@@ -519,7 +502,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
             m_isFirstMove = true;
             needRepaint = true;
         } else {
-            if (!m_toolBar->isVisible()) {
+            if (!m_toolBar->isVisible() && !m_isFirstReleaseButton) {
                 QPoint curPos = this->cursor().pos();
                 QPoint tmpPoint;
                 tmpPoint = QPoint(std::min(curPos.x() + 5 - m_backgroundRect.x(), curPos.x() + 5),
@@ -533,7 +516,6 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                     tmpPoint.setY(curPos.y()  - m_zoomIndicator->height() - 5);
                 }
 
-                qDebug() << "show zoomIndicator:" << tmpPoint;
                 m_zoomIndicator->showMagnifier(tmpPoint);
             }
         }
@@ -1223,6 +1205,7 @@ void MainWindow::shotImgWidthEffect() {
 
 void MainWindow::saveScreenshot() {
     m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
+    m_needSaveScreenshot = true;
     QDateTime currentDate;
     using namespace utils;
     m_toolBar->setVisible(false);

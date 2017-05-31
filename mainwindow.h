@@ -112,6 +112,7 @@ private:
     bool m_isReleaseButton;
     bool m_isShiftPressed = false;
     bool m_noNotify = false;
+    bool m_needSaveScreenshot = false;
 
     QString m_selectAreaName;
     QPixmap m_resizeBigPix;

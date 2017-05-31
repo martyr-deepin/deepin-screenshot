@@ -18,6 +18,7 @@ ZoomIndicator::ZoomIndicator(QWidget *parent)
     : QLabel(parent) {
     setFixedSize(BACKGROUND_SIZE);
     setStyleSheet(getFileContent(":/resources/qss/zoomindicator.qss"));
+    setAttribute(Qt::WA_TransparentForMouseEvents);
 }
 
 ZoomIndicator::~ZoomIndicator() {}
