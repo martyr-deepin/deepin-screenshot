@@ -1231,7 +1231,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
                     (m_selectedShape.mainPoints[0].y() +
                     m_selectedShape.mainPoints[2].y())/2);
 
-            painter.setPen(QColor(Qt::white));
+            painter.setPen(QColor("#01bdff"));
             painter.drawLine(rotatePoint, middlePoint);
             QPixmap rotatePointImg(":/resources/images/size/rotate.png");
             paintImgPoint(painter, rotatePoint, rotatePointImg, false);

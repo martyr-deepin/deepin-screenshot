@@ -780,7 +780,7 @@ void MainWindow::initShapeWidget(QString type) {
 
     m_toolBar->showAt(toolbarPoint);
     m_toolBar->raise();
-
+    m_needDrawSelectedPoint = false;
     update();
 
     connect(m_toolBar, &ToolBar::updateColor,
