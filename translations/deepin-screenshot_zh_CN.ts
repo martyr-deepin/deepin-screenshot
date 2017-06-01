@@ -1,16 +1,48 @@
-<?xml version="1.0" ?><!DOCTYPE TS>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="535"/>
+        <location filename="../mainwindow.cpp" line="523"/>
         <source>Select area</source>
         <translation>选择区域</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1060"/>
+        <location filename="../mainwindow.cpp" line="927"/>
+        <location filename="../mainwindow.cpp" line="951"/>
+        <location filename="../mainwindow.cpp" line="1130"/>
+        <location filename="../mainwindow.cpp" line="1154"/>
+        <location filename="../mainwindow.cpp" line="1321"/>
+        <location filename="../mainwindow.cpp" line="1357"/>
+        <source>DeepinScreenshot</source>
+        <translation>深度截图</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="962"/>
+        <location filename="../mainwindow.cpp" line="1032"/>
+        <location filename="../mainwindow.cpp" line="1165"/>
+        <location filename="../mainwindow.cpp" line="1368"/>
         <source>View</source>
         <translation>查看</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="976"/>
+        <location filename="../mainwindow.cpp" line="1046"/>
+        <location filename="../mainwindow.cpp" line="1179"/>
+        <location filename="../mainwindow.cpp" line="1382"/>
+        <source>Picture has been saved to %1</source>
+        <translation>图片已保存到 %1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1019"/>
+        <source>DeepinScreenshot%1</source>
+        <translation>深度截图%1</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1055"/>
+        <source>Deepin Screenshot will start after %1 second.</source>
+        <translation>深度截图将在%1秒后启动.</translation>
     </message>
 </context>
 <context>
@@ -83,7 +115,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../main.cpp" line="21"/>
+        <location filename="../main.cpp" line="24"/>
         <source>Deepin Screenshot</source>
         <translation>深度截图</translation>
     </message>
@@ -205,37 +237,37 @@
 <context>
     <name>SubToolBar</name>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="340"/>
+        <location filename="../widgets/subtoolbar.cpp" line="374"/>
         <source>Save to desktop</source>
         <translation>保存到桌面</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="345"/>
+        <location filename="../widgets/subtoolbar.cpp" line="379"/>
         <source>Autosave</source>
         <translation>自动保存</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="350"/>
+        <location filename="../widgets/subtoolbar.cpp" line="384"/>
         <source>Save to specified folder</source>
         <translation>保存到指定文件夹</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="355"/>
+        <location filename="../widgets/subtoolbar.cpp" line="389"/>
         <source>Copy to clipboard</source>
         <translation>复制到剪切板</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="360"/>
+        <location filename="../widgets/subtoolbar.cpp" line="394"/>
         <source>Autosave and copy to clipboard</source>
         <translation>自动保存并复制到剪切板</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="365"/>
+        <location filename="../widgets/subtoolbar.cpp" line="399"/>
         <source>Low</source>
         <translation>低</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="379"/>
+        <location filename="../widgets/subtoolbar.cpp" line="414"/>
         <source>High</source>
         <translation>高</translation>
     </message>

@@ -923,8 +923,8 @@ void MainWindow::fullScreenshot() {
     case 2: {
         this->hide();
         QFileDialog fileDialog;
-        QString  lastFileName = QString("%1/DeepinScreenshot%2.png").arg(QStandardPaths::writableLocation(
-                                                                             QStandardPaths::PicturesLocation)).arg(currentTime);
+        QString  lastFileName = QString("%1/%2/%3.png").arg(QStandardPaths::writableLocation(
+                        QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
         fileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,  tr(""));
         if ( !fileName.endsWith(".png")) {
             fileName = fileName + ".png";
@@ -947,8 +947,8 @@ void MainWindow::fullScreenshot() {
     if (saveIndex == 2) {
         screenShotPix.save(fileName, "PNG");
     } else if (saveOption != QStandardPaths::TempLocation || fileName.isEmpty()) {
-        fileName = QString("%1/DeepinScreenshot%2.png").arg(
-                    QStandardPaths::writableLocation(saveOption)).arg(currentTime);
+        fileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
+                             saveOption)).arg(tr("DeepinScreenshot")).arg(currentTime);
         screenShotPix.save(fileName, "PNG");
     }
 
@@ -973,7 +973,7 @@ void MainWindow::fullScreenshot() {
 
     hints["x-deepin-action-_open"] = command;
 
-    QString summary = QString("Picture has been saved to %1").arg(fileName);
+    QString summary = QString(tr("Picture has been saved to %1")).arg(fileName);
     if (fileName != ".png") {
         m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                     summary, actions, hints, 0);
@@ -1043,7 +1043,7 @@ void MainWindow::saveSpecificedPath(QString path) {
 
     hints["x-deepin-action-_open"] = command;
 
-    QString summary = QString("Picture has been saved to %1").arg(savePath);
+    QString summary = QString(tr("Picture has been saved to %1")).arg(savePath);
 
     m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                 summary, actions, hints, 0);
@@ -1126,8 +1126,8 @@ void MainWindow::topWindow() {
     case 2: {
         this->hide();
         QFileDialog fileDialog;
-        QString  lastFileName = QString("%1/DeepinScreenshot%2.png").arg(QStandardPaths::writableLocation(
-                                                                            QStandardPaths::PicturesLocation)).arg(currentTime);
+        QString  lastFileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
+                        QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
         fileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,  tr(""));
         if ( !fileName.endsWith(".png")) {
             fileName = fileName + ".png";
@@ -1150,8 +1150,8 @@ void MainWindow::topWindow() {
     if (saveIndex == 2) {
         screenShotPix.save(fileName, "PNG");
     } else if (saveOption != QStandardPaths::TempLocation || fileName.isEmpty()) {
-        fileName = QString("%1/DeepinScreenshot%2.png").arg(
-                    QStandardPaths::writableLocation(saveOption)).arg(currentTime);
+        fileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
+                             saveOption)).arg(tr("DeepinScreenshot")).arg(currentTime);
         screenShotPix.save(fileName, "PNG");
     }
 
@@ -1176,7 +1176,7 @@ void MainWindow::topWindow() {
 
     hints["x-deepin-action-_open"] = command;
 
-   QString summary = QString("Picture has been saved to %1").arg(fileName);
+   QString summary = QString(tr("Picture has been saved to %1")).arg(fileName);
    if (fileName != ".png" && !m_noNotify) {
        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                summary, actions, hints, 0);
@@ -1317,8 +1317,8 @@ void MainWindow::saveScreenshot() {
     case 2: {
         this->hide();
         QFileDialog fileDialog;
-        QString  lastFileName = QString("%1/DeepinScreenshot%2.png").arg(QStandardPaths::writableLocation(
-                                                                            QStandardPaths::PicturesLocation)).arg(currentTime);
+        QString  lastFileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
+                        QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
         fileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,  tr(""));
         if ( !fileName.endsWith(".png")) {
             fileName = fileName + ".png";
@@ -1353,8 +1353,8 @@ void MainWindow::saveScreenshot() {
     if (saveIndex == 2) {
         screenShotPix.save(fileName, "PNG");
     } else if (saveOption != QStandardPaths::TempLocation || fileName.isEmpty()) {
-        fileName = QString("%1/DeepinScreenshot%2.png").arg(
-                    QStandardPaths::writableLocation(saveOption)).arg(currentTime);
+        fileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
+                             saveOption)).arg(tr("DeepinScreenshot")).arg(currentTime);
         screenShotPix.save(fileName, "PNG");
     }
 
@@ -1363,7 +1363,6 @@ void MainWindow::saveScreenshot() {
         QClipboard* cb = qApp->clipboard();
         cb->setPixmap(screenShotPix, QClipboard::Clipboard);
     }
-
 
     QStringList actions;
     actions << "_open" << tr("View");
@@ -1380,7 +1379,7 @@ void MainWindow::saveScreenshot() {
 
     hints["x-deepin-action-_open"] = command;
 
-   QString summary = QString("Picture has been saved to %1").arg(fileName);
+   QString summary = QString(tr("Picture has been saved to %1")).arg(fileName);
    if (fileName != ".png" && !m_noNotify && saveIndex != 3) {
        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                summary, actions, hints, 0);
