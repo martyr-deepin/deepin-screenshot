@@ -1178,8 +1178,6 @@ void MainWindow::topWindow() {
 
     hints["x-deepin-action-_open"] = command;
 
-    hints["x-deepin-action-_open"] = command;
-
    QString summary;
    if (saveIndex == 3) {
        summary = QString(tr("Picture has been saved to clipboard"));
