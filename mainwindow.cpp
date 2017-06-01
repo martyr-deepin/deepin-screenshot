@@ -1379,8 +1379,18 @@ void MainWindow::saveScreenshot() {
 
     hints["x-deepin-action-_open"] = command;
 
-   QString summary = QString(tr("Picture has been saved to %1")).arg(fileName);
-   if (fileName != ".png" && !m_noNotify && saveIndex != 3) {
+   QString summary;
+   if (saveIndex == 3) {
+       summary = QString(tr("Picture has been saved to clipboard"));
+   } else {
+       summary = QString("Picture has been saved to %1").arg(fileName);
+   }
+
+   if (saveIndex == 3) {
+       QVariantMap emptyMap;
+       m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
+                               summary,  QStringList(), emptyMap, 0);
+   } else if (fileName != ".png" && !m_noNotify) {
        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                summary, actions, hints, 0);
    }

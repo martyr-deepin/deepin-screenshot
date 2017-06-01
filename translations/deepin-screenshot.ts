@@ -30,7 +30,6 @@
         <location filename="../mainwindow.cpp" line="976"/>
         <location filename="../mainwindow.cpp" line="1046"/>
         <location filename="../mainwindow.cpp" line="1179"/>
-        <location filename="../mainwindow.cpp" line="1382"/>
         <source>Picture has been saved to %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -42,6 +41,11 @@
     <message>
         <location filename="../mainwindow.cpp" line="1055"/>
         <source>Deepin Screenshot will start after %1 second.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1384"/>
+        <source>Picture has been saved to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

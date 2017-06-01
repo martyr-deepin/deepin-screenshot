@@ -30,7 +30,6 @@
         <location filename="../mainwindow.cpp" line="976"/>
         <location filename="../mainwindow.cpp" line="1046"/>
         <location filename="../mainwindow.cpp" line="1179"/>
-        <location filename="../mainwindow.cpp" line="1382"/>
         <source>Picture has been saved to %1</source>
         <translation>图片已保存到 %1</translation>
     </message>
@@ -43,6 +42,11 @@
         <location filename="../mainwindow.cpp" line="1055"/>
         <source>Deepin Screenshot will start after %1 second.</source>
         <translation>深度截图将在%1秒后启动.</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1384"/>
+        <source>Picture has been saved to clipboard</source>
+        <translation>图片已保存至剪贴板</translation>
     </message>
 </context>
 <context>
