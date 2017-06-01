@@ -922,6 +922,7 @@ void MainWindow::fullScreenshot() {
     }
     case 2: {
         this->hide();
+        this->releaseKeyboard();
         QFileDialog fileDialog;
         QString  lastFileName = QString("%1/%2/%3.png").arg(QStandardPaths::writableLocation(
                         QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
@@ -1125,6 +1126,7 @@ void MainWindow::topWindow() {
     }
     case 2: {
         this->hide();
+        this->releaseKeyboard();
         QFileDialog fileDialog;
         QString  lastFileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
                         QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
@@ -1316,6 +1318,7 @@ void MainWindow::saveScreenshot() {
     }
     case 2: {
         this->hide();
+        this->releaseKeyboard();
         QFileDialog fileDialog;
         QString  lastFileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
                         QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
