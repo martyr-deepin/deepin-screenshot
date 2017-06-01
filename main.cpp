@@ -3,12 +3,15 @@
 #include "dbusservice/dbusscreenshotservice.h"
 
 #include <DApplication>
-
+#include <DLog>
 #include <dutility.h>
+
 #include <QObject>
 #include <QTranslator>
 
 DWIDGET_USE_NAMESPACE
+
+using namespace Dtk::Util;
 
 int main(int argc, char *argv[])
 {
@@ -21,10 +24,12 @@ int main(int argc, char *argv[])
      DApplication a(argc, argv);
      a.loadTranslator(QList<QLocale>() << QLocale::system());
      a.setOrganizationName("deepin");
-     a.setApplicationName(QObject::tr("Deepin Screenshot"));
+     a.setApplicationName("deepin-screenshot");
      a.setApplicationVersion("4.0");
      a.setQuitOnLastWindowClosed(false);
 
+    Dtk::Util::DLogManager::registerConsoleAppender();
+    Dtk::Util::DLogManager::registerFileAppender();
 
      QCommandLineOption  delayOption(QStringList() << "d" << "delay",
                                                                              "Take a screenshot after NUM seconds.", "NUM");

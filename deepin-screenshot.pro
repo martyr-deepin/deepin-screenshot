@@ -12,7 +12,7 @@ TARGET = deepin-screenshot
 TEMPLATE = app
 
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG += xcb xcb-util dtkwidget dtkbase
+PKGCONFIG += xcb xcb-util dtkwidget dtkbase dtkutil
 
 LIBS += -lX11 -lXext -lXtst
 QMAKE_CXXFLAGS += -g
