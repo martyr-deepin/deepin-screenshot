@@ -32,8 +32,9 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::initUI() {
-    setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::Tool /*| Qt::WindowStaysOnTopHint*/);
+    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
     setMouseTracking(true);   // make MouseMove can response
+
     this->setFocus();
     m_configSettings =  ConfigSettings::instance();
     installEventFilter(this);
