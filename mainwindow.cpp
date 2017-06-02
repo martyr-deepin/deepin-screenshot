@@ -31,7 +31,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::initUI() {
-    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
+    setWindowState(Qt::WindowFullScreen);
     setMouseTracking(true);   // make MouseMove can response
 
     this->setFocus();
