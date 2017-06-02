@@ -31,7 +31,8 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::initUI() {
-    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
+    setWindowFlags(Qt::X11BypassWindowManagerHint |
+                   Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
     setMouseTracking(true);   // make MouseMove can response
 
     this->setFocus();
@@ -353,12 +354,12 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         // NOTE: must be use 'isAutoRepeat' to filter KeyRelease event
         //send by Qt.
         if (!keyEvent->isAutoRepeat()) {
-            if (keyEvent->modifiers() ==  (Qt::ShiftModifier | Qt::ControlModifier)) {
-                QProcess::startDetached("killall deepin-shortcut-viewer");
-            }
-            if (keyEvent->key() == Qt::Key_Question) {
-                QProcess::startDetached("killall deepin-shortcut-viewer");
-            }
+//            if (keyEvent->modifiers() ==  (Qt::ShiftModifier | Qt::ControlModifier)) {
+//                QProcess::startDetached("killall deepin-shortcut-viewer");
+//            }
+//            if (keyEvent->key() == Qt::Key_Question) {
+//                QProcess::startDetached("killall deepin-shortcut-viewer");
+//            }
 
             if (keyEvent->key() == Qt::Key_Left || keyEvent->key()
                 == Qt::Key_Right || keyEvent->key() == Qt::Key_Up ||
@@ -880,7 +881,8 @@ void MainWindow::fullScreenshot() {
     qApp->setOverrideCursor(setCursorShape("start"));
     initDBusInterface();
 
-    setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::Tool /*| Qt::WindowStaysOnTopHint*/);
+    setWindowFlags(Qt::X11BypassWindowManagerHint |
+                   Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
     setMouseTracking(true);   // make MouseMove can response
     this->setFocus();
     m_configSettings =  ConfigSettings::instance();
