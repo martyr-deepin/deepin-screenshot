@@ -897,95 +897,19 @@ void MainWindow::fullScreenshot() {
      } else {
          m_backgroundRect =  qApp->primaryScreen()->geometry();
      }
-     qDebug() << "this screen geometry:" << m_screenNum << m_backgroundRect;
+
      this->move(m_backgroundRect.x(), m_backgroundRect.y());
      this->setFixedSize(m_backgroundRect.size());
-     shotFullScreen();
 
+     shotFullScreen();
+     m_toolBar = new ToolBar(this);
+     m_toolBar->hide();
     m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
-    QDateTime currentDate;
+
     using namespace utils;
     QPixmap screenShotPix(TMP_FULLSCREEN_FILE);
-    QString currentTime =  currentDate.currentDateTime().
-            toString("yyyyMMddHHmmss");
-    QString fileName = "";
-    QStandardPaths::StandardLocation saveOption = QStandardPaths::TempLocation;
-    bool copyToClipboard = false;
-    int saveIndex =  ConfigSettings::instance()->value(
-                "save", "save_op").toInt();
-    switch (saveIndex) {
-    case 0: {
-        saveOption = QStandardPaths::DesktopLocation;
-        break;
-    }
-    case 1: {
-        saveOption = QStandardPaths::PicturesLocation;
-        break;
-    }
-    case 2: {
-        this->hide();
-        this->releaseKeyboard();
-        QFileDialog fileDialog;
-        QString  lastFileName = QString("%1/%2/%3.png").arg(QStandardPaths::writableLocation(
-                        QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
-        fileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,  tr(""));
-        if ( !fileName.endsWith(".png")) {
-            fileName = fileName + ".png";
-        }
-        break;
-    }
-    case 3: {
-        copyToClipboard = true;
-        break;
-    }
-    case 4: {
-        copyToClipboard = true;
-        saveOption = QStandardPaths::PicturesLocation;
-        break;
-    }
-    default:
-        break;
-    }
-
-    if (saveIndex == 2) {
-        screenShotPix.save(fileName, "PNG");
-    } else if (saveOption != QStandardPaths::TempLocation || fileName.isEmpty()) {
-        fileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
-                             saveOption)).arg(tr("DeepinScreenshot")).arg(currentTime);
-        screenShotPix.save(fileName, "PNG");
-    }
-
-    if (copyToClipboard) {
-        Q_ASSERT(!screenShotPix.isNull());
-        QClipboard* cb = qApp->clipboard();
-        cb->setPixmap(screenShotPix, QClipboard::Clipboard);
-    }
-
-    QStringList actions;
-    actions << "_open" << tr("View");
-    QVariantMap hints;
-    QString fileDir = QUrl::fromLocalFile(QFileInfo(fileName).absoluteDir().absolutePath()).toString();
-    QString filePath =  QUrl::fromLocalFile(fileName).toString();
-    QString command;
-    if (QFile("/usr/bin/dde-file-manager").exists()) {
-        command = QString("/usr/bin/dde-file-manager,%1?selectUrl=%2"
-                          ).arg(fileDir).arg(filePath);
-    } else {
-        command = QString("xdg-open,%1").arg(filePath);
-    }
-
-    hints["x-deepin-action-_open"] = command;
-
-    QString summary = QString(tr("Picture has been saved to %1")).arg(fileName);
-    if (fileName != ".png") {
-        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
-                                    summary, actions, hints, 0);
-    }
-
-    //Wait notify to exit!;
-    QTimer::singleShot(4000, this, [=]{
-        qApp->quit();
-    });
+    saveAction(screenShotPix);
+    sendNotify(m_saveIndex, m_saveFileName);
 }
 
 void MainWindow::savePath(QString path) {
@@ -1063,8 +987,9 @@ void MainWindow::delayScreenshot(int num) {
                                     summary, actions, hints, 0);
         QTimer* timer = new QTimer;
         timer->setSingleShot(true);
-        timer->start(1000*num + 3000);
+        timer->start(1000*num);
         connect(timer, &QTimer::timeout, this, [=]{
+            m_notifyDBInterface->CloseNotification(0);
             initUI();
             initShortcut();
             this->show();
@@ -1108,94 +1033,8 @@ void MainWindow::topWindow() {
     using namespace utils;
     QPixmap screenShotPix = QPixmap(TMP_FULLSCREEN_FILE).copy(m_recordX, m_recordY,
                                                               m_recordWidth, m_recordHeight);
-    qDebug() << "screenShotPix" << screenShotPix.size();
-    QDateTime currentDate;
-    QString currentTime =  currentDate.currentDateTime().
-            toString("yyyyMMddHHmmss");
-    QString fileName = "";
-    QStandardPaths::StandardLocation saveOption = QStandardPaths::TempLocation;
-    bool copyToClipboard = false;
-    int saveIndex =  ConfigSettings::instance()->value(
-                                   "save", "save_op").toInt();
-    switch (saveIndex) {
-    case 0: {
-        saveOption = QStandardPaths::DesktopLocation;
-        break;
-    }
-    case 1: {
-        saveOption = QStandardPaths::PicturesLocation;
-        break;
-    }
-    case 2: {
-        this->hide();
-        this->releaseKeyboard();
-        QFileDialog fileDialog;
-        QString  lastFileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
-                        QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
-        fileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,  tr(""));
-        if ( !fileName.endsWith(".png")) {
-            fileName = fileName + ".png";
-        }
-        break;
-    }
-    case 3: {
-        copyToClipboard = true;
-        break;
-    }
-    case 4: {
-        copyToClipboard = true;
-        saveOption = QStandardPaths::PicturesLocation;
-        break;
-    }
-    default:
-        break;
-    }
-
-    if (saveIndex == 2) {
-        screenShotPix.save(fileName, "PNG");
-    } else if (saveOption != QStandardPaths::TempLocation || fileName.isEmpty()) {
-        fileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
-                             saveOption)).arg(tr("DeepinScreenshot")).arg(currentTime);
-        screenShotPix.save(fileName, "PNG");
-    }
-
-    if (copyToClipboard) {
-        Q_ASSERT(!screenShotPix.isNull());
-        QClipboard* cb = qApp->clipboard();
-        cb->setPixmap(screenShotPix, QClipboard::Clipboard);
-    }
-
-    QStringList actions;
-    actions << "_open" << tr("View");
-    QVariantMap hints;
-    QString fileDir = QUrl::fromLocalFile(QFileInfo(fileName).absoluteDir().absolutePath()).toString();
-    QString filePath =  QUrl::fromLocalFile(fileName).toString();
-    QString command;
-    if (QFile("/usr/bin/dde-file-manager").exists()) {
-        command = QString("/usr/bin/dde-file-manager,%1?selectUrl=%2"
-                          ).arg(fileDir).arg(filePath);
-    } else {
-        command = QString("xdg-open,%1").arg(filePath);
-    }
-
-    hints["x-deepin-action-_open"] = command;
-
-   QString summary;
-   if (saveIndex == 3) {
-       summary = QString(tr("Picture has been saved to clipboard"));
-   } else {
-       summary = QString(tr("Picture has been saved to %1")).arg(fileName);
-   }
-
-   if (fileName != ".png" && !m_noNotify) {
-       m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
-                               summary, actions, hints, 0);
-       QTimer::singleShot(4000, this, [=] {
-             qApp->quit();
-       });
-   } else {
-        qApp->quit();
-   }
+    saveAction(screenShotPix);
+    sendNotify(m_saveIndex, m_saveFileName);
 }
 
 void MainWindow::startScreenshot() {
@@ -1300,22 +1139,27 @@ void MainWindow::saveScreenshot() {
 
     m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
     m_needSaveScreenshot = true;
-    QDateTime currentDate;
-    using namespace utils;
+
     m_toolBar->setVisible(false);
     m_sizeTips->setVisible(false);
 
     shotCurrentImg();
+    using namespace utils;
+    saveAction(utils::TMP_FILE);
+    sendNotify(m_saveIndex, m_saveFileName);
+}
 
-    QPixmap screenShotPix(TMP_FILE);
+void MainWindow::saveAction(QPixmap pix) {
+    using namespace utils;
+    QPixmap screenShotPix = pix;
+    QDateTime currentDate;
     QString currentTime =  currentDate.currentDateTime().
             toString("yyyyMMddHHmmss");
-    QString fileName = "";
+    m_saveFileName = "";
     QStandardPaths::StandardLocation saveOption = QStandardPaths::TempLocation;
     bool copyToClipboard = false;
-    int saveIndex =  ConfigSettings::instance()->value(
-                                   "save", "save_op").toInt();
-    switch (saveIndex) {
+    m_saveIndex =  ConfigSettings::instance()->value("save", "save_op").toInt();
+    switch (m_saveIndex) {
     case 0: {
         saveOption = QStandardPaths::DesktopLocation;
         break;
@@ -1330,9 +1174,9 @@ void MainWindow::saveScreenshot() {
         QFileDialog fileDialog;
         QString  lastFileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
                         QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
-        fileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,  tr(""));
-        if ( !fileName.endsWith(".png")) {
-            fileName = fileName + ".png";
+        m_saveFileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,  tr(""));
+        if ( !m_saveFileName.endsWith(".png")) {
+            m_saveFileName = m_saveFileName + ".png";
         }
         break;
     }
@@ -1349,8 +1193,9 @@ void MainWindow::saveScreenshot() {
         break;
     }
 
-    qDebug() << "saveIndex:" << saveIndex << m_toolBar->getSaveQualityIndex();
-    int toolBarSaveQuality = m_toolBar->getSaveQualityIndex();
+
+    int toolBarSaveQuality = std::min(m_toolBar->getSaveQualityIndex(), 100);
+
     if (toolBarSaveQuality != 100) {
        qreal saveQuality = toolBarSaveQuality*5/1000 + 0.5;
        int pixWidth = screenShotPix.width();
@@ -1361,12 +1206,12 @@ void MainWindow::saveScreenshot() {
                                                                             Qt::KeepAspectRatio, Qt::FastTransformation);
     }
 
-    if (saveIndex == 2) {
-        screenShotPix.save(fileName, "PNG");
-    } else if (saveOption != QStandardPaths::TempLocation || fileName.isEmpty()) {
-        fileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
+    if (m_saveIndex == 2) {
+        screenShotPix.save(m_saveFileName, "PNG");
+    } else if (saveOption != QStandardPaths::TempLocation || m_saveFileName.isEmpty()) {
+        m_saveFileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
                              saveOption)).arg(tr("DeepinScreenshot")).arg(currentTime);
-        screenShotPix.save(fileName, "PNG");
+        screenShotPix.save(m_saveFileName, "PNG");
     }
 
     if (copyToClipboard) {
@@ -1374,12 +1219,14 @@ void MainWindow::saveScreenshot() {
         QClipboard* cb = qApp->clipboard();
         cb->setPixmap(screenShotPix, QClipboard::Clipboard);
     }
+}
 
+void MainWindow::sendNotify(int saveIndex, QString saveFilePath) {
     QStringList actions;
     actions << "_open" << tr("View");
     QVariantMap hints;
-    QString fileDir = QUrl::fromLocalFile(QFileInfo(fileName).absoluteDir().absolutePath()).toString();
-    QString filePath =  QUrl::fromLocalFile(fileName).toString();
+    QString fileDir = QUrl::fromLocalFile(QFileInfo(saveFilePath).absoluteDir().absolutePath()).toString();
+    QString filePath =  QUrl::fromLocalFile(saveFilePath).toString();
     QString command;
     if (QFile("/usr/bin/dde-file-manager").exists()) {
         command = QString("/usr/bin/dde-file-manager,%1?selectUrl=%2"
@@ -1394,19 +1241,21 @@ void MainWindow::saveScreenshot() {
    if (saveIndex == 3) {
        summary = QString(tr("Picture has been saved to clipboard"));
    } else {
-       summary = QString(tr("Picture has been saved to %1")).arg(fileName);
+       summary = QString(tr("Picture has been saved to %1")).arg(saveFilePath);
    }
 
    if (saveIndex == 3) {
        QVariantMap emptyMap;
        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                summary,  QStringList(), emptyMap, 0);
-   } else if (fileName != ".png" && !m_noNotify) {
+   } else if (saveFilePath != ".png" && !m_noNotify) {
        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                summary, actions, hints, 0);
    }
 
-   qApp->quit();
+   QTimer::singleShot(4000, this, [=]{
+          qApp->quit();
+   });
 }
 
 void MainWindow::reloadImage(QString effect) {

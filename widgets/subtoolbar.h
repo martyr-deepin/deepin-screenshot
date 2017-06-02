@@ -34,7 +34,7 @@ signals:
 
 private:
     int m_lineWidth;
-    int m_saveIndex;
+    int m_saveQuality;
     QString m_currentType;
 
     QLabel* m_rectLabel;

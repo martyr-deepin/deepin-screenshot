@@ -57,7 +57,7 @@ public slots:
     void noNotify();
     void topWindow();
     //Indicate that this program's started by clicking desktop file.
-//    void startByIcon();
+     //void startByIcon();
 
     void startScreenshot();
     void showPressFeedback(int x, int y);
@@ -68,6 +68,8 @@ public slots:
     void shotCurrentImg();
     void shotImgWidthEffect();
     void saveScreenshot();
+    void saveAction(QPixmap pix);
+    void sendNotify(int saveIndex, QString saveFilePath);
     void reloadImage(QString effect);
     void onViewShortcut();
 
@@ -84,7 +86,11 @@ private:
 
     QList<WindowRect> m_windowRects;
     QRect m_backgroundRect;
-//    QList<QString> m_windowNames;
+     //QList<QString> m_windowNames;
+    //SaveIndex indicate the save option(save to desktop, save to Picture dir,...)
+    int m_saveIndex = 0;
+    //m_saveFileName is the storage path of the screenshot image.
+    QString m_saveFileName;
 
     int m_screenNum;
     int m_recordX;
@@ -126,7 +132,6 @@ private:
     ConfigSettings* m_configSettings;
 
     bool m_isShapesWidgetExist = false;
-    int m_saveIndex;
     QString m_specificedPath = "";
     MenuController* m_menuController;
     DBusControlCenter* m_controlCenterDBInterface;

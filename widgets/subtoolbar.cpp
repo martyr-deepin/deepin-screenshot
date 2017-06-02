@@ -484,11 +484,11 @@ void SubToolBar::setSaveOption(int saveOption) {
 }
 
 void SubToolBar::setSaveQualityIndex(int saveQuality) {
-    m_saveIndex = saveQuality;
+    m_saveQuality = saveQuality;
 }
 
 int SubToolBar::getSaveQualityIndex() {
-    return m_saveIndex;
+    return m_saveQuality;
 }
 
 SubToolBar::~SubToolBar() {}
