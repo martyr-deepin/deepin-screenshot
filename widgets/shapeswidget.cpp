@@ -1330,10 +1330,16 @@ bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
         emit requestScreenshot();
     }
 
-    if (event->type() == QKeyEvent::KeyPress) {
+    if (event->type() == QKeyEvent::KeyPress ) {
         QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
-        if (keyEvent->key() == Qt::Key_Escape) {
-            qApp->quit();
+        if (keyEvent->key() == Qt::Key_Escape && !keyEvent->isAutoRepeat()) {
+            if (m_editing) {
+                m_editing = false;
+                setAllTextEditReadOnly();
+                return true;
+            } else {
+                qApp->quit();
+            }
         }
         QFrame::keyPressEvent(keyEvent);
     }

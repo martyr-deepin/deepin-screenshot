@@ -103,7 +103,9 @@ bool TextEdit::eventFilter(QObject *watched, QEvent *event) {
     if (event->type() == QKeyEvent::KeyPress) {
         QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
         if (keyEvent->key() == Qt::Key_Escape) {
-            qApp->quit();
+            if (!this->isReadOnly()) {
+                setReadOnly(true);
+            }
         }
     }
 
