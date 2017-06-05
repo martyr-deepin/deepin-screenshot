@@ -23,13 +23,14 @@ ShapesWidget::ShapesWidget(QWidget *parent)
       m_isSelected(false),
       m_isShiftPressed(false),
       m_editing(false),
-      m_penColor(Qt::red),
       m_menuController(new MenuController)
 {
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     setAcceptDrops(true);
     installEventFilter(this);
+    m_penColor = colorIndexOf(ConfigSettings::instance()->value(
+                                  "common", "color_index").toInt());
 
     connect(m_menuController, &MenuController::shapePressed,
                    this, &ShapesWidget::shapePressed);
@@ -37,6 +38,10 @@ ShapesWidget::ShapesWidget(QWidget *parent)
             this, &ShapesWidget::saveBtnPressed);
     connect(ConfigSettings::instance(), &ConfigSettings::shapeConfigChanged,
             this, &ShapesWidget::updateSelectedShape);
+    connect(ConfigSettings::instance(), &ConfigSettings::colorChanged, this, [=]{
+        setPenColor(colorIndexOf(ConfigSettings::instance()->value(
+                                     "common", "color_index").toInt()));
+    });
 }
 
 ShapesWidget::~ShapesWidget() {}
@@ -64,13 +69,19 @@ void ShapesWidget::updateSelectedShape(const QString &group,
 
 void ShapesWidget::setCurrentShape(QString shapeType) {
     m_currentType = shapeType;
-    qApp->setOverrideCursor(setCursorShape(m_currentType));
 }
 
 void ShapesWidget::setPenColor(QColor color) {
     int colorNum = colorIndex(color);
+    m_penColor = color;
     if ( !m_currentType.isEmpty()) {
         ConfigSettings::instance()->setValue(m_currentType, "color_index", colorNum);
+    }
+
+    if (m_currentType != "line") {
+        qApp->setOverrideCursor(setCursorShape(m_currentType));
+    } else {
+        qApp->setOverrideCursor(setCursorShape("line",  colorNum));
     }
 
     update();
@@ -1038,12 +1049,20 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
                      } else if (m_resizeDirection == Moving) {
                          qApp->setOverrideCursor(Qt::ClosedHandCursor);
                      } else {
-                         qApp->setOverrideCursor(setCursorShape("rect"));
+                         if (m_currentType == "line") {
+                             qApp->setOverrideCursor(setCursorShape(m_currentType, colorIndex(m_penColor)));
+                         } else {
+                             qApp->setOverrideCursor(setCursorShape(m_currentType));
+                         }
                      }
                      update();
                      break;
                  } else {
-                     qApp->setOverrideCursor(setCursorShape(m_currentType));
+                     if (m_currentType == "line") {
+                         qApp->setOverrideCursor(setCursorShape(m_currentType, colorIndex(m_penColor)));
+                     } else {
+                         qApp->setOverrideCursor(setCursorShape(m_currentType));
+                     }
                      update();
                  }
             }
@@ -1055,7 +1074,11 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
                 update();
             }
             if (m_shapes.length() == 0) {
-                qApp->setOverrideCursor(setCursorShape(m_currentType));
+                if (m_currentType == "line") {
+                    qApp->setOverrideCursor(setCursorShape(m_currentType, colorIndex(m_penColor)));
+                } else {
+                    qApp->setOverrideCursor(setCursorShape(m_currentType));
+                }
             }
         } else {
             //TODO text
@@ -1078,7 +1101,6 @@ void ShapesWidget::updateTextRect(TextEdit* edit, QRectF newRect) {
         m_currentShape  = m_shapes[index];
         m_selectedIndex = index;
     }
-
     update();
 }
 
@@ -1295,7 +1317,11 @@ bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
     Q_UNUSED(watched);
 
     if (event->type() == QEvent::Enter) {
-        qApp->setOverrideCursor(setCursorShape(m_currentType));
+        if (m_currentType != "line") {
+            qApp->setOverrideCursor(setCursorShape(m_currentType));
+        } else {
+            qApp->setOverrideCursor(setCursorShape("line",  colorIndex(m_penColor)));
+        }
     }
 
     if (event->type() == QEvent::MouseButtonDblClick) {

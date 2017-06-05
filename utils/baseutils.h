@@ -28,7 +28,7 @@ const QString TMP_MOSA_FILE = "/tmp/deepin-screenshot-mosa.png";
 const QString TMP_BLUR_FILE = "/tmp/deepin-screenshot-blur.png";
 }
 
-QCursor setCursorShape(QString cursorName);
+QCursor setCursorShape(QString cursorName, int colorIndex = 0);
 int stringWidth(const QFont &f, const QString &str);
 QString     getFileContent(const QString &file);
 QColor       colorIndexOf(int index);

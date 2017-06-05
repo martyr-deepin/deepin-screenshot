@@ -215,7 +215,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                 }
             }
 
-            if (keyEvent->key() == Qt::Key_Delete) {
+            if (keyEvent->key() == Qt::Key_Delete || keyEvent->key() == Qt::Key_Backspace) {
                 emit  deleteShapes();
             } else {
                 qDebug() << "ShapeWidget Exist keyEvent:" << keyEvent->key();

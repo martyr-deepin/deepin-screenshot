@@ -3,8 +3,9 @@
 #include <QPixmap>
 #include <QLayoutItem>
 #include <QFile>
+#include <QDebug>
 
-QCursor setCursorShape(QString cursorName) {
+QCursor setCursorShape(QString cursorName, int colorIndex) {
     QCursor customShape = QCursor();
     if (cursorName == "start") {
         customShape = QCursor(QPixmap(
@@ -24,6 +25,9 @@ QCursor setCursorShape(QString cursorName) {
     } else if (cursorName == "text") {
         customShape = QCursor(QPixmap(
                       ":/image/mouse_style/shape/text_mouse.png"), 5, 5);
+    } else if  (cursorName == "line") {
+        customShape = QCursor(QPixmap(QString(
+                   ":/image/mouse_style/color_pen/color%1.png").arg(colorIndex)), 0, 25);
     }
 
     return customShape;
