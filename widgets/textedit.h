@@ -12,11 +12,13 @@ public:
     TextEdit(int index, QWidget* parent);
     ~TextEdit();
 
+public slots:
     void setColor(QColor c);
      int getIndex();
     void updateCursor();
     void setCursorVisible(bool visible);
     void keepReadOnlyStatus();
+    void setFontSize(int fontsize);
 
 signals:
      void repaintTextRect(TextEdit* edit,  QRectF newPositiRect);

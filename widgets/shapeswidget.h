@@ -33,6 +33,7 @@ signals:
     void saveBtnPressed(int index);
 
 public slots:
+    void updateSelectedShape(const QString &group, const QString &key, int index);
     void setCurrentShape(QString shapeType);
     void setPenColor(QColor color);
     void clearSelected();
@@ -90,6 +91,7 @@ private:
     ClickedKey m_clickedKey;
 
     int m_selectedIndex;
+    int m_currentIndex;
     bool m_blurEffectExist = false;
     bool m_mosaicEffectExist = false;
     QString m_currentType = "rectangle";

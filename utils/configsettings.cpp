@@ -54,6 +54,12 @@ void ConfigSettings::setValue(const QString &group, const QString &key,
 
     if (group == "common") {
         emit colorChanged();
+        emit shapeConfigChanged(group, key, val.toInt());
+    } else if (key == "color_index" || key == "linewidth_index" || key == "fontsize"){
+        if (key == "fontsize") {
+            qDebug() << "UUUUUUU";
+        }
+        emit shapeConfigChanged(group, key, val.toInt());
     }
 }
 

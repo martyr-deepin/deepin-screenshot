@@ -18,6 +18,7 @@ public:
 
 signals:
     void colorChanged();
+    void shapeConfigChanged(const QString &shape,  const QString &key, int index);
 
 private:
     ConfigSettings(QObject* parent = 0);

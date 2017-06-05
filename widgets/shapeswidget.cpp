@@ -9,6 +9,8 @@
 #include <QPainter>
 #include <QDebug>
 
+#define LINEWIDTH(index) (index*2+3)
+
 const int DRAG_BOUND_RADIUS = 8;
 const int SPACING = 12;
 
@@ -33,9 +35,32 @@ ShapesWidget::ShapesWidget(QWidget *parent)
                    this, &ShapesWidget::shapePressed);
     connect(m_menuController, &MenuController::saveBtnPressed,
             this, &ShapesWidget::saveBtnPressed);
+    connect(ConfigSettings::instance(), &ConfigSettings::shapeConfigChanged,
+            this, &ShapesWidget::updateSelectedShape);
 }
 
 ShapesWidget::~ShapesWidget() {}
+
+void ShapesWidget::updateSelectedShape(const QString &group,
+                                       const QString &key, int index) {
+    if (m_selectedIndex != -1) {
+        if (m_selectedShape.type == group && key == "linewidth_index") {
+            m_selectedShape.lineWidth = LINEWIDTH(index);
+        } /*else if (group == "text" && m_selectedShape.type == group && key == "color_index") {
+            m_editMap.value(m_selectedIndex)->setColor(colorIndexOf(index));
+             m_editMap.value(m_selectedIndex)->update();
+        } else if (group == "text" && m_selectedShape.type == group && key == "fontsize")  {
+            m_editMap.value(m_selectedIndex)->setFontSize(index);
+            m_editMap.value(m_selectedIndex)->update();
+        }*/ else if (group != "text" && m_selectedShape.type == group && key == "color_index") {
+            m_selectedShape.colorIndex = index;
+        }
+
+        m_shapes[m_selectedIndex] = m_selectedShape;
+        update();
+    }
+}
+
 
 void ShapesWidget::setCurrentShape(QString shapeType) {
     m_currentType = shapeType;
@@ -75,6 +100,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos) {
     bool onShapes = false;
     m_selectedIndex = -1;
 
+    qDebug() << "ClickedOnShapes !!!!!!!";
     for (int i = 0; i < m_shapes.length(); i++) {
         bool currentOnShape = false;
         if (m_shapes[i].type == "rectangle") {
@@ -764,10 +790,11 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
         m_currentShape.type = m_currentType;
         m_currentShape.colorIndex = ConfigSettings::instance()->value(
                     m_currentType, "color_index").toInt();
-        m_currentShape.lineWidth = ConfigSettings::instance()->value(
-                   m_currentType, "linewidth_index").toInt()*2+3;
+        m_currentShape.lineWidth = LINEWIDTH(ConfigSettings::instance()->value(
+                   m_currentType, "linewidth_index").toInt());
 
         m_selectedIndex = -1;
+        m_currentIndex = m_shapes.length();
 
         if (m_pos1 == QPointF(0, 0)) {
             m_pos1 = e->pos();
@@ -814,6 +841,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                     m_currentShape.mainPoints[3] = QPointF(m_pos1.x() + edit->width(),
                                                            m_pos1.y() + edit->height());
                     m_editMap.insert(m_shapes.length(), edit);
+                    m_selectedShape = m_currentShape;
                     connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
                     connect(edit, &TextEdit::backToEditing, this, [=]{
                         m_editing = true;
@@ -1202,9 +1230,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         } else if (m_currentType == "line") {
             paintLine(painter, m_currentShape.points);
         } else if (m_currentType == "text") {
-            if (m_editing) {
-                paintText(painter, m_currentShape.mainPoints);
-            }
+            paintText(painter, m_currentShape.mainPoints);
         }
     }
 

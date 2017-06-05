@@ -245,6 +245,9 @@ bool MajToolBar::eventFilter(QObject *watched, QEvent *event) {
     if (event->type() == QEvent::Enter) {
         setCursor(Qt::ArrowCursor);
         qApp->setOverrideCursor(Qt::ArrowCursor);
+    } else if (event->type() == QEvent::MouseButtonPress) {
+        QMouseEvent* e = static_cast<QMouseEvent*> (event);
+        this->mousePressEvent(e);
     }
     return false;
 }
