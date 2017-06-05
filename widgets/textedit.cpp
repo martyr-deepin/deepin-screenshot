@@ -27,7 +27,7 @@ TextEdit::TextEdit(int index, QWidget *parent)
     QFont textFont;
     int defaultFontSize = ConfigSettings::instance()->value("text", "fontsize").toInt();
     textFont.setPixelSize(defaultFontSize);
-    this->setFont(textFont);
+    this->document()->setDefaultFont(textFont);
 
     QTextCursor cursor = textCursor();
     QTextBlockFormat textBlockFormat = cursor.blockFormat();
@@ -45,7 +45,6 @@ TextEdit::TextEdit(int index, QWidget *parent)
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     connect(this->document(), &QTextDocument::contentsChange, [=]{
-        qDebug() << "TextDocument contentsChanged RRRRRRRRR";
         QSizeF docSize =  fontMetric.size(0, this->toPlainText());
         this->setMinimumSize(docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN);
         this->resize(docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN);
@@ -60,7 +59,7 @@ int TextEdit::getIndex() {
 
 void TextEdit::setColor(QColor c) {
     m_textColor = c;
-    setStyleSheet(QString("TextEdit {background-color:  transparent;"
+    setStyleSheet(QString("TextEdit {background-color: transparent;"
                                             " color: %1; border: none;}").arg(m_textColor.name()));
     this->updateGeometry();
 }
@@ -68,9 +67,10 @@ void TextEdit::setColor(QColor c) {
 void TextEdit::setFontSize(int fontsize) {
     QFont font;
     font.setPixelSize(fontsize);
-    this->setFont(font);
+    this->document()->setDefaultFont(font);
     this->updateGeometry();
-    QFontMetricsF fontMetric(font);
+
+    QFontMetricsF fontMetric(this->document()->defaultFont());
     QSizeF docSize =  fontMetric.size(0, this->toPlainText());
     this->setMinimumSize(docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN);
     this->resize(docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN);

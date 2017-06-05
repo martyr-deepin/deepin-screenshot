@@ -468,7 +468,6 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
         needRepaint = true;
     } else if (event->type() == QEvent::MouseMove) {
-        qDebug() <<QDateTime::currentDateTime() << "event filter mouse move";
         if (m_recordWidth > 0 && m_recordHeight >0 && !m_needSaveScreenshot) {
             m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
                 QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
@@ -680,7 +679,6 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
     QRect backgroundRect = QRect(m_rootWindowRect.x, m_rootWindowRect.y,
                                                               m_rootWindowRect.width, m_rootWindowRect.height);
     // Draw background.
-    qDebug() << "backgroundRect" << backgroundRect;
     if (!m_isFirstMove) {
         painter.setBrush(QBrush("#000000"));
         painter.setOpacity(0.5);

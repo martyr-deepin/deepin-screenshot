@@ -51,13 +51,14 @@ void ShapesWidget::updateSelectedShape(const QString &group,
     if (m_selectedIndex != -1) {
         if (m_selectedShape.type == group && key == "linewidth_index") {
             m_selectedShape.lineWidth = LINEWIDTH(index);
-        } /*else if (group == "text" && m_selectedShape.type == group && key == "color_index") {
+        } else if (group == "text" && m_selectedShape.type == group && key == "color_index") {
             m_editMap.value(m_selectedIndex)->setColor(colorIndexOf(index));
              m_editMap.value(m_selectedIndex)->update();
         } else if (group == "text" && m_selectedShape.type == group && key == "fontsize")  {
+            qDebug() << "setFontsize" << index;
             m_editMap.value(m_selectedIndex)->setFontSize(index);
             m_editMap.value(m_selectedIndex)->update();
-        }*/ else if (group != "text" && m_selectedShape.type == group && key == "color_index") {
+        } else if (group != "text" && m_selectedShape.type == group && key == "color_index") {
             m_selectedShape.colorIndex = index;
         }
 
@@ -1099,6 +1100,7 @@ void ShapesWidget::updateTextRect(TextEdit* edit, QRectF newRect) {
                                                                                      newRect.y() + newRect.height());
 
         m_currentShape  = m_shapes[index];
+        m_selectedShape = m_shapes[index];
         m_selectedIndex = index;
     }
     update();
