@@ -130,6 +130,7 @@ void MainWindow::initDBusInterface() {
     m_controlCenterDBInterface = new DBusControlCenter(this);
     m_notifyDBInterface = new DBusNotify(this);
     m_hotZoneInterface = new DBusZone(this);
+    m_interfaceExist = true;
 }
 
 void MainWindow::initShortcut() {
@@ -173,14 +174,18 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         if (event->type() == QEvent::KeyPress)  {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
             if (keyEvent->key() == Qt::Key_Escape) {
-                m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
-                qApp->quit();
+                qDebug() << "exit hotzone: A";
+                exitApp();
                 return false;
             }
 
             if (keyEvent->key() == Qt::Key_Shift) {
                 m_isShiftPressed = !m_isShiftPressed;
                 m_shapesWidget->setShiftKeyPressed(m_isShiftPressed);
+            }
+
+            if (keyEvent->key() == Qt::Key_S) {
+                  saveScreenshot();
             }
 
             if (keyEvent->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier)) {
@@ -202,6 +207,9 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                     m_shapesWidget->microAdjust("Ctrl+Up");
                 } else if (keyEvent->key() == Qt::Key_Down) {
                     m_shapesWidget->microAdjust("Ctrl+Down");
+                } else if (keyEvent->key() == Qt::Key_C) {
+                    ConfigSettings::instance()->setValue("save", "save_op", 3);
+                    saveScreenshot();
                 }
             }  else {
                 if (keyEvent->key() == Qt::Key_Left) {
@@ -244,8 +252,9 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        if (keyEvent->key() == Qt::Key_Escape) {
-            qApp->quit();
+        if (keyEvent->key() == Qt::Key_Escape ) {
+            qDebug() << "exit App B";
+            exitApp();
         }
 
         if (keyEvent->key() == Qt::Key_Shift) {
@@ -280,7 +289,12 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                   }
               } else if (qApp->keyboardModifiers() & Qt::ControlModifier) {
                   if (keyEvent->key() == Qt::Key_S) {
-                        saveScreenshot();
+                      saveScreenshot();
+                  }
+
+                  if (keyEvent->key() == Qt::Key_C) {
+                      ConfigSettings::instance()->setValue("save", "save_op", 3);
+                      saveScreenshot();
                   }
 
                   if (keyEvent->key() == Qt::Key_Left) {
@@ -379,7 +393,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         if (mouseEvent->button() == Qt::RightButton) {
             m_moving = false;
             if (!m_isFirstPressButton) {
-                qApp->quit();
+                exitApp();
             }
 
             m_menuController->showMenu(mouseEvent->pos());
@@ -775,6 +789,7 @@ void MainWindow::initShapeWidget(QString type) {
             m_toolBar, &ToolBar::shapePressed);
     connect(m_shapesWidget, &ShapesWidget::saveBtnPressed,
             m_toolBar, &ToolBar::saveBtnPressed);
+    connect(m_shapesWidget, &ShapesWidget::requestExit, this, &MainWindow::exitApp);
 }
 
 void MainWindow::updateCursor(QEvent *event)
@@ -912,7 +927,7 @@ void MainWindow::fullScreenshot() {
 
 void MainWindow::savePath(QString path) {
     if (!QFileInfo(path).dir().exists()) {
-        qApp->quit();
+        exitApp();
     }
 
     startScreenshot();
@@ -935,7 +950,7 @@ void MainWindow::saveSpecificedPath(QString path) {
             savePath = path + ".png";
         } else {
             qWarning() << "Invalid image format! Screenshot will quit";
-            qApp->quit();
+            exitApp();
         }
     } else {
         QDateTime currentDate;
@@ -972,7 +987,7 @@ void MainWindow::saveSpecificedPath(QString path) {
 
     m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                 summary, actions, hints, 0);
-    qApp->quit();
+    exitApp();
 }
 
 void MainWindow::delayScreenshot(int num) {
@@ -1002,6 +1017,7 @@ void MainWindow::delayScreenshot(int num) {
 void MainWindow::noNotify() {
     m_controlCenterDBInterface = new DBusControlCenter(this);
     m_hotZoneInterface = new DBusZone(this);
+    m_interfaceExist = true;
     m_noNotify = true;
     initUI();
     initShortcut();
@@ -1069,7 +1085,7 @@ void MainWindow::showReleaseFeedback(int x, int y)
 void MainWindow::responseEsc()
 {
 //    if (recordButtonStatus != ShotMouseStatus::Shoting) {
-        qApp->quit();
+        exitApp();
 //    }
 }
 
@@ -1342,4 +1358,11 @@ void MainWindow::onViewShortcut() {
     shortcutViewProc->startDetached("deepin-shortcut-viewer", shortcutString);
 
     connect(shortcutViewProc, SIGNAL(finished(int)), shortcutViewProc, SLOT(deleteLater()));
+}
+
+void MainWindow::exitApp() {
+    if (m_interfaceExist && nullptr != m_hotZoneInterface) {
+        m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
+    }
+    qApp->quit();
 }

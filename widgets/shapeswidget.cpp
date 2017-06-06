@@ -1338,7 +1338,7 @@ bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
                 setAllTextEditReadOnly();
                 return true;
             } else {
-                qApp->quit();
+                emit requestExit();
             }
         }
         QFrame::keyPressEvent(keyEvent);

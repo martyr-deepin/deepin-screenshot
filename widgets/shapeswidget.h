@@ -31,6 +31,7 @@ signals:
     void requestScreenshot();
     void shapePressed(QString shape);
     void saveBtnPressed(int index);
+    void requestExit();
 
 public slots:
     void updateSelectedShape(const QString &group, const QString &key, int index);

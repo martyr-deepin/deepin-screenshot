@@ -73,6 +73,7 @@ public slots:
     void sendNotify(int saveIndex, QString saveFilePath);
     void reloadImage(QString effect);
     void onViewShortcut();
+    void exitApp();
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
@@ -133,6 +134,7 @@ private:
     ConfigSettings* m_configSettings;
 
     bool m_isShapesWidgetExist = false;
+    bool m_interfaceExist = false;
     QString m_specificedPath = "";
     MenuController* m_menuController;
     DBusControlCenter* m_controlCenterDBInterface;
