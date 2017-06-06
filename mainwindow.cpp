@@ -1160,37 +1160,61 @@ void MainWindow::saveAction(QPixmap pix) {
     switch (m_saveIndex) {
     case 0: {
         saveOption = QStandardPaths::DesktopLocation;
+        ConfigSettings::instance()->setValue("common", "default_savepath", QStandardPaths::writableLocation(
+                                                 QStandardPaths::DesktopLocation));
         break;
     }
     case 1: {
-        saveOption = QStandardPaths::PicturesLocation;
+        QString defaultSaveDir = ConfigSettings::instance()->value("common", "default_savepath").toString();
+        if (defaultSaveDir.isEmpty()) {
+            saveOption = QStandardPaths::DesktopLocation;
+        } else if (defaultSaveDir == "clipboard") {
+            copyToClipboard = true;
+            m_saveIndex = 3;
+        } else {
+            m_saveFileName = QString("%1/%2%3.png").arg(defaultSaveDir).arg(tr(
+                                                                           "DeepinScreenshot")).arg(currentTime);
+        }
         break;
     }
     case 2: {
         this->hide();
         this->releaseKeyboard();
         QFileDialog fileDialog;
+        fileDialog.setOptions(QFileDialog::DontUseNativeDialog);
         QString  lastFileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
                         QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
         m_saveFileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,  tr(""));
         if ( !m_saveFileName.endsWith(".png")) {
             m_saveFileName = m_saveFileName + ".png";
         }
+
+        ConfigSettings::instance()->setValue("common", "default_savepath",
+                                             QFileInfo(m_saveFileName).dir().absolutePath());
+
         break;
     }
     case 3: {
         copyToClipboard = true;
+        ConfigSettings::instance()->setValue("common", "default_savepath",   "clipboard");
         break;
     }
     case 4: {
         copyToClipboard = true;
-        saveOption = QStandardPaths::PicturesLocation;
+        QString defaultSaveDir = ConfigSettings::instance()->value("common", "default_savepath").toString();
+        if (defaultSaveDir.isEmpty()) {
+            saveOption = QStandardPaths::DesktopLocation;
+        } else if (defaultSaveDir == "clipboard") {
+            m_saveIndex = 3;
+        } else  {
+            m_saveFileName = QString("%1/%2%3.png").arg(defaultSaveDir).arg(tr(
+                                                                               "DeepinScreenshot")).arg(currentTime);
+        }
         break;
     }
     default:
         break;
     }
-
 
     int toolBarSaveQuality = std::min(m_toolBar->getSaveQualityIndex(), 100);
 
@@ -1204,7 +1228,7 @@ void MainWindow::saveAction(QPixmap pix) {
                                                                             Qt::KeepAspectRatio, Qt::FastTransformation);
     }
 
-    if (m_saveIndex == 2) {
+    if (m_saveIndex == 2 || !m_saveFileName.isEmpty()) {
         screenShotPix.save(m_saveFileName, "PNG");
     } else if (saveOption != QStandardPaths::TempLocation || m_saveFileName.isEmpty()) {
         m_saveFileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
