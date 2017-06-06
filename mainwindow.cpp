@@ -1134,6 +1134,10 @@ void MainWindow::shotImgWidthEffect() {
     m_drawNothing = true;
     update();
 
+    QEventLoop eventloop;
+    QTimer::singleShot(100, &eventloop, SLOT(quit()));
+    eventloop.exec();
+
     qDebug() << m_toolBar->isVisible() << m_sizeTips->isVisible();
     QList<QScreen*> screenList = qApp->screens();
     QPixmap tmpImg =  screenList[m_screenNum]->grabWindow(
