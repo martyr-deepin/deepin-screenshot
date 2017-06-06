@@ -13,6 +13,7 @@ ConfigSettings::ConfigSettings(QObject *parent)
 
     if (!QFileInfo(CONFIG_PATH).exists()) {
         setValue("common", "color_index", 3);
+        setValue ("common", "default_savepath", "");
 
         setValue("arrow", "color_index", 3);
         setValue("arrow", "linewidth_index", 1);
@@ -26,8 +27,7 @@ ConfigSettings::ConfigSettings(QObject *parent)
         setValue("text", "color_index", 3);
         setValue("text", "fontsize", 12);
 
-        setValue("save", "save_op", 1);
-        setValue("showOSD", "show", true);
+        setValue("save", "save_op", 0);
     }
 
     setValue("effect", "is_blur", false);
@@ -56,9 +56,6 @@ void ConfigSettings::setValue(const QString &group, const QString &key,
         emit colorChanged();
         emit shapeConfigChanged(group, key, val.toInt());
     } else if (key == "color_index" || key == "linewidth_index" || key == "fontsize"){
-        if (key == "fontsize") {
-            qDebug() << "UUUUUUU";
-        }
         emit shapeConfigChanged(group, key, val.toInt());
     }
 }
