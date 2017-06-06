@@ -42,6 +42,7 @@ public:
     };
 
     void initUI();
+    void initBackground();
     void initShapeWidget(QString type);
     void initDBusInterface();
     void initShortcut();

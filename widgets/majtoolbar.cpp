@@ -231,8 +231,6 @@ void MajToolBar::initWidgets() {
         qDebug() << "screenshot will exit!";
         qApp->quit();
     });
-
-    qDebug() << "MajToolBar width" << this->width() << this->height();
 }
 
 bool MajToolBar::isButtonChecked() {

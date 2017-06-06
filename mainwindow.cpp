@@ -48,10 +48,10 @@ void MainWindow::initUI() {
      } else {
          m_backgroundRect =  qApp->primaryScreen()->geometry();
      }
-     qDebug() << "this screen geometry:" << m_screenNum << m_backgroundRect;
+
      this->move(m_backgroundRect.x(), m_backgroundRect.y());
      this->setFixedSize(m_backgroundRect.size());
-     shotFullScreen();
+     initBackground();
 
     m_windowManager = new WindowManager();
     m_windowManager->setRootWindowRect(m_backgroundRect);
@@ -1073,6 +1073,19 @@ void MainWindow::responseEsc()
 //    }
 }
 
+void MainWindow::initBackground() {
+    QList<QScreen*> screenList = qApp->screens();
+    QPixmap tmpImg =  screenList[m_screenNum]->grabWindow(
+                qApp->desktop()->screen(m_screenNum)->winId(),
+                m_backgroundRect.x(), m_backgroundRect.y(),
+                m_backgroundRect.width(), m_backgroundRect.height());
+
+    using namespace utils;
+    tmpImg.save(TMP_FULLSCREEN_FILE, "png");
+    this->setStyleSheet(QString("MainWindow{ border-image: url(%1); }"
+                                       ).arg(TMP_FULLSCREEN_FILE));
+}
+
 void MainWindow::shotFullScreen() {
     QList<QScreen*> screenList = qApp->screens();
     QPixmap tmpImg =  screenList[m_screenNum]->grabWindow(
@@ -1082,8 +1095,6 @@ void MainWindow::shotFullScreen() {
 
     using namespace utils;
     tmpImg.save(TMP_FULLSCREEN_FILE, "png");
-    this->setStyleSheet(QString("MainWindow{ border-image: url(%1);}"
-                                       ).arg(TMP_FULLSCREEN_FILE));
 }
 
 void MainWindow::shotCurrentImg() {
@@ -1094,16 +1105,23 @@ void MainWindow::shotCurrentImg() {
     m_drawNothing = true;
     update();
 
-    QEventLoop eventloop;
-    QTimer::singleShot(100, &eventloop, SLOT(quit()));
-    eventloop.exec();
+    QEventLoop eventloop1;
+    QTimer::singleShot(100, &eventloop1, SLOT(quit()));
+    eventloop1.exec();
 
-    qDebug() << m_toolBar->isVisible() << m_sizeTips->isVisible();
+    qDebug() << "shotCurrentImg";
     using namespace utils;
     shotFullScreen();
+    if (m_isShapesWidgetExist) {
+        m_shapesWidget->hide();
+    }
+
+    QEventLoop eventloop2;
+    QTimer::singleShot(1000, &eventloop2, SLOT(quit()));
+    eventloop2.exec();
+    this->hide();
 
     QPixmap tmpImg(TMP_FULLSCREEN_FILE);
-    qDebug() << "shotFULLSCREENSHOT" << tmpImg.size();
     tmpImg = tmpImg.copy(QRect(m_recordX, m_recordY, m_recordWidth, m_recordHeight));
     tmpImg.save(TMP_FILE, "png");
 }

@@ -422,6 +422,7 @@ void SubToolBar::initSaveLabel() {
         saveLayout->addWidget(btn);
         saveLayout->addSpacing(8);
         connect(btn, &ToolButton::clicked, this,  [=]{
+            qDebug() << "saveButtonList:" << toolBtnList.indexOf(btn);
             setSaveOption(toolBtnList.indexOf(btn));
         });
         connect(btn, &ToolButton::onEnter, this, [=]{
