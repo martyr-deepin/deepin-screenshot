@@ -1219,7 +1219,8 @@ void MainWindow::saveAction(QPixmap pix) {
     int toolBarSaveQuality = std::min(m_toolBar->getSaveQualityIndex(), 100);
 
     if (toolBarSaveQuality != 100) {
-       qreal saveQuality = toolBarSaveQuality*5/1000 + 0.5;
+       qreal saveQuality = qreal(toolBarSaveQuality)*5/1000 + 0.5;
+
        int pixWidth = screenShotPix.width();
        int pixHeight = screenShotPix.height();
         screenShotPix = screenShotPix.scaled(pixWidth*saveQuality, pixHeight*saveQuality,

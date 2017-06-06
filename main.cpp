@@ -19,13 +19,14 @@ int main(int argc, char *argv[])
     DWIDGET_INIT_RESOURCE();
 #endif
 
-    DApplication::loadDXcbPlugin();
+     DApplication::loadDXcbPlugin();
 
      DApplication a(argc, argv);
      a.loadTranslator(QList<QLocale>() << QLocale::system());
      a.setOrganizationName("deepin");
      a.setApplicationName("deepin-screenshot");
      a.setApplicationVersion("4.0");
+     a.setTheme("light");
      a.setQuitOnLastWindowClosed(false);
 
     Dtk::Util::DLogManager::registerConsoleAppender();
