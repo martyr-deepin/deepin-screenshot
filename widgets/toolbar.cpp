@@ -12,7 +12,7 @@ namespace {
 
 ToolBar::ToolBar(QWidget *parent)
     :DBlurEffectWidget(parent),
-      m_isChecked(false)
+      m_expanded(false)
 {
     setStyleSheet(getFileContent(":/resources/qss/toolbar.qss"));
     setBlurRectXRadius(3);
@@ -66,27 +66,21 @@ ToolBar::ToolBar(QWidget *parent)
 }
 
 bool ToolBar::isButtonChecked() {
-    return m_isChecked;
+    return m_expanded;
 }
 
 void ToolBar::setExpand(bool expand, QString shapeType) {
      emit buttonChecked(shapeType);
 
     if (expand) {
-        m_isChecked = true;
+        m_expanded = true;
         m_bgLabel->setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT*2+1);
         setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT*2+1);;
         m_hSeperatorLine->show();
         m_subToolbar->show();
         m_bgLabel->update();
-    } else {
-        m_isChecked = false;
-        m_bgLabel->setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
-        setFixedSize(TOOLBAR_WIDTH, TOOLBAR_HEIGHT);;
-        m_hSeperatorLine->hide();
-        m_subToolbar->hide();
-        m_bgLabel->update();
     }
+
     update();
 }
 

@@ -43,7 +43,7 @@ private:
     SubToolBar* m_subToolbar;
     QLabel* m_bgLabel;
 
-    bool m_isChecked;
+    bool  m_expanded;
 };
 
 #endif // TOOLBAR_H
