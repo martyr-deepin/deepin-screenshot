@@ -174,13 +174,12 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
         if (event->type() == QEvent::KeyPress)  {
             QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
             if (keyEvent->key() == Qt::Key_Escape) {
-                qDebug() << "exit hotzone: A";
                 exitApp();
                 return false;
             }
 
             if (keyEvent->key() == Qt::Key_Shift) {
-                m_isShiftPressed = !m_isShiftPressed;
+                m_isShiftPressed =  true;
                 m_shapesWidget->setShiftKeyPressed(m_isShiftPressed);
             }
 
@@ -229,12 +228,16 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                 qDebug() << "ShapeWidget Exist keyEvent:" << keyEvent->key();
             }
             return false;
-        }/* else if (event->type() == QEvent::KeyRelease) {
+        } else if (event->type() == QEvent::KeyRelease) {
             QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
-            if (keyEvent->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier)) {
-                 QProcess::startDetached("killall deepin-shortcut-viewer");
+//            if (keyEvent->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier)) {
+//                 QProcess::startDetached("killall deepin-shortcut-viewer");
+//            }
+            if (keyEvent->key() == Qt::Key_Shift) {
+                m_isShiftPressed =  false;
+                m_shapesWidget->setShiftKeyPressed(m_isShiftPressed);
             }
-        }*/
+        }
         return false;
     }
 
@@ -253,7 +256,6 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
         if (keyEvent->key() == Qt::Key_Escape ) {
-            qDebug() << "exit App B";
             exitApp();
         }
 

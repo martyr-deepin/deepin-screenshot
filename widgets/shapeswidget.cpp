@@ -771,9 +771,9 @@ void ShapesWidget::handleResize(QPointF pos, int key) {
             m_shapes[m_selectedIndex].mainPoints[1],
             m_shapes[m_selectedIndex].mainPoints[2],
             m_shapes[m_selectedIndex].mainPoints[3], pos, key,
-            m_shapes[m_selectedIndex].isShiftPressed);
+            m_isShiftPressed);
 
-       qDebug() << "handleResize:" << m_selectedIndex << m_shapes[m_selectedIndex].isShiftPressed;
+       qDebug() << "handleResize:" << m_selectedIndex <<  m_isShiftPressed;
         m_shapes[m_selectedIndex].mainPoints = newResizeFPoints;
         m_selectedShape.mainPoints = newResizeFPoints;
         m_hoveredShape.mainPoints = newResizeFPoints;
@@ -903,7 +903,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
     if (m_isRecording && !m_isSelected && m_pos2 != QPointF(0, 0)) {
         if (m_currentType == "arrow") {
             if (m_currentShape.points.length() == 2) {
-                if (m_currentShape.isShiftPressed) {
+                if (m_isShiftPressed) {
                     if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()), std::abs(m_pos2.x() - m_pos1.x()))
                             *180/M_PI < 45) {
                         m_pos2 = QPointF(m_pos2.x(), m_pos1.y());
@@ -921,7 +921,7 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
             m_currentShape.mainPoints = lineFPoints;
             m_shapes.append(m_currentShape);
         } else if (m_currentType != "text"){
-            FourPoints rectFPoints = getMainPoints(m_pos1, m_pos2, m_currentShape.isShiftPressed);
+            FourPoints rectFPoints = getMainPoints(m_pos1, m_pos2, m_isShiftPressed);
             m_currentShape.mainPoints = rectFPoints;
             m_shapes.append(m_currentShape);
         }
@@ -954,7 +954,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
 
         if (m_currentShape.type == "arrow") {
             if (m_currentShape.points.length() <= 1) {
-                if (m_currentShape.isShiftPressed) {
+                if (m_isShiftPressed) {
                         if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()),
                                        std::abs(m_pos2.x() - m_pos1.x()))*180/M_PI < 45) {
                             m_currentShape.points.append(QPointF(m_pos2.x(), m_pos1.y()));
@@ -965,7 +965,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
                     m_currentShape.points.append(m_pos2);
                 }
             } else {
-                if (m_currentShape.isShiftPressed) {
+                if (m_isShiftPressed) {
                     if (std::atan2(std::abs(m_pos2.y() - m_pos1.y()),
                                    std::abs(m_pos2.x() - m_pos1.x()))*180/M_PI < 45) {
                         m_currentShape.points[1] = QPointF(m_pos2.x(), m_pos1.y());
@@ -1254,7 +1254,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     }
 
     if ((m_pos1 != QPointF(0, 0) && m_pos2 != QPointF(0, 0))||m_currentShape.type == "text") {
-        FourPoints currentFPoint =  getMainPoints(m_pos1, m_pos2, m_currentShape.isShiftPressed);
+        FourPoints currentFPoint =  getMainPoints(m_pos1, m_pos2, m_isShiftPressed);
         pen.setColor(colorIndexOf(m_currentShape.colorIndex));
         pen.setWidth(m_currentShape.lineWidth);
         painter.setPen(pen);
@@ -1330,7 +1330,6 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
 
 bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
     Q_UNUSED(watched);
-
     if (event->type() == QEvent::Enter) {
         if (m_currentType != "line") {
             qApp->setOverrideCursor(setCursorShape(m_currentType));
