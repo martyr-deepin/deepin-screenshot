@@ -951,7 +951,7 @@ void MainWindow::saveSpecificedPath(QString path) {
         } else if (suffix.isEmpty()) {
             savePath = path + ".png";
         } else {
-            qWarning() << "Invalid image format! Screenshot will quit";
+            qWarning() << "Invalid image format! Screenshot will quit, suffix:" << suffix;
             exitApp();
         }
     } else {
@@ -1194,6 +1194,7 @@ void MainWindow::saveAction(QPixmap pix) {
     QString currentTime =  currentDate.currentDateTime().
             toString("yyyyMMddHHmmss");
     m_saveFileName = "";
+
     QStandardPaths::StandardLocation saveOption = QStandardPaths::TempLocation;
     bool copyToClipboard = false;
     m_saveIndex =  ConfigSettings::instance()->value("save", "save_op").toInt();
@@ -1221,17 +1222,20 @@ void MainWindow::saveAction(QPixmap pix) {
         this->hide();
         this->releaseKeyboard();
         QFileDialog fileDialog;
-        fileDialog.setOptions(QFileDialog::DontUseNativeDialog);
         QString  lastFileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
                         QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
-        m_saveFileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,  tr(""));
-        if ( !m_saveFileName.endsWith(".png")) {
-            m_saveFileName = m_saveFileName + ".png";
+        m_saveFileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,
+                                                     tr("PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;"
+                                                        "XBM (*.xbm);;XPM(*.xpm);;"));
+        QString fileSuffix = QFileInfo(m_saveFileName).completeSuffix();
+
+        if ( !isValidFormat(fileSuffix)) {
+            qWarning() << "The fileName has invalid suffix!" << fileSuffix << m_saveFileName;
+            exitApp();
         }
 
         ConfigSettings::instance()->setValue("common", "default_savepath",
                                              QFileInfo(m_saveFileName).dir().absolutePath());
-
         break;
     }
     case 3: {
@@ -1270,11 +1274,11 @@ void MainWindow::saveAction(QPixmap pix) {
     }
 
     if (m_saveIndex == 2 || !m_saveFileName.isEmpty()) {
-        screenShotPix.save(m_saveFileName, "PNG");
+        screenShotPix.save(m_saveFileName,  QFileInfo(m_saveFileName).suffix().toLocal8Bit());
     } else if (saveOption != QStandardPaths::TempLocation || m_saveFileName.isEmpty()) {
         m_saveFileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
                              saveOption)).arg(tr("DeepinScreenshot")).arg(currentTime);
-        screenShotPix.save(m_saveFileName, "PNG");
+        screenShotPix.save(m_saveFileName,  "PNG");
     }
 
     if (copyToClipboard) {
@@ -1299,6 +1303,8 @@ void MainWindow::sendNotify(int saveIndex, QString saveFilePath) {
     }
 
     hints["x-deepin-action-_open"] = command;
+
+    qDebug() << "saveFilePath:" << saveFilePath;
 
    QString summary;
    if (saveIndex == 3) {
