@@ -49,7 +49,13 @@ ShapesWidget::~ShapesWidget() {}
 void ShapesWidget::updateSelectedShape(const QString &group,
                                        const QString &key, int index) {
     if (m_selectedIndex != -1) {
-        if (m_selectedShape.type == group && key == "linewidth_index") {
+        if (m_selectedShape.type == "arrow" && key != "color_index") {
+            if (key == "arrow_linewidth_index" && !m_selectedShape.isStraight) {
+                m_selectedShape.lineWidth = LINEWIDTH(index);
+            } else if (key == "straightline_linewidth_index" && m_selectedShape.isStraight) {
+                m_selectedShape.lineWidth = LINEWIDTH(index);
+            }
+        } else if (m_selectedShape.type == group && key == "linewidth_index") {
             m_selectedShape.lineWidth = LINEWIDTH(index);
         } else if (group == "text" && m_selectedShape.type == group && key == "color_index") {
             m_editMap.value(m_selectedIndex)->setColor(colorIndexOf(index));
@@ -817,6 +823,13 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                 m_currentShape.points.append(m_pos1);
                 m_currentShape.isStraight = ConfigSettings::instance()->value(
                                                                     "arrow", "is_straight").toBool();
+                if (m_currentShape.isStraight) {
+                    m_currentShape.lineWidth = LINEWIDTH(ConfigSettings::instance()->value(
+                                                             "arrow", "straightline_linewidth_index").toInt());
+                } else {
+                    m_currentShape.lineWidth = LINEWIDTH(ConfigSettings::instance()->value(
+                                                             "arrow", "arrow_linewidth_index").toInt());
+                }
             } else if (m_currentType == "rectangle" || m_currentType == "oval") {
                 m_currentShape.isBlur = ConfigSettings::instance()->value(
                                                               "effect", "is_blur").toBool();

@@ -173,10 +173,10 @@ void SubToolBar::initArrowLabel() {
         arrowBtn->setChecked(true);
     }
 
-    int arrowWidthIndex = ConfigSettings::instance()->value("arrow",
-                                                      "linewidth_index").toInt();
+    int arrowWidthIndex = ConfigSettings::instance()->value("arrow", "arrow_linewidth_index").toInt();
+    int sLineWidthIndex = ConfigSettings::instance()->value("arrow", "straightline_linewidth").toInt();
     arrowBtnList[arrowWidthIndex]->setChecked(true);
-    arrowBtnList[arrowWidthIndex+3]->setChecked(true);
+    arrowBtnList[sLineWidthIndex+3]->setChecked(true);
     QHBoxLayout* arrowLayout = new QHBoxLayout();
     arrowLayout->setMargin(0);
     arrowLayout->setSpacing(BUTTON_SPACING);
@@ -186,9 +186,9 @@ void SubToolBar::initArrowLabel() {
 //        arrowLayout->addSpacing(BUTTON_SPACING);
         connect(arrowBtnList[j], &ToolButton::clicked, this, [=]{
             if (j < 3) {
-                 ConfigSettings::instance()->setValue("arrow", "linewidth_index", j);
+                 ConfigSettings::instance()->setValue("arrow", "arrow_linewidth_index", j);
             } else {
-                ConfigSettings::instance()->setValue("arrow", "linewidth_index", j - 3);
+                ConfigSettings::instance()->setValue("arrow", "straightline_linewidth_index", j - 3);
             }
         });
     }
@@ -242,10 +242,10 @@ void SubToolBar::initArrowLabel() {
             thickLine->hide();
         }
 
-        int lineIndex = ConfigSettings::instance()->value(m_currentType,
-                                                          "linewidth_index").toInt();
-        arrowBtnList[lineIndex]->setChecked(true);
-        arrowBtnList[lineIndex+3]->setChecked(true);
+        int  arrowLineWidth = ConfigSettings::instance()->value("arrow", "arrow_linewidth_index").toInt();
+        int  sLineWidth = ConfigSettings::instance()->value("arrow", "straightline_linewidth_index").toInt();
+        arrowBtnList[arrowLineWidth]->setChecked(true);
+        arrowBtnList[sLineWidth+3]->setChecked(true);
     });
 }
 

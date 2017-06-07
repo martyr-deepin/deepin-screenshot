@@ -16,7 +16,8 @@ ConfigSettings::ConfigSettings(QObject *parent)
         setValue ("common", "default_savepath", "");
 
         setValue("arrow", "color_index", 3);
-        setValue("arrow", "linewidth_index", 1);
+        setValue("arrow", "arrow_linewidth_index", 1);
+        setValue("arrow", "straightline_linewidth_index", 1);
         setValue("arrow", "is_straight", false);
         setValue("oval", "color_index", 3);
         setValue("oval", "linewidth_index", 1);
@@ -55,7 +56,7 @@ void ConfigSettings::setValue(const QString &group, const QString &key,
     if (group == "common") {
         emit colorChanged();
         emit shapeConfigChanged(group, key, val.toInt());
-    } else if (key == "color_index" || key == "linewidth_index" || key == "fontsize"){
+    } else {
         emit shapeConfigChanged(group, key, val.toInt());
     }
 }
