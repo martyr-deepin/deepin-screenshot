@@ -911,10 +911,15 @@ FourPoints point1Resize5(QPointF point1, QPointF point2, QPointF point3,
                 point1 = pos;
             }
             if (pointLineDir(point1, point3, pos) == 1 && pointLineDir(point1, point2, pos) == -1) {
-                point2 = QPointF(point2.x() + addLeft.x(), point2.y() - addLeft.y());
-                point3 = QPointF(point3.x() - addRight.x(), point3.y() - addRight.y());
+                point2 = QPointF(point2.x() - addLeft.x(), point2.y() + addLeft.y());
+                point3 = QPointF(point3.x() + addRight.x(), point3.y() + addRight.y());
                 point1 = pos;
             }
+            newResizeFPoints[0] = point1;
+            newResizeFPoints[1] = point2;
+            newResizeFPoints[2] = point3;
+            newResizeFPoints[3] = point4;
+            return newResizeFPoints;
         } else {
             qreal distance = std::min(distanceLeft, distanceRight);
             QPointF addLeft = pointSplid(point2, point4, distance);
