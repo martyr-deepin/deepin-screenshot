@@ -344,25 +344,27 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
                 }
             }
 
-           m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
-               QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
+              if ( !m_needSaveScreenshot) {
+                  m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
+                                         QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
 
-            QPoint toolbarPoint;
-            toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width(),
-                                                    std::max(m_recordY + m_recordHeight + TOOLBAR_Y_SPACING, 0));
+                  QPoint toolbarPoint;
+                  toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width(),
+                                        std::max(m_recordY + m_recordHeight + TOOLBAR_Y_SPACING, 0));
 
-            if (m_toolBar->width() > m_recordX + m_recordWidth) {
-                toolbarPoint.setX(m_recordX + 8);
-            }
-            if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height()
-                    - m_toolBar->height() - 28) {
-                if (m_recordY > 28*2 + 10) {
-                    toolbarPoint.setY(m_recordY - m_toolBar->height() - TOOLBAR_Y_SPACING);
-                } else {
-                    toolbarPoint.setY(m_recordY + TOOLBAR_Y_SPACING);
-                }
-            }
-            m_toolBar->showAt(toolbarPoint);
+                  if (m_toolBar->width() > m_recordX + m_recordWidth) {
+                      toolbarPoint.setX(m_recordX + 8);
+                  }
+                  if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height()
+                          - m_toolBar->height() - 28) {
+                      if (m_recordY > 28*2 + 10) {
+                          toolbarPoint.setY(m_recordY - m_toolBar->height() - TOOLBAR_Y_SPACING);
+                      } else {
+                          toolbarPoint.setY(m_recordY + TOOLBAR_Y_SPACING);
+                      }
+                  }
+                  m_toolBar->showAt(toolbarPoint);
+              }
         }
     } else if (event->type() == QEvent::KeyRelease) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
@@ -484,7 +486,7 @@ bool MainWindow::eventFilter(QObject *, QEvent *event)
 
         needRepaint = true;
     } else if (event->type() == QEvent::MouseMove) {
-        if (m_recordWidth > 0 && m_recordHeight >0 && !m_needSaveScreenshot) {
+        if (m_recordWidth > 0 && m_recordHeight >0 && !m_needSaveScreenshot && this->isVisible()) {
             m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
                 QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
 
@@ -915,11 +917,11 @@ void MainWindow::fullScreenshot() {
 
      this->move(m_backgroundRect.x(), m_backgroundRect.y());
      this->setFixedSize(m_backgroundRect.size());
-
+     m_needSaveScreenshot = true;
      shotFullScreen();
      m_toolBar = new ToolBar(this);
      m_toolBar->hide();
-    m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
+     m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
 
     using namespace utils;
     QPixmap screenShotPix(TMP_FULLSCREEN_FILE);
@@ -937,6 +939,7 @@ void MainWindow::savePath(QString path) {
     m_specificedPath = path;
 
     connect(m_toolBar, &ToolBar::saveSpecifiedPath, this, [=]{
+        m_needSaveScreenshot = true;
         saveSpecificedPath(m_specificedPath);
     });
 }
@@ -1049,6 +1052,7 @@ void MainWindow::topWindow() {
     using namespace utils;
     QPixmap screenShotPix = QPixmap(TMP_FULLSCREEN_FILE).copy(m_recordX, m_recordY,
                                                               m_recordWidth, m_recordHeight);
+    m_needSaveScreenshot = true;
     saveAction(screenShotPix);
     sendNotify(m_saveIndex, m_saveFileName);
 }
@@ -1227,8 +1231,11 @@ void MainWindow::saveAction(QPixmap pix) {
         m_saveFileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,
                                                      tr("PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;"
                                                         "XBM (*.xbm);;XPM(*.xpm);;"));
-        QString fileSuffix = QFileInfo(m_saveFileName).completeSuffix();
+        if (m_saveFileName.isEmpty()) {
+            exitApp();
+        }
 
+        QString fileSuffix = QFileInfo(m_saveFileName).completeSuffix();
         if ( !isValidFormat(fileSuffix)) {
             qWarning() << "The fileName has invalid suffix!" << fileSuffix << m_saveFileName;
             exitApp();
@@ -1273,7 +1280,10 @@ void MainWindow::saveAction(QPixmap pix) {
                                                                             Qt::KeepAspectRatio, Qt::FastTransformation);
     }
 
-    if (m_saveIndex == 2 || !m_saveFileName.isEmpty()) {
+    if (m_saveIndex ==2 && m_saveFileName.isEmpty()) {
+        exitApp();
+        return;
+    } else if (m_saveIndex == 2 || !m_saveFileName.isEmpty()) {
         screenShotPix.save(m_saveFileName,  QFileInfo(m_saveFileName).suffix().toLocal8Bit());
     } else if (saveOption != QStandardPaths::TempLocation || m_saveFileName.isEmpty()) {
         m_saveFileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
@@ -1313,11 +1323,11 @@ void MainWindow::sendNotify(int saveIndex, QString saveFilePath) {
        summary = QString(tr("Picture has been saved to %1")).arg(saveFilePath);
    }
 
-   if (saveIndex == 3) {
+   if (saveIndex == 3 && !m_noNotify) {
        QVariantMap emptyMap;
        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                summary,  QStringList(), emptyMap, 0);
-   } else if (saveFilePath != ".png" && !m_noNotify) {
+   }  else if ( !m_noNotify &&  !(m_saveIndex == 2 && m_saveFileName.isEmpty())) {
        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                summary, actions, hints, 0);
    }
