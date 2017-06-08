@@ -18,19 +18,20 @@
 const QString SCREENSHOT_DBUS_NAME = "com.deepin.DeepinScreenshot";
 const QString SCREENSHOT_DBUS_PATH = "/com/deepin/DeepinScreenshot";
 
-DBusScreenshot::DBusScreenshot(QObject *parent)
-    : QDBusAbstractInterface(SCREENSHOT_DBUS_NAME, SCREENSHOT_DBUS_PATH,
+DBusScreenshot::DBusScreenshot(QObject* parent)
+   : QDBusAbstractInterface(SCREENSHOT_DBUS_NAME, SCREENSHOT_DBUS_PATH,
                              staticInterfaceName(), QDBusConnection::sessionBus(), parent)
-{
+ {
     QDBusConnection::sessionBus().connect(this->service(), this->path(),
     "org.freedesktop.DBus.Properties", "PropertiesChanged","sa{sv}as",
-                                          this, SLOT(__propertyChanged__(QDBusMessage)));
-}
+                                         this, SLOT(__propertyChanged__(QDBusMessage)));
+ }
 
-DBusScreenshot::~DBusScreenshot()
-{
+ DBusScreenshot::~DBusScreenshot()
+ {
     QDBusConnection::sessionBus().disconnect(service(), path(),
-    "org.freedesktop.DBus.Properties", "PropertiesChanged", "sa{sv}as",
-                                             this, SLOT(propertyChanged(QDBusMessage)));
-}
+   "org.freedesktop.DBus.Properties", "PropertiesChanged", "sa{sv}as",
+                                            this, SLOT(propertyChanged(QDBusMessage)));
+ }
+
 

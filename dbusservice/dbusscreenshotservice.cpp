@@ -9,6 +9,8 @@
  */
 
 #include "dbusscreenshotservice.h"
+#include "screenshot.h"
+
 #include <QtCore/QMetaObject>
 #include <QtCore/QByteArray>
 #include <QtCore/QList>
@@ -21,7 +23,7 @@
  * Implementation of adaptor class DBusScreenshotService
  */
 
-DBusScreenshotService::DBusScreenshotService(MainWindow *parent)
+DBusScreenshotService::DBusScreenshotService(Screenshot *parent)
     : QDBusAbstractAdaptor(parent)
 {
     // constructor
@@ -43,27 +45,27 @@ void DBusScreenshotService::DelayScreenshot(qlonglong in0)
     parent()->DelayScreenshot(in0);
 }
 
-void DBusScreenshotService::NoNotify()
+void DBusScreenshotService::NoNotifyScreenshot()
 {
     // handle method call com.deepin.DeepinScreenshot.NoNotify
-    parent()->NoNotify();
+    parent()->NoNotifyScreenshot();
 }
 
-void DBusScreenshotService::TopWindow()
+void DBusScreenshotService::TopWindowScreenshot()
 {
     // handle method call com.deepin.DeepinScreenshot.TopWindow
-    parent()->TopWindow();
+    parent()->TopWindowScreenshot();
 }
 
-void DBusScreenshotService::FullscreenShot()
+void DBusScreenshotService::FullscreenScreenShot()
 {
     // handle method call com.deepin.DeepinScreenshot.FullscreenShot
-    parent()->FullscreenShot();
+    parent()->FullscreenScreenShot();
 }
 
-void DBusScreenshotService::SavePath(const QString &in0)
+void DBusScreenshotService::SavePathScreenshot(const QString &in0)
 {
     // handle method call com.deepin.DeepinScreenshot.SavePath
-    parent()->SavePath(in0);
+    parent()->SavePathScreenshot(in0);
 }
 

@@ -10,6 +10,7 @@
 #include <QScreen>
 #include <QMenu>
 #include <QDateTime>
+#include <QMouseEvent>
 
 #include "widgets/toptips.h"
 #include "widgets/toolbar.h"
@@ -49,10 +50,11 @@ public:
 
 signals:
     void deleteShapes();
+    void releaseEvent();
 
 public slots:
     void fullScreenshot();
-    void savePath(QString path);
+    void savePath(const QString &path);
     void saveSpecificedPath(QString path);
     void delayScreenshot(int num);
     void noNotify();
@@ -77,10 +79,18 @@ public slots:
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-    bool eventFilter(QObject *watched, QEvent *event) Q_DECL_OVERRIDE;
     int  getDirection(QEvent *event);
     void updateCursor(QEvent *event);
     void resizeDirection(ResizeDirection direction, QMouseEvent* e);
+
+    void keyPressEvent(QKeyEvent *ev) Q_DECL_OVERRIDE;
+    void keyReleaseEvent(QKeyEvent *ev) Q_DECL_OVERRIDE;
+
+    void mouseDoubleClickEvent(QMouseEvent* ev) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent* ev) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
+    void hideEvent(QHideEvent *event) Q_DECL_OVERRIDE;
 
 private:
     WindowManager* m_windowManager;
@@ -135,6 +145,7 @@ private:
 
     bool m_isShapesWidgetExist = false;
     bool m_interfaceExist = false;
+
     QString m_specificedPath = "";
     MenuController* m_menuController;
     DBusControlCenter* m_controlCenterDBInterface;

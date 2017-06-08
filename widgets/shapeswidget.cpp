@@ -28,7 +28,7 @@ ShapesWidget::ShapesWidget(QWidget *parent)
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     setAcceptDrops(true);
-    installEventFilter(this);
+
     m_penColor = colorIndexOf(ConfigSettings::instance()->value(
                                   "common", "color_index").toInt());
 
@@ -852,7 +852,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                     setAllTextEditReadOnly();
                     m_currentShape.mainPoints[0] = m_pos1;
                     TextEdit* edit = new TextEdit(m_shapes.length(), this);
-                    edit->grabKeyboard();
+//                    edit->grabKeyboard();
                     m_selectedIndex = m_shapes.length();
                     m_editing = true;
                     int defaultFontSize = ConfigSettings::instance()->value("text", "fontsize").toInt();

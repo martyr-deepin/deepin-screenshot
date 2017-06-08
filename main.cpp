@@ -1,6 +1,8 @@
-#include "mainwindow.h"
-#include "dbusinterface/dbusscreenshot.h"
+//#include "mainwindow.h"
+#include "screenshot.h"
 #include "dbusservice/dbusscreenshotservice.h"
+#include "dbusinterface/dbusscreenshot.h"
+
 
 #include <DApplication>
 #include <DLog>
@@ -57,36 +59,39 @@ int main(int argc, char *argv[])
      cmdParser.addOption(iconOption);
      cmdParser.process(a);
 
-     MainWindow w;
+     Screenshot w;
+     w.hide();
      DBusScreenshotService dbusService (&w);
      Q_UNUSED(dbusService);
     QDBusConnection conn = QDBusConnection::sessionBus();
     if (!conn.registerService("com.deepin.DeepinScreenshot") ||
             !conn.registerObject("/com/deepin/DeepinScreenshot", &w)) {
         qDebug() << "deepin-screenshot is running!";
-        a.exit(0);
+
+        qApp->quit();
+        return 0;
     } else {
+        qDebug() << "deepin-screenshot first started!";
         qDebug() << cmdParser.isSet(delayOption) << cmdParser.value(delayOption);
 
         if (cmdParser.isSet(delayOption)) {
-              qDebug() << "Cmd delayScreenshot";
-               w.delayScreenshot(cmdParser.value(delayOption).toInt());
+            qDebug() << "Cmd delayScreenshot";
+            w.delayScreenshot(cmdParser.value(delayOption).toInt());
         } else if (cmdParser.isSet(fullscreenOption)) {
-            w.fullScreenshot();
+            w.fullscreenScreenshot();
         } else if (cmdParser.isSet(topWindowOption)) {
             qDebug() << "screenshot topWindow";
-            w.topWindow();
+            w.topWindowScreenshot();
         } else if (cmdParser.isSet(savePathOption)) {
-            w.savePath(cmdParser.value(savePathOption));
+            w.savePathScreenshot(cmdParser.value(savePathOption));
         } else if (cmdParser.isSet(prohibitNotifyOption)) {
             qDebug() << "screenshot no notify!";
-            w.noNotify();
+            w.noNotifyScreenshot();
         } else if (cmdParser.isSet(iconOption)) {
             w.startScreenshot();
         }  else {
             w.startScreenshot();
         }
+        return a.exec();
     }
-
-    return a.exec();
 }

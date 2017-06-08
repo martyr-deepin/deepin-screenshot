@@ -112,7 +112,7 @@ bool TextEdit::eventFilter(QObject *watched, QEvent *event) {
     if (event->type() == QMouseEvent::MouseButtonDblClick) {
         this->setReadOnly(false);
         this->setCursorVisible(true);
-        this->grabKeyboard();
+//        this->grabKeyboard();
         emit backToEditing();
     }
 

@@ -1,9 +1,12 @@
-<interface name="com.deepin.DeepinScreenshot">
-    <method name="DelayScreenshot">
-        <arg direction="in" type="x" />
-    </method>    
-    <method name="FullscreenShot"/>
-    <method name="SavePath">
-        <arg direction="in" type="s"/>
-    </method>
-</interface>
+<interface name="com.deepin.DeepinScreenshot">\n
+    <method name="StartScreenshot"/>\n
+    <method name="DelayScreenshot">\n
+        <arg direction="in" type="x"/>\n
+    </method>\n
+    <method name="NoNotifyScreenshot"/>\n
+    <method name="TopWindowScreenshot"/>\n
+    <method name="FullscreenScreenshot"/>\n
+    <method name="SavePathScreenshot">\n
+        <arg direction="in" type="s"/>\n
+    </method>\n
+</interface>\n
