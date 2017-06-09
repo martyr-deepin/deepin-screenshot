@@ -8,8 +8,6 @@ Screenshot::Screenshot(QWidget *parent)
 {
     setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::WindowStaysOnTopHint |
                    Qt::FramelessWindowHint);
-//    setAttribute(Qt::WA_TranslucentBackground, true);
-//    setMouseTracking(true);   // make MouseMove can response
 
     m_eventContainer = new EventContainer(this);
     m_window = new MainWindow(m_eventContainer);

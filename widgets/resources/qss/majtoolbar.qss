@@ -202,18 +202,18 @@ QPushButton#ListBtn:checked {
 
 QPushButton#OkBtn {
     outline: none;
-    border-image:url(:/resources/images/action/ok_normal.png);
+    border-image:url(:/resources/images/action/save_normal.png);
 }
 QPushButton#OkBtn:hover {
     outline: none;
     background-color: rgba(0, 0, 0, 0.08);
     border: solid 1px transparent;
     border-radius: 3px;
-    border-image:url(:/resources/images/action/ok_hover.png);
+    border-image:url(:/resources/images/action/save_hover.png);
 }
 QPushButton#OkBtn:checked:hover {
     outline: none;
-    border-image: url(:/resources/images/action/ok_checked.png);
+    border-image: url(:/resources/images/action/save_checked.png);
 }
 QPushButton#OkBtn:checked {
     outline: none;
