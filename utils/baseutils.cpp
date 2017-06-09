@@ -15,10 +15,10 @@ QCursor setCursorShape(QString cursorName, int colorIndex) {
                       ":/image/mouse_style/shape/rotate_mouse.png"), 5, 5);
     } else if (cursorName == "rectangle") {
         customShape = QCursor(QPixmap(
-                      ":/image/mouse_style/shape/rect_mouse.png"), 5, 5);
+                      ":/image/mouse_style/shape/rect_mouse.png"), 1, 4);
     } else if (cursorName == "oval") {
         customShape = QCursor(QPixmap(
-                      ":/image/mouse_style/shape/ellipse_mouse.png"), 5, 5);
+                      ":/image/mouse_style/shape/ellipse_mouse.png"), 1, 4);
     } else if (cursorName == "arrow") {
         customShape = QCursor(QPixmap(
                       ":/image/mouse_style/shape/arrow_mouse.png"), 5, 5);
