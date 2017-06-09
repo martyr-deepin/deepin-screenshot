@@ -163,6 +163,11 @@ void MainWindow::initShortcut() {
     viewSC->setAutoRepeat(false);
     connect(viewSC,  SIGNAL(activated()), this, SLOT(onViewShortcut()));
 
+    if (isCommandExist) {
+        QShortcut* helpSC = new QShortcut(QKeySequence("F1"), this);
+        helpSC->setAutoRepeat(false);
+        connect(helpSC,  SIGNAL(activated()), this, SLOT(onHelp()));
+    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *ev) {
@@ -1382,6 +1387,23 @@ void MainWindow::onViewShortcut() {
     shortcutViewProc->startDetached("deepin-shortcut-viewer", shortcutString);
 
     connect(shortcutViewProc, SIGNAL(finished(int)), shortcutViewProc, SLOT(deleteLater()));
+}
+
+void MainWindow::onHelp() {
+    using namespace utils;
+    if (m_manualPro.isNull()) {
+        const QString pro = "dman";
+        const QStringList args("deepin-screenshot");
+        m_manualPro = new QProcess();
+        connect(m_manualPro.data(), SIGNAL(finished(int)),
+                m_manualPro.data(), SLOT(deleteLater()));
+        this->hide();
+        m_manualPro->start(pro, args);
+
+        QTimer::singleShot(1000, this, [=]{
+            exitApp();
+        });
+    }
 }
 
 void MainWindow::exitApp() {

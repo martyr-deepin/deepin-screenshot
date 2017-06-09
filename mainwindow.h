@@ -75,11 +75,12 @@ public slots:
     void sendNotify(int saveIndex, QString saveFilePath);
     void reloadImage(QString effect);
     void onViewShortcut();
+    void onHelp();
     void exitApp();
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-    int  getDirection(QEvent *event);
+    int   getDirection(QEvent *event);
     void updateCursor(QEvent *event);
     void resizeDirection(ResizeDirection direction, QMouseEvent* e);
 
@@ -151,6 +152,7 @@ private:
     DBusControlCenter* m_controlCenterDBInterface;
     DBusNotify* m_notifyDBInterface;
     DBusZone* m_hotZoneInterface;
+    QPointer<QProcess> m_manualPro;
 
 //    EventMonitor m_eventMonitor;
 };

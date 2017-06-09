@@ -8,6 +8,7 @@ Screenshot::Screenshot(QWidget *parent)
 {
     setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::WindowStaysOnTopHint |
                    Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_TranslucentBackground);
 
     m_eventContainer = new EventContainer(this);
     m_window = new MainWindow(m_eventContainer);

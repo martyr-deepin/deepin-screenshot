@@ -34,5 +34,6 @@ QString     getFileContent(const QString &file);
 QColor       colorIndexOf(int index);
 int                colorIndex(QColor color);
 bool          isValidFormat(QString suffix);
+bool          isCommandExist(QString command);
 void  paintSelectedPoint(QPainter &painter, QPoint pos, QPixmap pointImg);
 #endif // BASEUTILS_H

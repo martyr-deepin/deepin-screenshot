@@ -3,7 +3,7 @@
 ## 概述|../common/icon_overview.svg|
 深度截图是武汉深之度科技有限公司开发的深度操作系统下自带的截图工具。在日常工作和娱乐中，为了展示特定状态下的程序界面，应用场景等，需要截取可以显示在屏幕或其他显示设备上的可视图像，您可以通过运行深度截图软件来实现。
 
-深度截图拥有模糊和马赛克的图片编辑功能，在传播图片的过程中帮助您保护隐私信息不外泄，支持丰富的网络社交平台，让您随时随地的与朋友互动，分享身边的精彩！
+深度截图拥有模糊和马赛克的图片编辑功能，在传播图片的过程中帮助您保护隐私信息不外泄。
 
 ![1|区域截图](png/partarea.png)
 
@@ -15,12 +15,12 @@
 
 * 使用专业的截图软件来截取屏幕，如深度操作系统自带的深度截图软件。
 
-## 基本操作|../common/icon_basicoperation.svg|
+## 使用入门|../common/icon_guide.svg|
 
 ### 运行深度截图
 您可以通过执行以下操作之一来运行深度截图，进入截图模式后，整个电脑屏幕将会变暗。
 
-* 在任务栏上，点击 ![启动器](icon/launcher-24.svg) 进入启动器界面，通过浏览找到 ![深度截图](icon/screenshot-24.png) 点击。
+* 在任务栏上，点击 ![启动器](icon/launcher_icon.svg) 进入启动器界面，通过浏览找到 ![深度截图](icon/screenshot-24.png) 点击。
 
 * 按下键盘上的 ![ctrl](icon/Ctrl.svg)+![alt](icon/Alt.svg)+![A](icon/A.svg) 组合键来快速运行深度截图。
 
@@ -153,15 +153,15 @@
     </tbody>
 </table>
 <table class="block2">
-    <caption>保存/分享</caption>
+    <caption>保存</caption>
     <tbody>
         <tr>
             <td>保存</td>
             <td>Ctrl+S</td>
         </tr>
         <tr>
-            <td>分享</td>
-            <td>Ctrl+Enter</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
@@ -221,7 +221,7 @@
 ### 选择程序窗口
 选择程序窗口是自动识别当前的应用窗口。
 
-![0|窗口截图](png/window.png)
+![1|窗口截图](png/window.png)
 
 1. 按下键盘上的 ![ctrl](icon/Ctrl.svg)+![alt](icon/Alt.svg)+![A](icon/A.svg) 组合键，进入截图模式。
 
@@ -275,7 +275,7 @@
 * 当选中截图区域后，点击鼠标右键来选择编辑工具。
 
 ### 工具栏说明
-在截图过程中，您可以点击工具栏上的各个图标以完成各项操作。运行深度截图，通过鼠标选中截图区域后，工具栏会自动出现在截图的下方。
+在截图过程中，您可以点击工具栏上的各个图标以完成各项操作。运行深度截图，通过鼠标选中截图区域后，工具栏会自动出现在截图的下方。您也可以在截图时使用右键菜单来快速调用工具栏。
 
 > ![attention](icon/attention.svg)：如果您已经对工具栏展开面板，如线条粗细、字体大小等进行了设置，深度截图会记住您的选择。当您下次启动深度截图后，将默认使用该设置，您也可以重新进行选择。
 
@@ -301,18 +301,18 @@
             <td><img src="icon/text.svg" alt="文本工具" class="inline" /></td>
             <td>文本工具</td>
             <td class="blank"></td>
-            <td><img src="icon/share.svg" alt="分享" class="inline" /></td>
-            <td>分享</td>
-        </tr>
-        <tr>
-            <td><img src="icon/line.svg" alt="画笔工具" class="inline" /></td>
-            <td>画笔工具</td>
-            <td class="blank"></td>
-            <td><img src="icon/color.svg" alt="颜色工具" class="inline" /></td>
-            <td>颜色工具</td>
-            <td class="blank"></td>
             <td><img src="icon/cancel.svg" alt="关闭" class="inline" /></td>
             <td>退出截图</td>
+        </tr>
+        <tr>
+            <td><img src="icon/pencil_normal.png" alt="画笔工具" class="inline" /></td>
+            <td>画笔工具</td>
+            <td class="blank"></td>
+            <td><img src="icon/color.png" alt="颜色工具" class="inline" /></td>
+            <td>颜色工具</td>
+            <td class="blank"></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
         </tr>
     </tbody>
 </table>
@@ -320,11 +320,11 @@
 ### 绘制图形
 您可以在截取的图片中绘制一些简单的图形，如矩形、椭圆等。
 
- ![0|深度截图](png/deepinshot.png)
+ ![0|深度截图](png/drawing.png)
 
 #### 矩形工具
 
-![0|矩形工具](png/recttool.png)
+![1|矩形工具](png/recttool.png)
 
 1. 在截图区域下方的工具栏中，点击 ![矩形](icon/rect.svg)。
 
@@ -341,7 +341,7 @@
 
 #### 椭圆工具
 
-![0|椭圆工具](png/ellipsetool.png)
+![1|椭圆工具](png/ellipsetool.png)
 
 1. 在截图区域下方的工具栏中，点击 ![椭圆](icon/ellipse.svg)。
 
@@ -353,31 +353,24 @@
 
 5. 如果截图中包含了个人隐私信息，请点击工具栏展开面板中的 ![模糊](icon/blur.svg) 或 ![马赛克](icon/mosaic.svg) 来涂抹。
 
-#### 箭头工具
+#### 直线和箭头工具
 
-![0|箭头工具](png/arrowtool.png)
+![1|箭头工具](png/arrowtool.png)
 
 1. 在截图区域下方的工具栏中，点击 ![箭头](icon/arrow.svg)。
-
 2. 在工具栏展开面板中，选择箭头的粗细。
-
-3. 将鼠标指针置于截图区域上，鼠标指针变为 ![箭头指针](icon/arrow_mouse.svg)。
-
-4. 按住鼠标左键不放，拖动鼠标以完成图形区域的绘制。
+3. 点击 ![画笔选择](icon/straightline.svg) 和 ![箭头](icon/arrow_normal.png)，在箭头和直线之间切换。
+4. 将鼠标指针置于截图区域上，鼠标指针变为 ![箭头指针](icon/arrow_mouse.svg)。
+5. 按住鼠标左键不放，拖动鼠标以完成图形区域的绘制。
 
 #### 画笔工具
 
-![0|画笔工具](png/linetool.png)
+![1|画笔工具](png/pencil.png)
 
-1. 在截图区域下方的工具栏中，点击 ![画笔](icon/line.svg)。
-
+1. 在截图区域下方的工具栏中，点击 ![画笔](icon/pencil_normal.png)。
 2. 在工具栏展开面板中，选择画笔的粗细。
-
-3. 点击 ![画笔选择](icon/straightline.svg)，在自由画笔和直线画笔之间切换。
-
-4. 将鼠标指针置于截图区域上，鼠标指针变为 ![画笔指针](icon/pink_red.svg)。
-
-5. 按住鼠标左键不放，拖动鼠标以完成图形区域的绘制。
+3. 将鼠标指针置于截图区域上，鼠标指针变为 ![画笔指针](icon/pink_red.png)。
+4. 按住鼠标左键不放，拖动鼠标以完成图形区域的绘制。
 
 
 如果需要绘制正方形、圆形等图形，您可以：
@@ -385,12 +378,11 @@
   * 按住键盘上的 ![shift](icon/Shift.svg) 键，然后选择 ![矩形](icon/rect.svg)，绘制正方形。
   * 按住键盘上的 ![shift](icon/Shift.svg) 键，然后选择 ![椭圆](icon/ellipse.svg)，绘制圆形。
   * 按住键盘上的 ![shift](icon/Shift.svg) 键，然后选择 ![箭头](icon/arrow.svg)，绘制水平或垂直方向的箭头。
-  * 按住键盘上的 ![shift](icon/Shift.svg) 键，然后选择 ![画笔](icon/line.svg)，绘制水平或垂直方向的直线。
 
 ### 修改图形
 如果您在截图中绘制了其他的图形，您可以对绘制的图形进行修改和移动。
 
-![0|修改图形](png/changetool.png)
+![1|修改图形](png/changetool.png)
 
 #### 移动图形
 1. 将鼠标指针置于图形的边线上，此时鼠标指针变为 ![手指](icon/finger.svg)。
@@ -451,7 +443,7 @@
    - 按下键盘上的 ![ctrl](icon/Ctrl.svg)+![z](icon/Z.svg) 键，返回至上一步操作。
 
    - 在文本框内，修改文字信息。
-   
+
    - 按下键盘上的 ![ctrl](icon/Ctrl.svg)+![向上](icon/Up.svg) 或 ![向下](icon/Down.svg) 来上下扩展文本框，按下键盘上的 ![ctrl](icon/Ctrl.svg)+![向左](icon/Left.svg) 或 ![向右](icon/Right.svg) 来左右扩展文本框。
 
    - 将鼠标指针置于文本框的 ![旋转](icon/rotate.svg) 上，此时鼠标指针变成 ![旋转](icon/rotate_mouse.svg)，通过拖动鼠标指针，来旋转文字批注。
@@ -463,7 +455,7 @@
 
 ![0|颜色工具](png/colortool.png)
 
-1. 在截图区域下方的工具栏中，点击 ![颜色](icon/color.svg)。
+1. 在截图区域下方的工具栏中，点击 ![颜色](icon/color.png)。
 
 2. 在工具栏展开面板中，选择一种颜色。
 
@@ -488,9 +480,9 @@
 
 * 选择 ![自动保存](icon/auto_save.svg)，将图片保存到系统默认的图片文件夹下。
 
-* 选择 ![保存到桌面](icon/save_to_desktop.svg)，将图片保存到桌面。
+* 选择 ![保存到桌面](icon/save_to_desktop_normal.png)，将图片保存到桌面。
 
-* 选择 ![保存](icon/save_to_dir.svg)，将图片保存到您指定的存储路径下。
+* 选择 ![保存](icon/save_to_dir_normal.png)，将图片保存到您指定的存储路径下。
 
 * 选择 ![复制到剪切板](icon/save_ClipBoard.svg)，将图片复制到剪切板。
 
@@ -498,30 +490,4 @@
 
 * 通过左右拖动滑条来调节保存图片的质量。
 
-## 分享截图|../common/icon_sharescreenshot.svg|
-您可以将有趣的图片截取下来，配上文字，将这份快乐传递给您的好友，让更多人感受到！
 
-您可以按下键盘上的 ![ctrl](icon/Ctrl.svg)+![enter](icon/Enter.svg) 组合键，快速实现分享！您也可以执行以下操作来分享：
-
-1. 在截图区域下方的工具栏中，点击 ![分享](icon/share.svg)。
-
-2. 在分享界面中，输入您想说的文字，点击 **下一步**。
-
-3. 选择一个社交账号，点击 **分享**。
-
-4. 登录您的社交账号授权并分享。
-
-5. 当分享成功之后，您可以在桌面右上角看到提示信息。
-
-6. 如果分享失败，请点击 **重试** 再次分享。
-
-7. 如果要退出分享，请点击 **关闭**。
-
-![0|分享](png/sharedisplay.png)
-
-> ![attention](icon/attention.svg)：在分享界面输入的文字请控制在140字以内。当分享截图后，深度截图会记住您的账号与密码，以便下次的分享操作！
-
-在分享界面中，点击左下角的 ![分享](icon/share.svg)，选择 **账户管理**，您可以对多个账号进行管理：
-
-* 注销登录账号。
-* 使用一个新的账号来登录分享。

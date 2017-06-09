@@ -1,6 +1,7 @@
 #include "baseutils.h"
 
 #include <QPixmap>
+#include <QProcess>
 #include <QLayoutItem>
 #include <QFile>
 #include <QDebug>
@@ -104,6 +105,20 @@ bool          isValidFormat(QString suffix) {
         return false;
     }
 }
+
+bool          isCommandExist(QString command) {
+    QProcess* proc = new QProcess;
+    QString cm = QString("which %1\n").arg(command);
+    proc->start(cm);
+    proc->waitForFinished(1000);
+
+    if (proc->exitCode() == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void   paintSelectedPoint(QPainter &painter, QPoint pos, QPixmap pointImg) {
     painter.drawPixmap(pos, pointImg);
 }
