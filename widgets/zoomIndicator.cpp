@@ -50,12 +50,12 @@ void ZoomIndicator::paintEvent(QPaintEvent *) {
     painter.fillRect(QRect(5, INDICATOR_WIDTH - 9, INDICATOR_WIDTH, BOTTOM_RECT_HEIGHT),
                      QBrush(QColor(0, 0, 0, 125)));
     QFont posFont;
-    posFont.setPixelSize(10);
+    posFont.setPixelSize(9);
     painter.setFont(posFont);
     painter.setPen(QColor(Qt::white));
     QTextOption posTextOption;
     posTextOption.setAlignment(Qt::AlignHCenter | Qt::AlignTop);
-    painter.drawText(QRectF(7, INDICATOR_WIDTH - 10, INDICATOR_WIDTH, INDICATOR_WIDTH),
+    painter.drawText(QRectF(5, INDICATOR_WIDTH - 10, INDICATOR_WIDTH, INDICATOR_WIDTH),
                      QString("%1, %2").arg(centerPos.x()).arg(centerPos.y()), posTextOption);
 }
 
