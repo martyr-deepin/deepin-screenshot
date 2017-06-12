@@ -38,17 +38,17 @@ ShapesWidget::ShapesWidget(QWidget *parent)
             this, &ShapesWidget::saveBtnPressed);
     connect(ConfigSettings::instance(), &ConfigSettings::shapeConfigChanged,
             this, &ShapesWidget::updateSelectedShape);
-    connect(ConfigSettings::instance(), &ConfigSettings::colorChanged, this, [=]{
-        setPenColor(colorIndexOf(ConfigSettings::instance()->value(
-                                     "common", "color_index").toInt()));
-    });
+    connect(ConfigSettings::instance(), &ConfigSettings::colorChanged,
+            this,  &ShapesWidget::updatePenColor);
 }
 
 ShapesWidget::~ShapesWidget() {}
 
 void ShapesWidget::updateSelectedShape(const QString &group,
                                        const QString &key, int index) {
-    if (m_selectedIndex != -1) {
+    qDebug() << "updateSelectedShapes" << m_selectedIndex << m_shapes.length();
+
+    if (m_selectedIndex != -1 && m_selectedIndex < m_shapes.length()) {
         if (m_selectedShape.type == "arrow" && key != "color_index") {
             if (key == "arrow_linewidth_index" && !m_selectedShape.isStraight) {
                 m_selectedShape.lineWidth = LINEWIDTH(index);
@@ -68,11 +68,18 @@ void ShapesWidget::updateSelectedShape(const QString &group,
             m_selectedShape.colorIndex = index;
         }
 
-        m_shapes[m_selectedIndex] = m_selectedShape;
+        if (m_selectedIndex < m_shapes.length())
+        {
+            m_shapes[m_selectedIndex] = m_selectedShape;
+        }
         update();
     }
 }
 
+void ShapesWidget::updatePenColor() {
+    setPenColor(colorIndexOf(ConfigSettings::instance()->value(
+                                 "common", "color_index").toInt()));
+}
 
 void ShapesWidget::setCurrentShape(QString shapeType) {
     if (shapeType != "saveList")
@@ -113,6 +120,9 @@ void ShapesWidget::setAllTextEditReadOnly() {
         i.value()->releaseKeyboard();
         ++i;
     }
+
+    m_editing = false;
+    update();
 }
 
 bool ShapesWidget::clickedOnShapes(QPointF pos) {
@@ -678,6 +688,12 @@ bool ShapesWidget::hoverOnRotatePoint(FourPoints mainPoints,
 }
 
 void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)  {
+    qDebug() << "handleDrag:" << m_selectedIndex << m_shapes.length();
+
+    if (m_selectedIndex == -1 || m_selectedIndex > m_shapes.length()) {
+        return;
+    }
+
     if (m_shapes[m_selectedIndex].type == "arrow") {
         for(int i = 0; i < m_shapes[m_selectedIndex].points.length(); i++) {
             m_shapes[m_selectedIndex].points[i] = QPointF(
@@ -706,6 +722,12 @@ void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)  {
 
 ////////////////////TODO: perfect handleRotate..
 void ShapesWidget::handleRotate(QPointF pos) {
+    qDebug() << "handleRotate:" << m_selectedIndex << m_shapes.length();
+
+    if (m_selectedIndex == -1 || m_selectedIndex > m_shapes.length()) {
+        return;
+    }
+
     if (m_selectedShape.type == "arrow") {
         if (m_shapes[m_selectedIndex].isShiftPressed) {
             if (m_shapes[m_selectedIndex].points[0].x() == m_shapes[m_selectedIndex].points[1].x()) {
@@ -759,7 +781,9 @@ void ShapesWidget::handleRotate(QPointF pos) {
 }
 
 void ShapesWidget::handleResize(QPointF pos, int key) {
-    if (m_isResize) {
+    qDebug() << "handleResize:" << m_selectedIndex << m_shapes.length();
+
+    if (m_isResize && m_selectedIndex != -1 && m_selectedIndex < m_shapes.length()) {
         if (m_shapes[m_selectedIndex].portion.isEmpty()) {
             for(int k = 0; k < m_shapes[m_selectedIndex].points.length(); k++) {
                 m_shapes[m_selectedIndex].portion.append(relativePosition(
@@ -795,6 +819,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
     m_pressedPoint = e->pos();
     m_isPressed = true;
 
+    qDebug() << "mouse pressed!" << m_pressedPoint;
     if (e->button() == Qt::RightButton) {
         m_menuController->showMenu(QPoint(mapToParent(e->pos())));
         QFrame::mousePressEvent(e);
@@ -853,7 +878,6 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                     setAllTextEditReadOnly();
                     m_currentShape.mainPoints[0] = m_pos1;
                     TextEdit* edit = new TextEdit(m_shapes.length(), this);
-//                    edit->grabKeyboard();
                     m_selectedIndex = m_shapes.length();
                     m_editing = true;
                     int defaultFontSize = ConfigSettings::instance()->value("text", "fontsize").toInt();
@@ -1203,7 +1227,7 @@ void ShapesWidget::paintArrow(QPainter &painter, QList<QPointF> lineFPoints,
                 path.lineTo(arrowPoints[2].x(), arrowPoints[2].y());
             }
             painter.setPen (Qt :: NoPen);
-            painter.fillPath (path, QBrush (oldPen.color()));
+            painter.fillPath(path, QBrush(oldPen.color()));
         } else {
             painter.drawLine(lineFPoints[0], lineFPoints[1]);
         }
@@ -1268,7 +1292,9 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         } else if (m_currentType == "line") {
             paintLine(painter, m_currentShape.points);
         } else if (m_currentType == "text") {
-            paintText(painter, m_currentShape.mainPoints);
+            if (m_editing) {
+                paintText(painter, m_currentShape.mainPoints);
+            }
         }
     }
 
@@ -1407,7 +1433,27 @@ void ShapesWidget::deleteCurrentShape() {
     m_selectedIndex = -1;
 }
 
-QString ShapesWidget::getCurrentType() {
+void ShapesWidget::undoDrawShapes()
+{
+    qDebug() << "m_selectedIndex:" << m_selectedIndex << m_shapes.length();
+    if (m_selectedIndex < m_shapes.length() && m_selectedIndex != -1)
+    {
+            deleteCurrentShape();
+    } else if (m_shapes.length() > 0) {
+        int deleteShapeIndex = m_shapes.length() - 1;
+        if (m_shapes[deleteShapeIndex].type == "text") {
+            m_editMap.value(deleteShapeIndex)->clear();
+            delete m_editMap.value(deleteShapeIndex);
+            m_editMap.remove(deleteShapeIndex);
+        }
+
+        m_shapes.removeLast();
+    }
+    update();
+}
+
+QString ShapesWidget::getCurrentType()
+{
     return m_currentShape.type;
 }
 

@@ -1,9 +1,3 @@
-//#include "mainwindow.h"
-#include "screenshot.h"
-#include "dbusservice/dbusscreenshotservice.h"
-#include "dbusinterface/dbusscreenshot.h"
-
-
 #include <DApplication>
 #include <DLog>
 #include <dutility.h>
@@ -11,9 +5,11 @@
 #include <QObject>
 #include <QTranslator>
 
-DWIDGET_USE_NAMESPACE
+#include "screenshot.h"
+#include "dbusservice/dbusscreenshotservice.h"
+#include "dbusinterface/dbusscreenshot.h"
 
-using namespace Dtk::Util;
+DWIDGET_USE_NAMESPACE
 
 int main(int argc, char *argv[])
 {
@@ -31,8 +27,9 @@ int main(int argc, char *argv[])
      a.setTheme("light");
      a.setQuitOnLastWindowClosed(false);
 
-    Dtk::Util::DLogManager::registerConsoleAppender();
-    Dtk::Util::DLogManager::registerFileAppender();
+     using namespace Dtk::Util;
+     Dtk::Util::DLogManager::registerConsoleAppender();
+     Dtk::Util::DLogManager::registerFileAppender();
 
      QCommandLineOption  delayOption(QStringList() << "d" << "delay",
                                                                              "Take a screenshot after NUM seconds.", "NUM");

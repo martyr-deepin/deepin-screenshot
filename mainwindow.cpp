@@ -174,6 +174,11 @@ void MainWindow::keyPressEvent(QKeyEvent *ev) {
     QKeyEvent *keyEvent = static_cast<QKeyEvent*>(ev);
     if (keyEvent->key() == Qt::Key_Escape ) {
         exitApp();
+    } else if (qApp->keyboardModifiers() & Qt::ControlModifier) {
+        if (keyEvent->key() == Qt::Key_Z) {
+            qDebug() << "SDGF: ctrl+z !!!";
+            emit unDo();
+        }
     }
 
     bool needRepaint = false;
@@ -805,6 +810,7 @@ void MainWindow::initShapeWidget(QString type) {
     connect(m_shapesWidget, &ShapesWidget::saveBtnPressed,
             m_toolBar, &ToolBar::saveBtnPressed);
     connect(m_shapesWidget, &ShapesWidget::requestExit, this, &MainWindow::exitApp);
+    connect(this, &MainWindow::unDo, m_shapesWidget, &ShapesWidget::undoDrawShapes);
 }
 
 void MainWindow::updateCursor(QEvent *event)

@@ -36,6 +36,7 @@ signals:
 public slots:
     void updateSelectedShape(const QString &group, const QString &key, int index);
     void setCurrentShape(QString shapeType);
+    void updatePenColor();
     void setPenColor(QColor color);
     void clearSelected();
     void setAllTextEditReadOnly();
@@ -59,6 +60,7 @@ public slots:
     bool hoverOnLine(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
     bool hoverOnRotatePoint(FourPoints mainPoints, QPointF pos);
 
+    void undoDrawShapes();
     void deleteCurrentShape();
     QString  getCurrentType();
     void microAdjust(QString direction);

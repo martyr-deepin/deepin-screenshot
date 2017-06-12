@@ -52,6 +52,7 @@ signals:
     void deleteShapes();
     void releaseEvent();
     void hideScreenshotUI();
+    void unDo();
 
 public slots:
     void fullScreenshot();
