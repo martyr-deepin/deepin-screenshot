@@ -79,6 +79,7 @@ bool Screenshot::eventFilter(QObject* watched, QEvent *event)
     {
         if (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) {
             m_eventContainer->handleEvent(event);
+
             return true;
         }
 

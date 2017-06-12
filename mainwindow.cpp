@@ -163,7 +163,7 @@ void MainWindow::initShortcut() {
     viewSC->setAutoRepeat(false);
     connect(viewSC,  SIGNAL(activated()), this, SLOT(onViewShortcut()));
 
-    if (isCommandExist) {
+    if (isCommandExist("dman")) {
         QShortcut* helpSC = new QShortcut(QKeySequence("F1"), this);
         helpSC->setAutoRepeat(false);
         connect(helpSC,  SIGNAL(activated()), this, SLOT(onHelp()));

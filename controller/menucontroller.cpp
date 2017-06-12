@@ -7,6 +7,7 @@
 MenuController::MenuController(QObject *parent)
     : QObject(parent) {
     m_menu = new QMenu;
+    m_menu->setFocusPolicy(Qt::StrongFocus);
     m_menu->setStyle(QStyleFactory::create("dlight"));
     QIcon rectIcon;
     rectIcon.addPixmap(QPixmap(":/image/menu_icons/rectangle-menu-norml.png"), QIcon::Normal);
