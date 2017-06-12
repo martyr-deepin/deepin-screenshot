@@ -20,9 +20,11 @@ Screenshot::Screenshot(QWidget *parent)
         qDebug() << "relase event !!!";
         m_keyboardReleased = true;
         m_keyboardGrabbed =  this->windowHandle()->setKeyboardGrabEnabled(false);
-        this->hide();
         qDebug() << "keyboardGrabbed:" << m_keyboardGrabbed;
         removeEventFilter(this);
+    });
+    connect(m_window, &MainWindow::hideScreenshotUI, this, [=]{
+        this->hide();
     });
 }
 

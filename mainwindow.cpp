@@ -1057,6 +1057,7 @@ void MainWindow::topWindow() {
         m_recordHeight = m_backgroundRect.height();
     }
 
+    this->hide();
     using namespace utils;
     QPixmap screenShotPix = QPixmap(TMP_FULLSCREEN_FILE).copy(m_recordX, m_recordY,
                                                               m_recordWidth, m_recordHeight);
@@ -1139,17 +1140,15 @@ void MainWindow::shotCurrentImg() {
     QTimer::singleShot(100, &eventloop1, SLOT(quit()));
     eventloop1.exec();
 
-    qDebug() << "shotCurrentImg";
+    qDebug() << "shotCurrentImg shotFullScreen";
     using namespace utils;
     shotFullScreen();
     if (m_isShapesWidgetExist) {
         m_shapesWidget->hide();
     }
 
-    QEventLoop eventloop2;
-    QTimer::singleShot(1000, &eventloop2, SLOT(quit()));
-    eventloop2.exec();
     this->hide();
+    emit hideScreenshotUI();
 
     QPixmap tmpImg(TMP_FULLSCREEN_FILE);
     tmpImg = tmpImg.copy(QRect(m_recordX, m_recordY, m_recordWidth, m_recordHeight));
@@ -1183,10 +1182,6 @@ void MainWindow::shotImgWidthEffect() {
 
 void MainWindow::saveScreenshot() {
     emit releaseEvent();
-    if (!m_specificedPath.isEmpty()) {
-        saveSpecificedPath(m_specificedPath);
-        return;
-    }
 
     m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
     m_needSaveScreenshot = true;
@@ -1195,6 +1190,7 @@ void MainWindow::saveScreenshot() {
     m_sizeTips->setVisible(false);
 
     shotCurrentImg();
+
     using namespace utils;
     saveAction(utils::TMP_FILE);
     sendNotify(m_saveIndex, m_saveFileName);
