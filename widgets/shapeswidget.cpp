@@ -75,7 +75,8 @@ void ShapesWidget::updateSelectedShape(const QString &group,
 
 
 void ShapesWidget::setCurrentShape(QString shapeType) {
-    m_currentType = shapeType;
+    if (shapeType != "saveList")
+        m_currentType = shapeType;
 }
 
 void ShapesWidget::setPenColor(QColor color) {
@@ -1324,57 +1325,64 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             }
         }
     }
-
-
 }
 
-bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
-    Q_UNUSED(watched);
-    if (event->type() == QEvent::Enter) {
-        if (m_currentType != "line") {
-            qApp->setOverrideCursor(setCursorShape(m_currentType));
-        } else {
-            qApp->setOverrideCursor(setCursorShape("line",  colorIndex(m_penColor)));
-        }
+void ShapesWidget::enterEvent(QEvent *e) {
+    Q_UNUSED(e);
+    if (m_currentType != "line") {
+        qApp->setOverrideCursor(setCursorShape(m_currentType));
+    } else {
+        qApp->setOverrideCursor(setCursorShape("line",  colorIndex(m_penColor)));
     }
-
-    if (event->type() == QEvent::MouseButtonDblClick) {
-        emit requestScreenshot();
-    }
-
-    if (event->type() == QKeyEvent::KeyPress ) {
-        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
-        if (keyEvent->key() == Qt::Key_Escape && !keyEvent->isAutoRepeat()) {
-            if (m_editing) {
-                m_editing = false;
-                setAllTextEditReadOnly();
-                return true;
-            } else {
-                emit requestExit();
-            }
-        }
-        QFrame::keyPressEvent(keyEvent);
-    }
-
-    if (event->type() == QEvent::KeyRelease) {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-
-        //NOTE: must be use 'isAutoRepeat' to filter KeyRelease event
-        // send by Qt.
-        if (!keyEvent->isAutoRepeat()) {
-            if (keyEvent->modifiers() ==  (Qt::ShiftModifier | Qt::ControlModifier)) {
-                QProcess::startDetached("killall deepin-shortcut-viewer");
-            } else if (keyEvent->key() == Qt::Key_Question) {
-                QProcess::startDetached("killall deepin-shortcut-viewer");
-            }
-        }
-
-        QFrame::keyReleaseEvent(keyEvent);
-    }
-
-
-    return false;
 }
+
+//bool ShapesWidget::eventFilter(QObject *watched, QEvent *event) {
+//    Q_UNUSED(watched);
+//    if (event->type() == QEvent::Enter) {
+//        if (m_currentType != "line") {
+//            qApp->setOverrideCursor(setCursorShape(m_currentType));
+//        } else {
+//            qApp->setOverrideCursor(setCursorShape("line",  colorIndex(m_penColor)));
+//        }
+//    }
+
+//    if (event->type() == QEvent::MouseButtonDblClick) {
+//        emit requestScreenshot();
+//    }
+
+//    if (event->type() == QKeyEvent::KeyPress ) {
+//        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+//        if (keyEvent->key() == Qt::Key_Escape && !keyEvent->isAutoRepeat()) {
+//            if (m_editing) {
+//                m_editing = false;
+//                setAllTextEditReadOnly();
+//                return true;
+//            } else {
+//                emit requestExit();
+//            }
+//        }
+//        QFrame::keyPressEvent(keyEvent);
+//    }
+
+//    if (event->type() == QEvent::KeyRelease) {
+//        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+
+//        //NOTE: must be use 'isAutoRepeat' to filter KeyRelease event
+//        // send by Qt.
+//        if (!keyEvent->isAutoRepeat()) {
+//            if (keyEvent->modifiers() ==  (Qt::ShiftModifier | Qt::ControlModifier)) {
+//                QProcess::startDetached("killall deepin-shortcut-viewer");
+//            } else if (keyEvent->key() == Qt::Key_Question) {
+//                QProcess::startDetached("killall deepin-shortcut-viewer");
+//            }
+//        }
+
+//        QFrame::keyReleaseEvent(keyEvent);
+//    }
+
+
+//    return false;
+//}
 
 void ShapesWidget::deleteCurrentShape() {
     if (m_selectedIndex < m_shapes.length()) {

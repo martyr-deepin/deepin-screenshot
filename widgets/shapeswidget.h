@@ -69,7 +69,8 @@ protected:
     void mouseReleaseEvent(QMouseEvent* e);
     void mouseMoveEvent(QMouseEvent* e);
     void paintEvent(QPaintEvent *);
-    bool eventFilter(QObject *watched, QEvent *event);
+    void enterEvent(QEvent *e);
+//    bool eventFilter(QObject *watched, QEvent *event);
 
 private:
     QPointF m_pos1 = QPointF(0, 0);
