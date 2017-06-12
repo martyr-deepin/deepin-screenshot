@@ -1274,7 +1274,8 @@ void MainWindow::saveAction(QPixmap pix) {
         break;
     }
 
-    int toolBarSaveQuality = std::min(m_toolBar->getSaveQualityIndex(), 100);
+    int toolBarSaveQuality = std::min(ConfigSettings::instance()->value("save",
+                                                            "save_quality").toInt(), 100);
 
     if (toolBarSaveQuality != 100) {
        qreal saveQuality = qreal(toolBarSaveQuality)*5/1000 + 0.5;

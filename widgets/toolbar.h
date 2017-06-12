@@ -12,14 +12,43 @@
 #include "subtoolbar.h"
 
 DWIDGET_USE_NAMESPACE
-class ToolBar : public DBlurEffectWidget {
+
+class ToolBarWidget : public DBlurEffectWidget {
+    Q_OBJECT
+public:
+    ToolBarWidget(QWidget* parent = 0);
+    ~ToolBarWidget();
+
+signals:
+    void buttonChecked(QString shapeType);
+    void expandChanged(bool expand,  QString shapeType);
+    void colorChanged(QColor color);
+    void saveImage();
+    void shapePressed(QString tool);
+    void saveBtnPressed(int index = 0);
+    void saveSpecifiedPath();
+
+public slots:
+    bool isButtonChecked();
+    void setExpand(bool expand, QString shapeType);
+    void specifiedSavePath();
+
+private:
+    MajToolBar* m_majToolbar;
+    QLabel* m_hSeperatorLine;
+    SubToolBar* m_subToolbar;
+
+    bool  m_expanded;
+};
+
+class ToolBar : public QLabel {
     Q_OBJECT
 public:
     ToolBar(QWidget* parent = 0);
     ~ToolBar();
 
 signals:
-    void buttonChecked(QString shapeType);
+    void buttonChecked(QString shape);
     void updateColor(QColor color);
     void requestSaveScreenshot();
     void shapePressed(QString tool);
@@ -30,20 +59,14 @@ public slots:
     bool isButtonChecked();
     void setExpand(bool expand, QString shapeType);
     void showAt(QPoint pos);
-    int    getSaveQualityIndex();
     void specificedSavePath();
-
 
 protected:
     void paintEvent(QPaintEvent *e);
 
 private:
-    MajToolBar* m_majToolbar;
-    QLabel* m_hSeperatorLine;
-    SubToolBar* m_subToolbar;
-    QLabel* m_bgLabel;
+    ToolBarWidget* m_toolbarWidget;
 
-    bool  m_expanded;
+    bool m_expanded;
 };
-
 #endif // TOOLBAR_H

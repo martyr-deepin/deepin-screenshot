@@ -19,7 +19,7 @@ DWIDGET_USE_NAMESPACE
 namespace {
     const int TOOLBAR_HEIGHT = 28;
     const int TOOLBAR_WIDTH = 280;
-    const int BUTTON_SPACING = 12;
+    const int BUTTON_SPACING = 1;
     const int COLOR_NUM = 16;
 }
 
@@ -93,7 +93,7 @@ void SubToolBar::initRectLabel() {
     QHBoxLayout* rectLayout = new QHBoxLayout();
     rectLayout->setMargin(0);
     rectLayout->setSpacing(0);
-    rectLayout->addSpacing(6);
+    rectLayout->addSpacing(1);
     for (int i = 0; i < btnList.length(); i++) {
         rectLayout->addWidget(btnList[i]);
         rectLayout->addSpacing(BUTTON_SPACING);
@@ -416,10 +416,10 @@ void SubToolBar::initSaveLabel() {
     QHBoxLayout* saveLayout = new QHBoxLayout();
     saveLayout->setMargin(0);
     saveLayout->setSpacing(0);
-    saveLayout->addSpacing(6);
+    saveLayout->addSpacing(1);
     foreach (ToolButton* btn, toolBtnList) {
         saveLayout->addWidget(btn);
-        saveLayout->addSpacing(8);
+        saveLayout->addSpacing(1);
         connect(btn, &ToolButton::clicked, this,  [=]{
             qDebug() << "saveButtonList:" << toolBtnList.indexOf(btn);
             setSaveOption(toolBtnList.indexOf(btn));
@@ -484,7 +484,7 @@ void SubToolBar::setSaveOption(int saveOption) {
 }
 
 void SubToolBar::setSaveQualityIndex(int saveQuality) {
-    m_saveQuality = saveQuality;
+    ConfigSettings::instance()->setValue("save", "save_quality", saveQuality);
 }
 
 int SubToolBar::getSaveQualityIndex() {

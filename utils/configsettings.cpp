@@ -29,6 +29,7 @@ ConfigSettings::ConfigSettings(QObject *parent)
         setValue("text", "fontsize", 12);
 
         setValue("save", "save_op", 0);
+        setValue("save", "save_quality", 100);
     }
 
     setValue("effect", "is_blur", false);

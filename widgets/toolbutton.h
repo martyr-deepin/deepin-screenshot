@@ -8,7 +8,7 @@ class ToolButton : public QPushButton {
 public:
     ToolButton(QWidget* parent = 0) {
         Q_UNUSED(parent);
-        setFixedSize(22, 22);
+        setFixedSize(32, 26);
         setCheckable(true);
         m_tips = "";
     }
