@@ -20,7 +20,7 @@ ToolBarWidget::ToolBarWidget(QWidget *parent)
     setBlurRectXRadius(3);
     setBlurRectYRadius(3);
     setRadius(30);
-    setMaskColor(QColor(255, 255, 255, 100));
+    setMaskColor(QColor(255, 255, 255, 204));
     setFixedSize(TOOLBAR_WIDGET_SIZE);
 
     m_hSeperatorLine = new QLabel(this);
