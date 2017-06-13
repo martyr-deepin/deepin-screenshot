@@ -17,7 +17,7 @@ namespace {
     const int BTN_SPACING = 1;
     const int TOOLBUTTON_WIDTH = 22;
     const QSize SAVE_BTN = QSize(30, 26);
-    const QSize LIST_BTN = QSize(12, 22);
+    const QSize LIST_BTN = QSize(12, 26);
 }
 
 MajToolBar::MajToolBar(QWidget *parent)

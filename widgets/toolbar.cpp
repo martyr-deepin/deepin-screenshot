@@ -6,9 +6,9 @@
 
 namespace {
     const int TOOLBAR_HEIGHT = 30;
-    const int TOOLBAR_WIDTH = 280;
+    const int TOOLBAR_WIDTH = 278;
 
-    const QSize TOOLBAR_WIDGET_SIZE = QSize(278, 28);
+    const QSize TOOLBAR_WIDGET_SIZE = QSize(276, 28);
     const int BUTTON_SPACING = 3;
 }
 
@@ -33,11 +33,9 @@ ToolBarWidget::ToolBarWidget(QWidget *parent)
     QVBoxLayout* vLayout = new QVBoxLayout();
     vLayout->setMargin(0);
     vLayout->setSpacing(0);
-    vLayout->addStretch();
     vLayout->addWidget(m_majToolbar, 0, Qt::AlignVCenter);
     vLayout->addWidget(m_hSeperatorLine, 0, Qt::AlignVCenter);
     vLayout->addWidget(m_subToolbar, 0, Qt::AlignVCenter);
-    vLayout->addStretch();
     setLayout(vLayout);
 
     m_hSeperatorLine->hide();

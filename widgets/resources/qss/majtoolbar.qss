@@ -124,34 +124,9 @@ QPushButton#ColorBtn:checked {
     border-image: url(:/resources/images/action/colors_checked.png);
 }
 
-QPushButton#ShareBtn {
-    outline: none;
-    border: none;
-    border-image:url(:/resources/images/action/share_normal.png);
-}
-QPushButton#ShareBtn:hover {
-    outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
-    border: solid 1px transparent;
-    border-radius: 3px;
-    border-image:url(:/resources/images/action/share_hover.png);
-}
-QPushButton#ShareBtn:checked:hover {
-    outline: none;
-    border-image: url(:/resources/images/action/share_checked.png);
-}
-QPushButton#ShareBtn:checked {
-    outline: none;
-    border: none;
-    border-image: url(:/resources/images/action/share_checked.png);
-}
-
 QPushButton#SaveBtn {
     outline: none;
-    background-color: transparent;
     border-image:url(:/resources/images/save/save_normal.png);
-    border: solid 1px transparent;
-    border-radius: 3px;
 }
 QPushButton#SaveBtn:hover {
     outline: none;
@@ -175,10 +150,7 @@ QPushButton#SaveBtn:pressed {
 
 QPushButton#ListBtn {
     outline: none;
-    background-color: transparent;
     border-image:url(:/resources/images/save/save_list_normal.png);
-    border: solid 1px transparent;
-    border-radius: 3px;
 }
 QPushButton#ListBtn:hover {
     outline: none;
