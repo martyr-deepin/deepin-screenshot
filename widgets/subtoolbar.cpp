@@ -101,9 +101,9 @@ void SubToolBar::initRectLabel() {
                 ConfigSettings::instance()->setValue(m_currentType, "linewidth_index", i);
         });
     }
-    rectLayout->addSpacing(9.5);
+    rectLayout->addSpacing(16);
     rectLayout->addWidget(vSeperatorLine);
-    rectLayout->addSpacing(24);
+    rectLayout->addSpacing(16);
     rectLayout->addWidget(blurBtn);
     rectLayout->addSpacing(BUTTON_SPACING);
     rectLayout->addWidget(mosaicBtn);
@@ -159,11 +159,9 @@ void SubToolBar::initArrowLabel() {
     QButtonGroup* styleBtnGroup = new QButtonGroup;
     styleBtnGroup->setExclusive(true);
     ToolButton*  lineBtn = new ToolButton();
-    lineBtn->setFixedSize(26, 22);
     lineBtn->setObjectName("LineBtn"); 
     styleBtnGroup->addButton(lineBtn, 0);
     ToolButton* arrowBtn = new ToolButton();
-    arrowBtn->setFixedSize(26, 22);
     arrowBtn->setObjectName("ArrowBtn");
     arrowBtn->setChecked(true);
     styleBtnGroup->addButton(arrowBtn, 1);
@@ -180,7 +178,7 @@ void SubToolBar::initArrowLabel() {
     QHBoxLayout* arrowLayout = new QHBoxLayout();
     arrowLayout->setMargin(0);
     arrowLayout->setSpacing(BUTTON_SPACING);
-    arrowLayout->addSpacing(6);
+    arrowLayout->addSpacing(1);
     for (int j = 0; j < arrowBtnList.length(); j++) {
         arrowLayout->addWidget(arrowBtnList[j]);
 //        arrowLayout->addSpacing(BUTTON_SPACING);
@@ -192,9 +190,9 @@ void SubToolBar::initArrowLabel() {
             }
         });
     }
-    arrowLayout->addSpacing(9.5);
+    arrowLayout->addSpacing(16);
     arrowLayout->addWidget(vSeperatorLine);
-    arrowLayout->addSpacing(12);
+    arrowLayout->addSpacing(16);
     arrowLayout->addWidget(lineBtn);
     arrowLayout->addWidget(arrowBtn);
     arrowLayout->addStretch();
@@ -276,7 +274,7 @@ void SubToolBar::initLineLabel() {
     QHBoxLayout* lineLayout = new QHBoxLayout();
     lineLayout->setMargin(0);
     lineLayout->setSpacing(0);
-    lineLayout->addSpacing(6);
+    lineLayout->addSpacing(1);
     for(int k = 0; k < btnList.length(); k++) {
         lineLayout->addWidget(btnList[k]);
         lineLayout->addSpacing(BUTTON_SPACING);
@@ -299,9 +297,10 @@ void SubToolBar::initLineLabel() {
 void SubToolBar::initTextLabel() {
     //text...
     m_textLabel = new QLabel(this);
+    m_textLabel->setStyleSheet(getFileContent(":/resources/qss/textbutton.qss"));
     QList<int> fontSizeList;
     fontSizeList << 9 << 10 << 12 << 14 << 18 << 24 << 36 << 48 << 64 << 72 << 96;
-    QButtonGroup* textBtnGroup = new QButtonGroup(m_textLabel);
+    QButtonGroup* textBtnGroup = new QButtonGroup(this);
 
     QList<TextButton*> textButtonList;
     for(int i = 0; i < fontSizeList.length(); i++) {
@@ -315,14 +314,10 @@ void SubToolBar::initTextLabel() {
     QHBoxLayout* textLayout = new QHBoxLayout();
     textLayout->setMargin(0);
     textLayout->setSpacing(0);
-    textLayout->addSpacing(6);
+    textLayout->addSpacing(1);
     for(int k = 0; k < textButtonList.length(); k++) {
         textLayout->addWidget(textButtonList[k]);
-        if (k == 0) {
-            textLayout->addSpacing(2);
-        } else {
-            textLayout->addSpacing(5);
-        }
+        textLayout->addSpacing(BUTTON_SPACING);
         if (fontSizeList[k] == defaultFontSize) {
             textButtonList[k]->setChecked(true);
         }
@@ -349,7 +344,7 @@ void SubToolBar::initColorLabel() {
     QHBoxLayout* colorLayout = new QHBoxLayout();
     colorLayout->setMargin(0);
     colorLayout->setSpacing(0);
-    colorLayout->addSpacing(4);
+    colorLayout->addSpacing(3);
     for(int i = 0; i < colorBtnList.length(); i++) {
         colorLayout->addWidget(colorBtnList[i]);
         colorLayout->addSpacing(1);
@@ -398,7 +393,7 @@ void SubToolBar::initSaveLabel() {
     lowQualityText->setObjectName("LowQualityLabel");
     lowQualityText->setText(tr("Low"));
     QSlider* saveQualitySlider = new QSlider(Qt::Horizontal);
-    saveQualitySlider->setFixedWidth(64);
+    saveQualitySlider->setFixedWidth(58);
     saveQualitySlider->setMinimum(50);
     saveQualitySlider->setMaximum(100);
     saveQualitySlider->setPageStep(1);
@@ -439,11 +434,9 @@ void SubToolBar::initSaveLabel() {
     toolBtnList[saveOptionIndex]->setChecked(true);
     saveLayout->addStretch();
     saveLayout->addWidget(lowQualityText);
-    saveLayout->addSpacing(2);
     saveLayout->addWidget(saveQualitySlider);
-    saveLayout->addSpacing(2);
     saveLayout->addWidget(highQualityText);
-    saveLayout->addSpacing(10);
+    saveLayout->addSpacing(12);
 
     m_saveLabel->setLayout(saveLayout);
     addWidget(m_saveLabel);

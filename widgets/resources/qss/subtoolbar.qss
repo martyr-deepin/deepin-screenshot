@@ -4,7 +4,7 @@ QPushButton#FineLine {
 }
 QPushButton#FineLine:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/size/fine_hover.png);
@@ -25,7 +25,7 @@ QPushButton#MediumLine {
 }
 QPushButton#MediumLine:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/size/medium_hover.png);
@@ -46,7 +46,7 @@ QPushButton#ThickLine {
 }
 QPushButton#ThickLine:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/size/thick_hover.png);
@@ -62,7 +62,7 @@ QPushButton#ThickLine:checked {
 }
 
 QLabel#VerticalSeperatorLine {
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 QPushButton#ArrowFine {
@@ -71,7 +71,7 @@ QPushButton#ArrowFine {
 }
 QPushButton#ArrowFine:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/size/arrow_fine_hover.png);
@@ -92,7 +92,7 @@ QPushButton#ArrowMedium{
 }
 QPushButton#ArrowMedium:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/size/arrow_medium_hover.png);
@@ -113,7 +113,7 @@ QPushButton#ArrowThick {
 }
 QPushButton#ArrowThick:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/size/arrow_thick_hover.png);
@@ -134,7 +134,7 @@ QPushButton#HorizontalLine {
 }
 QPushButton#HorizontalLine:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/size/unarrow_hover.png);
@@ -155,7 +155,7 @@ QPushButton#BlurBtn {
 }
 QPushButton#BlurBtn:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/size/blur_hover.png);
@@ -176,7 +176,7 @@ QPushButton#MosaicBtn {
 }
 QPushButton#MosaicBtn:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/size/mosaic_hover.png);
@@ -197,7 +197,7 @@ QPushButton#ArrowBtn {
 }
 QPushButton#ArrowBtn:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/size/arrow_hover.png);
@@ -218,7 +218,7 @@ QPushButton#LineBtn {
 }
 QPushButton#LineBtn:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/size/line_hover.png);
@@ -239,7 +239,7 @@ QPushButton#SaveToDesktop {
 }
 QPushButton#SaveToDesktop:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/save/save_to_desktop_hover.png);
@@ -260,7 +260,7 @@ QPushButton#SaveToPictureDir {
 }
 QPushButton#SaveToPictureDir:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/save/save_to_pic_hover.png);
@@ -281,7 +281,7 @@ QPushButton#SaveToSpecificDir {
 }
 QPushButton#SaveToSpecificDir:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/save/save_to_dir_hover.png);
@@ -301,7 +301,7 @@ QPushButton#SaveToClipboard {
 }
 QPushButton#SaveToClipboard:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/save/save_to_clipboard_hover.png);
@@ -321,7 +321,7 @@ QPushButton#SaveToAutoClipboard {
 }
 QPushButton#SaveToAutoClipboard:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/save/save_to_pic_clipboard_hover.png);
@@ -342,7 +342,7 @@ QPushButton#ArrowFineLine {
 }
 QPushButton#ArrowFineLine:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/size/line_fine_hover.png);
@@ -362,7 +362,7 @@ QPushButton#ArrowMediumLine{
 }
 QPushButton#ArrowMediumLine:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/size/line_medium_hover.png);
@@ -383,7 +383,7 @@ QPushButton#ArrowThickLine {
 }
 QPushButton#ArrowThickLine:hover {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.05);
     border: solid 1px transparent;
     border-radius: 3px;
     border-image:url(:/resources/images/size/line_thick_hover.png);

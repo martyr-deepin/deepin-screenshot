@@ -1,13 +1,12 @@
-TextButton {
+QPushButton#TextButton {
     background-color: transparent;
-    outline: none;
     color: #303030;
-    font-size: 12px;
-    font-weight: light;
+    outline: none;
+    border: none;
 }
 
-TextButton:hover {
-    background-color: rgba(0, 0, 0, 0.08);
+QPushButton#TextButton:hover {
+    background-color: rgba(0, 0, 0, 0.05);
     outline: none;
     color: #000000;
     font-size: 12px;
@@ -15,8 +14,8 @@ TextButton:hover {
     border: 1px solid transparent;
     border-radius: 4px;
 }
-TextButton:checked:hover {
-    background-color: rgba(0, 0, 0, 0.08);
+QPushButton#TextButton:checked:hover {
+    background-color: rgba(0, 0, 0, 0.05);
     outline: none;
     color: #2ca7f8;
     font-size: 12px;
@@ -25,7 +24,7 @@ TextButton:checked:hover {
     border-radius: 4px;
 }
 
-TextButton:checked {
+QPushButton#TextButton:checked {
     background-color: transparent;
     outline: none;
     color: #2ca7f8;
