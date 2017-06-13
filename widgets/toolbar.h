@@ -33,6 +33,9 @@ public slots:
     void setExpand(bool expand, QString shapeType);
     void specifiedSavePath();
 
+protected:
+    void paintEvent(QPaintEvent *e);
+
 private:
     MajToolBar* m_majToolbar;
     QLabel* m_hSeperatorLine;

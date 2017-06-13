@@ -58,6 +58,15 @@ ToolBarWidget::ToolBarWidget(QWidget *parent)
     connect(m_majToolbar, &MajToolBar::saveSpecificedPath, this, &ToolBarWidget::saveSpecifiedPath);
 }
 
+void ToolBarWidget::paintEvent(QPaintEvent *e) {
+    DBlurEffectWidget::paintEvent(e);
+
+    QPainter painter(this);
+    painter.setPen(QColor(255, 255, 255, 76.5));
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.drawLine(QPointF(0, 0), QPointF(this->width() - 1, 0));
+}
+
 bool ToolBarWidget::isButtonChecked() {
     return m_expanded;
 }
