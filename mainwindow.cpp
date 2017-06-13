@@ -170,8 +170,7 @@ void MainWindow::initShortcut() {
     }
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *ev) {
-    QKeyEvent *keyEvent = static_cast<QKeyEvent*>(ev);
+void MainWindow::keyPressEvent(QKeyEvent *keyEvent) {
     if (keyEvent->key() == Qt::Key_Escape ) {
         exitApp();
     } else if (qApp->keyboardModifiers() & Qt::ControlModifier) {
@@ -238,10 +237,6 @@ void MainWindow::keyPressEvent(QKeyEvent *ev) {
             qDebug() << "ShapeWidget Exist keyEvent:" << keyEvent->key();
         }
         return  ;
-    }
-
-    if (keyEvent->key() == Qt::Key_Shift) {
-        m_isShiftPressed = !m_isShiftPressed;
     }
 
     if (m_mouseStatus == ShotMouseStatus::Normal) {
@@ -352,15 +347,19 @@ void MainWindow::keyPressEvent(QKeyEvent *ev) {
         update();
     }
 
-    QLabel::keyPressEvent(ev);
+    QLabel::keyPressEvent(keyEvent);
 }
 
-void MainWindow::keyReleaseEvent(QKeyEvent *ev) {
-    QKeyEvent *keyEvent = static_cast<QKeyEvent*>(ev);
-
+void MainWindow::keyReleaseEvent(QKeyEvent *keyEvent) {
     // NOTE: must be use 'isAutoRepeat' to filter KeyRelease event
     //send by Qt.
     bool needRepaint = false;
+    if (m_isShapesWidgetExist) {
+        if (keyEvent->key() == Qt::Key_Shift) {
+            m_isShiftPressed =  false;
+            m_shapesWidget->setShiftKeyPressed(m_isShiftPressed);
+        }
+    }
     if (!keyEvent->isAutoRepeat()) {
         //            if (keyEvent->modifiers() ==  (Qt::ShiftModifier | Qt::ControlModifier)) {
         //                QProcess::startDetached("killall deepin-shortcut-viewer");
@@ -378,7 +377,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *ev) {
     if (needRepaint) {
         update();
     }
-    QLabel::keyReleaseEvent(ev);
+    QLabel::keyReleaseEvent(keyEvent);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *ev) {

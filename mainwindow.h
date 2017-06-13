@@ -86,8 +86,8 @@ protected:
     void updateCursor(QEvent *event);
     void resizeDirection(ResizeDirection direction, QMouseEvent* e);
 
-    void keyPressEvent(QKeyEvent *ev) Q_DECL_OVERRIDE;
-    void keyReleaseEvent(QKeyEvent *ev) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *keyEvent) Q_DECL_OVERRIDE;
+    void keyReleaseEvent(QKeyEvent *keyEvent) Q_DECL_OVERRIDE;
 
     void mouseDoubleClickEvent(QMouseEvent* ev) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent* ev) Q_DECL_OVERRIDE;
