@@ -31,6 +31,7 @@ protected:
     void mouseMoveEvent(QMouseEvent* e);
     void mouseReleaseEvent(QMouseEvent* e);
     bool eventFilter(QObject* watched, QEvent* event);
+//    void focusOutEvent(QFocusEvent* e);
 
 private:
      int m_index;

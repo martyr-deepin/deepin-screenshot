@@ -40,6 +40,7 @@ public slots:
     void setPenColor(QColor color);
     void clearSelected();
     void setAllTextEditReadOnly();
+    void saveActionTriggered();
 
     void handleDrag(QPointF oldPoint, QPointF newPoint);
     void handleRotate(QPointF pos);
@@ -100,6 +101,7 @@ private:
     bool m_mosaicEffectExist = false;
     QString m_currentType = "rectangle";
     QColor m_penColor;
+    bool m_clearAllTextBorder = false;
 
     Toolshape m_currentShape;
     Toolshape m_selectedShape;

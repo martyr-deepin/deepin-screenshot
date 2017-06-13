@@ -53,6 +53,7 @@ signals:
     void releaseEvent();
     void hideScreenshotUI();
     void unDo();
+    void saveActionTriggered();
 
 public slots:
     void fullScreenshot();

@@ -108,6 +108,7 @@ void ShapesWidget::clearSelected() {
         m_hoveredShape.mainPoints[j] = QPointF(0, 0);
     }
 
+    qDebug() << "clear selected!!!";
     m_isSelected = false;
     m_selectedShape.points.clear();
     m_hoveredShape.points.clear();
@@ -121,8 +122,15 @@ void ShapesWidget::setAllTextEditReadOnly() {
         ++i;
     }
 
-    m_editing = false;
     update();
+}
+
+void ShapesWidget::saveActionTriggered()
+{
+    qDebug() << "ShapesWidget saveActionTriggered!";
+    setAllTextEditReadOnly();
+    clearSelected();
+    m_clearAllTextBorder = true;
 }
 
 bool ShapesWidget::clickedOnShapes(QPointF pos) {
@@ -870,11 +878,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                     m_mosaicEffectExist = true;
                 }
             } else if (m_currentType == "text") {
-                qDebug() << "MMMM";
-                if (m_editing) {
-                    m_editing = false;
-                    setAllTextEditReadOnly();
-                } else {
+                if (!m_editing) {
                     setAllTextEditReadOnly();
                     m_currentShape.mainPoints[0] = m_pos1;
                     TextEdit* edit = new TextEdit(m_shapes.length(), this);
@@ -901,6 +905,9 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                         m_selectedShape = m_shapes[index];
                     });
                     m_shapes.append(m_currentShape);
+                } else {
+                    m_editing = false;
+                    setAllTextEditReadOnly();
                 }
             }
             update();
@@ -1271,7 +1278,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             paintArrow(painter, m_shapes[i].points, pen.width(), m_shapes[i].isStraight);
         } else if (m_shapes[i].type == "line") {
             paintLine(painter, m_shapes[i].points);
-        } else if (m_shapes[i].type == "text") {
+        } else if (m_shapes[i].type == "text" && !m_clearAllTextBorder) {
             if (!(m_editMap.value(i)->isReadOnly() && m_selectedIndex != i)) {
                 paintText(painter, m_shapes[i].mainPoints);
             }
@@ -1291,7 +1298,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             paintArrow(painter, m_currentShape.points, pen.width(), m_currentShape.isStraight);
         } else if (m_currentType == "line") {
             paintLine(painter, m_currentShape.points);
-        } else if (m_currentType == "text") {
+        } else if (m_currentType == "text" && !m_clearAllTextBorder) {
             if (m_editing) {
                 paintText(painter, m_currentShape.mainPoints);
             }

@@ -810,6 +810,8 @@ void MainWindow::initShapeWidget(QString type) {
             m_toolBar, &ToolBar::saveBtnPressed);
     connect(m_shapesWidget, &ShapesWidget::requestExit, this, &MainWindow::exitApp);
     connect(this, &MainWindow::unDo, m_shapesWidget, &ShapesWidget::undoDrawShapes);
+    connect(this, &MainWindow::saveActionTriggered,
+            m_shapesWidget, &ShapesWidget::saveActionTriggered);
 }
 
 void MainWindow::updateCursor(QEvent *event)
@@ -952,6 +954,7 @@ void MainWindow::savePath(const QString &path) {
 
     connect(m_toolBar, &ToolBar::saveSpecifiedPath, this, [=]{
         emit releaseEvent();
+        emit saveActionTriggered();
         m_needSaveScreenshot = true;
         saveSpecificedPath(m_specificedPath);
     });
@@ -1187,6 +1190,7 @@ void MainWindow::shotImgWidthEffect() {
 
 void MainWindow::saveScreenshot() {
     emit releaseEvent();
+    emit saveActionTriggered();
 
     m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
     m_needSaveScreenshot = true;

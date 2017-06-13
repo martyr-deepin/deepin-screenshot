@@ -39,7 +39,7 @@ TextEdit::TextEdit(int index, QWidget *parent)
     QSizeF originSize = QSizeF(fontMetric.boundingRect(
                                    this->toPlainText()).width() + 10, 30);
     this->resize(originSize.width(), originSize.height());
-    this->viewport()->installEventFilter(this);
+//    this->viewport()->installEventFilter(this);
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -77,6 +77,18 @@ void TextEdit::setFontSize(int fontsize) {
     emit  repaintTextRect(this,  QRectF(this->x(), this->y(),
                                         docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN));
 }
+
+//void TextEdit::focusOutEvent(QFocusEvent *e) {
+//    setReadOnly(true);
+
+//    QFontMetricsF fontMetric(this->document()->defaultFont());
+//    QSizeF docSize =  fontMetric.size(0, this->toPlainText());
+//    this->setMinimumSize(docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN);
+//    this->resize(docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN);
+//    emit  repaintTextRect(this,  QRectF(this->x(), this->y(),
+//                                        docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN));
+//    QPlainTextEdit::focusOutEvent(e);
+//}
 
 void TextEdit::updateCursor() {
 //    setTextColor(Qt::green);
