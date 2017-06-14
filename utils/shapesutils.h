@@ -12,6 +12,7 @@ class Toolshape {
 public:
      QString type;
      FourPoints mainPoints;
+     int index;
      int lineWidth;
      int colorIndex;
      bool isBlur = false;
@@ -19,6 +20,7 @@ public:
      bool isStraight = false;
      bool isShiftPressed = false;
      int fontSize = 1;
+
     QList<QPointF> points;
     QList<QList<qreal>> portion;
     Toolshape();

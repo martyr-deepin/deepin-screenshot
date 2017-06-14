@@ -95,6 +95,7 @@ private:
     ResizeDirection m_resizeDirection;
     ClickedKey m_clickedKey;
 
+    int m_shapesIndex;
     int m_selectedIndex;
     int m_currentIndex;
     bool m_blurEffectExist = false;

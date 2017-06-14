@@ -18,11 +18,12 @@ using namespace utils;
 
 ShapesWidget::ShapesWidget(QWidget *parent)
     : QFrame(parent),
-      m_selectedIndex(-1),
       m_isMoving(false),
       m_isSelected(false),
       m_isShiftPressed(false),
       m_editing(false),
+      m_shapesIndex(-1),
+      m_selectedIndex(-1),
       m_menuController(new MenuController)
 {
     setFocusPolicy(Qt::StrongFocus);
@@ -56,12 +57,17 @@ void ShapesWidget::updateSelectedShape(const QString &group,
         } else if (m_selectedShape.type == group && key == "linewidth_index") {
             m_selectedShape.lineWidth = LINEWIDTH(index);
         } else if (group == "text" && m_selectedShape.type == group && key == "color_index") {
-            m_editMap.value(m_selectedIndex)->setColor(colorIndexOf(index));
-             m_editMap.value(m_selectedIndex)->update();
+            int tmpIndex = m_shapes[m_selectedIndex].index;
+            if (m_editMap.contains(tmpIndex)) {
+                m_editMap.value(tmpIndex)->setColor(colorIndexOf(index));
+                m_editMap.value(tmpIndex)->update();
+            }
         } else if (group == "text" && m_selectedShape.type == group && key == "fontsize")  {
-            qDebug() << "setFontsize" << index;
-            m_editMap.value(m_selectedIndex)->setFontSize(index);
-            m_editMap.value(m_selectedIndex)->update();
+            int tmpIndex = m_shapes[m_selectedIndex].index;
+            if (m_editMap.contains(tmpIndex)) {
+            m_editMap.value(tmpIndex)->setFontSize(index);
+            m_editMap.value(tmpIndex)->update();
+            }
         } else if (group != "text" && m_selectedShape.type == group && key == "color_index") {
             m_selectedShape.colorIndex = index;
         }
@@ -136,7 +142,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos) {
     bool onShapes = false;
     m_selectedIndex = -1;
 
-    qDebug() << "ClickedOnShapes !!!!!!!";
+    qDebug() << "ClickedOnShapes !!!!!!!" << m_shapes.length();
     for (int i = 0; i < m_shapes.length(); i++) {
         bool currentOnShape = false;
         if (m_shapes[i].type == "rectangle") {
@@ -171,6 +177,7 @@ bool ShapesWidget::clickedOnShapes(QPointF pos) {
         if (currentOnShape) {
             m_selectedShape = m_shapes[i];
             m_selectedIndex = i;
+            qDebug() << "currentOnShape" << i << m_selectedIndex;
             onShapes = true;
             break;
         } else {
@@ -539,7 +546,7 @@ bool ShapesWidget::hoverOnRect(FourPoints rectPoints, QPointF pos) {
         m_resizeDirection = Bottom;
         return true;
     } else if (pointOnLine(rectPoints[0],  rectPoints[1], pos) || pointOnLine(rectPoints[1],
-        rectPoints[3], pos)|| pointOnLine(rectPoints[3], rectPoints[2], pos) ||
+        rectPoints[3], pos) || pointOnLine(rectPoints[3], rectPoints[2], pos) ||
                pointOnLine(rectPoints[2], rectPoints[0], pos)) {
         m_resizeDirection = Moving;
         return true;
@@ -824,6 +831,17 @@ void ShapesWidget::handleResize(QPointF pos, int key) {
 }
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e) {
+    if (m_selectedIndex != -1 && m_selectedIndex < m_shapes.length()) {
+        clearSelected();
+        setAllTextEditReadOnly();
+        m_editing = false;
+        m_selectedIndex = -1;
+        m_selectedShape.type = "";
+        update();
+        QFrame::mousePressEvent(e);
+        return;
+    }
+
     if (e->button() == Qt::RightButton) {
         qDebug() << "RightButton clicked!";
         m_menuController->showMenu(QPoint(mapToParent(e->pos())));
@@ -837,8 +855,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
 
     if (!clickedOnShapes(m_pressedPoint)) {
         m_isRecording = true;
-        qDebug() << "no one shape be clicked!";
-        clearSelected();
+        qDebug() << "no one shape be clicked!" << m_selectedIndex << m_shapes.length();
 
         m_currentShape.type = m_currentType;
         m_currentShape.colorIndex = ConfigSettings::instance()->value(
@@ -847,7 +864,8 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                    m_currentType, "linewidth_index").toInt());
 
         m_selectedIndex = -1;
-        m_currentIndex = m_shapes.length();
+        m_shapesIndex += 1;
+        m_currentIndex = m_shapesIndex;
 
         if (m_pos1 == QPointF(0, 0)) {
             m_pos1 = e->pos();
@@ -882,8 +900,9 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                 if (!m_editing) {
                     setAllTextEditReadOnly();
                     m_currentShape.mainPoints[0] = m_pos1;
-                    TextEdit* edit = new TextEdit(m_shapes.length(), this);
-                    m_selectedIndex = m_shapes.length();
+                    m_currentShape.index = m_currentIndex;
+                    qDebug() << "new textedit:" << m_currentIndex;
+                    TextEdit* edit = new TextEdit(m_currentIndex, this);
                     m_editing = true;
                     int defaultFontSize = ConfigSettings::instance()->value("text", "fontsize").toInt();
                     m_currentShape.fontSize = defaultFontSize;
@@ -895,17 +914,23 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                     m_currentShape.mainPoints[2] = QPointF(m_pos1.x() + edit->width(), m_pos1.y());
                     m_currentShape.mainPoints[3] = QPointF(m_pos1.x() + edit->width(),
                                                            m_pos1.y() + edit->height());
-                    m_editMap.insert(m_shapes.length(), edit);
+                    m_editMap.insert(m_currentIndex, edit);
                     m_selectedShape = m_currentShape;
                     connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
                     connect(edit, &TextEdit::backToEditing, this, [=]{
                         m_editing = true;
                     });
                     connect(edit, &TextEdit::textEditSelected, this, [=](int index){
-                        m_selectedIndex = index;
-                        m_selectedShape = m_shapes[index];
+                        for (int k = 0; k < m_shapes.length(); k++) {
+                            if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
+                                m_selectedIndex = k;
+                                m_selectedShape = m_shapes[k];
+                                break;
+                            }
+                        }
                     });
                     m_shapes.append(m_currentShape);
+                    qDebug() << "Insert text shape:" << m_currentShape.index;
                 } else {
                     m_editing = false;
                     setAllTextEditReadOnly();
@@ -916,10 +941,10 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
     } else {
         m_isRecording = false;
         qDebug() << "some on shape be clicked!";
-        if (m_editing) {
-            m_editMap.value(m_selectedIndex)->setReadOnly(true);
-            m_editMap.value(m_selectedIndex)->setCursorVisible(false);
-            m_editMap.value(m_selectedIndex)->setFocusPolicy(Qt::NoFocus);
+        if (m_editing && m_editMap.contains(m_shapes[m_selectedIndex].index)) {
+            m_editMap.value(m_shapes[m_selectedIndex].index)->setReadOnly(true);
+            m_editMap.value(m_shapes[m_selectedIndex].index)->setCursorVisible(false);
+            m_editMap.value(m_shapes[m_selectedIndex].index)->setFocusPolicy(Qt::NoFocus);
         }
         update();
     }
@@ -1137,17 +1162,19 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
 
 void ShapesWidget::updateTextRect(TextEdit* edit, QRectF newRect) {
     int index = edit->getIndex();
-    qDebug() << "updateTextRect:" << newRect;
-    if (m_shapes.length() - 1 >= index)  {
-        m_shapes[index].mainPoints[0] = QPointF(newRect.x(), newRect.y());
-        m_shapes[index].mainPoints[1] = QPointF(newRect.x() , newRect.y() + newRect.height());
-        m_shapes[index].mainPoints[2] = QPointF(newRect.x() + newRect.width(), newRect.y());
-        m_shapes[index].mainPoints[3] = QPointF(newRect.x() + newRect.width(),
-                                                                                     newRect.y() + newRect.height());
-
-        m_currentShape  = m_shapes[index];
-        m_selectedShape = m_shapes[index];
-        m_selectedIndex = index;
+    qDebug() << "updateTextRect:" << newRect << index;
+    for (int j = 0; j < m_shapes.length(); j++) {
+        qDebug() << "updateTextRect bbbbbbbb:" << j << m_shapes[j].index << index;
+        if (m_shapes[j].type == "text" && m_shapes[j].index == index) {
+            m_shapes[j].mainPoints[0] = QPointF(newRect.x(), newRect.y());
+            m_shapes[j].mainPoints[1] = QPointF(newRect.x() , newRect.y() + newRect.height());
+            m_shapes[j].mainPoints[2] = QPointF(newRect.x() + newRect.width(), newRect.y());
+            m_shapes[j].mainPoints[3] = QPointF(newRect.x() + newRect.width(),
+                                                                                         newRect.y() + newRect.height());
+            m_currentShape = m_shapes[j];
+            m_selectedShape = m_shapes[j];
+            m_selectedIndex = j;
+        }
     }
     update();
 }
@@ -1280,13 +1307,21 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         } else if (m_shapes[i].type == "line") {
             paintLine(painter, m_shapes[i].points);
         } else if (m_shapes[i].type == "text" && !m_clearAllTextBorder) {
-            if (!(m_editMap.value(i)->isReadOnly() && m_selectedIndex != i)) {
-                paintText(painter, m_shapes[i].mainPoints);
+            qDebug() << "*&^" << m_shapes[i].type << m_shapes[i].index << m_selectedIndex << i;
+            QMap<int, TextEdit*>::iterator m = m_editMap.begin();
+            while (m != m_editMap.end()) {
+                if (m.key() == m_shapes[i].index) {
+                    if (!(m.value()->isReadOnly() && m_selectedIndex != i)) {
+                        paintText(painter, m_shapes[i].mainPoints);
+                    }
+                    break;
+                }
+                m++;
             }
         }
     }
 
-    if ((m_pos1 != QPointF(0, 0) && m_pos2 != QPointF(0, 0))||m_currentShape.type == "text") {
+    if ((m_pos1 != QPointF(0, 0) && m_pos2 != QPointF(0, 0)) || m_currentShape.type == "text") {
         FourPoints currentFPoint =  getMainPoints(m_pos1, m_pos2, m_isShiftPressed);
         pen.setColor(colorIndexOf(m_currentShape.colorIndex));
         pen.setWidth(m_currentShape.lineWidth);
@@ -1425,13 +1460,14 @@ void ShapesWidget::deleteCurrentShape() {
         qWarning() << "Invalid index";
     }
 
-    clearSelected();
-    if (m_selectedShape.type == "text") {
-        m_editMap.value(m_selectedIndex)->clear();
-        delete m_editMap.value(m_selectedIndex);
-        m_editMap.remove(m_selectedIndex);
 
+    if (m_selectedShape.type == "text" && m_editMap.contains(m_selectedShape.index)) {
+        m_editMap.value(m_selectedShape.index)->clear();
+        delete m_editMap.value(m_selectedShape.index);
+        m_editMap.remove(m_selectedShape.index);
     }
+
+    clearSelected();
     m_selectedShape.type = "";
     m_currentShape.type = "";
     for(int i = 0; i < m_currentShape.mainPoints.length(); i++) {
@@ -1448,11 +1484,11 @@ void ShapesWidget::undoDrawShapes()
     {
             deleteCurrentShape();
     } else if (m_shapes.length() > 0) {
-        int deleteShapeIndex = m_shapes.length() - 1;
-        if (m_shapes[deleteShapeIndex].type == "text") {
-            m_editMap.value(deleteShapeIndex)->clear();
-            delete m_editMap.value(deleteShapeIndex);
-            m_editMap.remove(deleteShapeIndex);
+        int tmpIndex = m_shapes[m_shapes.length() - 1].index;
+        if (m_shapes[m_shapes.length() - 1].type == "text" && m_editMap.contains(tmpIndex) ) {
+            m_editMap.value(tmpIndex)->clear();
+            delete m_editMap.value(tmpIndex);
+            m_editMap.remove(tmpIndex);
         }
 
         m_shapes.removeLast();
