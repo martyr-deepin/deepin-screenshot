@@ -824,15 +824,16 @@ void ShapesWidget::handleResize(QPointF pos, int key) {
 }
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e) {
-    m_pressedPoint = e->pos();
-    m_isPressed = true;
-
-    qDebug() << "mouse pressed!" << m_pressedPoint;
-    if (e->button() == Qt::RightButton && !clickedOnShapes(m_pressedPoint)) {
+    if (e->button() == Qt::RightButton) {
+        qDebug() << "RightButton clicked!";
         m_menuController->showMenu(QPoint(mapToParent(e->pos())));
         QFrame::mousePressEvent(e);
         return;
     }
+
+    m_pressedPoint = e->pos();
+    m_isPressed = true;
+    qDebug() << "mouse pressed!" << m_pressedPoint;
 
     if (!clickedOnShapes(m_pressedPoint)) {
         m_isRecording = true;

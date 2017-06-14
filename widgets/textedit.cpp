@@ -145,12 +145,15 @@ void TextEdit::keepReadOnlyStatus()
 
 void TextEdit::mousePressEvent(QMouseEvent *e)
 {
-    m_isPressed = true;
-    m_pressPoint = QPointF(mapToGlobal(e->pos()));
+    if (e->button() == Qt::LeftButton) {
+        m_isPressed = true;
+        m_pressPoint = QPointF(mapToGlobal(e->pos()));
 
-    if (this->isReadOnly()) {
-        emit textEditSelected(getIndex());
+        if (this->isReadOnly()) {
+            emit textEditSelected(getIndex());
+        }
     }
+
     QPlainTextEdit::mousePressEvent(e);
 }
 
