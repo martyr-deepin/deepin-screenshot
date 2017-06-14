@@ -731,7 +731,8 @@ void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)  {
 void ShapesWidget::handleRotate(QPointF pos) {
     qDebug() << "handleRotate:" << m_selectedIndex << m_shapes.length();
 
-    if (m_selectedIndex == -1 || m_selectedIndex > m_shapes.length()) {
+    if (m_selectedIndex == -1 || m_selectedIndex > m_shapes.length()
+            || m_selectedShape.type == "text") {
         return;
     }
 
@@ -827,7 +828,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
     m_isPressed = true;
 
     qDebug() << "mouse pressed!" << m_pressedPoint;
-    if (e->button() == Qt::RightButton) {
+    if (e->button() == Qt::RightButton && !clickedOnShapes(m_pressedPoint)) {
         m_menuController->showMenu(QPoint(mapToParent(e->pos())));
         QFrame::mousePressEvent(e);
         return;

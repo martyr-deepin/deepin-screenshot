@@ -34,42 +34,54 @@ TextEdit::TextEdit(int index, QWidget *parent)
     textBlockFormat.setAlignment(Qt::AlignLeft);
     cursor.mergeBlockFormat(textBlockFormat);
 
-
      QFontMetricsF m_fontMetric = QFontMetricsF(this->document()->defaultFont());
     QSizeF originSize = QSizeF(m_fontMetric.boundingRect(
-                                   this->toPlainText()).width() + 10, 30);
+                                   "d").width()  + TEXT_MARGIN,  m_fontMetric.boundingRect(
+                                   "d").height() + TEXT_MARGIN);
     this->resize(originSize.width(), originSize.height());
-
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    connect(this->document(), &QTextDocument::contentsChange, this, &TextEdit::updateContentSize);
+    connect(this->document(), &QTextDocument::contentsChange, this,  [=]{
+        updateContentSize(this->toPlainText());
+    });
 }
 
-int TextEdit::getIndex() {
+int TextEdit::getIndex()
+{
     return m_index;
 }
 
-void TextEdit::setColor(QColor c) {
+void TextEdit::setColor(QColor c)
+{
     m_textColor = c;
     setStyleSheet(QString("TextEdit {background-color: transparent;"
                                             " color: %1; border: none;}").arg(m_textColor.name()));
     this->updateGeometry();
 }
 
-void TextEdit::setFontSize(int fontsize) {
+void TextEdit::setFontSize(int fontsize)
+{
     QFont font;
     font.setPixelSize(fontsize);
     this->document()->setDefaultFont(font);
     this->updateGeometry();
 
-    updateContentSize();
+    updateContentSize(this->toPlainText());
 }
 
-void TextEdit::updateContentSize()
+void TextEdit::inputMethodEvent(QInputMethodEvent *e)
+{
+    QPlainTextEdit::inputMethodEvent(e);
+
+    QString virtualStr = this->toPlainText() + e->preeditString();
+    updateContentSize(virtualStr);
+}
+
+void TextEdit::updateContentSize(QString content)
 {
     QFontMetricsF fontMetric = QFontMetricsF(this->document()->defaultFont());
-    QSizeF docSize =  fontMetric.size(0, this->toPlainText());
+    QSizeF docSize =  fontMetric.size(0,  content);
     this->setMinimumSize(docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN);
     this->resize(docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN);
     emit  repaintTextRect(this,  QRectF(this->x(), this->y(),
@@ -88,11 +100,13 @@ void TextEdit::updateContentSize()
 //    QPlainTextEdit::focusOutEvent(e);
 //}
 
-void TextEdit::updateCursor() {
+void TextEdit::updateCursor()
+{
 //    setTextColor(Qt::green);
 }
 
-void TextEdit::setCursorVisible(bool visible) {
+void TextEdit::setCursorVisible(bool visible)
+{
     if (visible) {
         setCursorWidth(1);
     } else {
@@ -100,8 +114,8 @@ void TextEdit::setCursorVisible(bool visible) {
     }
 }
 
-void TextEdit::keepReadOnlyStatus() {
-
+void TextEdit::keepReadOnlyStatus()
+{
 }
 
 //bool TextEdit::eventFilter(QObject *watched, QEvent *event) {
@@ -129,7 +143,8 @@ void TextEdit::keepReadOnlyStatus() {
 //    return false;
 //}
 
-void TextEdit::mousePressEvent(QMouseEvent *e) {
+void TextEdit::mousePressEvent(QMouseEvent *e)
+{
     m_isPressed = true;
     m_pressPoint = QPointF(mapToGlobal(e->pos()));
 
@@ -139,7 +154,8 @@ void TextEdit::mousePressEvent(QMouseEvent *e) {
     QPlainTextEdit::mousePressEvent(e);
 }
 
-void TextEdit::mouseMoveEvent(QMouseEvent *e) {
+void TextEdit::mouseMoveEvent(QMouseEvent *e)
+{
     QPointF posOrigin = QPointF(mapToGlobal(e->pos()));
 
     QPointF movePos = QPointF(posOrigin.x(), posOrigin.y());
@@ -156,7 +172,8 @@ void TextEdit::mouseMoveEvent(QMouseEvent *e) {
     QPlainTextEdit::mouseMoveEvent(e);
 }
 
-void TextEdit::mouseReleaseEvent(QMouseEvent *e) {
+void TextEdit::mouseReleaseEvent(QMouseEvent *e)
+{
     m_isPressed = false;
     if (this->isReadOnly()) {
         setMouseTracking(false);
@@ -171,7 +188,8 @@ void TextEdit::mouseReleaseEvent(QMouseEvent *e) {
 //    QPlainTextEdit::resizeEvent(e);
 //}
 
-void TextEdit::enterEvent(QEnterEvent *e) {
+void TextEdit::enterEvent(QEnterEvent *e)
+{
     if (this->isReadOnly()) {
         setCursorVisible(false);
         this->selectAll();
@@ -190,4 +208,5 @@ void TextEdit::mouseDoubleClickEvent(QMouseEvent *e)
     emit backToEditing();
     QPlainTextEdit::mouseDoubleClickEvent(e);
 }
+
 TextEdit::~TextEdit() {}
