@@ -54,12 +54,11 @@ void ConfigSettings::setValue(const QString &group, const QString &key,
     m_settings->endGroup();
     m_settings->sync();
 
-    if (group == "common") {
-        emit colorChanged();
-        emit shapeConfigChanged(group, key, val.toInt());
-    } else {
+    if (val.type() == QVariant::Int) {
         emit shapeConfigChanged(group, key, val.toInt());
     }
+
+    qDebug() << "ConfigSettings:" << group << key << val;
 }
 
 QVariant ConfigSettings::value(const QString &group, const QString &key,

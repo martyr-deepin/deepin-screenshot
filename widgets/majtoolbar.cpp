@@ -137,9 +137,9 @@ void MajToolBar::initWidgets() {
         if (m_currentShape != "rectangle") {
             m_currentShape = "rectangle";
             m_isChecked = true;
+
             int rectColorIndex = ConfigSettings::instance()->value("rectangle", "color_index").toInt();
             ConfigSettings::instance()->setValue("common", "color_index", rectColorIndex);
-
         } else {
             m_currentShape = "";
             m_isChecked = false;
@@ -153,7 +153,7 @@ void MajToolBar::initWidgets() {
             m_currentShape = "oval";
             m_isChecked = true;
             int ovalColorIndex = ConfigSettings::instance()->value("oval", "color_index").toInt();
-            ConfigSettings::instance()->setValue("common", "color_index", ovalColorIndex);
+            ConfigSettings::instance()->setValue("common", "color_index", ovalColorIndex); 
         } else {
             m_currentShape = "";
             m_isChecked = false;
@@ -204,10 +204,7 @@ void MajToolBar::initWidgets() {
         colorBtn->setChecked(true);
         emit buttonChecked(true, "color");
     });
-    connect(ConfigSettings::instance(), &ConfigSettings::colorChanged,
-            colorBtn, &BigColorButton::setColorIndex);
 
-    connect(this, &MajToolBar::mainColorChanged, colorBtn, &BigColorButton::setColor);
     connect(saveBtn,  &ToolButton::clicked, this, [=](){
         emit saveImage();
     });

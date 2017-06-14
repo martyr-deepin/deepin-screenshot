@@ -17,9 +17,14 @@ ColorButton::ColorButton(QColor bgColor, QWidget *parent)
 void ColorButton::setColorBtnChecked() {
     update();
     if (this->isChecked()) {
-        qDebug() << "emit m_bgColor" << m_bgColor;
+        qDebug() << "updatePaintColor:" << m_bgColor;
         emit updatePaintColor(m_bgColor);
     }
+}
+
+QColor ColorButton::getColor()
+{
+    return m_bgColor;
 }
 
 //void ColorButton::paintEvent(QPaintEvent *) {

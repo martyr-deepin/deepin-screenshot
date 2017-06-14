@@ -38,8 +38,6 @@ ShapesWidget::ShapesWidget(QWidget *parent)
             this, &ShapesWidget::saveBtnPressed);
     connect(ConfigSettings::instance(), &ConfigSettings::shapeConfigChanged,
             this, &ShapesWidget::updateSelectedShape);
-    connect(ConfigSettings::instance(), &ConfigSettings::colorChanged,
-            this,  &ShapesWidget::updatePenColor);
 }
 
 ShapesWidget::~ShapesWidget() {}
@@ -90,6 +88,7 @@ void ShapesWidget::setPenColor(QColor color) {
     int colorNum = colorIndex(color);
     m_penColor = color;
     if ( !m_currentType.isEmpty()) {
+        qDebug() << "ShapesWidget setPenColor:" << m_currentType;
         ConfigSettings::instance()->setValue(m_currentType, "color_index", colorNum);
     }
 
