@@ -192,10 +192,6 @@ void MainWindow::keyPressEvent(QKeyEvent *keyEvent) {
             m_shapesWidget->setShiftKeyPressed(m_isShiftPressed);
         }
 
-        if (keyEvent->key() == Qt::Key_S) {
-            saveScreenshot();
-        }
-
         if (keyEvent->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier)) {
             if (keyEvent->key() == Qt::Key_Left) {
                 m_shapesWidget->microAdjust("Ctrl+Shift+Left");
@@ -217,6 +213,8 @@ void MainWindow::keyPressEvent(QKeyEvent *keyEvent) {
                 m_shapesWidget->microAdjust("Ctrl+Down");
             } else if (keyEvent->key() == Qt::Key_C) {
                 ConfigSettings::instance()->setValue("save", "save_op", 3);
+                saveScreenshot();
+            } else if (keyEvent->key() == Qt::Key_S) {
                 saveScreenshot();
             }
         }  else {
