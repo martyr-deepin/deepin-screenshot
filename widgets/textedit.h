@@ -19,6 +19,7 @@ public slots:
     void setCursorVisible(bool visible);
     void keepReadOnlyStatus();
     void setFontSize(int fontsize);
+    void updateContentSize();
 
 signals:
      void repaintTextRect(TextEdit* edit,  QRectF newPositiRect);
@@ -30,7 +31,9 @@ protected:
     void enterEvent(QEnterEvent* e);
     void mouseMoveEvent(QMouseEvent* e);
     void mouseReleaseEvent(QMouseEvent* e);
-    bool eventFilter(QObject* watched, QEvent* event);
+    void mouseDoubleClickEvent(QMouseEvent *e);
+//    void resizeEvent(QResizeEvent *e);
+//    bool eventFilter(QObject* watched, QEvent* event);
 //    void focusOutEvent(QFocusEvent* e);
 
 private:
