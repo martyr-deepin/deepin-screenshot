@@ -349,7 +349,7 @@ void SubToolBar::initColorLabel() {
         colorLayout->addWidget(colorBtnList[i]);
         colorLayout->addSpacing(1);
         connect(colorBtnList[i], &ColorButton::updatePaintColor,
-                this, &SubToolBar::currentColorChanged);
+                this, &SubToolBar::updateColor);
     }
     colorLayout->addStretch();
     m_colorLabel->setLayout(colorLayout);
@@ -359,6 +359,13 @@ void SubToolBar::initColorLabel() {
     connect(this, &SubToolBar::defaultColorIndexChanged, this, [=](int index){
         colorBtnList[index]->setChecked(true);
     });
+}
+
+void SubToolBar::updateColor(QColor color)
+{
+    int colNum = colorIndex(color);
+    ConfigSettings::instance()->setValue("common", "color_index", colNum);
+    emit currentColorChanged(color);
 }
 
 void SubToolBar::initSaveLabel() {

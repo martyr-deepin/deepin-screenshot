@@ -14,6 +14,7 @@ public:
     void setColor(QColor color);
     void setColorIndex();
     void setCheckedStatus(bool checked);
+    void updateConfigColor(const QString &shape,  const QString &key, int index);
 
 protected:
     void paintEvent(QPaintEvent *);

@@ -21,6 +21,15 @@ BigColorButton::BigColorButton(QWidget *parent)
 
     connect(this, &QPushButton::clicked, this,
             &BigColorButton::setCheckedStatus);
+    connect(ConfigSettings::instance(), &ConfigSettings::shapeConfigChanged,
+                  this, &BigColorButton::updateConfigColor);
+}
+
+void BigColorButton::updateConfigColor(const QString &shape, const QString &key, int index)
+{
+    if (shape == "common" && key == "color_index") {
+        setColor(colorIndexOf(index));
+    }
 }
 
 BigColorButton::~BigColorButton() {
@@ -51,19 +60,15 @@ void BigColorButton::paintEvent(QPaintEvent *) {
          painter.drawPixmap(rect(), QPixmap(
                                 ":/resources/images/action/colors_normal.png"));
     }
-
-
 }
 
 void BigColorButton::setColor(QColor color) {
     m_color = color;
-    int colorNum = colorIndex(color);
-    ConfigSettings::instance()->setValue("common", "color_index", colorNum);
     update();
 }
 
 void BigColorButton::setColorIndex() {
-   int colorNum = ConfigSettings::instance()->value("common", "color_index").toInt();
+    int colorNum = ConfigSettings::instance()->value("common", "color_index").toInt();
     m_color = colorIndexOf(colorNum);
     update();
 }

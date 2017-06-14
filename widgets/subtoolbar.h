@@ -18,10 +18,12 @@ public:
     void initColorLabel();
     void initSaveLabel();
 
+public slots:
     void switchContent(QString shapeType);
     void setSaveOption(int saveOption);
     void setSaveQualityIndex(int saveQuality);
     int    getSaveQualityIndex();
+    void updateColor(QColor color);
 
 signals:
     void currentColorChanged(QColor color);

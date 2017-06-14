@@ -45,10 +45,8 @@ ToolBarWidget::ToolBarWidget(QWidget *parent)
     connect(m_majToolbar, &MajToolBar::saveImage, this, &ToolBarWidget::saveImage);
     connect(m_subToolbar, &SubToolBar::saveAction, this, &ToolBarWidget::saveImage);
 
-    connect(m_subToolbar, &SubToolBar::currentColorChanged,
-            m_majToolbar, &MajToolBar::mainColorChanged);
-
     connect(m_subToolbar, &SubToolBar::currentColorChanged, this, &ToolBarWidget::colorChanged);
+    connect(m_subToolbar, &SubToolBar::currentColorChanged,  m_majToolbar, &MajToolBar::mainColorChanged);
 
     connect(m_subToolbar, &SubToolBar::showSaveTip, m_majToolbar, &MajToolBar::showSaveTooltip);
     connect(m_subToolbar, &SubToolBar::hideSaveTip, m_majToolbar, &MajToolBar::hideSaveTooltip);
