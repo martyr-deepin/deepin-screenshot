@@ -832,14 +832,16 @@ void ShapesWidget::handleResize(QPointF pos, int key) {
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e) {
     if (m_selectedIndex != -1 && m_selectedIndex < m_shapes.length()) {
-        clearSelected();
-        setAllTextEditReadOnly();
-        m_editing = false;
-        m_selectedIndex = -1;
-        m_selectedShape.type = "";
-        update();
-        QFrame::mousePressEvent(e);
-        return;
+        if (!(clickedOnShapes(e->pos()) && m_isRotated)) {
+            clearSelected();
+            setAllTextEditReadOnly();
+            m_editing = false;
+            m_selectedIndex = -1;
+            m_selectedShape.type = "";
+            update();
+            QFrame::mousePressEvent(e);
+            return;
+        }
     }
 
     if (e->button() == Qt::RightButton) {
