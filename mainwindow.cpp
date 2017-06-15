@@ -172,6 +172,12 @@ void MainWindow::initShortcut() {
 
 void MainWindow::keyPressEvent(QKeyEvent *keyEvent) {
     if (keyEvent->key() == Qt::Key_Escape ) {
+        if (m_isShapesWidgetExist) {
+            if (m_shapesWidget->textEditIsReadOnly()) {
+                return;
+            }
+        }
+        qDebug() << "Key_Escape pressed: app quit!";
         exitApp();
     } else if (qApp->keyboardModifiers() & Qt::ControlModifier) {
         if (keyEvent->key() == Qt::Key_Z) {

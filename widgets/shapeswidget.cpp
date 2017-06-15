@@ -701,6 +701,24 @@ bool ShapesWidget::hoverOnRotatePoint(FourPoints mainPoints,
     return result;
 }
 
+bool ShapesWidget::textEditIsReadOnly() {
+    qDebug() << "textEditIsReadOnly:" << m_editMap.count();
+
+    QMap<int, TextEdit*>::iterator i = m_editMap.begin();
+    while (i != m_editMap.end()) {
+        if (m_editing || !i.value()->isReadOnly()) {
+            setAllTextEditReadOnly();
+            m_editing = false;
+            m_currentShape.type = "";
+            update();
+            return true;
+        }
+        ++i;
+    }
+
+    return false;
+}
+
 void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)  {
     qDebug() << "handleDrag:" << m_selectedIndex << m_shapes.length();
 

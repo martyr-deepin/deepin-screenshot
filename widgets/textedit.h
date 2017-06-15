@@ -33,9 +33,8 @@ protected:
     void mouseReleaseEvent(QMouseEvent* e);
     void mouseDoubleClickEvent(QMouseEvent *e);
     void inputMethodEvent(QInputMethodEvent *e);
-//    void resizeEvent(QResizeEvent *e);
+    void keyPressEvent(QKeyEvent *e);
 //    bool eventFilter(QObject* watched, QEvent* event);
-//    void focusOutEvent(QFocusEvent* e);
 
 private:
      int m_index;

@@ -65,6 +65,7 @@ public slots:
     bool hoverOnArrow(QList<QPointF> points, QPointF pos);
     bool hoverOnLine(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
     bool hoverOnRotatePoint(FourPoints mainPoints, QPointF pos);
+    bool textEditIsReadOnly();
 
     void undoDrawShapes();
     void deleteCurrentShape();

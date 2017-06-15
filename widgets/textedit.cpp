@@ -88,18 +88,6 @@ void TextEdit::updateContentSize(QString content)
                                             docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN));
 }
 
-//void TextEdit::focusOutEvent(QFocusEvent *e) {
-//    setReadOnly(true);
-
-//    QFontMetricsF fontMetric(this->document()->defaultFont());
-//    QSizeF docSize =  fontMetric.size(0, this->toPlainText());
-//    this->setMinimumSize(docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN);
-//    this->resize(docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN);
-//    emit  repaintTextRect(this,  QRectF(this->x(), this->y(),
-//                                        docSize.width() + TEXT_MARGIN, docSize.height() + TEXT_MARGIN));
-//    QPlainTextEdit::focusOutEvent(e);
-//}
-
 void TextEdit::updateCursor()
 {
 //    setTextColor(Qt::green);
@@ -186,11 +174,6 @@ void TextEdit::mouseReleaseEvent(QMouseEvent *e)
     QPlainTextEdit::mouseReleaseEvent(e);
 }
 
-//void TextEdit::resizeEvent(QResizeEvent *e)
-//{
-//    QPlainTextEdit::resizeEvent(e);
-//}
-
 void TextEdit::enterEvent(QEnterEvent *e)
 {
     if (this->isReadOnly()) {
@@ -210,6 +193,14 @@ void TextEdit::mouseDoubleClickEvent(QMouseEvent *e)
     this->setCursorVisible(true);
     emit backToEditing();
     QPlainTextEdit::mouseDoubleClickEvent(e);
+}
+
+void TextEdit::keyPressEvent(QKeyEvent *e)
+{
+    QPlainTextEdit::keyPressEvent(e);
+    if (e->key() == Qt::Key_Escape && !this->isReadOnly()) {
+        this->setReadOnly(true);
+    }
 }
 
 TextEdit::~TextEdit() {}
