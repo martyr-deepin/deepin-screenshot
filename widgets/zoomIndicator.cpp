@@ -6,6 +6,10 @@
 #include <QDebug>
 #include <QRgb>
 
+#include <dgraphicsgloweffect.h>
+
+DWIDGET_USE_NAMESPACE
+
 namespace {
 const QSize BACKGROUND_SIZE = QSize(59, 59);
 const int SCALE_VALUE = 4;
@@ -19,6 +23,13 @@ ZoomIndicator::ZoomIndicator(QWidget *parent)
     setFixedSize(BACKGROUND_SIZE);
     setStyleSheet(getFileContent(":/resources/qss/zoomindicator.qss"));
     setAttribute(Qt::WA_TransparentForMouseEvents);
+
+    DGraphicsGlowEffect *effect = new DGraphicsGlowEffect();
+    effect->setBlurRadius(5.0);
+    effect->setDistance(5);
+    effect->setYOffset(3);
+    effect->setColor(QColor(0, 0, 0, 40));
+    setGraphicsEffect(effect);
 }
 
 ZoomIndicator::~ZoomIndicator() {}
@@ -37,15 +48,26 @@ void ZoomIndicator::paintEvent(QPaintEvent *) {
                              Qt::KeepAspectRatio);
 
     QPainter painter(this);
-    painter.drawPixmap(QRect(5, 5, INDICATOR_WIDTH, INDICATOR_WIDTH), zoomPix);
+    painter.setRenderHints(QPainter::SmoothPixmapTransform|QPainter::Antialiasing);
+    QBrush brush(zoomPix);
+    painter.setBrush(brush);
+    painter.drawRoundedRect(QRect(5, 5, INDICATOR_WIDTH, INDICATOR_WIDTH), 3 ,3);
+
+    QPen pen;
+    pen.setColor(QColor(255, 255, 255, 76.5));
+    pen.setWidth(2);
+    painter.setPen(pen);
+    QRectF borderRect = QRectF(4, 4, INDICATOR_WIDTH + 2, INDICATOR_WIDTH + 2);
+    painter.drawRoundedRect(borderRect, 3, 3);
 
     QRect centerRect = QRect((BACKGROUND_SIZE.width() - CENTER_RECT_WIDTH)/2 + 1,
                              (BACKGROUND_SIZE.width() - CENTER_RECT_WIDTH)/2 + 1,
                              CENTER_RECT_WIDTH, CENTER_RECT_WIDTH);
     painter.drawPixmap(centerRect, QPixmap(":/resources/images/action/center_rect.png"));
+
     painter.fillRect(QRect(INDICATOR_WIDTH/2 + 2, INDICATOR_WIDTH/2 + 2,
-            CENTER_RECT_WIDTH - 4, CENTER_RECT_WIDTH - 4), QBrush(QColor(qRed(centerRectRgb),
-             qGreen(centerRectRgb), qBlue(centerRectRgb))));
+                           CENTER_RECT_WIDTH - 4, CENTER_RECT_WIDTH - 4), QBrush(QColor(qRed(centerRectRgb),
+                                                                                        qGreen(centerRectRgb), qBlue(centerRectRgb))));
 
     painter.fillRect(QRect(5, INDICATOR_WIDTH - 9, INDICATOR_WIDTH, BOTTOM_RECT_HEIGHT),
                      QBrush(QColor(0, 0, 0, 125)));
