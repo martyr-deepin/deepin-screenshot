@@ -15,6 +15,11 @@ public:
     ShapesWidget(QWidget* parent = 0);
     ~ShapesWidget();
 
+    enum ShapeBlurStatus {
+        Drawing,
+        Selected,
+        Normal,
+    };
     enum ClickedKey {
         First,
         Second,
@@ -98,6 +103,7 @@ private:
     int m_shapesIndex;
     int m_selectedIndex;
     int m_currentIndex;
+    int m_hoveredIndex;
     bool m_blurEffectExist = false;
     bool m_mosaicEffectExist = false;
     QString m_currentType = "rectangle";
@@ -115,9 +121,9 @@ private:
 
     void paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize = true);
     void paintRect(QPainter &painter, FourPoints rectFPoints, int index,
-                               bool isBlur = false, bool isMosaic = false);
+                   ShapeBlurStatus  rectStatus = Normal, bool isBlur = false, bool isMosaic = false);
     void paintEllipse(QPainter &painter, FourPoints ellipseFPoints, int index,
-                                  bool isBlur = false, bool isMosaic = false);
+                  ShapeBlurStatus  ovalStatus = Normal, bool isBlur = false, bool isMosaic = false);
     void paintArrow(QPainter &painter, QList<QPointF> lineFPoints,
                                   int lineWidth, bool isStraight = false);
     void paintLine(QPainter &painter, QList<QPointF> lineFPoints);
