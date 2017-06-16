@@ -37,14 +37,15 @@ SaveTips::~SaveTips() {
 
 void SaveTips::startAnimation() {
     m_animation->stop();
-    m_animation->setDuration(100);
+    m_animation->setDuration(220);
     m_animation->setStartValue(this->width());
+    m_animation->setEasingCurve(QEasingCurve::OutSine);
     m_animation->setEndValue(m_tipsWidth);
     m_animation->start();
 }
 
 void SaveTips::endAnimation() {
-    m_animation->setDuration(150);
+    m_animation->setDuration(220);
     m_animation->setStartValue(m_tipsWidth);
     m_animation->setEndValue(0);
     m_animation->setEasingCurve(QEasingCurve::OutSine);
