@@ -37,6 +37,7 @@ private:
     QHBoxLayout* m_baseLayout;
 
     bool m_isChecked;
+    bool m_listBtnChecked;
     QString m_currentShape;
 };
 

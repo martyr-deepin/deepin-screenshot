@@ -156,7 +156,6 @@ void MajToolBar::initWidgets() {
             m_currentShape = "";
             m_isChecked = false;
         }
-        rectBtn->setChecked(m_isChecked);
         rectBtn->update();
         emit buttonChecked(m_isChecked, "rectangle");
     });
@@ -170,7 +169,7 @@ void MajToolBar::initWidgets() {
             m_currentShape = "";
             m_isChecked = false;
         }
-        ovalBtn->setChecked(m_isChecked);
+
         emit buttonChecked(m_isChecked, "oval");
     });
     connect(arrowBtn, &ToolButton::clicked, this, [=](){
@@ -183,7 +182,7 @@ void MajToolBar::initWidgets() {
             m_currentShape = "";
             m_isChecked = false;
         }
-        arrowBtn->setChecked(m_isChecked);
+
         emit buttonChecked(m_isChecked, "arrow");
     });
     connect(sLineBtn, &ToolButton::clicked, this, [=](){
@@ -196,7 +195,7 @@ void MajToolBar::initWidgets() {
             m_currentShape = "";
             m_isChecked = false;
         }
-        sLineBtn->setChecked(m_isChecked);
+
         emit buttonChecked(m_isChecked, "arrow");
     });
     connect(ConfigSettings::instance(), &ConfigSettings::straightLineConfigChanged, this, [=](bool isStraightLine){
@@ -224,7 +223,7 @@ void MajToolBar::initWidgets() {
             m_currentShape = "";
             m_isChecked = false;
         }
-        lineBtn->setChecked(m_isChecked);
+
         emit buttonChecked(m_isChecked, "line");
     });
     connect(textBtn, &ToolButton::clicked, this, [=](){
@@ -237,7 +236,7 @@ void MajToolBar::initWidgets() {
             m_currentShape = "";
             m_isChecked = false;
         }
-        textBtn->setChecked(m_isChecked);
+
         emit buttonChecked(m_isChecked, "text");
     });
     connect(colorBtn, &BigColorButton::clicked, this, [=]{
@@ -250,6 +249,12 @@ void MajToolBar::initWidgets() {
     });
     connect(listBtn, &ToolButton::clicked, this, [=] {
         bool expand = listBtn->isChecked();
+        if (!m_listBtnChecked) {
+            m_listBtnChecked = true;
+        }
+        if (m_listBtnChecked) {
+            listBtn->setChecked(true);
+        }
         emit buttonChecked(expand, "saveList");
     });
 
