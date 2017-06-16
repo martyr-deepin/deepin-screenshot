@@ -19,7 +19,6 @@ SaveTips::SaveTips(QWidget *parent)
 void SaveTips::setSaveText(QString text) {
     text = "   " + text;
    setTipWidth(stringWidth(this->font(), text) + 10);
-//   setFixedWidth(m_tipsWidth);
    setText(text);
 }
 
@@ -29,7 +28,6 @@ int SaveTips::tipWidth() const {
 
 void SaveTips::setTipWidth(int tipsWidth) {
     m_tipsWidth = tipsWidth;
-//    setFixedWidth(m_tipsWidth);
 }
 
 SaveTips::~SaveTips() {
@@ -50,6 +48,5 @@ void SaveTips::endAnimation() {
     m_animation->setEndValue(0);
     m_animation->setEasingCurve(QEasingCurve::OutSine);
 
-    qDebug() << "SaveTips:" << m_tipsWidth << this->width();
     m_animation->start();
 }

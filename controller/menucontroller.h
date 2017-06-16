@@ -11,6 +11,7 @@ public:
 
 signals:
     void shapePressed(QString currentShape);
+    void unDoAction();
     void saveBtnPressed(int index);
 
 public slots:

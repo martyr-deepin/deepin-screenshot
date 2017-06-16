@@ -14,5 +14,7 @@
         <file>image/menu_icons/save-menu-norml.png</file>
         <file>image/menu_icons/text-menu-hover.png</file>
         <file>image/menu_icons/text-menu-norml.png</file>
+        <file>image/menu_icons/undo-menu-normal.png</file>
+        <file>image/menu_icons/undo-menu-hover.png</file>
     </qresource>
 </RCC>

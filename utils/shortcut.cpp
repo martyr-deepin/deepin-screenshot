@@ -16,9 +16,12 @@ Shortcut::Shortcut(QObject *parent) : QObject(parent)
     ShortcutItem(tr("Quick start"), "Ctrl+Alt+A")<<
     ShortcutItem(tr("Full screenshot"),  "Print")<<
     ShortcutItem(tr("Delay screenshot"),  "Ctrl+Print")<<
+    ShortcutItem(tr("Undo"), "Ctrl+Z")<<
     ShortcutItem(tr("Exit"),   "Esc");
 
-    group2.groupItems<<ShortcutItem(tr("Save"), "Ctrl+S");
+    group2.groupItems<<ShortcutItem(tr("Save"), "Ctrl+S")
+                                   <<ShortcutItem(tr("Copy to clipboard"), "Ctrl+C");
+
     group3.groupItems<<
     ShortcutItem(tr("Rectangle"),  "Alt+1")<<
     ShortcutItem(tr("Ellipse"),        "Alt+2")<<

@@ -106,7 +106,7 @@ void MajToolBar::initWidgets() {
     m_baseLayout->addWidget(saveTips);
     for (int k = 0; k < toolBtnList.length(); k++) {
         m_baseLayout->addWidget(toolBtnList[k]);
-        if (k != 3) {
+        if (k != 2) {
         m_baseLayout->addSpacing(BTN_SPACING);
         }
         buttonGroup->addButton(toolBtnList[k]);

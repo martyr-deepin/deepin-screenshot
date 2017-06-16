@@ -49,12 +49,21 @@ MenuController::MenuController(QObject *parent)
         emit shapePressed("text");
     });
 
+    QIcon unDoIcon;
+    unDoIcon.addPixmap(QPixmap(":/image/menu_icons/undo-menu-normal.png"), QIcon::Normal);
+    unDoIcon.addPixmap(QPixmap(":/image/menu_icons/undo-menu-hover.png"), QIcon::Active);
+    QAction* unDoAct = new QAction(unDoIcon, tr("Undo"), this);
+    connect(unDoAct, &QAction::triggered, [=]{
+        emit unDoAction();
+    });
+
     m_menu->addAction(rectAct);
     m_menu->addAction(ovalAct);
     m_menu->addAction(arrowAct);
     m_menu->addAction(penAct);
     m_menu->addAction(textAct);
     m_menu->addSeparator();
+    m_menu->addAction(unDoAct);
 
     QIcon saveIcon;
     saveIcon.addPixmap(QPixmap(":/image/menu_icons/save-menu-norml.png"), QIcon::Normal);

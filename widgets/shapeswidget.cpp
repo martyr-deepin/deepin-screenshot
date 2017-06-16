@@ -37,6 +37,8 @@ ShapesWidget::ShapesWidget(QWidget *parent)
                    this, &ShapesWidget::shapePressed);
     connect(m_menuController, &MenuController::saveBtnPressed,
             this, &ShapesWidget::saveBtnPressed);
+    connect(m_menuController, &MenuController::unDoAction,
+            this, &ShapesWidget::undoDrawShapes);
     connect(ConfigSettings::instance(), &ConfigSettings::shapeConfigChanged,
             this, &ShapesWidget::updateSelectedShape);
 }
@@ -1527,7 +1529,7 @@ void ShapesWidget::deleteCurrentShape() {
 
 void ShapesWidget::undoDrawShapes()
 {
-    qDebug() << "m_selectedIndex:" << m_selectedIndex << m_shapes.length();
+    qDebug() << "undoDrawShapes m_selectedIndex:" << m_selectedIndex << m_shapes.length();
     if (m_selectedIndex < m_shapes.length() && m_selectedIndex != -1)
     {
             deleteCurrentShape();
