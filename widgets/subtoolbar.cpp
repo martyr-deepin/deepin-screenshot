@@ -372,21 +372,25 @@ void SubToolBar::initSaveLabel() {
     //save to...
     QList<ToolButton*> toolBtnList;
     ToolButton* saveDesktopBtn = new ToolButton();
+    saveDesktopBtn->setFixedSize(33, 26);
     saveDesktopBtn->setObjectName("SaveToDesktop");
     saveDesktopBtn->setTips(tr("Save to desktop"));
     toolBtnList.append(saveDesktopBtn);
 
     ToolButton* savePicBtn = new ToolButton();
+    savePicBtn->setFixedSize(33, 26);
     savePicBtn->setObjectName("SaveToPictureDir");
     savePicBtn->setTips(tr("Autosave"));
     toolBtnList.append(savePicBtn);
 
     ToolButton* saveSpecificDirBtn = new ToolButton();
+    saveSpecificDirBtn->setFixedSize(33, 26);
     saveSpecificDirBtn->setObjectName("SaveToSpecificDir");
     saveSpecificDirBtn->setTips(tr("Save to specified folder"));
     toolBtnList.append(saveSpecificDirBtn);
 
     ToolButton* saveClipboardBtn = new ToolButton();
+    saveClipboardBtn->setFixedSize(33, 26);
     saveClipboardBtn->setObjectName("SaveToClipboard");
     saveClipboardBtn->setTips(tr("Copy to clipboard"));
     toolBtnList.append(saveClipboardBtn);
@@ -421,7 +425,7 @@ void SubToolBar::initSaveLabel() {
     saveLayout->addSpacing(1);
     foreach (ToolButton* btn, toolBtnList) {
         saveLayout->addWidget(btn);
-        saveLayout->addSpacing(1);
+//        saveLayout->addSpacing(1);
         connect(btn, &ToolButton::clicked, this,  [=]{
             qDebug() << "saveButtonList:" << toolBtnList.indexOf(btn);
             setSaveOption(toolBtnList.indexOf(btn));
