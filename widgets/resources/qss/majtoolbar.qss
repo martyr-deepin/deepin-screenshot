@@ -62,6 +62,27 @@ QPushButton#ArrowBtn:checked {
     border-image: url(:/resources/images/action/arrow_checked.png);
 }
 
+QPushButton#StraightLineBtn {
+    outline: none;
+    border-image:url(:/resources/images/action/straightline_normal.png);
+}
+QPushButton#StraightLineBtn:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.05);
+    border: solid 1px transparent;
+    border-radius: 3px;
+    border-image:url(:/resources/images/action/straightline_hover.png);
+}
+QPushButton#StraightLineBtn:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/action/straightline_checked.png);
+}
+QPushButton#StraightLineBtn:checked {
+    outline: none;
+    border: none;
+    border-image: url(:/resources/images/action/straightline_checked.png);
+}
+
 QPushButton#PenBtn {
     outline: none;
     border-image:url(:/resources/images/action/pencil_normal.png);

@@ -58,6 +58,10 @@ void ConfigSettings::setValue(const QString &group, const QString &key,
         emit shapeConfigChanged(group, key, val.toInt());
     }
 
+    if (group == "arrow" && key == "is_straight") {
+        emit straightLineConfigChanged(val.toBool());
+    }
+
     qDebug() << "ConfigSettings:" << group << key << val;
 }
 

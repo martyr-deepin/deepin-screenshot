@@ -19,6 +19,7 @@ public:
 signals:
     void colorChanged();
     void shapeConfigChanged(const QString &shape,  const QString &key, int index);
+    void straightLineConfigChanged(bool isStraightLine);
 
 private:
     ConfigSettings(QObject* parent = 0);

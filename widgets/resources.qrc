@@ -159,5 +159,8 @@
         <file>resources/images/action/save_normal.png</file>
         <file>resources/images/action/save_hover.png</file>
         <file>resources/images/action/save_checked.png</file>
+        <file>resources/images/action/straightline_normal.png</file>
+        <file>resources/images/action/straightline_hover.png</file>
+        <file>resources/images/action/straightline_checked.png</file>
     </qresource>
 </RCC>

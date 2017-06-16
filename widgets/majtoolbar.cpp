@@ -51,6 +51,9 @@ void MajToolBar::initWidgets() {
     ToolButton* arrowBtn = new ToolButton();
     arrowBtn->setObjectName("ArrowBtn");
     toolBtnList.append(arrowBtn);
+    ToolButton* sLineBtn = new ToolButton();
+    sLineBtn->setObjectName("StraightLineBtn");
+    toolBtnList.append(sLineBtn);
     ToolButton* lineBtn = new ToolButton();
     lineBtn->setObjectName("PenBtn");
     toolBtnList.append(lineBtn);
@@ -116,6 +119,13 @@ void MajToolBar::initWidgets() {
     m_baseLayout->addWidget(closeBtn);
     m_baseLayout->addStretch();
     setLayout(m_baseLayout);
+    if (ConfigSettings::instance()->value("arrow", "is_straight").toBool()) {
+        sLineBtn->show();
+        arrowBtn->hide();
+    } else {
+        sLineBtn->hide();
+        arrowBtn->show();
+    }
 
     okBtn->hide();
 
@@ -173,6 +183,34 @@ void MajToolBar::initWidgets() {
         }
         arrowBtn->setChecked(m_isChecked);
         emit buttonChecked(m_isChecked, "arrow");
+    });
+    connect(sLineBtn, &ToolButton::clicked, this, [=](){
+        if (m_currentShape != "arrow") {
+            m_currentShape = "arrow";
+            m_isChecked = true;
+            int rectColorIndex = ConfigSettings::instance()->value("arrow", "color_index").toInt();
+            ConfigSettings::instance()->setValue("common", "color_index", rectColorIndex);
+        } else {
+            m_currentShape = "";
+            m_isChecked = false;
+        }
+        sLineBtn->setChecked(m_isChecked);
+        emit buttonChecked(m_isChecked, "arrow");
+    });
+    connect(ConfigSettings::instance(), &ConfigSettings::straightLineConfigChanged, this, [=](bool isStraightLine){
+        if (isStraightLine) {
+            arrowBtn->hide();
+            sLineBtn->show();
+            if (m_currentShape == "arrow") {
+                sLineBtn->setChecked(true);
+            }
+        } else {
+            arrowBtn->show();
+            sLineBtn->hide();
+            if (m_currentShape == "arrow") {
+                arrowBtn->setChecked(true);
+            }
+        }
     });
     connect(lineBtn, &ToolButton::clicked, this, [=](){
         if (m_currentShape != "line") {
