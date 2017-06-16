@@ -3,6 +3,7 @@
 
 #include <QPainter>
 #include <QDebug>
+#include <QGraphicsDropShadowEffect>
 
 namespace {
     const int TOOLBAR_HEIGHT = 30;
@@ -102,6 +103,13 @@ ToolBar::ToolBar(QWidget *parent)
     vLayout->addWidget(m_toolbarWidget);
     vLayout->addStretch();
     setLayout(vLayout);
+
+    QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(this);
+    shadowEffect->setXOffset(0);
+    shadowEffect->setYOffset(6);
+    shadowEffect->setColor(QColor(0, 0, 0, 26));
+    shadowEffect->setBlurRadius(20);
+    setGraphicsEffect(shadowEffect);
 
     connect(m_toolbarWidget, &ToolBarWidget::expandChanged, this, &ToolBar::setExpand);
     connect(m_toolbarWidget, &ToolBarWidget::saveImage, this, &ToolBar::requestSaveScreenshot);
