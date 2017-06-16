@@ -1510,10 +1510,8 @@ void ShapesWidget::deleteCurrentShape() {
         qWarning() << "Invalid index";
     }
 
-
     if (m_selectedShape.type == "text" && m_editMap.contains(m_selectedShape.index)) {
         m_editMap.value(m_selectedShape.index)->clear();
-        delete m_editMap.value(m_selectedShape.index);
         m_editMap.remove(m_selectedShape.index);
     }
 

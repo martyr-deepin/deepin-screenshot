@@ -28,7 +28,7 @@ ZoomIndicator::ZoomIndicator(QWidget *parent)
     effect->setBlurRadius(5.0);
     effect->setDistance(5);
     effect->setYOffset(3);
-    effect->setColor(QColor(0, 0, 0, 40));
+    effect->setColor(QColor(0, 0, 0, 20));
     setGraphicsEffect(effect);
 }
 
