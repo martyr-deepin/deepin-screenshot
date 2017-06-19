@@ -18,6 +18,7 @@ public:
     enum ShapeBlurStatus {
         Drawing,
         Selected,
+        Hovered,
         Normal,
     };
     enum ClickedKey {

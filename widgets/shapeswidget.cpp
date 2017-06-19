@@ -1215,11 +1215,12 @@ void ShapesWidget::paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bo
 void ShapesWidget::paintRect(QPainter &painter, FourPoints rectFPoints, int index,
                                                 ShapeBlurStatus rectStatus, bool isBlur, bool isMosaic) {
     QPainterPath rectPath;
-    if (rectStatus != Normal) {
+    if (rectStatus  == Hovered || ((isBlur||isMosaic) && index == m_selectedIndex)) {
         painter.setPen(QColor("#01bdff"));
-    } else if ((isBlur | isMosaic) && index != m_selectedIndex) {
+    } else if (rectStatus == Drawing || ((isBlur | isMosaic) && index != m_selectedIndex)) {
         painter.setPen(Qt::transparent);
     }
+
     rectPath.moveTo(rectFPoints[0].x(), rectFPoints[0].y());
     rectPath.lineTo(rectFPoints[1].x(),rectFPoints[1].y());
     rectPath.lineTo(rectFPoints[3].x(),rectFPoints[3].y());
@@ -1243,9 +1244,9 @@ void ShapesWidget::paintRect(QPainter &painter, FourPoints rectFPoints, int inde
 
 void ShapesWidget::paintEllipse(QPainter &painter, FourPoints ellipseFPoints, int index,
                                  ShapeBlurStatus  ovalStatus, bool isBlur, bool isMosaic) {
-    if (ovalStatus != Normal) {
+    if (ovalStatus  == Hovered || ((isBlur||isMosaic) && index == m_selectedIndex)) {
         painter.setPen(QColor("#01bdff"));
-    } else if ((isBlur | isMosaic)  && index != m_selectedIndex) {
+    } else if (ovalStatus == Drawing || ((isBlur | isMosaic) && index != m_selectedIndex)) {
         painter.setPen(Qt::transparent);
     }
 
@@ -1398,10 +1399,10 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         pen.setColor("#01bdff");
         painter.setPen(pen);
         if (m_hoveredShape.type == "rectangle") {
-            paintRect(painter, m_hoveredShape.mainPoints, m_hoveredIndex, Drawing,
+            paintRect(painter, m_hoveredShape.mainPoints, m_hoveredIndex,  Hovered,
                               false, false);
         } else if (m_hoveredShape.type == "oval") {
-            paintEllipse(painter, m_hoveredShape.mainPoints, m_hoveredIndex, Drawing,
+            paintEllipse(painter, m_hoveredShape.mainPoints, m_hoveredIndex, Hovered,
                          false, false);
         } else if (m_hoveredShape.type == "arrow") {
             paintArrow(painter, m_hoveredShape.points, pen.width(), true);
