@@ -160,9 +160,9 @@ void MainWindow::initShortcut() {
         emit m_toolBar->shapePressed("color");
     });
 
-    QShortcut* viewSC = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
-    viewSC->setAutoRepeat(false);
-    connect(viewSC,  SIGNAL(activated()), this, SLOT(onViewShortcut()));
+//    QShortcut* viewSC = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
+//    viewSC->setAutoRepeat(false);
+//    connect(viewSC,  SIGNAL(activated()), this, SLOT(onViewShortcut()));
 
     if (isCommandExist("dman")) {
         QShortcut* helpSC = new QShortcut(QKeySequence("F1"), this);
@@ -180,6 +180,10 @@ void MainWindow::keyPressEvent(QKeyEvent *keyEvent) {
         }
         qDebug() << "Key_Escape pressed: app quit!";
         exitApp();
+    } else if (keyEvent->modifiers() == (Qt::ShiftModifier | Qt::ControlModifier)) {
+        if (keyEvent->key() == Qt::Key_Question) {
+            onViewShortcut();
+        }
     } else if (qApp->keyboardModifiers() & Qt::ControlModifier) {
         if (keyEvent->key() == Qt::Key_Z) {
             qDebug() << "SDGF: ctrl+z !!!";
@@ -359,20 +363,18 @@ void MainWindow::keyReleaseEvent(QKeyEvent *keyEvent) {
     // NOTE: must be use 'isAutoRepeat' to filter KeyRelease event
     //send by Qt.
     bool needRepaint = false;
+//    if(keyEvent->modifiers() == Qt::NoModifier) {
+//        QProcess::startDetached("deepin-shortcut-viewer");
+//    }
+
     if (m_isShapesWidgetExist) {
         if (keyEvent->key() == Qt::Key_Shift) {
             m_isShiftPressed =  false;
             m_shapesWidget->setShiftKeyPressed(m_isShiftPressed);
         }
     }
-    if (!keyEvent->isAutoRepeat()) {
-        //            if (keyEvent->modifiers() ==  (Qt::ShiftModifier | Qt::ControlModifier)) {
-        //                QProcess::startDetached("killall deepin-shortcut-viewer");
-        //            }
-        //            if (keyEvent->key() == Qt::Key_Question) {
-        //                QProcess::startDetached("killall deepin-shortcut-viewer");
-        //            }
 
+    if (!keyEvent->isAutoRepeat()) {
         if (keyEvent->key() == Qt::Key_Left || keyEvent->key()
                 == Qt::Key_Right || keyEvent->key() == Qt::Key_Up ||
                 keyEvent->key() == Qt::Key_Down) {
@@ -1392,9 +1394,10 @@ void MainWindow::onViewShortcut() {
     QStringList shortcutString;
     QString param1 = "-j=" + sc.toStr();
     QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
-    shortcutString << param1 << param2;
+    shortcutString << "-b" << param1 << param2;
 
     QProcess* shortcutViewProc = new QProcess();
+    shortcutViewProc->startDetached("killall deepin-shortcut-viewer");
     shortcutViewProc->startDetached("deepin-shortcut-viewer", shortcutString);
 
     connect(shortcutViewProc, SIGNAL(finished(int)), shortcutViewProc, SLOT(deleteLater()));
