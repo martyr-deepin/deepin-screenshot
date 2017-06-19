@@ -1523,6 +1523,7 @@ void ShapesWidget::deleteCurrentShape() {
     for(int i = 0; i < m_currentShape.mainPoints.length(); i++) {
         m_currentShape.mainPoints[i] = QPointF(0, 0);
     }
+
     update();
     m_selectedIndex = -1;
 }
@@ -1543,6 +1544,8 @@ void ShapesWidget::undoDrawShapes()
 
         m_shapes.removeLast();
     }
+
+    m_isSelected = false;
     update();
 }
 
