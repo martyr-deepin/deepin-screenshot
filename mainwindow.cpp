@@ -876,8 +876,11 @@ void MainWindow::updateCursor(QEvent *event)
         }*/ else {
             if (m_isPressButton) {
                 qApp->setOverrideCursor(Qt::ClosedHandCursor);
-            } else {
+            } else if (cursorX >= m_recordX - SPACING && cursorX <= m_recordX + m_recordWidth + SPACING
+            && cursorY >= m_recordY - SPACING && cursorY < m_recordY + m_recordHeight + SPACING) {
                 qApp->setOverrideCursor(Qt::OpenHandCursor);
+            } else {
+                qApp->setOverrideCursor(Qt::ArrowCursor);
             }
         }
     }
