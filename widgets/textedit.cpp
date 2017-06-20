@@ -20,6 +20,7 @@ TextEdit::TextEdit(int index, QWidget *parent)
     m_index = index;
     setLineWrapMode(QPlainTextEdit::NoWrap);
     setContextMenuPolicy(Qt::NoContextMenu);
+
     int defaultColorIndex = ConfigSettings::instance()->value(
                                                "text", "color_index").toInt();
     QColor defaultColor = colorIndexOf(defaultColorIndex);
@@ -55,7 +56,7 @@ int TextEdit::getIndex()
 void TextEdit::setColor(QColor c)
 {
     m_textColor = c;
-    setStyleSheet(QString("TextEdit {background-color: transparent;"
+    setStyleSheet(QString("TextEdit {background-color:  transparent;"
                                             " color: %1; border: none;}").arg(m_textColor.name()));
     this->updateGeometry();
 }
@@ -133,6 +134,7 @@ void TextEdit::keepReadOnlyStatus()
 
 void TextEdit::mousePressEvent(QMouseEvent *e)
 {
+    qDebug() << "TextEdit mousePressEvent" << e->pos();
     if (e->button() == Qt::LeftButton) {
         m_isPressed = true;
         m_pressPoint = QPointF(mapToGlobal(e->pos()));
@@ -147,9 +149,10 @@ void TextEdit::mousePressEvent(QMouseEvent *e)
 
 void TextEdit::mouseMoveEvent(QMouseEvent *e)
 {
+    qApp->setOverrideCursor(Qt::ClosedHandCursor);
     QPointF posOrigin = QPointF(mapToGlobal(e->pos()));
-
     QPointF movePos = QPointF(posOrigin.x(), posOrigin.y());
+
     if (m_isPressed && movePos != m_pressPoint) {
         this->move(this->x() + movePos.x() - m_pressPoint.x(),
                    this->y() + movePos.y() - m_pressPoint.y());
@@ -174,18 +177,18 @@ void TextEdit::mouseReleaseEvent(QMouseEvent *e)
     QPlainTextEdit::mouseReleaseEvent(e);
 }
 
-void TextEdit::enterEvent(QEnterEvent *e)
-{
-    if (this->isReadOnly()) {
-        setCursorVisible(false);
-        this->selectAll();
-        qApp->setOverrideCursor(Qt::ClosedHandCursor);
-    } else {
-        qApp->setOverrideCursor(Qt::ArrowCursor);
-    }
-
-    QPlainTextEdit::enterEvent(e);
-}
+//void TextEdit::enterEvent(QEnterEvent *e)
+//{
+//        QPlainTextEdit::enterEvent(e);
+//    qDebug() << "enterEvent !!!!!!!!!!!";
+////    if (this->isReadOnly()) {
+////        setCursorVisible(false);
+////        this->selectAll();
+//        qApp->setOverrideCursor(Qt::ClosedHandCursor);
+////    } else {
+////        qApp->setOverrideCursor(Qt::ArrowCursor);
+////    }
+//}
 
 void TextEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {

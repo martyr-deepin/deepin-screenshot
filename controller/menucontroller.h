@@ -13,6 +13,7 @@ signals:
     void shapePressed(QString currentShape);
     void unDoAction();
     void saveBtnPressed(int index);
+    void menuNoFocus();
 
 public slots:
     void showMenu(QPoint pos);

@@ -39,6 +39,8 @@ ShapesWidget::ShapesWidget(QWidget *parent)
             this, &ShapesWidget::saveBtnPressed);
     connect(m_menuController, &MenuController::unDoAction,
             this, &ShapesWidget::undoDrawShapes);
+    connect(m_menuController, &MenuController::menuNoFocus,
+            this, &ShapesWidget::menuNoFocus);
     connect(ConfigSettings::instance(), &ConfigSettings::shapeConfigChanged,
             this, &ShapesWidget::updateSelectedShape);
 }
@@ -665,6 +667,23 @@ bool ShapesWidget::hoverOnLine(FourPoints mainPoints, QList<QPointF> points,
     }
     return false;
 }
+
+bool ShapesWidget::hoverOnText(FourPoints mainPoints, QPointF pos) {
+    qDebug() << "hoverOnText:" <<  mainPoints << pos;
+
+    if (hoverOnRect(mainPoints, pos) ||  (pos.x() >= mainPoints[0].x() - 5
+         && pos.x() <= mainPoints[2].x() + 5 && pos.y() >= mainPoints[0].y() - 5
+        && pos.y() <= mainPoints[2].y() + 5)) {
+        qDebug() << "hoverOnText Moving";
+        m_resizeDirection = Moving;
+        return true;
+    } else {
+        qDebug() << "hoverOnText Outting";
+        m_resizeDirection = Outting;
+        return false;
+    }
+}
+
 bool ShapesWidget::hoverOnShapes(Toolshape toolShape, QPointF pos) {
     if (toolShape.type == "rectangle") {
         return hoverOnRect(toolShape.mainPoints, pos);
@@ -674,6 +693,8 @@ bool ShapesWidget::hoverOnShapes(Toolshape toolShape, QPointF pos) {
         return hoverOnArrow(toolShape.points, pos);
     } else if (toolShape.type == "line") {
         return hoverOnLine(toolShape.mainPoints, toolShape.points, pos);
+    } else if (toolShape.type == "text") {
+        return hoverOnText(toolShape.mainPoints, pos);
     }
 
     m_hoveredShape.type = "";
@@ -851,6 +872,7 @@ void ShapesWidget::handleResize(QPointF pos, int key) {
 }
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e) {
+    qDebug() << "ShapesWidget mousePressEvent@@@:" << e->pos();
     if (m_selectedIndex != -1 && m_selectedIndex < m_shapes.length()) {
         if (!(clickedOnShapes(e->pos()) && m_isRotated) && m_selectedIndex == -1) {
             clearSelected();

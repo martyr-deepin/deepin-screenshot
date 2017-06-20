@@ -114,7 +114,7 @@ void MainWindow::initUI() {
             &ToolBar::shapePressed);
     connect(m_menuController, &MenuController::saveBtnPressed, m_toolBar,
             &ToolBar::saveBtnPressed);
-
+    connect(m_menuController, &MenuController::menuNoFocus, this, &MainWindow::activateWindow);
 //    connect(&m_eventMonitor, SIGNAL(buttonedPress(int, int)), this,
 //            SLOT(showPressFeedback(int, int)), Qt::QueuedConnection);
 //    connect(&m_eventMonitor, SIGNAL(buttonedDrag(int, int)), this,
@@ -819,6 +819,7 @@ void MainWindow::initShapeWidget(QString type) {
     connect(this, &MainWindow::unDo, m_shapesWidget, &ShapesWidget::undoDrawShapes);
     connect(this, &MainWindow::saveActionTriggered,
             m_shapesWidget, &ShapesWidget::saveActionTriggered);
+    connect(m_shapesWidget, &ShapesWidget::menuNoFocus, this, &MainWindow::activateWindow);
 }
 
 void MainWindow::updateCursor(QEvent *event)

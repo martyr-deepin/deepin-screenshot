@@ -38,6 +38,7 @@ signals:
     void shapePressed(QString shape);
     void saveBtnPressed(int index);
     void requestExit();
+    void menuNoFocus();
 
 public slots:
     void updateSelectedShape(const QString &group, const QString &key, int index);
@@ -65,6 +66,8 @@ public slots:
     bool hoverOnEllipse(FourPoints mainPoints, QPointF pos);
     bool hoverOnArrow(QList<QPointF> points, QPointF pos);
     bool hoverOnLine(FourPoints mainPoints, QList<QPointF> points, QPointF pos);
+    bool hoverOnText(FourPoints mainPoints, QPointF pos);
+
     bool hoverOnRotatePoint(FourPoints mainPoints, QPointF pos);
     bool textEditIsReadOnly();
 

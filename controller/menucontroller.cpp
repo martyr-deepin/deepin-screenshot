@@ -101,6 +101,10 @@ MenuController::MenuController(QObject *parent)
     connect(closeAct, &QAction::triggered, this, [=]{
         emit shapePressed("close");
     });
+
+    connect(m_menu, &QMenu::aboutToHide, this, [=]{
+        emit menuNoFocus();
+    });
 }
 
 void MenuController::showMenu(QPoint pos) {
