@@ -30,8 +30,8 @@ protected:
 //    void enterEvent(QEvent *event);
 //    void leaveEvent(QEvent *event);
 //    void paintEvent(QPaintEvent *event);
-    void mouseMoveEvent(QMouseEvent *ev);
-    bool eventFilter(QObject *watched, QEvent *event);
+//    void mouseMoveEvent(QMouseEvent *ev);
+//    bool eventFilter(QObject *watched, QEvent *event);
 
 private:
     QHBoxLayout* m_baseLayout;

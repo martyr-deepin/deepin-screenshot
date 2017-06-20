@@ -36,7 +36,7 @@ void MajToolBar::initWidgets() {
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     setAcceptDrops(true);
-    installEventFilter(this);
+//    installEventFilter(this);
 
     SaveTips* saveTips = new SaveTips();
     QList<ToolButton*> toolBtnList;
@@ -278,20 +278,20 @@ bool MajToolBar::isButtonChecked() {
     return m_isChecked;
 }
 
-bool MajToolBar::eventFilter(QObject *watched, QEvent *event) {
-    Q_UNUSED(watched);
+//bool MajToolBar::eventFilter(QObject *watched, QEvent *event) {
+//    Q_UNUSED(watched);
 
-    if (event->type() == QEvent::Enter) {
-        setCursor(Qt::ArrowCursor);
-        qApp->setOverrideCursor(Qt::ArrowCursor);
-    } else if (event->type() == QEvent::MouseButtonPress) {
-        QMouseEvent* e = static_cast<QMouseEvent*> (event);
-        this->mousePressEvent(e);
-    }
-    return false;
-}
+//    if (event->type() == QEvent::Enter) {
+//        setCursor(Qt::ArrowCursor);
+//        qApp->setOverrideCursor(Qt::ArrowCursor);
+//    } else if (event->type() == QEvent::MouseButtonPress) {
+//        QMouseEvent* e = static_cast<QMouseEvent*> (event);
+//        this->mousePressEvent(e);
+//    }
+//    return false;
+//}
 
-void MajToolBar::mouseMoveEvent(QMouseEvent *ev) {
-    Q_UNUSED(ev);
-    qApp->setOverrideCursor(Qt::ArrowCursor);
-}
+//void MajToolBar::mouseMoveEvent(QMouseEvent *ev) {
+//    Q_UNUSED(ev);
+//    qApp->setOverrideCursor(Qt::ArrowCursor);
+//}
