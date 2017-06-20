@@ -50,6 +50,9 @@ ShapesWidget::~ShapesWidget() {}
 void ShapesWidget::updateSelectedShape(const QString &group,
                                        const QString &key, int index) {
     qDebug() << "updateSelectedShapes" << m_selectedIndex << m_shapes.length();
+    if ((group == m_currentShape.type || "common" == group) && key == "color_index") {
+        m_penColor = colorIndexOf(index);
+    }
 
     if (m_selectedIndex != -1 && m_selectedIndex < m_shapes.length()) {
         if (m_selectedShape.type == "arrow" && key != "color_index") {
@@ -100,12 +103,6 @@ void ShapesWidget::setPenColor(QColor color) {
     if ( !m_currentType.isEmpty()) {
         qDebug() << "ShapesWidget setPenColor:" << m_currentType;
         ConfigSettings::instance()->setValue(m_currentType, "color_index", colorNum);
-    }
-
-    if (m_currentType != "line") {
-        qApp->setOverrideCursor(setCursorShape(m_currentType));
-    } else {
-        qApp->setOverrideCursor(setCursorShape("line",  colorNum));
     }
 
     update();
@@ -1167,7 +1164,7 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
                          qApp->setOverrideCursor(Qt::ClosedHandCursor);
                      } else {
                          if (m_currentType == "line") {
-                             qApp->setOverrideCursor(setCursorShape(m_currentType, colorIndex(m_penColor)));
+                             qApp->setOverrideCursor(setCursorShape(m_currentType,  colorIndex(m_penColor)));
                          } else {
                              qApp->setOverrideCursor(setCursorShape(m_currentType));
                          }
@@ -1476,7 +1473,9 @@ void ShapesWidget::enterEvent(QEvent *e) {
     if (m_currentType != "line") {
         qApp->setOverrideCursor(setCursorShape(m_currentType));
     } else {
-        qApp->setOverrideCursor(setCursorShape("line",  colorIndex(m_penColor)));
+        int colIndex = ConfigSettings::instance()->value(m_currentType, "color_index").toInt();
+        qDebug() << "enterEvent:" << colIndex << colorIndex(m_penColor);
+        qApp->setOverrideCursor(setCursorShape("line",  colIndex));
     }
 }
 
