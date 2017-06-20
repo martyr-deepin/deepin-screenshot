@@ -1400,7 +1400,7 @@ void MainWindow::onViewShortcut() {
     QString param2 = "-p=" + QString::number(pos.x()) + "," + QString::number(pos.y());
     shortcutString << "-b" << param1 << param2;
 
-    QProcess* shortcutViewProc = new QProcess();
+    QProcess* shortcutViewProc = new QProcess(this);
     shortcutViewProc->startDetached("killall deepin-shortcut-viewer");
     shortcutViewProc->startDetached("deepin-shortcut-viewer", shortcutString);
 
