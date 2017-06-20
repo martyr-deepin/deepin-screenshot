@@ -3,6 +3,8 @@
 
 #include <QPainter>
 #include <QDebug>
+#include <QApplication>
+#include <QCursor>
 #include <QGraphicsDropShadowEffect>
 #include <dgraphicsgloweffect.h>
 
@@ -135,12 +137,18 @@ void ToolBar::setExpand(bool expand, QString shapeType) {
 }
 
 void ToolBar::paintEvent(QPaintEvent *e) {
-    Q_UNUSED(e);
     QPainter painter(this);
     painter.setPen(QColor(0, 0, 0, 25));
     painter.setRenderHint(QPainter::Antialiasing);
     QRectF rect(0, 0, this->width() -1, this->height() - 1);
     painter.drawRoundedRect(rect.translated(0.5, 0.5), 3, 3, Qt::AbsoluteSize);
+
+    QLabel::paintEvent(e);
+}
+
+void ToolBar::enterEvent(QEvent *e) {
+    qApp->setOverrideCursor(Qt::ArrowCursor);
+    QLabel::enterEvent(e);
 }
 
 void ToolBar::showAt(QPoint pos) {

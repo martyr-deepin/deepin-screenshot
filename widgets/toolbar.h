@@ -4,7 +4,7 @@
 #include <QLabel>
 #include <QPainter>
 #include <DBlurEffectWidget>
-
+#include <QEvent>
 #include <QLabel>
 #include <QDebug>
 
@@ -66,6 +66,7 @@ public slots:
 
 protected:
     void paintEvent(QPaintEvent *e);
+    void enterEvent(QEvent *e);
 
 private:
     ToolBarWidget* m_toolbarWidget;
