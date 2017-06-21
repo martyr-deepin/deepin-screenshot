@@ -20,7 +20,7 @@
 ### 运行深度截图
 您可以通过执行以下操作之一来运行深度截图，进入截图模式后，整个电脑屏幕将会变暗。
 
-* 在任务栏上，点击 ![启动器](icon/launcher_icon.svg) 进入启动器界面，通过浏览找到 ![深度截图](icon/screenshot-24.png) 点击。
+* 在任务栏上，点击 ![启动器](icon/launcher_icon.svg) 进入启动器界面，通过浏览找到 ![深度截图](icon/screenshot-24.svg) 点击。
 
 * 按下键盘上的 ![ctrl](icon/Ctrl.svg)+![alt](icon/Alt.svg)+![A](icon/A.svg) 组合键来快速运行深度截图。
 
@@ -29,7 +29,7 @@
 
 延时截图给您预留了5s的准备时间，帮您截取最精准的瞬间。
 
-> ![attention](icon/attention.svg)：如果您已经将深度截图固定到任务栏，右键单击任务栏上的 ![深度截图](icon/screenshot-24.png)，然后选择 **延时截图** 来延时截取。
+> ![attention](icon/attention.svg)：如果您已经将深度截图固定到任务栏，右键单击任务栏上的 ![深度截图](icon/screenshot-24.svg)，然后选择 **延时截图** 来延时截取。
 
 您也可以通过操作以下步骤来实现延时截图：
 
@@ -73,12 +73,12 @@
             <td>Ctrl+Print</td>
         </tr>
         <tr>
-            <td>退出</td>
-            <td>Esc</td>
+            <td>撤销</td>
+            <td>Ctrl+Z</td>
         </tr>
         <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            <td>退出</td>
+            <td>Esc</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
@@ -87,7 +87,7 @@
     </tbody>
 </table>
 <table class="block2">
-    <caption>绘图</caption>
+    <caption>绘制</caption>
     <tbody>
         <tr>
             <td>矩形工具</td>
@@ -160,8 +160,8 @@
             <td>Ctrl+S</td>
         </tr>
         <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
+            <td>复制到剪贴板</td>
+            <td>Ctrl+C</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
@@ -214,7 +214,7 @@
 
 您也可以直接操作以下步骤来进行全屏截图：
 
-* 如果您已经将深度截图固定到任务栏，右键单击任务栏上的 ![深度截图](icon/screenshot-24.png)，然后选择 **截取全屏** 。
+* 如果您已经将深度截图固定到任务栏，右键单击任务栏上的 ![深度截图](icon/screenshot-24.svg)，然后选择 **截取全屏** 。
 
 * 按下键盘上的 ![print](icon/Print.svg) 键，实现全屏截图。
 
@@ -290,7 +290,7 @@
             <td class="blank"></td>
             <td><img src="icon/ellipse.svg" alt="椭圆工具" class="inline" /></td>
             <td>椭圆工具</td>
-	    <td class="blank"></td>
+        <td class="blank"></td>
             <td><img src="icon/save.svg" alt="保存" class="inline" /></td>
             <td>保存</td>
         </tr>
@@ -415,7 +415,7 @@
 
 1. 在截图区域下方的工具栏中，点击 ![文字](icon/text.svg)。
 
-2. 在工具栏展开面板中，输入字号大小或通过点击 ![增大](icon/plus.svg) 或 ![减小](icon/minus.svg) 来增大或减小批注的字体大小。
+2. 在工具栏展开面板中，选择字号来调整批注的字体大小。
 
 3. 将鼠标指针置于截取的图片上，此时鼠标指针变为 ![文字指针](icon/text_mouse.svg)。
 
@@ -427,11 +427,9 @@
 如果您已经添加了文字批注，您可以对文字批注进行修改和移动。
 
 #### 移动文字批注
-1. 将鼠标指针置于文字上，此时鼠标指针变为 ![手指](icon/finger.svg)。
+1. 将鼠标指针置于文字上。
 
 2. 按住鼠标左键不放，可以将文字移动到截图区域的任何位置。
-
-3. 按下键盘上的 ![向上](icon/Up.svg) 或 ![向下](icon/Down.svg) 来上下移动文本框，按下键盘上的 ![向左](icon/Left.svg) 或 ![向右](icon/Right.svg) 来左右移动文本框。
 
 #### 编辑文字批注
 1. 将鼠标指针置于文字上。
@@ -443,10 +441,6 @@
    - 按下键盘上的 ![ctrl](icon/Ctrl.svg)+![z](icon/Z.svg) 键，返回至上一步操作。
 
    - 在文本框内，修改文字信息。
-
-   - 按下键盘上的 ![ctrl](icon/Ctrl.svg)+![向上](icon/Up.svg) 或 ![向下](icon/Down.svg) 来上下扩展文本框，按下键盘上的 ![ctrl](icon/Ctrl.svg)+![向左](icon/Left.svg) 或 ![向右](icon/Right.svg) 来左右扩展文本框。
-
-   - 将鼠标指针置于文本框的 ![旋转](icon/rotate.svg) 上，此时鼠标指针变成 ![旋转](icon/rotate_mouse.svg)，通过拖动鼠标指针，来旋转文字批注。
 
 3. 在文本框外点击鼠标左键，退出编辑模式。
 
@@ -468,26 +462,19 @@
 
 * 按下键盘上的 ![ctrl](icon/Ctrl.svg)+![S](icon/S.svg) 组合键来保存。
 
-* 按下键盘上的 ![enter](icon/Enter.svg) 键来直接保存。
-
 * 在截取的图片中，点击鼠标右键，选择 **保存** 或双击鼠标完成保存操作。
 
 > ![notes](icon/notes.svg)：在以上操作中，截取的图片默认存放到系统的图片文件夹下。
 
-您还可以在截图区域下方的工具栏中，点击 ![保存](icon/save.svg) 的下拉选项：
+您还可以在截图区域下方的工具栏中，点击 ![保存](icon/save.png) 的下拉选项：
 
 ![0|保存](png/savetool.png)
 
-* 选择 ![自动保存](icon/auto_save.svg)，将图片保存到系统默认的图片文件夹下。
-
-* 选择 ![保存到桌面](icon/save_to_desktop_normal.png)，将图片保存到桌面。
-
-* 选择 ![保存](icon/save_to_dir_normal.png)，将图片保存到您指定的存储路径下。
-
-* 选择 ![复制到剪切板](icon/save_ClipBoard.svg)，将图片复制到剪切板。
-
-* 选择 ![自动复制并剪切](icon/auto_save_ClipBoard.svg)，将图片保存到系统默认的图片文件夹下，并复制到剪切板。
-
+* 选择 ![自动保存](icon/save_to_pic.png)，将图片保存到上次截图的保存目录（默认为桌面）。
+* 选择 ![保存到桌面](icon/save_to_desktop.png)，将图片保存到桌面。
+* 选择 ![保存](icon/save_to_dir.png)，将图片保存到您指定的存储路径下。
+* 选择 ![复制到剪切板](icon/save_to_clipboard.png)，将图片复制到剪切板。
+* 选择 ![自动复制并剪切](icon/save_to_pic_clipboard.png)，将图片保存到上次截图的保存目录（默认为桌面），并复制到剪切板。
 * 通过左右拖动滑条来调节保存图片的质量。
 
 
