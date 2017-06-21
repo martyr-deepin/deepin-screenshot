@@ -23,7 +23,7 @@ void TopTips::updateTips(QPoint pos, QString text) {
 
     QPoint startPoint = pos;
 
-    startPoint.setX(pos.x() + 3);
+    startPoint.setX(pos.x());
 
     if (pos.y() > this->height()) {
         startPoint.setY(pos.y() - this->height() - 3);

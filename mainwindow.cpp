@@ -499,7 +499,7 @@ void MainWindow::hideEvent(QHideEvent *event) {
 void MainWindow::mouseMoveEvent(QMouseEvent *ev) {
     bool needRepaint = false;
 
-    if (ev->type() == QEvent::MouseMove && !m_isShapesWidgetExist) {
+    if (!m_isShapesWidgetExist) {
             if (m_recordWidth > 0 && m_recordHeight >0 && !m_needSaveScreenshot && this->isVisible()) {
                 m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
                     QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
