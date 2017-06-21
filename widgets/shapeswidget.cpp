@@ -885,7 +885,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
 
     if (e->button() == Qt::RightButton) {
         qDebug() << "RightButton clicked!";
-        m_menuController->showMenu(QPoint(mapToParent(e->pos())));
+        m_menuController->showMenu(QPoint(mapToGlobal(e->pos())));
         QFrame::mousePressEvent(e);
         return;
     }

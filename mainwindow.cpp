@@ -12,7 +12,6 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <DApplication>
-DWIDGET_USE_NAMESPACE
 
 namespace {
 const int RECORD_MIN_SIZE = 10;
@@ -35,7 +34,6 @@ void MainWindow::initUI() {
     this->setFocus();
     setMouseTracking(true);
     m_configSettings =  ConfigSettings::instance();
-//    installEventFilter(this);
     m_hotZoneInterface->asyncCall("EnableZoneDetected", false);
 
     QPoint curPos = this->cursor().pos();
@@ -49,7 +47,11 @@ void MainWindow::initUI() {
 
      this->move(m_backgroundRect.x(), m_backgroundRect.y());
      this->setFixedSize(m_backgroundRect.size());
+
      initBackground();
+
+     m_wmHelper = DWindowManagerHelper::instance();
+    //m_fWindows = m_wmHelper->currentWorkspaceWindows();
 
     m_windowManager = new WindowManager();
     m_windowManager->setRootWindowRect(m_backgroundRect);
@@ -115,15 +117,6 @@ void MainWindow::initUI() {
     connect(m_menuController, &MenuController::saveBtnPressed, m_toolBar,
             &ToolBar::saveBtnPressed);
     connect(m_menuController, &MenuController::menuNoFocus, this, &MainWindow::activateWindow);
-//    connect(&m_eventMonitor, SIGNAL(buttonedPress(int, int)), this,
-//            SLOT(showPressFeedback(int, int)), Qt::QueuedConnection);
-//    connect(&m_eventMonitor, SIGNAL(buttonedDrag(int, int)), this,
-//            SLOT(showDragFeedback(int, int)), Qt::QueuedConnection);
-//    connect(&m_eventMonitor, SIGNAL(buttonedRelease(int, int)), this,
-//            SLOT(showReleaseFeedback(int, int)), Qt::QueuedConnection);
-//    connect(&m_eventMonitor, SIGNAL(pressEsc()), this,
-//            SLOT(responseEsc()), Qt::QueuedConnection);
-//    m_eventMonitor.start();
 }
 
 void MainWindow::initDBusInterface() {
@@ -159,10 +152,6 @@ void MainWindow::initShortcut() {
     connect(colorSC, &QShortcut::activated, this, [=]{
         emit m_toolBar->shapePressed("color");
     });
-
-//    QShortcut* viewSC = new QShortcut(QKeySequence("Ctrl+Shift+/"), this);
-//    viewSC->setAutoRepeat(false);
-//    connect(viewSC,  SIGNAL(activated()), this, SLOT(onViewShortcut()));
 
     if (isCommandExist("dman")) {
         QShortcut* helpSC = new QShortcut(QKeySequence("F1"), this);
@@ -398,7 +387,7 @@ void MainWindow::mousePressEvent(QMouseEvent *ev) {
                 exitApp();
             }
 
-            m_menuController->showMenu(ev->pos());
+            m_menuController->showMenu(QPoint(mapToGlobal(ev->pos())));
         }
 
         if (!m_isFirstPressButton) {

@@ -28,6 +28,11 @@
 #include "windowmanager.h"
 #include "eventmonitor.h"
 
+#include <dforeignwindow.h>
+#include <dwindowmanagerhelper.h>
+
+DWIDGET_USE_NAMESPACE
+
 class MainWindow : public QLabel
 {
     Q_OBJECT
@@ -102,6 +107,10 @@ private:
 
     QList<WindowRect> m_windowRects;
     QRect m_backgroundRect;
+
+    DWindowManagerHelper* m_wmHelper;
+    //QList<DForeignWindow*> m_fWindows;
+    //QList<QRect> m_fWindowRects;
      //QList<QString> m_windowNames;
     //SaveIndex indicate the save option(save to desktop, save to Picture dir,...)
     int m_saveIndex = 0;
