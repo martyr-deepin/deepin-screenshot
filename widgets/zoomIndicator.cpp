@@ -27,6 +27,7 @@ ZoomIndicator::~ZoomIndicator() {}
 void ZoomIndicator::paintEvent(QPaintEvent *) {
     using namespace utils;
     QPoint centerPos =  this->cursor().pos();
+    centerPos = QPoint(centerPos.x() - this->window()->x(), centerPos.y());
 
     qDebug() << "centerPos" << centerPos;
     QRgb centerRectRgb = QImage(TMP_FULLSCREEN_FILE).pixel(centerPos);
