@@ -5,9 +5,14 @@
 #include <QScreen>
 #include <QWindow>
 
+#include "dbusinterface/dbusnotify.h"
+
 Screenshot::Screenshot(QWidget *parent)
     : QMainWindow(parent)
 {
+}
+
+void Screenshot::initUI() {
     setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::WindowStaysOnTopHint |
                    Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
@@ -45,36 +50,55 @@ Screenshot::Screenshot(QWidget *parent)
 
 void Screenshot::startScreenshot()
 {
+    initUI();
     this->show();
     m_window->startScreenshot();
 }
 
 void Screenshot::delayScreenshot(int num)
 {
-    this->show();
-    m_window->delayScreenshot(num);
+    QString summary = QString(tr("Deepin Screenshot will start after %1 second.").arg(num));
+    QStringList actions = QStringList();
+    QVariantMap hints;
+    DBusNotify* notifyDBus = new DBusNotify(this);
+    if (num >= 2) {
+        notifyDBus->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
+                                    summary, actions, hints, 0);
+    }
+
+    QTimer* timer = new QTimer;
+    timer->setSingleShot(true);
+    timer->start(1000*num);
+    connect(timer, &QTimer::timeout, this, [=]{
+        notifyDBus->CloseNotification(0);
+        startScreenshot();
+    });
 }
 
 void Screenshot::fullscreenScreenshot()
 {
+    initUI();
     this->show();
     m_window->fullScreenshot();
 }
 
 void Screenshot::topWindowScreenshot()
 {
+    initUI();
     this->show();
     m_window->topWindow();
 }
 
 void Screenshot::noNotifyScreenshot()
 {
+    initUI();
     this->show();
     m_window->noNotify();
 }
 
 void Screenshot::savePathScreenshot(const QString &path)
 {
+    initUI();
     this->show();
     m_window->savePath(path);
 }

@@ -64,7 +64,7 @@ public slots:
     void fullScreenshot();
     void savePath(const QString &path);
     void saveSpecificedPath(QString path);
-    void delayScreenshot(int num);
+//    void delayScreenshot(int num);
     void noNotify();
     void topWindow();
     //Indicate that this program's started by clicking desktop file.

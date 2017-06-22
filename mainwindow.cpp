@@ -957,29 +957,29 @@ void MainWindow::saveSpecificedPath(QString path) {
     exitApp();
 }
 
-void MainWindow::delayScreenshot(int num) {
-    initDBusInterface();
-    QString summary = QString(tr("Deepin Screenshot will start after %1 second.").arg(num));
-    QStringList actions = QStringList();
-    QVariantMap hints;
-    if (num >= 2) {
-        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
-                                    summary, actions, hints, 0);
-        QTimer* timer = new QTimer;
-        timer->setSingleShot(true);
-        timer->start(1000*num);
-        connect(timer, &QTimer::timeout, this, [=]{
-            m_notifyDBInterface->CloseNotification(0);
-            initUI();
-            initShortcut();
-            this->show();
-        });
-    } else {
-        initUI();
-        initShortcut();
-        this->show();
-    }
-}
+//void MainWindow::delayScreenshot(int num) {
+//    initDBusInterface();
+//    QString summary = QString(tr("Deepin Screenshot will start after %1 second.").arg(num));
+//    QStringList actions = QStringList();
+//    QVariantMap hints;
+//    if (num >= 2) {
+//        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
+//                                    summary, actions, hints, 0);
+//        QTimer* timer = new QTimer;
+//        timer->setSingleShot(true);
+//        timer->start(1000*num);
+//        connect(timer, &QTimer::timeout, this, [=]{
+//            m_notifyDBInterface->CloseNotification(0);
+//            initUI();
+//            initShortcut();
+//            this->show();
+//        });
+//    } else {
+//        initUI();
+//        initShortcut();
+//        this->show();
+//    }
+//}
 
 void MainWindow::noNotify() {
     m_controlCenterDBInterface = new DBusControlCenter(this);
