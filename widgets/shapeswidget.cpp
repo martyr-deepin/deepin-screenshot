@@ -531,7 +531,7 @@ bool ShapesWidget::hoverOnRect(FourPoints rectPoints, QPointF pos) {
     } else if (pointClickIn(rectPoints[3], pos)) {
         m_resizeDirection = BottomRight;
         return true;
-    } else if (rotateOnPoint(rectPoints, pos)) {
+    } else if (rotateOnPoint(rectPoints, pos) && m_isSelected) {
         m_resizeDirection = Rotate;
         return true;
     }  else if (pointClickIn(tmpFPoints[0], pos)) {
@@ -572,7 +572,7 @@ bool ShapesWidget::hoverOnEllipse(FourPoints mainPoints, QPointF pos) {
     } else if (pointClickIn(mainPoints[3], pos)) {
         m_resizeDirection = BottomRight;
         return true;
-    } else if (rotateOnPoint(mainPoints, pos)) {
+    } else if (rotateOnPoint(mainPoints, pos) && m_isSelected) {
         m_resizeDirection = Rotate;
         return true;
     }  else if (pointClickIn(tmpFPoints[0], pos)) {
@@ -637,7 +637,7 @@ bool ShapesWidget::hoverOnLine(FourPoints mainPoints, QList<QPointF> points,
     } else if (pointClickIn(mainPoints[3], pos)) {
         m_resizeDirection = BottomRight;
         return true;
-    } else if (rotateOnPoint(mainPoints, pos)) {
+    } else if (rotateOnPoint(mainPoints, pos) && m_isSelected) {
         m_resizeDirection = Rotate;
         return true;
     }  else if (pointClickIn(tmpFPoints[0], pos)) {
