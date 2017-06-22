@@ -108,11 +108,12 @@ private:
 
     QList<WindowRect> m_windowRects;
     QRect m_backgroundRect;
+    QList<QString> m_windowNames;
 
     DWindowManagerHelper* m_wmHelper;
     //QList<DForeignWindow*> m_fWindows;
     //QList<QRect> m_fWindowRects;
-     //QList<QString> m_windowNames;
+
     //SaveIndex indicate the save option(save to desktop, save to Picture dir,...)
     int m_saveIndex = 0;
     //m_saveFileName is the storage path of the screenshot image.

@@ -67,6 +67,7 @@ void MainWindow::initUI() {
             m_windowRects.append(m_windowManager->adjustRectInScreenArea(
                                      m_windowManager->getWindowRect(windows[i])));
             qDebug() << "uuuuuuuuuuuuuu" << m_windowRects[i].width << m_windowRects.length();
+            m_windowNames.append(m_windowManager->getWindowClass(windows[i]));
         }
     }
 
@@ -423,7 +424,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *ev) {
                        int ex = mouseEvent->x();
                        int ey = mouseEvent->y();
                        if (ex > wx && ex < wx + ww && ey > wy && ey < wy + wh) {
-   //                        m_selectAreaName = m_windowNames[i];
+                           m_selectAreaName = m_windowNames[i];
 
                            break;
                        }
@@ -1169,8 +1170,13 @@ void MainWindow::saveAction(QPixmap pix) {
             copyToClipboard = true;
             m_saveIndex = 3;
         } else {
-            m_saveFileName = QString("%1/%2%3.png").arg(defaultSaveDir).arg(tr(
+            if (m_selectAreaName.isEmpty()) {
+                m_saveFileName = QString("%1/%2_%3.png").arg(defaultSaveDir).arg(tr(
                                                                            "DeepinScreenshot")).arg(currentTime);
+            } else {
+                m_saveFileName = QString("%1/%2_%3_%4.png").arg(defaultSaveDir).arg(tr(
+                                                                           "DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
+            }
         }
         break;
     }
@@ -1178,8 +1184,15 @@ void MainWindow::saveAction(QPixmap pix) {
         this->hide();
         this->releaseKeyboard();
         QFileDialog fileDialog;
-        QString  lastFileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
-                        QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
+        QString  lastFileName;
+        if (m_selectAreaName.isEmpty()) {
+            lastFileName = QString("%1/%2_%3.png").arg(QStandardPaths::writableLocation(
+                            QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
+        } else {
+            lastFileName = QString("%1/%2_%3_%4.png").arg(QStandardPaths::writableLocation(
+                            QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
+        }
+
         m_saveFileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,
                                                      tr("PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;"
                                                         "XBM (*.xbm);;XPM(*.xpm);;"));
@@ -1210,8 +1223,13 @@ void MainWindow::saveAction(QPixmap pix) {
         } else if (defaultSaveDir == "clipboard") {
             m_saveIndex = 3;
         } else  {
-            m_saveFileName = QString("%1/%2%3.png").arg(defaultSaveDir).arg(tr(
-                                                                               "DeepinScreenshot")).arg(currentTime);
+            if (m_selectAreaName.isEmpty()) {
+                m_saveFileName = QString("%1/%2_%3.png").arg(defaultSaveDir).arg(tr(
+                                                    "DeepinScreenshot")).arg(currentTime);
+            } else {
+                m_saveFileName = QString("%1/%2_%3_%4.png").arg(defaultSaveDir).arg(tr(
+                                                   "DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
+            }
         }
         break;
     }
@@ -1239,8 +1257,13 @@ void MainWindow::saveAction(QPixmap pix) {
     } else if (m_saveIndex == 2 || !m_saveFileName.isEmpty()) {
         screenShotPix.save(m_saveFileName,  QFileInfo(m_saveFileName).suffix().toLocal8Bit());
     } else if (saveOption != QStandardPaths::TempLocation || m_saveFileName.isEmpty()) {
-        m_saveFileName = QString("%1/%2%3.png").arg(QStandardPaths::writableLocation(
+        if (m_selectAreaName.isEmpty()) {
+            m_saveFileName = QString("%1/%2_%3.png").arg(QStandardPaths::writableLocation(
                              saveOption)).arg(tr("DeepinScreenshot")).arg(currentTime);
+        } else {
+            m_saveFileName = QString("%1/%2_%3_%4.png").arg(QStandardPaths::writableLocation(
+                             saveOption)).arg(tr("DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
+        }
         screenShotPix.save(m_saveFileName,  "PNG");
     }
 
