@@ -363,7 +363,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *keyEvent) {
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *ev) {
-    if (ev->type() == QEvent::MouseButtonPress && !m_isShapesWidgetExist) {
+    if (!m_isShapesWidgetExist) {
         m_dragStartX = ev->x();
         m_dragStartY = ev->y();
 
@@ -402,63 +402,73 @@ void MainWindow::mouseDoubleClickEvent(QMouseEvent *ev) {
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *ev) {
     bool needRepaint = false;
-    if (ev->type() == QEvent::MouseButtonRelease && !m_isShapesWidgetExist) {
-           m_moving = false;
-           if (!m_isFirstReleaseButton) {
-               m_isFirstReleaseButton = true;
 
-               m_mouseStatus = ShotMouseStatus::Normal;
-               m_zoomIndicator->hide();
+     if (!m_isShapesWidgetExist) {
+            m_moving = false;
 
-               updateToolBarPos();
-               updateCursor(ev);
+            m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
+                                   QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
 
-               // Record select area name with window name if just click (no drag).
-               if (!m_isFirstDrag) {
-                   QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(ev);
-                   for (int i = 0; i < m_windowRects.length(); i++) {
-                       int wx = m_windowRects[i].x;
-                       int wy = m_windowRects[i].y;
-                       int ww = m_windowRects[i].width;
-                       int wh = m_windowRects[i].height;
-                       int ex = mouseEvent->x();
-                       int ey = mouseEvent->y();
-                       if (ex > wx && ex < wx + ww && ey > wy && ey < wy + wh) {
-                           m_selectAreaName = m_windowNames[i];
+            if (m_toolBar->isVisible()) {
+                updateToolBarPos();
+            }
 
-                           break;
-                       }
-                   }
+            if (!m_isFirstReleaseButton) {
+                m_isFirstReleaseButton = true;
 
-               } else {
-                   // Make sure record area not too small.
-                   m_recordWidth = m_recordWidth < RECORD_MIN_SIZE ?
-                               RECORD_MIN_SIZE : m_recordWidth;
-                   m_recordHeight = m_recordHeight < RECORD_MIN_SIZE ?
-                               RECORD_MIN_SIZE : m_recordHeight;
+                m_mouseStatus = ShotMouseStatus::Normal;
+                m_zoomIndicator->hide();
 
-                   if (m_recordX + m_recordWidth > m_rootWindowRect.width) {
-                       m_recordX = m_rootWindowRect.width - m_recordWidth;
-                   }
+                qDebug() << "MainWindow mouseReleaseEvent";
+                updateToolBarPos();
+                updateCursor(ev);
 
-                   if (m_recordY + m_recordHeight > m_rootWindowRect.height) {
-                       m_recordY = m_rootWindowRect.height - m_recordHeight;
-                   }
-               }
+                // Record select area name with window name if just click (no drag).
+                if (!m_isFirstDrag) {
+                    QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(ev);
+                    for (int i = 0; i < m_windowRects.length(); i++) {
+                        int wx = m_windowRects[i].x;
+                        int wy = m_windowRects[i].y;
+                        int ww = m_windowRects[i].width;
+                        int wh = m_windowRects[i].height;
+                        int ex = mouseEvent->x();
+                        int ey = mouseEvent->y();
+                        if (ex > wx && ex < wx + ww && ey > wy && ey < wy + wh) {
+//                            m_selectAreaName = m_windowNames[i];
 
-               needRepaint = true;
-           }
+                            break;
+                        }
+                    }
 
-           m_isPressButton = false;
-           m_isReleaseButton = true;
+                } else {
+                    // Make sure record area not too small.
+                    m_recordWidth = m_recordWidth < RECORD_MIN_SIZE ?
+                                RECORD_MIN_SIZE : m_recordWidth;
+                    m_recordHeight = m_recordHeight < RECORD_MIN_SIZE ?
+                                RECORD_MIN_SIZE : m_recordHeight;
 
-           needRepaint = true;
-       }
+                    if (m_recordX + m_recordWidth > m_rootWindowRect.width) {
+                        m_recordX = m_rootWindowRect.width - m_recordWidth;
+                    }
 
-    if (needRepaint) {
-        update();
-    }
-    QLabel::mouseReleaseEvent(ev);
+                    if (m_recordY + m_recordHeight > m_rootWindowRect.height) {
+                        m_recordY = m_rootWindowRect.height - m_recordHeight;
+                    }
+                }
+
+                needRepaint = true;
+            }
+
+            m_isPressButton = false;
+            m_isReleaseButton = true;
+
+            needRepaint = true;
+        }
+
+     if (needRepaint) {
+         update();
+     }
+     QLabel::mouseReleaseEvent(ev);
 }
 
 void MainWindow::hideEvent(QHideEvent *event) {
@@ -470,135 +480,134 @@ void MainWindow::mouseMoveEvent(QMouseEvent *ev) {
     bool needRepaint = false;
 
     if (!m_isShapesWidgetExist) {
-            if (m_recordWidth > 0 && m_recordHeight >0 && !m_needSaveScreenshot && this->isVisible()) {
-                m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
-                    QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
+        if (m_recordWidth > 0 && m_recordHeight >0 && !m_needSaveScreenshot && this->isVisible()) {
+            m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
+                                   QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
 
-                if (m_toolBar->isVisible() && m_isPressButton) {
-                    updateToolBarPos();
-                    m_zoomIndicator->hide();
-                }
-            }
-
-            qDebug() << "There is mouse move!";
-
-            if ( !m_isFirstMove) {
-                m_isFirstMove = true;
-                needRepaint = true;
-            } else {
-                if (!m_toolBar->isVisible() && !m_isFirstReleaseButton) {
-                    QPoint curPos = this->cursor().pos();
-                    QPoint tmpPoint;
-                    tmpPoint = QPoint(std::min(curPos.x() + 5 - m_backgroundRect.x(), curPos.x() + 5),
-                                      curPos.y() + 5);
-
-                    if (curPos.x() >= m_backgroundRect.x() + m_backgroundRect.width() - m_zoomIndicator->width()) {
-                        tmpPoint.setX(std::min(m_backgroundRect.width() - m_zoomIndicator->width() - 5, curPos.x() + 5));
-                    }
-
-                    if (curPos.y() >= m_backgroundRect.y() + m_backgroundRect.height() - m_zoomIndicator->height()) {
-                        tmpPoint.setY(curPos.y()  - m_zoomIndicator->height() - 5);
-                    }
-
-                    m_zoomIndicator->showMagnifier(tmpPoint);
-                }
-            }
-
-            if (m_isPressButton && m_isFirstPressButton) {
-                if (!m_isFirstDrag) {
-                    m_isFirstDrag = true;
-
-                    m_selectAreaName = tr("Select area");
-                }
-            }
-
-            QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(ev);
-
-            if (m_isFirstPressButton) {
-                if (!m_isFirstReleaseButton) {
-                    if (m_isPressButton && !m_isReleaseButton) {
-                        m_recordX = std::min(m_dragStartX, mouseEvent->x());
-                        m_recordY = std::min(m_dragStartY, mouseEvent->y());
-                        m_recordWidth = std::abs(m_dragStartX - mouseEvent->x());
-                        m_recordHeight = std::abs(m_dragStartY - mouseEvent->y());
-
-                        needRepaint = true;
-                    }
-                } else if (m_isPressButton) {
-                    if (m_mouseStatus != ShotMouseStatus::Wait && m_dragRecordX >= 0
-                            && m_dragRecordY >= 0) {
-                        if (m_dragAction == ResizeDirection::Moving && m_moving) {
-                            m_recordX = std::max(std::min(m_dragRecordX +
-                                mouseEvent->x() - m_dragStartX, m_rootWindowRect.width
-                                - m_recordWidth), 1);
-                            m_recordY = std::max(std::min(m_dragRecordY + mouseEvent->y()
-                                - m_dragStartY, m_rootWindowRect.height - m_recordHeight), 1);
-                        } else if (m_dragAction == ResizeDirection::TopLeft) {
-                            resizeDirection(ResizeDirection::Top, mouseEvent);
-                            resizeDirection(ResizeDirection::Left, mouseEvent);
-                        } else if (m_dragAction == ResizeDirection::TopRight) {
-                            resizeDirection(ResizeDirection::Top, mouseEvent);
-                            resizeDirection(ResizeDirection::Right, mouseEvent);
-                        } else if (m_dragAction == ResizeDirection::BottomLeft) {
-                            resizeDirection(ResizeDirection::Bottom, mouseEvent);
-                            resizeDirection(ResizeDirection::Left, mouseEvent);
-                        } else if (m_dragAction == ResizeDirection::BottomRight) {
-                            resizeDirection(ResizeDirection::Bottom, mouseEvent);
-                            resizeDirection(ResizeDirection::Right, mouseEvent);
-                        } else if (m_dragAction == ResizeDirection::Top) {
-                            resizeDirection(ResizeDirection::Top, mouseEvent);
-                        } else if (m_dragAction == ResizeDirection::Bottom) {
-                            resizeDirection(ResizeDirection::Bottom, mouseEvent);
-                        } else if (m_dragAction == ResizeDirection::Left) {
-                            resizeDirection(ResizeDirection::Left, mouseEvent);
-                        } else if (m_dragAction == ResizeDirection::Right) {
-                            resizeDirection(ResizeDirection::Right, mouseEvent);
-                        }
-                        needRepaint = true;
-                    }
-                }
-
-                updateCursor(ev);
-
-                int mousePosition =  getDirection(ev);
-                bool drawPoint = mousePosition != ResizeDirection::Moving;
-                if (drawPoint != m_needDrawSelectedPoint) {
-                    m_needDrawSelectedPoint = drawPoint;
-                    needRepaint = true;
-                }
-            } else {
-                if (m_screenNum == 0) {
-                    for (int i = 0; i < m_windowRects.length(); i++) {
-                        int wx = m_windowRects[i].x;
-                        int wy = m_windowRects[i].y;
-                        int ww = m_windowRects[i].width;
-                        int wh = m_windowRects[i].height;
-                        int ex = mouseEvent->x();
-                        int ey = mouseEvent->y();
-                        if (ex > wx && ex < wx + ww && ey > wy && ey < wy + wh) {
-                            m_recordX = wx;
-                            m_recordY = wy;
-                            m_recordWidth = ww;
-                            m_recordHeight = wh;
-
-                            needRepaint = true;
-
-                            break;
-                        }
-                    }
-                } else {
-                    m_recordX = 0;
-                    m_recordY = 0;
-                    m_recordWidth = m_rootWindowRect.width;
-                    m_recordHeight = m_rootWindowRect.height;
-                    needRepaint = true;
-                }
+            if (m_toolBar->isVisible()) {
+                updateToolBarPos();
+                m_zoomIndicator->hide();
             }
         }
+
+        if ( !m_isFirstMove) {
+            m_isFirstMove = true;
+            needRepaint = true;
+        } else {
+            if (!m_toolBar->isVisible() && !m_isFirstReleaseButton) {
+                QPoint curPos = this->cursor().pos();
+                QPoint tmpPoint;
+                tmpPoint = QPoint(std::min(curPos.x() + 5 - m_backgroundRect.x(), curPos.x() + 5),
+                                  curPos.y() + 5);
+
+                if (curPos.x() >= m_backgroundRect.x() + m_backgroundRect.width() - m_zoomIndicator->width()) {
+                    tmpPoint.setX(std::min(m_backgroundRect.width() - m_zoomIndicator->width() - 5, curPos.x() + 5));
+                }
+
+                if (curPos.y() >= m_backgroundRect.y() + m_backgroundRect.height() - m_zoomIndicator->height()) {
+                    tmpPoint.setY(curPos.y()  - m_zoomIndicator->height() - 5);
+                }
+
+                m_zoomIndicator->showMagnifier(tmpPoint);
+            }
+        }
+
+        if (m_isPressButton && m_isFirstPressButton) {
+            if (!m_isFirstDrag) {
+                m_isFirstDrag = true;
+
+                m_selectAreaName = tr("Select area");
+            }
+        }
+
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(ev);
+
+        if (m_isFirstPressButton) {
+            if (!m_isFirstReleaseButton) {
+                if (m_isPressButton && !m_isReleaseButton) {
+                    m_recordX = std::min(m_dragStartX, mouseEvent->x());
+                    m_recordY = std::min(m_dragStartY, mouseEvent->y());
+                    m_recordWidth = std::abs(m_dragStartX - mouseEvent->x());
+                    m_recordHeight = std::abs(m_dragStartY - mouseEvent->y());
+
+                    needRepaint = true;
+                }
+            } else if (m_isPressButton) {
+                if (m_mouseStatus != ShotMouseStatus::Wait && m_dragRecordX >= 0
+                        && m_dragRecordY >= 0) {
+                    if (m_dragAction == ResizeDirection::Moving && m_moving) {
+                        m_recordX = std::max(std::min(m_dragRecordX +
+                                                      mouseEvent->x() - m_dragStartX, m_rootWindowRect.width
+                                                      - m_recordWidth), 1);
+                        m_recordY = std::max(std::min(m_dragRecordY + mouseEvent->y()
+                                                      - m_dragStartY, m_rootWindowRect.height - m_recordHeight), 1);
+                    } else if (m_dragAction == ResizeDirection::TopLeft) {
+                        resizeDirection(ResizeDirection::Top, mouseEvent);
+                        resizeDirection(ResizeDirection::Left, mouseEvent);
+                    } else if (m_dragAction == ResizeDirection::TopRight) {
+                        resizeDirection(ResizeDirection::Top, mouseEvent);
+                        resizeDirection(ResizeDirection::Right, mouseEvent);
+                    } else if (m_dragAction == ResizeDirection::BottomLeft) {
+                        resizeDirection(ResizeDirection::Bottom, mouseEvent);
+                        resizeDirection(ResizeDirection::Left, mouseEvent);
+                    } else if (m_dragAction == ResizeDirection::BottomRight) {
+                        resizeDirection(ResizeDirection::Bottom, mouseEvent);
+                        resizeDirection(ResizeDirection::Right, mouseEvent);
+                    } else if (m_dragAction == ResizeDirection::Top) {
+                        resizeDirection(ResizeDirection::Top, mouseEvent);
+                    } else if (m_dragAction == ResizeDirection::Bottom) {
+                        resizeDirection(ResizeDirection::Bottom, mouseEvent);
+                    } else if (m_dragAction == ResizeDirection::Left) {
+                        resizeDirection(ResizeDirection::Left, mouseEvent);
+                    } else if (m_dragAction == ResizeDirection::Right) {
+                        resizeDirection(ResizeDirection::Right, mouseEvent);
+                    }
+                    needRepaint = true;
+                }
+            }
+
+            updateCursor(ev);
+
+            int mousePosition =  getDirection(ev);
+            bool drawPoint = mousePosition != ResizeDirection::Moving;
+            if (drawPoint != m_needDrawSelectedPoint) {
+                m_needDrawSelectedPoint = drawPoint;
+                needRepaint = true;
+            }
+        } else {
+            if (m_screenNum == 0) {
+                for (int i = 0; i < m_windowRects.length(); i++) {
+                    int wx = m_windowRects[i].x;
+                    int wy = m_windowRects[i].y;
+                    int ww = m_windowRects[i].width;
+                    int wh = m_windowRects[i].height;
+                    int ex = mouseEvent->x();
+                    int ey = mouseEvent->y();
+                    if (ex > wx && ex < wx + ww && ey > wy && ey < wy + wh) {
+                        m_recordX = wx;
+                        m_recordY = wy;
+                        m_recordWidth = ww;
+                        m_recordHeight = wh;
+
+                        needRepaint = true;
+
+                        break;
+                    }
+                }
+            } else {
+                m_recordX = 0;
+                m_recordY = 0;
+                m_recordWidth = m_rootWindowRect.width;
+                m_recordHeight = m_rootWindowRect.height;
+                needRepaint = true;
+            }
+        }
+    }
 
     if (needRepaint) {
         update();
     }
+
 
     QLabel::mouseMoveEvent(ev);
 }
