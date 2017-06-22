@@ -131,6 +131,7 @@ void ToolBar::setExpand(bool expand, QString shapeType) {
         m_expanded = true;
         setFixedSize(TOOLBAR_WIDTH,
                               TOOLBAR_WIDGET_SIZE.height()*2+3);
+        emit heightChanged();
     }
 
     update();

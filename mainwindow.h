@@ -85,6 +85,7 @@ public slots:
     void onViewShortcut();
     void onHelp();
     void exitApp();
+    void updateToolBarPos();
 
 protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;

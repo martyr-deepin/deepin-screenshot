@@ -116,6 +116,7 @@ void MainWindow::initUI() {
             &ToolBar::shapePressed);
     connect(m_menuController, &MenuController::saveBtnPressed, m_toolBar,
             &ToolBar::saveBtnPressed);
+    connect(m_toolBar, &ToolBar::heightChanged, this, &MainWindow::updateToolBarPos);
     connect(m_menuController, &MenuController::menuNoFocus, this, &MainWindow::activateWindow);
 }
 
@@ -321,23 +322,7 @@ void MainWindow::keyPressEvent(QKeyEvent *keyEvent) {
         if ( !m_needSaveScreenshot) {
             m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
                                    QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
-
-            QPoint toolbarPoint;
-            toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width(),
-                                  std::max(m_recordY + m_recordHeight + TOOLBAR_Y_SPACING, 0));
-
-            if (m_toolBar->width() > m_recordX + m_recordWidth) {
-                toolbarPoint.setX(m_recordX + 8);
-            }
-            if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height()
-                    - m_toolBar->height() - 28) {
-                if (m_recordY > 28*2 + 10) {
-                    toolbarPoint.setY(m_recordY - m_toolBar->height() - TOOLBAR_Y_SPACING);
-                } else {
-                    toolbarPoint.setY(m_recordY + TOOLBAR_Y_SPACING);
-                }
-            }
-            m_toolBar->showAt(toolbarPoint);
+            updateToolBarPos();
         }
     }
 
@@ -424,23 +409,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *ev) {
                m_mouseStatus = ShotMouseStatus::Normal;
                m_zoomIndicator->hide();
 
-               QPoint toolbarPoint;
-               toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width(),
-                                                       std::max(m_recordY + m_recordHeight + TOOLBAR_Y_SPACING, 0));
-
-               if (m_toolBar->width() > m_recordX + m_recordWidth) {
-                   toolbarPoint.setX(m_recordX + 8);
-               }
-               if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height()
-                       - m_toolBar->height() - 28) {
-                   if (m_recordY > 28*2 + 10) {
-                       toolbarPoint.setY(m_recordY - m_toolBar->height() - TOOLBAR_Y_SPACING);
-                   } else {
-                       toolbarPoint.setY(m_recordY + TOOLBAR_Y_SPACING);
-                   }
-               }
-
-               m_toolBar->showAt(toolbarPoint);
+               updateToolBarPos();
                updateCursor(ev);
 
                // Record select area name with window name if just click (no drag).
@@ -505,23 +474,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *ev) {
                     QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
 
                 if (m_toolBar->isVisible() && m_isPressButton) {
-                    QPoint toolbarPoint;
-                    toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width(),
-                                                            std::max(m_recordY + m_recordHeight + TOOLBAR_Y_SPACING, 0));
-                    if (m_toolBar->width() > m_recordX + m_recordWidth) {
-                        toolbarPoint.setX(m_recordX + 8);
-                    }
-
-                    if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height()
-                            - m_toolBar->height() - 28 ) {
-                        if (m_recordY > 28*2 + 10) {
-                            toolbarPoint.setY(m_recordY - m_toolBar->height() - TOOLBAR_Y_SPACING);
-                        } else {
-                            toolbarPoint.setY(m_recordY + TOOLBAR_Y_SPACING);
-                        }
-                    }
-
-                    m_toolBar->showAt(toolbarPoint);
+                    updateToolBarPos();
                     m_zoomIndicator->hide();
                 }
             }
@@ -770,24 +723,7 @@ void MainWindow::initShapeWidget(QString type) {
     m_shapesWidget->setFixedSize(m_recordWidth - 4, m_recordHeight - 4);
     m_shapesWidget->move(m_recordX + 2, m_recordY + 2);
 
-    QPoint toolbarPoint;
-    toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width(),
-                          std::max(m_recordY + m_recordHeight + TOOLBAR_Y_SPACING, 0));
-
-    if (m_toolBar->width() > m_recordX + m_recordWidth) {
-        toolbarPoint.setX(m_recordX + 8);
-    }
-
-    if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height()
-            - m_toolBar->height() - 28) {
-        if (m_recordY > 28*2 + 10) {
-            toolbarPoint.setY(m_recordY - m_toolBar->height() - TOOLBAR_Y_SPACING);
-        } else {
-            toolbarPoint.setY(m_recordY + TOOLBAR_Y_SPACING);
-        }
-    }
-
-    m_toolBar->showAt(toolbarPoint);
+    updateToolBarPos();
     m_toolBar->raise();
     m_needDrawSelectedPoint = false;
     update();
@@ -1418,4 +1354,23 @@ void MainWindow::exitApp() {
         m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
     }
     qApp->quit();
+}
+
+void MainWindow::updateToolBarPos() {
+    QPoint toolbarPoint;
+    toolbarPoint = QPoint(m_recordX + m_recordWidth - m_toolBar->width(),
+                          std::max(m_recordY + m_recordHeight + TOOLBAR_Y_SPACING, 0));
+
+    if (m_toolBar->width() > m_recordX + m_recordWidth) {
+        toolbarPoint.setX(m_recordX + 8);
+    }
+    if (toolbarPoint.y()>= m_backgroundRect.y() + m_backgroundRect.height()
+            - m_toolBar->height() - 28) {
+        if (m_recordY > 28*2 + 10) {
+            toolbarPoint.setY(m_recordY - m_toolBar->height() - TOOLBAR_Y_SPACING);
+        } else {
+            toolbarPoint.setY(m_recordY + TOOLBAR_Y_SPACING);
+        }
+    }
+    m_toolBar->showAt(toolbarPoint);
 }

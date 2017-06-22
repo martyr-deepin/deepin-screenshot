@@ -51,6 +51,7 @@ public:
     ~ToolBar();
 
 signals:
+    void heightChanged();
     void buttonChecked(QString shape);
     void updateColor(QColor color);
     void requestSaveScreenshot();
