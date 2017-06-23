@@ -12,7 +12,7 @@ class Toolshape {
 public:
      QString type;
      FourPoints mainPoints;
-     int index;
+     int index = -1;
      int lineWidth;
      int colorIndex;
      bool isBlur = false;
