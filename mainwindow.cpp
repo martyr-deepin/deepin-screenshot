@@ -217,7 +217,7 @@ void MainWindow::keyPressEvent(QKeyEvent *keyEvent) {
                 ConfigSettings::instance()->setValue("save", "save_op", 3);
                 saveScreenshot();
             } else if (keyEvent->key() == Qt::Key_S) {
-                saveScreenshot();
+                expressSaveScreenshot();
             }
         }  else {
             if (keyEvent->key() == Qt::Key_Left) {
@@ -267,7 +267,7 @@ void MainWindow::keyPressEvent(QKeyEvent *keyEvent) {
             }
         } else if (qApp->keyboardModifiers() & Qt::ControlModifier) {
             if (keyEvent->key() == Qt::Key_S) {
-                saveScreenshot();
+                expressSaveScreenshot();
             }
 
             if (keyEvent->key() == Qt::Key_C) {
@@ -396,7 +396,7 @@ void MainWindow::mousePressEvent(QMouseEvent *ev) {
 }
 
 void MainWindow::mouseDoubleClickEvent(QMouseEvent *ev) {
-    saveScreenshot();
+    expressSaveScreenshot();
     QLabel::mouseDoubleClickEvent(ev);
 }
 
@@ -902,6 +902,7 @@ void MainWindow::savePath(const QString &path) {
         emit releaseEvent();
         emit saveActionTriggered();
         m_needSaveScreenshot = true;
+        qDebug() << "toolBar" << m_specificedPath;
         saveSpecificedPath(m_specificedPath);
     });
 }
@@ -923,7 +924,11 @@ void MainWindow::saveSpecificedPath(QString path) {
         QDateTime currentDate;
         QString currentTime =  currentDate.currentDateTime().
                 toString("yyyyMMddHHmmss");
-        savePath = path + QString(tr("DeepinScreenshot%1").arg(currentTime));
+        if (m_selectAreaName.isEmpty()) {
+            savePath = path + QString("%1_%2").arg(tr("DeepinScreenshot")).arg(currentTime);
+        } else {
+            savePath = path + QString("%1_%2_%3").arg(tr("DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
+        }
     }
 
     m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
@@ -1018,6 +1023,17 @@ void MainWindow::topWindow() {
     m_needSaveScreenshot = true;
     saveAction(screenShotPix);
     sendNotify(m_saveIndex, m_saveFileName);
+}
+
+void MainWindow::expressSaveScreenshot() {
+    if (m_specificedPath.isEmpty()) {
+        qDebug() << "specificedPath isEmpty!";
+        saveScreenshot();
+    } else {
+        qDebug() << "specificedPath isEmpty!XCVBN";
+        m_toolBar->specificedSavePath();
+        emit m_toolBar->saveSpecifiedPath();
+    }
 }
 
 void MainWindow::startScreenshot() {

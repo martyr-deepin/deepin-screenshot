@@ -67,6 +67,7 @@ public slots:
 //    void delayScreenshot(int num);
     void noNotify();
     void topWindow();
+    void expressSaveScreenshot();
     //Indicate that this program's started by clicking desktop file.
      //void startByIcon();
 
