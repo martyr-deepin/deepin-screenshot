@@ -17,7 +17,7 @@ You can run or exit Deepin Screenshot by the following operations. A shortcut al
 ### Run Deepin Screenshot
 
 1. Click on ![launcher-24](icon/launcher-24.svg) on dock to enter launcher interface.
-2. Find ![screenshot-24](icon/screenshot-24.png) to click on, you can:
+2. Find ![screenshot-24](icon/screenshot-24.svg) to click on, you can:
 
  - Click on **Send to desktop** to create a desktop shortcut.
  - Click on **Send to dock** to fix it on dock.
@@ -39,7 +39,7 @@ You can do the following steps to delay screenshot:
 2. In the upper right corner of the screen, you will see the prompt "Deepin Screenshot will start after 5 seconds".
 3. It will automatically enter the screenshot mode after 5 seconds, and then the entire screen will go dark.
 
-> ![notes](icon/notes.svg): If you have fixed Deepin Screenshot on Dock, right click on ![screenshot](icon/screenshot-24.png) on Dock, and then select ** Delay Screenshot** to delay the capturing.
+> ![notes](icon/notes.svg): If you have fixed Deepin Screenshot on Dock, right click on ![screenshot](icon/screenshot-24.svg) on Dock, and then select ** Delay Screenshot** to delay the capturing.
 
 
 ### Exit Deepin Screenshot
@@ -101,17 +101,17 @@ It will save you both time and efforts to operate with shortcuts.
 
         <tr>
 
-            <td>Exit</td>
+            <td>Undo</td>
 
-            <td>Esc</td>
+            <td>Ctrl+Z</td>
 
         </tr>
 
         <tr>
 
-            <td>&nbsp;</td>
+            <td>Exit</td>
 
-            <td>&nbsp;</td>
+            <td>Esc</td>
 
         </tr>
 
@@ -129,7 +129,7 @@ It will save you both time and efforts to operate with shortcuts.
 
 <table class="block2">
 
-    <caption>Drawing</caption>
+    <caption>Painting</caption>
 
     <tbody>
 
@@ -275,9 +275,9 @@ It will save you both time and efforts to operate with shortcuts.
 
         <tr>
 
-            <td>&nbsp;</td>
+            <td>Copy to Clipboard</td>
 
-            <td>&nbsp;</td>
+            <td>Ctrl+C</td>
 
         </tr>
 
@@ -359,7 +359,7 @@ You can select fullscreen by the following steps:
 3. Click on the desktop and the toolbar will pop up in the upper right corner.
 4. If you want to exit screenshot, please click on ![exit](icon/exit.svg) on the toolbar or right click to select **Exit**.
 
-> ![notes](icon/notes.svg): You also can right click on ![screenshot](icon/screenshot-24.png) on Dock to select **Full Screenshot** or Press ![print](icon/Print.svg) on keyboard.
+> ![notes](icon/notes.svg): You also can right click on ![screenshot](icon/screenshot-24.svg) on Dock to select **Full Screenshot** or Press ![print](icon/Print.svg) on keyboard.
 
 
 ### Program Window Selection
@@ -487,7 +487,7 @@ While capturing screenshots, you can click on the icons on toolbar to complete v
 
           <tr>
 
-            <td><img src="icon/save.svg" alt="save" class="inline" /></td>
+            <td><img src="icon/save.png" alt="save" class="inline" /></td>
 
             <td>Save</td>
 
@@ -552,19 +552,19 @@ You can draw some simple graphics in the captured images, such as rectangle, ell
 
 #### Arrow
 
-![0|arrow](png/arrow.png)
+![1|arrow](png/arrow.png)
 
 1. Click on ![arrow](icon/arrow.svg) in the toolbar.
 2. In the extended panel of the toolbar, choose width of the arrow border line.
-3. Click on ![straight](icon/straightline.svg) or ![arrow](icon/arrow_normal.png) to switch between straight line and arrow.
+3. Click on ![straight](icon/straightline.svg) or ![arrow](icon/arrow.svg) to switch between straight line and arrow.
 4. Place the mouse pointer on the screenshot area, and then the mouse pointer will become ![arrowmouse](icon/arrow_mouse.svg).
 5. Press and hold down the left mouse button, drag the mouse to finish drawing.
 
-> ![notes](icon/notes.svg): Press and hold ![shift](icon/Shift.svg) on keyboard, and then select ![straight](icon/straightline.svg) or ![arrow](icon/arrow_normal.png) to draw a straight line or arrow in the horizontal or vertical direction.
+> ![notes](icon/notes.svg): Press and hold ![shift](icon/Shift.svg) on keyboard, and then select ![straight](icon/straightline.svg) or ![arrow](icon/arrow.svg) to draw a straight line or arrow in the horizontal or vertical direction.
 
 #### Pencil
 
-![0|pencil](png/pencil.png)
+![1|pencil](png/pencil.png)
 
 1. Click on ![pencil](icon/pencil.png) in the toolbar.
 2. In the extended panel of the toolbar, choose width of the pencil.
@@ -577,7 +577,7 @@ You can draw some simple graphics in the captured images, such as rectangle, ell
 If you have drawn other graphics in the screenshots, you can modify and move them.
 
 
-![0|modify](png/modify.png)
+![1|modify](png/modify.png)
 
 
 
@@ -632,7 +632,6 @@ If you have added a text annotation, you can modify and move the text annotation
 
 1. Position the mouse pointer over the text, and then the mouse pointer becomes ![finger](icon/finger.svg).
 2. Press and hold down the left mouse button, and you can move the text to any place in the screenshot area.
-3. Press ![Up](icon/Up.svg) or ![Down](icon/Down.svg) on keyboard to move the text box up or down, and press ![Left](icon/Left.svg) or ![Right](icon/Right.svg) on keyboard to move the text box left or right.
 
 
 #### Edit Text Annotations
@@ -645,10 +644,6 @@ If you have added a text annotation, you can modify and move the text annotation
    - Press ![ctrl](icon/Ctrl.svg)+![Z](icon/Z.svg) on keyboard to return to the previous step.
 
    - Modify the text in the text box.
-
-   - Press ![ctrl](icon/Ctrl.svg)+![Up](icon/Up.svg) or ![Down](icon/Down.svg) on keyboard to extend the text box up or down, and press ![ctrl](icon/Ctrl.svg)+![Left](icon/Left.svg) or ![Right](icon/Right.svg) on keyboard to extend the text box left or right.
-
-   - Position the mouse pointer on ![rotate](icon/rotate.svg) of the text box, and then the mouse pointer becomes ![rotatemouse](icon/rotate_mouse.svg). You can rotate the text annotation by dragging the mouse pointer .
 
 3. Click outside the text box to exit editing mode.
 
@@ -685,7 +680,7 @@ You can save captured images by the following ways:
 
 ### Saving Path
 
-You can click the drop-down options of ![save](icon/save.svg) in the toolbar below the screenshot area:
+You can click the drop-down options of ![save](icon/save.png) in the toolbar below the screenshot area:
 
 
 ![0|save](png/save.png)
@@ -693,13 +688,13 @@ You can click the drop-down options of ![save](icon/save.svg) in the toolbar bel
 
 * Select ![savetodesktop](icon/save_to_desktop.png) to save picture to desktop.
 
-* Select ![autosave](icon/auto_save.svg) to auto save picture to system default folder.
+* Select ![autosave](icon/auto_save.png) to auto save picture to the folder selected last time, the default directory is desktop at the first time.
 
 * Select ![savetofolder](icon/save_to_folder.png) to save picture to specified folder.
 
-* Select ![saveClipBoard](icon/save_ClipBoard.svg) to copy picture to clipboard.
+* Select ![saveClipBoard](icon/save_ClipBoard.png) to copy picture to clipboard.
 
-* Select ![autosaveClipBoard](icon/auto_save_ClipBoard.svg) to save picture to system default folder and copy to clipboard.
+* Select ![autosaveClipBoard](icon/auto_save_ClipBoard.png) to save picture to system default folder and copy to clipboard.
 
 > ![notes](icon/notes.svg): You can adjust the quality of the saved pictures by dragging the slider left or right.
 
