@@ -62,7 +62,7 @@ public slots:
     bool rotateOnPoint(FourPoints mainPoints, QPointF pos);
 
     bool hoverOnShapes(Toolshape toolShape, QPointF pos);
-    bool hoverOnRect(FourPoints rectPoints, QPointF pos);
+    bool hoverOnRect(FourPoints rectPoints, QPointF pos, bool isTextBorder = false);
     bool hoverOnEllipse(FourPoints mainPoints, QPointF pos);
     bool hoverOnArrow(QList<QPointF> points, QPointF pos);
     bool hoverOnLine(FourPoints mainPoints, QList<QPointF> points, QPointF pos);

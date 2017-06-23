@@ -517,7 +517,7 @@ bool ShapesWidget::clickedOnText(FourPoints mainPoints, QPointF pos) {
     }
 }
 
-bool ShapesWidget::hoverOnRect(FourPoints rectPoints, QPointF pos) {
+bool ShapesWidget::hoverOnRect(FourPoints rectPoints, QPointF pos, bool isTextBorder) {
     FourPoints tmpFPoints = getAnotherFPoints(rectPoints);
     if (pointClickIn(rectPoints[0], pos)) {
         m_resizeDirection = TopLeft;
@@ -531,7 +531,8 @@ bool ShapesWidget::hoverOnRect(FourPoints rectPoints, QPointF pos) {
     } else if (pointClickIn(rectPoints[3], pos)) {
         m_resizeDirection = BottomRight;
         return true;
-    } else if (rotateOnPoint(rectPoints, pos) && m_isSelected && m_selectedIndex != -1) {
+    } else if (rotateOnPoint(rectPoints, pos) && m_selectedIndex != -1
+               && m_selectedIndex == m_hoveredIndex && !isTextBorder) {
         m_resizeDirection = Rotate;
         return true;
     }  else if (pointClickIn(tmpFPoints[0], pos)) {
@@ -572,7 +573,8 @@ bool ShapesWidget::hoverOnEllipse(FourPoints mainPoints, QPointF pos) {
     } else if (pointClickIn(mainPoints[3], pos)) {
         m_resizeDirection = BottomRight;
         return true;
-    } else if (rotateOnPoint(mainPoints, pos) && m_isSelected && m_selectedIndex != -1) {
+    } else if (rotateOnPoint(mainPoints, pos) && m_selectedIndex != -1
+               && m_selectedIndex == m_hoveredIndex) {
         m_resizeDirection = Rotate;
         return true;
     }  else if (pointClickIn(tmpFPoints[0], pos)) {
@@ -668,7 +670,7 @@ bool ShapesWidget::hoverOnLine(FourPoints mainPoints, QList<QPointF> points,
 bool ShapesWidget::hoverOnText(FourPoints mainPoints, QPointF pos) {
     qDebug() << "hoverOnText:" <<  mainPoints << pos;
 
-    if (hoverOnRect(mainPoints, pos) ||  (pos.x() >= mainPoints[0].x() - 5
+    if (hoverOnRect(mainPoints, pos, true) ||  (pos.x() >= mainPoints[0].x() - 5
          && pos.x() <= mainPoints[2].x() + 5 && pos.y() >= mainPoints[0].y() - 5
         && pos.y() <= mainPoints[2].y() + 5)) {
         qDebug() << "hoverOnText Moving";
@@ -911,8 +913,10 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
         if (m_pos1 == QPointF(0, 0)) {
             m_pos1 = e->pos();
             if (m_currentType == "line") {
+                m_currentShape.index = m_currentIndex;
                 m_currentShape.points.append(m_pos1);
             } else if (m_currentType == "arrow") {
+                m_currentShape.index = m_currentIndex;
                 m_currentShape.isShiftPressed = m_isShiftPressed;
                 m_currentShape.points.append(m_pos1);
                 m_currentShape.isStraight = ConfigSettings::instance()->value(
@@ -930,6 +934,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                 m_currentShape.isMosaic = ConfigSettings::instance()->value(
                                                                   "effect", "is_mosaic").toBool();
                 m_currentShape.isShiftPressed = m_isShiftPressed;
+                m_currentShape.index = m_currentIndex;
                 if (m_currentShape.isBlur && !m_blurEffectExist) {
                     emit reloadEffectImg("blur");
                     m_blurEffectExist = true;
@@ -1106,9 +1111,10 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
         if (!m_isRecording) {
             m_isHovered = false;
             for (int i = 0; i < m_shapes.length(); i++) {
+                m_hoveredIndex = m_shapes[i].index;
+
                  if (hoverOnShapes(m_shapes[i],  e->pos())) {
                      m_isHovered = true;
-                     m_hoveredIndex = i;
                      m_hoveredShape = m_shapes[i];
                      if (m_resizeDirection == Left) {
                          if (m_isSelected || m_isRotated) {
@@ -1414,7 +1420,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     }
 
     if ((m_hoveredShape.mainPoints[0] != QPointF(0, 0) ||  m_hoveredShape.points.length()!= 0)
-            && m_hoveredIndex != -1 && m_hoveredIndex < m_shapes.length()) {
+            && m_hoveredIndex != -1) {
         pen.setWidthF(0.5);
         pen.setColor("#01bdff");
         painter.setPen(pen);
