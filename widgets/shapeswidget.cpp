@@ -531,7 +531,7 @@ bool ShapesWidget::hoverOnRect(FourPoints rectPoints, QPointF pos) {
     } else if (pointClickIn(rectPoints[3], pos)) {
         m_resizeDirection = BottomRight;
         return true;
-    } else if (rotateOnPoint(rectPoints, pos) && m_isSelected) {
+    } else if (rotateOnPoint(rectPoints, pos) && m_isSelected && m_selectedIndex != -1) {
         m_resizeDirection = Rotate;
         return true;
     }  else if (pointClickIn(tmpFPoints[0], pos)) {
@@ -572,7 +572,7 @@ bool ShapesWidget::hoverOnEllipse(FourPoints mainPoints, QPointF pos) {
     } else if (pointClickIn(mainPoints[3], pos)) {
         m_resizeDirection = BottomRight;
         return true;
-    } else if (rotateOnPoint(mainPoints, pos) && m_isSelected) {
+    } else if (rotateOnPoint(mainPoints, pos) && m_isSelected && m_selectedIndex != -1) {
         m_resizeDirection = Rotate;
         return true;
     }  else if (pointClickIn(tmpFPoints[0], pos)) {
@@ -637,7 +637,7 @@ bool ShapesWidget::hoverOnLine(FourPoints mainPoints, QList<QPointF> points,
     } else if (pointClickIn(mainPoints[3], pos)) {
         m_resizeDirection = BottomRight;
         return true;
-    } else if (rotateOnPoint(mainPoints, pos) && m_isSelected) {
+    } else if (rotateOnPoint(mainPoints, pos) && m_isSelected && m_selectedIndex != -1) {
         m_resizeDirection = Rotate;
         return true;
     }  else if (pointClickIn(tmpFPoints[0], pos)) {
@@ -1340,10 +1340,11 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing);
     QPen pen;
+    pen.setJoinStyle(Qt::MiterJoin);
 
     for(int i = 0; i < m_shapes.length(); i++) {
         pen.setColor(colorIndexOf(m_shapes[i].colorIndex));
-        pen.setWidth(m_shapes[i].lineWidth);
+        pen.setWidthF(m_shapes[i].lineWidth - 0.5);
         painter.setPen(pen);
         if (m_shapes[i].type == "rectangle") {
             if ((m_shapes[i].isBlur || m_shapes[i].isMosaic) && m_selectedIndex == i) {
@@ -1383,7 +1384,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
     if ((m_pos1 != QPointF(0, 0) && m_pos2 != QPointF(0, 0)) || m_currentShape.type == "text") {
         FourPoints currentFPoint =  getMainPoints(m_pos1, m_pos2, m_isShiftPressed);
         pen.setColor(colorIndexOf(m_currentShape.colorIndex));
-        pen.setWidth(m_currentShape.lineWidth);
+        pen.setWidthF(m_currentShape.lineWidth - 0.5);
         painter.setPen(pen);
         if (m_currentType == "rectangle") {
             if (m_currentShape.isBlur || m_currentShape.isMosaic) {
@@ -1414,7 +1415,7 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
 
     if ((m_hoveredShape.mainPoints[0] != QPointF(0, 0) ||  m_hoveredShape.points.length()!= 0)
             && m_hoveredIndex != -1 && m_hoveredIndex < m_shapes.length()) {
-        pen.setWidth(1);
+        pen.setWidthF(0.5);
         pen.setColor("#01bdff");
         painter.setPen(pen);
         if (m_hoveredShape.type == "rectangle") {
