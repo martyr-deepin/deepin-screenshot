@@ -57,7 +57,7 @@ void Screenshot::startScreenshot()
 
 void Screenshot::delayScreenshot(int num)
 {
-    QString summary = QString(tr("Deepin Screenshot will start after %1 second.").arg(num));
+    QString summary = QString(tr("Deepin Screenshot will start after %1 second").arg(num));
     QStringList actions = QStringList();
     QVariantMap hints;
     DBusNotify* notifyDBus = new DBusNotify(this);
