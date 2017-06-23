@@ -4,47 +4,51 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="568"/>
+        <location filename="../mainwindow.cpp" line="519"/>
         <source>Select area</source>
         <translation>选择区域</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1243"/>
-        <location filename="../mainwindow.cpp" line="1253"/>
-        <location filename="../mainwindow.cpp" line="1284"/>
-        <location filename="../mainwindow.cpp" line="1314"/>
+        <location filename="../mainwindow.cpp" line="928"/>
+        <location filename="../mainwindow.cpp" line="930"/>
+        <location filename="../mainwindow.cpp" line="1199"/>
+        <location filename="../mainwindow.cpp" line="1202"/>
+        <location filename="../mainwindow.cpp" line="1215"/>
+        <location filename="../mainwindow.cpp" line="1218"/>
+        <location filename="../mainwindow.cpp" line="1252"/>
+        <location filename="../mainwindow.cpp" line="1255"/>
+        <location filename="../mainwindow.cpp" line="1287"/>
+        <location filename="../mainwindow.cpp" line="1290"/>
         <source>DeepinScreenshot</source>
         <translation>深度截图</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1000"/>
-        <location filename="../mainwindow.cpp" line="1327"/>
+        <location filename="../mainwindow.cpp" line="944"/>
+        <location filename="../mainwindow.cpp" line="1304"/>
         <source>View</source>
         <translation>查看</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1014"/>
-        <location filename="../mainwindow.cpp" line="1347"/>
+        <location filename="../mainwindow.cpp" line="958"/>
+        <location filename="../mainwindow.cpp" line="1324"/>
         <source>Picture has been saved to %1</source>
         <translation>图片已保存至 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="987"/>
         <source>DeepinScreenshot%1</source>
-        <translation>深度截图%1</translation>
+        <translation type="vanished">深度截图%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1023"/>
         <source>Deepin Screenshot will start after %1 second.</source>
-        <translation>深度截图将在%1秒后启动.</translation>
+        <translation type="vanished">深度截图将在%1秒后启动.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1255"/>
+        <location filename="../mainwindow.cpp" line="1222"/>
         <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm);;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1345"/>
+        <location filename="../mainwindow.cpp" line="1322"/>
         <source>Picture has been saved to clipboard</source>
         <translation>图片已保存至剪贴板</translation>
     </message>
@@ -126,6 +130,14 @@
     <message>
         <source>Deepin Screenshot</source>
         <translation type="vanished">深度截图</translation>
+    </message>
+</context>
+<context>
+    <name>Screenshot</name>
+    <message>
+        <location filename="../screenshot.cpp" line="60"/>
+        <source>Deepin Screenshot will start after %1 second</source>
+        <translation>深度截图将在%1秒后启动</translation>
     </message>
 </context>
 <context>
