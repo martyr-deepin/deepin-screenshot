@@ -27,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
     : QLabel(parent)
 {
 //     startScreenshot();
-
 }
 
 MainWindow::~MainWindow()
@@ -41,20 +40,20 @@ void MainWindow::initUI() {
     m_hotZoneInterface->asyncCall("EnableZoneDetected", false);
 
     QPoint curPos = this->cursor().pos();
-     m_screenNum = qApp->desktop()->screenNumber(curPos);
-     QList<QScreen*> screenList = qApp->screens();
-     if (m_screenNum != 0 && m_screenNum < screenList.length()) {
+    m_screenNum = qApp->desktop()->screenNumber(curPos);
+    QList<QScreen*> screenList = qApp->screens();
+    if (m_screenNum != 0 && m_screenNum < screenList.length()) {
         m_backgroundRect = screenList[m_screenNum]->geometry();
-     } else {
-         m_backgroundRect =  qApp->primaryScreen()->geometry();
-     }
+    } else {
+        m_backgroundRect =  qApp->primaryScreen()->geometry();
+    }
 
-     this->move(m_backgroundRect.x(), m_backgroundRect.y());
-     this->setFixedSize(m_backgroundRect.size());
+    this->move(m_backgroundRect.x(), m_backgroundRect.y());
+    this->setFixedSize(m_backgroundRect.size());
 
-     initBackground();
+    initBackground();
 
-     m_wmHelper = DWindowManagerHelper::instance();
+    m_wmHelper = DWindowManagerHelper::instance();
     //m_fWindows = m_wmHelper->currentWorkspaceWindows();
 
     m_windowManager = new WindowManager();
@@ -70,7 +69,7 @@ void MainWindow::initUI() {
         for (int i = 0; i < windows.length(); i++) {
             m_windowRects.append(m_windowManager->adjustRectInScreenArea(
                                      m_windowManager->getWindowRect(windows[i])));
-            qDebug() << "uuuuuuuuuuuuuu" << m_windowRects[i].width << m_windowRects.length();
+            qDebug() << "m_windowRects:" << m_windowRects[i].width << m_windowRects.length();
             m_windowNames.append(m_windowManager->getWindowClass(windows[i]));
         }
     }
@@ -342,9 +341,9 @@ void MainWindow::keyReleaseEvent(QKeyEvent *keyEvent) {
     // NOTE: must be use 'isAutoRepeat' to filter KeyRelease event
     //send by Qt.
     bool needRepaint = false;
-//    if(keyEvent->modifiers() == Qt::NoModifier) {
-//        QProcess::startDetached("deepin-shortcut-viewer");
-//    }
+    //    if(keyEvent->modifiers() == Qt::NoModifier) {
+    //        QProcess::startDetached("deepin-shortcut-viewer");
+    //    }
 
     if (m_isShapesWidgetExist) {
         if (keyEvent->key() == Qt::Key_Shift) {
@@ -390,7 +389,6 @@ void MainWindow::mousePressEvent(QMouseEvent *ev) {
             m_dragRecordY = m_recordY;
             m_dragRecordWidth = m_recordWidth;
             m_dragRecordHeight = m_recordHeight;
-
         }
 
         m_isPressButton = true;
@@ -407,72 +405,70 @@ void MainWindow::mouseDoubleClickEvent(QMouseEvent *ev) {
 void MainWindow::mouseReleaseEvent(QMouseEvent *ev) {
     bool needRepaint = false;
 
-     if (!m_isShapesWidgetExist) {
-            m_moving = false;
+    if (!m_isShapesWidgetExist) {
+        m_moving = false;
 
-            m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
-                                   QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
+        m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
+                               QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
 
-            if (m_toolBar->isVisible()) {
-                updateToolBarPos();
-            }
+        if (m_toolBar->isVisible()) {
+            updateToolBarPos();
+        }
 
-            if (!m_isFirstReleaseButton) {
-                m_isFirstReleaseButton = true;
+        if (!m_isFirstReleaseButton) {
+            m_isFirstReleaseButton = true;
 
-                m_mouseStatus = ShotMouseStatus::Normal;
-                m_zoomIndicator->hide();
+            m_mouseStatus = ShotMouseStatus::Normal;
+            m_zoomIndicator->hide();
 
-                qDebug() << "MainWindow mouseReleaseEvent";
-                updateToolBarPos();
-                updateCursor(ev);
+            qDebug() << "MainWindow mouseReleaseEvent";
+            updateToolBarPos();
+            updateCursor(ev);
 
-                // Record select area name with window name if just click (no drag).
-                if (!m_isFirstDrag) {
-                    QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(ev);
-                    for (int i = 0; i < m_windowRects.length(); i++) {
-                        int wx = m_windowRects[i].x;
-                        int wy = m_windowRects[i].y;
-                        int ww = m_windowRects[i].width;
-                        int wh = m_windowRects[i].height;
-                        int ex = mouseEvent->x();
-                        int ey = mouseEvent->y();
-                        if (ex > wx && ex < wx + ww && ey > wy && ey < wy + wh) {
-//                            m_selectAreaName = m_windowNames[i];
-
-                            break;
-                        }
-                    }
-
-                } else {
-                    // Make sure record area not too small.
-                    m_recordWidth = m_recordWidth < RECORD_MIN_SIZE ?
-                                RECORD_MIN_SIZE : m_recordWidth;
-                    m_recordHeight = m_recordHeight < RECORD_MIN_SIZE ?
-                                RECORD_MIN_SIZE : m_recordHeight;
-
-                    if (m_recordX + m_recordWidth > m_rootWindowRect.width) {
-                        m_recordX = m_rootWindowRect.width - m_recordWidth;
-                    }
-
-                    if (m_recordY + m_recordHeight > m_rootWindowRect.height) {
-                        m_recordY = m_rootWindowRect.height - m_recordHeight;
+            // Record select area name with window name if just click (no drag).
+            if (!m_isFirstDrag) {
+                QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(ev);
+                for (int i = 0; i < m_windowRects.length(); i++) {
+                    int wx = m_windowRects[i].x;
+                    int wy = m_windowRects[i].y;
+                    int ww = m_windowRects[i].width;
+                    int wh = m_windowRects[i].height;
+                    int ex = mouseEvent->x();
+                    int ey = mouseEvent->y();
+                    if (ex > wx && ex < wx + ww && ey > wy && ey < wy + wh) {
+                        m_selectAreaName = m_windowNames[i];
+                        break;
                     }
                 }
+            } else {
+                // Make sure record area not too small.
+                m_recordWidth = m_recordWidth < RECORD_MIN_SIZE ?
+                            RECORD_MIN_SIZE : m_recordWidth;
+                m_recordHeight = m_recordHeight < RECORD_MIN_SIZE ?
+                            RECORD_MIN_SIZE : m_recordHeight;
 
-                needRepaint = true;
+                if (m_recordX + m_recordWidth > m_rootWindowRect.width) {
+                    m_recordX = m_rootWindowRect.width - m_recordWidth;
+                }
+
+                if (m_recordY + m_recordHeight > m_rootWindowRect.height) {
+                    m_recordY = m_rootWindowRect.height - m_recordHeight;
+                }
             }
-
-            m_isPressButton = false;
-            m_isReleaseButton = true;
 
             needRepaint = true;
         }
 
-     if (needRepaint) {
-         update();
-     }
-     QLabel::mouseReleaseEvent(ev);
+        m_isPressButton = false;
+        m_isReleaseButton = true;
+
+        needRepaint = true;
+    }
+
+    if (needRepaint) {
+        update();
+    }
+    QLabel::mouseReleaseEvent(ev);
 }
 
 void MainWindow::hideEvent(QHideEvent *event) {
@@ -612,7 +608,6 @@ void MainWindow::mouseMoveEvent(QMouseEvent *ev) {
         update();
     }
 
-
     QLabel::mouseMoveEvent(ev);
 }
 
@@ -622,9 +617,9 @@ int MainWindow::getDirection(QEvent *event) {
     int cursorY = mouseEvent->y();
 
     if (cursorX > m_recordX - SPACING
-        && cursorX < m_recordX + SPACING
-        && cursorY > m_recordY - SPACING
-        && cursorY < m_recordY + SPACING) {
+            && cursorX < m_recordX + SPACING
+            && cursorY > m_recordY - SPACING
+            && cursorY < m_recordY + SPACING) {
         // Top-Left corner.
         return ResizeDirection::TopLeft;
     } else if (cursorX > m_recordX + m_recordWidth - SPACING
@@ -668,13 +663,14 @@ int MainWindow::getDirection(QEvent *event) {
         return ResizeDirection::Outting;
     }
 }
+
 void MainWindow::paintEvent(QPaintEvent *event)  {
     Q_UNUSED(event);
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
 
     QRect backgroundRect = QRect(m_rootWindowRect.x, m_rootWindowRect.y,
-                                                              m_rootWindowRect.width, m_rootWindowRect.height);
+                                 m_rootWindowRect.width, m_rootWindowRect.height);
     // Draw background.
     if (!m_isFirstMove) {
         painter.setBrush(QBrush("#000000"));
@@ -722,7 +718,6 @@ void MainWindow::paintEvent(QPaintEvent *event)  {
             paintSelectedPoint(painter, QPoint(paintHalfWidth, paintHeight), m_resizeBigPix);
         }
     }
-
 }
 
 void MainWindow::initShapeWidget(QString type) {
@@ -761,17 +756,16 @@ void MainWindow::initShapeWidget(QString type) {
     connect(m_shapesWidget, &ShapesWidget::menuNoFocus, this, &MainWindow::activateWindow);
 }
 
-void MainWindow::updateCursor(QEvent *event)
-{
+void MainWindow::updateCursor(QEvent *event) {
     if (m_mouseStatus == ShotMouseStatus::Normal) {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
         int cursorX = mouseEvent->x();
         int cursorY = mouseEvent->y();
 
         if (cursorX > m_recordX - SPACING
-            && cursorX < m_recordX + SPACING
-            && cursorY > m_recordY - SPACING
-            && cursorY < m_recordY + SPACING) {
+                && cursorX < m_recordX + SPACING
+                && cursorY > m_recordY - SPACING
+                && cursorY < m_recordY + SPACING) {
             // Top-Left corner.
             qApp->setOverrideCursor(Qt::SizeFDiagCursor);
         } else if (cursorX > m_recordX + m_recordWidth - SPACING
@@ -808,15 +802,11 @@ void MainWindow::updateCursor(QEvent *event)
                    && cursorY < m_recordY + m_recordHeight + SPACING) {
             // Bottom.
             qApp->setOverrideCursor(Qt::SizeVerCursor);
-        } /*else if (recordButton->geometry().contains(cursorX, cursorY) ||
-             recordOptionPanel->geometry().contains(cursorX, cursorY)) {
-            // Record area.
-            qApp->setOverrideCursor(Qt::ArrowCursor);
-        }*/ else {
+        } else {
             if (m_isPressButton) {
                 qApp->setOverrideCursor(Qt::ClosedHandCursor);
             } else if (cursorX >= m_recordX - SPACING && cursorX <= m_recordX + m_recordWidth + SPACING
-            && cursorY >= m_recordY - SPACING && cursorY < m_recordY + m_recordHeight + SPACING) {
+                       && cursorY >= m_recordY - SPACING && cursorY < m_recordY + m_recordHeight + SPACING) {
                 qApp->setOverrideCursor(Qt::OpenHandCursor);
             } else {
                 qApp->setOverrideCursor(Qt::ArrowCursor);
@@ -825,39 +815,37 @@ void MainWindow::updateCursor(QEvent *event)
     }
 }
 
-void MainWindow::resizeDirection(ResizeDirection direction,
-                                 QMouseEvent *e) {
+void MainWindow::resizeDirection(ResizeDirection direction, QMouseEvent *e) {
     int offsetX = e->x() - m_dragStartX;
     int offsetY = e->y() - m_dragStartY;
 
     switch (direction) {
     case ResizeDirection::Top: {
         m_recordY = std::max(std::min(m_dragRecordY + offsetY,
-                    m_dragRecordY + m_dragRecordHeight - RECORD_MIN_SIZE), 1);
+                                      m_dragRecordY + m_dragRecordHeight - RECORD_MIN_SIZE), 1);
         m_recordHeight = std::max(std::min(m_dragRecordHeight -
-                      offsetY, m_rootWindowRect.height), RECORD_MIN_SIZE);
+                                           offsetY, m_rootWindowRect.height), RECORD_MIN_SIZE);
         break;
     };
     case ResizeDirection::Bottom: {
         m_recordHeight = std::max(std::min(m_dragRecordHeight + offsetY,
-                                         m_rootWindowRect.height), RECORD_MIN_SIZE);
+                                           m_rootWindowRect.height), RECORD_MIN_SIZE);
         break;
     };
     case ResizeDirection::Left: {
         m_recordX = std::max(std::min(m_dragRecordX + offsetX,
-                    m_dragRecordX + m_dragRecordWidth - RECORD_MIN_SIZE), 1);
+                                      m_dragRecordX + m_dragRecordWidth - RECORD_MIN_SIZE), 1);
         m_recordWidth = std::max(std::min(m_dragRecordWidth - offsetX,
-                    m_rootWindowRect.width), RECORD_MIN_SIZE);
+                                          m_rootWindowRect.width), RECORD_MIN_SIZE);
         break;
     };
     case ResizeDirection::Right: {
         m_recordWidth = std::max(std::min(m_dragRecordWidth + offsetX,
-                        m_rootWindowRect.width), RECORD_MIN_SIZE);
+                                          m_rootWindowRect.width), RECORD_MIN_SIZE);
         break;
     };
     default:break;
     }
-
 }
 
 void MainWindow::fullScreenshot() {
@@ -871,27 +859,27 @@ void MainWindow::fullScreenshot() {
     m_hotZoneInterface->asyncCall("EnableZoneDetected", false);
 
     QPoint curPos = this->cursor().pos();
-     m_screenNum = qApp->desktop()->screenNumber(curPos);
-     QList<QScreen*> screenList = qApp->screens();
-     if (m_screenNum != 0 && m_screenNum < screenList.length()) {
+    m_screenNum = qApp->desktop()->screenNumber(curPos);
+    QList<QScreen*> screenList = qApp->screens();
+    if (m_screenNum != 0 && m_screenNum < screenList.length()) {
         m_backgroundRect = screenList[m_screenNum]->geometry();
-     } else {
-         m_backgroundRect =  qApp->primaryScreen()->geometry();
-     }
+    } else {
+        m_backgroundRect =  qApp->primaryScreen()->geometry();
+    }
 
-     this->move(m_backgroundRect.x(), m_backgroundRect.y());
-     this->setFixedSize(m_backgroundRect.size());
-     m_needSaveScreenshot = true;
-     shotFullScreen();
-     m_toolBar = new ToolBar(this);
-     m_toolBar->hide();
-     m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
+    this->move(m_backgroundRect.x(), m_backgroundRect.y());
+    this->setFixedSize(m_backgroundRect.size());
+    m_needSaveScreenshot = true;
+    shotFullScreen();
+    m_toolBar = new ToolBar(this);
+    m_toolBar->hide();
+    m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
 
-     DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
-     using namespace utils;
-     QPixmap screenShotPix(TMP_FULLSCREEN_FILE);
-     saveAction(screenShotPix);
-     sendNotify(m_saveIndex, m_saveFileName);
+    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
+    using namespace utils;
+    QPixmap screenShotPix(TMP_FULLSCREEN_FILE);
+    saveAction(screenShotPix);
+    sendNotify(m_saveIndex, m_saveFileName);
 }
 
 void MainWindow::savePath(const QString &path) {
@@ -932,7 +920,8 @@ void MainWindow::saveSpecificedPath(QString path) {
         if (m_selectAreaName.isEmpty()) {
             savePath = path + QString("%1_%2").arg(tr("DeepinScreenshot")).arg(currentTime);
         } else {
-            savePath = path + QString("%1_%2_%3").arg(tr("DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
+            savePath = path + QString("%1_%2_%3").arg(tr("DeepinScreenshot")).arg(
+                                                                                       m_selectAreaName).arg(currentTime);
         }
     }
 
@@ -1053,34 +1042,6 @@ void MainWindow::startScreenshot() {
     this->show();
 }
 
-void MainWindow::showPressFeedback(int x, int y)
-{
-    if (m_mouseStatus == ShotMouseStatus::Shoting) {
-//        buttonFeedback->showPressFeedback(x, y);
-    }
-}
-
-void MainWindow::showDragFeedback(int x, int y)
-{
-    if (m_mouseStatus == ShotMouseStatus::Shoting) {
-//        buttonFeedback->showDragFeedback(x, y);
-    }
-}
-
-void MainWindow::showReleaseFeedback(int x, int y)
-{
-    if (m_mouseStatus == ShotMouseStatus::Shoting) {
-//        buttonFeedback->showReleaseFeedback(x, y);
-    }
-}
-
-void MainWindow::responseEsc()
-{
-//    if (recordButtonStatus != ShotMouseStatus::Shoting) {
-        exitApp();
-//    }
-}
-
 void MainWindow::initBackground() {
     QList<QScreen*> screenList = qApp->screens();
     QPixmap tmpImg =  screenList[m_screenNum]->grabWindow(
@@ -1091,7 +1052,7 @@ void MainWindow::initBackground() {
     using namespace utils;
     tmpImg.save(TMP_FULLSCREEN_FILE, "png");
     this->setStyleSheet(QString("MainWindow{ border-image: url(%1); }"
-                                       ).arg(TMP_FULLSCREEN_FILE));
+                                ).arg(TMP_FULLSCREEN_FILE));
 }
 
 void MainWindow::shotFullScreen() {
@@ -1205,10 +1166,10 @@ void MainWindow::saveAction(QPixmap pix) {
         } else {
             if (m_selectAreaName.isEmpty()) {
                 m_saveFileName = QString("%1/%2_%3.png").arg(defaultSaveDir).arg(tr(
-                                                                           "DeepinScreenshot")).arg(currentTime);
+                                                                                     "DeepinScreenshot")).arg(currentTime);
             } else {
                 m_saveFileName = QString("%1/%2_%3_%4.png").arg(defaultSaveDir).arg(tr(
-                                                                           "DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
+                                                                                        "DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
             }
         }
         break;
@@ -1220,10 +1181,10 @@ void MainWindow::saveAction(QPixmap pix) {
         QString  lastFileName;
         if (m_selectAreaName.isEmpty()) {
             lastFileName = QString("%1/%2_%3.png").arg(QStandardPaths::writableLocation(
-                            QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
+                                                           QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
         } else {
             lastFileName = QString("%1/%2_%3_%4.png").arg(QStandardPaths::writableLocation(
-                            QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
+                                                              QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
         }
 
         m_saveFileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,
@@ -1258,10 +1219,10 @@ void MainWindow::saveAction(QPixmap pix) {
         } else  {
             if (m_selectAreaName.isEmpty()) {
                 m_saveFileName = QString("%1/%2_%3.png").arg(defaultSaveDir).arg(tr(
-                                                    "DeepinScreenshot")).arg(currentTime);
+                                                                                     "DeepinScreenshot")).arg(currentTime);
             } else {
                 m_saveFileName = QString("%1/%2_%3_%4.png").arg(defaultSaveDir).arg(tr(
-                                                   "DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
+                                                                                        "DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
             }
         }
         break;
@@ -1325,25 +1286,25 @@ void MainWindow::sendNotify(int saveIndex, QString saveFilePath) {
 
     qDebug() << "saveFilePath:" << saveFilePath;
 
-   QString summary;
-   if (saveIndex == 3) {
-       summary = QString(tr("Picture has been saved to clipboard"));
-   } else {
-       summary = QString(tr("Picture has been saved to %1")).arg(saveFilePath);
-   }
+    QString summary;
+    if (saveIndex == 3) {
+        summary = QString(tr("Picture has been saved to clipboard"));
+    } else {
+        summary = QString(tr("Picture has been saved to %1")).arg(saveFilePath);
+    }
 
-   if (saveIndex == 3 && !m_noNotify) {
-       QVariantMap emptyMap;
-       m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
-                               summary,  QStringList(), emptyMap, 0);
-   }  else if ( !m_noNotify &&  !(m_saveIndex == 2 && m_saveFileName.isEmpty())) {
-       m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
-                               summary, actions, hints, 0);
-   }
+    if (saveIndex == 3 && !m_noNotify) {
+        QVariantMap emptyMap;
+        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
+                                    summary,  QStringList(), emptyMap, 0);
+    }  else if ( !m_noNotify &&  !(m_saveIndex == 2 && m_saveFileName.isEmpty())) {
+        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
+                                    summary, actions, hints, 0);
+    }
 
-   QTimer::singleShot(4000, this, [=]{
-          qApp->quit();
-   });
+    QTimer::singleShot(4000, this, [=]{
+        qApp->quit();
+    });
 }
 
 void MainWindow::reloadImage(QString effect) {
@@ -1357,9 +1318,9 @@ void MainWindow::reloadImage(QString effect) {
     if (effect == "blur") {
         if (!tmpImg.isNull()) {
             tmpImg = tmpImg.scaled(imgWidth/radius, imgHeight/radius,
-                                     Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+                                   Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             tmpImg = tmpImg.scaled(imgWidth, imgHeight, Qt::IgnoreAspectRatio,
-                                     Qt::SmoothTransformation);
+                                   Qt::SmoothTransformation);
             tmpImg.save(TMP_BLUR_FILE, "png");
         }
     } else {

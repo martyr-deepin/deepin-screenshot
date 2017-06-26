@@ -8,7 +8,6 @@
 #include <QDir>
 #include <QStandardPaths>
 #include <QScreen>
-#include <QMenu>
 #include <QDateTime>
 #include <QMouseEvent>
 
@@ -26,7 +25,6 @@
 #include "dbusinterface/dbuszone.h"
 
 #include "windowmanager.h"
-#include "eventmonitor.h"
 
 #include <dforeignwindow.h>
 #include <dwindowmanagerhelper.h>
@@ -72,10 +70,6 @@ public slots:
      //void startByIcon();
 
     void startScreenshot();
-    void showPressFeedback(int x, int y);
-    void showDragFeedback(int x, int y);
-    void showReleaseFeedback(int x, int y);
-    void responseEsc();
     void shotFullScreen();
     void shotCurrentImg();
     void shotImgWidthEffect();
@@ -168,8 +162,6 @@ private:
     DBusNotify* m_notifyDBInterface;
     DBusZone* m_hotZoneInterface;
     QPointer<QProcess> m_manualPro;
-
-//    EventMonitor m_eventMonitor;
 };
 
 #endif // MAINWINDOW_H

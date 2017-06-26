@@ -3814,7 +3814,7 @@ FourPoints point5ResizeMicro(FourPoints fourPoints, bool isBig) {
     QPointF point1 = fourPoints[0];
     QPointF point2 = fourPoints[1];
     QPointF point3 = fourPoints[2];
-    QPointF point4 = fourPoints[3];
+//    QPointF point4 = fourPoints[3];
     if (getDistance(point1, point3) < MIN_PADDING && !isBig) {
         return fourPoints;
     } else {
@@ -3869,7 +3869,7 @@ FourPoints point6ResizeMicro(FourPoints fourPoints,  bool isBig) {
     QPointF point1 = fourPoints[0];
     QPointF point2 = fourPoints[1];
     QPointF point3 = fourPoints[2];
-    QPointF point4 = fourPoints[3];
+//    QPointF point4 = fourPoints[3];
     if (getDistance(point1, point2) < MIN_PADDING && !isBig) {
         return fourPoints;
     } else {

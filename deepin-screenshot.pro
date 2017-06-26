@@ -20,14 +20,12 @@ QMAKE_CXXFLAGS += -g
 SOURCES += main.cpp\
         mainwindow.cpp \
     windowmanager.cpp \
-    eventmonitor.cpp \
     dbusservice/dbusscreenshotservice.cpp \
     eventcontainer.cpp \
     screenshot.cpp
 
 HEADERS  += mainwindow.h \
     windowmanager.h \
-    eventmonitor.h \
     dbusservice/dbusscreenshotservice.h \
     eventcontainer.h \
     screenshot.h
