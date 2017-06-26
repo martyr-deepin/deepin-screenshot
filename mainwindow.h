@@ -26,8 +26,8 @@
 
 #include "windowmanager.h"
 
-#include <dforeignwindow.h>
-#include <dwindowmanagerhelper.h>
+//#include <dforeignwindow.h>
+//#include <dwindowmanagerhelper.h>
 
 DWIDGET_USE_NAMESPACE
 
@@ -105,7 +105,7 @@ private:
     QRect m_backgroundRect;
     QList<QString> m_windowNames;
 
-    DWindowManagerHelper* m_wmHelper;
+    //WindowManagerHelper* m_wmHelper;
     //QList<DForeignWindow*> m_fWindows;
     //QList<QRect> m_fWindowRects;
 

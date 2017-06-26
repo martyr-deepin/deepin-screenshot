@@ -53,7 +53,7 @@ void MainWindow::initUI() {
 
     initBackground();
 
-    m_wmHelper = DWindowManagerHelper::instance();
+    //m_wmHelper = DWindowManagerHelper::instance();
     //m_fWindows = m_wmHelper->currentWorkspaceWindows();
 
     m_windowManager = new WindowManager();
