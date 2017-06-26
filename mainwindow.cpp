@@ -128,6 +128,7 @@ void MainWindow::initUI() {
 void MainWindow::initDBusInterface() {
     m_controlCenterDBInterface = new DBusControlCenter(this);
     m_notifyDBInterface = new DBusNotify(this);
+    m_notifyDBInterface->CloseNotification(0);
     m_hotZoneInterface = new DBusZone(this);
     m_interfaceExist = true;
 }
@@ -1307,9 +1308,10 @@ void MainWindow::sendNotify(int saveIndex, QString saveFilePath) {
                                     summary, actions, hints, 0);
     }
 
-    QTimer::singleShot(4000, this, [=]{
+    QTimer::singleShot(2, [=]{
         qApp->quit();
     });
+
 }
 
 void MainWindow::reloadImage(QString effect) {
@@ -1365,9 +1367,7 @@ void MainWindow::onHelp() {
         this->hide();
         m_manualPro->start(pro, args);
 
-        QTimer::singleShot(1000, this, [=]{
-            exitApp();
-        });
+        exitApp();
     }
 }
 
