@@ -27,6 +27,7 @@ signals:
     void shapePressed(QString tool);
     void saveBtnPressed(int index = 0);
     void saveSpecifiedPath();
+    void closed();
 
 public slots:
     bool isButtonChecked();
@@ -58,6 +59,7 @@ signals:
     void shapePressed(QString tool);
     void saveBtnPressed(int index = 0);
     void saveSpecifiedPath();
+    void closed();
 
 public slots:
     bool isButtonChecked();

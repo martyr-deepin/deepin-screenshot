@@ -122,6 +122,7 @@ void MainWindow::initUI() {
             &ToolBar::saveBtnPressed);
     connect(m_toolBar, &ToolBar::heightChanged, this, &MainWindow::updateToolBarPos);
     connect(m_menuController, &MenuController::menuNoFocus, this, &MainWindow::activateWindow);
+    connect(m_toolBar, &ToolBar::closed, this, &MainWindow::exitApp);
 }
 
 void MainWindow::initDBusInterface() {

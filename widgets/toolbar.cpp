@@ -60,6 +60,7 @@ ToolBarWidget::ToolBarWidget(QWidget *parent)
     connect(this, &ToolBarWidget::shapePressed, m_majToolbar, &MajToolBar::shapePressed);
     connect(this, &ToolBarWidget::saveBtnPressed, m_subToolbar, &SubToolBar::saveBtnPressed);
     connect(m_majToolbar, &MajToolBar::saveSpecificedPath, this, &ToolBarWidget::saveSpecifiedPath);
+    connect(m_majToolbar, &MajToolBar::closed, this, &ToolBarWidget::closed);
 }
 
 void ToolBarWidget::paintEvent(QPaintEvent *e) {
@@ -122,6 +123,7 @@ ToolBar::ToolBar(QWidget *parent)
     connect(this, &ToolBar::shapePressed, m_toolbarWidget, &ToolBarWidget::shapePressed);
     connect(this, &ToolBar::saveBtnPressed, m_toolbarWidget, &ToolBarWidget::saveBtnPressed);
     connect(m_toolbarWidget, &ToolBarWidget::saveSpecifiedPath, this, &ToolBar::saveSpecifiedPath);
+    connect(m_toolbarWidget, &ToolBarWidget::closed, this, &ToolBar::closed);
 }
 
 void ToolBar::setExpand(bool expand, QString shapeType) {

@@ -21,6 +21,7 @@ signals:
     void shapePressed(QString shape);
     void specificedSavePath();
     void saveSpecificedPath();
+    void closed();
 
 public slots:
     void initWidgets();

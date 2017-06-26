@@ -267,11 +267,7 @@ void MajToolBar::initWidgets() {
     connect(okBtn, &ToolButton::clicked, this, [=]{
         emit this->saveSpecificedPath();
     });
-    connect(closeBtn, &ToolButton::clicked, this, [=](bool checked){
-        Q_UNUSED(checked);
-        qDebug() << "screenshot will exit!";
-        qApp->quit();
-    });
+    connect(closeBtn, &ToolButton::clicked, this, &MajToolBar::closed);
 }
 
 bool MajToolBar::isButtonChecked() {
