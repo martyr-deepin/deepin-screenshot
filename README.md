@@ -3,27 +3,24 @@
 **Description**: This is a default screenshot app for Linux Deepin.
 
 ## Dependencies
+- debhelper (>=9),
+- qt5-qmake, qt5-default, qtbase5-dev, pkg-config, libqt5svg5-dev, libqt5x11extras5-dev, qttools5-dev-tools,
+- libxcb-util0-dev, libstartup-notification0-dev,
+- qtbase5-private-dev,qtmultimedia5-dev, x11proto-xext-dev, libmtdev-dev, libegl1-mesa-dev, x11proto-record-dev,libxtst-dev,
+- libudev-dev, libfontconfig1-dev, libfreetype6-dev, libglib2.0-dev, libxrender-dev, libdtkbase-dev, libdtkutil-dev, libdtkwidget-dev
 
-- python
-- python-pyqt5
-- python-opengl
-- python-sip
-- python-wnck
-- deepin-gettext-tools
-- deepin-menu
-- deepin-qml-widgets
-- deepin-social-sharing
+- deepin-notifications (>2.3.8-1)
 
 ## Installation
 
 - On the Deepin operation system: the deepin screenshot is published within!
 - On other operation system, you could download the source code of deepin screenshot:
     - firstly, install the dependencies rightly;
-    - secondly, run `make && make install`
-I have installed succeefully in ubuntu 2015.04.
+    - secondly, run `cd deepin-screenshot`;
+    - thirdly, make a directory: build; run `qmake ..`; `make`;`make install`
 
 ## Usage
-Run the command: `deepin-screenshot` Or `python ./src/main.py`
+Run the command: `deepin-screenshot`
 
 ## Getting help
 
@@ -44,3 +41,4 @@ We encourage you to report issues and contribute changes
 ## License
 
 deepin-screenshot is licensed under [GPLv3](LICENSE).
+Edit By [MaHua](http://mahua.jser.me)
