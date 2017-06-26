@@ -875,6 +875,7 @@ void MainWindow::fullScreenshot() {
     m_toolBar->hide();
     m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
 
+    emit this->hideScreenshotUI();
     DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
     using namespace utils;
     QPixmap screenShotPix(TMP_FULLSCREEN_FILE);
@@ -1012,6 +1013,7 @@ void MainWindow::topWindow() {
     }
 
     this->hide();
+    emit this->hideScreenshotUI();
     using namespace utils;
     QPixmap screenShotPix = QPixmap(TMP_FULLSCREEN_FILE).copy(m_recordX, m_recordY,
                                                               m_recordWidth, m_recordHeight);
