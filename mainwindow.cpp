@@ -409,8 +409,10 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *ev) {
     if (!m_isShapesWidgetExist) {
         m_moving = false;
 
-        m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
-                               QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
+        if (m_sizeTips->isVisible()) {
+            m_sizeTips->updateTips(QPoint(m_recordX, m_recordY),
+                                   QString("%1X%2").arg(m_recordWidth).arg(m_recordHeight));
+        }
 
         if (m_toolBar->isVisible()) {
             updateToolBarPos();
