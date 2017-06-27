@@ -520,7 +520,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *ev) {
             if (!m_isFirstDrag) {
                 m_isFirstDrag = true;
 
-                m_selectAreaName = tr("Select area");
+                m_selectAreaName = tr("select-area");
             }
         }
 
