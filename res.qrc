@@ -25,5 +25,6 @@
         <file>image/mouse_style/color_pen/color13.png</file>
         <file>image/mouse_style/color_pen/color14.png</file>
         <file>image/mouse_style/color_pen/color15.png</file>
+        <file>image/mouse_style/shape/line_mouse.png</file>
     </qresource>
 </RCC>

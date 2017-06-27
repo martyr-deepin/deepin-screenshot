@@ -76,6 +76,7 @@ public slots:
     QString  getCurrentType();
     void microAdjust(QString direction);
     void setShiftKeyPressed(bool isShift);
+    void updateCursorShape();
 
 protected:
     void mousePressEvent(QMouseEvent* e);
@@ -83,7 +84,6 @@ protected:
     void mouseMoveEvent(QMouseEvent* e);
     void paintEvent(QPaintEvent *);
     void enterEvent(QEvent *e);
-//    bool eventFilter(QObject *watched, QEvent *event);
 
 private:
     QPointF m_pos1 = QPointF(0, 0);

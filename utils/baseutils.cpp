@@ -29,6 +29,9 @@ QCursor setCursorShape(QString cursorName, int colorIndex) {
     } else if  (cursorName == "line") {
         customShape = QCursor(QPixmap(QString(
                    ":/image/mouse_style/color_pen/color%1.png").arg(colorIndex)), 0, 25);
+    } else if (cursorName == "straightLine") {
+        customShape = QCursor(QPixmap(QString(
+                    ":/image/mouse_style/shape/line_mouse.png")), 2, 9);
     }
 
     return customShape;
