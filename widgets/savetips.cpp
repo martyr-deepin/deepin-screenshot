@@ -8,18 +8,27 @@ SaveTips::SaveTips(QWidget *parent)
     setStyleSheet(getFileContent(":/resources/qss/savetips.qss"));
     setTipWidth(0);
     setFixedWidth(0);
-    m_animation = new QPropertyAnimation(this, "tipWidth");
+    m_startAni = new QPropertyAnimation(this, "tipWidth");
+    m_stopAni = new QPropertyAnimation(this, "tipWidth");
 
-    connect(m_animation, &QPropertyAnimation::valueChanged, [=](QVariant value){
+    connect(m_startAni, &QPropertyAnimation::valueChanged, [=](QVariant value){
         emit tipWidthChanged(std::max(value.toInt(), this->width()));
         setFixedWidth(value.toInt());
+    });
+    connect(m_stopAni, &QPropertyAnimation::valueChanged, [=](QVariant value){
+        emit tipWidthChanged(std::max(value.toInt(), this->width()));
+        setFixedWidth(value.toInt());
+    });
+    connect(m_stopAni, &QPropertyAnimation::finished, this, [=]{
+        this->clear();
+        m_text = "";
     });
 }
 
 void SaveTips::setSaveText(QString text) {
-    text = "   " + text;
-   setTipWidth(stringWidth(this->font(), text) + 10);
-   setText(text);
+    m_text = "   " + text;
+   setTipWidth(stringWidth(this->font(), m_text) + 10);
+//   setText(text);
 }
 
 int SaveTips::tipWidth() const {
@@ -34,19 +43,21 @@ SaveTips::~SaveTips() {
 }
 
 void SaveTips::startAnimation() {
-    m_animation->stop();
-    m_animation->setDuration(220);
-    m_animation->setStartValue(this->width());
-    m_animation->setEasingCurve(QEasingCurve::OutSine);
-    m_animation->setEndValue(m_tipsWidth);
-    m_animation->start();
+    m_stopAni->stop();
+    m_startAni->stop();
+    m_startAni->setDuration(220);
+    m_startAni->setStartValue(this->width());
+    m_startAni->setEasingCurve(QEasingCurve::OutSine);
+    m_startAni->setEndValue(m_tipsWidth);
+    m_startAni->start();
+    setText(m_text);
 }
 
 void SaveTips::endAnimation() {
-    m_animation->setDuration(220);
-    m_animation->setStartValue(m_tipsWidth);
-    m_animation->setEndValue(0);
-    m_animation->setEasingCurve(QEasingCurve::OutSine);
+    m_stopAni->setDuration(220);
+    m_stopAni->setStartValue(m_tipsWidth);
+    m_stopAni->setEndValue(0);
+    m_stopAni->setEasingCurve(QEasingCurve::OutSine);
 
-    m_animation->start();
+    m_stopAni->start();
 }

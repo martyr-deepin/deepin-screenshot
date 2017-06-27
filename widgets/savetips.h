@@ -23,8 +23,10 @@ public slots:
 private:
     int m_tipsWidth = 0;
     int tipWidth() const;
+    QString m_text;
     void setTipWidth(int tipsWidth);
 
-    QPropertyAnimation* m_animation;
+    QPropertyAnimation* m_startAni;
+    QPropertyAnimation* m_stopAni;
 };
 #endif // SAVETIPS_H

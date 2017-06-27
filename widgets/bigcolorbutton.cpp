@@ -74,10 +74,11 @@ void BigColorButton::setColorIndex() {
 }
 
 void BigColorButton::setCheckedStatus(bool checked) {
-    if (m_isChecked != checked) {
-        m_isChecked = checked;
+    if (checked) {
+        m_isChecked = true;
         update();
     }
+
 }
 
 void BigColorButton::enterEvent(QEvent *) {
