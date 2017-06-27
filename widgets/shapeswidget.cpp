@@ -24,6 +24,7 @@ ShapesWidget::ShapesWidget(QWidget *parent)
       m_editing(false),
       m_shapesIndex(-1),
       m_selectedIndex(-1),
+      m_selectedOrder(-1),
       m_menuController(new MenuController)
 {
     setFocusPolicy(Qt::StrongFocus);
@@ -49,12 +50,12 @@ ShapesWidget::~ShapesWidget() {}
 
 void ShapesWidget::updateSelectedShape(const QString &group,
                                        const QString &key, int index) {
-    qDebug() << "updateSelectedShapes" << m_selectedIndex << m_shapes.length();
+    qDebug() << "updateSelectedShapes" << m_selectedIndex << m_shapes.length() << m_selectedOrder;
     if ((group == m_currentShape.type || "common" == group) && key == "color_index") {
         m_penColor = colorIndexOf(index);
     }
 
-    if (m_selectedIndex != -1 && m_selectedIndex < m_shapes.length()) {
+    if (m_selectedIndex != -1 && m_selectedOrder != -1 && m_selectedOrder < m_shapes.length()) {
         if (m_selectedShape.type == "arrow" && key != "color_index") {
             if (key == "arrow_linewidth_index" && !m_selectedShape.isStraight) {
                 m_selectedShape.lineWidth = LINEWIDTH(index);
@@ -64,13 +65,13 @@ void ShapesWidget::updateSelectedShape(const QString &group,
         } else if (m_selectedShape.type == group && key == "linewidth_index") {
             m_selectedShape.lineWidth = LINEWIDTH(index);
         } else if (group == "text" && m_selectedShape.type == group && key == "color_index") {
-            int tmpIndex = m_shapes[m_selectedIndex].index;
+            int tmpIndex = m_shapes[m_selectedOrder].index;
             if (m_editMap.contains(tmpIndex)) {
                 m_editMap.value(tmpIndex)->setColor(colorIndexOf(index));
                 m_editMap.value(tmpIndex)->update();
             }
         } else if (group == "text" && m_selectedShape.type == group && key == "fontsize")  {
-            int tmpIndex = m_shapes[m_selectedIndex].index;
+            int tmpIndex = m_shapes[m_selectedOrder].index;
             if (m_editMap.contains(tmpIndex)) {
             m_editMap.value(tmpIndex)->setFontSize(index);
             m_editMap.value(tmpIndex)->update();
@@ -79,9 +80,9 @@ void ShapesWidget::updateSelectedShape(const QString &group,
             m_selectedShape.colorIndex = index;
         }
 
-        if (m_selectedIndex < m_shapes.length())
+        if (m_selectedOrder < m_shapes.length())
         {
-            m_shapes[m_selectedIndex] = m_selectedShape;
+            m_shapes[m_selectedOrder] = m_selectedShape;
         }
         update();
     }
@@ -141,6 +142,7 @@ void ShapesWidget::saveActionTriggered()
 
 bool ShapesWidget::clickedOnShapes(QPointF pos) {
     bool onShapes = false;
+    m_selectedOrder = -1;
 
     qDebug() << "ClickedOnShapes !!!!!!!" << m_shapes.length();
     for (int i = 0; i < m_shapes.length(); i++) {
@@ -176,12 +178,14 @@ bool ShapesWidget::clickedOnShapes(QPointF pos) {
 
         if (currentOnShape) {
             m_selectedShape = m_shapes[i];
-            m_selectedIndex = i;
+            m_selectedIndex = m_shapes[i].index;
+            m_selectedOrder = i;
             qDebug() << "currentOnShape" << i << m_selectedIndex;
             onShapes = true;
             break;
         } else {
             m_selectedIndex = -1;
+            m_selectedOrder = -1;
             update();
             continue;
         }
@@ -709,8 +713,7 @@ bool ShapesWidget::rotateOnPoint(FourPoints mainPoints,
     return result;
 }
 
-bool ShapesWidget::hoverOnRotatePoint(FourPoints mainPoints,
-                                      QPointF pos) {
+bool ShapesWidget::hoverOnRotatePoint(FourPoints mainPoints, QPointF pos) {
     QPointF rotatePoint = getRotatePoint(mainPoints[0], mainPoints[1],
                                                                         mainPoints[2], mainPoints[3]);
     rotatePoint = QPointF(rotatePoint.x() - 5, rotatePoint.y() - 5);
@@ -747,32 +750,32 @@ bool ShapesWidget::textEditIsReadOnly() {
 void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)  {
     qDebug() << "handleDrag:" << m_selectedIndex << m_shapes.length();
 
-    if (m_selectedIndex == -1 || m_selectedIndex > m_shapes.length()) {
+    if (m_selectedIndex == -1) {
         return;
     }
 
-    if (m_shapes[m_selectedIndex].type == "arrow") {
-        for(int i = 0; i < m_shapes[m_selectedIndex].points.length(); i++) {
-            m_shapes[m_selectedIndex].points[i] = QPointF(
-                        m_shapes[m_selectedIndex].points[i].x() + (newPoint.x() - oldPoint.x()),
-                        m_shapes[m_selectedIndex].points[i].y() + (newPoint.y() - oldPoint.y())
+    if (m_shapes[m_selectedOrder].type == "arrow") {
+        for(int i = 0; i < m_shapes[m_selectedOrder].points.length(); i++) {
+            m_shapes[m_selectedOrder].points[i] = QPointF(
+                        m_shapes[m_selectedOrder].points[i].x() + (newPoint.x() - oldPoint.x()),
+                        m_shapes[m_selectedOrder].points[i].y() + (newPoint.y() - oldPoint.y())
                         );
         }
         return;
     }
 
-    if (m_shapes[m_selectedIndex].mainPoints.length() == 4) {
-        for(int i = 0; i < m_shapes[m_selectedIndex].mainPoints.length(); i++) {
-            m_shapes[m_selectedIndex].mainPoints[i] = QPointF(
-                        m_shapes[m_selectedIndex].mainPoints[i].x() + (newPoint.x() - oldPoint.x()),
-                        m_shapes[m_selectedIndex].mainPoints[i].y() + (newPoint.y() - oldPoint.y())
+    if (m_shapes[m_selectedOrder].mainPoints.length() == 4) {
+        for(int i = 0; i < m_shapes[m_selectedOrder].mainPoints.length(); i++) {
+            m_shapes[m_selectedOrder].mainPoints[i] = QPointF(
+                        m_shapes[m_selectedOrder].mainPoints[i].x() + (newPoint.x() - oldPoint.x()),
+                        m_shapes[m_selectedOrder].mainPoints[i].y() + (newPoint.y() - oldPoint.y())
                         );
         }
     }
-    for(int i = 0; i < m_shapes[m_selectedIndex].points.length(); i++) {
-        m_shapes[m_selectedIndex].points[i] = QPointF(
-                    m_shapes[m_selectedIndex].points[i].x() + (newPoint.x() - oldPoint.x()),
-                    m_shapes[m_selectedIndex].points[i].y() + (newPoint.y() - oldPoint.y())
+    for(int i = 0; i < m_shapes[m_selectedOrder].points.length(); i++) {
+        m_shapes[m_selectedOrder].points[i] = QPointF(
+                    m_shapes[m_selectedOrder].points[i].x() + (newPoint.x() - oldPoint.x()),
+                    m_shapes[m_selectedOrder].points[i].y() + (newPoint.y() - oldPoint.y())
                     );
     }
 }
@@ -781,38 +784,37 @@ void ShapesWidget::handleDrag(QPointF oldPoint, QPointF newPoint)  {
 void ShapesWidget::handleRotate(QPointF pos) {
     qDebug() << "handleRotate:" << m_selectedIndex << m_shapes.length();
 
-    if (m_selectedIndex == -1 || m_selectedIndex > m_shapes.length()
-            || m_selectedShape.type == "text") {
+    if (m_selectedIndex == -1 || m_selectedShape.type == "text") {
         return;
     }
 
     if (m_selectedShape.type == "arrow") {
-        if (m_shapes[m_selectedIndex].isShiftPressed) {
-            if (m_shapes[m_selectedIndex].points[0].x() == m_shapes[m_selectedIndex].points[1].x()) {
+        if (m_shapes[m_selectedOrder].isShiftPressed) {
+            if (m_shapes[m_selectedOrder].points[0].x() == m_shapes[m_selectedOrder].points[1].x()) {
                 if (m_clickedKey == First) {
-                    m_shapes[m_selectedIndex].points[0] = QPointF(m_shapes[m_selectedIndex].points[1].x(),
+                    m_shapes[m_selectedOrder].points[0] = QPointF(m_shapes[m_selectedOrder].points[1].x(),
                             pos.y());
                 } else if (m_clickedKey == Second) {
-                    m_shapes[m_selectedIndex].points[1] = QPointF(m_shapes[m_selectedIndex].points[0].x(),
+                    m_shapes[m_selectedOrder].points[1] = QPointF(m_shapes[m_selectedOrder].points[0].x(),
                             pos.y());
                 }
             } else {
                 if (m_clickedKey == First) {
-                    m_shapes[m_selectedIndex].points[0] = QPointF(pos.x(), m_shapes[m_selectedIndex].points[1].y());
+                    m_shapes[m_selectedOrder].points[0] = QPointF(pos.x(), m_shapes[m_selectedOrder].points[1].y());
                 } else if (m_clickedKey == Second) {
-                    m_shapes[m_selectedIndex].points[1] = QPointF(pos.x(), m_shapes[m_selectedIndex].points[0].y());
+                    m_shapes[m_selectedOrder].points[1] = QPointF(pos.x(), m_shapes[m_selectedOrder].points[0].y());
                 }
             }
         } else {
             if (m_clickedKey == First) {
-                m_shapes[m_selectedIndex].points[0] = m_pressedPoint;
+                m_shapes[m_selectedOrder].points[0] = m_pressedPoint;
             } else if (m_clickedKey == Second) {
-                m_shapes[m_selectedIndex].points[1] = m_pressedPoint;
+                m_shapes[m_selectedOrder].points[1] = m_pressedPoint;
             }
         }
 
-        m_selectedShape.points  =  m_shapes[m_selectedIndex].points;
-        m_hoveredShape.points = m_shapes[m_selectedIndex].points;
+        m_selectedShape.points  =  m_shapes[m_selectedOrder].points;
+        m_hoveredShape.points = m_shapes[m_selectedOrder].points;
         m_pressedPoint = pos;
         return;
     }
@@ -824,63 +826,64 @@ void ShapesWidget::handleRotate(QPointF pos) {
     qreal angle = calculateAngle(m_pressedPoint, pos, centerInPoint)/35;
 
     for (int i = 0; i < 4; i++) {
-        m_shapes[m_selectedIndex].mainPoints[i] = pointRotate(centerInPoint,
-                                                              m_shapes[m_selectedIndex].mainPoints[i], angle);
+        m_shapes[m_selectedOrder].mainPoints[i] = pointRotate(centerInPoint,
+                                                              m_selectedShape.mainPoints[i], angle);
     }
 
-    for(int k = 0; k < m_shapes[m_selectedIndex].points.length(); k++) {
-        m_shapes[m_selectedIndex].points[k] = pointRotate(centerInPoint,
-                                                              m_shapes[m_selectedIndex].points[k], angle);
+    for(int k = 0; k < m_selectedShape.points.length(); k++) {
+        m_shapes[m_selectedOrder].points[k] = pointRotate(centerInPoint,
+                                                              m_selectedShape.points[k], angle);
     }
 
-    m_selectedShape.mainPoints = m_shapes[m_selectedIndex].mainPoints;
-    m_hoveredShape.mainPoints =  m_shapes[m_selectedIndex].mainPoints;
+    m_selectedShape.mainPoints = m_shapes[m_selectedOrder].mainPoints;
+    m_hoveredShape.mainPoints =  m_shapes[m_selectedOrder].mainPoints;
     m_pressedPoint = pos;
 }
 
 void ShapesWidget::handleResize(QPointF pos, int key) {
     qDebug() << "handleResize:" << m_selectedIndex << m_shapes.length();
 
-    if (m_isResize && m_selectedIndex != -1 && m_selectedIndex < m_shapes.length()) {
-        if (m_shapes[m_selectedIndex].portion.isEmpty()) {
-            for(int k = 0; k < m_shapes[m_selectedIndex].points.length(); k++) {
-                m_shapes[m_selectedIndex].portion.append(relativePosition(
+    if (m_isResize && m_selectedIndex != -1) {
+        if (m_shapes[m_selectedOrder].portion.isEmpty()) {
+            for(int k = 0; k < m_shapes[m_selectedOrder].points.length(); k++) {
+                m_shapes[m_selectedOrder].portion.append(relativePosition(
                 m_selectedShape.mainPoints, m_selectedShape.points[k]));
             }
         }
 
         FourPoints newResizeFPoints = resizePointPosition(
-            m_shapes[m_selectedIndex].mainPoints[0],
-            m_shapes[m_selectedIndex].mainPoints[1],
-            m_shapes[m_selectedIndex].mainPoints[2],
-            m_shapes[m_selectedIndex].mainPoints[3], pos, key,
+            m_shapes[m_selectedOrder].mainPoints[0],
+            m_shapes[m_selectedOrder].mainPoints[1],
+            m_shapes[m_selectedOrder].mainPoints[2],
+            m_shapes[m_selectedOrder].mainPoints[3], pos, key,
             m_isShiftPressed);
 
        qDebug() << "handleResize:" << m_selectedIndex <<  m_isShiftPressed;
-        m_shapes[m_selectedIndex].mainPoints = newResizeFPoints;
+        m_shapes[m_selectedOrder].mainPoints = newResizeFPoints;
         m_selectedShape.mainPoints = newResizeFPoints;
         m_hoveredShape.mainPoints = newResizeFPoints;
 
-        for (int j = 0; j <  m_shapes[m_selectedIndex].portion.length(); j++) {
-              m_shapes[m_selectedIndex].points[j] =
-                      getNewPosition(m_shapes[m_selectedIndex].mainPoints,
-                                     m_shapes[m_selectedIndex].portion[j]);
+        for (int j = 0; j <  m_shapes[m_selectedOrder].portion.length(); j++) {
+              m_shapes[m_selectedOrder].points[j] =
+                      getNewPosition(m_shapes[m_selectedOrder].mainPoints,
+                                     m_shapes[m_selectedOrder].portion[j]);
         }
 
-        m_selectedShape.points = m_shapes[m_selectedIndex].points;
-        m_hoveredShape.points = m_shapes[m_selectedIndex].points;
+        m_selectedShape.points = m_shapes[m_selectedOrder].points;
+        m_hoveredShape.points = m_shapes[m_selectedOrder].points;
     }
     m_pressedPoint = pos;
 }
 
 void ShapesWidget::mousePressEvent(QMouseEvent *e) {
     qDebug() << "ShapesWidget mousePressEvent@@@:" << e->pos();
-    if (m_selectedIndex != -1 && m_selectedIndex < m_shapes.length()) {
+    if (m_selectedIndex != -1) {
         if (!(clickedOnShapes(e->pos()) && m_isRotated) && m_selectedIndex == -1) {
             clearSelected();
             setAllTextEditReadOnly();
             m_editing = false;
             m_selectedIndex = -1;
+            m_selectedOrder = -1;
             m_selectedShape.type = "";
             update();
             QFrame::mousePressEvent(e);
@@ -933,9 +936,9 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                 }
             } else if (m_currentType == "rectangle" || m_currentType == "oval") {
                 m_currentShape.isBlur = ConfigSettings::instance()->value(
-                                                              "effect", "is_blur").toBool();
+                            "effect", "is_blur").toBool();
                 m_currentShape.isMosaic = ConfigSettings::instance()->value(
-                                                                  "effect", "is_mosaic").toBool();
+                            "effect", "is_mosaic").toBool();
                 m_currentShape.isShiftPressed = m_isShiftPressed;
                 m_currentShape.index = m_currentIndex;
                 if (m_currentShape.isBlur && !m_blurEffectExist) {
@@ -964,7 +967,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                     m_currentShape.mainPoints[3] = QPointF(m_pos1.x() + edit->width(),
                                                            m_pos1.y() + edit->height());
                     m_editMap.insert(m_currentIndex, edit);
-                    m_selectedShape = m_currentShape;
+//                    m_selectedShape = m_currentShape;
                     connect(edit, &TextEdit::repaintTextRect, this, &ShapesWidget::updateTextRect);
                     connect(edit, &TextEdit::backToEditing, this, [=]{
                         m_editing = true;
@@ -972,7 +975,7 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
                     connect(edit, &TextEdit::textEditSelected, this, [=](int index){
                         for (int k = 0; k < m_shapes.length(); k++) {
                             if (m_shapes[k].type == "text" && m_shapes[k].index == index) {
-                                m_selectedIndex = k;
+                                m_selectedIndex = index;
                                 m_selectedShape = m_shapes[k];
                                 break;
                             }
@@ -990,10 +993,10 @@ void ShapesWidget::mousePressEvent(QMouseEvent *e) {
     } else {
         m_isRecording = false;
         qDebug() << "some on shape be clicked!";
-        if (m_editing && m_editMap.contains(m_shapes[m_selectedIndex].index)) {
-            m_editMap.value(m_shapes[m_selectedIndex].index)->setReadOnly(true);
-            m_editMap.value(m_shapes[m_selectedIndex].index)->setCursorVisible(false);
-            m_editMap.value(m_shapes[m_selectedIndex].index)->setFocusPolicy(Qt::NoFocus);
+        if (m_editing && m_editMap.contains(m_shapes[m_selectedOrder].index)) {
+            m_editMap.value(m_shapes[m_selectedOrder].index)->setReadOnly(true);
+            m_editMap.value(m_shapes[m_selectedOrder].index)->setCursorVisible(false);
+            m_editMap.value(m_shapes[m_selectedOrder].index)->setFocusPolicy(Qt::NoFocus);
         }
         update();
     }
@@ -1104,8 +1107,8 @@ void ShapesWidget::mouseMoveEvent(QMouseEvent *e) {
 
         if (m_isSelected && m_isPressed && m_selectedIndex != -1) {
             handleDrag(m_pressedPoint, m_movingPoint);
-            m_selectedShape = m_shapes[m_selectedIndex];
-            m_hoveredShape = m_shapes[m_selectedIndex];
+            m_selectedShape = m_shapes[m_selectedOrder];
+            m_hoveredShape = m_shapes[m_selectedOrder];
 
             m_pressedPoint = m_movingPoint;
             update();
@@ -1212,7 +1215,8 @@ void ShapesWidget::updateTextRect(TextEdit* edit, QRectF newRect) {
                                                                                          newRect.y() + newRect.height());
             m_currentShape = m_shapes[j];
             m_selectedShape = m_shapes[j];
-            m_selectedIndex = j;
+            m_selectedIndex = m_shapes[j].index;
+            m_selectedOrder = j;
         }
     }
     update();
@@ -1479,8 +1483,8 @@ void ShapesWidget::enterEvent(QEvent *e) {
 }
 
 void ShapesWidget::deleteCurrentShape() {
-    if (m_selectedIndex < m_shapes.length()) {
-        m_shapes.removeAt(m_selectedIndex);
+    if (m_selectedOrder < m_shapes.length()) {
+            m_shapes.removeAt(m_selectedOrder);
     } else {
         qWarning() << "Invalid index";
     }
@@ -1499,12 +1503,13 @@ void ShapesWidget::deleteCurrentShape() {
 
     update();
     m_selectedIndex = -1;
+    m_selectedOrder = -1;
 }
 
 void ShapesWidget::undoDrawShapes()
 {
     qDebug() << "undoDrawShapes m_selectedIndex:" << m_selectedIndex << m_shapes.length();
-    if (m_selectedIndex < m_shapes.length() && m_selectedIndex != -1)
+    if (m_selectedOrder < m_shapes.length() && m_selectedIndex != -1)
     {
             deleteCurrentShape();
     } else if (m_shapes.length() > 0) {
@@ -1528,32 +1533,35 @@ QString ShapesWidget::getCurrentType()
 }
 
 void ShapesWidget::microAdjust(QString direction) {
-    if (m_selectedIndex != -1 && m_selectedIndex < m_shapes.length()) {
+    if (m_selectedIndex != -1 && m_selectedOrder < m_shapes.length()) {
+        if (m_shapes[m_selectedOrder].type  == "text") {
+            return;
+        }
+
         if (direction == "Left" || direction == "Right" || direction == "Up" || direction == "Down") {
-            m_shapes[m_selectedIndex].mainPoints = pointMoveMicro(m_shapes[m_selectedIndex].mainPoints, direction);
+            m_shapes[m_selectedOrder].mainPoints = pointMoveMicro(m_shapes[m_selectedOrder].mainPoints, direction);
         } else if (direction == "Ctrl+Shift+Left" || direction == "Ctrl+Shift+Right" || direction == "Ctrl+Shift+Up"
                    || direction == "Ctrl+Shift+Down") {
-            m_shapes[m_selectedIndex].mainPoints = pointResizeMicro(m_shapes[m_selectedIndex].mainPoints, direction, false);
+            m_shapes[m_selectedOrder].mainPoints = pointResizeMicro(m_shapes[m_selectedOrder].mainPoints, direction, false);
         } else {
-            m_shapes[m_selectedIndex].mainPoints = pointResizeMicro(m_shapes[m_selectedIndex].mainPoints, direction, true);
+            m_shapes[m_selectedOrder].mainPoints = pointResizeMicro(m_shapes[m_selectedOrder].mainPoints, direction, true);
         }
-        if (m_shapes[m_selectedIndex].type  == "text") {
-            return;
-        } else if (m_shapes[m_selectedIndex].type == "line" || m_shapes[m_selectedIndex].type == "arrow") {
-            if (m_shapes[m_selectedIndex].portion.length() == 0) {
-                for(int k = 0; k < m_shapes[m_selectedIndex].points.length(); k++) {
-                    m_shapes[m_selectedIndex].portion.append(relativePosition(m_shapes[m_selectedIndex].mainPoints,
-                                                                              m_shapes[m_selectedIndex].points[k]));
+
+        if (m_shapes[m_selectedOrder].type == "line" || m_shapes[m_selectedOrder].type == "arrow") {
+            if (m_shapes[m_selectedOrder].portion.length() == 0) {
+                for(int k = 0; k < m_shapes[m_selectedOrder].points.length(); k++) {
+                    m_shapes[m_selectedOrder].portion.append(relativePosition(m_shapes[m_selectedOrder].mainPoints,
+                                                                              m_shapes[m_selectedOrder].points[k]));
                 }
             }
-            for(int j = 0; j < m_shapes[m_selectedIndex].points.length(); j++) {
-                m_shapes[m_selectedIndex].points[j] = getNewPosition(
-                m_shapes[m_selectedIndex].mainPoints, m_shapes[m_selectedIndex].portion[j]);
+            for(int j = 0; j < m_shapes[m_selectedOrder].points.length(); j++) {
+                m_shapes[m_selectedOrder].points[j] = getNewPosition(
+                            m_shapes[m_selectedOrder].mainPoints, m_shapes[m_selectedOrder].portion[j]);
             }
         }
 
-        m_selectedShape.mainPoints = m_shapes[m_selectedIndex].mainPoints;
-        m_selectedShape.points = m_shapes[m_selectedIndex].points;
+        m_selectedShape.mainPoints = m_shapes[m_selectedOrder].mainPoints;
+        m_selectedShape.points = m_shapes[m_selectedOrder].points;
         update();
     }
 }
