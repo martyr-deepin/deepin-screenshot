@@ -1447,6 +1447,11 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
 
             painter.setPen(QColor("#01bdff"));
             painter.drawLine(rotatePoint, middlePoint);
+
+            if (m_selectedShape.type == "oval" || m_selectedShape.type == "line") {
+                paintRect(painter,  m_selectedShape.mainPoints, -1);
+            }
+
             QPixmap rotatePointImg(":/resources/images/size/rotate.png");
             paintImgPoint(painter, rotatePoint, rotatePointImg, false);
 
@@ -1457,10 +1462,6 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
             FourPoints anotherFPoints = getAnotherFPoints(m_selectedShape.mainPoints);
             for (int j = 0; j < anotherFPoints.length(); j++) {
                 paintImgPoint(painter, anotherFPoints[j], resizePointImg);
-            }
-
-            if (m_selectedShape.type == "oval" || m_selectedShape.type == "line") {
-                paintRect(painter,  m_selectedShape.mainPoints, -1);
             }
         }
     }
