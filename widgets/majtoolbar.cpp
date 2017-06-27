@@ -36,7 +36,6 @@ void MajToolBar::initWidgets() {
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     setAcceptDrops(true);
-//    installEventFilter(this);
 
     SaveTips* saveTips = new SaveTips();
     QList<ToolButton*> toolBtnList;
@@ -87,7 +86,10 @@ void MajToolBar::initWidgets() {
             ovalBtn->click();
             qDebug() << "oval clicked!";
         } else if (shape == "arrow") {
-            arrowBtn->click();
+            if (arrowBtn->isVisible())
+                arrowBtn->click();
+            else
+                sLineBtn->click();
         } else if (shape == "line") {
             lineBtn->click();
         } else if (shape == "text") {
@@ -164,7 +166,7 @@ void MajToolBar::initWidgets() {
             m_currentShape = "oval";
             m_isChecked = true;
             int ovalColorIndex = ConfigSettings::instance()->value("oval", "color_index").toInt();
-            ConfigSettings::instance()->setValue("common", "color_index", ovalColorIndex); 
+            ConfigSettings::instance()->setValue("common", "color_index", ovalColorIndex);
         } else {
             m_currentShape = "";
             m_isChecked = false;
@@ -273,21 +275,3 @@ void MajToolBar::initWidgets() {
 bool MajToolBar::isButtonChecked() {
     return m_isChecked;
 }
-
-//bool MajToolBar::eventFilter(QObject *watched, QEvent *event) {
-//    Q_UNUSED(watched);
-
-//    if (event->type() == QEvent::Enter) {
-//        setCursor(Qt::ArrowCursor);
-//        qApp->setOverrideCursor(Qt::ArrowCursor);
-//    } else if (event->type() == QEvent::MouseButtonPress) {
-//        QMouseEvent* e = static_cast<QMouseEvent*> (event);
-//        this->mousePressEvent(e);
-//    }
-//    return false;
-//}
-
-//void MajToolBar::mouseMoveEvent(QMouseEvent *ev) {
-//    Q_UNUSED(ev);
-//    qApp->setOverrideCursor(Qt::ArrowCursor);
-//}
