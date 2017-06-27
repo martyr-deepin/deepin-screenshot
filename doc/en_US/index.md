@@ -487,7 +487,7 @@ While capturing screenshots, you can click on the icons on toolbar to complete v
 
           <tr>
 
-            <td><img src="icon/save.png" alt="save" class="inline" /></td>
+            <td><img src="icon/save.svg" alt="save" class="inline" /></td>
 
             <td>Save</td>
 
