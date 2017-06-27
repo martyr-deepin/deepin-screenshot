@@ -107,34 +107,14 @@ void TextEdit::keepReadOnlyStatus()
 {
 }
 
-//bool TextEdit::eventFilter(QObject *watched, QEvent *event) {
-//    Q_UNUSED(watched);
-//    if (event->type() == QEvent::Enter) {
-//        qApp->setOverrideCursor(Qt::ClosedHandCursor);
-//    }
-
-//    if (event->type() == QKeyEvent::KeyPress) {
-//        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
-//        if (keyEvent->key() == Qt::Key_Escape) {
-//            if (!this->isReadOnly()) {
-//                setReadOnly(true);
-//            }
-//        }
-//    }
-
-//    if (event->type() == QMouseEvent::MouseButtonDblClick) {
-//        this->setReadOnly(false);
-//        this->setCursorVisible(true);
-////        this->grabKeyboard();
-//        emit backToEditing();
-//    }
-
-//    return false;
-//}
-
 void TextEdit::mousePressEvent(QMouseEvent *e)
 {
     qDebug() << "TextEdit mousePressEvent" << e->pos();
+    if (!this->isReadOnly()) {
+        QPlainTextEdit::mousePressEvent(e);
+        return;
+    }
+
     if (e->button() == Qt::LeftButton) {
         m_isPressed = true;
         m_pressPoint = QPointF(mapToGlobal(e->pos()));
@@ -176,19 +156,6 @@ void TextEdit::mouseReleaseEvent(QMouseEvent *e)
 
     QPlainTextEdit::mouseReleaseEvent(e);
 }
-
-//void TextEdit::enterEvent(QEnterEvent *e)
-//{
-//        QPlainTextEdit::enterEvent(e);
-//    qDebug() << "enterEvent !!!!!!!!!!!";
-////    if (this->isReadOnly()) {
-////        setCursorVisible(false);
-////        this->selectAll();
-//        qApp->setOverrideCursor(Qt::ClosedHandCursor);
-////    } else {
-////        qApp->setOverrideCursor(Qt::ArrowCursor);
-////    }
-//}
 
 void TextEdit::mouseDoubleClickEvent(QMouseEvent *e)
 {

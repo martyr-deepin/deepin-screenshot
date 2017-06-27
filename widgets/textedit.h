@@ -28,13 +28,11 @@ signals:
 
 protected:
     void mousePressEvent(QMouseEvent* e);
-//    void enterEvent(QEnterEvent* e);
     void mouseMoveEvent(QMouseEvent* e);
     void mouseReleaseEvent(QMouseEvent* e);
     void mouseDoubleClickEvent(QMouseEvent *e);
     void inputMethodEvent(QInputMethodEvent *e);
     void keyPressEvent(QKeyEvent *e);
-//    bool eventFilter(QObject* watched, QEvent* event);
 
 private:
      int m_index;
