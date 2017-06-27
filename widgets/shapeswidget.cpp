@@ -606,16 +606,18 @@ bool ShapesWidget::hoverOnArrow(QList<QPointF> points, QPointF pos) {
     if (points.length() !=2)
         return false;
 
-    if (pointClickIn(points[0], pos)) {
+    if(pointOnLine(points[0], points[1], pos)) {
+        m_resizeDirection = Moving;
+        return true;
+    } else if ( m_selectedIndex != -1 && m_selectedIndex == m_hoveredIndex
+                && pointClickIn(points[0], pos)) {
         m_clickedKey = First;
         m_resizeDirection = Rotate;
         return true;
-    } else if (pointClickIn(points[1], pos)) {
+    } else if ( m_selectedIndex != -1 && m_selectedIndex == m_hoveredIndex
+                && pointClickIn(points[1], pos)) {
         m_clickedKey =   Second;
         m_resizeDirection = Rotate;
-        return true;
-    } else if(pointOnLine(points[0], points[1], pos)) {
-        m_resizeDirection = Moving;
         return true;
     } else {
         m_resizeDirection = Outting;
@@ -639,7 +641,8 @@ bool ShapesWidget::hoverOnLine(FourPoints mainPoints, QList<QPointF> points,
     } else if (pointClickIn(mainPoints[3], pos)) {
         m_resizeDirection = BottomRight;
         return true;
-    } else if (rotateOnPoint(mainPoints, pos) && m_isSelected && m_selectedIndex != -1) {
+    } else if (rotateOnPoint(mainPoints, pos) && m_selectedIndex != -1
+               && m_selectedIndex == m_hoveredIndex) {
         m_resizeDirection = Rotate;
         return true;
     }  else if (pointClickIn(tmpFPoints[0], pos)) {
