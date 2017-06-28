@@ -1103,19 +1103,18 @@ void MainWindow::shotImgWidthEffect() {
     if (m_recordWidth == 0 || m_recordHeight == 0)
         return;
 
-    m_needDrawSelectedPoint = false;
-    m_drawNothing = true;
     update();
 
-    QEventLoop eventloop;
-    QTimer::singleShot(100, &eventloop, SLOT(quit()));
-    eventloop.exec();
+//    QEventLoop eventloop;
+//    QTimer::singleShot(100, &eventloop, SLOT(quit()));
+//    eventloop.exec();
 
     qDebug() << m_toolBar->isVisible() << m_sizeTips->isVisible();
     QList<QScreen*> screenList = qApp->screens();
     QPixmap tmpImg =  screenList[m_screenNum]->grabWindow(
-                qApp->desktop()->screen(m_screenNum)->winId(),
-                m_recordX + m_backgroundRect.x(), m_recordY, m_recordWidth, m_recordHeight);
+                                         qApp->desktop()->screen(m_screenNum)->winId(),
+                                         m_shapesWidget->x(), m_shapesWidget->y(),
+                                         m_shapesWidget->width(), m_shapesWidget->height());
     qDebug() << tmpImg.isNull() << tmpImg.size();
 
     using namespace utils;
