@@ -109,6 +109,7 @@ private:
     int m_selectedIndex;
     int m_currentIndex;
     int m_hoveredIndex;
+    int m_selectedOrder;
     bool m_blurEffectExist = false;
     bool m_mosaicEffectExist = false;
     QString m_currentType = "rectangle";
