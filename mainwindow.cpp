@@ -13,9 +13,10 @@
 #include <QCommandLineOption>
 #include <DApplication>
 
-#include <DDesktopServices>
+//The deepin-tool-kit didn't update...
+//#include <DDesktopServices>
 
-DUTIL_USE_NAMESPACE
+//DUTIL_USE_NAMESPACE
 
 namespace {
 const int RECORD_MIN_SIZE = 10;
@@ -880,7 +881,7 @@ void MainWindow::fullScreenshot() {
     m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
 
     emit this->hideScreenshotUI();
-    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
+//    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
     using namespace utils;
     QPixmap screenShotPix(TMP_FULLSCREEN_FILE);
     saveAction(screenShotPix);
@@ -936,7 +937,7 @@ void MainWindow::saveSpecificedPath(QString path) {
     m_sizeTips->setVisible(false);
 
     shotCurrentImg();
-    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
+//    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
 
     QPixmap screenShotPix(TMP_FILE);
     screenShotPix.save(savePath);
@@ -1022,7 +1023,7 @@ void MainWindow::topWindow() {
     QPixmap screenShotPix = QPixmap(TMP_FULLSCREEN_FILE).copy(m_recordX, m_recordY,
                                                               m_recordWidth, m_recordHeight);
     m_needSaveScreenshot = true;
-    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
+//    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
     saveAction(screenShotPix);
     sendNotify(m_saveIndex, m_saveFileName);
 }
@@ -1127,7 +1128,7 @@ void MainWindow::saveScreenshot() {
     emit releaseEvent();
     emit saveActionTriggered();
 
-    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
+//    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
     m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
     m_needSaveScreenshot = true;
 
