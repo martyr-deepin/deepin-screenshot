@@ -110,12 +110,12 @@ ToolBar::ToolBar(QWidget *parent)
     vLayout->addStretch();
     setLayout(vLayout);
 
-    QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(this);
-    shadowEffect->setXOffset(0);
-    shadowEffect->setYOffset(6);
-    shadowEffect->setColor(QColor(0, 0, 0, 26));
-    shadowEffect->setBlurRadius(20);
-    setGraphicsEffect(shadowEffect);
+//    QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect(this);
+//    shadowEffect->setXOffset(0);
+//    shadowEffect->setYOffset(6);
+//    shadowEffect->setColor(QColor(0, 0, 0, 26));
+//    shadowEffect->setBlurRadius(20);
+//    setGraphicsEffect(shadowEffect);
 
     connect(m_toolbarWidget, &ToolBarWidget::expandChanged, this, &ToolBar::setExpand);
     connect(m_toolbarWidget, &ToolBarWidget::saveImage, this, &ToolBar::requestSaveScreenshot);
