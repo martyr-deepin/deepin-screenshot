@@ -1598,6 +1598,7 @@ void ShapesWidget::microAdjust(QString direction) {
 
         m_selectedShape.mainPoints = m_shapes[m_selectedOrder].mainPoints;
         m_selectedShape.points = m_shapes[m_selectedOrder].points;
+        m_hoveredShape.type = "";
         update();
     }
 }
