@@ -1,76 +1,118 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="sl" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="sl">
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="535"/>
         <source>Select area</source>
-        <translation>Izberi območje</translation>
+        <translation type="vanished">Izberi območje</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1060"/>
+        <location filename="../mainwindow.cpp" line="524"/>
+        <source>select-area</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="927"/>
+        <location filename="../mainwindow.cpp" line="929"/>
+        <location filename="../mainwindow.cpp" line="1174"/>
+        <location filename="../mainwindow.cpp" line="1177"/>
+        <location filename="../mainwindow.cpp" line="1190"/>
+        <location filename="../mainwindow.cpp" line="1193"/>
+        <location filename="../mainwindow.cpp" line="1227"/>
+        <location filename="../mainwindow.cpp" line="1230"/>
+        <location filename="../mainwindow.cpp" line="1262"/>
+        <location filename="../mainwindow.cpp" line="1265"/>
+        <source>DeepinScreenshot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="945"/>
+        <location filename="../mainwindow.cpp" line="1279"/>
         <source>View</source>
         <translation>Prikaži</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="959"/>
+        <location filename="../mainwindow.cpp" line="1299"/>
+        <source>Picture has been saved to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1197"/>
+        <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm);;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1297"/>
+        <source>Picture has been saved to clipboard</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MenuController</name>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="14"/>
+        <location filename="../controller/menucontroller.cpp" line="15"/>
         <source>Rectangle</source>
         <translation>Pravokotnik</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="22"/>
+        <location filename="../controller/menucontroller.cpp" line="23"/>
         <source>Ellipse</source>
         <translation>Elipsa</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="30"/>
+        <location filename="../controller/menucontroller.cpp" line="31"/>
         <source>Arrow</source>
         <translation>Puščica</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="38"/>
+        <location filename="../controller/menucontroller.cpp" line="39"/>
         <source>Pencil</source>
         <translation>Svinčnik</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="46"/>
+        <location filename="../controller/menucontroller.cpp" line="47"/>
         <source>Text</source>
         <translation>Besedilo</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="61"/>
+        <location filename="../controller/menucontroller.cpp" line="55"/>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../controller/menucontroller.cpp" line="71"/>
         <source>Save</source>
         <translation>Shrani</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="64"/>
+        <location filename="../controller/menucontroller.cpp" line="74"/>
         <source>Save to desktop</source>
         <translation>Shrani na namizje</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="65"/>
+        <location filename="../controller/menucontroller.cpp" line="75"/>
         <source>Autosave</source>
         <translation>Samodejno shrani</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="66"/>
+        <location filename="../controller/menucontroller.cpp" line="76"/>
         <source>Save to specified folder</source>
         <translation>Shrani v določeno mapo</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="67"/>
+        <location filename="../controller/menucontroller.cpp" line="77"/>
         <source>Copy to clipboard</source>
         <translation>Kopiraj v odložišče</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="68"/>
+        <location filename="../controller/menucontroller.cpp" line="78"/>
         <source>Autosave and copy to clipboard</source>
         <translation>Samodejno shrani in kopiraj v odložišče</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="89"/>
+        <location filename="../controller/menucontroller.cpp" line="99"/>
         <source>Exit</source>
         <translation>Izhod</translation>
     </message>
@@ -78,9 +120,16 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../main.cpp" line="21"/>
         <source>Deepin Screenshot</source>
-        <translation>Zajem zaslona Deepin</translation>
+        <translation type="vanished">Zajem zaslona Deepin</translation>
+    </message>
+</context>
+<context>
+    <name>Screenshot</name>
+    <message>
+        <location filename="../screenshot.cpp" line="60"/>
+        <source>Deepin Screenshot will start after %1 second</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -92,7 +141,7 @@
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="11"/>
-        <location filename="../utils/shortcut.cpp" line="21"/>
+        <location filename="../utils/shortcut.cpp" line="22"/>
         <source>Save</source>
         <translation>Shrani</translation>
     </message>
@@ -123,76 +172,86 @@
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="19"/>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="20"/>
         <source>Exit</source>
         <translation>Izhod</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="23"/>
+        <source>Copy to clipboard</source>
+        <translation type="unfinished">Kopiraj v odložišče</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="26"/>
         <source>Rectangle</source>
         <translation>Pravokotnik</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="24"/>
+        <location filename="../utils/shortcut.cpp" line="27"/>
         <source>Ellipse</source>
         <translation>Elipsa</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="25"/>
+        <location filename="../utils/shortcut.cpp" line="28"/>
         <source>Arrow</source>
         <translation>Puščica</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="26"/>
+        <location filename="../utils/shortcut.cpp" line="29"/>
         <source>Pencil</source>
         <translation>Svinčnik</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="27"/>
+        <location filename="../utils/shortcut.cpp" line="30"/>
         <source>Text</source>
         <translation>Besedilo</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="28"/>
+        <location filename="../utils/shortcut.cpp" line="31"/>
         <source>Color</source>
         <translation>Barva</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="31"/>
+        <location filename="../utils/shortcut.cpp" line="34"/>
         <source>Increase height up</source>
         <translation>Povečaj višino navzgor</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="32"/>
+        <location filename="../utils/shortcut.cpp" line="35"/>
         <source>Increase height down</source>
         <translation>Povečaj višino navzdol</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="33"/>
+        <location filename="../utils/shortcut.cpp" line="36"/>
         <source>Increase width left</source>
         <translation>Povečaj širino v levo</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="34"/>
+        <location filename="../utils/shortcut.cpp" line="37"/>
         <source>Increase width right</source>
         <translation>Povečaj širino v desno</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="35"/>
+        <location filename="../utils/shortcut.cpp" line="38"/>
         <source>Decrease height up</source>
         <translation>Pomanjšaj višino navzgor</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="36"/>
+        <location filename="../utils/shortcut.cpp" line="39"/>
         <source>Decrease height down</source>
         <translation>Pomanjšaj višino navzdol</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="37"/>
+        <location filename="../utils/shortcut.cpp" line="40"/>
         <source>Decrease width left</source>
         <translation>Pomanjšaj širino v levo</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="38"/>
+        <location filename="../utils/shortcut.cpp" line="41"/>
         <source>Decrease width right</source>
         <translation>Pomanjšaj širino v desno</translation>
     </message>
@@ -200,37 +259,37 @@
 <context>
     <name>SubToolBar</name>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="340"/>
+        <location filename="../widgets/subtoolbar.cpp" line="377"/>
         <source>Save to desktop</source>
         <translation>Shrani na namizje</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="345"/>
+        <location filename="../widgets/subtoolbar.cpp" line="383"/>
         <source>Autosave</source>
         <translation>Samodejno shrani</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="350"/>
+        <location filename="../widgets/subtoolbar.cpp" line="389"/>
         <source>Save to specified folder</source>
         <translation>Shrani v določeno mapo</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="355"/>
+        <location filename="../widgets/subtoolbar.cpp" line="395"/>
         <source>Copy to clipboard</source>
         <translation>Kopiraj v odložišče</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="360"/>
+        <location filename="../widgets/subtoolbar.cpp" line="400"/>
         <source>Autosave and copy to clipboard</source>
         <translation>Samodejno shrani in kopiraj v odložišče</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="365"/>
+        <location filename="../widgets/subtoolbar.cpp" line="405"/>
         <source>Low</source>
         <translation>Nizko</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="379"/>
+        <location filename="../widgets/subtoolbar.cpp" line="419"/>
         <source>High</source>
         <translation>Visoko</translation>
     </message>

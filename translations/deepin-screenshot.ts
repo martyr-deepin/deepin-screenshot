@@ -4,13 +4,13 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="523"/>
+        <location filename="../mainwindow.cpp" line="524"/>
         <source>select-area</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="926"/>
-        <location filename="../mainwindow.cpp" line="928"/>
+        <location filename="../mainwindow.cpp" line="927"/>
+        <location filename="../mainwindow.cpp" line="929"/>
         <location filename="../mainwindow.cpp" line="1174"/>
         <location filename="../mainwindow.cpp" line="1177"/>
         <location filename="../mainwindow.cpp" line="1190"/>
@@ -23,13 +23,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="944"/>
+        <location filename="../mainwindow.cpp" line="945"/>
         <location filename="../mainwindow.cpp" line="1279"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="958"/>
+        <location filename="../mainwindow.cpp" line="959"/>
         <location filename="../mainwindow.cpp" line="1299"/>
         <source>Picture has been saved to %1</source>
         <translation type="unfinished"></translation>
