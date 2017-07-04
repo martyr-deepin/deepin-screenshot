@@ -45,7 +45,9 @@ public:
         Shoting,
     };
 
-    void initUI();
+    void initOriginUI();
+    void initSecondUI();
+
     void initBackground();
     void initShapeWidget(QString type);
     void initDBusInterface();

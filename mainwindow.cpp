@@ -40,11 +40,9 @@ MainWindow::~MainWindow()
 {
 }
 
-void MainWindow::initUI() {
+void MainWindow::initOriginUI() {
     this->setFocus();
     setMouseTracking(true);
-    m_configSettings =  ConfigSettings::instance();
-    m_hotZoneInterface->asyncCall("EnableZoneDetected", false);
 
     QPoint curPos = this->cursor().pos();
 
@@ -68,24 +66,11 @@ void MainWindow::initUI() {
     m_rootWindowRect.width = m_backgroundRect.width();
     m_rootWindowRect.height = m_backgroundRect.height();
 
-    if (m_screenNum == 0) {
-        QList<xcb_window_t> windows = m_windowManager->getWindows();
-        for (int i = 0; i < windows.length(); i++) {
-            m_windowRects.append(m_windowManager->adjustRectInScreenArea(
-                                     m_windowManager->getWindowRect(windows[i])));
-            qDebug() << "m_windowRects:" << m_windowRects[i].width << m_windowRects.length();
-            m_windowNames.append(m_windowManager->getWindowClass(windows[i]));
-        }
-    }
-
     m_sizeTips = new TopTips(this);
     m_sizeTips->hide();
-    m_toolBar = new ToolBar(this);
-    m_toolBar->hide();
+
     m_zoomIndicator = new ZoomIndicator(this);
     m_zoomIndicator->hide();
-
-    m_menuController = new MenuController;
 
     m_isFirstDrag = false;
     m_isFirstMove = false;
@@ -109,6 +94,23 @@ void MainWindow::initUI() {
     m_selectAreaName = "";
 
     m_isShapesWidgetExist = false;
+}
+
+void MainWindow::initSecondUI() {
+    if (m_screenNum == 0) {
+        QList<xcb_window_t> windows = m_windowManager->getWindows();
+        for (int i = 0; i < windows.length(); i++) {
+            m_windowRects.append(m_windowManager->adjustRectInScreenArea(
+                                     m_windowManager->getWindowRect(windows[i])));
+            qDebug() << "m_windowRects:" << m_windowRects[i].width << m_windowRects.length();
+            m_windowNames.append(m_windowManager->getWindowClass(windows[i]));
+        }
+    }
+    m_configSettings =  ConfigSettings::instance();
+    m_toolBar = new ToolBar(this);
+    m_toolBar->hide();
+    m_menuController = new MenuController(this);
+
     connect(m_toolBar, &ToolBar::buttonChecked, this,  [=](QString shape){
         if (m_isShapesWidgetExist && shape != "color") {
             m_shapesWidget->setCurrentShape(shape);
@@ -134,6 +136,7 @@ void MainWindow::initDBusInterface() {
     m_notifyDBInterface = new DBusNotify(this);
     m_notifyDBInterface->CloseNotification(0);
     m_hotZoneInterface = new DBusZone(this);
+    m_hotZoneInterface->asyncCall("EnableZoneDetected", false);
     m_interfaceExist = true;
 }
 
@@ -989,14 +992,19 @@ void MainWindow::noNotify() {
     m_hotZoneInterface = new DBusZone(this);
     m_interfaceExist = true;
     m_noNotify = true;
-    initUI();
-    initShortcut();
+
+    initOriginUI();
     this->show();
+    initSecondUI();
+    initShortcut();
 }
 
 void MainWindow::topWindow() {
+    initOriginUI();
+    this->show();
+    initSecondUI();
     initDBusInterface();
-    initUI();
+
     if (m_screenNum == 0) {
         QList<xcb_window_t> windows = m_windowManager->getWindows();
         for (int i = 0; i < windows.length(); i++) {
@@ -1039,12 +1047,14 @@ void MainWindow::expressSaveScreenshot() {
 
 void MainWindow::startScreenshot() {
     m_mouseStatus = ShotMouseStatus::Shoting;
-    repaint();
     qApp->setOverrideCursor(setCursorShape("start"));
-    initDBusInterface();
-    initUI();
-    initShortcut();
+
+    initOriginUI();
     this->show();
+    initSecondUI();
+
+    initDBusInterface();
+    initShortcut();
 }
 
 void MainWindow::initBackground() {

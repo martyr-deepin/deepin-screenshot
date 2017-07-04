@@ -58,8 +58,11 @@ int main(int argc, char *argv[])
 
      Screenshot w;
      w.hide();
+
+     //Register Screenshot's dbus service.
      DBusScreenshotService dbusService (&w);
      Q_UNUSED(dbusService);
+
     QDBusConnection conn = QDBusConnection::sessionBus();
     if (!conn.registerService("com.deepin.DeepinScreenshot") ||
             !conn.registerObject("/com/deepin/DeepinScreenshot", &w)) {
@@ -69,17 +72,17 @@ int main(int argc, char *argv[])
         return 0;
     } else {
         qDebug() << "deepin-screenshot first started!";
-        qDebug() << cmdParser.isSet(delayOption) << cmdParser.value(delayOption);
 
         if (cmdParser.isSet(delayOption)) {
-            qDebug() << "Cmd delayScreenshot";
+            qDebug() << "cmd delay screenshot";
             w.delayScreenshot(cmdParser.value(delayOption).toInt());
         } else if (cmdParser.isSet(fullscreenOption)) {
             w.fullscreenScreenshot();
         } else if (cmdParser.isSet(topWindowOption)) {
-            qDebug() << "screenshot topWindow";
+            qDebug() << "cmd topWindow";
             w.topWindowScreenshot();
         } else if (cmdParser.isSet(savePathOption)) {
+            qDebug() << "cmd savepath screenshot";
             w.savePathScreenshot(cmdParser.value(savePathOption));
         } else if (cmdParser.isSet(prohibitNotifyOption)) {
             qDebug() << "screenshot no notify!";
@@ -89,6 +92,7 @@ int main(int argc, char *argv[])
         }  else {
             w.startScreenshot();
         }
+
         return a.exec();
     }
 }

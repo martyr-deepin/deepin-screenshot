@@ -47,6 +47,7 @@ void Screenshot::startScreenshot()
 {
     initUI();
     this->show();
+
     m_window->startScreenshot();
 }
 
