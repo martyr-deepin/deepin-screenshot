@@ -63,10 +63,8 @@ void ZoomIndicator::paintEvent(QPaintEvent *) {
 }
 
 void ZoomIndicator::showMagnifier(QPoint pos) {
-    if (!this->isVisible())
-        this->show();
+    this->show();
 
-    m_pos = pos;
-    this->move(m_pos);
+    this->move(pos);
     update();
 }
