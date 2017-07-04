@@ -18,6 +18,9 @@
 
 //DUTIL_USE_NAMESPACE
 
+#include "utils/screenutils.h"
+#include "utils/tempfile.h"
+
 namespace {
 const int RECORD_MIN_SIZE = 10;
 const int SPACING = 5;
@@ -41,14 +44,11 @@ void MainWindow::initUI() {
     m_hotZoneInterface->asyncCall("EnableZoneDetected", false);
 
     QPoint curPos = this->cursor().pos();
-    m_screenNum = qApp->desktop()->screenNumber(curPos);
-    QList<QScreen*> screenList = qApp->screens();
-    if (m_screenNum != 0 && m_screenNum < screenList.length()) {
-        m_backgroundRect = screenList[m_screenNum]->geometry();
-    } else {
-        m_backgroundRect =  qApp->primaryScreen()->geometry();
-    }
 
+    ScreenUtils::instance(curPos);
+
+    m_screenNum =  ScreenUtils::instance(curPos)->getScreenNum();
+    m_backgroundRect = ScreenUtils::instance(curPos)->backgroundRect();
     this->move(m_backgroundRect.x(), m_backgroundRect.y());
     this->setFixedSize(m_backgroundRect.size());
 
@@ -864,13 +864,8 @@ void MainWindow::fullScreenshot() {
     m_hotZoneInterface->asyncCall("EnableZoneDetected", false);
 
     QPoint curPos = this->cursor().pos();
-    m_screenNum = qApp->desktop()->screenNumber(curPos);
-    QList<QScreen*> screenList = qApp->screens();
-    if (m_screenNum != 0 && m_screenNum < screenList.length()) {
-        m_backgroundRect = screenList[m_screenNum]->geometry();
-    } else {
-        m_backgroundRect =  qApp->primaryScreen()->geometry();
-    }
+    m_screenNum = ScreenUtils::instance(curPos)->getScreenNum();
+    m_backgroundRect = ScreenUtils::instance(curPos)->backgroundRect();
 
     this->move(m_backgroundRect.x(), m_backgroundRect.y());
     this->setFixedSize(m_backgroundRect.size());
@@ -882,8 +877,8 @@ void MainWindow::fullScreenshot() {
 
     emit this->hideScreenshotUI();
 //    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
-    using namespace utils;
-    QPixmap screenShotPix(TMP_FULLSCREEN_FILE);
+//    using namespace utils;
+    QPixmap screenShotPix(TempFile::instance()->getFullscreenFileName());
     saveAction(screenShotPix);
     sendNotify(m_saveIndex, m_saveFileName);
 }
@@ -932,14 +927,14 @@ void MainWindow::saveSpecificedPath(QString path) {
     }
 
     m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
-    using namespace utils;
+//    using namespace utils;
     m_toolBar->setVisible(false);
     m_sizeTips->setVisible(false);
 
     shotCurrentImg();
 //    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
 
-    QPixmap screenShotPix(TMP_FILE);
+    QPixmap screenShotPix(TempFile::instance()->getTmpFileName());
     screenShotPix.save(savePath);
     QStringList actions;
     actions << "_open" << tr("View");
@@ -1019,9 +1014,10 @@ void MainWindow::topWindow() {
 
     this->hide();
     emit this->hideScreenshotUI();
-    using namespace utils;
-    QPixmap screenShotPix = QPixmap(TMP_FULLSCREEN_FILE).copy(m_recordX, m_recordY,
-                                                              m_recordWidth, m_recordHeight);
+//    using namespace utils;
+    QPixmap screenShotPix = QPixmap(TempFile::instance()->getFullscreenFileName()).copy(
+                m_recordX, m_recordY, m_recordWidth, m_recordHeight);
+
     m_needSaveScreenshot = true;
 //    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
     saveAction(screenShotPix);
@@ -1050,27 +1046,27 @@ void MainWindow::startScreenshot() {
 }
 
 void MainWindow::initBackground() {
-    QList<QScreen*> screenList = qApp->screens();
-    QPixmap tmpImg =  screenList[m_screenNum]->grabWindow(
-                qApp->desktop()->screen(m_screenNum)->winId(),
+    QPoint curPos = this->cursor().pos();
+    QPixmap tmpImg =  ScreenUtils::instance(curPos)->primaryScreen()->grabWindow(
+                ScreenUtils::instance(curPos)->rootWindowId(),
                 m_backgroundRect.x(), m_backgroundRect.y(),
                 m_backgroundRect.width(), m_backgroundRect.height());
 
-    using namespace utils;
-    tmpImg.save(TMP_FULLSCREEN_FILE, "png");
+    //    using namespace utils;
+    tmpImg.save(TempFile::instance()->getFullscreenFileName(), "png");
     this->setStyleSheet(QString("MainWindow{ border-image: url(%1); }"
-                                ).arg(TMP_FULLSCREEN_FILE));
+                                ).arg(TempFile::instance()->getFullscreenFileName()));
 }
 
 void MainWindow::shotFullScreen() {
-    QList<QScreen*> screenList = qApp->screens();
-    QPixmap tmpImg =  screenList[m_screenNum]->grabWindow(
-                qApp->desktop()->screen(m_screenNum)->winId(),
+    QPoint curPos = this->cursor().pos();
+    QPixmap tmpImg =  ScreenUtils::instance(curPos)->primaryScreen()->grabWindow(
+                ScreenUtils::instance(curPos)->rootWindowId(),
                 m_backgroundRect.x(), m_backgroundRect.y(),
                 m_backgroundRect.width(), m_backgroundRect.height());
 
-    using namespace utils;
-    tmpImg.save(TMP_FULLSCREEN_FILE, "png");
+    //    using namespace utils;
+    tmpImg.save(TempFile::instance()->getFullscreenFileName(), "png");
 }
 
 void MainWindow::shotCurrentImg() {
@@ -1086,7 +1082,7 @@ void MainWindow::shotCurrentImg() {
     eventloop1.exec();
 
     qDebug() << "shotCurrentImg shotFullScreen";
-    using namespace utils;
+//    using namespace utils;
     shotFullScreen();
     if (m_isShapesWidgetExist) {
         m_shapesWidget->hide();
@@ -1095,9 +1091,9 @@ void MainWindow::shotCurrentImg() {
     this->hide();
     emit hideScreenshotUI();
 
-    QPixmap tmpImg(TMP_FULLSCREEN_FILE);
+    QPixmap tmpImg(TempFile::instance()->getFullscreenFileName());
     tmpImg = tmpImg.copy(QRect(m_recordX, m_recordY, m_recordWidth, m_recordHeight));
-    tmpImg.save(TMP_FILE, "png");
+    tmpImg.save(TempFile::instance()->getTmpFileName(), "png");
 }
 
 void MainWindow::shotImgWidthEffect() {
@@ -1111,15 +1107,15 @@ void MainWindow::shotImgWidthEffect() {
 //    eventloop.exec();
 
     qDebug() << m_toolBar->isVisible() << m_sizeTips->isVisible();
-    QList<QScreen*> screenList = qApp->screens();
-    QPixmap tmpImg =  screenList[m_screenNum]->grabWindow(
-                                         qApp->desktop()->screen(m_screenNum)->winId(),
+    QPoint curPos = this->cursor().pos();
+    QPixmap tmpImg =  ScreenUtils::instance(curPos)->primaryScreen()->grabWindow(
+                                         ScreenUtils::instance(curPos)->rootWindowId() ,
                                          m_shapesWidget->x(), m_shapesWidget->y(),
                                          m_shapesWidget->width(), m_shapesWidget->height());
     qDebug() << tmpImg.isNull() << tmpImg.size();
 
-    using namespace utils;
-    tmpImg.save(TMP_FILE, "png");
+//    using namespace utils;
+    tmpImg.save(TempFile::instance()->getTmpFileName(), "png");
     m_drawNothing = false;
     update();
 }
@@ -1137,15 +1133,15 @@ void MainWindow::saveScreenshot() {
 
     shotCurrentImg();
 
-    using namespace utils;
-    saveAction(utils::TMP_FILE);
+//    using namespace utils;
+    saveAction(TempFile::instance()->getTmpFileName());
     sendNotify(m_saveIndex, m_saveFileName);
 }
 
 void MainWindow::saveAction(QPixmap pix) {
     emit releaseEvent();
 
-    using namespace utils;
+//    using namespace utils;
     QPixmap screenShotPix = pix;
     QDateTime currentDate;
     QString currentTime =  currentDate.currentDateTime().
@@ -1317,9 +1313,9 @@ void MainWindow::sendNotify(int saveIndex, QString saveFilePath) {
 void MainWindow::reloadImage(QString effect) {
     //**save tmp image file
     shotImgWidthEffect();
-    using namespace utils;
+//    using namespace utils;
     const int radius = 10;
-    QPixmap tmpImg(TMP_FILE);
+    QPixmap tmpImg(TempFile::instance()->getTmpFileName());
     int imgWidth = tmpImg.width();
     int imgHeight = tmpImg.height();
     if (effect == "blur") {
@@ -1328,14 +1324,14 @@ void MainWindow::reloadImage(QString effect) {
                                    Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             tmpImg = tmpImg.scaled(imgWidth, imgHeight, Qt::IgnoreAspectRatio,
                                    Qt::SmoothTransformation);
-            tmpImg.save(TMP_BLUR_FILE, "png");
+            tmpImg.save(TempFile::instance()->getBlurFileName(), "png");
         }
     } else {
         if (!tmpImg.isNull()) {
             tmpImg = tmpImg.scaled(imgWidth/radius, imgHeight/radius,
                                    Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             tmpImg = tmpImg.scaled(imgWidth, imgHeight);
-            tmpImg.save(TMP_MOSA_FILE, "png");
+            tmpImg.save(TempFile::instance()->getMosaicFileName(), "png");
         }
     }
 }
@@ -1357,7 +1353,7 @@ void MainWindow::onViewShortcut() {
 }
 
 void MainWindow::onHelp() {
-    using namespace utils;
+//    using namespace utils;
     if (m_manualPro.isNull()) {
         const QString pro = "dman";
         const QStringList args("deepin-screenshot");

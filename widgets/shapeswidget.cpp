@@ -2,6 +2,7 @@
 
 #include "utils/calculaterect.h"
 #include "utils/configsettings.h"
+#include "utils/tempfile.h"
 
 #include <cmath>
 
@@ -13,8 +14,6 @@
 
 const int DRAG_BOUND_RADIUS = 8;
 const int SPACING = 12;
-
-using namespace utils;
 
 ShapesWidget::ShapesWidget(QWidget *parent)
     : QFrame(parent),
@@ -1250,15 +1249,15 @@ void ShapesWidget::paintRect(QPainter &painter, FourPoints rectFPoints, int inde
     rectPath.lineTo(rectFPoints[0].x(),rectFPoints[0].y());
     painter.drawPath(rectPath);
 
-    using namespace utils;
+//    using namespace utils;
     if (isBlur) {
         painter.setClipPath(rectPath);
-        painter.drawPixmap(0, 0,  width(), height(),  TMP_BLUR_FILE);
+        painter.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getBlurFileName());
         painter.drawPath(rectPath);
     }
     if (isMosaic) {
         painter.setClipPath(rectPath);
-        painter.drawPixmap(0, 0,  width(), height(),  TMP_MOSA_FILE);
+        painter.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getMosaicFileName());
         painter.drawPath(rectPath);
     }
     painter.setClipping(false);
@@ -1282,15 +1281,15 @@ void ShapesWidget::paintEllipse(QPainter &painter, FourPoints ellipseFPoints, in
     ellipsePath.cubicTo(eightControlPoints[3], eightControlPoints[2], minorPoints[0]);
     painter.drawPath(ellipsePath);
 
-    using namespace utils;
+//    using namespace utils;
     if (isBlur) {
         painter.setClipPath(ellipsePath);
-        painter.drawPixmap(0, 0,  width(), height(),  TMP_BLUR_FILE);
+        painter.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getBlurFileName());
         painter.drawPath(ellipsePath);
     }
     if (isMosaic) {
         painter.setClipPath(ellipsePath);
-        painter.drawPixmap(0, 0,  width(), height(),  TMP_MOSA_FILE);
+        painter.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getMosaicFileName());
         painter.drawPath(ellipsePath);
     }
     painter.setClipping(false);

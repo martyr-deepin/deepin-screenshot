@@ -1,5 +1,6 @@
 #include "zoomIndicator.h"
 #include "utils/baseutils.h"
+#include "utils/tempfile.h"
 
 #include <QCursor>
 #include <QTextOption>
@@ -25,13 +26,14 @@ ZoomIndicator::~ZoomIndicator() {}
 
 
 void ZoomIndicator::paintEvent(QPaintEvent *) {
-    using namespace utils;
+//    using namespace utils;
     QPoint centerPos =  this->cursor().pos();
     centerPos = QPoint(centerPos.x() - this->window()->x(), centerPos.y());
 
-    qDebug() << "centerPos" << centerPos;
-    QRgb centerRectRgb = QImage(TMP_FULLSCREEN_FILE).pixel(centerPos);
-    QPixmap zoomPix = QPixmap(TMP_FULLSCREEN_FILE).copy(centerPos.x() - IMG_WIDTH/2,
+//    qDebug() << "centerPos" << centerPos;
+    QString fullscreenImgFile = TempFile::instance()->getFullscreenFileName();
+    QRgb centerRectRgb = QImage(fullscreenImgFile).pixel(centerPos);
+    QPixmap zoomPix = QPixmap(fullscreenImgFile).copy(centerPos.x() - IMG_WIDTH/2,
             centerPos.y() - IMG_WIDTH/2, IMG_WIDTH, IMG_WIDTH);
 
     zoomPix = zoomPix.scaled(QSize(INDICATOR_WIDTH,  INDICATOR_WIDTH),

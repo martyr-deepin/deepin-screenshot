@@ -6,6 +6,7 @@
 #include <QWindow>
 
 #include "dbusinterface/dbusnotify.h"
+#include "utils/screenutils.h"
 
 Screenshot::Screenshot(QWidget *parent)
     : QMainWindow(parent)
@@ -18,15 +19,9 @@ void Screenshot::initUI() {
     setAttribute(Qt::WA_TranslucentBackground);
 
     QPoint curPos = this->cursor().pos();
-     int screenNum = qApp->desktop()->screenNumber(curPos);
-     QList<QScreen*> screenList = qApp->screens();
-     QRect bgRect;
-     if (screenNum != 0 && screenNum < screenList.length()) {
-        bgRect = screenList[screenNum]->geometry();
-     } else {
-         bgRect =  qApp->primaryScreen()->geometry();
-     }
-    qDebug() << "MainWindow bgRect:" << bgRect;
+    ScreenUtils::instance(curPos);
+    QRect bgRect = ScreenUtils::instance(curPos)->backgroundRect();
+
      this->move(bgRect.x(), bgRect.y());
      this->setFixedSize(bgRect.size());
 

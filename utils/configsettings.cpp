@@ -2,6 +2,7 @@
 
 #include <QDir>
 #include <QFileInfo>
+#include <QTemporaryFile>
 #include <QDebug>
 
 const QString CONFIG_PATH =   QDir::homePath() +
