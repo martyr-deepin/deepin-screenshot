@@ -893,6 +893,7 @@ void MainWindow::savePath(const QString &path) {
         exitApp();
     }
 
+    qDebug() << "path exist!";
     startScreenshot();
     m_toolBar->specificedSavePath();
     m_specificedPath = path;
@@ -910,7 +911,8 @@ void MainWindow::saveSpecificedPath(QString path) {
     QString savePath;
     QString baseName = QFileInfo(path).baseName();
     QString suffix = QFileInfo(path).completeSuffix();
-    if (!baseName.isEmpty()) {
+
+    if (!QFileInfo(path).isDir() && !baseName.isEmpty()) {
         if (isValidFormat(suffix)) {
             savePath = path;
         } else if (suffix.isEmpty()) {
@@ -919,16 +921,23 @@ void MainWindow::saveSpecificedPath(QString path) {
             qWarning() << "Invalid image format! Screenshot will quit, suffix:" << suffix;
             exitApp();
         }
+        qDebug() << "process savepath1:" << savePath;
     } else {
+        if (QFileInfo(path).isDir() && !path.endsWith("/")) {
+            path = path + "/";
+        }
+        qDebug() << "path isEmpty!";
+
         QDateTime currentDate;
         QString currentTime =  currentDate.currentDateTime().
                 toString("yyyyMMddHHmmss");
         if (m_selectAreaName.isEmpty()) {
-            savePath = path + QString("%1_%2").arg(tr("DeepinScreenshot")).arg(currentTime);
+            savePath = path + QString("%1_%2.png").arg(tr("DeepinScreenshot")).arg(currentTime);
         } else {
-            savePath = path + QString("%1_%2_%3").arg(tr("DeepinScreenshot")).arg(
+            savePath = path + QString("%1_%2_%3.png").arg(tr("DeepinScreenshot")).arg(
                                                                                        m_selectAreaName).arg(currentTime);
         }
+        qDebug() << "process savepath2: " << savePath;
     }
 
     m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
