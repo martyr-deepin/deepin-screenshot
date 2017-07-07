@@ -1204,21 +1204,27 @@ void MainWindow::saveAction(QPixmap pix) {
         QString  lastFileName;
         if (m_selectAreaName.isEmpty()) {
             lastFileName = QString("%1/%2_%3.png").arg(QStandardPaths::writableLocation(
-                                                           QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
+                                        QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
         } else {
             lastFileName = QString("%1/%2_%3_%4.png").arg(QStandardPaths::writableLocation(
-                                                              QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
+                                         QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")
+                                                                                                     ).arg(m_selectAreaName).arg(currentTime);
         }
 
         m_saveFileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,
                                                      tr("PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;"
                                                         "XBM (*.xbm);;XPM(*.xpm);;"));
-        if (m_saveFileName.isEmpty()) {
+
+
+        if (QFileInfo(m_saveFileName).isDir()) {
+            qDebug() << "empty fileName";
             exitApp();
         }
 
         QString fileSuffix = QFileInfo(m_saveFileName).completeSuffix();
-        if ( !isValidFormat(fileSuffix)) {
+        if (fileSuffix.isEmpty()) {
+                    m_saveFileName = m_saveFileName + ".png";
+        } else if ( !isValidFormat(fileSuffix)) {
             qWarning() << "The fileName has invalid suffix!" << fileSuffix << m_saveFileName;
             exitApp();
         }
