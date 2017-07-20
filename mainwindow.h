@@ -10,6 +10,7 @@
 #include <QScreen>
 #include <QDateTime>
 #include <QMouseEvent>
+#include <QTimer>
 
 #include "widgets/toptips.h"
 #include "widgets/toolbar.h"
@@ -59,6 +60,7 @@ signals:
     void hideScreenshotUI();
     void unDo();
     void saveActionTriggered();
+    void updateZoom();
 
 public slots:
     void fullScreenshot();
@@ -164,6 +166,7 @@ private:
     DBusNotify* m_notifyDBInterface;
     DBusZone* m_hotZoneInterface;
     QPointer<QProcess> m_manualPro;
+    QTimer* m_updateZoomTimer;
 };
 
 #endif // MAINWINDOW_H

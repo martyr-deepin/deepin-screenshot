@@ -71,6 +71,11 @@ void MainWindow::initOriginUI() {
 
     m_zoomIndicator = new ZoomIndicator(this);
     m_zoomIndicator->hide();
+    m_updateZoomTimer = new QTimer(this);
+
+    connect(m_updateZoomTimer, &QTimer::timeout,
+            m_zoomIndicator, &ZoomIndicator::updatePaintEvent);
+
 
     m_isFirstDrag = false;
     m_isFirstMove = false;
@@ -94,6 +99,7 @@ void MainWindow::initOriginUI() {
     m_selectAreaName = "";
 
     m_isShapesWidgetExist = false;
+
 }
 
 void MainWindow::initSecondUI() {
@@ -489,6 +495,8 @@ void MainWindow::hideEvent(QHideEvent *event) {
 
 void MainWindow::mouseMoveEvent(QMouseEvent *ev) {
     bool needRepaint = false;
+
+    m_updateZoomTimer->start(200);
 
     if (!m_isShapesWidgetExist) {
         if (m_recordWidth > 0 && m_recordHeight >0 && !m_needSaveScreenshot && this->isVisible()) {
@@ -1055,11 +1063,11 @@ void MainWindow::expressSaveScreenshot() {
 }
 
 void MainWindow::startScreenshot() {
+    initOriginUI();
     m_mouseStatus = ShotMouseStatus::Shoting;
     qApp->setOverrideCursor(setCursorShape("start"));
-
-    initOriginUI();
     this->show();
+
     initSecondUI();
 
     initDBusInterface();
