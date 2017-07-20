@@ -1213,7 +1213,7 @@ void MainWindow::saveAction(QPixmap pix) {
 
         m_saveFileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,
                                                      tr("PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;"
-                                                        "XBM (*.xbm);;XPM(*.xpm);;"));
+                                                        "XBM (*.xbm);;XPM(*.xpm)"));
 
 
         if (QFileInfo(m_saveFileName).isDir()) {
