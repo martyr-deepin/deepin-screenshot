@@ -1,0 +1,4 @@
+DESKTOP_TEMP_FILE=deepin-screenshot.desktop.tmp
+DESKTOP_SOURCE_FILE=deepin-screenshot.desktop 
+DESKTOP_DEST_FILE=deepin-screenshot.desktop 
+DESKTOP_TS_DIR=translations/desktop

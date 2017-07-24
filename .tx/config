@@ -10,8 +10,9 @@ source_file = translations/deepin-screenshot.ts
 source_lang = en
 type = QT
 
-[deepin-screenshot.desktop]
-source_file = deepin-screenshot.desktop
+[deepin-screenshot.deepin-screenshot-desktop-ts]
+file_filter = translations/desktop/desktop_<lang>.ts
+source_file = translations/desktop/desktop.ts
 source_lang = en
-type = DESKTOP
+type = QT
 
