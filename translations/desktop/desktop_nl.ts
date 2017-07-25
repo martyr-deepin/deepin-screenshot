@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="nl">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl" version="2.1">
     <context>
         <name>desktop</name>
         <message>
             <location filename="Desktop Entry]Name" line="0"/>
             <source>Deepin Screenshot</source>
-            <translation>Deepin Schermopname</translation>
+            <translation>Deepin Schermafdruk</translation>
         </message>
         <message>
             <location filename="Delay_Screenshot Shortcut Group]Name" line="0"/>
@@ -22,7 +20,7 @@
             <location filename="Desktop Entry]Comment" line="0"/>
             <location filename="Desktop Entry]GenericName" line="0"/>
             <source>Screen capturing application</source>
-            <translation>Applicatie voor het maken van schermopnames</translation>
+            <translation>Applicatie voor het maken van schermafdrukken</translation>
         </message>
     </context>
 </TS>

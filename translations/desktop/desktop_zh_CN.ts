@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
     <context>
         <name>desktop</name>
         <message>
@@ -11,12 +9,12 @@
         <message>
             <location filename="Delay_Screenshot Shortcut Group]Name" line="0"/>
             <source>Delay Screenshot</source>
-            <translation>延时截图</translation>
+            <translation type="unfinished"/>
         </message>
         <message>
             <location filename="Full_Screenshot Shortcut Group]Name" line="0"/>
             <source>Full Screenshot</source>
-            <translation>截取全屏</translation>
+            <translation type="unfinished"/>
         </message>
         <message>
             <location filename="Desktop Entry]Comment" line="0"/>

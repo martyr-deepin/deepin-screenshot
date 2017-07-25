@@ -1,118 +1,76 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.1">
 <context>
     <name>MainWindow</name>
     <message>
+        <location filename="../mainwindow.cpp" line="535"/>
         <source>Select area</source>
-        <translation type="vanished">Sélectionner la zone</translation>
+        <translation>Sélectionner la zone</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="524"/>
-        <source>select-area</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="927"/>
-        <location filename="../mainwindow.cpp" line="929"/>
-        <location filename="../mainwindow.cpp" line="1174"/>
-        <location filename="../mainwindow.cpp" line="1177"/>
-        <location filename="../mainwindow.cpp" line="1190"/>
-        <location filename="../mainwindow.cpp" line="1193"/>
-        <location filename="../mainwindow.cpp" line="1227"/>
-        <location filename="../mainwindow.cpp" line="1230"/>
-        <location filename="../mainwindow.cpp" line="1262"/>
-        <location filename="../mainwindow.cpp" line="1265"/>
-        <source>DeepinScreenshot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="945"/>
-        <location filename="../mainwindow.cpp" line="1279"/>
+        <location filename="../mainwindow.cpp" line="1060"/>
         <source>View</source>
         <translation>Vue</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="959"/>
-        <location filename="../mainwindow.cpp" line="1299"/>
-        <source>Picture has been saved to %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1197"/>
-        <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm);;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1297"/>
-        <source>Picture has been saved to clipboard</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MenuController</name>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="15"/>
+        <location filename="../controller/menucontroller.cpp" line="14"/>
         <source>Rectangle</source>
         <translation>Rectangle</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="23"/>
+        <location filename="../controller/menucontroller.cpp" line="22"/>
         <source>Ellipse</source>
         <translation>Ellipse</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="31"/>
+        <location filename="../controller/menucontroller.cpp" line="30"/>
         <source>Arrow</source>
         <translation>Flèche</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="39"/>
+        <location filename="../controller/menucontroller.cpp" line="38"/>
         <source>Pencil</source>
         <translation>Crayon</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="47"/>
+        <location filename="../controller/menucontroller.cpp" line="46"/>
         <source>Text</source>
         <translation>Texte</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="55"/>
-        <source>Undo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../controller/menucontroller.cpp" line="71"/>
+        <location filename="../controller/menucontroller.cpp" line="61"/>
         <source>Save</source>
         <translation>Sauvegarder</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="74"/>
+        <location filename="../controller/menucontroller.cpp" line="64"/>
         <source>Save to desktop</source>
         <translation>Enregistrer au bureau</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="75"/>
+        <location filename="../controller/menucontroller.cpp" line="65"/>
         <source>Autosave</source>
         <translation>Sauvegarde automatique</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="76"/>
+        <location filename="../controller/menucontroller.cpp" line="66"/>
         <source>Save to specified folder</source>
         <translation>Enregistrer sous</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="77"/>
+        <location filename="../controller/menucontroller.cpp" line="67"/>
         <source>Copy to clipboard</source>
         <translation>Copier dans le presse-papiers</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="78"/>
+        <location filename="../controller/menucontroller.cpp" line="68"/>
         <source>Autosave and copy to clipboard</source>
         <translation>Sauvegarder et copier dans le presse-papiers</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="99"/>
+        <location filename="../controller/menucontroller.cpp" line="89"/>
         <source>Exit</source>
         <translation>Arrêter</translation>
     </message>
@@ -120,16 +78,9 @@
 <context>
     <name>QObject</name>
     <message>
+        <location filename="../main.cpp" line="21"/>
         <source>Deepin Screenshot</source>
-        <translation type="vanished">Capture d&apos;écran Deepin</translation>
-    </message>
-</context>
-<context>
-    <name>Screenshot</name>
-    <message>
-        <location filename="../screenshot.cpp" line="60"/>
-        <source>Deepin Screenshot will start after %1 second</source>
-        <translation type="unfinished"></translation>
+        <translation>Capture d&apos;écran Deepin</translation>
     </message>
 </context>
 <context>
@@ -141,7 +92,7 @@
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="11"/>
-        <location filename="../utils/shortcut.cpp" line="22"/>
+        <location filename="../utils/shortcut.cpp" line="21"/>
         <source>Save</source>
         <translation>Sauvegarder</translation>
     </message>
@@ -172,86 +123,76 @@
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="19"/>
-        <source>Undo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/shortcut.cpp" line="20"/>
         <source>Exit</source>
         <translation>Arrêter</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="23"/>
-        <source>Copy to clipboard</source>
-        <translation type="unfinished">Copier dans le presse-papiers</translation>
-    </message>
-    <message>
-        <location filename="../utils/shortcut.cpp" line="26"/>
         <source>Rectangle</source>
         <translation>Rectangle</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="27"/>
+        <location filename="../utils/shortcut.cpp" line="24"/>
         <source>Ellipse</source>
         <translation>Ellipse</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="28"/>
+        <location filename="../utils/shortcut.cpp" line="25"/>
         <source>Arrow</source>
         <translation>Flèche</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="29"/>
+        <location filename="../utils/shortcut.cpp" line="26"/>
         <source>Pencil</source>
         <translation>Crayon</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="30"/>
+        <location filename="../utils/shortcut.cpp" line="27"/>
         <source>Text</source>
         <translation>Texte</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="31"/>
+        <location filename="../utils/shortcut.cpp" line="28"/>
         <source>Color</source>
         <translation>Couleur</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="34"/>
+        <location filename="../utils/shortcut.cpp" line="31"/>
         <source>Increase height up</source>
         <translation>Agrandir vers le haut</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="35"/>
+        <location filename="../utils/shortcut.cpp" line="32"/>
         <source>Increase height down</source>
         <translation>Agrandir vers le bas</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="36"/>
+        <location filename="../utils/shortcut.cpp" line="33"/>
         <source>Increase width left</source>
         <translation>Agrandir vers la gauche</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="37"/>
+        <location filename="../utils/shortcut.cpp" line="34"/>
         <source>Increase width right</source>
         <translation>Agrandir vers la droite</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="38"/>
+        <location filename="../utils/shortcut.cpp" line="35"/>
         <source>Decrease height up</source>
         <translation>Réduire à partir du haut</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="39"/>
+        <location filename="../utils/shortcut.cpp" line="36"/>
         <source>Decrease height down</source>
         <translation>Réduire à partir du bas</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="40"/>
+        <location filename="../utils/shortcut.cpp" line="37"/>
         <source>Decrease width left</source>
         <translation>Réduire à partir de la gauche</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="41"/>
+        <location filename="../utils/shortcut.cpp" line="38"/>
         <source>Decrease width right</source>
         <translation>Réduire à partir de la droite</translation>
     </message>
@@ -259,37 +200,37 @@
 <context>
     <name>SubToolBar</name>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="377"/>
+        <location filename="../widgets/subtoolbar.cpp" line="340"/>
         <source>Save to desktop</source>
         <translation>Enregistrer sur le bureau</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="383"/>
+        <location filename="../widgets/subtoolbar.cpp" line="345"/>
         <source>Autosave</source>
         <translation>Sauvegarde automatique</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="389"/>
+        <location filename="../widgets/subtoolbar.cpp" line="350"/>
         <source>Save to specified folder</source>
         <translation>Enregistrer sous</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="395"/>
+        <location filename="../widgets/subtoolbar.cpp" line="355"/>
         <source>Copy to clipboard</source>
         <translation>Copier dans le presse-papiers</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="400"/>
+        <location filename="../widgets/subtoolbar.cpp" line="360"/>
         <source>Autosave and copy to clipboard</source>
         <translation>Sauvegarder et copier dans le presse-papiers</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="405"/>
+        <location filename="../widgets/subtoolbar.cpp" line="365"/>
         <source>Low</source>
         <translation>Bas</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="419"/>
+        <location filename="../widgets/subtoolbar.cpp" line="379"/>
         <source>High</source>
         <translation>Haut</translation>
     </message>

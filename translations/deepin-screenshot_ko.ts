@@ -1,114 +1,76 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ko">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ko" version="2.1">
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="524"/>
-        <source>select-area</source>
-        <translation type="unfinished"></translation>
+        <location filename="../mainwindow.cpp" line="535"/>
+        <source>Select area</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="927"/>
-        <location filename="../mainwindow.cpp" line="929"/>
-        <location filename="../mainwindow.cpp" line="1174"/>
-        <location filename="../mainwindow.cpp" line="1177"/>
-        <location filename="../mainwindow.cpp" line="1190"/>
-        <location filename="../mainwindow.cpp" line="1193"/>
-        <location filename="../mainwindow.cpp" line="1227"/>
-        <location filename="../mainwindow.cpp" line="1230"/>
-        <location filename="../mainwindow.cpp" line="1262"/>
-        <location filename="../mainwindow.cpp" line="1265"/>
-        <source>DeepinScreenshot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="945"/>
-        <location filename="../mainwindow.cpp" line="1279"/>
+        <location filename="../mainwindow.cpp" line="1060"/>
         <source>View</source>
         <translation>ㅂㅗ기</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="959"/>
-        <location filename="../mainwindow.cpp" line="1299"/>
-        <source>Picture has been saved to %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1197"/>
-        <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm);;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1297"/>
-        <source>Picture has been saved to clipboard</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MenuController</name>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="15"/>
+        <location filename="../controller/menucontroller.cpp" line="14"/>
         <source>Rectangle</source>
         <translation>사각형</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="23"/>
+        <location filename="../controller/menucontroller.cpp" line="22"/>
         <source>Ellipse</source>
         <translation>타원 </translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="31"/>
+        <location filename="../controller/menucontroller.cpp" line="30"/>
         <source>Arrow</source>
         <translation>화살표</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="39"/>
+        <location filename="../controller/menucontroller.cpp" line="38"/>
         <source>Pencil</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="47"/>
+        <location filename="../controller/menucontroller.cpp" line="46"/>
         <source>Text</source>
         <translation>텍스트</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="55"/>
-        <source>Undo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../controller/menucontroller.cpp" line="71"/>
+        <location filename="../controller/menucontroller.cpp" line="61"/>
         <source>Save</source>
         <translation>저장</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="74"/>
+        <location filename="../controller/menucontroller.cpp" line="64"/>
         <source>Save to desktop</source>
         <translation>데스크톱으로 저장하기</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="75"/>
+        <location filename="../controller/menucontroller.cpp" line="65"/>
         <source>Autosave</source>
         <translation>자동 저장</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="76"/>
+        <location filename="../controller/menucontroller.cpp" line="66"/>
         <source>Save to specified folder</source>
         <translation>지정된 폴더에 저장</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="77"/>
+        <location filename="../controller/menucontroller.cpp" line="67"/>
         <source>Copy to clipboard</source>
         <translation>클립보드 복사 </translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="78"/>
+        <location filename="../controller/menucontroller.cpp" line="68"/>
         <source>Autosave and copy to clipboard</source>
         <translation>자동 저장 및 클립보드 복사</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="99"/>
+        <location filename="../controller/menucontroller.cpp" line="89"/>
         <source>Exit</source>
         <translation>나가기</translation>
     </message>
@@ -116,16 +78,9 @@
 <context>
     <name>QObject</name>
     <message>
+        <location filename="../main.cpp" line="21"/>
         <source>Deepin Screenshot</source>
-        <translation type="vanished">Deepin 스크린샷</translation>
-    </message>
-</context>
-<context>
-    <name>Screenshot</name>
-    <message>
-        <location filename="../screenshot.cpp" line="60"/>
-        <source>Deepin Screenshot will start after %1 second</source>
-        <translation type="unfinished"></translation>
+        <translation>Deepin 스크린샷</translation>
     </message>
 </context>
 <context>
@@ -137,7 +92,7 @@
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="11"/>
-        <location filename="../utils/shortcut.cpp" line="22"/>
+        <location filename="../utils/shortcut.cpp" line="21"/>
         <source>Save</source>
         <translation>저장</translation>
     </message>
@@ -168,86 +123,76 @@
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="19"/>
-        <source>Undo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/shortcut.cpp" line="20"/>
         <source>Exit</source>
         <translation>나가기</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="23"/>
-        <source>Copy to clipboard</source>
-        <translation type="unfinished">클립보드 복사 </translation>
-    </message>
-    <message>
-        <location filename="../utils/shortcut.cpp" line="26"/>
         <source>Rectangle</source>
         <translation>사각형</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="27"/>
+        <location filename="../utils/shortcut.cpp" line="24"/>
         <source>Ellipse</source>
         <translation>타원 </translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="28"/>
+        <location filename="../utils/shortcut.cpp" line="25"/>
         <source>Arrow</source>
         <translation>화살표</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="29"/>
+        <location filename="../utils/shortcut.cpp" line="26"/>
         <source>Pencil</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="30"/>
+        <location filename="../utils/shortcut.cpp" line="27"/>
         <source>Text</source>
         <translation>텍스트</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="31"/>
+        <location filename="../utils/shortcut.cpp" line="28"/>
         <source>Color</source>
         <translation>색상</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="34"/>
+        <location filename="../utils/shortcut.cpp" line="31"/>
         <source>Increase height up</source>
         <translation>높이를 위쪽으로 키우기</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="35"/>
+        <location filename="../utils/shortcut.cpp" line="32"/>
         <source>Increase height down</source>
         <translation>높이를 아래로 증가</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="36"/>
+        <location filename="../utils/shortcut.cpp" line="33"/>
         <source>Increase width left</source>
         <translation>왼쪽 폭 늘이기</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="37"/>
+        <location filename="../utils/shortcut.cpp" line="34"/>
         <source>Increase width right</source>
         <translation>너비를 오른쪽으로 늘리기 </translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="38"/>
+        <location filename="../utils/shortcut.cpp" line="35"/>
         <source>Decrease height up</source>
         <translation>하이트 업 감소</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="39"/>
+        <location filename="../utils/shortcut.cpp" line="36"/>
         <source>Decrease height down</source>
         <translation>높이 낮추기</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="40"/>
+        <location filename="../utils/shortcut.cpp" line="37"/>
         <source>Decrease width left</source>
         <translation>너비를 왼쪽으로 줄이세요.</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="41"/>
+        <location filename="../utils/shortcut.cpp" line="38"/>
         <source>Decrease width right</source>
         <translation>너비를 오른쪽으로 줄이세요.</translation>
     </message>
@@ -255,37 +200,37 @@
 <context>
     <name>SubToolBar</name>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="377"/>
+        <location filename="../widgets/subtoolbar.cpp" line="340"/>
         <source>Save to desktop</source>
         <translation>데스크톱으로 저장하기</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="383"/>
+        <location filename="../widgets/subtoolbar.cpp" line="345"/>
         <source>Autosave</source>
         <translation>자동 저장</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="389"/>
+        <location filename="../widgets/subtoolbar.cpp" line="350"/>
         <source>Save to specified folder</source>
         <translation>지정된 폴더에 저장</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="395"/>
+        <location filename="../widgets/subtoolbar.cpp" line="355"/>
         <source>Copy to clipboard</source>
         <translation>클립보드 복사 </translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="400"/>
+        <location filename="../widgets/subtoolbar.cpp" line="360"/>
         <source>Autosave and copy to clipboard</source>
         <translation>자동 저장 및 클립보드 복사</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="405"/>
+        <location filename="../widgets/subtoolbar.cpp" line="365"/>
         <source>Low</source>
         <translation>낮음</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="419"/>
+        <location filename="../widgets/subtoolbar.cpp" line="379"/>
         <source>High</source>
         <translation>높음</translation>
     </message>

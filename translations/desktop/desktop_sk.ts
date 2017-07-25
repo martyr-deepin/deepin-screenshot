@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sk">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sk" version="2.1">
     <context>
         <name>desktop</name>
         <message>
@@ -16,7 +14,7 @@
         <message>
             <location filename="Full_Screenshot Shortcut Group]Name" line="0"/>
             <source>Full Screenshot</source>
-            <translation>Celý snímok obrazovky</translation>
+            <translation type="unfinished"/>
         </message>
         <message>
             <location filename="Desktop Entry]Comment" line="0"/>

@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="fr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.1">
     <context>
         <name>desktop</name>
         <message>
             <location filename="Desktop Entry]Name" line="0"/>
             <source>Deepin Screenshot</source>
-            <translation>Capture d'écran de Deepin</translation>
+            <translation>Capture d&apos;écran Deepin</translation>
         </message>
         <message>
             <location filename="Delay_Screenshot Shortcut Group]Name" line="0"/>
@@ -16,13 +14,13 @@
         <message>
             <location filename="Full_Screenshot Shortcut Group]Name" line="0"/>
             <source>Full Screenshot</source>
-            <translation>Plein écran</translation>
+            <translation type="unfinished"/>
         </message>
         <message>
             <location filename="Desktop Entry]Comment" line="0"/>
             <location filename="Desktop Entry]GenericName" line="0"/>
             <source>Screen capturing application</source>
-            <translation>Application de capture d'écran</translation>
+            <translation>Application de capture d&apos;écran</translation>
         </message>
     </context>
 </TS>

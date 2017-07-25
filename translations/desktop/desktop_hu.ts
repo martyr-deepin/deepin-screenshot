@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hu">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hu" version="2.1">
     <context>
         <name>desktop</name>
         <message>
             <location filename="Desktop Entry]Name" line="0"/>
             <source>Deepin Screenshot</source>
-            <translation>Deepin képernyőkép</translation>
+            <translation>Deepin Képernyőkép</translation>
         </message>
         <message>
             <location filename="Delay_Screenshot Shortcut Group]Name" line="0"/>
