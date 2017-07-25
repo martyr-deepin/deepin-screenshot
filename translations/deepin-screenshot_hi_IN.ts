@@ -1,114 +1,76 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="hi_IN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="hi_IN" version="2.1">
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="524"/>
-        <source>select-area</source>
-        <translation type="unfinished"></translation>
+        <location filename="../mainwindow.cpp" line="535"/>
+        <source>Select area</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="927"/>
-        <location filename="../mainwindow.cpp" line="929"/>
-        <location filename="../mainwindow.cpp" line="1174"/>
-        <location filename="../mainwindow.cpp" line="1177"/>
-        <location filename="../mainwindow.cpp" line="1190"/>
-        <location filename="../mainwindow.cpp" line="1193"/>
-        <location filename="../mainwindow.cpp" line="1227"/>
-        <location filename="../mainwindow.cpp" line="1230"/>
-        <location filename="../mainwindow.cpp" line="1262"/>
-        <location filename="../mainwindow.cpp" line="1265"/>
-        <source>DeepinScreenshot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="945"/>
-        <location filename="../mainwindow.cpp" line="1279"/>
+        <location filename="../mainwindow.cpp" line="1060"/>
         <source>View</source>
         <translation>देखें</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="959"/>
-        <location filename="../mainwindow.cpp" line="1299"/>
-        <source>Picture has been saved to %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1197"/>
-        <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm);;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="1297"/>
-        <source>Picture has been saved to clipboard</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MenuController</name>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="15"/>
+        <location filename="../controller/menucontroller.cpp" line="14"/>
         <source>Rectangle</source>
         <translation>त्रिकोण</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="23"/>
+        <location filename="../controller/menucontroller.cpp" line="22"/>
         <source>Ellipse</source>
         <translation>छुपाएँ</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="31"/>
+        <location filename="../controller/menucontroller.cpp" line="30"/>
         <source>Arrow</source>
         <translation>तीर</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="39"/>
+        <location filename="../controller/menucontroller.cpp" line="38"/>
         <source>Pencil</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="47"/>
+        <location filename="../controller/menucontroller.cpp" line="46"/>
         <source>Text</source>
         <translation>पाठ्य</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="55"/>
-        <source>Undo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../controller/menucontroller.cpp" line="71"/>
+        <location filename="../controller/menucontroller.cpp" line="61"/>
         <source>Save</source>
         <translation>सहेजें</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="74"/>
+        <location filename="../controller/menucontroller.cpp" line="64"/>
         <source>Save to desktop</source>
         <translation>डेस्कटॉप पर सहेजें</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="75"/>
+        <location filename="../controller/menucontroller.cpp" line="65"/>
         <source>Autosave</source>
         <translation>स्वतःसहेजें</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="76"/>
+        <location filename="../controller/menucontroller.cpp" line="66"/>
         <source>Save to specified folder</source>
         <translation>किसी फोंल्डर पर सहेजें</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="77"/>
+        <location filename="../controller/menucontroller.cpp" line="67"/>
         <source>Copy to clipboard</source>
         <translation>पटल पर प्रति</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="78"/>
+        <location filename="../controller/menucontroller.cpp" line="68"/>
         <source>Autosave and copy to clipboard</source>
         <translation>पटल पर स्वतः सहेज कर प्रति करने</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="99"/>
+        <location filename="../controller/menucontroller.cpp" line="89"/>
         <source>Exit</source>
         <translation>बाहर</translation>
     </message>
@@ -116,16 +78,9 @@
 <context>
     <name>QObject</name>
     <message>
+        <location filename="../main.cpp" line="21"/>
         <source>Deepin Screenshot</source>
-        <translation type="vanished">डीपइन स्क्रीनशॉट</translation>
-    </message>
-</context>
-<context>
-    <name>Screenshot</name>
-    <message>
-        <location filename="../screenshot.cpp" line="60"/>
-        <source>Deepin Screenshot will start after %1 second</source>
-        <translation type="unfinished"></translation>
+        <translation>डीपइन स्क्रीनशॉट</translation>
     </message>
 </context>
 <context>
@@ -137,7 +92,7 @@
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="11"/>
-        <location filename="../utils/shortcut.cpp" line="22"/>
+        <location filename="../utils/shortcut.cpp" line="21"/>
         <source>Save</source>
         <translation>सहेजें</translation>
     </message>
@@ -168,86 +123,76 @@
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="19"/>
-        <source>Undo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../utils/shortcut.cpp" line="20"/>
         <source>Exit</source>
         <translation>बाहर</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="23"/>
-        <source>Copy to clipboard</source>
-        <translation type="unfinished">पटल पर प्रति</translation>
-    </message>
-    <message>
-        <location filename="../utils/shortcut.cpp" line="26"/>
         <source>Rectangle</source>
         <translation>त्रिकोण</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="27"/>
+        <location filename="../utils/shortcut.cpp" line="24"/>
         <source>Ellipse</source>
         <translation>छुपाएँ</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="28"/>
+        <location filename="../utils/shortcut.cpp" line="25"/>
         <source>Arrow</source>
         <translation>तीर</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="29"/>
+        <location filename="../utils/shortcut.cpp" line="26"/>
         <source>Pencil</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="30"/>
+        <location filename="../utils/shortcut.cpp" line="27"/>
         <source>Text</source>
         <translation>पाठ्य</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="31"/>
+        <location filename="../utils/shortcut.cpp" line="28"/>
         <source>Color</source>
         <translation>रंग</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="34"/>
+        <location filename="../utils/shortcut.cpp" line="31"/>
         <source>Increase height up</source>
         <translation>लम्बाई ऊपर बढ़ाएँ</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="35"/>
+        <location filename="../utils/shortcut.cpp" line="32"/>
         <source>Increase height down</source>
         <translation>लम्बाई नीचे बढ़ाएँ</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="36"/>
+        <location filename="../utils/shortcut.cpp" line="33"/>
         <source>Increase width left</source>
         <translation>चौड़ाई बाएँ बढ़ाएँ</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="37"/>
+        <location filename="../utils/shortcut.cpp" line="34"/>
         <source>Increase width right</source>
         <translation>चौड़ाई दाएँ बढ़ाएँ</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="38"/>
+        <location filename="../utils/shortcut.cpp" line="35"/>
         <source>Decrease height up</source>
         <translation>लम्बाई ऊपर घटाएँ</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="39"/>
+        <location filename="../utils/shortcut.cpp" line="36"/>
         <source>Decrease height down</source>
         <translation>लम्बाई नीचे घटाएँ</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="40"/>
+        <location filename="../utils/shortcut.cpp" line="37"/>
         <source>Decrease width left</source>
         <translation>चौड़ाई बाएँ घटाएँ</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="41"/>
+        <location filename="../utils/shortcut.cpp" line="38"/>
         <source>Decrease width right</source>
         <translation>चौड़ाई दाएँ घटाएँ</translation>
     </message>
@@ -255,37 +200,37 @@
 <context>
     <name>SubToolBar</name>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="377"/>
+        <location filename="../widgets/subtoolbar.cpp" line="340"/>
         <source>Save to desktop</source>
         <translation>डेस्कटॉप पर सहेजें</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="383"/>
+        <location filename="../widgets/subtoolbar.cpp" line="345"/>
         <source>Autosave</source>
         <translation>स्वतःसहेजें</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="389"/>
+        <location filename="../widgets/subtoolbar.cpp" line="350"/>
         <source>Save to specified folder</source>
         <translation>किसी फोंल्डर पर सहेजें</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="395"/>
+        <location filename="../widgets/subtoolbar.cpp" line="355"/>
         <source>Copy to clipboard</source>
         <translation>पटल पर प्रति</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="400"/>
+        <location filename="../widgets/subtoolbar.cpp" line="360"/>
         <source>Autosave and copy to clipboard</source>
         <translation>पटल पर स्वतः सहेज कर प्रति करने</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="405"/>
+        <location filename="../widgets/subtoolbar.cpp" line="365"/>
         <source>Low</source>
         <translation>निम्न</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="419"/>
+        <location filename="../widgets/subtoolbar.cpp" line="379"/>
         <source>High</source>
         <translation>उच्च</translation>
     </message>
