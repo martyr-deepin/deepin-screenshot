@@ -16,7 +16,7 @@
 //The deepin-tool-kit didn't update...
 //#include <DDesktopServices>
 
-//DUTIL_USE_NAMESPACE
+//DCORE_USE_NAMESPACE
 
 #include "utils/screenutils.h"
 #include "utils/tempfile.h"
