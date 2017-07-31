@@ -1340,7 +1340,7 @@ void MainWindow::sendNotify(int saveIndex, QString saveFilePath) {
     }
 
     QTimer::singleShot(2, [=]{
-        qApp->quit();
+        exitApp();
     });
 
 }
