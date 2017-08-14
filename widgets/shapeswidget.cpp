@@ -125,6 +125,10 @@ void ShapesWidget::setAllTextEditReadOnly() {
     while (i != m_editMap.end()) {
         i.value()->setReadOnly(true);
         i.value()->releaseKeyboard();
+
+        QTextCursor textCursor =  i.value()->textCursor();
+         textCursor.clearSelection();
+         i.value()->setTextCursor(textCursor);
         ++i;
     }
 
