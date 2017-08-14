@@ -1,14 +1,14 @@
 ﻿#include "shapeswidget.h"
 
+#include <QApplication>
+#include <QPainter>
+#include <QDebug>
+
 #include "utils/calculaterect.h"
 #include "utils/configsettings.h"
 #include "utils/tempfile.h"
 
 #include <cmath>
-
-#include <QApplication>
-#include <QPainter>
-#include <QDebug>
 
 #define LINEWIDTH(index) (index*2+3)
 

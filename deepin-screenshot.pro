@@ -12,20 +12,18 @@ TARGET = deepin-screenshot
 TEMPLATE = app
 
 CONFIG += c++11 link_pkgconfig
-PKGCONFIG += xcb xcb-util dtkwidget
+PKGCONFIG += xcb xcb-util dtkwidget dtkwm
 
 LIBS += -lX11 -lXext -lXtst
 QMAKE_CXXFLAGS += -g
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    windowmanager.cpp \
     dbusservice/dbusscreenshotservice.cpp \
     eventcontainer.cpp \
     screenshot.cpp
 
 HEADERS  += mainwindow.h \
-    windowmanager.h \
     dbusservice/dbusscreenshotservice.h \
     eventcontainer.h \
     screenshot.h

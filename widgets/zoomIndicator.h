@@ -23,8 +23,6 @@ private:
     QPixmap m_lastPic;
     QBrush m_lastCenterPosBrush;
     QPoint m_pos;
-
-
 };
 
 #endif // MAGNIFIER_H

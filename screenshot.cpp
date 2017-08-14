@@ -6,7 +6,10 @@
 #include <QWindow>
 
 #include "dbusinterface/dbusnotify.h"
-#include "utils/screenutils.h"
+
+#include <dscreenwindowsutil.h>
+
+DWM_USE_NAMESPACE
 
 Screenshot::Screenshot(QWidget *parent)
     : QMainWindow(parent)
@@ -19,8 +22,8 @@ void Screenshot::initUI() {
     setAttribute(Qt::WA_TranslucentBackground);
 
     QPoint curPos = this->cursor().pos();
-    ScreenUtils::instance(curPos);
-    QRect bgRect = ScreenUtils::instance(curPos)->backgroundRect();
+    DScreenWindowsUtil* swUtil = DScreenWindowsUtil::instance(curPos);
+    QRect bgRect = swUtil->backgroundRect();
 
      this->move(bgRect.x(), bgRect.y());
      this->setFixedSize(bgRect.size());

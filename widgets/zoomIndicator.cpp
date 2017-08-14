@@ -34,7 +34,9 @@ ZoomIndicator::~ZoomIndicator() {}
 void ZoomIndicator::paintEvent(QPaintEvent *) {
 //    using namespace utils;
     QPoint centerPos =  this->cursor().pos();
-    centerPos = QPoint(centerPos.x() - this->window()->x(), centerPos.y());
+    centerPos = QPoint(std::max(centerPos.x() - this->window()->x(), 0),
+                           std::max(centerPos.y(), 0));
+
     QPainter painter(this);
     if (m_updatePos) {
         QString fullscreenImgFile = TempFile::instance()->getFullscreenFileName();

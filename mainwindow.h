@@ -11,6 +11,7 @@
 #include <QDateTime>
 #include <QMouseEvent>
 #include <QTimer>
+#include <QPixmap>
 
 #include "widgets/toptips.h"
 #include "widgets/toolbar.h"
@@ -25,12 +26,10 @@
 #include "dbusinterface/dbusnotify.h"
 #include "dbusinterface/dbuszone.h"
 
-#include "windowmanager.h"
-
-//#include <dforeignwindow.h>
-//#include <dwindowmanagerhelper.h>
+#include <dscreenwindowsutil.h>
 
 DWIDGET_USE_NAMESPACE
+DWM_USE_NAMESPACE
 
 class MainWindow : public QLabel
 {
@@ -102,16 +101,11 @@ protected:
     void hideEvent(QHideEvent *event) Q_DECL_OVERRIDE;
 
 private:
-    WindowManager* m_windowManager;
-    WindowRect m_rootWindowRect;
+    QPixmap getPixmapofRect(const QRect &rect);
 
-    QList<WindowRect> m_windowRects;
+    QList<QRect> m_windowRects;
     QRect m_backgroundRect;
     QList<QString> m_windowNames;
-
-    //WindowManagerHelper* m_wmHelper;
-    //QList<DForeignWindow*> m_fWindows;
-    //QList<QRect> m_fWindowRects;
 
     //SaveIndex indicate the save option(save to desktop, save to Picture dir,...)
     int m_saveIndex = 0;
@@ -167,6 +161,7 @@ private:
     DBusZone* m_hotZoneInterface;
     QPointer<QProcess> m_manualPro;
     QTimer* m_updateZoomTimer;
+    DScreenWindowsUtil* m_swUtil;
 };
 
 #endif // MAINWINDOW_H
