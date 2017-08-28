@@ -54,7 +54,7 @@ void Screenshot::startScreenshot()
     m_window->startScreenshot();
 }
 
-void Screenshot::delayScreenshot(int num)
+void Screenshot::delayScreenshot(double num)
 {
     QString summary = QString(tr("Deepin Screenshot will start after %1 second").arg(num));
     QStringList actions = QStringList();
@@ -67,7 +67,7 @@ void Screenshot::delayScreenshot(int num)
 
     QTimer* timer = new QTimer;
     timer->setSingleShot(true);
-    timer->start(1000*num);
+    timer->start(int(1000*num));
     connect(timer, &QTimer::timeout, this, [=]{
         notifyDBus->CloseNotification(0);
         startScreenshot();

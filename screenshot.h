@@ -14,7 +14,7 @@ public:
 
 public slots:
     void startScreenshot();
-    void delayScreenshot(int num);
+    void delayScreenshot(double num);
     void fullscreenScreenshot();
     void topWindowScreenshot();
     void noNotifyScreenshot();

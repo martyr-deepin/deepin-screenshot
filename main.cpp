@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
             qDebug() << "screenshot no notify!";
             w.noNotifyScreenshot();
         } else if (cmdParser.isSet(iconOption)) {
-            w.startScreenshot();
+            w.delayScreenshot(0.2);
         }  else {
             w.startScreenshot();
         }
