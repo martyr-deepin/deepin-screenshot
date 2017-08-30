@@ -1,16 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Select area</source>
-        <translation type="vanished">选择区域</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="618"/>
         <source>select-area</source>
-        <translation type="unfinished"></translation>
+        <translation>选择区域</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="951"/>
@@ -24,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="1303"/>
         <location filename="../mainwindow.cpp" line="1306"/>
         <source>DeepinScreenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>深度截图</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="970"/>
@@ -36,17 +30,17 @@
         <location filename="../mainwindow.cpp" line="984"/>
         <location filename="../mainwindow.cpp" line="1341"/>
         <source>Picture has been saved to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>图片已保存到%1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</source>
-        <translation type="unfinished"></translation>
+        <translation>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1339"/>
         <source>Picture has been saved to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>图片已保存到剪切板</translation>
     </message>
 </context>
 <context>
@@ -79,7 +73,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="55"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>撤销编辑</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="71"/>
@@ -118,18 +112,11 @@
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Deepin Screenshot</source>
-        <translation type="vanished">深度截图</translation>
-    </message>
-</context>
-<context>
     <name>Screenshot</name>
     <message>
         <location filename="../screenshot.cpp" line="59"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>深度截图将在%1秒后启动</translation>
     </message>
 </context>
 <context>
@@ -173,7 +160,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="19"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>撤销编辑</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="20"/>
@@ -183,7 +170,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="23"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished">复制到剪切板</translation>
+        <translation>复制到剪切板</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="26"/>
@@ -292,13 +279,6 @@
         <location filename="../widgets/subtoolbar.cpp" line="419"/>
         <source>High</source>
         <translation>高</translation>
-    </message>
-</context>
-<context>
-    <name>WindowManager</name>
-    <message>
-        <source>Desktop</source>
-        <translation type="vanished">桌面</translation>
     </message>
 </context>
 </TS>

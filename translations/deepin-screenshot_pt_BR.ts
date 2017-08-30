@@ -1,16 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="pt_BR">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_BR" version="2.1">
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Select area</source>
-        <translation type="vanished">Selecionar área</translation>
-    </message>
-    <message>
         <location filename="../mainwindow.cpp" line="618"/>
         <source>select-area</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="951"/>
@@ -24,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="1303"/>
         <location filename="../mainwindow.cpp" line="1306"/>
         <source>DeepinScreenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Captura de Tela</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="970"/>
@@ -36,17 +30,17 @@
         <location filename="../mainwindow.cpp" line="984"/>
         <location filename="../mainwindow.cpp" line="1341"/>
         <source>Picture has been saved to %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1339"/>
         <source>Picture has been saved to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>A captura foi copiada para a área de tranferência</translation>
     </message>
 </context>
 <context>
@@ -74,12 +68,12 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="47"/>
         <source>Text</source>
-        <translation>Editor de Texto</translation>
+        <translation>Texto</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="55"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Desfazer</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="71"/>
@@ -118,18 +112,11 @@
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Deepin Screenshot</source>
-        <translation type="vanished">Captura de Tela</translation>
-    </message>
-</context>
-<context>
     <name>Screenshot</name>
     <message>
         <location filename="../screenshot.cpp" line="59"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -137,7 +124,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="10"/>
         <source>Start/Screenshot</source>
-        <translation>Iniciar/Captura de Tela</translation>
+        <translation>Iniciar captura de tela</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="11"/>
@@ -153,7 +140,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="13"/>
         <source>Size Adjustment</source>
-        <translation>Ajuste de Tamanho</translation>
+        <translation>Ajuste de tamanho</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="16"/>
@@ -173,7 +160,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="19"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Desfazer</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="20"/>
@@ -183,7 +170,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="23"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished">Copiar para a área de transferência </translation>
+        <translation>Copiar para a área de transferência </translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="26"/>
@@ -208,7 +195,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="30"/>
         <source>Text</source>
-        <translation>Editor de Texto</translation>
+        <translation>Texto</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="31"/>
@@ -292,13 +279,6 @@
         <location filename="../widgets/subtoolbar.cpp" line="419"/>
         <source>High</source>
         <translation>Alto</translation>
-    </message>
-</context>
-<context>
-    <name>WindowManager</name>
-    <message>
-        <source>Desktop</source>
-        <translation type="vanished">Área de trabalho</translation>
     </message>
 </context>
 </TS>

@@ -9,18 +9,18 @@
         <message>
             <location filename="Delay_Screenshot Shortcut Group]Name" line="0"/>
             <source>Delay Screenshot</source>
-            <translation type="unfinished"/>
+            <translation>Снимок экрана с Задержкой</translation>
         </message>
         <message>
             <location filename="Full_Screenshot Shortcut Group]Name" line="0"/>
             <source>Full Screenshot</source>
-            <translation type="unfinished"/>
+            <translation>Полноэкранный Снимок</translation>
         </message>
         <message>
             <location filename="Desktop Entry]Comment" line="0"/>
             <location filename="Desktop Entry]GenericName" line="0"/>
             <source>Screen capturing application</source>
-            <translation>Приложение для снимков экрана</translation>
+            <translation>Приложение захвата экрана</translation>
         </message>
     </context>
 </TS>

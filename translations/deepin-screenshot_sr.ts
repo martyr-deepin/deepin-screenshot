@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sr" version="2.1">
 <context>
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.cpp" line="618"/>
         <source>select-area</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="951"/>
@@ -20,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="1303"/>
         <location filename="../mainwindow.cpp" line="1306"/>
         <source>DeepinScreenshot</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="970"/>
@@ -32,17 +30,17 @@
         <location filename="../mainwindow.cpp" line="984"/>
         <location filename="../mainwindow.cpp" line="1341"/>
         <source>Picture has been saved to %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1339"/>
         <source>Picture has been saved to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Слика је сачувана у клипборду</translation>
     </message>
 </context>
 <context>
@@ -65,7 +63,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="39"/>
         <source>Pencil</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="47"/>
@@ -75,7 +73,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="55"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="71"/>
@@ -105,7 +103,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="78"/>
         <source>Autosave and copy to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="99"/>
@@ -114,18 +112,11 @@
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Deepin Screenshot</source>
-        <translation type="vanished">Deepin Слика Екрана</translation>
-    </message>
-</context>
-<context>
     <name>Screenshot</name>
     <message>
         <location filename="../screenshot.cpp" line="59"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -133,7 +124,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="10"/>
         <source>Start/Screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="11"/>
@@ -144,32 +135,32 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="12"/>
         <source>Painting</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="13"/>
         <source>Size Adjustment</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="16"/>
         <source>Quick start</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="17"/>
         <source>Full screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Снимак целог екрана</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="18"/>
         <source>Delay screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Одлагање снимка екрана</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="19"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="20"/>
@@ -179,7 +170,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="23"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished">Налепи у клипборд</translation>
+        <translation>Налепи у клипборд</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="26"/>
@@ -199,7 +190,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="29"/>
         <source>Pencil</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="30"/>
@@ -214,42 +205,42 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="34"/>
         <source>Increase height up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="35"/>
         <source>Increase height down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="36"/>
         <source>Increase width left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="37"/>
         <source>Increase width right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="38"/>
         <source>Decrease height up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="39"/>
         <source>Decrease height down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="40"/>
         <source>Decrease width left</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="41"/>
         <source>Decrease width right</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -277,24 +268,17 @@
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="400"/>
         <source>Autosave and copy to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="405"/>
         <source>Low</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="419"/>
         <source>High</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>WindowManager</name>
-    <message>
-        <source>Desktop</source>
-        <translation type="vanished">Радна површ</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

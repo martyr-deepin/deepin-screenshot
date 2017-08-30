@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ko">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ko" version="2.1">
 <context>
     <name>MainWindow</name>
     <message>
         <location filename="../mainwindow.cpp" line="618"/>
         <source>select-area</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="951"/>
@@ -20,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="1303"/>
         <location filename="../mainwindow.cpp" line="1306"/>
         <source>DeepinScreenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Deepin스크린샷</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="970"/>
@@ -32,17 +30,17 @@
         <location filename="../mainwindow.cpp" line="984"/>
         <location filename="../mainwindow.cpp" line="1341"/>
         <source>Picture has been saved to %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1339"/>
         <source>Picture has been saved to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>클립보드에 사진 저장됨</translation>
     </message>
 </context>
 <context>
@@ -65,7 +63,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="39"/>
         <source>Pencil</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="47"/>
@@ -75,7 +73,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="55"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="71"/>
@@ -114,18 +112,11 @@
     </message>
 </context>
 <context>
-    <name>QObject</name>
-    <message>
-        <source>Deepin Screenshot</source>
-        <translation type="vanished">Deepin 스크린샷</translation>
-    </message>
-</context>
-<context>
     <name>Screenshot</name>
     <message>
         <location filename="../screenshot.cpp" line="59"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -169,7 +160,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="19"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="20"/>
@@ -179,7 +170,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="23"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished">클립보드 복사 </translation>
+        <translation>클립보드 복사 </translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="26"/>
@@ -199,7 +190,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="29"/>
         <source>Pencil</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="30"/>
@@ -288,13 +279,6 @@
         <location filename="../widgets/subtoolbar.cpp" line="419"/>
         <source>High</source>
         <translation>높음</translation>
-    </message>
-</context>
-<context>
-    <name>WindowManager</name>
-    <message>
-        <source>Desktop</source>
-        <translation type="vanished">바탕 화면</translation>
     </message>
 </context>
 </TS>

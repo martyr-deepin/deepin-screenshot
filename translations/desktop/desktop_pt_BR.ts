@@ -4,17 +4,17 @@
         <message>
             <location filename="Desktop Entry]Name" line="0"/>
             <source>Deepin Screenshot</source>
-            <translation>Captura de Tela</translation>
+            <translation>Deepin Screenshot</translation>
         </message>
         <message>
             <location filename="Delay_Screenshot Shortcut Group]Name" line="0"/>
             <source>Delay Screenshot</source>
-            <translation type="unfinished"/>
+            <translation>Atraso em captura de tela</translation>
         </message>
         <message>
             <location filename="Full_Screenshot Shortcut Group]Name" line="0"/>
             <source>Full Screenshot</source>
-            <translation type="unfinished"/>
+            <translation>Captura em tela cheia</translation>
         </message>
         <message>
             <location filename="Desktop Entry]Comment" line="0"/>

@@ -9,7 +9,7 @@
         <message>
             <location filename="Delay_Screenshot Shortcut Group]Name" line="0"/>
             <source>Delay Screenshot</source>
-            <translation type="unfinished"/>
+            <translation>Atraso na captura</translation>
         </message>
         <message>
             <location filename="Full_Screenshot Shortcut Group]Name" line="0"/>
