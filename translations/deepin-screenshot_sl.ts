@@ -128,7 +128,7 @@
     <name>Screenshot</name>
     <message>
         <location filename="../screenshot.cpp" line="59"/>
-        <source>Deepin Screenshot will start after %1 second</source>
+        <source>Deepin Screenshot will start after %1 seconds</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
