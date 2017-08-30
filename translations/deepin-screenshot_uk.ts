@@ -1,76 +1,114 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="uk" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="uk">
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.cpp" line="535"/>
-        <source>Select area</source>
-        <translation type="unfinished"/>
+        <location filename="../mainwindow.cpp" line="618"/>
+        <source>select-area</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1060"/>
+        <location filename="../mainwindow.cpp" line="951"/>
+        <location filename="../mainwindow.cpp" line="953"/>
+        <location filename="../mainwindow.cpp" line="1209"/>
+        <location filename="../mainwindow.cpp" line="1212"/>
+        <location filename="../mainwindow.cpp" line="1225"/>
+        <location filename="../mainwindow.cpp" line="1228"/>
+        <location filename="../mainwindow.cpp" line="1268"/>
+        <location filename="../mainwindow.cpp" line="1271"/>
+        <location filename="../mainwindow.cpp" line="1303"/>
+        <location filename="../mainwindow.cpp" line="1306"/>
+        <source>DeepinScreenshot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="970"/>
+        <location filename="../mainwindow.cpp" line="1321"/>
         <source>View</source>
         <translation>Переглянути</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="984"/>
+        <location filename="../mainwindow.cpp" line="1341"/>
+        <source>Picture has been saved to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1233"/>
+        <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1339"/>
+        <source>Picture has been saved to clipboard</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MenuController</name>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="14"/>
+        <location filename="../controller/menucontroller.cpp" line="15"/>
         <source>Rectangle</source>
         <translation>Прямокутник</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="22"/>
+        <location filename="../controller/menucontroller.cpp" line="23"/>
         <source>Ellipse</source>
         <translation>Еліпс</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="30"/>
+        <location filename="../controller/menucontroller.cpp" line="31"/>
         <source>Arrow</source>
         <translation>Стрілка</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="38"/>
+        <location filename="../controller/menucontroller.cpp" line="39"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="46"/>
+        <location filename="../controller/menucontroller.cpp" line="47"/>
         <source>Text</source>
         <translation>Текст</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="61"/>
+        <location filename="../controller/menucontroller.cpp" line="55"/>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../controller/menucontroller.cpp" line="71"/>
         <source>Save</source>
         <translation>Зберегти</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="64"/>
+        <location filename="../controller/menucontroller.cpp" line="74"/>
         <source>Save to desktop</source>
         <translation>Зберегти на робочому столі</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="65"/>
+        <location filename="../controller/menucontroller.cpp" line="75"/>
         <source>Autosave</source>
         <translation>Автозбереження</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="66"/>
+        <location filename="../controller/menucontroller.cpp" line="76"/>
         <source>Save to specified folder</source>
         <translation>Зберегти до вказаної папки</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="67"/>
+        <location filename="../controller/menucontroller.cpp" line="77"/>
         <source>Copy to clipboard</source>
         <translation>Скопіювати до буфера</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="68"/>
+        <location filename="../controller/menucontroller.cpp" line="78"/>
         <source>Autosave and copy to clipboard</source>
         <translation>Автоматично зберегти й копіювати в буфер обміну</translation>
     </message>
     <message>
-        <location filename="../controller/menucontroller.cpp" line="89"/>
+        <location filename="../controller/menucontroller.cpp" line="99"/>
         <source>Exit</source>
         <translation>Вихід</translation>
     </message>
@@ -78,9 +116,16 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../main.cpp" line="21"/>
         <source>Deepin Screenshot</source>
-        <translation>Знімок Екрану Deepin</translation>
+        <translation type="vanished">Знімок Екрану Deepin</translation>
+    </message>
+</context>
+<context>
+    <name>Screenshot</name>
+    <message>
+        <location filename="../screenshot.cpp" line="59"/>
+        <source>Deepin Screenshot will start after %1 second</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -92,7 +137,7 @@
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="11"/>
-        <location filename="../utils/shortcut.cpp" line="21"/>
+        <location filename="../utils/shortcut.cpp" line="22"/>
         <source>Save</source>
         <translation>Зберегти</translation>
     </message>
@@ -123,76 +168,86 @@
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="19"/>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="20"/>
         <source>Exit</source>
         <translation>Вихід</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="23"/>
+        <source>Copy to clipboard</source>
+        <translation type="unfinished">Скопіювати до буфера</translation>
+    </message>
+    <message>
+        <location filename="../utils/shortcut.cpp" line="26"/>
         <source>Rectangle</source>
         <translation>Прямокутник</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="24"/>
+        <location filename="../utils/shortcut.cpp" line="27"/>
         <source>Ellipse</source>
         <translation>Еліпс</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="25"/>
+        <location filename="../utils/shortcut.cpp" line="28"/>
         <source>Arrow</source>
         <translation>Стрілка</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="26"/>
+        <location filename="../utils/shortcut.cpp" line="29"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="27"/>
+        <location filename="../utils/shortcut.cpp" line="30"/>
         <source>Text</source>
         <translation>Текст</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="28"/>
+        <location filename="../utils/shortcut.cpp" line="31"/>
         <source>Color</source>
         <translation>Колір</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="31"/>
+        <location filename="../utils/shortcut.cpp" line="34"/>
         <source>Increase height up</source>
         <translation>Збільшити висоту</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="32"/>
+        <location filename="../utils/shortcut.cpp" line="35"/>
         <source>Increase height down</source>
         <translation>Збільшити висоту</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="33"/>
+        <location filename="../utils/shortcut.cpp" line="36"/>
         <source>Increase width left</source>
         <translation>Збільшити ширину вліво</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="34"/>
+        <location filename="../utils/shortcut.cpp" line="37"/>
         <source>Increase width right</source>
         <translation>Збільшити ширину вправо</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="35"/>
+        <location filename="../utils/shortcut.cpp" line="38"/>
         <source>Decrease height up</source>
         <translation>Зменшити висоту</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="36"/>
+        <location filename="../utils/shortcut.cpp" line="39"/>
         <source>Decrease height down</source>
         <translation>Зменшити висоту</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="37"/>
+        <location filename="../utils/shortcut.cpp" line="40"/>
         <source>Decrease width left</source>
         <translation>Зменшити ширину зліва</translation>
     </message>
     <message>
-        <location filename="../utils/shortcut.cpp" line="38"/>
+        <location filename="../utils/shortcut.cpp" line="41"/>
         <source>Decrease width right</source>
         <translation>Зменшити ширину вправо</translation>
     </message>
@@ -200,37 +255,37 @@
 <context>
     <name>SubToolBar</name>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="340"/>
+        <location filename="../widgets/subtoolbar.cpp" line="377"/>
         <source>Save to desktop</source>
         <translation>Зберегти на робочому столі</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="345"/>
+        <location filename="../widgets/subtoolbar.cpp" line="383"/>
         <source>Autosave</source>
         <translation>Автозбереження</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="350"/>
+        <location filename="../widgets/subtoolbar.cpp" line="389"/>
         <source>Save to specified folder</source>
         <translation>Зберегти до вказаної папки</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="355"/>
+        <location filename="../widgets/subtoolbar.cpp" line="395"/>
         <source>Copy to clipboard</source>
         <translation>Скопіювати до буфера</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="360"/>
+        <location filename="../widgets/subtoolbar.cpp" line="400"/>
         <source>Autosave and copy to clipboard</source>
         <translation>Автоматично зберегти й копіювати в буфер обміну</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="365"/>
+        <location filename="../widgets/subtoolbar.cpp" line="405"/>
         <source>Low</source>
         <translation>Низький</translation>
     </message>
     <message>
-        <location filename="../widgets/subtoolbar.cpp" line="379"/>
+        <location filename="../widgets/subtoolbar.cpp" line="419"/>
         <source>High</source>
         <translation>Високий</translation>
     </message>
@@ -238,10 +293,8 @@
 <context>
     <name>WindowManager</name>
     <message>
-        <location filename="../windowmanager.cpp" line="152"/>
-        <location filename="../windowmanager.cpp" line="171"/>
         <source>Desktop</source>
-        <translation>Робочий стіл</translation>
+        <translation type="vanished">Робочий стіл</translation>
     </message>
 </context>
 </TS>
