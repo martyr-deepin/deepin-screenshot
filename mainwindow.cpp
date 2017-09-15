@@ -9,6 +9,7 @@
 #include <QStyleFactory>
 #include <QShortcut>
 #include <QKeySequence>
+#include <QApplication>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 
@@ -1130,8 +1131,15 @@ void MainWindow::shotCurrentImg()
     this->hide();
     emit hideScreenshotUI();
 
+    const qreal ratio = qApp->devicePixelRatio();
+    QRect target( m_recordX * ratio,
+                  m_recordY * ratio,
+                  m_recordWidth * ratio,
+                  m_recordHeight * ratio );
+
     QPixmap tmpImg(TempFile::instance()->getFullscreenFileName());
-    tmpImg = tmpImg.copy(QRect(m_recordX, m_recordY, m_recordWidth, m_recordHeight));
+    tmpImg = tmpImg.copy(target);
+
     tmpImg.save(TempFile::instance()->getTmpFileName(), "png");
 }
 
