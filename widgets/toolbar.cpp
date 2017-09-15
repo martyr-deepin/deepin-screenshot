@@ -48,6 +48,7 @@ ToolBarWidget::ToolBarWidget(QWidget *parent)
     setMaskColor(QColor(255, 255, 255, 204));
     setFixedSize(TOOLBAR_WIDGET_SIZE);
 
+    qDebug() << "~~~~~~" << this->size();
     m_hSeperatorLine = new QLabel(this);
     m_hSeperatorLine->setObjectName("HorSeperatorLine");
     m_hSeperatorLine->setFixedHeight(1);
@@ -106,7 +107,7 @@ void ToolBarWidget::setExpand(bool expand, QString shapeType) {
     if (expand) {
         m_expanded = true;
         setFixedSize(TOOLBAR_WIDGET_SIZE.width(),
-                              TOOLBAR_WIDGET_SIZE.height()*2+1);
+                                 TOOLBAR_WIDGET_SIZE.height()*2+1);
         m_hSeperatorLine->show();
         m_subToolbar->show();
     }
@@ -147,7 +148,6 @@ ToolBar::ToolBar(QWidget *parent)
 
 void ToolBar::setExpand(bool expand, QString shapeType) {
     emit buttonChecked(shapeType);
-
     if (expand) {
         m_expanded = true;
         setFixedSize(TOOLBAR_WIDTH,

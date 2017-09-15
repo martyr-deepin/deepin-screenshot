@@ -16,5 +16,29 @@
         <file>image/menu_icons/text-menu-norml.png</file>
         <file>image/menu_icons/undo-menu-normal.png</file>
         <file>image/menu_icons/undo-menu-hover.png</file>
+        <file>image/menu_icons/arrow-menu-hover@2x.png</file>
+        <file>image/menu_icons/arrow-menu-norml@2x.png</file>
+        <file>image/menu_icons/arrow-menu-press@2x.png</file>
+        <file>image/menu_icons/ellipse-menu-hover@2x.png</file>
+        <file>image/menu_icons/ellipse-menu-norml@2x.png</file>
+        <file>image/menu_icons/ellipse-menu-press@2x.png</file>
+        <file>image/menu_icons/exit-menu-hover@2x.png</file>
+        <file>image/menu_icons/exit-menu-norml@2x.png</file>
+        <file>image/menu_icons/exit-menu-press@2x.png</file>
+        <file>image/menu_icons/line-menu-hover@2x.png</file>
+        <file>image/menu_icons/line-menu-norml@2x.png</file>
+        <file>image/menu_icons/line-menu-press@2x.png</file>
+        <file>image/menu_icons/rectangle-menu-hover@2x.png</file>
+        <file>image/menu_icons/rectangle-menu-norml@2x.png</file>
+        <file>image/menu_icons/rectangle-menu-press@2x.png</file>
+        <file>image/menu_icons/save-menu-hover@2x.png</file>
+        <file>image/menu_icons/save-menu-press@2x.png</file>
+        <file>image/menu_icons/text-menu-hover@2x.png</file>
+        <file>image/menu_icons/text-menu-press@2x.png</file>
+        <file>image/menu_icons/undo-menu-normal@2x.png</file>
+        <file>image/menu_icons/undo-menu-press@2x.png</file>
+        <file>image/menu_icons/undo-menu-hover@2x.png</file>
+        <file>image/menu_icons/save-menu-norml@2x.png</file>
+        <file>image/menu_icons/text-menu-norml@2x.png</file>
     </qresource>
 </RCC>

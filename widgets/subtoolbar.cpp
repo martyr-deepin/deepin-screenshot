@@ -40,6 +40,7 @@ namespace {
     const int TOOLBAR_WIDTH = 280;
     const int BUTTON_SPACING = 1;
     const int COLOR_NUM = 16;
+    const QSize SAVEBTN_SIZE = QSize(33, 26);
 }
 
 SubToolBar::SubToolBar(QWidget *parent)
@@ -391,25 +392,25 @@ void SubToolBar::initSaveLabel() {
     //save to...
     QList<ToolButton*> toolBtnList;
     ToolButton* saveDesktopBtn = new ToolButton();
-    saveDesktopBtn->setFixedSize(33, 26);
+    saveDesktopBtn->setFixedSize(SAVEBTN_SIZE);
     saveDesktopBtn->setObjectName("SaveToDesktop");
     saveDesktopBtn->setTips(tr("Save to desktop"));
     toolBtnList.append(saveDesktopBtn);
 
     ToolButton* savePicBtn = new ToolButton();
-    savePicBtn->setFixedSize(33, 26);
+    savePicBtn->setFixedSize(SAVEBTN_SIZE);
     savePicBtn->setObjectName("SaveToPictureDir");
     savePicBtn->setTips(tr("Autosave"));
     toolBtnList.append(savePicBtn);
 
     ToolButton* saveSpecificDirBtn = new ToolButton();
-    saveSpecificDirBtn->setFixedSize(33, 26);
+    saveSpecificDirBtn->setFixedSize(SAVEBTN_SIZE);
     saveSpecificDirBtn->setObjectName("SaveToSpecificDir");
     saveSpecificDirBtn->setTips(tr("Save to specified folder"));
     toolBtnList.append(saveSpecificDirBtn);
 
     ToolButton* saveClipboardBtn = new ToolButton();
-    saveClipboardBtn->setFixedSize(33, 26);
+    saveClipboardBtn->setFixedSize(SAVEBTN_SIZE);
     saveClipboardBtn->setObjectName("SaveToClipboard");
     saveClipboardBtn->setTips(tr("Copy to clipboard"));
     toolBtnList.append(saveClipboardBtn);

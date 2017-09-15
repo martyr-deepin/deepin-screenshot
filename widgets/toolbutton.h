@@ -21,6 +21,7 @@
 #define TOOLBUTTON_H
 
 #include <QPushButton>
+#include <QApplication>
 
 class ToolButton : public QPushButton {
     Q_OBJECT

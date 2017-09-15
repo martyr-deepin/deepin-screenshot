@@ -33,6 +33,7 @@
 
 const int DRAG_BOUND_RADIUS = 8;
 const int SPACING = 12;
+const qreal RESIZEPOINT_WIDTH = 15;
 
 ShapesWidget::ShapesWidget(QWidget *parent)
     : QFrame(parent),
@@ -1248,10 +1249,10 @@ void ShapesWidget::updateTextRect(TextEdit* edit, QRectF newRect) {
 
 void ShapesWidget::paintImgPoint(QPainter &painter, QPointF pos, QPixmap img, bool isResize) {
         if (isResize) {
-                painter.drawPixmap(QPoint(pos.x() - DRAG_BOUND_RADIUS,
+                painter.drawPixmap(QPointF(pos.x() - DRAG_BOUND_RADIUS,
                                   pos.y() - DRAG_BOUND_RADIUS), img);
         } else {
-            painter.drawPixmap(QPoint(pos.x() - 12,
+            painter.drawPixmap(QPointF(pos.x() - 12,
                               pos.y() - 12), img);
         }
 }
@@ -1488,7 +1489,12 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
         qDebug() << "hoveredShape type:" << m_hoveredShape.type;
     }
 
-    QPixmap resizePointImg(":/resources/images/size/resize_handle_big.png");
+    qreal ration =  this->devicePixelRatioF();
+    QIcon icon(":/resources/images/size/resize_handle_big.svg");
+    QPixmap resizePointImg = icon.pixmap(QSize(RESIZEPOINT_WIDTH,
+                                                                                RESIZEPOINT_WIDTH));
+    resizePointImg.setDevicePixelRatio(ration);
+
     if (m_selectedShape.type == "arrow" && m_selectedShape.points.length() == 2) {
         paintImgPoint(painter, m_selectedShape.points[0], resizePointImg);
         paintImgPoint(painter, m_selectedShape.points[1], resizePointImg);

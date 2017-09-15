@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
      a.setApplicationVersion("4.0");
      a.setTheme("light");
      a.setQuitOnLastWindowClosed(false);
+     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
      using namespace Dtk::Core;
      Dtk::Core::DLogManager::registerConsoleAppender();

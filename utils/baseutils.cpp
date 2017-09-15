@@ -139,6 +139,6 @@ bool          isCommandExist(QString command) {
     }
 }
 
-void   paintSelectedPoint(QPainter &painter, QPoint pos, QPixmap pointImg) {
+void   paintSelectedPoint(QPainter &painter, QPointF pos, QPixmap pointImg) {
     painter.drawPixmap(pos, pointImg);
 }

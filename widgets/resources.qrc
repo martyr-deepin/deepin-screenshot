@@ -44,9 +44,6 @@
         <file>resources/images/action/magnifier.png</file>
         <file>resources/qss/zoomindicator.qss</file>
         <file>resources/images/action/center_rect.png</file>
-        <file>resources/images/size/add_hover.png</file>
-        <file>resources/images/size/add_normal.png</file>
-        <file>resources/images/size/add_press.png</file>
         <file>resources/images/size/blur_checked.png</file>
         <file>resources/images/size/blur_hover.png</file>
         <file>resources/images/size/blur_normal.png</file>
@@ -59,9 +56,6 @@
         <file>resources/images/size/mosaic_checked.png</file>
         <file>resources/images/size/mosaic_hover.png</file>
         <file>resources/images/size/mosaic_normal.png</file>
-        <file>resources/images/size/reduce_hover.png</file>
-        <file>resources/images/size/reduce_normal.png</file>
-        <file>resources/images/size/reduce_press.png</file>
         <file>resources/images/size/resize_handle_big.png</file>
         <file>resources/images/size/resize_handle_small.png</file>
         <file>resources/images/size/thick_checked.png</file>
@@ -162,5 +156,137 @@
         <file>resources/images/action/straightline_normal.png</file>
         <file>resources/images/action/straightline_hover.png</file>
         <file>resources/images/action/straightline_checked.png</file>
+        <file>resources/images/action/arrow_checked@2x.png</file>
+        <file>resources/images/action/arrow_hover@2x.png</file>
+        <file>resources/images/action/arrow_normal@2x.png</file>
+        <file>resources/images/action/close_checked@2x.png</file>
+        <file>resources/images/action/close_hover@2x.png</file>
+        <file>resources/images/action/close_normal@2x.png</file>
+        <file>resources/images/action/colors_checked@2x.png</file>
+        <file>resources/images/action/colors_hover@2x.png</file>
+        <file>resources/images/action/colors_normal@2x.png</file>
+        <file>resources/images/action/line_checked@2x.png</file>
+        <file>resources/images/action/line_hover@2x.png</file>
+        <file>resources/images/action/line_normal@2x.png</file>
+        <file>resources/images/action/oval_checked@2x.png</file>
+        <file>resources/images/action/oval_hover@2x.png</file>
+        <file>resources/images/action/oval_normal@2x.png</file>
+        <file>resources/images/action/pencil_checked@2x.png</file>
+        <file>resources/images/action/pencil_hover@2x.png</file>
+        <file>resources/images/action/pencil_normal@2x.png</file>
+        <file>resources/images/action/rectangle_checked@2x.png</file>
+        <file>resources/images/action/rectangle_hover@2x.png</file>
+        <file>resources/images/action/rectangle_normal@2x.png</file>
+        <file>resources/images/action/text_checked@2x.png</file>
+        <file>resources/images/action/text_hover@2x.png</file>
+        <file>resources/images/action/text_normal@2x.png</file>
+        <file>resources/images/color/color1_checked@2x.png</file>
+        <file>resources/images/color/color1_hover@2x.png</file>
+        <file>resources/images/color/color1_normal@2x.png</file>
+        <file>resources/images/color/color2_checked@2x.png</file>
+        <file>resources/images/color/color2_hover@2x.png</file>
+        <file>resources/images/color/color2_normal@2x.png</file>
+        <file>resources/images/color/color3_checked@2x.png</file>
+        <file>resources/images/color/color3_hover@2x.png</file>
+        <file>resources/images/color/color3_normal@2x.png</file>
+        <file>resources/images/color/color4_checked@2x.png</file>
+        <file>resources/images/color/color4_hover@2x.png</file>
+        <file>resources/images/color/color4_normal@2x.png</file>
+        <file>resources/images/color/color5_checked@2x.png</file>
+        <file>resources/images/color/color5_hover@2x.png</file>
+        <file>resources/images/color/color5_normal@2x.png</file>
+        <file>resources/images/color/color6_checked@2x.png</file>
+        <file>resources/images/color/color6_hover@2x.png</file>
+        <file>resources/images/color/color6_normal@2x.png</file>
+        <file>resources/images/color/color7_checked@2x.png</file>
+        <file>resources/images/color/color7_hover@2x.png</file>
+        <file>resources/images/color/color7_normal@2x.png</file>
+        <file>resources/images/color/color8_checked@2x.png</file>
+        <file>resources/images/color/color8_hover@2x.png</file>
+        <file>resources/images/color/color8_normal@2x.png</file>
+        <file>resources/images/color/color9_checked@2x.png</file>
+        <file>resources/images/color/color9_hover@2x.png</file>
+        <file>resources/images/color/color9_normal@2x.png</file>
+        <file>resources/images/color/color10_checked@2x.png</file>
+        <file>resources/images/color/color10_hover@2x.png</file>
+        <file>resources/images/color/color10_normal@2x.png</file>
+        <file>resources/images/color/color11_checked@2x.png</file>
+        <file>resources/images/color/color11_hover@2x.png</file>
+        <file>resources/images/color/color11_normal@2x.png</file>
+        <file>resources/images/color/color12_checked@2x.png</file>
+        <file>resources/images/color/color12_hover@2x.png</file>
+        <file>resources/images/color/color12_normal@2x.png</file>
+        <file>resources/images/color/color13_checked@2x.png</file>
+        <file>resources/images/color/color13_hover@2x.png</file>
+        <file>resources/images/color/color13_normal@2x.png</file>
+        <file>resources/images/color/color14_checked@2x.png</file>
+        <file>resources/images/color/color14_hover@2x.png</file>
+        <file>resources/images/color/color14_normal@2x.png</file>
+        <file>resources/images/color/color15_checked@2x.png</file>
+        <file>resources/images/color/color15_hover@2x.png</file>
+        <file>resources/images/color/color15_normal@2x.png</file>
+        <file>resources/images/color/color16_checked@2x.png</file>
+        <file>resources/images/color/color16_hover@2x.png</file>
+        <file>resources/images/color/color16_normal@2x.png</file>
+        <file>resources/images/save/imgo.jpg</file>
+        <file>resources/images/save/save_checked@2x.png</file>
+        <file>resources/images/save/save_hover@2x.png</file>
+        <file>resources/images/save/save_list_checked@2x.png</file>
+        <file>resources/images/save/save_list_hover@2x.png</file>
+        <file>resources/images/save/save_list_normal@2x.png</file>
+        <file>resources/images/save/save_normal@2x.png</file>
+        <file>resources/images/save/save_to_clipboard_checked@2x.png</file>
+        <file>resources/images/save/save_to_clipboard_hover@2x.png</file>
+        <file>resources/images/save/save_to_clipboard_normal@2x.png</file>
+        <file>resources/images/save/save_to_desktop_checked@2x.png</file>
+        <file>resources/images/save/save_to_desktop_hover@2x.png</file>
+        <file>resources/images/save/save_to_desktop_normal@2x.png</file>
+        <file>resources/images/save/save_to_dir_checked@2x.png</file>
+        <file>resources/images/save/save_to_dir_hover@2x.png</file>
+        <file>resources/images/save/save_to_dir_normal@2x.png</file>
+        <file>resources/images/save/save_to_pic_checked@2x.png</file>
+        <file>resources/images/save/save_to_pic_clipboard_checked@2x.png</file>
+        <file>resources/images/save/save_to_pic_clipboard_hover@2x.png</file>
+        <file>resources/images/save/save_to_pic_clipboard_normal@2x.png</file>
+        <file>resources/images/save/save_to_pic_hover@2x.png</file>
+        <file>resources/images/save/save_to_pic_normal@2x.png</file>
+        <file>resources/images/save/save-menu-norml@2x.png</file>
+        <file>resources/images/size/arrow_fine_checked@2x.png</file>
+        <file>resources/images/size/arrow_fine_hover@2x.png</file>
+        <file>resources/images/size/arrow_fine_normal@2x.png</file>
+        <file>resources/images/size/arrow_medium_checked@2x.png</file>
+        <file>resources/images/size/arrow_medium_hover@2x.png</file>
+        <file>resources/images/size/arrow_medium_normal@2x.png</file>
+        <file>resources/images/size/arrow_thick_checked@2x.png</file>
+        <file>resources/images/size/arrow_thick_hover@2x.png</file>
+        <file>resources/images/size/arrow_thick_normal@2x.png</file>
+        <file>resources/images/size/blur_checked@2x.png</file>
+        <file>resources/images/size/blur_hover@2x.png</file>
+        <file>resources/images/size/blur_normal@2x.png</file>
+        <file>resources/images/size/mosaic_checked@2x.png</file>
+        <file>resources/images/size/mosaic_hover@2x.png</file>
+        <file>resources/images/size/mosaic_normal@2x.png</file>
+        <file>resources/images/size/fine_checked@2x.png</file>
+        <file>resources/images/size/fine_hover@2x.png</file>
+        <file>resources/images/size/fine_normal@2x.png</file>
+        <file>resources/images/size/line_fine_checked@2x.png</file>
+        <file>resources/images/size/line_fine_hover@2x.png</file>
+        <file>resources/images/size/line_fine_normal@2x.png</file>
+        <file>resources/images/size/line_medium_checked@2x.png</file>
+        <file>resources/images/size/line_medium_hover@2x.png</file>
+        <file>resources/images/size/line_medium_normal@2x.png</file>
+        <file>resources/images/size/line_thick_checked@2x.png</file>
+        <file>resources/images/size/line_thick_hover@2x.png</file>
+        <file>resources/images/size/line_thick_normal@2x.png</file>
+        <file>resources/images/size/medium_checked@2x.png</file>
+        <file>resources/images/size/medium_hover@2x.png</file>
+        <file>resources/images/size/medium_normal@2x.png</file>
+        <file>resources/images/size/slider_hover@2x.png</file>
+        <file>resources/images/size/slider_normal@2x.png</file>
+        <file>resources/images/size/slider_press@2x.png</file>
+        <file>resources/images/size/thick_checked@2x.png</file>
+        <file>resources/images/size/thick_hover@2x.png</file>
+        <file>resources/images/size/thick_normal@2x.png</file>
+        <file>resources/images/size/resize_handle_big.svg</file>
     </qresource>
 </RCC>

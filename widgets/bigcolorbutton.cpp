@@ -19,12 +19,14 @@
 
 #include "bigcolorbutton.h"
 
+#include <QApplication>
+#include <QDebug>
+
 #include "utils/baseutils.h"
 #include "utils/configsettings.h"
 
-#include <QDebug>
-
 const qreal COLOR_RADIUS = 4;
+const QSize BTN_SIZE = QSize(32, 26);
 
 BigColorButton::BigColorButton(QWidget *parent)
     : QPushButton(parent),
@@ -32,7 +34,7 @@ BigColorButton::BigColorButton(QWidget *parent)
       m_isHover(false),
       m_isChecked(false)
 {
-    setFixedSize(32, 26);
+    setFixedSize(BTN_SIZE);
     setCheckable(true);
     int colIndex = ConfigSettings::instance()->value(
                               "common", "color_index").toInt();

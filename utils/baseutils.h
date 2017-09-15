@@ -47,5 +47,5 @@ QColor       colorIndexOf(int index);
 int                colorIndex(QColor color);
 bool          isValidFormat(QString suffix);
 bool          isCommandExist(QString command);
-void  paintSelectedPoint(QPainter &painter, QPoint pos, QPixmap pointImg);
+void  paintSelectedPoint(QPainter &painter, QPointF pos, QPixmap pointImg);
 #endif // BASEUTILS_H

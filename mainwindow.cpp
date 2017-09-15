@@ -42,6 +42,8 @@
 #include "utils/screenutils.h"
 #include "utils/tempfile.h"
 
+DWIDGET_USE_NAMESPACE
+
 namespace {
 const int RECORD_MIN_SIZE = 10;
 const int SPACING = 5;
@@ -49,6 +51,7 @@ const int TOOLBAR_Y_SPACING = 8;
 const int CURSOR_WIDTH = 8;
 const int CURSOR_HEIGHT = 18;
 const int INDICATOR_WIDTH =  59;
+const qreal RESIZEPOINT_WIDTH = 15;
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -98,8 +101,10 @@ void MainWindow::initOriginUI()
     m_recordWidth = 0;
     m_recordHeight = 0;
 
-    m_resizeBigPix = QPixmap(":/image/icons/resize_handle_big.png");
-    m_resizeSmallPix = QPixmap(":/image/icons/resize_handle_small.png");
+    qreal ration =  this->devicePixelRatioF();
+    QIcon icon(":/image/icons/resize_handle_big.svg");
+    m_resizeBigPix = icon.pixmap(QSize(RESIZEPOINT_WIDTH,RESIZEPOINT_WIDTH));
+    m_resizeBigPix.setDevicePixelRatio(ration);
 
     m_dragRecordX = -1;
     m_dragRecordY = -1;
@@ -739,22 +744,23 @@ void MainWindow::paintEvent(QPaintEvent *event)
         // Draw drag pint.
         if (m_mouseStatus != ShotMouseStatus::Wait && m_needDrawSelectedPoint) {
             painter.setOpacity(1);
-            int margin = m_resizeBigPix.width() / 2 + 1;
-            int paintX = frameRect.x() - margin;
-            int paintY = frameRect.y() - margin;
-            int paintWidth = frameRect.x() + frameRect.width() - margin;
-            int paintHeight = frameRect.y() + frameRect.height() - margin;
-            int paintHalfWidth = frameRect.x() + frameRect.width()/2 - margin;
-            int paintHalfHeight = frameRect.y() + frameRect.height()/2 - margin;
-            paintSelectedPoint(painter, QPoint(paintX, paintY), m_resizeBigPix);
-            paintSelectedPoint(painter, QPoint(paintWidth, paintY), m_resizeBigPix);
-            paintSelectedPoint(painter, QPoint(paintX, paintHeight), m_resizeBigPix);
-            paintSelectedPoint(painter, QPoint(paintWidth, paintHeight), m_resizeBigPix);
 
-            paintSelectedPoint(painter, QPoint(paintX, paintHalfHeight), m_resizeBigPix);
-            paintSelectedPoint(painter, QPoint(paintHalfWidth, paintY), m_resizeBigPix);
-            paintSelectedPoint(painter, QPoint(paintWidth, paintHalfHeight), m_resizeBigPix);
-            paintSelectedPoint(painter, QPoint(paintHalfWidth, paintHeight), m_resizeBigPix);
+            qreal margin =  qreal(RESIZEPOINT_WIDTH / 2);
+            qreal paintX = frameRect.x() - margin;
+            qreal paintY = frameRect.y() - margin;
+            qreal paintWidth = frameRect.x() + frameRect.width() - margin;
+            qreal paintHeight = frameRect.y() + frameRect.height() - margin;
+            qreal paintHalfWidth = frameRect.x() + frameRect.width()/2 - margin;
+            qreal paintHalfHeight = frameRect.y() + frameRect.height()/2 - margin;
+            paintSelectedPoint(painter, QPointF(paintX, paintY), m_resizeBigPix);
+            paintSelectedPoint(painter, QPointF(paintWidth, paintY), m_resizeBigPix);
+            paintSelectedPoint(painter, QPointF(paintX, paintHeight), m_resizeBigPix);
+            paintSelectedPoint(painter, QPointF(paintWidth, paintHeight), m_resizeBigPix);
+
+            paintSelectedPoint(painter, QPointF(paintX, paintHalfHeight), m_resizeBigPix);
+            paintSelectedPoint(painter, QPointF(paintHalfWidth, paintY), m_resizeBigPix);
+            paintSelectedPoint(painter, QPointF(paintWidth, paintHalfHeight), m_resizeBigPix);
+            paintSelectedPoint(painter, QPointF(paintHalfWidth, paintHeight), m_resizeBigPix);
         }
     }
 }
@@ -1156,7 +1162,7 @@ void MainWindow::shotCurrentImg()
     this->hide();
     emit hideScreenshotUI();
 
-    const qreal ratio = qApp->devicePixelRatio();
+    const qreal ratio = this->devicePixelRatioF();
     QRect target( m_recordX * ratio,
                   m_recordY * ratio,
                   m_recordWidth * ratio,
