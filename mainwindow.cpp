@@ -150,7 +150,8 @@ void MainWindow::initDBusInterface()
     m_notifyDBInterface = new DBusNotify(this);
     m_notifyDBInterface->CloseNotification(0);
     m_hotZoneInterface = new DBusZone(this);
-    m_hotZoneInterface->asyncCall("EnableZoneDetected", false);
+    if (m_hotZoneInterface->isValid())
+        m_hotZoneInterface->asyncCall("EnableZoneDetected", false);
     m_interfaceExist = true;
 }
 
@@ -898,7 +899,9 @@ void MainWindow::fullScreenshot()
     this->setFocus();
     m_configSettings =  ConfigSettings::instance();
     installEventFilter(this);
-    m_hotZoneInterface->asyncCall("EnableZoneDetected", false);
+
+    if (m_hotZoneInterface->isValid())
+        m_hotZoneInterface->asyncCall("EnableZoneDetected", false);
 
     QPoint curPos = this->cursor().pos();
     m_swUtil = DScreenWindowsUtil::instance(curPos);
@@ -911,7 +914,9 @@ void MainWindow::fullScreenshot()
     shotFullScreen();
     m_toolBar = new ToolBar(this);
     m_toolBar->hide();
-    m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
+
+    if (m_hotZoneInterface->isValid())
+        m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
 
     emit this->hideScreenshotUI();
 //    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
@@ -976,7 +981,8 @@ void MainWindow::saveSpecificedPath(QString path)
         qDebug() << "process savepath2: " << savePath;
     }
 
-    m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
+    if (m_hotZoneInterface->isValid())
+        m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
 //    using namespace utils;
     m_toolBar->setVisible(false);
     m_sizeTips->setVisible(false);
@@ -1190,7 +1196,8 @@ void MainWindow::saveScreenshot()
     emit saveActionTriggered();
 
 //    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
-    m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
+    if (m_hotZoneInterface->isValid())
+        m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
     m_needSaveScreenshot = true;
 
     m_toolBar->setVisible(false);
@@ -1447,7 +1454,8 @@ void MainWindow::exitApp()
 {
     if (m_interfaceExist && nullptr != m_hotZoneInterface)
     {
-        m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
+        if (m_hotZoneInterface->isValid())
+            m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
     }
     qApp->quit();
 }
