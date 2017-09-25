@@ -72,10 +72,11 @@ QCursor setCursorShape(QString cursorName, int colorIndex) {
 
         customShape = QCursor(textCursor, 5, 5);
     } else if  (cursorName == "line") {
-        QPixmap colorCursor = QIcon(QString(":/image/mouse_style/"
+        QPixmap colorPic = QIcon(QString(":/image/mouse_style/"
             "color_pen/color%1.svg").arg(colorIndex)).pixmap(COLORPEN_SIZE);
+        colorPic.setDevicePixelRatio(ration);
 
-        customShape = QCursor(colorCursor, 0, 25);
+        customShape = QCursor(colorPic, 0, 24);
     } else if (cursorName == "straightLine") {
         QPixmap lineCursor  = QIcon(":/image/mouse_style/shape/line_mouse.svg").pixmap(ARROW_SIZE);
         lineCursor.setDevicePixelRatio(ration);
