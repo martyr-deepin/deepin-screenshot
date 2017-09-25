@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.1 (44463) - http://www.bohemiancoding.com/sketch -->
+    <title>line-menu-hover@2x</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" opacity="0.800000012" stroke-linejoin="round">
+        <g id="菜单图标两倍" transform="translate(-123.000000, -75.000000)" stroke="#FFFFFF">
+            <g id="pen-copy-2" transform="translate(124.000000, 75.000000)">
+                <path d="M10.7109581,0.710958123 C10.3183068,0.318306794 9.67716932,0.322830684 9.28991475,0.710085266 L1.5,8.50000018 L0.5,12.5 L4.5,11.5000002 L12.2899147,3.71008527 C12.682084,3.317916 12.6789474,2.67894745 12.2890419,2.28904188 L10.7109581,0.710958123 Z" id="Page-1"></path>
+                <path d="M8,2 L11,5" id="Path-17"></path>
+                <path d="M1.5,8.5 L4.5,11.5" id="Path-18"></path>
+            </g>
+        </g>
+    </g>
+</svg>

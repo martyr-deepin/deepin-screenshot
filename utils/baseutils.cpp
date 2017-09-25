@@ -23,7 +23,8 @@
 #include <QFile>
 #include <QDebug>
 
-QCursor setCursorShape(QString cursorName, int colorIndex) {
+QCursor setCursorShape(QString cursorName, int colorIndex)
+{
     QCursor customShape = QCursor();
     if (cursorName == "start") {
         customShape = QCursor(QPixmap(
@@ -60,7 +61,8 @@ int stringWidth(const QFont &f, const QString &str)
     return fm.boundingRect(str).width();
 }
 
-QString getFileContent(const QString &file) {
+QString getFileContent(const QString &file)
+{
     QFile f(file);
     QString fileContent = "";
     if (f.open(QFile::ReadOnly))
@@ -71,7 +73,8 @@ QString getFileContent(const QString &file) {
     return fileContent;
 }
 
-QColor colorIndexOf(int index) {
+QColor colorIndexOf(int index)
+{
     switch(index) {
     case 0: { return QColor("#ffd903");}
     case 1: { return QColor("#ff5e1a");}
@@ -95,7 +98,8 @@ QColor colorIndexOf(int index) {
     return QColor("#ffd903");
 }
 
-int colorIndex(QColor color) {
+int colorIndex(QColor color)
+{
     QList<QColor> colorList;
     colorList.append(QColor("#ffd903"));
     colorList.append(QColor("#ff5e1a"));

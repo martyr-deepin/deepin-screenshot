@@ -39,6 +39,6 @@ public slots:
 
 private:
     QMenu* m_menu;
-
+    qreal m_ration;
 };
 #endif // MENUCONTROLLER_H

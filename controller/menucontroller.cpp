@@ -27,54 +27,56 @@
 const QSize MENU_ICON_SIZE = QSize(14, 14);
 
 MenuController::MenuController(QObject *parent)
-    : QObject(parent) {
+    : QObject(parent)
+    , m_ration(1)
+{
     m_menu = new QMenu;
     m_menu->setFocusPolicy(Qt::StrongFocus);
     m_menu->setStyle(QStyleFactory::create("dlight"));
 
     QIcon rectIcon;
-    rectIcon.addFile(":/image/menu_icons/rectangle-menu-norml.png", MENU_ICON_SIZE,  QIcon::Normal);
-    rectIcon.addFile(":/image/menu_icons/rectangle-menu-hover.png", MENU_ICON_SIZE, QIcon::Active);
+    rectIcon.addFile(":/image/menu_icons/rectangle-menu-norml.svg", MENU_ICON_SIZE,  QIcon::Normal);
+    rectIcon.addFile(":/image/menu_icons/rectangle-menu-hover.svg", MENU_ICON_SIZE, QIcon::Active);
     QAction* rectAct = new QAction(rectIcon, tr("Rectangle"), this);
     connect(rectAct, &QAction::triggered, [=] {
         emit shapePressed("rectangle");
     });
 
     QIcon ovalIcon;
-    ovalIcon.addFile(":/image/menu_icons/ellipse-menu-norml.png", MENU_ICON_SIZE,  QIcon::Normal);
-    ovalIcon.addFile(":/image/menu_icons/ellipse-menu-hover.png", MENU_ICON_SIZE, QIcon::Active);
+    ovalIcon.addFile(":/image/menu_icons/ellipse-menu-norml.svg", MENU_ICON_SIZE,  QIcon::Normal);
+    ovalIcon.addFile(":/image/menu_icons/ellipse-menu-hover.svg", MENU_ICON_SIZE, QIcon::Active);
     QAction* ovalAct = new QAction(ovalIcon, tr("Ellipse"), this);
     connect(ovalAct, &QAction::triggered, [=]{
         emit shapePressed("oval");
     });
 
     QIcon arrowIcon;
-    arrowIcon.addFile(":/image/menu_icons/arrow-menu-norml.png", MENU_ICON_SIZE, QIcon::Normal);
-    arrowIcon.addFile(":/image/menu_icons/arrow-menu-hover.png", MENU_ICON_SIZE, QIcon::Active);
+    arrowIcon.addFile(":/image/menu_icons/arrow-menu-norml.svg", MENU_ICON_SIZE, QIcon::Normal);
+    arrowIcon.addFile(":/image/menu_icons/arrow-menu-hover.svg", MENU_ICON_SIZE, QIcon::Active);
     QAction* arrowAct = new QAction(arrowIcon, tr("Arrow"), this);
     connect(arrowAct, &QAction::triggered, [=]{
         emit shapePressed("arrow");
     });
 
     QIcon penIcon;
-    penIcon.addFile(":/image/menu_icons/line-menu-norml.png", MENU_ICON_SIZE, QIcon::Normal);
-    penIcon.addFile(":/image/menu_icons/line-menu-hover.png", MENU_ICON_SIZE, QIcon::Active);
+    penIcon.addFile(":/image/menu_icons/line-menu-norml.svg", MENU_ICON_SIZE, QIcon::Normal);
+    penIcon.addFile(":/image/menu_icons/line-menu-hover.svg", MENU_ICON_SIZE, QIcon::Active);
     QAction* penAct = new QAction(penIcon, tr("Pencil"), this);
     connect(penAct, &QAction::triggered, [=]{
         emit shapePressed("line");
     });
 
     QIcon textIcon;
-    textIcon.addFile(":/image/menu_icons/text-menu-norml.png", MENU_ICON_SIZE, QIcon::Normal);
-    textIcon.addFile(":/image/menu_icons/text-menu-hover.png", MENU_ICON_SIZE, QIcon::Active);
+    textIcon.addFile(":/image/menu_icons/text-menu-norml.svg", MENU_ICON_SIZE, QIcon::Normal);
+    textIcon.addFile(":/image/menu_icons/text-menu-hover.svg", MENU_ICON_SIZE, QIcon::Active);
     QAction* textAct = new QAction(textIcon, tr("Text"), this);
     connect(textAct, &QAction::triggered, [=]{
         emit shapePressed("text");
     });
 
     QIcon unDoIcon;
-    unDoIcon.addFile(":/image/menu_icons/undo-menu-normal.png", MENU_ICON_SIZE, QIcon::Normal);
-    unDoIcon.addFile(":/image/menu_icons/undo-menu-hover.png", MENU_ICON_SIZE, QIcon::Active);
+    unDoIcon.addFile(":/image/menu_icons/undo-menu-normal.svg", MENU_ICON_SIZE, QIcon::Normal);
+    unDoIcon.addFile(":/image/menu_icons/undo-menu-hover.svg", MENU_ICON_SIZE, QIcon::Active);
     QAction* unDoAct = new QAction(unDoIcon, tr("Undo"), this);
     connect(unDoAct, &QAction::triggered, [=]{
         emit unDoAction();
@@ -89,8 +91,8 @@ MenuController::MenuController(QObject *parent)
     m_menu->addAction(unDoAct);
 
     QIcon saveIcon;
-    saveIcon.addFile(":/image/menu_icons/save-menu-norml.png", MENU_ICON_SIZE, QIcon::Normal);
-    saveIcon.addFile(":/image/menu_icons/save-menu-hover.png", MENU_ICON_SIZE, QIcon::Active);
+    saveIcon.addFile(":/image/menu_icons/save-menu-norml.svg", MENU_ICON_SIZE, QIcon::Normal);
+    saveIcon.addFile(":/image/menu_icons/save-menu-hover.svg", MENU_ICON_SIZE, QIcon::Active);
     QMenu* saveMenu =  m_menu->addMenu(saveIcon, tr("Save"));
 
     saveMenu->setStyle(QStyleFactory::create("dlight"));
@@ -117,8 +119,8 @@ MenuController::MenuController(QObject *parent)
     actionList[saveOptionIndex]->setChecked(true);
 
     QIcon exitIcon;
-    exitIcon.addFile(":/image/menu_icons/exit-menu-norml.png", MENU_ICON_SIZE, QIcon::Normal);
-    exitIcon.addFile(":/image/menu_icons/exit-menu-hover.png", MENU_ICON_SIZE, QIcon::Active);
+    exitIcon.addFile(":/image/menu_icons/exit-menu-norml.svg", MENU_ICON_SIZE, QIcon::Normal);
+    exitIcon.addFile(":/image/menu_icons/exit-menu-hover.svg", MENU_ICON_SIZE, QIcon::Active);
     QAction* closeAct = new QAction(exitIcon, tr("Exit"), this);
     m_menu->addAction(closeAct);
     connect(closeAct, &QAction::triggered, this, [=]{
