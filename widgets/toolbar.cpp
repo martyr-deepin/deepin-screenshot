@@ -35,6 +35,7 @@ namespace {
 
     const QSize TOOLBAR_WIDGET_SIZE = QSize(276, 28);
     const int BUTTON_SPACING = 3;
+    const int BTN_RADIUS = 3;
 }
 
 ToolBarWidget::ToolBarWidget(QWidget *parent)
@@ -89,7 +90,7 @@ void ToolBarWidget::paintEvent(QPaintEvent *e) {
     QPainter painter(this);
     painter.setPen(QColor(255, 255, 255, 76.5));
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.drawLine(QPointF(0, 0), QPointF(this->width() - 1, 0));
+    painter.drawLine(QPointF(BTN_RADIUS, 0), QPointF(this->width() - 1, 0));
 }
 
 bool ToolBarWidget::isButtonChecked() {
