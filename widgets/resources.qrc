@@ -6,8 +6,6 @@
         <file>resources/images/action/arrow_checked.png</file>
         <file>resources/images/action/arrow_hover.png</file>
         <file>resources/images/action/arrow_normal.png</file>
-        <file>resources/images/action/colors_hover.png</file>
-        <file>resources/images/action/colors_normal.png</file>
         <file>resources/images/action/pencil_checked.png</file>
         <file>resources/images/action/pencil_hover.png</file>
         <file>resources/images/action/pencil_normal.png</file>
@@ -40,7 +38,6 @@
         <file>resources/images/action/close_checked.png</file>
         <file>resources/images/action/close_hover.png</file>
         <file>resources/images/action/close_normal.png</file>
-        <file>resources/images/action/colors_checked.png</file>
         <file>resources/images/action/magnifier.png</file>
         <file>resources/qss/zoomindicator.qss</file>
         <file>resources/images/action/center_rect.png</file>
@@ -161,12 +158,6 @@
         <file>resources/images/action/close_checked@2x.png</file>
         <file>resources/images/action/close_hover@2x.png</file>
         <file>resources/images/action/close_normal@2x.png</file>
-        <file>resources/images/action/colors_checked@2x.png</file>
-        <file>resources/images/action/colors_hover@2x.png</file>
-        <file>resources/images/action/colors_normal@2x.png</file>
-        <file>resources/images/action/line_checked@2x.png</file>
-        <file>resources/images/action/line_hover@2x.png</file>
-        <file>resources/images/action/line_normal@2x.png</file>
         <file>resources/images/action/oval_checked@2x.png</file>
         <file>resources/images/action/oval_hover@2x.png</file>
         <file>resources/images/action/oval_normal@2x.png</file>
@@ -288,5 +279,21 @@
         <file>resources/images/size/thick_normal@2x.png</file>
         <file>resources/images/size/resize_handle_big.svg</file>
         <file>resources/images/size/rotate.svg</file>
+        <file>resources/images/action/save_checked@2x.png</file>
+        <file>resources/images/action/save_hover@2x.png</file>
+        <file>resources/images/action/save_normal@2x.png</file>
+        <file>resources/images/action/straightline_checked@2x.png</file>
+        <file>resources/images/action/straightline_hover@2x.png</file>
+        <file>resources/images/action/straightline_normal@2x.png</file>
+        <file>resources/images/action/colors_checked.svg</file>
+        <file>resources/images/action/colors_hover.svg</file>
+        <file>resources/images/action/colors_normal.svg</file>
+        <file>resources/images/size/arrow_checked@2x.png</file>
+        <file>resources/images/size/arrow_hover@2x.png</file>
+        <file>resources/images/size/arrow_normal@2x.png</file>
+        <file>resources/images/size/line_checked@2x.png</file>
+        <file>resources/images/size/line_hover@2x.png</file>
+        <file>resources/images/size/line_normal@2x.png</file>
+        <file>resources/images/size/resize_handle_big@2x.png</file>
     </qresource>
 </RCC>

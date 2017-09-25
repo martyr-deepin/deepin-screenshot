@@ -71,15 +71,25 @@ void BigColorButton::paintEvent(QPaintEvent *) {
     painter.drawEllipse(QPointF(16, 13),
                         COLOR_RADIUS, COLOR_RADIUS);
 
+    qreal ration = this->devicePixelRatioF();
     if (m_isChecked) {
-        painter.drawPixmap(rect(), QPixmap(
-                               ":/resources/images/action/colors_checked.png"));
+        QPixmap checkedPic = QIcon(":/resources/images/action/colors_checked.svg"
+                                   ).pixmap(BTN_SIZE);
+        checkedPic.setDevicePixelRatio(ration);
+
+        painter.drawPixmap(rect(), checkedPic);
     } else if (m_isHover && !m_isChecked) {
-        painter.drawPixmap(rect(), QPixmap(
-                               ":/resources/images/action/colors_hover.png"));
+        QPixmap hoverPic = QIcon(":/resources/images/action/colors_hover.svg"
+                                 ).pixmap(BTN_SIZE);
+        hoverPic.setDevicePixelRatio(ration);
+
+        painter.drawPixmap(rect(), hoverPic);
     } else {
-         painter.drawPixmap(rect(), QPixmap(
-                                ":/resources/images/action/colors_normal.png"));
+        QPixmap normalPic = QIcon(":/resources/images/action/colors_hover.svg"
+                                  ).pixmap(BTN_SIZE);
+        normalPic.setDevicePixelRatio(ration);
+
+         painter.drawPixmap(rect(), normalPic);
     }
 }
 
