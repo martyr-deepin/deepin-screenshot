@@ -1,32 +1,32 @@
 <RCC>
     <qresource prefix="/">
-        <file>image/mouse_style/shape/arrow_mouse.png</file>
-        <file>image/mouse_style/shape/ellipse_mouse.png</file>
-        <file>image/mouse_style/shape/rect_mouse.png</file>
-        <file>image/mouse_style/shape/rotate_mouse.png</file>
-        <file>image/mouse_style/shape/rotate.png</file>
         <file>image/mouse_style/shape/start_mouse.png</file>
-        <file>image/mouse_style/shape/text_mouse.png</file>
         <file>image/icons/resize_handle_big.png</file>
         <file>image/icons/resize_handle_small.png</file>
-        <file>image/mouse_style/color_pen/color0.png</file>
-        <file>image/mouse_style/color_pen/color1.png</file>
-        <file>image/mouse_style/color_pen/color2.png</file>
-        <file>image/mouse_style/color_pen/color3.png</file>
-        <file>image/mouse_style/color_pen/color4.png</file>
-        <file>image/mouse_style/color_pen/color5.png</file>
-        <file>image/mouse_style/color_pen/color6.png</file>
-        <file>image/mouse_style/color_pen/color7.png</file>
-        <file>image/mouse_style/color_pen/color8.png</file>
-        <file>image/mouse_style/color_pen/color9.png</file>
-        <file>image/mouse_style/color_pen/color10.png</file>
-        <file>image/mouse_style/color_pen/color11.png</file>
-        <file>image/mouse_style/color_pen/color12.png</file>
-        <file>image/mouse_style/color_pen/color13.png</file>
-        <file>image/mouse_style/color_pen/color14.png</file>
-        <file>image/mouse_style/color_pen/color15.png</file>
-        <file>image/mouse_style/shape/line_mouse.png</file>
         <file>image/icons/resize_handle_big@2x.png</file>
         <file>image/icons/resize_handle_big.svg</file>
+        <file>image/mouse_style/shape/arrow_mouse.svg</file>
+        <file>image/mouse_style/shape/line_mouse.svg</file>
+        <file>image/mouse_style/shape/ellipse_mouse.svg</file>
+        <file>image/mouse_style/shape/rect_mouse.svg</file>
+        <file>image/mouse_style/shape/text_mouse.svg</file>
+        <file>image/mouse_style/color_pen/color0.svg</file>
+        <file>image/mouse_style/color_pen/color1.svg</file>
+        <file>image/mouse_style/color_pen/color2.svg</file>
+        <file>image/mouse_style/color_pen/color3.svg</file>
+        <file>image/mouse_style/color_pen/color4.svg</file>
+        <file>image/mouse_style/color_pen/color5.svg</file>
+        <file>image/mouse_style/color_pen/color6.svg</file>
+        <file>image/mouse_style/color_pen/color7.svg</file>
+        <file>image/mouse_style/color_pen/color8.svg</file>
+        <file>image/mouse_style/color_pen/color9.svg</file>
+        <file>image/mouse_style/color_pen/color10.svg</file>
+        <file>image/mouse_style/color_pen/color11.svg</file>
+        <file>image/mouse_style/color_pen/color12.svg</file>
+        <file>image/mouse_style/color_pen/color13.svg</file>
+        <file>image/mouse_style/color_pen/color14.svg</file>
+        <file>image/mouse_style/color_pen/color15.svg</file>
+        <file>image/mouse_style/shape/start_mouse.svg</file>
+        <file>image/mouse_style/shape/rotate_mouse.svg</file>
     </qresource>
 </RCC>

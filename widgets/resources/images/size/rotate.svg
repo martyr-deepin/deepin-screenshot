@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.1 (44463) - http://www.bohemiancoding.com/sketch -->
+    <title>rotate 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="11" cy="8" r="3"></circle>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="rotate-2">
+            <g id="Group" transform="translate(1.000000, 4.000000)">
+                <path d="M3,8 C3,12.418278 6.581722,16 11,16 C15.418278,16 19,12.418278 19,8 C19,3.581722 15.418278,0 11,0" id="Oval-41" stroke="#FFFFFF" stroke-dasharray="2"></path>
+                <polyline id="Rectangle-46" stroke="#FFFFFF" transform="translate(2.500000, 6.500000) rotate(-45.000000) translate(-2.500000, -6.500000) " points="4 8 4 5 1 5"></polyline>
+                <g id="Oval-9">
+                    <use fill="#FFAC37" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    <circle stroke-opacity="0.1" stroke="#000000" stroke-width="1" cx="11" cy="8" r="3.5"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.1 (44463) - http://www.bohemiancoding.com/sketch -->
+    <title>rotate_mouse</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M18.3544361,13.353597 C16.7650842,11.5644343 14.473575,10.5 12,10.5 C9.51369079,10.5 7.2077023,11.57453 5.61259449,13.391338 L6.93598242,15 L2,15 L2,9 L4.9697655,12.6099385 C6.7473449,10.6536529 9.27761169,9.5 12,9.5 C14.7100727,9.5 17.2255286,10.6439732 18.9967278,12.5728506 L21.9359824,9 L21.9359824,15 L17,15 L18.3544361,13.353597 Z" id="path-1"></path>
+        <filter x="-15.0%" y="-63.2%" width="130.1%" height="229.8%" filterUnits="objectBoundingBox" id="filter-2">
+            <feMorphology radius="1" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="1" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.36 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.900000036">
+        <g id="Combined-Shape">
+            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+            <use fill="#000000" fill-rule="evenodd" xlink:href="#path-1"></use>
+            <path stroke="#FFFFFF" stroke-width="1" d="M17.6894834,13.3748703 C16.1955221,11.8624085 14.1577044,11 12,11 C9.82545386,11 7.77395499,11.8748169 6.27585549,13.410555 L7.99476614,15.5 L1.5,15.5 L1.5,7.60519942 L4.99913577,11.8586211 C6.85798564,10.0345383 9.35869874,9 12,9 C14.6246734,9 17.1113524,10.022489 18.965519,11.8237681 L22.4359824,7.60519942 L22.4359824,15.5 L15.9412163,15.5 L17.6894834,13.3748703 Z"></path>
+        </g>
+    </g>
+</svg>

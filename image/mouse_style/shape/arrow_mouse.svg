@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.1 (44463) - http://www.bohemiancoding.com/sketch -->
+    <title>arrow_mouse</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M8,9.39418261 L16.1203269,17.5046457 L17.5003715,16.1203269 L9.38004458,8 L13.5003715,8 L13.5003715,6 L7.25018576,6 L6,6 L6,13 L8,13 L8,9.39418261 Z" id="path-1"></path>
+        <filter x="-52.2%" y="-43.5%" width="204.3%" height="204.3%" filterUnits="objectBoundingBox" id="filter-2">
+            <feMorphology radius="1.5" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="1" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.36 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.900000036">
+        <g id="Combined-Shape" fill-rule="nonzero">
+            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+            <use fill="#000000" fill-rule="evenodd" xlink:href="#path-1"></use>
+            <path stroke="#FFFFFF" stroke-width="1" d="M8.5,10.6002527 L8.5,13.5 L5.5,13.5 L5.5,5.5 L14.0003715,5.5 L14.0003715,8.5 L10.5871514,8.5 L18.2069321,16.1197807 L16.1210888,18.212084 L8.5,10.6002527 Z"></path>
+        </g>
+    </g>
+</svg>

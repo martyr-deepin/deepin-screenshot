@@ -61,7 +61,6 @@
         <file>resources/images/size/thick_checked.png</file>
         <file>resources/images/size/thick_hover.png</file>
         <file>resources/images/size/thick_normal.png</file>
-        <file>resources/images/size/rotate.png</file>
         <file>resources/qss/subtoolbar.qss</file>
         <file>resources/qss/majtoolbar.qss</file>
         <file>resources/qss/toolbar.qss</file>
@@ -288,5 +287,6 @@
         <file>resources/images/size/thick_hover@2x.png</file>
         <file>resources/images/size/thick_normal@2x.png</file>
         <file>resources/images/size/resize_handle_big.svg</file>
+        <file>resources/images/size/rotate.svg</file>
     </qresource>
 </RCC>

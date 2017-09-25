@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="26px" viewBox="0 0 22 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.1 (44463) - http://www.bohemiancoding.com/sketch -->
+    <title>椭圆</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="8.82858772 20 0 20 0 0.557816943 13.3203368 14.0960301"></polygon>
+        <filter x="-37.5%" y="-20.6%" width="175.1%" height="151.4%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.4 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#393939" offset="0%"></stop>
+            <stop stop-color="#000000" offset="100%"></stop>
+        </linearGradient>
+        <path d="M13,1 C11.8967677,1 11,1.89746386 11,3 C11,4.10323225 11.8974639,5 13,5 C14.1032323,5 15,4.10253614 15,3 C15,1.89676775 14.1025361,1 13,1 Z M13,0 C14.6534829,0 16,1.34314575 16,3 C16,4.65348288 14.6568542,6 13,6 C11.3465171,6 10,4.65685425 10,3 C10,1.34651712 11.3431458,0 13,0 Z" id="path-4"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="椭圆" transform="translate(3.000000, 2.000000)">
+            <g id="Group">
+                <g id="path5565-copy-2" fill-rule="nonzero">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <polygon id="Path" fill="url(#linearGradient-3)" points="1 19 8.33287859 19 12 14.1799234 1 3"></polygon>
+            </g>
+            <g id="Rectangle-79" fill-rule="nonzero">
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-4"></use>
+                <path stroke-opacity="0.2" stroke="#000000" stroke-width="1" d="M13,1.5 C13.826661,1.5 14.5,2.17317727 14.5,3 C14.5,3.82666096 13.8268227,4.5 13,4.5 C12.173339,4.5 11.5,3.82682273 11.5,3 C11.5,2.17333904 12.1731773,1.5 13,1.5 Z M13,-0.5 C14.9307028,-0.5 16.5,1.06807996 16.5,3 C16.5,4.93070282 14.93192,6.5 13,6.5 C11.0692972,6.5 9.5,4.93192004 9.5,3 C9.5,1.06929718 11.06808,-0.5 13,-0.5 Z"></path>
+            </g>
+        </g>
+    </g>
+</svg>

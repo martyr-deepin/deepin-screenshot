@@ -34,6 +34,7 @@
 const int DRAG_BOUND_RADIUS = 8;
 const int SPACING = 12;
 const qreal RESIZEPOINT_WIDTH = 15;
+const QSize ROTATE_ICON_SIZE = QSize(24, 24);
 
 ShapesWidget::ShapesWidget(QWidget *parent)
     : QFrame(parent),
@@ -1032,7 +1033,6 @@ void ShapesWidget::mouseReleaseEvent(QMouseEvent *e) {
     m_isMoving = false;
 
     qDebug() << m_isRecording << m_isSelected << m_pos2;
-
     if (m_isRecording && !m_isSelected && m_pos2 != QPointF(0, 0)) {
         if (m_currentType == "arrow") {
             if (m_currentShape.points.length() == 2) {
@@ -1520,7 +1520,9 @@ void ShapesWidget::paintEvent(QPaintEvent *) {
                 paintRect(painter,  m_selectedShape.mainPoints, -1);
             }
 
-            QPixmap rotatePointImg(":/resources/images/size/rotate.png");
+            QPixmap rotatePointImg;
+            rotatePointImg = QIcon(":/resources/images/size/rotate.svg").pixmap(ROTATE_ICON_SIZE);
+            rotatePointImg.setDevicePixelRatio(this->devicePixelRatioF());
             paintImgPoint(painter, rotatePoint, rotatePointImg, false);
 
             for ( int i = 0; i < m_selectedShape.mainPoints.length(); i ++) {
