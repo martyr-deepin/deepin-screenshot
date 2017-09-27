@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="29px" height="29px" viewBox="0 0 29 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 46.1 (44463) - http://www.bohemiancoding.com/sketch -->
-    <title>十字形</title>
+    <title>+</title>
     <desc>Created with Sketch.</desc>
-    <defs>
-        <polygon id="path-1" points="13.96 28 15.04 28 15.04 15.04 28 15.04 28 13.96 15.04 13.96 15.04 1 13.96 1 13.96 13.96 1 13.96 1 15.04 13.96 15.04"></polygon>
-    </defs>
+    <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="放大镜" transform="translate(-550.000000, -308.000000)">
-            <g id="Group-Copy" transform="translate(550.000000, 308.000000)">
-                <g id="+">
-                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
-                    <use fill="black" fill-opacity="1" xlink:href="#path-1"></use>
-                </g>
+        <g id="放大镜" transform="translate(-525.000000, -337.000000)">
+            <g id="Group" transform="translate(525.000000, 337.000000)">
+                <polygon id="Path" fill-opacity="0.25" fill="#000000" points="6 9 0 9 0 6 6 6 6 0 9 0 9 6 15 6 15 9 9 9 9 15 6 15"></polygon>
+                <polygon id="+" fill="#FFFFFF" points="7 14 8 14 8 8 14 8 14 7 8 7 8 1 7 1 7 7 1 7 1 8 7 8"></polygon>
             </g>
         </g>
     </g>

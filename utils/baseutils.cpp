@@ -28,7 +28,7 @@
 const QSize START_SIZE = QSize(15, 15);
 const QSize RECT_SIZE = QSize(22, 26);
 const QSize ARROW_SIZE = QSize(24, 24);
-const QSize TEXT_SIZE = QSize(15, 25);
+const QSize TEXT_SIZE = QSize(11, 23);
 const QSize COLORPEN_SIZE = QSize(25, 25);
 
 QCursor setCursorShape(QString cursorName, int colorIndex) {
@@ -37,51 +37,52 @@ QCursor setCursorShape(QString cursorName, int colorIndex) {
 
     if (cursorName == "start") {
         QPixmap startPix;
-        if (ration >= 1)
-        {
-            startPix = QIcon(":/image/mouse_style/shape/start_mouse.png").pixmap(START_SIZE);
-        } else
+        if (ration <= 1)
         {
             startPix = QIcon(":/image/mouse_style/shape/start_mouse.svg").pixmap(START_SIZE);
+            customShape = QCursor(startPix, 8, 8);
+        } else
+        {
+            startPix = QIcon(":/image/mouse_style/shape/start_mouse@2x.svg").pixmap(START_SIZE);
+            customShape = QCursor(startPix, int(8*ration), int(8*ration));
         }
-        customShape = QCursor(startPix, 8, 8);
 
     } else if (cursorName == "rotate") {
         QPixmap rotateCursor  = QIcon(":/image/mouse_style/shape/rotate_mouse.svg").pixmap(ARROW_SIZE);
         rotateCursor.setDevicePixelRatio(ration);
 
-        customShape = QCursor(rotateCursor, 5, 5);
+        customShape = QCursor(rotateCursor, int(10*ration), int(10*ration));
     } else if (cursorName == "rectangle") {
         QPixmap rectCursor  = QIcon(":/image/mouse_style/shape/rect_mouse.svg").pixmap(RECT_SIZE);
         rectCursor.setDevicePixelRatio(ration);
 
-        customShape = QCursor(rectCursor, 0, 4);
+        customShape = QCursor(rectCursor, 0, int(1*ration));
     } else if (cursorName == "oval") {
         QPixmap ovalCursor  = QIcon(":/image/mouse_style/shape/ellipse_mouse.svg").pixmap(RECT_SIZE);
         ovalCursor.setDevicePixelRatio(ration);
 
-        customShape = QCursor(ovalCursor, 0, 4);
+        customShape = QCursor(ovalCursor, 0, int(1*ration));
     } else if (cursorName == "arrow") {
         QPixmap arrowCursor  = QIcon(":/image/mouse_style/shape/arrow_mouse.svg").pixmap(ARROW_SIZE);
         arrowCursor.setDevicePixelRatio(ration);
 
-        customShape = QCursor(arrowCursor, 5, 5);
+        customShape = QCursor(arrowCursor, int(5*ration), int(5*ration));
     } else if (cursorName == "text") {
         QPixmap textCursor  = QIcon(":/image/mouse_style/shape/text_mouse.svg").pixmap(TEXT_SIZE);
         textCursor.setDevicePixelRatio(ration);
 
-        customShape = QCursor(textCursor, 5, 5);
+        customShape = QCursor(textCursor, int(5*ration), int(5*ration));
     } else if  (cursorName == "line") {
         QPixmap colorPic = QIcon(QString(":/image/mouse_style/"
             "color_pen/color%1.svg").arg(colorIndex)).pixmap(COLORPEN_SIZE);
         colorPic.setDevicePixelRatio(ration);
 
-        customShape = QCursor(colorPic, 0, 24);
+        customShape = QCursor(colorPic,  int(5*ration), int(22*ration));
     } else if (cursorName == "straightLine") {
         QPixmap lineCursor  = QIcon(":/image/mouse_style/shape/line_mouse.svg").pixmap(ARROW_SIZE);
         lineCursor.setDevicePixelRatio(ration);
 
-        customShape = QCursor(lineCursor, 2, 9);
+        customShape = QCursor(lineCursor, int(2*ration), int(9*ration));
     }
 
     return customShape;

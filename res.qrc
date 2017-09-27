@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>image/mouse_style/shape/start_mouse.png</file>
         <file>image/icons/resize_handle_big.png</file>
         <file>image/icons/resize_handle_small.png</file>
         <file>image/icons/resize_handle_big@2x.png</file>
@@ -28,5 +27,6 @@
         <file>image/mouse_style/color_pen/color15.svg</file>
         <file>image/mouse_style/shape/start_mouse.svg</file>
         <file>image/mouse_style/shape/rotate_mouse.svg</file>
+        <file>image/mouse_style/shape/start_mouse@2x.svg</file>
     </qresource>
 </RCC>

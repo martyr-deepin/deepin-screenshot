@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="29px" height="29px" viewBox="0 0 29 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.1 (44463) - http://www.bohemiancoding.com/sketch -->
+    <title>+2x</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="放大镜" transform="translate(-550.000000, -308.000000)">
+            <g id="Group-Copy" transform="translate(550.000000, 308.000000)">
+                <polygon id="Path" fill-opacity="0.25" fill="#000000" points="12.96 16.04 0 16.04 0 12.96 12.96 12.96 12.96 0 16.04 0 16.04 12.96 29 12.96 29 16.04 16.04 16.04 16.04 29 12.96 29"></polygon>
+                <polygon id="+" fill="#FFFFFF" points="13.96 28 15.04 28 15.04 15.04 28 15.04 28 13.96 15.04 13.96 15.04 1 13.96 1 13.96 13.96 1 13.96 1 15.04 13.96 15.04"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
