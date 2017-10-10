@@ -1186,7 +1186,7 @@ void MainWindow::shotImgWidthEffect()
 //    eventloop.exec();
 
     qDebug() << m_toolBar->isVisible() << m_sizeTips->isVisible();
-    QPixmap tmpImg =    getPixmapofRect(m_shapesWidget->rect());
+    QPixmap tmpImg =    getPixmapofRect(m_shapesWidget->geometry());
 
     qDebug() << tmpImg.isNull() << tmpImg.size();
 
