@@ -84,8 +84,8 @@ int main(int argc, char *argv[])
      Q_UNUSED(dbusService);
 
     QDBusConnection conn = QDBusConnection::sessionBus();
-    if (!conn.registerService("com.deepin.DeepinScreenshot") ||
-            !conn.registerObject("/com/deepin/DeepinScreenshot", &w)) {
+    if (!conn.registerService("com.deepin.Screenshot") ||
+            !conn.registerObject("/com/deepin/Screenshot", &w)) {
         qDebug() << "deepin-screenshot is running!";
 
         qApp->quit();

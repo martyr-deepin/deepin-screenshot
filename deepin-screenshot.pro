@@ -71,4 +71,7 @@ CONFIG(release, debug|release) {
 translations.path = $$APPSHAREDIR/translations
 translations.files = translations/*.qm
 
-INSTALLS = target desktop icons manual manual_icon app_icon translations
+service.path = $${PREFIX}/share/dbus-1/services/
+service.files = $$PWD/dbusservice/com.deepin.Screenshot.service
+
+INSTALLS = target desktop icons manual manual_icon app_icon translations service
