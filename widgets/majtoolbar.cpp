@@ -49,7 +49,8 @@ MajToolBar::MajToolBar(QWidget *parent)
 
 MajToolBar::~MajToolBar() {}
 
-void MajToolBar::initWidgets() {
+void MajToolBar::initWidgets()
+{
     setStyleSheet(getFileContent(":/resources/qss/majtoolbar.qss"));
     setFixedHeight(TOOLBAR_HEIGHT);
     setFocusPolicy(Qt::StrongFocus);

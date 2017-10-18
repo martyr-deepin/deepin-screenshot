@@ -25,14 +25,16 @@
 #include <QLineEdit>
 #include <QPushButton>
 
-class Seperator : public QLabel {
+class Seperator : public QLabel
+{
     Q_OBJECT
 public:
     Seperator(QWidget* parent);
     ~Seperator();
 };
 
-class FontSizeWidget : public QLabel {
+class FontSizeWidget : public QLabel
+{
     Q_OBJECT
 public:
     FontSizeWidget(QWidget* parent = 0);

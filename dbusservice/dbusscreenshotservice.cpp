@@ -28,7 +28,6 @@
  */
 
 #include "dbusscreenshotservice.h"
-#include "screenshot.h"
 
 #include <QtCore/QMetaObject>
 #include <QtCore/QByteArray>
@@ -37,6 +36,7 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <QtCore/QVariant>
+#include <QDebug>
 
 /*
  * Implementation of adaptor class DBusScreenshotService
@@ -46,6 +46,7 @@ DBusScreenshotService::DBusScreenshotService(Screenshot *parent)
     : QDBusAbstractAdaptor(parent)
 {
     // constructor
+    Q_UNUSED(parent);
     setAutoRelaySignals(true);
 }
 
@@ -55,36 +56,42 @@ DBusScreenshotService::~DBusScreenshotService()
 }
 
 void DBusScreenshotService::StartScreenshot() {
-    parent()->StartScreenshot();
+    qDebug() << "DBus screenshot service! start screenshot";
+    parent()->startScreenshot();
 }
 
 void DBusScreenshotService::DelayScreenshot(qlonglong in0)
 {
+    qDebug() << "DBus screenshot service! delay screenshot";
     // handle method call com.deepin.Screenshot.DelayScreenshot
-    parent()->DelayScreenshot(in0);
+    parent()->delayScreenshot(in0);
 }
 
 void DBusScreenshotService::NoNotifyScreenshot()
 {
+     qDebug() << "DBus screenshot service! nonofiy screenshot";
     // handle method call com.deepin.Screenshot.NoNotify
-    parent()->NoNotifyScreenshot();
+    parent()->noNotifyScreenshot();
 }
 
 void DBusScreenshotService::TopWindowScreenshot()
 {
+     qDebug() << "DBus screenshot service! topWindow screenshot";
     // handle method call com.deepin.Screenshot.TopWindow
-    parent()->TopWindowScreenshot();
+    parent()->topWindowScreenshot();
 }
 
-void DBusScreenshotService::FullscreenScreenShot()
+void DBusScreenshotService::FullscreenScreenshot()
 {
-    // handle method call com.deepin.Screenshot.FullscreenShot
-    parent()->FullscreenScreenShot();
+     qDebug() << "DBus screenshot service! Fullscreen screenshot";
+    // handle method call com.deepin.Screenshot.Fullscreenshot
+    parent()->fullscreenScreenshot();
 }
 
 void DBusScreenshotService::SavePathScreenshot(const QString &in0)
 {
+     qDebug() << "DBus screenshot service! SavePath screenshot";
     // handle method call com.deepin.Screenshot.SavePath
-    parent()->SavePathScreenshot(in0);
+    parent()->savePathScreenshot(in0);
 }
 

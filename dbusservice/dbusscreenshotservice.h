@@ -31,12 +31,14 @@
 #ifndef DBUSSCREENSHOTSERVICE_H
 #define DBUSSCREENSHOTSERVICE_H
 
-#include "screenshot.h"
 #include <QDBusAbstractAdaptor>
-
 #include <QtCore/QObject>
 #include <QtDBus/QtDBus>
+
+#include "screenshot.h"
+
 QT_BEGIN_NAMESPACE
+
 class QByteArray;
 template<class T> class QList;
 template<class Key, class Value> class QMap;
@@ -70,8 +72,8 @@ public:
     DBusScreenshotService(Screenshot *parent);
     ~DBusScreenshotService();
 
-    inline DBusScreenshotService *parent() const
-    { return static_cast<DBusScreenshotService *>(QObject::parent()); }
+    inline Screenshot *parent() const
+    { return static_cast<Screenshot *>(QObject::parent()); }
 
 public: // PROPERTIES
 public Q_SLOTS: // METHODS
@@ -79,7 +81,7 @@ public Q_SLOTS: // METHODS
     void DelayScreenshot(qlonglong in0);
     void NoNotifyScreenshot();
     void TopWindowScreenshot();
-    void FullscreenScreenShot();
+    void FullscreenScreenshot();
     void SavePathScreenshot(const QString &in0);
 Q_SIGNALS: // SIGNALS
 };

@@ -63,7 +63,8 @@ int main(int argc, char *argv[])
                                                                               "Don't send notifications.");
      QCommandLineOption iconOption(QStringList() << "i" << "icon",
                                                                            "Indicate that this program's started by clicking.");
-
+    QCommandLineOption dbusOption(QStringList() << "u" << "dbus",
+                                                                            "Start  from dbus.");
      QCommandLineParser cmdParser;
      cmdParser.setApplicationDescription("deepin-screenshot");
      cmdParser.addHelpOption();
@@ -74,45 +75,55 @@ int main(int argc, char *argv[])
      cmdParser.addOption(savePathOption);
      cmdParser.addOption(prohibitNotifyOption);
      cmdParser.addOption(iconOption);
+     cmdParser.addOption(dbusOption);
      cmdParser.process(a);
 
      Screenshot w;
      w.hide();
 
-     //Register Screenshot's dbus service.
-     DBusScreenshotService dbusService (&w);
-     Q_UNUSED(dbusService);
+     DBusScreenshot* dbusScreenshot = new DBusScreenshot(&w);
+     if (dbusScreenshot->isValid())
+     {
+         qDebug() << "deepin-screenshot is running!";
 
-    QDBusConnection conn = QDBusConnection::sessionBus();
-    if (!conn.registerService("com.deepin.Screenshot") ||
-            !conn.registerObject("/com/deepin/Screenshot", &w)) {
-        qDebug() << "deepin-screenshot is running!";
+         qApp->quit();
+         return 0;
+     }
 
-        qApp->quit();
-        return 0;
-    } else {
-        qDebug() << "deepin-screenshot first started!";
+     if (cmdParser.isSet(dbusOption))
+     {
+         //Register Screenshot's dbus service.
+         DBusScreenshotService dbusService (&w);
+         Q_UNUSED(dbusService);
 
-        if (cmdParser.isSet(delayOption)) {
-            qDebug() << "cmd delay screenshot";
-            w.delayScreenshot(cmdParser.value(delayOption).toInt());
-        } else if (cmdParser.isSet(fullscreenOption)) {
-            w.fullscreenScreenshot();
-        } else if (cmdParser.isSet(topWindowOption)) {
-            qDebug() << "cmd topWindow";
-            w.topWindowScreenshot();
-        } else if (cmdParser.isSet(savePathOption)) {
-            qDebug() << "cmd savepath screenshot";
-            w.savePathScreenshot(cmdParser.value(savePathOption));
-        } else if (cmdParser.isSet(prohibitNotifyOption)) {
-            qDebug() << "screenshot no notify!";
-            w.noNotifyScreenshot();
-        } else if (cmdParser.isSet(iconOption)) {
-            w.delayScreenshot(0.2);
-        }  else {
-            w.startScreenshot();
-        }
+         QDBusConnection conn = QDBusConnection::sessionBus();
+         if (!conn.registerService("com.deepin.Screenshot") ||
+                 !conn.registerObject("/com/deepin/Screenshot", &w)) {
+             qDebug() << "deepin-screenshot  dbus register failed!" << conn.lastError();
+         }
 
-        return a.exec();
-    }
+         qDebug() << "dbus register wating!" << conn.isConnected();
+         return a.exec();
+     } else {
+         if (cmdParser.isSet(delayOption)) {
+             qDebug() << "cmd delay screenshot";
+             w.delayScreenshot(cmdParser.value(delayOption).toInt());
+         } else if (cmdParser.isSet(fullscreenOption)) {
+             w.fullscreenScreenshot();
+         } else if (cmdParser.isSet(topWindowOption)) {
+             w.topWindowScreenshot();
+         } else if (cmdParser.isSet(savePathOption)) {
+             qDebug() << "cmd savepath screenshot";
+             w.savePathScreenshot(cmdParser.value(savePathOption));
+         } else if (cmdParser.isSet(prohibitNotifyOption)) {
+             qDebug() << "screenshot no notify!";
+             w.noNotifyScreenshot();
+         } else if (cmdParser.isSet(iconOption)) {
+             w.delayScreenshot(0.2);
+         }  else {
+             w.startScreenshot();
+         }
+     }
+
+     return a.exec();
 }

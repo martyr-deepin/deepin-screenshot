@@ -25,7 +25,8 @@
 #include <QHBoxLayout>
 #include <QStackedWidget>
 
-class MajToolBar : public QLabel {
+class MajToolBar : public QLabel
+{
     Q_OBJECT
 public:
     MajToolBar(QWidget* parent = 0);
