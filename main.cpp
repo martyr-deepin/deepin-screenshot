@@ -81,9 +81,12 @@ int main(int argc, char *argv[])
      Screenshot w;
      w.hide();
 
-     DBusScreenshot* dbusScreenshot = new DBusScreenshot(&w);
-     if (dbusScreenshot->isValid())
-     {
+     DBusScreenshotService dbusService (&w);
+     Q_UNUSED(dbusService);
+     //Register Screenshot's dbus service.
+     QDBusConnection conn = QDBusConnection::sessionBus();
+     if (!conn.registerService("com.deepin.Screenshot") ||
+             !conn.registerObject("/com/deepin/Screenshot", &w)) {
          qDebug() << "deepin-screenshot is running!";
 
          qApp->quit();
@@ -92,17 +95,7 @@ int main(int argc, char *argv[])
 
      if (cmdParser.isSet(dbusOption))
      {
-         //Register Screenshot's dbus service.
-         DBusScreenshotService dbusService (&w);
-         Q_UNUSED(dbusService);
-
-         QDBusConnection conn = QDBusConnection::sessionBus();
-         if (!conn.registerService("com.deepin.Screenshot") ||
-                 !conn.registerObject("/com/deepin/Screenshot", &w)) {
-             qDebug() << "deepin-screenshot  dbus register failed!" << conn.lastError();
-         }
-
-         qDebug() << "dbus register wating!" << conn.isConnected();
+         qDebug() << "dbus register wating!";
          return a.exec();
      } else {
          if (cmdParser.isSet(delayOption)) {
