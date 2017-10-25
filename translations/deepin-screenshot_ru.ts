@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="618"/>
         <source>select-area</source>
-        <translation type="unfinished"/>
+        <translation>выберите-область</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="951"/>
@@ -18,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="1303"/>
         <location filename="../mainwindow.cpp" line="1306"/>
         <source>DeepinScreenshot</source>
-        <translation>Приложение для снимков экрана Deepin </translation>
+        <translation>DeepinScreenshot</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="970"/>
@@ -30,12 +30,12 @@
         <location filename="../mainwindow.cpp" line="984"/>
         <location filename="../mainwindow.cpp" line="1341"/>
         <source>Picture has been saved to %1</source>
-        <translation type="unfinished"/>
+        <translation>Изображение сохранено в %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</source>
-        <translation type="unfinished"/>
+        <translation>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1339"/>
@@ -73,7 +73,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="55"/>
         <source>Undo</source>
-        <translation>Обнулить</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="71"/>
@@ -116,7 +116,7 @@
     <message>
         <location filename="../screenshot.cpp" line="59"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Screenshot будет запущен через %1 секунд</translation>
     </message>
 </context>
 <context>
@@ -160,7 +160,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="19"/>
         <source>Undo</source>
-        <translation>Обнулить</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="20"/>
@@ -273,12 +273,12 @@
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="405"/>
         <source>Low</source>
-        <translation>Низко</translation>
+        <translation>Меньше</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="419"/>
         <source>High</source>
-        <translation>Высоко</translation>
+        <translation>Больше</translation>
     </message>
 </context>
 </TS>

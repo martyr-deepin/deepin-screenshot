@@ -20,7 +20,7 @@
             <location filename="Desktop Entry]Comment" line="0"/>
             <location filename="Desktop Entry]GenericName" line="0"/>
             <source>Screen capturing application</source>
-            <translation>螢幕截圖工具</translation>
+            <translation>具編輯功能的螢幕截圖工具</translation>
         </message>
     </context>
 </TS>

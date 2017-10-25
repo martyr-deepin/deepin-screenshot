@@ -9,12 +9,12 @@
         <message>
             <location filename="Delay_Screenshot Shortcut Group]Name" line="0"/>
             <source>Delay Screenshot</source>
-            <translation type="unfinished"/>
+            <translation>Lengah Cekupan Skrin</translation>
         </message>
         <message>
             <location filename="Full_Screenshot Shortcut Group]Name" line="0"/>
             <source>Full Screenshot</source>
-            <translation type="unfinished"/>
+            <translation>Cekupan Skrin Penuh</translation>
         </message>
         <message>
             <location filename="Desktop Entry]Comment" line="0"/>
