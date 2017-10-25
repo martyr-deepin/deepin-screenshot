@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="618"/>
         <source>select-area</source>
-        <translation type="unfinished"/>
+        <translation>選取範圍</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="951"/>
@@ -24,23 +24,23 @@
         <location filename="../mainwindow.cpp" line="970"/>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>View</source>
-        <translation>瀏覽</translation>
+        <translation>檢視</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="984"/>
         <location filename="../mainwindow.cpp" line="1341"/>
         <source>Picture has been saved to %1</source>
-        <translation type="unfinished"/>
+        <translation>圖片已儲存到 %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</source>
-        <translation type="unfinished"/>
+        <translation>PNG (*.png);; JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM (*.xpm)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1339"/>
         <source>Picture has been saved to clipboard</source>
-        <translation>圖片已存到剪貼板</translation>
+        <translation>圖片已複製到剪貼簿</translation>
     </message>
 </context>
 <context>
@@ -48,27 +48,27 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="15"/>
         <source>Rectangle</source>
-        <translation>長方形</translation>
+        <translation>長方形工具</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="23"/>
         <source>Ellipse</source>
-        <translation>橢圓形</translation>
+        <translation>橢圓形工具</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="31"/>
         <source>Arrow</source>
-        <translation>箭頭</translation>
+        <translation>箭頭工具</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="39"/>
         <source>Pencil</source>
-        <translation>鉛筆</translation>
+        <translation>鉛筆工具</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="47"/>
         <source>Text</source>
-        <translation>文字</translation>
+        <translation>文字工具</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="55"/>
@@ -88,12 +88,12 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="75"/>
         <source>Autosave</source>
-        <translation>儲存到圖片</translation>
+        <translation>自動儲存</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="76"/>
         <source>Save to specified folder</source>
-        <translation>儲存到指定資料夾</translation>
+        <translation>儲存到指定位置</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="77"/>
@@ -103,7 +103,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="78"/>
         <source>Autosave and copy to clipboard</source>
-        <translation>儲存到圖片並複製到剪貼簿</translation>
+        <translation>自動儲存並複製到剪貼簿</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="99"/>
@@ -116,7 +116,7 @@
     <message>
         <location filename="../screenshot.cpp" line="59"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"/>
+        <translation>Deepin 截圖將在 %1 秒後啟動</translation>
     </message>
 </context>
 <context>
@@ -135,7 +135,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="12"/>
         <source>Painting</source>
-        <translation>畫畫</translation>
+        <translation>編輯</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="13"/>
@@ -175,32 +175,32 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="26"/>
         <source>Rectangle</source>
-        <translation>長方形</translation>
+        <translation>長方形工具</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="27"/>
         <source>Ellipse</source>
-        <translation>橢圓形</translation>
+        <translation>橢圓形工具</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="28"/>
         <source>Arrow</source>
-        <translation>箭頭</translation>
+        <translation>箭頭工具</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="29"/>
         <source>Pencil</source>
-        <translation>鉛筆</translation>
+        <translation>鉛筆工具</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="30"/>
         <source>Text</source>
-        <translation>文字</translation>
+        <translation>文字工具</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="31"/>
         <source>Color</source>
-        <translation>顏色</translation>
+        <translation>選取顏色</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="34"/>
@@ -253,12 +253,12 @@
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="383"/>
         <source>Autosave</source>
-        <translation>儲存到圖片</translation>
+        <translation>自動儲存</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="389"/>
         <source>Save to specified folder</source>
-        <translation>儲存到指定資料夾</translation>
+        <translation>儲存到指定位置</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="395"/>
@@ -268,17 +268,17 @@
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="400"/>
         <source>Autosave and copy to clipboard</source>
-        <translation>儲存到圖片並複製到剪貼簿</translation>
+        <translation>自動儲存並複製到剪貼簿</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="405"/>
         <source>Low</source>
-        <translation>低</translation>
+        <translation>低品質</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="419"/>
         <source>High</source>
-        <translation>高</translation>
+        <translation>高品質</translation>
     </message>
 </context>
 </TS>

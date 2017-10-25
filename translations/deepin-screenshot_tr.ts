@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="618"/>
         <source>select-area</source>
-        <translation type="unfinished"/>
+        <translation>alan-seç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="951"/>
@@ -18,24 +18,24 @@
         <location filename="../mainwindow.cpp" line="1303"/>
         <location filename="../mainwindow.cpp" line="1306"/>
         <source>DeepinScreenshot</source>
-        <translation>DeepinScreenshot</translation>
+        <translation>DeepinEkranGörüntüsü</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="970"/>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>View</source>
-        <translation>Görünüm</translation>
+        <translation>Göster</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="984"/>
         <location filename="../mainwindow.cpp" line="1341"/>
         <source>Picture has been saved to %1</source>
-        <translation type="unfinished"/>
+        <translation>Resim %1&apos;e kaydedildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</source>
-        <translation type="unfinished"/>
+        <translation>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1339"/>
@@ -108,7 +108,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="99"/>
         <source>Exit</source>
-        <translation>Çıkış</translation>
+        <translation>Çık</translation>
     </message>
 </context>
 <context>
@@ -116,7 +116,7 @@
     <message>
         <location filename="../screenshot.cpp" line="59"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Ekran Görüntüsü %1 saniye sonra başlayacak</translation>
     </message>
 </context>
 <context>
@@ -165,7 +165,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="20"/>
         <source>Exit</source>
-        <translation>Çıkış</translation>
+        <translation>Çık</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="23"/>
