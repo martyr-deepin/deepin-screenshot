@@ -54,7 +54,7 @@ void Screenshot::initUI() {
     this->installEventFilter(this);
 
     connect(m_window, &MainWindow::releaseEvent, this, [=]{
-        qDebug() << "relase event !!!";
+        qDebug() << "release event !!!";
         m_keyboardReleased = true;
         m_keyboardGrabbed =  this->windowHandle()->setKeyboardGrabEnabled(false);
         qDebug() << "keyboardGrabbed:" << m_keyboardGrabbed;
