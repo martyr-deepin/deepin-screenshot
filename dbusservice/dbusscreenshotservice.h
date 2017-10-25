@@ -84,6 +84,8 @@ public Q_SLOTS: // METHODS
     void FullscreenScreenshot();
     void SavePathScreenshot(const QString &in0);
 Q_SIGNALS: // SIGNALS
+private:
+    bool m_singleInstance;
 };
 
 #endif

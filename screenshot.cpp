@@ -36,7 +36,7 @@ Screenshot::Screenshot(QWidget *parent)
 }
 
 void Screenshot::initUI() {
-    setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::WindowStaysOnTopHint |
+    setWindowFlags(Qt::X11BypassWindowManagerHint | Qt::WindowStaysOnTopHint|
                    Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
 

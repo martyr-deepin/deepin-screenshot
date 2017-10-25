@@ -44,6 +44,7 @@
 
 DBusScreenshotService::DBusScreenshotService(Screenshot *parent)
     : QDBusAbstractAdaptor(parent)
+    , m_singleInstance(false)
 {
     // constructor
     Q_UNUSED(parent);
@@ -57,41 +58,53 @@ DBusScreenshotService::~DBusScreenshotService()
 
 void DBusScreenshotService::StartScreenshot() {
     qDebug() << "DBus screenshot service! start screenshot";
-    parent()->startScreenshot();
+    if (!m_singleInstance)
+        parent()->startScreenshot();
+    m_singleInstance = true;
 }
 
 void DBusScreenshotService::DelayScreenshot(qlonglong in0)
 {
     qDebug() << "DBus screenshot service! delay screenshot";
     // handle method call com.deepin.Screenshot.DelayScreenshot
-    parent()->delayScreenshot(in0);
+    if (!m_singleInstance)
+        parent()->delayScreenshot(in0);
+    m_singleInstance = true;
 }
 
 void DBusScreenshotService::NoNotifyScreenshot()
 {
      qDebug() << "DBus screenshot service! nonofiy screenshot";
     // handle method call com.deepin.Screenshot.NoNotify
-    parent()->noNotifyScreenshot();
+     if (!m_singleInstance)
+        parent()->noNotifyScreenshot();
+     m_singleInstance = true;
 }
 
 void DBusScreenshotService::TopWindowScreenshot()
 {
      qDebug() << "DBus screenshot service! topWindow screenshot";
     // handle method call com.deepin.Screenshot.TopWindow
-    parent()->topWindowScreenshot();
+     if (!m_singleInstance)
+        parent()->topWindowScreenshot();
+     m_singleInstance = true;
 }
 
 void DBusScreenshotService::FullscreenScreenshot()
 {
      qDebug() << "DBus screenshot service! Fullscreen screenshot";
     // handle method call com.deepin.Screenshot.Fullscreenshot
-    parent()->fullscreenScreenshot();
+     if (!m_singleInstance)
+        parent()->fullscreenScreenshot();
+     m_singleInstance = true;
 }
 
 void DBusScreenshotService::SavePathScreenshot(const QString &in0)
 {
      qDebug() << "DBus screenshot service! SavePath screenshot";
     // handle method call com.deepin.Screenshot.SavePath
-    parent()->savePathScreenshot(in0);
+     if (!m_singleInstance)
+        parent()->savePathScreenshot(in0);
+     m_singleInstance = true;
 }
 
