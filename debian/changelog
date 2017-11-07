@@ -1,9 +1,3 @@
-deepin-screenshot (4.0.10.1) unstable; urgency=medium
-
-  * release 4.0.10.1
-
- -- Deepin Packages Builder <packages@linuxdeepin.com>  Mon, 7 Nov 2017 13:07:00 +0800
-
 deepin-screenshot (4.0.0) unstable; urgency=medium
 
   * Initial test 
