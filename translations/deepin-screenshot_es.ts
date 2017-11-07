@@ -98,7 +98,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="77"/>
         <source>Copy to clipboard</source>
-        <translation>Copiar en el portapapeles</translation>
+        <translation>Copiar al portapapeles</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="78"/>

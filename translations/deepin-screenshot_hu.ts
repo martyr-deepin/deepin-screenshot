@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="618"/>
         <source>select-area</source>
-        <translation type="unfinished"/>
+        <translation>kiválasztott terület</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="951"/>
@@ -30,12 +30,12 @@
         <location filename="../mainwindow.cpp" line="984"/>
         <location filename="../mainwindow.cpp" line="1341"/>
         <source>Picture has been saved to %1</source>
-        <translation type="unfinished"/>
+        <translation>A kép mentésre került: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</source>
-        <translation type="unfinished"/>
+        <translation>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1339"/>
@@ -103,7 +103,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="78"/>
         <source>Autosave and copy to clipboard</source>
-        <translation>Automata mentés és átmásolás a vágólapra</translation>
+        <translation>Automata mentés készítés vágólapra</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="99"/>
@@ -116,7 +116,7 @@
     <message>
         <location filename="../screenshot.cpp" line="59"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"/>
+        <translation>A Deepin képernyőmentés elindul %1 másodperc múlva</translation>
     </message>
 </context>
 <context>
@@ -135,7 +135,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="12"/>
         <source>Painting</source>
-        <translation>Festés</translation>
+        <translation>Színezés</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="13"/>

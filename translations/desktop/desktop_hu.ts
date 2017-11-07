@@ -20,7 +20,7 @@
             <location filename="Desktop Entry]Comment" line="0"/>
             <location filename="Desktop Entry]GenericName" line="0"/>
             <source>Screen capturing application</source>
-            <translation>Képernyőkép rögzítő alkalmazás</translation>
+            <translation>Képernyőkép mentés készítő alkalmazás</translation>
         </message>
     </context>
 </TS>

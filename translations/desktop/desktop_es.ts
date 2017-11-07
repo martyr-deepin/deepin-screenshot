@@ -4,7 +4,7 @@
         <message>
             <location filename="Desktop Entry]Name" line="0"/>
             <source>Deepin Screenshot</source>
-            <translation>Captura de pantalla deepin</translation>
+            <translation>Capturadora Deepin</translation>
         </message>
         <message>
             <location filename="Delay_Screenshot Shortcut Group]Name" line="0"/>
