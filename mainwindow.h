@@ -124,6 +124,7 @@ private:
 
     QList<QRect> m_windowRects;
     QRect m_backgroundRect;
+    QPixmap m_backgroundPixmap;
     QList<QString> m_windowNames;
 
     //SaveIndex indicate the save option(save to desktop, save to Picture dir,...)

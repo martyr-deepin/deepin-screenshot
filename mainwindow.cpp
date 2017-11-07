@@ -712,6 +712,10 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
     QRect backgroundRect = QRect(0, 0,
                                  m_backgroundRect.width(), m_backgroundRect.height());
+
+    m_backgroundPixmap.setDevicePixelRatio(devicePixelRatioF());
+    painter.drawPixmap(backgroundRect, m_backgroundPixmap);
+
     // Draw background.
     if (!m_isFirstMove) {
         painter.setBrush(QBrush("#000000"));
@@ -1114,19 +1118,15 @@ void MainWindow::startScreenshot()
 
 QPixmap MainWindow::getPixmapofRect(const QRect &rect)
 {
+    const qreal dpr = qApp->devicePixelRatio();
     return m_swUtil->primaryScreen()->grabWindow(
                 m_swUtil->rootWindowId(),
-               rect.x(), rect.y(), rect.width(), rect.height());
+               rect.x() / dpr, rect.y() / dpr, rect.width(), rect.height());
 }
 
 void MainWindow::initBackground()
 {
-    QPixmap tmpImg =  getPixmapofRect(m_backgroundRect);
-
-    //    using namespace utils;
-    tmpImg.save(TempFile::instance()->getFullscreenFileName(), "png");
-    this->setStyleSheet(QString("MainWindow{ border-image: url(%1); }"
-                                ).arg(TempFile::instance()->getFullscreenFileName()));
+    m_backgroundPixmap = getPixmapofRect(m_backgroundRect);
 }
 
 void MainWindow::shotFullScreen() {
