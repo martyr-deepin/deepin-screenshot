@@ -59,9 +59,14 @@ void ZoomIndicator::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     if (m_updatePos) {
         QString fullscreenImgFile = TempFile::instance()->getFullscreenFileName();
-        QRgb centerRectRgb = QImage(fullscreenImgFile).pixel(centerPos);
-        QPixmap zoomPix = QPixmap(fullscreenImgFile).copy(centerPos.x() - IMG_WIDTH/2,
-                                                          centerPos.y() - IMG_WIDTH/2, IMG_WIDTH, IMG_WIDTH);
+        qreal ration = this->devicePixelRatioF();
+        QImage fullscreenImg = QImage(fullscreenImgFile);
+        fullscreenImg =  fullscreenImg.scaled(fullscreenImg.width()/ration,
+                                              fullscreenImg.height()/ration, Qt::KeepAspectRatio);
+        const QRgb centerRectRgb = fullscreenImg.pixel(centerPos);
+        QPixmap zoomPix = QPixmap(fullscreenImgFile).scaled(
+            fullscreenImg.width(), fullscreenImg.height()).copy(
+            centerPos.x() - IMG_WIDTH/2, centerPos.y() - IMG_WIDTH/2, IMG_WIDTH, IMG_WIDTH);
 
         zoomPix = zoomPix.scaled(QSize(INDICATOR_WIDTH,  INDICATOR_WIDTH),
                                  Qt::KeepAspectRatio);

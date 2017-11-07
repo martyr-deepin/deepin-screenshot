@@ -72,17 +72,14 @@ void MainWindow::initOriginUI()
     QPoint curPos = this->cursor().pos();
 
     m_swUtil = DScreenWindowsUtil::instance(curPos);
-
     m_screenNum =  m_swUtil->getScreenNum();
     m_backgroundRect = m_swUtil->backgroundRect();
     this->move(m_backgroundRect.x(), m_backgroundRect.y());
     this->setFixedSize(m_backgroundRect.size());
-
     initBackground();
 
     m_sizeTips = new TopTips(this);
     m_sizeTips->hide();
-
     m_zoomIndicator = new ZoomIndicator(this);
     m_zoomIndicator->hide();
     m_updateZoomTimer = new QTimer(this);
