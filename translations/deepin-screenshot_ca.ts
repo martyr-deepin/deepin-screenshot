@@ -24,7 +24,7 @@
         <location filename="../mainwindow.cpp" line="970"/>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>View</source>
-        <translation type="unfinished"/>
+        <translation>Visualització</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="984"/>
@@ -108,7 +108,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="99"/>
         <source>Exit</source>
-        <translation type="unfinished"/>
+        <translation>Surt</translation>
     </message>
 </context>
 <context>
@@ -165,7 +165,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="20"/>
         <source>Exit</source>
-        <translation type="unfinished"/>
+        <translation>Surt</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="23"/>

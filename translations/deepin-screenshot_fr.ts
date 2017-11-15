@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="618"/>
         <source>select-area</source>
-        <translation>sélection-zone</translation>
+        <translation>zone de sélection </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="951"/>
@@ -18,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="1303"/>
         <location filename="../mainwindow.cpp" line="1306"/>
         <source>DeepinScreenshot</source>
-        <translation>CaptureÉcranDeepin</translation>
+        <translation>Deepin Capture-écran</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="970"/>
@@ -116,7 +116,7 @@
     <message>
         <location filename="../screenshot.cpp" line="59"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation>Capture d&apos;écran Deepin démarrera après %1 secondes</translation>
+        <translation>Deepin Capture-écran démarrera après %1 secondes</translation>
     </message>
 </context>
 <context>
