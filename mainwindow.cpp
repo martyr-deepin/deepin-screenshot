@@ -1082,11 +1082,11 @@ void MainWindow::topWindow()
     this->hide();
     emit this->hideScreenshotUI();
 //    using namespace utils;
-    QPixmap screenShotPix = QPixmap(TempFile::instance()->getFullscreenFileName()).copy(
+    QPixmap screenShotPix =  m_backgroundPixmap.copy(
                 m_recordX, m_recordY, m_recordWidth, m_recordHeight);
 
     m_needSaveScreenshot = true;
-//    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
+    //    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
     saveAction(screenShotPix);
     sendNotify(m_saveIndex, m_saveFileName);
 }
