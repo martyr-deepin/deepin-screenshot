@@ -1127,6 +1127,7 @@ QPixmap MainWindow::getPixmapofRect(const QRect &rect)
 void MainWindow::initBackground()
 {
     m_backgroundPixmap = getPixmapofRect(m_backgroundRect);
+    m_backgroundPixmap.save(TempFile::instance()->getFullscreenFileName(), "PNG");
 }
 
 void MainWindow::shotFullScreen() {
