@@ -104,6 +104,7 @@ int main(int argc, char *argv[])
          } else if (cmdParser.isSet(fullscreenOption)) {
              w.fullscreenScreenshot();
          } else if (cmdParser.isSet(topWindowOption)) {
+             qDebug() << "cmd topWindow screenshot";
              w.topWindowScreenshot();
          } else if (cmdParser.isSet(savePathOption)) {
              qDebug() << "cmd savepath screenshot";

@@ -1084,7 +1084,10 @@ void MainWindow::topWindow()
 //    using namespace utils;
     QPixmap screenShotPix =  m_backgroundPixmap.copy(
                 m_recordX, m_recordY, m_recordWidth, m_recordHeight);
-
+    qDebug() << "topWindow grabImage is null:" << m_backgroundPixmap.isNull()
+             << QRect(m_recordX, m_recordY, m_recordWidth, m_recordHeight)
+             << "\n"
+             << "screenShot is null:" << screenShotPix.isNull();
     m_needSaveScreenshot = true;
     //    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
     saveAction(screenShotPix);
