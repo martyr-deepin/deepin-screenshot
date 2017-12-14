@@ -2,7 +2,7 @@ Source: deepin-screenshot
 Section: utils
 Priority: optional
 Maintainer: Deepin Packages Builder <packages@deepin.com>
-Build-Depends: debhelper (>=9), qt5-qmake, qt5-default, qtbase5-dev, pkg-config, libqt5svg5-dev, libqt5x11extras5-dev,
+Build-Depends: debhelper (>=9), qt5-qmake, qtbase5-dev, pkg-config, libqt5svg5-dev, libqt5x11extras5-dev,
  qttools5-dev-tools, libxcb-util0-dev, libstartup-notification0-dev,
  qtbase5-private-dev,qtmultimedia5-dev, x11proto-xext-dev, libmtdev-dev, libegl1-mesa-dev, x11proto-record-dev,libxtst-dev,
  libudev-dev, libfontconfig1-dev, libfreetype6-dev, libglib2.0-dev, libxrender-dev, libdtkwidget-dev, libdtkwm-dev, deepin-gettext-tools
@@ -12,6 +12,6 @@ Homepage: http://www.deepin.org
 Package: deepin-screenshot
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Recommends: deepin-shortcut-viewer (>1.3.1-1), deepin-notifications (>2.3.8-1)
+Recommends: deepin-shortcut-viewer, deepin-notifications
 Description: Advanced screen shoting tool
  Easy-to-use screenshot tool for linuxdeepin desktop environment.
