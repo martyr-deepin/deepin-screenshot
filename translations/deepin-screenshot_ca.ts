@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="618"/>
         <source>select-area</source>
-        <translation type="unfinished"/>
+        <translation>selecciona-àrea</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="951"/>
@@ -18,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="1303"/>
         <location filename="../mainwindow.cpp" line="1306"/>
         <source>DeepinScreenshot</source>
-        <translation type="unfinished"/>
+        <translation>Capturador de pantalla del Deepin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="970"/>
@@ -30,17 +30,17 @@
         <location filename="../mainwindow.cpp" line="984"/>
         <location filename="../mainwindow.cpp" line="1341"/>
         <source>Picture has been saved to %1</source>
-        <translation type="unfinished"/>
+        <translation>La imatge s&apos;ha desat a %1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</source>
-        <translation type="unfinished"/>
+        <translation>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1339"/>
         <source>Picture has been saved to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>La imatge s&apos;ha desat al porta-retalls</translation>
     </message>
 </context>
 <context>
@@ -48,22 +48,22 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="15"/>
         <source>Rectangle</source>
-        <translation type="unfinished"/>
+        <translation>Rectangle</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="23"/>
         <source>Ellipse</source>
-        <translation type="unfinished"/>
+        <translation>El·lipse</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="31"/>
         <source>Arrow</source>
-        <translation type="unfinished"/>
+        <translation>Fletxa</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="39"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>Llapis</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="47"/>
@@ -73,7 +73,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="55"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Desfés</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="71"/>
@@ -83,27 +83,27 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="74"/>
         <source>Save to desktop</source>
-        <translation type="unfinished"/>
+        <translation>Desa a l&apos;escriptori</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="75"/>
         <source>Autosave</source>
-        <translation type="unfinished"/>
+        <translation>Desa-ho automàticament</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="76"/>
         <source>Save to specified folder</source>
-        <translation type="unfinished"/>
+        <translation>Desa a la carpeta especificada</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="77"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Copia al porta-retalls</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="78"/>
         <source>Autosave and copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Desa-ho automàticament i copia-ho al porta-retalls</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="99"/>
@@ -116,7 +116,7 @@
     <message>
         <location filename="../screenshot.cpp" line="59"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"/>
+        <translation>El capturador de pantalla del Deepin s&apos;iniciarà d&apos;aquí a %1 segons.</translation>
     </message>
 </context>
 <context>
@@ -124,7 +124,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="10"/>
         <source>Start/Screenshot</source>
-        <translation type="unfinished"/>
+        <translation>Inicia / Captura de pantalla</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="11"/>
@@ -135,32 +135,32 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="12"/>
         <source>Painting</source>
-        <translation type="unfinished"/>
+        <translation>Pintura</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="13"/>
         <source>Size Adjustment</source>
-        <translation type="unfinished"/>
+        <translation>Ajust de la mida</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="16"/>
         <source>Quick start</source>
-        <translation type="unfinished"/>
+        <translation>Inici ràpid</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="17"/>
         <source>Full screenshot</source>
-        <translation type="unfinished"/>
+        <translation>Captura de pantalla completa</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="18"/>
         <source>Delay screenshot</source>
-        <translation type="unfinished"/>
+        <translation>Ajorna la captura</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="19"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Desfés</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="20"/>
@@ -170,27 +170,27 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="23"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Copia al porta-retalls</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="26"/>
         <source>Rectangle</source>
-        <translation type="unfinished"/>
+        <translation>Rectangle</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="27"/>
         <source>Ellipse</source>
-        <translation type="unfinished"/>
+        <translation>El·lipse</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="28"/>
         <source>Arrow</source>
-        <translation type="unfinished"/>
+        <translation>Fletxa</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="29"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>Llapis</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="30"/>
@@ -200,47 +200,47 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="31"/>
         <source>Color</source>
-        <translation type="unfinished"/>
+        <translation>Color</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="34"/>
         <source>Increase height up</source>
-        <translation type="unfinished"/>
+        <translation>Augmenta l&apos;alçada amunt</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="35"/>
         <source>Increase height down</source>
-        <translation type="unfinished"/>
+        <translation>Augmenta l&apos;alçada avall</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="36"/>
         <source>Increase width left</source>
-        <translation type="unfinished"/>
+        <translation>Augmenta l&apos;amplada cap a l&apos;esquerra</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="37"/>
         <source>Increase width right</source>
-        <translation type="unfinished"/>
+        <translation>Augmenta l&apos;amplada cap a la dreta</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="38"/>
         <source>Decrease height up</source>
-        <translation type="unfinished"/>
+        <translation>Redueix l&apos;alçada amunt</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="39"/>
         <source>Decrease height down</source>
-        <translation type="unfinished"/>
+        <translation>Redueix l&apos;alçada avall</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="40"/>
         <source>Decrease width left</source>
-        <translation type="unfinished"/>
+        <translation>Redueix l&apos;amplada cap a l&apos;esquerra</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="41"/>
         <source>Decrease width right</source>
-        <translation type="unfinished"/>
+        <translation>Redueix l&apos;amplada cap a la dreta</translation>
     </message>
 </context>
 <context>
@@ -248,37 +248,37 @@
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="377"/>
         <source>Save to desktop</source>
-        <translation type="unfinished"/>
+        <translation>Desa a l&apos;escriptori</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="383"/>
         <source>Autosave</source>
-        <translation type="unfinished"/>
+        <translation>Desa automàticament</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="389"/>
         <source>Save to specified folder</source>
-        <translation type="unfinished"/>
+        <translation>Desa-ho a la carpeta especificada</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="395"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Copia al porta-retalls</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="400"/>
         <source>Autosave and copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Desa-ho automàticament i copia-ho al porta-retalls</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="405"/>
         <source>Low</source>
-        <translation type="unfinished"/>
+        <translation>Baixa</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="419"/>
         <source>High</source>
-        <translation type="unfinished"/>
+        <translation>Alta</translation>
     </message>
 </context>
 </TS>

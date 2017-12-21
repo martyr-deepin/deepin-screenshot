@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="618"/>
         <source>select-area</source>
-        <translation type="unfinished"/>
+        <translation>вибрати-область</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="951"/>
@@ -30,12 +30,12 @@
         <location filename="../mainwindow.cpp" line="984"/>
         <location filename="../mainwindow.cpp" line="1341"/>
         <source>Picture has been saved to %1</source>
-        <translation type="unfinished"/>
+        <translation>Зображення було збережено до %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</source>
-        <translation type="unfinished"/>
+        <translation>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1339"/>
@@ -63,7 +63,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="39"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>Олівець</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="47"/>
@@ -116,7 +116,7 @@
     <message>
         <location filename="../screenshot.cpp" line="59"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"/>
+        <translation>Знімок екрану Deepin запуститься за %1 секунди</translation>
     </message>
 </context>
 <context>
@@ -190,7 +190,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="29"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>Олівець</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="30"/>

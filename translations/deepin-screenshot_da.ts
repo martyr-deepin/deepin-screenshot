@@ -108,7 +108,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="99"/>
         <source>Exit</source>
-        <translation>Forlad</translation>
+        <translation>Afslut</translation>
     </message>
 </context>
 <context>
@@ -165,7 +165,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="20"/>
         <source>Exit</source>
-        <translation>Forlad</translation>
+        <translation>Afslut</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="23"/>
