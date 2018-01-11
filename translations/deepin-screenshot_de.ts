@@ -155,7 +155,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="18"/>
         <source>Delay screenshot</source>
-        <translation>Bildschrimfoto verzögern</translation>
+        <translation>Bildschirmfoto verzögern</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="19"/>

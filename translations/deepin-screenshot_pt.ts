@@ -116,7 +116,7 @@
     <message>
         <location filename="../screenshot.cpp" line="59"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation>A Captura de ecrã do Deepin será iniciada em %1 segundos</translation>
+        <translation>O Deepin Screenshot será iniciado em %1 segundos</translation>
     </message>
 </context>
 <context>

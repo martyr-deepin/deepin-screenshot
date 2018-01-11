@@ -20,7 +20,7 @@
             <location filename="Desktop Entry]Comment" line="0"/>
             <location filename="Desktop Entry]GenericName" line="0"/>
             <source>Screen capturing application</source>
-            <translation>Bildschirmfoto Aufnahmesoftware</translation>
+            <translation>Bildschirmfoto-Aufnahmesoftware</translation>
         </message>
     </context>
 </TS>
