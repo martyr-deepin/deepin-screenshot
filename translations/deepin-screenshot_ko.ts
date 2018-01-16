@@ -24,18 +24,18 @@
         <location filename="../mainwindow.cpp" line="970"/>
         <location filename="../mainwindow.cpp" line="1321"/>
         <source>View</source>
-        <translation>ㅂㅗ기</translation>
+        <translation>보기</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="984"/>
         <location filename="../mainwindow.cpp" line="1341"/>
         <source>Picture has been saved to %1</source>
-        <translation type="unfinished"/>
+        <translation>%1 으로 사진이 저장되었습니다</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1233"/>
         <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</source>
-        <translation type="unfinished"/>
+        <translation>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1339"/>
@@ -63,7 +63,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="39"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>연필</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="47"/>
@@ -83,7 +83,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="74"/>
         <source>Save to desktop</source>
-        <translation>데스크톱으로 저장하기</translation>
+        <translation>바탕화면에 저장하기</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="75"/>
@@ -98,7 +98,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="77"/>
         <source>Copy to clipboard</source>
-        <translation>클립보드 복사 </translation>
+        <translation>클립보드에 복사</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="78"/>
@@ -190,7 +190,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="29"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>연필</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="30"/>
