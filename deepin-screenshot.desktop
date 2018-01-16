@@ -7,6 +7,7 @@ Icon=deepin-screenshot
 Name=Deepin Screenshot
 StartupNotify=false
 Type=Application
+X-Deepin-ManualID=deepin-screenshot
 
 # Translations:
 # Do not manually modify!
