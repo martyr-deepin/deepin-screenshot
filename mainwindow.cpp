@@ -1081,9 +1081,15 @@ void MainWindow::topWindow()
 
     this->hide();
     emit this->hideScreenshotUI();
+
+    const qreal ratio = this->devicePixelRatioF();
+    QRect target( m_recordX * ratio,
+                  m_recordY * ratio,
+                  m_recordWidth * ratio,
+                  m_recordHeight * ratio );
+
 //    using namespace utils;
-    QPixmap screenShotPix =  m_backgroundPixmap.copy(
-                m_recordX, m_recordY, m_recordWidth, m_recordHeight);
+    QPixmap screenShotPix =  m_backgroundPixmap.copy(target);
     qDebug() << "topWindow grabImage is null:" << m_backgroundPixmap.isNull()
              << QRect(m_recordX, m_recordY, m_recordWidth, m_recordHeight)
              << "\n"
