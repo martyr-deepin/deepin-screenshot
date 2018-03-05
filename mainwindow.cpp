@@ -1015,9 +1015,12 @@ void MainWindow::saveSpecificedPath(QString path)
     hints["x-deepin-action-_open"] = command;
 
     QString summary = QString(tr("Picture has been saved to %1")).arg(savePath);
-
-    m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
-                                summary, actions, hints, 0);
+    
+    if (!m_noNotify) {
+        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
+                                    summary, actions, hints, 0);
+    }
+    
     exitApp();
 }
 
