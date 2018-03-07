@@ -26,7 +26,6 @@
 
 #include "screenshot.h"
 #include "dbusservice/dbusscreenshotservice.h"
-#include "dbusinterface/dbusscreenshot.h"
 
 DWIDGET_USE_NAMESPACE
 
