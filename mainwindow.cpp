@@ -713,8 +713,10 @@ void MainWindow::paintEvent(QPaintEvent *event)
     QRect backgroundRect = QRect(0, 0,
                                  m_backgroundRect.width(), m_backgroundRect.height());
 
-    m_backgroundPixmap.setDevicePixelRatio(devicePixelRatioF());
-    painter.drawPixmap(backgroundRect, m_backgroundPixmap);
+    // FIXME: Under the magnifying glass, it seems to be magnified two times.
+
+//    m_backgroundPixmap.setDevicePixelRatio(devicePixelRatioF());
+//    painter.drawPixmap(backgroundRect, m_backgroundPixmap);
 
     // Draw background.
     if (!m_isFirstMove) {
