@@ -96,7 +96,7 @@ public slots:
     void shotCurrentImg();
     void shotImgWidthEffect();
     void saveScreenshot();
-    void saveAction(QPixmap pix);
+    void saveAction(const QPixmap &pix);
     void sendNotify(int saveIndex, QString saveFilePath);
     void reloadImage(QString effect);
     void onViewShortcut();
@@ -164,6 +164,7 @@ private:
     QString m_selectAreaName;
     QPixmap m_resizeBigPix;
     QPixmap m_resizeSmallPix;
+    QPixmap m_resultPixmap;
 
     TopTips* m_sizeTips;
     ToolBar* m_toolBar;

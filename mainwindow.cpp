@@ -999,8 +999,6 @@ void MainWindow::saveSpecificedPath(QString path)
     shotCurrentImg();
 //    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
 
-    QPixmap screenShotPix(TempFile::instance()->getTmpFileName());
-    screenShotPix.save(savePath);
     QStringList actions;
     actions << "_open" << tr("View");
     QVariantMap hints;
@@ -1138,14 +1136,11 @@ QPixmap MainWindow::getPixmapofRect(const QRect &rect)
 void MainWindow::initBackground()
 {
     m_backgroundPixmap = getPixmapofRect(m_backgroundRect);
-    m_backgroundPixmap.save(TempFile::instance()->getFullscreenFileName(), "PNG");
+    m_resultPixmap = m_backgroundPixmap;
 }
 
 void MainWindow::shotFullScreen() {
-    QPixmap tmpImg =  getPixmapofRect(m_backgroundRect);
-
-    //    using namespace utils;
-    tmpImg.save(TempFile::instance()->getFullscreenFileName(), "png");
+    m_resultPixmap = getPixmapofRect(m_backgroundRect);
 }
 
 void MainWindow::shotCurrentImg()
@@ -1177,10 +1172,7 @@ void MainWindow::shotCurrentImg()
                   m_recordWidth * ratio,
                   m_recordHeight * ratio );
 
-    QPixmap tmpImg(TempFile::instance()->getFullscreenFileName());
-    tmpImg = tmpImg.copy(target);
-
-    tmpImg.save(TempFile::instance()->getTmpFileName(), "png");
+    m_resultPixmap = m_backgroundPixmap.copy(target);
 }
 
 void MainWindow::shotImgWidthEffect()
@@ -1195,12 +1187,7 @@ void MainWindow::shotImgWidthEffect()
 //    eventloop.exec();
 
     qDebug() << m_toolBar->isVisible() << m_sizeTips->isVisible();
-    QPixmap tmpImg =    getPixmapofRect(m_shapesWidget->geometry());
-
-    qDebug() << tmpImg.isNull() << tmpImg.size();
-
-//    using namespace utils;
-    tmpImg.save(TempFile::instance()->getTmpFileName(), "png");
+    m_resultPixmap = getPixmapofRect(m_shapesWidget->geometry());
     m_drawNothing = false;
     update();
 }
@@ -1221,11 +1208,11 @@ void MainWindow::saveScreenshot()
     shotCurrentImg();
 
 //    using namespace utils;
-    saveAction(TempFile::instance()->getTmpFileName());
+    saveAction(m_resultPixmap);
     sendNotify(m_saveIndex, m_saveFileName);
 }
 
-void MainWindow::saveAction(QPixmap pix)
+void MainWindow::saveAction(const QPixmap &pix)
 {
     emit releaseEvent();
 
@@ -1346,7 +1333,7 @@ void MainWindow::saveAction(QPixmap pix)
         return;
     } else if (m_saveIndex == 2 || !m_saveFileName.isEmpty()) {
         screenShotPix.save(m_saveFileName,  QFileInfo(m_saveFileName).suffix().toLocal8Bit());
-    } else if (saveOption != QStandardPaths::TempLocation || m_saveFileName.isEmpty()) {
+    } else if (saveOption != QStandardPaths::TempLocation && m_saveFileName.isEmpty()) {
         if (m_selectAreaName.isEmpty()) {
             m_saveFileName = QString("%1/%2_%3.png").arg(QStandardPaths::writableLocation(
                              saveOption)).arg(tr("DeepinScreenshot")).arg(currentTime);
