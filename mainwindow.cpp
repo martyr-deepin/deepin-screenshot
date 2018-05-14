@@ -715,8 +715,8 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
     // FIXME: Under the magnifying glass, it seems to be magnified two times.
 
-//    m_backgroundPixmap.setDevicePixelRatio(devicePixelRatioF());
-//    painter.drawPixmap(backgroundRect, m_backgroundPixmap);
+    m_backgroundPixmap.setDevicePixelRatio(devicePixelRatioF());
+    painter.drawPixmap(backgroundRect, m_backgroundPixmap);
 
     // Draw background.
     if (!m_isFirstMove) {
