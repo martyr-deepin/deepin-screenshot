@@ -96,8 +96,8 @@ public slots:
     void shotCurrentImg();
     void shotImgWidthEffect();
     void saveScreenshot();
-    void saveAction(const QPixmap &pix);
-    void sendNotify(int saveIndex, QString saveFilePath);
+    bool saveAction(const QPixmap &pix);
+    void sendNotify(int saveIndex, QString saveFilePath, const bool succeed);
     void reloadImage(QString effect);
     void onViewShortcut();
     void onHelp();

@@ -931,8 +931,9 @@ void MainWindow::fullScreenshot()
 //    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
 //    using namespace utils;
     QPixmap screenShotPix(TempFile::instance()->getFullscreenFileName());
-    saveAction(screenShotPix);
-    sendNotify(m_saveIndex, m_saveFileName);
+
+    const auto r = saveAction(screenShotPix);
+    sendNotify(m_saveIndex, m_saveFileName, r);
 }
 
 void MainWindow::savePath(const QString &path)
@@ -1096,8 +1097,9 @@ void MainWindow::topWindow()
              << "screenShot is null:" << screenShotPix.isNull();
     m_needSaveScreenshot = true;
     //    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
-    saveAction(screenShotPix);
-    sendNotify(m_saveIndex, m_saveFileName);
+
+    const auto r = saveAction(screenShotPix);
+    sendNotify(m_saveIndex, m_saveFileName, r);
 }
 
 void MainWindow::expressSaveScreenshot()
@@ -1207,12 +1209,11 @@ void MainWindow::saveScreenshot()
 
     shotCurrentImg();
 
-//    using namespace utils;
-    saveAction(m_resultPixmap);
-    sendNotify(m_saveIndex, m_saveFileName);
+    const bool r = saveAction(m_resultPixmap);
+    sendNotify(m_saveIndex, m_saveFileName, r);
 }
 
-void MainWindow::saveAction(const QPixmap &pix)
+bool MainWindow::saveAction(const QPixmap &pix)
 {
     emit releaseEvent();
 
@@ -1269,18 +1270,15 @@ void MainWindow::saveAction(const QPixmap &pix)
                                                      tr("PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;"
                                                         "XBM (*.xbm);;XPM(*.xpm)"));
 
-
-        if (QFileInfo(m_saveFileName).isDir()) {
-            qDebug() << "empty fileName";
-            exitApp();
-        }
+        if (QFileInfo(m_saveFileName).isDir())
+            return false;
 
         QString fileSuffix = QFileInfo(m_saveFileName).completeSuffix();
         if (fileSuffix.isEmpty()) {
-                    m_saveFileName = m_saveFileName + ".png";
+            m_saveFileName = m_saveFileName + ".png";
         } else if ( !isValidFormat(fileSuffix)) {
             qWarning() << "The fileName has invalid suffix!" << fileSuffix << m_saveFileName;
-            exitApp();
+            return false;
         }
 
         ConfigSettings::instance()->setValue("common", "default_savepath",
@@ -1328,11 +1326,11 @@ void MainWindow::saveAction(const QPixmap &pix)
                                                                             Qt::KeepAspectRatio, Qt::FastTransformation);
     }
 
-    if (m_saveIndex ==2 && m_saveFileName.isEmpty()) {
-        exitApp();
-        return;
+    if (m_saveIndex == 2 && m_saveFileName.isEmpty()) {
+        return false;
     } else if (m_saveIndex == 2 || !m_saveFileName.isEmpty()) {
-        screenShotPix.save(m_saveFileName,  QFileInfo(m_saveFileName).suffix().toLocal8Bit());
+        if (!screenShotPix.save(m_saveFileName,  QFileInfo(m_saveFileName).suffix().toLocal8Bit()))
+            return false;
     } else if (saveOption != QStandardPaths::TempLocation && m_saveFileName.isEmpty()) {
         if (m_selectAreaName.isEmpty()) {
             m_saveFileName = QString("%1/%2_%3.png").arg(QStandardPaths::writableLocation(
@@ -1341,7 +1339,8 @@ void MainWindow::saveAction(const QPixmap &pix)
             m_saveFileName = QString("%1/%2_%3_%4.png").arg(QStandardPaths::writableLocation(
                              saveOption)).arg(tr("DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
         }
-        screenShotPix.save(m_saveFileName,  "PNG");
+        if (!screenShotPix.save(m_saveFileName,  "PNG"))
+            return false;
     }
 
     if (copyToClipboard) {
@@ -1349,10 +1348,19 @@ void MainWindow::saveAction(const QPixmap &pix)
         QClipboard* cb = qApp->clipboard();
         cb->setPixmap(screenShotPix, QClipboard::Clipboard);
     }
+
+    return true;
 }
 
-void MainWindow::sendNotify(int saveIndex, QString saveFilePath)
+void MainWindow::sendNotify(int saveIndex, QString saveFilePath, const bool succeed)
 {
+    // failed notify
+    if (!succeed)
+    {
+        m_notifyDBInterface->Notify("Deepin Screenshot", 0, "deepin-screenshot", QString(), tr("Picture save failed!"), QStringList(), QVariantMap(), 0);
+        return;
+    }
+
     QStringList actions;
     actions << "_open" << tr("View");
     QVariantMap hints;
