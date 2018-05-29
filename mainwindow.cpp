@@ -1174,7 +1174,7 @@ void MainWindow::shotCurrentImg()
                   m_recordWidth * ratio,
                   m_recordHeight * ratio );
 
-    m_resultPixmap = m_backgroundPixmap.copy(target);
+    m_resultPixmap = m_resultPixmap.copy(target);
 }
 
 void MainWindow::shotImgWidthEffect()
