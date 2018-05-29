@@ -23,19 +23,12 @@
 #include <QTemporaryFile>
 #include <QDebug>
 
-inline QString configPath()
-{
-    return QString("%1/%2/config.conf")
-        .arg(qApp->organizationName())
-        .arg(qApp->applicationName());
-}
-
 ConfigSettings::ConfigSettings(QObject *parent)
     : QObject(parent)
 {
-    m_settings = new QSettings(configPath());
+    m_settings = new QSettings("deepin", "deepin-screenshot");
 
-    if (!QFileInfo(configPath()).exists()) {
+    if (m_settings->allKeys().isEmpty()) {
         setValue("common", "color_index", 3);
         setValue ("common", "default_savepath", "");
 
