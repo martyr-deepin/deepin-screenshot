@@ -1,3 +1,27 @@
+<a name="4.0.12"></a>
+## 4.0.12 (2018-05-30)
+
+
+#### Bug Fixes
+
+*   flatpak error readding config file. ([320648ec](320648ec))
+*   not draw faker background ([0f7f3f71](0f7f3f71))
+*   draw background error ([0cd42039](0cd42039))
+
+
+
+<a name="4.0.12"></a>
+## 4.0.12 (2018-05-29)
+
+
+#### Bug Fixes
+
+*   flatpak error readding config file. ([320648ec](320648ec))
+*   not draw faker background ([0f7f3f71](0f7f3f71))
+*   draw background error ([0cd42039](0cd42039))
+
+
+
 <a name="4.0.11"></a>
 ## 4.0.11 (2018-03-07)
 
