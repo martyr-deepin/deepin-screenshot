@@ -1357,7 +1357,8 @@ void MainWindow::sendNotify(int saveIndex, QString saveFilePath, const bool succ
     // failed notify
     if (!succeed)
     {
-        m_notifyDBInterface->Notify("Deepin Screenshot", 0, "deepin-screenshot", QString(), tr("Picture save failed!"), QStringList(), QVariantMap(), 0);
+        const auto tips = tr("Save failed. Please save it in your home directory.");
+        m_notifyDBInterface->Notify("Deepin Screenshot", 0, "deepin-screenshot", QString(), tips, QStringList(), QVariantMap(), 0);
         return;
     }
 
