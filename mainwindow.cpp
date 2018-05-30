@@ -930,9 +930,9 @@ void MainWindow::fullScreenshot()
     emit this->hideScreenshotUI();
 //    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
 //    using namespace utils;
-    QPixmap screenShotPix(TempFile::instance()->getFullscreenFileName());
 
-    const auto r = saveAction(screenShotPix);
+    TempFile::instance()->setFullScreenPixmap(m_resultPixmap);
+    const auto r = saveAction(m_resultPixmap);
     sendNotify(m_saveIndex, m_saveFileName, r);
 }
 
@@ -1139,6 +1139,7 @@ void MainWindow::initBackground()
 {
     m_backgroundPixmap = getPixmapofRect(m_backgroundRect);
     m_resultPixmap = m_backgroundPixmap;
+    TempFile::instance()->setFullScreenPixmap(m_backgroundPixmap);
 }
 
 void MainWindow::shotFullScreen() {
@@ -1408,23 +1409,26 @@ void MainWindow::reloadImage(QString effect)
     shotImgWidthEffect();
     //using namespace utils;
     const int radius = 10;
-    QPixmap tmpImg(TempFile::instance()->getTmpFileName());
+    QPixmap tmpImg = m_resultPixmap;
     int imgWidth = tmpImg.width();
     int imgHeight = tmpImg.height();
+
+    TempFile *tempFile = TempFile::instance();
+
     if (effect == "blur") {
         if (!tmpImg.isNull()) {
             tmpImg = tmpImg.scaled(imgWidth/radius, imgHeight/radius,
                                    Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             tmpImg = tmpImg.scaled(imgWidth, imgHeight, Qt::IgnoreAspectRatio,
                                    Qt::SmoothTransformation);
-            tmpImg.save(TempFile::instance()->getBlurFileName(), "png");
+            tempFile->setBlurPixmap(tmpImg);
         }
     } else {
         if (!tmpImg.isNull()) {
             tmpImg = tmpImg.scaled(imgWidth/radius, imgHeight/radius,
                                    Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             tmpImg = tmpImg.scaled(imgWidth, imgHeight);
-            tmpImg.save(TempFile::instance()->getMosaicFileName(), "png");
+            tempFile->setMosaicPixmap(tmpImg);
         }
     }
 }

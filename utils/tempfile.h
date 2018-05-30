@@ -29,19 +29,20 @@ public:
     static TempFile *instance();
 
 public slots:
-    QString getTmpFileName();
-    QString getFullscreenFileName();
-    QString getMosaicFileName();
-    QString getBlurFileName();
+    inline const QPixmap getFullscreenPixmap() const { return m_fullscreenPixmap; }
+    inline const QPixmap getMosaicPixmap() const { return m_mosaicPixmap; }
+    inline const QPixmap getBlurPixmap() const { return m_blurPixmap; }
+
+    void setFullScreenPixmap(const QPixmap &pixmap);
+    void setBlurPixmap(const QPixmap &pixmap);
+    void setMosaicPixmap(const QPixmap &pixmap);
 
 private:
-     static TempFile* m_tempFile;
      TempFile(QObject* parent = 0);
      ~TempFile();
 
-     QString m_tmpFile;
-     QString m_fullscreenFile;
-     QString m_mosaicFile;
-     QString m_blurFile;
+     QPixmap m_fullscreenPixmap;
+     QPixmap m_mosaicPixmap;
+     QPixmap m_blurPixmap;
 };
 #endif // TEMPFILE_H

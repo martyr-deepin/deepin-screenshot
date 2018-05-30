@@ -1276,12 +1276,12 @@ void ShapesWidget::paintRect(QPainter &painter, FourPoints rectFPoints, int inde
 //    using namespace utils;
     if (isBlur) {
         painter.setClipPath(rectPath);
-        painter.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getBlurFileName());
+        painter.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getBlurPixmap());
         painter.drawPath(rectPath);
     }
     if (isMosaic) {
         painter.setClipPath(rectPath);
-        painter.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getMosaicFileName());
+        painter.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getMosaicPixmap());
         painter.drawPath(rectPath);
     }
     painter.setClipping(false);
@@ -1308,12 +1308,12 @@ void ShapesWidget::paintEllipse(QPainter &painter, FourPoints ellipseFPoints, in
 //    using namespace utils;
     if (isBlur) {
         painter.setClipPath(ellipsePath);
-        painter.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getBlurFileName());
+        painter.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getBlurPixmap());
         painter.drawPath(ellipsePath);
     }
     if (isMosaic) {
         painter.setClipPath(ellipsePath);
-        painter.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getMosaicFileName());
+        painter.drawPixmap(0, 0,  width(), height(),  TempFile::instance()->getMosaicPixmap());
         painter.drawPath(ellipsePath);
     }
     painter.setClipping(false);
