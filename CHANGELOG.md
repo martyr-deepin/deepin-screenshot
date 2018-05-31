@@ -1,3 +1,14 @@
+<a name="4.0.14"></a>
+## 4.0.14 (2018-05-31)
+
+
+#### Bug Fixes
+
+*   magnifier update not timely ([f0846718](f0846718))
+*   manual can't open on flatpak envs ([47111401](47111401))
+
+
+
 <a name="4.0.13"></a>
 ## 4.0.13 (2018-05-30)
 
