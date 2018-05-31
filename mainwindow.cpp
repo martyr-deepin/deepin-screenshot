@@ -1271,7 +1271,7 @@ bool MainWindow::saveAction(const QPixmap &pix)
                                                      tr("PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;"
                                                         "XBM (*.xbm);;XPM(*.xpm)"));
 
-        if (QFileInfo(m_saveFileName).isDir())
+        if (m_saveFileName.isEmpty() || QFileInfo(m_saveFileName).isDir())
             return false;
 
         QString fileSuffix = QFileInfo(m_saveFileName).completeSuffix();
