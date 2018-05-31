@@ -31,14 +31,12 @@ public:
     ~ZoomIndicator();
 
     void showMagnifier(QPoint pos);
-    void updatePaintEvent();
 
 protected:
     void paintEvent(QPaintEvent *);
 
 private:
     QRect m_centerRect;
-    bool m_updatePos;
     QPixmap m_lastPic;
     QBrush m_lastCenterPosBrush;
     QPoint m_pos;
