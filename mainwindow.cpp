@@ -1452,18 +1452,9 @@ void MainWindow::onViewShortcut()
 
 void MainWindow::onHelp()
 {
-//    using namespace utils;
-    if (m_manualPro.isNull()) {
-        const QString pro = "dman";
-        const QStringList args("deepin-screenshot");
-        m_manualPro = new QProcess();
-        connect(m_manualPro.data(), SIGNAL(finished(int)),
-                m_manualPro.data(), SLOT(deleteLater()));
-        this->hide();
-        m_manualPro->start(pro, args);
+    QProcess::startDetached("qdbus com.deepin.Manual.Open /com/deepin/Manual/Open com.deepin.Manual.Open.ShowManual \"deepin-screenshot\"");
 
-        exitApp();
-    }
+    exitApp();
 }
 
 void MainWindow::exitApp()

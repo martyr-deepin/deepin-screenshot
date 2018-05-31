@@ -180,7 +180,6 @@ private:
     DBusControlCenter* m_controlCenterDBInterface;
     DBusNotify* m_notifyDBInterface;
     DBusZone* m_hotZoneInterface;
-    QPointer<QProcess> m_manualPro;
     QTimer* m_updateZoomTimer;
     DScreenWindowsUtil* m_swUtil;
 };
