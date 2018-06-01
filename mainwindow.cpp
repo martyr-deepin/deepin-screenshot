@@ -991,6 +991,7 @@ void MainWindow::saveSpecificedPath(QString path)
     m_sizeTips->setVisible(false);
 
     shotCurrentImg();
+    saveAction(m_resultPixmap);
 //    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
 
     QStringList actions;
