@@ -1,3 +1,11 @@
+<a name="4.0.15"></a>
+### 4.0.15 (2018-06-07)
+
+
+#### Bug Fixes
+
+*   not save screenshot from cmdline path ([85b51d63](85b51d63))
+
 <a name="4.0.14"></a>
 ## 4.0.14 (2018-05-31)
 
