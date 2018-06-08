@@ -31,6 +31,7 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
+#include <QDBusInterface>
 
 #include <DApplication>
 
@@ -1446,9 +1447,15 @@ void MainWindow::onViewShortcut()
 
 void MainWindow::onHelp()
 {
-    QProcess::startDetached("qdbus com.deepin.Manual.Open /com/deepin/Manual/Open com.deepin.Manual.Open.ShowManual \"deepin-screenshot\"");
-
-    exitApp();
+    QDBusInterface iface("com.deepin.Manual.Open",
+                         "/com/deepin/Manual/Open",
+                         "com.deepin.Manual.Open");
+    if (iface.isValid()) {
+        iface.call("ShowManual", "deepin-screenshot");
+        exitApp();
+    } else {
+        qWarning() << "manual service not avilable, cannot open manual";
+    }
 }
 
 void MainWindow::exitApp()
