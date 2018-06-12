@@ -1,3 +1,13 @@
+<a name="4.0.16"></a>
+## 4.0.16 (2018-06-12)
+
+#### Bug Fixes
+
+*   not save img for cmdline ([e284f743](e284f743))
+* **flatpak:**  cannot open help manual in flatpak ([7abae000](7abae000))
+*   Update version.
+
+
 <a name="4.0.15"></a>
 ### 4.0.15 (2018-06-07)
 
