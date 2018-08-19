@@ -59,7 +59,7 @@ protected:
 
 private:
     MajToolBar* m_majToolbar;
-    QLabel* m_hSeperatorLine;
+    QLabel* m_hSeparatorLine;
     SubToolBar* m_subToolbar;
 
     bool  m_expanded;

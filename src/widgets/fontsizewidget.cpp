@@ -28,13 +28,13 @@
 const QSize BUTTON_SIZE = QSize(20, 16);
 const QSize LINE_EDIT_SIZE = QSize(43, 16);
 
-Seperator::Seperator(QWidget *parent)
+Separator::Separator(QWidget *parent)
     : QLabel(parent)
 {
     setFixedSize(1, 16);
 }
 
-Seperator::~Seperator(){}
+Separator::~Separator(){}
 
 FontSizeWidget::FontSizeWidget(QWidget *parent)
     : QLabel(parent)
@@ -66,9 +66,9 @@ void FontSizeWidget::initWidget()
     layout->addSpacing(4);
     layout->addWidget(m_fontSizeEdit);
     layout->addSpacing(0);
-    layout->addWidget( new Seperator(this));
+    layout->addWidget( new Separator(this));
     layout->addWidget(m_addSizeBtn);
-    layout->addWidget( new Seperator(this));
+    layout->addWidget( new Separator(this));
     layout->addSpacing(0);
     layout->addWidget(m_reduceSizeBtn);
     layout->addStretch();

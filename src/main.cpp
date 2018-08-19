@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
      QCommandLineOption topWindowOption(QStringList() << "w" << "top-window",
                                                                              "Take a screenshot of the most top window.");
      QCommandLineOption savePathOption(QStringList() << "s" << "save-path",
-                                                                             "Specifiy a path to save the screenshot.", "PATH");
+                                                                             "Specify a path to save the screenshot.", "PATH");
      QCommandLineOption prohibitNotifyOption(QStringList() << "n" << "no-notification",
                                                                               "Don't send notifications.");
      QCommandLineOption iconOption(QStringList() << "i" << "icon",
@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
 
      if (cmdParser.isSet(dbusOption))
      {
-         qDebug() << "dbus register wating!";
+         qDebug() << "dbus register waiting!";
          return a.exec();
      } else {
          if (cmdParser.isSet(delayOption)) {

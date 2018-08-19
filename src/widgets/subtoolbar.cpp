@@ -83,10 +83,10 @@ void SubToolBar::initRectLabel() {
     thickLine->setObjectName("ThickLine");
     rectBtnGroup->addButton(thickLine);
     btnList.append(thickLine);
-    //seperator line...
-    QLabel* vSeperatorLine = new QLabel();
-    vSeperatorLine->setFixedSize(1, 16);
-    vSeperatorLine->setObjectName("VerticalSeperatorLine");
+    //separator line...
+    QLabel* vSeparatorLine = new QLabel();
+    vSeparatorLine->setFixedSize(1, 16);
+    vSeparatorLine->setObjectName("VerticalSeparatorLine");
     //blur, mosaic...
     ToolButton* blurBtn = new ToolButton();
     blurBtn->setObjectName("BlurBtn");
@@ -122,7 +122,7 @@ void SubToolBar::initRectLabel() {
         });
     }
     rectLayout->addSpacing(16);
-    rectLayout->addWidget(vSeperatorLine);
+    rectLayout->addWidget(vSeparatorLine);
     rectLayout->addSpacing(16);
     rectLayout->addWidget(blurBtn);
     rectLayout->addSpacing(BUTTON_SPACING);
@@ -172,10 +172,10 @@ void SubToolBar::initArrowLabel() {
     thickLine->setObjectName("ArrowThickLine");
     lineBtnGroup->addButton(thickLine);
     arrowBtnList.append(thickLine);
-    //seperator line...
-    QLabel* vSeperatorLine = new QLabel();
-    vSeperatorLine->setFixedSize(1, 16);
-    vSeperatorLine->setObjectName("VerticalSeperatorLine");
+    //separator line...
+    QLabel* vSeparatorLine = new QLabel();
+    vSeparatorLine->setFixedSize(1, 16);
+    vSeparatorLine->setObjectName("VerticalSeparatorLine");
     QButtonGroup* styleBtnGroup = new QButtonGroup;
     styleBtnGroup->setExclusive(true);
     ToolButton*  lineBtn = new ToolButton();
@@ -211,7 +211,7 @@ void SubToolBar::initArrowLabel() {
         });
     }
     arrowLayout->addSpacing(16);
-    arrowLayout->addWidget(vSeperatorLine);
+    arrowLayout->addWidget(vSeparatorLine);
     arrowLayout->addSpacing(16);
     arrowLayout->addWidget(lineBtn);
     arrowLayout->addWidget(arrowBtn);

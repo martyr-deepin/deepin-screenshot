@@ -1472,7 +1472,7 @@ void MainWindow::onHelp()
         iface.call("ShowManual", "deepin-screenshot");
         exitApp();
     } else {
-        qWarning() << "manual service not avilable, cannot open manual";
+        qWarning() << "manual service not available, cannot open manual";
     }
 }
 

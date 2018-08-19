@@ -52,9 +52,9 @@ ToolBarWidget::ToolBarWidget(QWidget *parent)
     setFixedSize(TOOLBAR_WIDGET_SIZE);
 
     qDebug() << "~~~~~~" << this->size();
-    m_hSeperatorLine = new QLabel(this);
-    m_hSeperatorLine->setObjectName("HorSeperatorLine");
-    m_hSeperatorLine->setFixedHeight(1);
+    m_hSeparatorLine = new QLabel(this);
+    m_hSeparatorLine->setObjectName("HorSeparatorLine");
+    m_hSeparatorLine->setFixedHeight(1);
 
     m_majToolbar = new MajToolBar(this);
     m_subToolbar = new SubToolBar(this);
@@ -63,11 +63,11 @@ ToolBarWidget::ToolBarWidget(QWidget *parent)
     vLayout->setMargin(0);
     vLayout->setSpacing(0);
     vLayout->addWidget(m_majToolbar, 0, Qt::AlignVCenter);
-    vLayout->addWidget(m_hSeperatorLine, 0, Qt::AlignVCenter);
+    vLayout->addWidget(m_hSeparatorLine, 0, Qt::AlignVCenter);
     vLayout->addWidget(m_subToolbar, 0, Qt::AlignVCenter);
     setLayout(vLayout);
 
-    m_hSeperatorLine->hide();
+    m_hSeparatorLine->hide();
     m_subToolbar->hide();
 
     connect(m_majToolbar, &MajToolBar::buttonChecked, this, &ToolBarWidget::setExpand);
@@ -126,7 +126,7 @@ void ToolBarWidget::setExpand(bool expand, QString shapeType) {
         m_expanded = true;
         setFixedSize(TOOLBAR_WIDGET_SIZE.width(),
                                  TOOLBAR_WIDGET_SIZE.height()*2+1);
-        m_hSeperatorLine->show();
+        m_hSeparatorLine->show();
         m_subToolbar->show();
     }
 

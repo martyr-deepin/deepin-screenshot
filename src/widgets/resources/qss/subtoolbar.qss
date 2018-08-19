@@ -61,7 +61,7 @@ QPushButton#ThickLine:checked {
     border-image: url(:/resources/images/size/thick_checked.png);
 }
 
-QLabel#VerticalSeperatorLine {
+QLabel#VerticalSeparatorLine {
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
