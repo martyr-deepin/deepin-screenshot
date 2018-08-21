@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="641"/>
         <source>select-area</source>
-        <translation type="unfinished"/>
+        <translation>Seleccionar área</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="986"/>
@@ -30,17 +30,17 @@
         <location filename="../mainwindow.cpp" line="1018"/>
         <location filename="../mainwindow.cpp" line="1386"/>
         <source>Picture has been saved to %1</source>
-        <translation type="unfinished"/>
+        <translation>A imaxe foi gardada en %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1270"/>
         <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</source>
-        <translation type="unfinished"/>
+        <translation>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Save failed. Please save it in your home directory.</source>
-        <translation type="unfinished"/>
+        <translation>O proceso de gardado fallou. Por favor, gardaa no teu cartafol de usuario.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1384"/>
@@ -121,7 +121,7 @@
     <message>
         <location filename="../screenshot.cpp" line="78"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Screenshot iniciarase despois de %1 segundos</translation>
     </message>
 </context>
 <context>

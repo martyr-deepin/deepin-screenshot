@@ -40,7 +40,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Save failed. Please save it in your home directory.</source>
-        <translation type="unfinished"/>
+        <translation>ማስቀመጥ አልተቻለም: እባክዎን በ እርስዎ የ ቤት ዳይሬክቶሪ ውስጥ ያስቀምጡት</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1384"/>

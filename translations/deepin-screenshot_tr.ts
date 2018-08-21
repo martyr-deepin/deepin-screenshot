@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="641"/>
         <source>select-area</source>
-        <translation>alan-seç</translation>
+        <translation>alan-seçin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="986"/>
@@ -18,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="1337"/>
         <location filename="../mainwindow.cpp" line="1340"/>
         <source>DeepinScreenshot</source>
-        <translation>DeepinEkranGörüntüsü</translation>
+        <translation>Deepin Ekran Görüntüsü</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1004"/>
@@ -30,7 +30,7 @@
         <location filename="../mainwindow.cpp" line="1018"/>
         <location filename="../mainwindow.cpp" line="1386"/>
         <source>Picture has been saved to %1</source>
-        <translation>Resim %1&apos;e kaydedildi</translation>
+        <translation>Görsel %1 üzerine kaydedildi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1270"/>
@@ -40,12 +40,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Save failed. Please save it in your home directory.</source>
-        <translation type="unfinished"/>
+        <translation>Kaydedilemedi. Lütfen ana klasörünüze kaydedin.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1384"/>
         <source>Picture has been saved to clipboard</source>
-        <translation>Resim panoya kaydedildi</translation>
+        <translation>Görsel panoya kaydedildi</translation>
     </message>
 </context>
 <context>

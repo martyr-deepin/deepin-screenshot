@@ -14,7 +14,7 @@
         <message>
             <location filename="Full_Screenshot Shortcut Group]Name" line="0"/>
             <source>Full Screenshot</source>
-            <translation>Volledige schermafdruk</translation>
+            <translation>Volledig scherm</translation>
         </message>
         <message>
             <location filename="Desktop Entry]Comment" line="0"/>

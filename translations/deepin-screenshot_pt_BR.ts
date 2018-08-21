@@ -18,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="1337"/>
         <location filename="../mainwindow.cpp" line="1340"/>
         <source>DeepinScreenshot</source>
-        <translation>Deepin Screenshot</translation>
+        <translation>Captura de Tela</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1004"/>
@@ -40,7 +40,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Save failed. Please save it in your home directory.</source>
-        <translation type="unfinished"/>
+        <translation>Falha ao salvar. Por favor, salve-o em seu diretório pessoal.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1384"/>
@@ -121,7 +121,7 @@
     <message>
         <location filename="../screenshot.cpp" line="78"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation>Deepin Screenshot começará após %1 segundos</translation>
+        <translation>Captura de Tela começará após %1 segundos</translation>
     </message>
 </context>
 <context>

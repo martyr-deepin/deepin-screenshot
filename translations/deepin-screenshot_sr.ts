@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="641"/>
         <source>select-area</source>
-        <translation type="unfinished"/>
+        <translation>одабери-површину</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="986"/>
@@ -18,34 +18,34 @@
         <location filename="../mainwindow.cpp" line="1337"/>
         <location filename="../mainwindow.cpp" line="1340"/>
         <source>DeepinScreenshot</source>
-        <translation type="unfinished"/>
+        <translation>ДипинСликаЕкрана</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1004"/>
         <location filename="../mainwindow.cpp" line="1366"/>
         <source>View</source>
-        <translation>Прегледај</translation>
+        <translation>Прикажи</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1018"/>
         <location filename="../mainwindow.cpp" line="1386"/>
         <source>Picture has been saved to %1</source>
-        <translation type="unfinished"/>
+        <translation>Слика је сачувана у %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1270"/>
         <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</source>
-        <translation type="unfinished"/>
+        <translation>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Save failed. Please save it in your home directory.</source>
-        <translation type="unfinished"/>
+        <translation>Није сачувано. Молимо сачувајте у личном директоријуму.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1384"/>
         <source>Picture has been saved to clipboard</source>
-        <translation>Слика је сачувана у клипборду</translation>
+        <translation>Слика је сачувана у бележници</translation>
     </message>
 </context>
 <context>
@@ -68,7 +68,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="64"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>Оловка</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="72"/>
@@ -78,7 +78,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="80"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Поништи</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="96"/>
@@ -103,12 +103,12 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="102"/>
         <source>Copy to clipboard</source>
-        <translation>Налепи у клипборд</translation>
+        <translation>Копирај у бележницу</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="103"/>
         <source>Autosave and copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Аутоматски сачувај и копирај у бележницу</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="124"/>
@@ -121,7 +121,7 @@
     <message>
         <location filename="../screenshot.cpp" line="78"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"/>
+        <translation>Дипин Слика Екрана ће се покренути за %1 секунде(и)</translation>
     </message>
 </context>
 <context>
@@ -129,7 +129,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="29"/>
         <source>Start/Screenshot</source>
-        <translation type="unfinished"/>
+        <translation>Покретање/Усликавање</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="30"/>
@@ -140,32 +140,32 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="31"/>
         <source>Painting</source>
-        <translation type="unfinished"/>
+        <translation>Цртање</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="32"/>
         <source>Size Adjustment</source>
-        <translation type="unfinished"/>
+        <translation>Прилагођавање Величине</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="35"/>
         <source>Quick start</source>
-        <translation type="unfinished"/>
+        <translation>Брзо покретање</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="36"/>
         <source>Full screenshot</source>
-        <translation>Снимак целог екрана</translation>
+        <translation>Усликавање целог екрана</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="37"/>
         <source>Delay screenshot</source>
-        <translation>Одлагање снимка екрана</translation>
+        <translation>Одложи усликавање</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="38"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Поништи</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="39"/>
@@ -195,7 +195,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="48"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>Оловка</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="49"/>
@@ -210,42 +210,42 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="53"/>
         <source>Increase height up</source>
-        <translation type="unfinished"/>
+        <translation>Повећај висину горе</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="54"/>
         <source>Increase height down</source>
-        <translation type="unfinished"/>
+        <translation>Повећај висину доле</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="55"/>
         <source>Increase width left</source>
-        <translation type="unfinished"/>
+        <translation>Повећај ширину лево</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="56"/>
         <source>Increase width right</source>
-        <translation type="unfinished"/>
+        <translation>Повећај ширину десно</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="57"/>
         <source>Decrease height up</source>
-        <translation type="unfinished"/>
+        <translation>Смањи висину горе</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="58"/>
         <source>Decrease height down</source>
-        <translation type="unfinished"/>
+        <translation>Смањи висину доле</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="59"/>
         <source>Decrease width left</source>
-        <translation type="unfinished"/>
+        <translation>Смањи ширину лево</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="60"/>
         <source>Decrease width right</source>
-        <translation type="unfinished"/>
+        <translation>Смањи ширину десно</translation>
     </message>
 </context>
 <context>
@@ -273,17 +273,17 @@
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="420"/>
         <source>Autosave and copy to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Аутоматски сачувај и копирај у бележницу</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="425"/>
         <source>Low</source>
-        <translation type="unfinished"/>
+        <translation>Низак</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="439"/>
         <source>High</source>
-        <translation type="unfinished"/>
+        <translation>Висок</translation>
     </message>
 </context>
 </TS>

@@ -18,13 +18,13 @@
         <location filename="../mainwindow.cpp" line="1337"/>
         <location filename="../mainwindow.cpp" line="1340"/>
         <source>DeepinScreenshot</source>
-        <translation>DeepinScreenshot</translation>
+        <translation>DeepinSchermafdruk</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1004"/>
         <location filename="../mainwindow.cpp" line="1366"/>
         <source>View</source>
-        <translation>Bekijk</translation>
+        <translation>Bekijken</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1018"/>
@@ -40,7 +40,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Save failed. Please save it in your home directory.</source>
-        <translation type="unfinished"/>
+        <translation>Opslaan mislukt. Sla het op in je persoonlijke map.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1384"/>
@@ -98,7 +98,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="101"/>
         <source>Save to specified folder</source>
-        <translation>Sla op in gespecificeerde map</translation>
+        <translation>Opslaan in opgegeven map</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="102"/>
@@ -113,7 +113,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="124"/>
         <source>Exit</source>
-        <translation>Sluiten</translation>
+        <translation>Afsluiten</translation>
     </message>
 </context>
 <context>
@@ -121,7 +121,7 @@
     <message>
         <location filename="../screenshot.cpp" line="78"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation>Deepin Screenshot start na %1 seconden</translation>
+        <translation>Deepin Schermafdruk start over %1 seconden</translation>
     </message>
 </context>
 <context>
@@ -129,7 +129,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="29"/>
         <source>Start/Screenshot</source>
-        <translation>Start/Screenshot</translation>
+        <translation>Start/Schermafdruk</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="30"/>
@@ -145,7 +145,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="32"/>
         <source>Size Adjustment</source>
-        <translation>Afmeting aanpassen</translation>
+        <translation>Grootte wijzigen</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="35"/>
@@ -155,12 +155,12 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="36"/>
         <source>Full screenshot</source>
-        <translation>Volledige schermopname</translation>
+        <translation>Volledig scherm</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="37"/>
         <source>Delay screenshot</source>
-        <translation>Schermopname vertragen</translation>
+        <translation>Schermafdruk uitstellen</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="38"/>
@@ -170,7 +170,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="39"/>
         <source>Exit</source>
-        <translation>Sluiten</translation>
+        <translation>Afsluiten</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="42"/>
@@ -263,7 +263,7 @@
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="409"/>
         <source>Save to specified folder</source>
-        <translation>Sla op in gespecificeerde map</translation>
+        <translation>Opslaan in opgegeven map</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="415"/>

@@ -40,7 +40,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Save failed. Please save it in your home directory.</source>
-        <translation type="unfinished"/>
+        <translation>Error al guardar. Por favor hágalo en su directorio personal.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1384"/>

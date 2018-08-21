@@ -73,7 +73,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="72"/>
         <source>Text</source>
-        <translation type="unfinished"/>
+        <translation>টেক্সট</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="80"/>
@@ -83,7 +83,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="96"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>সংরক্ষণ করুন</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="99"/>
@@ -135,7 +135,7 @@
         <location filename="../utils/shortcut.cpp" line="30"/>
         <location filename="../utils/shortcut.cpp" line="41"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>সংরক্ষণ করুন</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="31"/>
@@ -200,7 +200,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="49"/>
         <source>Text</source>
-        <translation type="unfinished"/>
+        <translation>টেক্সট</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="50"/>

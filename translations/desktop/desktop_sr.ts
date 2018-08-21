@@ -4,23 +4,23 @@
         <message>
             <location filename="Desktop Entry]Name" line="0"/>
             <source>Deepin Screenshot</source>
-            <translation>Deepin Слика Екрана</translation>
+            <translation>Дипин Слика Екрана</translation>
         </message>
         <message>
             <location filename="Delay_Screenshot Shortcut Group]Name" line="0"/>
             <source>Delay Screenshot</source>
-            <translation type="unfinished"/>
+            <translation>Одложи усликавање</translation>
         </message>
         <message>
             <location filename="Full_Screenshot Shortcut Group]Name" line="0"/>
             <source>Full Screenshot</source>
-            <translation type="unfinished"/>
+            <translation>Усликавање целог екрана</translation>
         </message>
         <message>
             <location filename="Desktop Entry]Comment" line="0"/>
             <location filename="Desktop Entry]GenericName" line="0"/>
             <source>Screen capturing application</source>
-            <translation type="unfinished"/>
+            <translation>Програм за усликавање екрана</translation>
         </message>
     </context>
 </TS>
