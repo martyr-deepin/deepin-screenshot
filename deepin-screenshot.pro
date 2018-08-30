@@ -15,7 +15,8 @@ CONFIG += c++11 link_pkgconfig
 PKGCONFIG += xcb xcb-util dtkwidget dtkwm
 
 LIBS += -lX11 -lXext -lXtst
-QMAKE_CXXFLAGS += -g
+QMAKE_CXXFLAGS += -g -fPIE -pie
+QMAKE_LFLAGS += -fPIE -pie
 
 SOURCES += main.cpp\
         mainwindow.cpp \
