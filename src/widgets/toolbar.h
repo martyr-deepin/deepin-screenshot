@@ -55,6 +55,7 @@ public slots:
 
 protected:
     void paintEvent(QPaintEvent *e);
+    void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
 
 private:
     MajToolBar* m_majToolbar;

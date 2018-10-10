@@ -26,6 +26,8 @@
 #include <QCursor>
 #include <QGraphicsDropShadowEffect>
 #include <dgraphicsgloweffect.h>
+#include <QTimer>
+#include <QSettings>
 
 DWIDGET_USE_NAMESPACE
 
@@ -91,6 +93,19 @@ void ToolBarWidget::paintEvent(QPaintEvent *e) {
     painter.setPen(QColor(255, 255, 255, 76.5));
     painter.setRenderHint(QPainter::Antialiasing);
     painter.drawLine(QPointF(BTN_RADIUS, 0), QPointF(this->width() - 1, 0));
+}
+
+void ToolBarWidget::showEvent(QShowEvent *event)
+{
+    Q_UNUSED(event)
+
+    QTimer::singleShot(0, this, [=] {
+        QSettings settings(this);
+        settings.beginGroup("common");
+        bool expand = settings.value("expand_savelist", false).toBool();
+        settings.endGroup();
+        setExpand(expand, "saveList");
+    });
 }
 
 bool ToolBarWidget::isButtonChecked() {
