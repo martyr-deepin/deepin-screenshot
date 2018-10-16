@@ -12,6 +12,6 @@ Homepage: http://www.deepin.org
 Package: deepin-screenshot
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, deepin-turbo-booster
-Recommends: deepin-shortcut-viewer, deepin-notifications
+Recommends: deepin-shortcut-viewer
 Description: Advanced screen shoting tool
  Easy-to-use screenshot tool for linuxdeepin desktop environment.
