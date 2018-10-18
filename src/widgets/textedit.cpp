@@ -26,8 +26,8 @@
 #include <QFontMetricsF>
 #include <QApplication>
 
-#include "utils/configsettings.h"
-#include "utils/baseutils.h"
+#include "src/utils/configsettings.h"
+#include "src/utils/baseutils.h"
 
 const QSize CURSOR_SIZE = QSize(5, 20);
 const int TEXT_MARGIN = 10;

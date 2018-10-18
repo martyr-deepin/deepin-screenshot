@@ -23,9 +23,9 @@
 #include <QPainter>
 #include <QDebug>
 
-#include "utils/calculaterect.h"
-#include "utils/configsettings.h"
-#include "utils/tempfile.h"
+#include "src/utils/calculaterect.h"
+#include "src/utils/configsettings.h"
+#include "src/utils/tempfile.h"
 
 #include <cmath>
 

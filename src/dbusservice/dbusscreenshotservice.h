@@ -35,7 +35,7 @@
 #include <QtCore/QObject>
 #include <QtDBus/QtDBus>
 
-#include "screenshot.h"
+#include "src/screenshot.h"
 
 QT_BEGIN_NAMESPACE
 

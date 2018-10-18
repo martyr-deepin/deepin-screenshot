@@ -32,13 +32,13 @@
 #include <QTimer>
 #include <QPixmap>
 
-#include "widgets/toptips.h"
-#include "widgets/toolbar.h"
-#include "widgets/zoomIndicator.h"
-#include "widgets/shapeswidget.h"
-#include "utils/baseutils.h"
-#include "utils/shortcut.h"
-#include "utils/configsettings.h"
+#include "src/widgets/toptips.h"
+#include "src/widgets/toolbar.h"
+#include "src/widgets/zoomIndicator.h"
+#include "src/widgets/shapeswidget.h"
+#include "src/utils/baseutils.h"
+#include "src/utils/shortcut.h"
+#include "src/utils/configsettings.h"
 #include "controller/menucontroller.h"
 
 #include "dbusinterface/dbuscontrolcenter.h"

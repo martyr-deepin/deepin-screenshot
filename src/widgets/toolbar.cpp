@@ -18,7 +18,7 @@
  */
 
 #include "toolbar.h"
-#include "utils/baseutils.h"
+#include "src/utils/baseutils.h"
 
 #include <QPainter>
 #include <QDebug>

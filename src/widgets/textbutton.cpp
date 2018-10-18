@@ -19,8 +19,8 @@
 
 #include "textbutton.h"
 
-#include "utils/baseutils.h"
-#include "utils/configsettings.h"
+#include "src/utils/baseutils.h"
+#include "src/utils/configsettings.h"
 
 TextButton::TextButton(int num, QWidget *parent)
     : QPushButton(parent) {

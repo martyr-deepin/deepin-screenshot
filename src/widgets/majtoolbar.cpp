@@ -18,8 +18,8 @@
  */
 
 #include "majtoolbar.h"
-#include "utils/baseutils.h"
-#include "utils/configsettings.h"
+#include "src/utils/baseutils.h"
+#include "src/utils/configsettings.h"
 #include "bigcolorbutton.h"
 #include "toolbutton.h"
 #include "savebutton.h"

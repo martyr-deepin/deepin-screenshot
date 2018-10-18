@@ -23,10 +23,10 @@
 #include <QFrame>
 #include <QMouseEvent>
 
-#include "utils/shapesutils.h"
-#include "utils/baseutils.h"
+#include "src/utils/shapesutils.h"
+#include "src/utils/baseutils.h"
 #include "textedit.h"
-#include "controller/menucontroller.h"
+#include "src/controller/menucontroller.h"
 
 class ShapesWidget : public QFrame {
     Q_OBJECT

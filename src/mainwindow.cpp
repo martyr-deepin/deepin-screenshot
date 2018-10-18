@@ -40,8 +40,8 @@
 
 //DCORE_USE_NAMESPACE
 
-#include "utils/screenutils.h"
-#include "utils/tempfile.h"
+#include "src/utils/screenutils.h"
+#include "src/utils/tempfile.h"
 
 DWIDGET_USE_NAMESPACE
 

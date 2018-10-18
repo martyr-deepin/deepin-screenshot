@@ -21,8 +21,8 @@
 #include "toolbutton.h"
 #include "colorbutton.h"
 #include "textbutton.h"
-#include "utils/baseutils.h"
-#include "utils/configsettings.h"
+#include "src/utils/baseutils.h"
+#include "src/utils/configsettings.h"
 
 #include <dslider.h>
 
@@ -179,7 +179,7 @@ void SubToolBar::initArrowLabel() {
     QButtonGroup* styleBtnGroup = new QButtonGroup;
     styleBtnGroup->setExclusive(true);
     ToolButton*  lineBtn = new ToolButton();
-    lineBtn->setObjectName("LineBtn"); 
+    lineBtn->setObjectName("LineBtn");
     styleBtnGroup->addButton(lineBtn, 0);
     ToolButton* arrowBtn = new ToolButton();
     arrowBtn->setObjectName("ArrowBtn");
@@ -516,4 +516,3 @@ int SubToolBar::getSaveQualityIndex() {
 }
 
 SubToolBar::~SubToolBar() {}
-

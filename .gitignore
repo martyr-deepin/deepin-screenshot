@@ -25,3 +25,5 @@ include*/
 *.DS_Store
 *.qm
 *.autosave
+.vscode
+*.user

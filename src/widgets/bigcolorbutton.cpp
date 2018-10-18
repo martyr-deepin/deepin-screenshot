@@ -22,8 +22,8 @@
 #include <QApplication>
 #include <QDebug>
 
-#include "utils/baseutils.h"
-#include "utils/configsettings.h"
+#include "src/utils/baseutils.h"
+#include "src/utils/configsettings.h"
 
 const qreal COLOR_RADIUS = 4;
 const QSize BTN_SIZE = QSize(32, 26);

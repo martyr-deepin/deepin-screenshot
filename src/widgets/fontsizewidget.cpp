@@ -22,8 +22,8 @@
 #include <QHBoxLayout>
 #include <QDebug>
 
-#include "utils/baseutils.h"
-#include "utils/configsettings.h"
+#include "src/utils/baseutils.h"
+#include "src/utils/configsettings.h"
 
 const QSize BUTTON_SIZE = QSize(20, 16);
 const QSize LINE_EDIT_SIZE = QSize(43, 16);

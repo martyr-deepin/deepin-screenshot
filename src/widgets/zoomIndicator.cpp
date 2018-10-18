@@ -18,8 +18,8 @@
  */
 
 #include "zoomIndicator.h"
-#include "utils/baseutils.h"
-#include "utils/tempfile.h"
+#include "src/utils/baseutils.h"
+#include "src/utils/tempfile.h"
 
 #include <QCursor>
 #include <QTextOption>

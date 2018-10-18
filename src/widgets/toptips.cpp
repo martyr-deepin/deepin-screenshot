@@ -19,7 +19,7 @@
 
 #include "toptips.h"
 
-#include "utils/baseutils.h"
+#include "src/utils/baseutils.h"
 #include <QDebug>
 
 TopTips::TopTips(QWidget *parent)
