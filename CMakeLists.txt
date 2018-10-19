@@ -134,7 +134,7 @@ install(FILES ${QM_FILES} DESTINATION share/deepin-screenshot/translations)
 
 ## desktop file
 file(GLOB DESKTOP_FILES "deepin-screenshot.desktop")
-install(FILES ${QM_FILES} DESTINATION share/applications)
+install(FILES ${DESKTOP_FILES} DESTINATION share/applications)
 
 ## dbus service
 file(GLOB DBUS_SERVICE "src/dbusservice/com.deepin.Screenshot.service")
