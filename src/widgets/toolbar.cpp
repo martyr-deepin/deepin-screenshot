@@ -99,13 +99,15 @@ void ToolBarWidget::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
 
-    QTimer::singleShot(0, this, [=] {
-        QSettings settings(this);
-        settings.beginGroup("common");
-        bool expand = settings.value("expand_savelist", false).toBool();
-        settings.endGroup();
-        setExpand(expand, "saveList");
-    });
+    QSettings settings(this);
+    settings.beginGroup("common");
+    bool expand = settings.value("expand_savelist", false).toBool();
+    settings.endGroup();
+
+    if (expand)
+        QTimer::singleShot(0, this, [=] { setExpand(expand, "saveList"); });
+
+    DBlurEffectWidget::showEvent(event);
 }
 
 bool ToolBarWidget::isButtonChecked() {
