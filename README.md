@@ -1,4 +1,4 @@
-##Deepin screenshot
+## Deepin screenshot
 
 **Description**: This is a default screenshot app for Linux Deepin.
 
