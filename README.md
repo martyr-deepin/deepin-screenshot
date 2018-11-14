@@ -1,8 +1,11 @@
-##Deepin screenshot
+# Deepin screenshot
 
-**Description**: This is a default screenshot app for Linux Deepin.
+## Description 
+
+This is a default screenshot app for Linux Deepin.
 
 ## Dependencies
+
 - Qt (>=5.6),
 - debhelper (>=9),
 - qt5-qmake, qt5-default, qtbase5-dev, pkg-config, libqt5svg5-dev, libqt5x11extras5-dev, qttools5-dev-tools,
@@ -42,4 +45,3 @@ We encourage you to report issues and contribute changes
 ## License
 
 deepin-screenshot is licensed under [GPLv3](LICENSE).
-Edit By [MaHua](http://mahua.jser.me)
