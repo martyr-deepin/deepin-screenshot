@@ -7,6 +7,8 @@ Name=Deepin Screenshot
 StartupNotify=false
 Type=Application
 X-Deepin-ManualID=deepin-screenshot
+GenericName=Screenshot
+X-Deepin-Vendor=deepin
 
 # Translations:
 # Do not manually modify!
