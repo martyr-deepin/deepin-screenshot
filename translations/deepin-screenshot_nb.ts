@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="641"/>
         <source>select-area</source>
-        <translation type="unfinished"/>
+        <translation>velg-område</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="986"/>
@@ -68,7 +68,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="64"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>Blyant</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="72"/>
@@ -121,7 +121,7 @@
     <message>
         <location filename="../screenshot.cpp" line="78"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Skjermbilde vil starte etter %1 sekunder</translation>
     </message>
 </context>
 <context>
@@ -195,7 +195,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="48"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>Blyant</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="49"/>

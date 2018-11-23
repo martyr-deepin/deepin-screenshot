@@ -30,12 +30,12 @@
         <location filename="../mainwindow.cpp" line="1018"/>
         <location filename="../mainwindow.cpp" line="1386"/>
         <source>Picture has been saved to %1</source>
-        <translation type="unfinished"/>
+        <translation>Slika je spremljena na %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1270"/>
         <source>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</source>
-        <translation type="unfinished"/>
+        <translation>PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;XBM (*.xbm);;XPM(*.xpm)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
@@ -68,7 +68,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="64"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>Olovka</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="72"/>
@@ -121,7 +121,7 @@
     <message>
         <location filename="../screenshot.cpp" line="78"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Snimka zaslona će se pokrenuti za %1 sekundi.</translation>
     </message>
 </context>
 <context>
@@ -195,7 +195,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="48"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>Olovka</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="49"/>
