@@ -1,0 +1,4 @@
+[clog]
+repository = "https://github.com/linuxdeepin/deepin-screenshot"
+from-latest-tag = true
+changelog = "CHANGELOG.md"

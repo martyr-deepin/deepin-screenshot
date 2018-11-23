@@ -1,3 +1,13 @@
+<a name="4.1.3"></a>
+### 4.1.3 (2018-11-23)
+
+
+#### Features
+
+*   add genericName ([6f67f319](https://github.com/linuxdeepin/deepin-screenshot/commit/6f67f319c9188e145233c3fe6c4030e577c97b5a))
+
+
+
 <a name="4.1.2"></a>
 ## 4.1.2 (2018-10-25)
 
