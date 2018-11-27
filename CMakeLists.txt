@@ -140,5 +140,9 @@ install(FILES ${DESKTOP_FILES} DESTINATION share/applications)
 file(GLOB DBUS_SERVICE "src/dbusservice/com.deepin.Screenshot.service")
 install(FILES ${DBUS_SERVICE} DESTINATION "share/dbus-1/services/")
 
+# icon
+file(GLOB ICON_FILE "deepin-screenshot.svg")
+install(FILES ${ICON_FILE} DESTINATION "share/icons/hicolor/scalable/apps")
+
 # bin
 install(TARGETS ${BIN_NAME} DESTINATION bin)
