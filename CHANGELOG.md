@@ -1,3 +1,13 @@
+<a name="4.1.4"></a>
+### 4.1.4 (2018-11-27)
+
+
+#### Bug Fixes
+
+*   missing icon file ([710cd417](https://github.com/linuxdeepin/deepin-screenshot/commit/710cd4175a6455c182b251a34ddb976f582600b9))
+
+
+
 <a name="4.1.3"></a>
 ### 4.1.3 (2018-11-23)
 
