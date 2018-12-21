@@ -47,7 +47,7 @@ DWIDGET_USE_NAMESPACE
 
 namespace {
 const int RECORD_MIN_SIZE = 10;
-const int SPACING = 5;
+const int SPACING = 10;
 const int TOOLBAR_Y_SPACING = 8;
 const int CURSOR_WIDTH = 8;
 const int CURSOR_HEIGHT = 18;
@@ -647,47 +647,49 @@ void MainWindow::mouseMoveEvent(QMouseEvent *ev)
 int MainWindow::getDirection(QEvent *event)
 {
     QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+
     int cursorX = mouseEvent->x();
     int cursorY = mouseEvent->y();
+    int effectiveSpacing = int(SPACING * devicePixelRatioF());
 
-    if (cursorX > m_recordX - SPACING
-            && cursorX < m_recordX + SPACING
-            && cursorY > m_recordY - SPACING
-            && cursorY < m_recordY + SPACING) {
+    if (cursorX > m_recordX - effectiveSpacing
+            && cursorX < m_recordX + effectiveSpacing
+            && cursorY > m_recordY - effectiveSpacing
+            && cursorY < m_recordY + effectiveSpacing) {
         // Top-Left corner.
         return ResizeDirection::TopLeft;
-    } else if (cursorX > m_recordX + m_recordWidth - SPACING
-               && cursorX < m_recordX + m_recordWidth + SPACING
-               && cursorY > m_recordY + m_recordHeight - SPACING
-               && cursorY < m_recordY + m_recordHeight + SPACING) {
+    } else if (cursorX > m_recordX + m_recordWidth - effectiveSpacing
+               && cursorX < m_recordX + m_recordWidth + effectiveSpacing
+               && cursorY > m_recordY + m_recordHeight - effectiveSpacing
+               && cursorY < m_recordY + m_recordHeight + effectiveSpacing) {
         // Bottom-Right corner.
         return  ResizeDirection::BottomRight;
-    } else if (cursorX > m_recordX + m_recordWidth - SPACING
-               && cursorX < m_recordX + m_recordWidth + SPACING
-               && cursorY > m_recordY - SPACING
-               && cursorY < m_recordY + SPACING) {
+    } else if (cursorX > m_recordX + m_recordWidth - effectiveSpacing
+               && cursorX < m_recordX + m_recordWidth + effectiveSpacing
+               && cursorY > m_recordY - effectiveSpacing
+               && cursorY < m_recordY + effectiveSpacing) {
         // Top-Right corner.
         return  ResizeDirection::TopRight;
-    } else if (cursorX > m_recordX - SPACING
-               && cursorX < m_recordX + SPACING
-               && cursorY > m_recordY + m_recordHeight - SPACING
-               && cursorY < m_recordY + m_recordHeight + SPACING) {
+    } else if (cursorX > m_recordX - effectiveSpacing
+               && cursorX < m_recordX + effectiveSpacing
+               && cursorY > m_recordY + m_recordHeight - effectiveSpacing
+               && cursorY < m_recordY + m_recordHeight + effectiveSpacing) {
         // Bottom-Left corner.
         return  ResizeDirection::BottomLeft;
-    } else if (cursorX > m_recordX - SPACING
-               && cursorX < m_recordX + SPACING) {
+    } else if (cursorX > m_recordX - effectiveSpacing
+               && cursorX < m_recordX + effectiveSpacing) {
         // Left.
         return ResizeDirection::Left;
-    } else if (cursorX > m_recordX + m_recordWidth - SPACING
-               && cursorX < m_recordX + m_recordWidth + SPACING) {
+    } else if (cursorX > m_recordX + m_recordWidth - effectiveSpacing
+               && cursorX < m_recordX + m_recordWidth + effectiveSpacing) {
         // Right.
         return  ResizeDirection::Right;
-    } else if (cursorY > m_recordY - SPACING
-               && cursorY < m_recordY + SPACING) {
+    } else if (cursorY > m_recordY - effectiveSpacing
+               && cursorY < m_recordY + effectiveSpacing) {
         // Top.
         return ResizeDirection::Top;
-    } else if (cursorY > m_recordY + m_recordHeight - SPACING
-               && cursorY < m_recordY + m_recordHeight + SPACING) {
+    } else if (cursorY > m_recordY + m_recordHeight - effectiveSpacing
+               && cursorY < m_recordY + m_recordHeight + effectiveSpacing) {
         // Bottom.
         return  ResizeDirection::Bottom;
     } else if (cursorX > m_recordX && cursorX < m_recordX + m_recordWidth
@@ -803,54 +805,56 @@ void MainWindow::updateCursor(QEvent *event)
 {
     if (m_mouseStatus == ShotMouseStatus::Normal) {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+
         int cursorX = mouseEvent->x();
         int cursorY = mouseEvent->y();
+        int effectiveSpacing = int(SPACING * devicePixelRatioF());
 
-        if (cursorX > m_recordX - SPACING
-                && cursorX < m_recordX + SPACING
-                && cursorY > m_recordY - SPACING
-                && cursorY < m_recordY + SPACING) {
+        if (cursorX > m_recordX - effectiveSpacing
+                && cursorX < m_recordX + effectiveSpacing
+                && cursorY > m_recordY - effectiveSpacing
+                && cursorY < m_recordY + effectiveSpacing) {
             // Top-Left corner.
             qApp->setOverrideCursor(Qt::SizeFDiagCursor);
-        } else if (cursorX > m_recordX + m_recordWidth - SPACING
-                   && cursorX < m_recordX + m_recordWidth + SPACING
-                   && cursorY > m_recordY + m_recordHeight - SPACING
-                   && cursorY < m_recordY + m_recordHeight + SPACING) {
+        } else if (cursorX > m_recordX + m_recordWidth - effectiveSpacing
+                   && cursorX < m_recordX + m_recordWidth + effectiveSpacing
+                   && cursorY > m_recordY + m_recordHeight - effectiveSpacing
+                   && cursorY < m_recordY + m_recordHeight + effectiveSpacing) {
             // Bottom-Right corner.
             qApp->setOverrideCursor(Qt::SizeFDiagCursor);
-        } else if (cursorX > m_recordX + m_recordWidth - SPACING
-                   && cursorX < m_recordX + m_recordWidth + SPACING
-                   && cursorY > m_recordY - SPACING
-                   && cursorY < m_recordY + SPACING) {
+        } else if (cursorX > m_recordX + m_recordWidth - effectiveSpacing
+                   && cursorX < m_recordX + m_recordWidth + effectiveSpacing
+                   && cursorY > m_recordY - effectiveSpacing
+                   && cursorY < m_recordY + effectiveSpacing) {
             // Top-Right corner.
             qApp->setOverrideCursor(Qt::SizeBDiagCursor);
-        } else if (cursorX > m_recordX - SPACING
-                   && cursorX < m_recordX + SPACING
-                   && cursorY > m_recordY + m_recordHeight - SPACING
-                   && cursorY < m_recordY + m_recordHeight + SPACING) {
+        } else if (cursorX > m_recordX - effectiveSpacing
+                   && cursorX < m_recordX + effectiveSpacing
+                   && cursorY > m_recordY + m_recordHeight - effectiveSpacing
+                   && cursorY < m_recordY + m_recordHeight + effectiveSpacing) {
             // Bottom-Left corner.
             qApp->setOverrideCursor(Qt::SizeBDiagCursor);
-        } else if (cursorX > m_recordX - SPACING
-                   && cursorX < m_recordX + SPACING) {
+        } else if (cursorX > m_recordX - effectiveSpacing
+                   && cursorX < m_recordX + effectiveSpacing) {
             // Left.
             qApp->setOverrideCursor(Qt::SizeHorCursor);
-        } else if (cursorX > m_recordX + m_recordWidth - SPACING
-                   && cursorX < m_recordX + m_recordWidth + SPACING) {
+        } else if (cursorX > m_recordX + m_recordWidth - effectiveSpacing
+                   && cursorX < m_recordX + m_recordWidth + effectiveSpacing) {
             // Right.
             qApp->setOverrideCursor(Qt::SizeHorCursor);
-        } else if (cursorY > m_recordY - SPACING
-                   && cursorY < m_recordY + SPACING) {
+        } else if (cursorY > m_recordY - effectiveSpacing
+                   && cursorY < m_recordY + effectiveSpacing) {
             // Top.
             qApp->setOverrideCursor(Qt::SizeVerCursor);
-        } else if (cursorY > m_recordY + m_recordHeight - SPACING
-                   && cursorY < m_recordY + m_recordHeight + SPACING) {
+        } else if (cursorY > m_recordY + m_recordHeight - effectiveSpacing
+                   && cursorY < m_recordY + m_recordHeight + effectiveSpacing) {
             // Bottom.
             qApp->setOverrideCursor(Qt::SizeVerCursor);
         } else {
             if (m_isPressButton) {
                 qApp->setOverrideCursor(Qt::ClosedHandCursor);
-            } else if (cursorX >= m_recordX - SPACING && cursorX <= m_recordX + m_recordWidth + SPACING
-                       && cursorY >= m_recordY - SPACING && cursorY < m_recordY + m_recordHeight + SPACING) {
+            } else if (cursorX >= m_recordX - effectiveSpacing && cursorX <= m_recordX + m_recordWidth + effectiveSpacing
+                       && cursorY >= m_recordY - effectiveSpacing && cursorY < m_recordY + m_recordHeight + effectiveSpacing) {
                 qApp->setOverrideCursor(Qt::OpenHandCursor);
             } else {
                 qApp->setOverrideCursor(Qt::ArrowCursor);
