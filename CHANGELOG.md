@@ -1,3 +1,13 @@
+<a name="4.1.5"></a>
+### 4.1.5 (2018-12-21)
+
+
+#### Bug Fixes
+
+*   touch to resize selection not very handy ([9644486d](https://github.com/linuxdeepin/deepin-screenshot/commit/9644486defd0e45fd070cf4b69ef3c636e468e10))
+
+
+
 <a name="4.1.4"></a>
 ### 4.1.4 (2018-11-27)
 
