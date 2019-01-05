@@ -29,6 +29,9 @@ class ConfigSettings : public QObject {
 public:
     static ConfigSettings *instance();
 
+    void setTemporarySaveAction(int save_op);
+    bool hasTemporarySaveAction();
+    int getAndResetTemporarySaveAction();
     void setValue(const QString &group, const QString &key,
                   QVariant val);
     QVariant value(const QString &group, const QString &key,
@@ -45,6 +48,7 @@ private:
     ~ConfigSettings();
 
     static ConfigSettings* m_configSettings;
+    int m_temporary_save_op = -1;
     QSettings* m_settings;
     QMutex m_mutex;
 };

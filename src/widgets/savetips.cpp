@@ -45,8 +45,8 @@ SaveTips::SaveTips(QWidget *parent)
 }
 
 void SaveTips::setSaveText(QString text) {
-    m_text = "   " + text;
-   setTipWidth(stringWidth(this->font(), m_text) + 10);
+    m_text = text;
+    setTipWidth(stringWidth(this->font(), m_text) + 10);
 //   setText(text);
 }
 

@@ -502,7 +502,12 @@ void SubToolBar::switchContent(QString shapeType) {
 }
 
 void SubToolBar::setSaveOption(int saveOption) {
-    ConfigSettings::instance()->setValue("save", "save_op", saveOption);
+    if (QGuiApplication::keyboardModifiers().testFlag(Qt::ShiftModifier)) {
+        qDebug() << "Shift key holded: temporary action, will not remember the save_op.";
+        ConfigSettings::instance()->setTemporarySaveAction(saveOption);
+    } else {
+        ConfigSettings::instance()->setValue("save", "save_op", saveOption);
+    }
 
     emit saveAction();
 }

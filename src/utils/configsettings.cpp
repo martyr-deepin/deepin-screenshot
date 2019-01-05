@@ -64,6 +64,24 @@ ConfigSettings* ConfigSettings::instance() {
     return m_configSettings;
 }
 
+void ConfigSettings::setTemporarySaveAction(int save_op)
+{
+    m_temporary_save_op = save_op;
+}
+
+bool ConfigSettings::hasTemporarySaveAction()
+{
+    return m_temporary_save_op >= 0;
+}
+
+int ConfigSettings::getAndResetTemporarySaveAction()
+{
+    int ret = m_temporary_save_op;
+    m_temporary_save_op = -1;
+
+    return ret;
+}
+
 void ConfigSettings::setValue(const QString &group, const QString &key,
                               QVariant val) {
     m_settings->beginGroup(group);

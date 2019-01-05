@@ -1226,7 +1226,12 @@ bool MainWindow::saveAction(const QPixmap &pix)
 
     QStandardPaths::StandardLocation saveOption = QStandardPaths::TempLocation;
     bool copyToClipboard = false;
-    m_saveIndex =  ConfigSettings::instance()->value("save", "save_op").toInt();
+
+    if (ConfigSettings::instance()->hasTemporarySaveAction()) {
+        m_saveIndex = ConfigSettings::instance()->getAndResetTemporarySaveAction();
+    } else {
+        m_saveIndex = ConfigSettings::instance()->value("save", "save_op").toInt();
+    }
     switch (m_saveIndex) {
     case 0: {
         saveOption = QStandardPaths::DesktopLocation;

@@ -48,12 +48,12 @@ signals:
     void onExist();
 
 protected:
-    void enterEvent(QEvent* e) {
+    void enterEvent(QEvent* e) override {
         emit onEnter();
         QPushButton::enterEvent(e);
     }
 
-    void leaveEvent(QEvent* e) {
+    void leaveEvent(QEvent* e) override {
         emit onExist();
         QPushButton::leaveEvent(e);
     }
