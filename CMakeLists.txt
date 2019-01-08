@@ -9,7 +9,8 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-set(CMAKE_CXX_FLAGS "-g -Wall")
+set(CMAKE_CXX_FLAGS "-g -Wall -g -fPIE -pie")
+set(CMAKE_EXE_LINKER_FLAGS "-fPIE -pie")
 set(BIN_NAME deepin-screenshot)
 
 # Sources files
