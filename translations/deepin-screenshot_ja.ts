@@ -30,7 +30,7 @@
         <location filename="../mainwindow.cpp" line="1018"/>
         <location filename="../mainwindow.cpp" line="1386"/>
         <source>Picture has been saved to %1</source>
-        <translation type="unfinished"/>
+        <translation>画像を %1 へ保存しました</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1270"/>
@@ -40,7 +40,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Save failed. Please save it in your home directory.</source>
-        <translation type="unfinished"/>
+        <translation>保存に失敗しました。ホームディレクトリに保存してください。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1384"/>
@@ -78,7 +78,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="80"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>戻す</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="96"/>
@@ -121,7 +121,7 @@
     <message>
         <location filename="../screenshot.cpp" line="78"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Screenshotは %1 秒後に開始します</translation>
     </message>
 </context>
 <context>
@@ -165,7 +165,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="38"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>戻す</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="39"/>
@@ -278,12 +278,12 @@
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="425"/>
         <source>Low</source>
-        <translation>低い</translation>
+        <translation>低画質</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="439"/>
         <source>High</source>
-        <translation>高い</translation>
+        <translation>高画質</translation>
     </message>
 </context>
 </TS>

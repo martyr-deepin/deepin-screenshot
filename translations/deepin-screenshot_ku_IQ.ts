@@ -24,7 +24,7 @@
         <location filename="../mainwindow.cpp" line="1004"/>
         <location filename="../mainwindow.cpp" line="1366"/>
         <source>View</source>
-        <translation type="unfinished"/>
+        <translation>Dîtin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1018"/>

@@ -24,13 +24,13 @@
         <location filename="../mainwindow.cpp" line="1004"/>
         <location filename="../mainwindow.cpp" line="1366"/>
         <source>View</source>
-        <translation>Vue</translation>
+        <translation>Afficher l&apos;image</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1018"/>
         <location filename="../mainwindow.cpp" line="1386"/>
         <source>Picture has been saved to %1</source>
-        <translation>L&apos;image a été sauvegardée dans %1</translation>
+        <translation>L&apos;image a été enregistrée dans %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1270"/>
@@ -40,12 +40,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Save failed. Please save it in your home directory.</source>
-        <translation>La sauvegarde a échoué. Veuillez sauvegarder dans votre répertoire personnel.</translation>
+        <translation>L&apos;enregistrement a échoué. Veuillez enregistrer dans votre répertoire personnel.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1384"/>
         <source>Picture has been saved to clipboard</source>
-        <translation>L&apos;image a été sauvegardée dans le presse-papiers</translation>
+        <translation>L&apos;image a été enregistrée dans le presse-papiers</translation>
     </message>
 </context>
 <context>
@@ -83,12 +83,12 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="96"/>
         <source>Save</source>
-        <translation>Sauvegarder</translation>
+        <translation>Enregistrer</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="99"/>
         <source>Save to desktop</source>
-        <translation>Enregistrer au bureau</translation>
+        <translation>Enregistrer sur le bureau</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="100"/>
@@ -108,7 +108,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="103"/>
         <source>Autosave and copy to clipboard</source>
-        <translation>Sauvegarder et copier dans le presse-papiers</translation>
+        <translation>Enregistrer et copier dans le presse-papiers</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="124"/>
