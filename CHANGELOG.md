@@ -1,3 +1,13 @@
+<a name="4.1.6"></a>
+### 4.1.6 (2019-01-14)
+
+
+#### Bug Fixes
+
+*   missing CXXFLAGS and LDFLAGS ([a8ccef45](https://github.com/linuxdeepin/deepin-screenshot/commit/a8ccef45c87cdf08e5789fa852f25ce6a8455ca9))
+
+
+
 <a name="4.1.5"></a>
 ### 4.1.5 (2018-12-21)
 
