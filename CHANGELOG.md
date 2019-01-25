@@ -1,3 +1,13 @@
+<a name="4.1.7"></a>
+## 4.1.7 (2019-01-25)
+
+
+#### Features
+
+*   Hold shift to avoid remember save state ([26a5f60a](https://github.com/linuxdeepin/deepin-screenshot/commit/26a5f60a29f5815cbfde00cf8091979df92b450c))
+
+
+
 <a name="4.1.6"></a>
 ### 4.1.6 (2019-01-14)
 
