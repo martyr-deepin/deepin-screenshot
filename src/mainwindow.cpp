@@ -1368,20 +1368,29 @@ void MainWindow::sendNotify(int saveIndex, QString saveFilePath, const bool succ
 	exit(0);
     }
 
-    QStringList actions;
-    actions << "_open" << tr("View");
-    QVariantMap hints;
-    QString fileDir = QUrl::fromLocalFile(QFileInfo(saveFilePath).absoluteDir().absolutePath()).toString();
-    QString filePath =  QUrl::fromLocalFile(saveFilePath).toString();
-    QString command;
-    if (QFile("/usr/bin/dde-file-manager").exists()) {
-        command = QString("/usr/bin/dde-file-manager,%1?selectUrl=%2"
-                          ).arg(fileDir).arg(filePath);
-    } else {
-        command = QString("xdg-open,%1").arg(filePath);
-    }
+    QDBusInterface remote_dde_notify_obj("com.deepin.dde.Notification", "/com/deepin/dde/Notification",
+                                         "com.deepin.dde.Notification");
 
-    hints["x-deepin-action-_open"] = command;
+    const bool remote_dde_notify_obj_exist = remote_dde_notify_obj.isValid();
+
+    QStringList actions;
+    QVariantMap hints;
+
+    if (remote_dde_notify_obj_exist) {
+        actions << "_open" << tr("View");
+
+        QString fileDir  = QUrl::fromLocalFile(QFileInfo(saveFilePath).absoluteDir().absolutePath()).toString();
+        QString filePath = QUrl::fromLocalFile(saveFilePath).toString();
+        QString command;
+        if (QFile("/usr/bin/dde-file-manager").exists()) {
+            command = QString("/usr/bin/dde-file-manager,%1?selectUrl=%2").arg(fileDir).arg(filePath);
+        }
+        else {
+            command = QString("xdg-open,%1").arg(filePath);
+        }
+
+        hints["x-deepin-action-_open"] = command;
+    }
 
     qDebug() << "saveFilePath:" << saveFilePath;
 
