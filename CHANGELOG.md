@@ -1,3 +1,13 @@
+<a name="4.1.8"></a>
+### 4.1.8 (2019-02-25)
+
+
+#### Bug Fixes
+
+*   unable to use the open file under other notifications ([0df34426](https://github.com/linuxdeepin/deepin-screenshot/commit/0df34426563b72aefc7d51c3a858dc3ce4451d84))
+
+
+
 <a name="4.1.7"></a>
 ## 4.1.7 (2019-01-25)
 
