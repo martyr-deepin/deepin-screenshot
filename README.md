@@ -45,3 +45,4 @@ We encourage you to report issues and contribute changes
 ## License
 
 deepin-screenshot is licensed under [GPLv3](LICENSE).
+....
