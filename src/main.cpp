@@ -92,30 +92,43 @@ int main(int argc, char *argv[])
          return 0;
      }
 
-     if (cmdParser.isSet(dbusOption))
+     if (argc == 1){
+         w.startScreenshot();
+     }else if (cmdParser.isSet(dbusOption))
      {
          qDebug() << "dbus register waiting!";
          return a.exec();
-     } else {
-         if (cmdParser.isSet(delayOption)) {
-             qDebug() << "cmd delay screenshot";
-             w.delayScreenshot(cmdParser.value(delayOption).toInt());
-         } else if (cmdParser.isSet(fullscreenOption)) {
-             w.fullscreenScreenshot();
-         } else if (cmdParser.isSet(topWindowOption)) {
-             qDebug() << "cmd topWindow screenshot";
-             w.topWindowScreenshot();
-         } else if (cmdParser.isSet(savePathOption)) {
-             qDebug() << "cmd savepath screenshot";
-             w.savePathScreenshot(cmdParser.value(savePathOption));
-         } else if (cmdParser.isSet(prohibitNotifyOption)) {
+     }else if (cmdParser.isSet(iconOption)) {
+             w.delayScreenshot(0.2);
+     }else if (cmdParser.isSet(prohibitNotifyOption)) {
              qDebug() << "screenshot no notify!";
              w.noNotifyScreenshot();
-         } else if (cmdParser.isSet(iconOption)) {
-             w.delayScreenshot(0.2);
-         }  else {
-             w.startScreenshot();
+     }
+     else {
+         int delay=0;
+         int areaOption=1;
+         QString savePath="";
+         if (cmdParser.isSet(delayOption)) {
+             qDebug() << "cmd delay screenshot";
+             delay = cmdParser.value(delayOption).toInt();
+         } 
+         if (cmdParser.isSet(fullscreenOption)) {
+             areaOption=1;
          }
+         if (cmdParser.isSet(topWindowOption)) {
+             qDebug() << "cmd topWindow screenshot";
+             areaOption=2;
+         }
+         if (cmdParser.isSet(savePathOption)) {
+             qDebug() << "cmd savepath screenshot";
+             savePath=cmdParser.value(savePathOption);
+             if (!QFileInfo(savePath).dir().exists()) {
+                qDebug() << "Error: path does not exist!";
+                return 0;
+             }
+         }
+         
+         w.multioptionalScreenshot(delay, areaOption, savePath);
      }
 
      return a.exec();

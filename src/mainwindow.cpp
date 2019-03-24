@@ -897,12 +897,16 @@ void MainWindow::resizeDirection(ResizeDirection direction, QMouseEvent *e)
     }
 }
 
-void MainWindow::fullScreenshot()
+void MainWindow::fullScreenshot(QString savePath)
 {
+    if(savePath.length() != 0)
+        m_saveFileName = savePath;
+
+    initDBusInterface();
+
     m_mouseStatus = ShotMouseStatus::Shoting;
     repaint();
     qApp->setOverrideCursor(setCursorShape("start"));
-    initDBusInterface();
     this->setFocus();
     m_configSettings =  ConfigSettings::instance();
     installEventFilter(this);
@@ -931,7 +935,8 @@ void MainWindow::fullScreenshot()
 
     TempFile::instance()->setFullScreenPixmap(m_resultPixmap);
     const auto r = saveAction(m_resultPixmap);
-    sendNotify(m_saveIndex, m_saveFileName, r);
+    if(!m_noNotify)
+        sendNotify(m_saveIndex, m_saveFileName, r);
 }
 
 void MainWindow::savePath(const QString &path)
@@ -1058,8 +1063,11 @@ void MainWindow::noNotify()
     initShortcut();
 }
 
-void MainWindow::topWindow()
+void MainWindow::topWindow(QString savePath)
 {
+    if(savePath.length() != 0)
+        m_saveFileName = savePath;
+
     initOriginUI();
     this->show();
     initSecondUI();
@@ -1222,6 +1230,12 @@ bool MainWindow::saveAction(const QPixmap &pix)
     QDateTime currentDate;
     QString currentTime =  currentDate.currentDateTime().
             toString("yyyyMMddHHmmss");
+    
+    QString defaultSaveDir;
+    if(m_saveFileName.length() !=0 )
+        defaultSaveDir = QFileInfo(m_saveFileName).dir().absolutePath();
+    else
+        defaultSaveDir = ConfigSettings::instance()->value("common", "default_savepath").toString();
     m_saveFileName = "";
 
     QStandardPaths::StandardLocation saveOption = QStandardPaths::TempLocation;
@@ -1240,7 +1254,7 @@ bool MainWindow::saveAction(const QPixmap &pix)
         break;
     }
     case 1: {
-        QString defaultSaveDir = ConfigSettings::instance()->value("common", "default_savepath").toString();
+        //QString defaultSaveDir = ConfigSettings::instance()->value("common", "default_savepath").toString();
         if (defaultSaveDir.isEmpty()) {
             saveOption = QStandardPaths::DesktopLocation;
         } else if (defaultSaveDir == "clipboard") {
@@ -1297,7 +1311,7 @@ bool MainWindow::saveAction(const QPixmap &pix)
     }
     case 4: {
         copyToClipboard = true;
-        QString defaultSaveDir = ConfigSettings::instance()->value("common", "default_savepath").toString();
+        //QString defaultSaveDir = ConfigSettings::instance()->value("common", "default_savepath").toString();
         if (defaultSaveDir.isEmpty()) {
             saveOption = QStandardPaths::DesktopLocation;
         } else if (defaultSaveDir == "clipboard") {

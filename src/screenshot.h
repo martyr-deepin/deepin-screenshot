@@ -36,7 +36,8 @@ public slots:
     void topWindowScreenshot();
     void noNotifyScreenshot();
     void savePathScreenshot(const QString &path);
-
+    void multioptionalScreenshot(int delay, int areaOption, QString savePath);
+    void multioptionalScreenshot(int areaOption, QString savePath);
 protected:
     bool  eventFilter(QObject* watched, QEvent* event) override;
 

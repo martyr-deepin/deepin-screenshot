@@ -81,12 +81,12 @@ signals:
     void updateZoom();
 
 public slots:
-    void fullScreenshot();
+    void fullScreenshot(QString savePath="");
     void savePath(const QString &path);
     void saveSpecificedPath(QString path);
 //    void delayScreenshot(int num);
     void noNotify();
-    void topWindow();
+    void topWindow(QString savePath="");
     void expressSaveScreenshot();
     //Indicate that this program's started by clicking desktop file.
      //void startByIcon();

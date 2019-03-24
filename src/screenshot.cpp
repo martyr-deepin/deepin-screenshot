@@ -121,6 +121,39 @@ void Screenshot::savePathScreenshot(const QString &path)
     m_window->savePath(path);
 }
 
+void Screenshot::multioptionalScreenshot(int areaOption, QString savePath){
+    initUI();
+    this->show();
+    if(areaOption == 1){
+        m_window->fullScreenshot(savePath);
+    }
+    else if(areaOption == 2){
+        m_window->topWindow(savePath);
+    }
+}
+
+void Screenshot::multioptionalScreenshot(int delay, int areaOption, QString savePath){
+    QString summary = QString(tr("Deepin Screenshot will start after %1 seconds").arg(delay));
+    QStringList actions = QStringList();
+    QVariantMap hints;
+    DBusNotify* notifyDBus = new DBusNotify(this);
+    if (delay >= 1) {
+        QTimer* timer = new QTimer();
+        timer->setSingleShot(true);
+        timer->start(int(1000*delay));
+        notifyDBus->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
+                                summary, actions, hints, 0);
+        connect(timer, &QTimer::timeout, this, [=]{
+            notifyDBus->CloseNotification(0);
+            multioptionalScreenshot(areaOption, savePath);
+        });
+
+    }
+    else{
+        multioptionalScreenshot(areaOption, savePath);
+    }
+}
+
 bool Screenshot::eventFilter(QObject* watched, QEvent *event)
 {
     Q_UNUSED(watched);
