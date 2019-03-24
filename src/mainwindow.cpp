@@ -935,8 +935,7 @@ void MainWindow::fullScreenshot(QString savePath)
 
     TempFile::instance()->setFullScreenPixmap(m_resultPixmap);
     const auto r = saveAction(m_resultPixmap);
-    if(!m_noNotify)
-        sendNotify(m_saveIndex, m_saveFileName, r);
+    sendNotify(m_saveIndex, m_saveFileName, r);
 }
 
 void MainWindow::savePath(const QString &path)
