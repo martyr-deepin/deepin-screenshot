@@ -35,101 +35,100 @@ int main(int argc, char *argv[])
     DWIDGET_INIT_RESOURCE();
 #endif
 
-     DApplication::loadDXcbPlugin();
+    DApplication::loadDXcbPlugin();
 
-     DApplication a(argc, argv);
-     a.loadTranslator(QList<QLocale>() << QLocale::system());
-     a.setOrganizationName("deepin");
-     a.setApplicationName("deepin-screenshot");
-     a.setApplicationVersion("4.0");
-     a.setTheme("light");
-     a.setQuitOnLastWindowClosed(false);
-     a.setAttribute(Qt::AA_UseHighDpiPixmaps);
+    DApplication a(argc, argv);
+    a.loadTranslator(QList<QLocale>() << QLocale::system());
+    a.setOrganizationName("deepin");
+    a.setApplicationName("deepin-screenshot");
+    a.setApplicationVersion("4.0");
+    a.setTheme("light");
+    a.setQuitOnLastWindowClosed(false);
+    a.setAttribute(Qt::AA_UseHighDpiPixmaps);
 
-     using namespace Dtk::Core;
-     Dtk::Core::DLogManager::registerConsoleAppender();
-     Dtk::Core::DLogManager::registerFileAppender();
+    using namespace Dtk::Core;
+    Dtk::Core::DLogManager::registerConsoleAppender();
+    Dtk::Core::DLogManager::registerFileAppender();
 
-     QCommandLineOption  delayOption(QStringList() << "d" << "delay",
+    QCommandLineOption  delayOption(QStringList() << "d" << "delay",
                                                                              "Take a screenshot after NUM seconds.", "NUM");
-     QCommandLineOption fullscreenOption(QStringList() << "f" << "fullscreen",
+    QCommandLineOption fullscreenOption(QStringList() << "f" << "fullscreen",
                                                                                 "Take a screenshot the whole screen.");
-     QCommandLineOption topWindowOption(QStringList() << "w" << "top-window",
+    QCommandLineOption topWindowOption(QStringList() << "w" << "top-window",
                                                                              "Take a screenshot of the most top window.");
-     QCommandLineOption savePathOption(QStringList() << "s" << "save-path",
+    QCommandLineOption savePathOption(QStringList() << "s" << "save-path",
                                                                              "Specify a path to save the screenshot.", "PATH");
-     QCommandLineOption prohibitNotifyOption(QStringList() << "n" << "no-notification",
+    QCommandLineOption prohibitNotifyOption(QStringList() << "n" << "no-notification",
                                                                               "Don't send notifications.");
-     QCommandLineOption iconOption(QStringList() << "i" << "icon",
+    QCommandLineOption iconOption(QStringList() << "i" << "icon",
                                                                            "Indicate that this program's started by clicking.");
     QCommandLineOption dbusOption(QStringList() << "u" << "dbus",
                                                                             "Start  from dbus.");
-     QCommandLineParser cmdParser;
-     cmdParser.setApplicationDescription("deepin-screenshot");
-     cmdParser.addHelpOption();
-     cmdParser.addVersionOption();
-     cmdParser.addOption(delayOption);
-     cmdParser.addOption(fullscreenOption);
-     cmdParser.addOption(topWindowOption);
-     cmdParser.addOption(savePathOption);
-     cmdParser.addOption(prohibitNotifyOption);
-     cmdParser.addOption(iconOption);
-     cmdParser.addOption(dbusOption);
-     cmdParser.process(a);
+    QCommandLineParser cmdParser;
+    cmdParser.setApplicationDescription("deepin-screenshot");
+    cmdParser.addHelpOption();
+    cmdParser.addVersionOption();
+    cmdParser.addOption(delayOption);
+    cmdParser.addOption(fullscreenOption);
+    cmdParser.addOption(topWindowOption);
+    cmdParser.addOption(savePathOption);
+    cmdParser.addOption(prohibitNotifyOption);
+    cmdParser.addOption(iconOption);
+    cmdParser.addOption(dbusOption);
+    cmdParser.process(a);
 
-     Screenshot w;
-     w.hide();
+    Screenshot w;
+    w.hide();
 
-     DBusScreenshotService dbusService (&w);
-     Q_UNUSED(dbusService);
+    DBusScreenshotService dbusService (&w);
+    Q_UNUSED(dbusService);
      //Register Screenshot's dbus service.
-     QDBusConnection conn = QDBusConnection::sessionBus();
-     if (!conn.registerService("com.deepin.Screenshot") ||
-             !conn.registerObject("/com/deepin/Screenshot", &w)) {
-         qDebug() << "deepin-screenshot is running!";
+    QDBusConnection conn = QDBusConnection::sessionBus();
+    if (!conn.registerService("com.deepin.Screenshot") ||
+            !conn.registerObject("/com/deepin/Screenshot", &w)) {
+        qDebug() << "deepin-screenshot is running!";
 
-         qApp->quit();
-         return 0;
-     }
+        qApp->quit();
+        return 0;
+    }
 
-     if (argc == 1){
-         w.startScreenshot();
-     }else if (cmdParser.isSet(dbusOption))
-     {
-         qDebug() << "dbus register waiting!";
-         return a.exec();
-     }else if (cmdParser.isSet(iconOption)) {
-             w.delayScreenshot(0.2);
-     }else if (cmdParser.isSet(prohibitNotifyOption)) {
-             qDebug() << "screenshot no notify!";
-             w.noNotifyScreenshot();
-     }
-     else {
-         int delay=0;
-         int areaOption=1;
-         QString savePath="";
-         if (cmdParser.isSet(delayOption)) {
-             qDebug() << "cmd delay screenshot";
-             delay = cmdParser.value(delayOption).toInt();
-         } 
-         if (cmdParser.isSet(fullscreenOption)) {
-             areaOption=1;
-         }
-         if (cmdParser.isSet(topWindowOption)) {
-             qDebug() << "cmd topWindow screenshot";
-             areaOption=2;
-         }
-         if (cmdParser.isSet(savePathOption)) {
-             qDebug() << "cmd savepath screenshot";
-             savePath=cmdParser.value(savePathOption);
-             if (!QFileInfo(savePath).dir().exists()) {
+    if (argc == 1) {
+        w.startScreenshot();
+    }else if (cmdParser.isSet(dbusOption)) {
+        qDebug() << "dbus register waiting!";
+        return a.exec();
+    }else if (cmdParser.isSet(iconOption)) {
+            w.delayScreenshot(0.2);
+    }else if (cmdParser.isSet(prohibitNotifyOption)) {
+        qDebug() << "screenshot no notify!";
+        w.noNotifyScreenshot();
+    }
+    else {
+        int delay=0;
+        int areaOption=1;
+        QString savePath="";
+        if (cmdParser.isSet(delayOption)) {
+            qDebug() << "cmd delay screenshot";
+            delay = cmdParser.value(delayOption).toInt();
+        } 
+        if (cmdParser.isSet(fullscreenOption)) {
+            areaOption=1;
+        }
+        if (cmdParser.isSet(topWindowOption)) {
+            qDebug() << "cmd topWindow screenshot";
+            areaOption=2;
+        }
+        if (cmdParser.isSet(savePathOption)) {
+            qDebug() << "cmd savepath screenshot";
+            savePath=cmdParser.value(savePathOption);
+            if (!QFileInfo(savePath).dir().exists()) {
                 qDebug() << "Error: path does not exist!";
                 return 0;
-             }
-         }
+            }
+        }
          
-         w.multioptionalScreenshot(delay, areaOption, savePath);
-     }
+        w.multioptionalScreenshot(delay, areaOption, savePath);
+    }
 
-     return a.exec();
+    return a.exec();
 }
