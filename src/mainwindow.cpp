@@ -897,11 +897,8 @@ void MainWindow::resizeDirection(ResizeDirection direction, QMouseEvent *e)
     }
 }
 
-void MainWindow::fullScreenshot(QString savePath)
+void MainWindow::fullScreenshot()
 {
-    if(savePath.length() != 0)
-        m_saveFileName = savePath;
-
     initDBusInterface();
 
     m_mouseStatus = ShotMouseStatus::Shoting;
@@ -1062,11 +1059,8 @@ void MainWindow::noNotify()
     initShortcut();
 }
 
-void MainWindow::topWindow(QString savePath)
+void MainWindow::topWindow()
 {
-    if(savePath.length() != 0)
-        m_saveFileName = savePath;
-
     initOriginUI();
     this->show();
     initSecondUI();
@@ -1105,6 +1099,7 @@ void MainWindow::topWindow(QString savePath)
     //    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
 
     const auto r = saveAction(screenShotPix);
+    qDebug() << "m_saveFileName: " << m_saveFileName;
     sendNotify(m_saveIndex, m_saveFileName, r);
 }
 
@@ -1117,6 +1112,22 @@ void MainWindow::expressSaveScreenshot()
         qDebug() << "specificedPath isEmpty!XCVBN";
         m_toolBar->specificedSavePath();
         emit m_toolBar->saveSpecifiedPath();
+    }
+}
+
+void MainWindow::screenshotWithOptions(int areaOption, const QString &path){
+    m_saveFileName = path;
+    if (areaOption == 0) {
+        if (path.length() == 0)
+            startScreenshot();
+        else
+            savePath(path);
+    }
+    if (areaOption == 1) {
+        fullScreenshot();
+    }
+    else if (areaOption == 2) {
+        topWindow();
     }
 }
 
@@ -1230,21 +1241,18 @@ bool MainWindow::saveAction(const QPixmap &pix)
     QString currentTime =  currentDate.currentDateTime().
             toString("yyyyMMddHHmmss");
     
-    QString defaultSaveDir;
-    if(m_saveFileName.length() !=0 )
-        defaultSaveDir = QFileInfo(m_saveFileName).dir().absolutePath();
-    else
-        defaultSaveDir = ConfigSettings::instance()->value("common", "default_savepath").toString();
-    m_saveFileName = "";
 
     QStandardPaths::StandardLocation saveOption = QStandardPaths::TempLocation;
     bool copyToClipboard = false;
 
-    if (ConfigSettings::instance()->hasTemporarySaveAction()) {
+    if (m_saveFileName.length() != 0) {
+        m_saveIndex = 5;
+    } else if (ConfigSettings::instance()->hasTemporarySaveAction()) {
         m_saveIndex = ConfigSettings::instance()->getAndResetTemporarySaveAction();
     } else {
         m_saveIndex = ConfigSettings::instance()->value("save", "save_op").toInt();
     }
+
     switch (m_saveIndex) {
     case 0: {
         saveOption = QStandardPaths::DesktopLocation;
@@ -1253,7 +1261,7 @@ bool MainWindow::saveAction(const QPixmap &pix)
         break;
     }
     case 1: {
-        //QString defaultSaveDir = ConfigSettings::instance()->value("common", "default_savepath").toString();
+        QString defaultSaveDir = ConfigSettings::instance()->value("common", "default_savepath").toString();
         if (defaultSaveDir.isEmpty()) {
             saveOption = QStandardPaths::DesktopLocation;
         } else if (defaultSaveDir == "clipboard") {
@@ -1310,7 +1318,7 @@ bool MainWindow::saveAction(const QPixmap &pix)
     }
     case 4: {
         copyToClipboard = true;
-        //QString defaultSaveDir = ConfigSettings::instance()->value("common", "default_savepath").toString();
+        QString defaultSaveDir = ConfigSettings::instance()->value("common", "default_savepath").toString();
         if (defaultSaveDir.isEmpty()) {
             saveOption = QStandardPaths::DesktopLocation;
         } else if (defaultSaveDir == "clipboard") {
@@ -1325,6 +1333,41 @@ bool MainWindow::saveAction(const QPixmap &pix)
             }
         }
         break;
+    }
+    case 5: {
+        QString savePath;
+        QString baseName = QFileInfo(m_saveFileName).baseName();
+        QString suffix = QFileInfo(m_saveFileName).completeSuffix();
+
+        if (!QFileInfo(m_saveFileName).isDir() && !baseName.isEmpty())
+        {
+            if (isValidFormat(suffix)) {
+                savePath = m_saveFileName;
+            } else if (suffix.isEmpty()) {
+                savePath = m_saveFileName + ".png";
+            } else {
+                qWarning() << "Invalid image format! Screenshot will quit, suffix:" << suffix;
+                exitApp();
+            }
+            qDebug() << "process savepath1:" << savePath;
+        } else {
+            if (QFileInfo(m_saveFileName).isDir() && !m_saveFileName.endsWith("/")) {
+                m_saveFileName = m_saveFileName + "/";
+            }
+            qDebug() << "path isEmpty!";
+
+            QDateTime currentDate;
+            QString currentTime =  currentDate.currentDateTime().
+                    toString("yyyyMMddHHmmss");
+            if (m_selectAreaName.isEmpty()) {
+                savePath = m_saveFileName + QString("%1_%2.png").arg(tr("DeepinScreenshot")).arg(currentTime);
+            } else {
+                savePath = m_saveFileName + QString("%1_%2_%3.png").arg(tr("DeepinScreenshot")).arg(
+                                                                                           m_selectAreaName).arg(currentTime);
+            }
+            qDebug() << "process savepath2: " << savePath;
+        }
+        m_saveFileName = savePath;
     }
     default:
         break;

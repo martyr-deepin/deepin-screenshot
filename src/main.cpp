@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
     QCommandLineOption iconOption(QStringList() << "i" << "icon",
                                                                            "Indicate that this program's started by clicking.");
     QCommandLineOption dbusOption(QStringList() << "u" << "dbus",
-                                                                            "Start  from dbus.");
+                                                                            "Start from dbus.");
     QCommandLineParser cmdParser;
     cmdParser.setApplicationDescription("deepin-screenshot");
     cmdParser.addHelpOption();
@@ -87,7 +87,6 @@ int main(int argc, char *argv[])
     if (!conn.registerService("com.deepin.Screenshot") ||
             !conn.registerObject("/com/deepin/Screenshot", &w)) {
         qDebug() << "deepin-screenshot is running!";
-
         qApp->quit();
         return 0;
     }
@@ -127,7 +126,7 @@ int main(int argc, char *argv[])
             }
         }
          
-        w.multioptionalScreenshot(delay, areaOption, savePath);
+        w.screenshotWithOptions(delay, areaOption, savePath);
     }
 
     return a.exec();
