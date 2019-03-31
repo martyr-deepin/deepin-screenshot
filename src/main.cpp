@@ -98,19 +98,18 @@ int main(int argc, char *argv[])
         return a.exec();
     }else if (cmdParser.isSet(iconOption)) {
             w.delayScreenshot(0.2);
-    }else if (cmdParser.isSet(prohibitNotifyOption)) {
-        qDebug() << "screenshot no notify!";
-        w.noNotifyScreenshot();
     }
     else {
         int delay=0;
-        int areaOption=1;
+        int areaOption=0;
         QString savePath="";
+        bool noNotify=false;
         if (cmdParser.isSet(delayOption)) {
             qDebug() << "cmd delay screenshot";
             delay = cmdParser.value(delayOption).toInt();
-        } 
+        }
         if (cmdParser.isSet(fullscreenOption)) {
+            qDebug() << "cmd fullscreen screenshot";
             areaOption=1;
         }
         if (cmdParser.isSet(topWindowOption)) {
@@ -125,8 +124,12 @@ int main(int argc, char *argv[])
                 return 0;
             }
         }
+        if (cmdParser.isSet(prohibitNotifyOption)) {
+            qDebug() << "screenshot no notify!";
+            noNotify=true;
+        }
          
-        w.screenshotWithOptions(delay, areaOption, savePath);
+        w.screenshotWithOptions(delay, areaOption, savePath, noNotify);
     }
 
     return a.exec();

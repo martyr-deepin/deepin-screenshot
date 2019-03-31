@@ -93,36 +93,7 @@ void Screenshot::delayScreenshot(double num)
     });
 }
 
-void Screenshot::fullscreenScreenshot()
-{
-    initUI();
-    this->show();
-    m_window->fullScreenshot();
-}
-
-void Screenshot::topWindowScreenshot()
-{
-    initUI();
-    this->show();
-    m_window->topWindow();
-}
-
-void Screenshot::noNotifyScreenshot()
-{
-    initUI();
-    this->show();
-    m_window->noNotify();
-}
-
-void Screenshot::savePathScreenshot(const QString &path)
-{
-    initUI();
-    this->show();
-    m_window->savePath(path);
-}
-
-
-void Screenshot::screenshotWithOptions(int delay, int areaOption, const QString &savePath)
+void Screenshot::screenshotWithOptions(int delay, int areaOption, const QString &savePath, bool noNotify)
 {
     QString summary = QString(tr("Deepin Screenshot will start after %1 seconds").arg(delay));
     QStringList actions = QStringList();
@@ -134,16 +105,16 @@ void Screenshot::screenshotWithOptions(int delay, int areaOption, const QString 
         QTimer* timer = new QTimer();
         timer->setSingleShot(true);
         timer->start(int(1000*delay));
-        notifyDBus->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
-                                summary, actions, hints, 0);
+        if (!noNotify)
+            notifyDBus->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
+                                    summary, actions, hints, 0);
         connect(timer, &QTimer::timeout, this, [=]{
             notifyDBus->CloseNotification(0);
-            m_window->screenshotWithOptions(areaOption, savePath);
+            m_window->screenshotWithOptions(areaOption, savePath, noNotify);
         });
-
     }
     else {
-        m_window->screenshotWithOptions(areaOption, savePath);
+        m_window->screenshotWithOptions(areaOption, savePath, noNotify);
     }
 }
 

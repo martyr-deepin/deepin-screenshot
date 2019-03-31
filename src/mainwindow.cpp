@@ -1115,8 +1115,9 @@ void MainWindow::expressSaveScreenshot()
     }
 }
 
-void MainWindow::screenshotWithOptions(int areaOption, const QString &path){
+void MainWindow::screenshotWithOptions(int areaOption, const QString &path, bool noNotify) {
     m_saveFileName = path;
+    m_noNotify = noNotify;
     if (areaOption == 0) {
         if (path.length() == 0)
             startScreenshot();
@@ -1413,15 +1414,16 @@ bool MainWindow::saveAction(const QPixmap &pix)
     return true;
 }
 
-void MainWindow::sendNotify(int saveIndex, QString saveFilePath, const bool succeed)
+void MainWindow::sendNotify(int saveIndex, const QString &saveFilePath, const bool succeed)
 {
     // failed notify
     if (!succeed)
     {
-        const auto tips = tr("Save failed. Please save it in your home directory.");
-        m_notifyDBInterface->Notify("Deepin Screenshot", 0, "deepin-screenshot", QString(), tips, QStringList(), QVariantMap(), 0);
-
-	exit(0);
+        if(!m_noNotify) {
+            const auto tips = tr("Save failed. Please save it in your home directory.");
+            m_notifyDBInterface->Notify("Deepin Screenshot", 0, "deepin-screenshot", QString(), tips, QStringList(), QVariantMap(), 0);
+        }
+	    exit(0);
     }
 
     QDBusInterface remote_dde_notify_obj("com.deepin.dde.Notification", "/com/deepin/dde/Notification",

@@ -32,11 +32,7 @@ public:
 public slots:
     void startScreenshot();
     void delayScreenshot(double num);
-    void fullscreenScreenshot();
-    void topWindowScreenshot();
-    void noNotifyScreenshot();
-    void savePathScreenshot(const QString &path);
-    void screenshotWithOptions(int delay, int areaOption, const QString &savePath);
+    void screenshotWithOptions(int delay, int areaOption, const QString &savePath, bool noNotify);
 protected:
     bool  eventFilter(QObject* watched, QEvent* event) override;
 

@@ -79,10 +79,6 @@ public: // PROPERTIES
 public Q_SLOTS: // METHODS
     void StartScreenshot();
     void DelayScreenshot(qlonglong in0);
-    void NoNotifyScreenshot();
-    void TopWindowScreenshot();
-    void FullscreenScreenshot();
-    void SavePathScreenshot(const QString &in0);
 Q_SIGNALS: // SIGNALS
 private:
     bool m_singleInstance;
