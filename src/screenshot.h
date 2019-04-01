@@ -31,8 +31,7 @@ public:
 
 public slots:
     void startScreenshot();
-    void delayScreenshot(double num);
-    void screenshotWithOptions(int delay, int areaOption, const QString &savePath, bool noNotify);
+    void screenshotWithOptions(double delay, int areaOption, const QString &savePath, bool noNotify);
 protected:
     bool  eventFilter(QObject* watched, QEvent* event) override;
 

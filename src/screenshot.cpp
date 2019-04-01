@@ -73,27 +73,7 @@ void Screenshot::startScreenshot()
     m_window->startScreenshot();
 }
 
-void Screenshot::delayScreenshot(double num)
-{
-    QString summary = QString(tr("Deepin Screenshot will start after %1 seconds").arg(num));
-    QStringList actions = QStringList();
-    QVariantMap hints;
-    DBusNotify* notifyDBus = new DBusNotify(this);
-    if (num >= 2) {
-        notifyDBus->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
-                                    summary, actions, hints, 0);
-    }
-
-    QTimer* timer = new QTimer;
-    timer->setSingleShot(true);
-    timer->start(int(1000*num));
-    connect(timer, &QTimer::timeout, this, [=]{
-        notifyDBus->CloseNotification(0);
-        startScreenshot();
-    });
-}
-
-void Screenshot::screenshotWithOptions(int delay, int areaOption, const QString &savePath, bool noNotify)
+void Screenshot::screenshotWithOptions(double delay, int areaOption, const QString &savePath, bool noNotify)
 {
     QString summary = QString(tr("Deepin Screenshot will start after %1 seconds").arg(delay));
     QStringList actions = QStringList();
@@ -101,11 +81,11 @@ void Screenshot::screenshotWithOptions(int delay, int areaOption, const QString 
     DBusNotify* notifyDBus = new DBusNotify(this);
     initUI();
     this->show();
-    if (delay >= 1) {
+    if (delay + 0.000005 >= 0) {
         QTimer* timer = new QTimer();
         timer->setSingleShot(true);
         timer->start(int(1000*delay));
-        if (!noNotify)
+        if (!noNotify && delay + 0.000005 > 2)
             notifyDBus->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                     summary, actions, hints, 0);
         connect(timer, &QTimer::timeout, this, [=]{

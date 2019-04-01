@@ -63,12 +63,12 @@ void DBusScreenshotService::StartScreenshot() {
     m_singleInstance = true;
 }
 
-void DBusScreenshotService::DelayScreenshot(qlonglong in0)
+void DBusScreenshotService::ScreenshotWithOptions(double delay, int areaOption, const QString &savePath, bool noNotify)
 {
     qDebug() << "DBus screenshot service! delay screenshot";
     // handle method call com.deepin.Screenshot.DelayScreenshot
     if (!m_singleInstance)
-        parent()->delayScreenshot(in0);
+        parent()->screenshotWithOptions(delay, areaOption, savePath, noNotify);
     m_singleInstance = true;
 }
 

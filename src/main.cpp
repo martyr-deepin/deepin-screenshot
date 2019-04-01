@@ -96,11 +96,12 @@ int main(int argc, char *argv[])
     }else if (cmdParser.isSet(dbusOption)) {
         qDebug() << "dbus register waiting!";
         return a.exec();
-    }else if (cmdParser.isSet(iconOption)) {
-            w.delayScreenshot(0.2);
     }
+    //else if (cmdParser.isSet(iconOption)) {
+    //        w.screenshotWithOptions(0.2);
+    //}
     else {
-        int delay=0;
+        double delay=0;
         int areaOption=0;
         QString savePath="";
         bool noNotify=false;
@@ -128,7 +129,9 @@ int main(int argc, char *argv[])
             qDebug() << "screenshot no notify!";
             noNotify=true;
         }
-         
+        if (cmdParser.isSet(iconOption)) {
+            delay = 0.2;
+	}
         w.screenshotWithOptions(delay, areaOption, savePath, noNotify);
     }
 
