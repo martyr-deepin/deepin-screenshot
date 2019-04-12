@@ -1005,12 +1005,7 @@ void MainWindow::saveSpecificedPath(QString path)
     QString fileDir = QUrl::fromLocalFile(QFileInfo(savePath).absoluteDir().absolutePath()).toString();
     QString filePath =  QUrl::fromLocalFile(savePath).toString();
     QString command;
-    if (QFile("/usr/bin/dde-file-manager").exists()) {
-        command = QString("/usr/bin/dde-file-manager,%1?selectUrl=%2"
-                          ).arg(fileDir).arg(filePath);
-    } else {
-        command = QString("xdg-open,%1").arg(filePath);
-    }
+    command = QString("xdg-open,%1").arg(filePath);
 
     hints["x-deepin-action-_open"] = command;
 
@@ -1382,12 +1377,7 @@ void MainWindow::sendNotify(int saveIndex, QString saveFilePath, const bool succ
         QString fileDir  = QUrl::fromLocalFile(QFileInfo(saveFilePath).absoluteDir().absolutePath()).toString();
         QString filePath = QUrl::fromLocalFile(saveFilePath).toString();
         QString command;
-        if (QFile("/usr/bin/dde-file-manager").exists()) {
-            command = QString("/usr/bin/dde-file-manager,%1?selectUrl=%2").arg(fileDir).arg(filePath);
-        }
-        else {
-            command = QString("xdg-open,%1").arg(filePath);
-        }
+        command = QString("xdg-open,%1").arg(filePath);
 
         hints["x-deepin-action-_open"] = command;
     }
