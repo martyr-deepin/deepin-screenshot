@@ -32,6 +32,7 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <QDBusInterface>
+#include <QDir>
 
 #include <DApplication>
 
@@ -1337,12 +1338,20 @@ bool MainWindow::saveAction(const QPixmap &pix)
         if (!screenShotPix.save(m_saveFileName,  QFileInfo(m_saveFileName).suffix().toLocal8Bit()))
             return false;
     } else if (saveOption != QStandardPaths::TempLocation && m_saveFileName.isEmpty()) {
+        QString savePath = QStandardPaths::writableLocation(saveOption);
+        QDir saveDir(savePath);
+        if (!saveDir.exists()) {
+            bool mkdirSucc = saveDir.mkpath(".");
+            if (!mkdirSucc) {
+                qCritical() << "Save path not exist and cannot be created:" << savePath;
+                qCritical() << "Fall back to temp location!";
+                savePath = QDir::tempPath();
+            }
+        }
         if (m_selectAreaName.isEmpty()) {
-            m_saveFileName = QString("%1/%2_%3.png").arg(QStandardPaths::writableLocation(
-                             saveOption)).arg(tr("DeepinScreenshot")).arg(currentTime);
+            m_saveFileName = QString("%1/%2_%3.png").arg(savePath, tr("DeepinScreenshot"), currentTime);
         } else {
-            m_saveFileName = QString("%1/%2_%3_%4.png").arg(QStandardPaths::writableLocation(
-                             saveOption)).arg(tr("DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
+            m_saveFileName = QString("%1/%2_%3_%4.png").arg(savePath, tr("DeepinScreenshot"), m_selectAreaName, currentTime);
         }
         if (!screenShotPix.save(m_saveFileName,  "PNG"))
             return false;
