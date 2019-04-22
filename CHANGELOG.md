@@ -1,3 +1,13 @@
+<a name="4.1.9"></a>
+## 4.1.9 (2019-04-22)
+
+
+#### Bug Fixes
+
+*   check path existence ([d8431cc2](https://github.com/linuxdeepin/deepin-screenshot/commit/d8431cc2a94a9f1d49021f279fe688727802d2c0))
+
+
+
 <a name="4.1.8"></a>
 ### 4.1.8 (2019-02-25)
 
