@@ -33,6 +33,9 @@
 #include <QCommandLineOption>
 #include <QDBusInterface>
 #include <QDir>
+#include <DWindowManagerHelper>
+#include <DForeignWindow>
+#include <QX11Info>
 
 #include <DApplication>
 
@@ -73,10 +76,13 @@ void MainWindow::initOriginUI()
 
     QPoint curPos = this->cursor().pos();
 
+    const qreal ratio = devicePixelRatioF();
     m_swUtil = DScreenWindowsUtil::instance(curPos);
     m_screenNum =  m_swUtil->getScreenNum();
     m_backgroundRect = m_swUtil->backgroundRect();
-    this->move(m_backgroundRect.x(), m_backgroundRect.y());
+    m_backgroundRect = QRect(m_backgroundRect.topLeft() / ratio, m_backgroundRect.size());
+
+    move(m_backgroundRect.topLeft() * ratio);
     this->setFixedSize(m_backgroundRect.size());
     initBackground();
 
@@ -114,10 +120,17 @@ void MainWindow::initOriginUI()
 
 void MainWindow::initSecondUI()
 {
-    if (m_screenNum == 0) {
-        m_windowRects = m_swUtil->windowsRect();
-        m_windowNames = m_swUtil->windowsName();
+    for (auto wid : DWindowManagerHelper::instance()->currentWorkspaceWindowIdList()) {
+        if (wid == winId()) continue;
+
+        DForeignWindow * window = DForeignWindow::fromWinId(wid);
+        if (window) {
+            window->deleteLater();
+            m_windowRects << window->geometry();
+            m_windowNames << window->wmClass();
+        }
     }
+
     m_configSettings =  ConfigSettings::instance();
     m_toolBar = new ToolBar(this);
     m_toolBar->hide();
@@ -602,30 +615,17 @@ void MainWindow::mouseMoveEvent(QMouseEvent *ev)
                 needRepaint = true;
             }
         } else {
-            if (m_screenNum == 0) {
-                for (int i = 0; i < m_windowRects.length(); i++) {
-                    int wx = m_windowRects[i].x();
-                    int wy = m_windowRects[i].y();
-                    int ww = m_windowRects[i].width();
-                    int wh = m_windowRects[i].height();
-                    int ex = ev->x();
-                    int ey = ev->y();
-                    if (ex > wx && ex < wx + ww && ey > wy && ey < wy + wh) {
-                        m_recordX = wx;
-                        m_recordY = wy;
-                        m_recordWidth = ww;
-                        m_recordHeight = wh;
+            const QPoint mousePoint = ev->pos() + m_backgroundRect.topLeft();
+            for (auto it = m_windowRects.rbegin(); it != m_windowRects.rend(); ++it) {
+                if (it->contains(mousePoint)) {
+                    m_recordX = it->x() - m_backgroundRect.x();
+                    m_recordY = it->y() - m_backgroundRect.y();
+                    m_recordWidth = it->width();
+                    m_recordHeight = it->height();
 
-                        needRepaint = true;
-                        break;
-                    }
+                    needRepaint = true;
+                    break;
                 }
-            } else {
-                m_recordX = 0;
-                m_recordY = 0;
-                m_recordWidth = m_backgroundRect.width();
-                m_recordHeight = m_backgroundRect.height();
-                needRepaint = true;
             }
         }
 
@@ -1129,10 +1129,16 @@ void MainWindow::startScreenshot()
 
 QPixmap MainWindow::getPixmapofRect(const QRect &rect)
 {
-    const qreal dpr = qApp->devicePixelRatio();
-    return m_swUtil->primaryScreen()->grabWindow(
-                m_swUtil->rootWindowId(),
-               rect.x() / dpr, rect.y() / dpr, rect.width(), rect.height());
+    QRect r(rect.topLeft() * devicePixelRatioF(), rect.size());
+
+    QList<QScreen*> screenList = qApp->screens();
+    for (auto it = screenList.constBegin(); it != screenList.constEnd(); ++it) {
+        if (r == (*it)->geometry()) {
+            return (*it)->grabWindow(m_swUtil->rootWindowId(), rect.x(), rect.y(), rect.width(), rect.height());
+        }
+    }
+
+    return QPixmap();
 }
 
 void MainWindow::initBackground()
