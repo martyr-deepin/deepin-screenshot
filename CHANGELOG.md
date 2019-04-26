@@ -1,3 +1,9 @@
+<a name="4.1.10"></a>
+### 4.1.10 (2019-04-26)
+
+
+*   support HiDPI ([31d2fd94](https://github.com/linuxdeepin/deepin-screenshot/commit/31d2fd940b9ac4d05e88a5ba8606730be57e84ee))
+
 <a name="4.1.9"></a>
 ## 4.1.9 (2019-04-22)
 
