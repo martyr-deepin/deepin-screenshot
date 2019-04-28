@@ -91,13 +91,14 @@ public slots:
     //Indicate that this program's started by clicking desktop file.
      //void startByIcon();
 
+    void screenshotWithOptions(int areaOption, const QString &savePath, bool noNotify);
     void startScreenshot();
     void shotFullScreen();
     void shotCurrentImg();
     void shotImgWidthEffect();
     void saveScreenshot();
     bool saveAction(const QPixmap &pix);
-    void sendNotify(int saveIndex, QString saveFilePath, const bool succeed);
+    void sendNotify(int saveIndex, const QString &saveFilePath, const bool succeed);
     void reloadImage(QString effect);
     void onViewShortcut();
     void onHelp();

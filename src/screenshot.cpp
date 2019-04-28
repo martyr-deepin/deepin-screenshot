@@ -73,52 +73,29 @@ void Screenshot::startScreenshot()
     m_window->startScreenshot();
 }
 
-void Screenshot::delayScreenshot(double num)
+void Screenshot::screenshotWithOptions(double delay, int areaOption, const QString &savePath, bool noNotify)
 {
-    QString summary = QString(tr("Deepin Screenshot will start after %1 seconds").arg(num));
+    QString summary = QString(tr("Deepin Screenshot will start after %1 seconds").arg(delay));
     QStringList actions = QStringList();
     QVariantMap hints;
     DBusNotify* notifyDBus = new DBusNotify(this);
-    if (num >= 2) {
-        notifyDBus->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
+    initUI();
+    this->show();
+    if (delay + 0.000005 >= 0) {
+        QTimer* timer = new QTimer();
+        timer->setSingleShot(true);
+        timer->start(int(1000*delay));
+        if (!noNotify && delay + 0.000005 > 2)
+            notifyDBus->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                     summary, actions, hints, 0);
+        connect(timer, &QTimer::timeout, this, [=]{
+            notifyDBus->CloseNotification(0);
+            m_window->screenshotWithOptions(areaOption, savePath, noNotify);
+        });
     }
-
-    QTimer* timer = new QTimer;
-    timer->setSingleShot(true);
-    timer->start(int(1000*num));
-    connect(timer, &QTimer::timeout, this, [=]{
-        notifyDBus->CloseNotification(0);
-        startScreenshot();
-    });
-}
-
-void Screenshot::fullscreenScreenshot()
-{
-    initUI();
-    this->show();
-    m_window->fullScreenshot();
-}
-
-void Screenshot::topWindowScreenshot()
-{
-    initUI();
-    this->show();
-    m_window->topWindow();
-}
-
-void Screenshot::noNotifyScreenshot()
-{
-    initUI();
-    this->show();
-    m_window->noNotify();
-}
-
-void Screenshot::savePathScreenshot(const QString &path)
-{
-    initUI();
-    this->show();
-    m_window->savePath(path);
+    else {
+        m_window->screenshotWithOptions(areaOption, savePath, noNotify);
+    }
 }
 
 bool Screenshot::eventFilter(QObject* watched, QEvent *event)

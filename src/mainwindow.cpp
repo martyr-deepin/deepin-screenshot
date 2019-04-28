@@ -900,10 +900,11 @@ void MainWindow::resizeDirection(ResizeDirection direction, QMouseEvent *e)
 
 void MainWindow::fullScreenshot()
 {
+    initDBusInterface();
+
     m_mouseStatus = ShotMouseStatus::Shoting;
     repaint();
     qApp->setOverrideCursor(setCursorShape("start"));
-    initDBusInterface();
     this->setFocus();
     m_configSettings =  ConfigSettings::instance();
     installEventFilter(this);
@@ -1099,6 +1100,7 @@ void MainWindow::topWindow()
     //    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
 
     const auto r = saveAction(screenShotPix);
+    qDebug() << "m_saveFileName: " << m_saveFileName;
     sendNotify(m_saveIndex, m_saveFileName, r);
 }
 
@@ -1111,6 +1113,23 @@ void MainWindow::expressSaveScreenshot()
         qDebug() << "specificedPath isEmpty!XCVBN";
         m_toolBar->specificedSavePath();
         emit m_toolBar->saveSpecifiedPath();
+    }
+}
+
+void MainWindow::screenshotWithOptions(int areaOption, const QString &path, bool noNotify) {
+    m_saveFileName = path;
+    m_noNotify = noNotify;
+    if (areaOption == 0) {
+        if (path.length() == 0)
+            startScreenshot();
+        else
+            savePath(path);
+    }
+    if (areaOption == 1) {
+        fullScreenshot();
+    }
+    else if (areaOption == 2) {
+        topWindow();
     }
 }
 
@@ -1229,16 +1248,19 @@ bool MainWindow::saveAction(const QPixmap &pix)
     QDateTime currentDate;
     QString currentTime =  currentDate.currentDateTime().
             toString("yyyyMMddHHmmss");
-    m_saveFileName = "";
+    
 
     QStandardPaths::StandardLocation saveOption = QStandardPaths::TempLocation;
     bool copyToClipboard = false;
 
-    if (ConfigSettings::instance()->hasTemporarySaveAction()) {
+    if (m_saveFileName.length() != 0) {
+        m_saveIndex = 5;
+    } else if (ConfigSettings::instance()->hasTemporarySaveAction()) {
         m_saveIndex = ConfigSettings::instance()->getAndResetTemporarySaveAction();
     } else {
         m_saveIndex = ConfigSettings::instance()->value("save", "save_op").toInt();
     }
+
     switch (m_saveIndex) {
     case 0: {
         saveOption = QStandardPaths::DesktopLocation;
@@ -1320,6 +1342,41 @@ bool MainWindow::saveAction(const QPixmap &pix)
         }
         break;
     }
+    case 5: {
+        QString savePath;
+        QString baseName = QFileInfo(m_saveFileName).baseName();
+        QString suffix = QFileInfo(m_saveFileName).completeSuffix();
+
+        if (!QFileInfo(m_saveFileName).isDir() && !baseName.isEmpty())
+        {
+            if (isValidFormat(suffix)) {
+                savePath = m_saveFileName;
+            } else if (suffix.isEmpty()) {
+                savePath = m_saveFileName + ".png";
+            } else {
+                qWarning() << "Invalid image format! Screenshot will quit, suffix:" << suffix;
+                exitApp();
+            }
+            qDebug() << "process savepath1:" << savePath;
+        } else {
+            if (QFileInfo(m_saveFileName).isDir() && !m_saveFileName.endsWith("/")) {
+                m_saveFileName = m_saveFileName + "/";
+            }
+            qDebug() << "path isEmpty!";
+
+            QDateTime currentDate;
+            QString currentTime =  currentDate.currentDateTime().
+                    toString("yyyyMMddHHmmss");
+            if (m_selectAreaName.isEmpty()) {
+                savePath = m_saveFileName + QString("%1_%2.png").arg(tr("DeepinScreenshot")).arg(currentTime);
+            } else {
+                savePath = m_saveFileName + QString("%1_%2_%3.png").arg(tr("DeepinScreenshot")).arg(
+                                                                                           m_selectAreaName).arg(currentTime);
+            }
+            qDebug() << "process savepath2: " << savePath;
+        }
+        m_saveFileName = savePath;
+    }
     default:
         break;
     }
@@ -1372,15 +1429,16 @@ bool MainWindow::saveAction(const QPixmap &pix)
     return true;
 }
 
-void MainWindow::sendNotify(int saveIndex, QString saveFilePath, const bool succeed)
+void MainWindow::sendNotify(int saveIndex, const QString &saveFilePath, const bool succeed)
 {
     // failed notify
     if (!succeed)
     {
-        const auto tips = tr("Save failed. Please save it in your home directory.");
-        m_notifyDBInterface->Notify("Deepin Screenshot", 0, "deepin-screenshot", QString(), tips, QStringList(), QVariantMap(), 0);
-
-	exit(0);
+        if(!m_noNotify) {
+            const auto tips = tr("Save failed. Please save it in your home directory.");
+            m_notifyDBInterface->Notify("Deepin Screenshot", 0, "deepin-screenshot", QString(), tips, QStringList(), QVariantMap(), 0);
+        }
+	    exit(0);
     }
 
     QDBusInterface remote_dde_notify_obj("com.deepin.dde.Notification", "/com/deepin/dde/Notification",
