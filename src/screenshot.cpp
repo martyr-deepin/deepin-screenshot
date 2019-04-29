@@ -114,11 +114,11 @@ void Screenshot::noNotifyScreenshot()
     m_window->noNotify();
 }
 
-void Screenshot::savePathScreenshot(const QString &path)
+void Screenshot::savePathScreenshot(const QString &path, bool noNotify)
 {
     initUI();
     this->show();
-    m_window->savePath(path);
+    m_window->savePath(path, noNotify);
 }
 
 bool Screenshot::eventFilter(QObject* watched, QEvent *event)
