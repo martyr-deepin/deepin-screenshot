@@ -540,22 +540,24 @@ void MainWindow::mouseMoveEvent(QMouseEvent *ev)
             if (!m_toolBar->isVisible() && !m_isFirstReleaseButton) {
                 QPoint curPos = this->cursor().pos();
                 QPoint tmpPos;
-                if (curPos.x() + INDICATOR_WIDTH + CURSOR_WIDTH > m_backgroundRect.x()
+                QPoint topLeft = m_backgroundRect.topLeft() * devicePixelRatioF();
+
+                if (curPos.x() + INDICATOR_WIDTH + CURSOR_WIDTH > topLeft.x()
                         + m_backgroundRect.width()) {
                       tmpPos.setX(curPos.x() - INDICATOR_WIDTH);
                 } else {
                     tmpPos.setX(curPos.x() + CURSOR_WIDTH);
                 }
 
-                if (curPos.y() + INDICATOR_WIDTH > m_backgroundRect.y() + m_backgroundRect.height()) {
+                if (curPos.y() + INDICATOR_WIDTH > topLeft.y() + m_backgroundRect.height()) {
                     tmpPos.setY(curPos.y() - INDICATOR_WIDTH);
                 } else {
                     tmpPos.setY(curPos.y() + CURSOR_HEIGHT);
                 }
 
                 m_zoomIndicator->showMagnifier(QPoint(
-                    std::max(tmpPos.x() - m_backgroundRect.x(), 0),
-                    std::max(tmpPos.y() - m_backgroundRect.y(), 0)));
+                    std::max(tmpPos.x() - topLeft.x(), 0),
+                    std::max(tmpPos.y() - topLeft.y(), 0)));
             }
         } else {
             m_isFirstMove = true;
