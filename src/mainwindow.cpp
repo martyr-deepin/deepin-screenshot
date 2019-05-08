@@ -625,11 +625,11 @@ void MainWindow::mouseMoveEvent(QMouseEvent *ev)
                 needRepaint = true;
             }
         } else {
-            const QPoint mousePoint = ev->pos() + m_backgroundRect.topLeft();
+            const QPoint mousePoint = QCursor::pos();
             for (auto it = m_windowRects.rbegin(); it != m_windowRects.rend(); ++it) {
                 if (it->contains(mousePoint)) {
-                    m_recordX = it->x() - m_backgroundRect.x();
-                    m_recordY = it->y() - m_backgroundRect.y();
+                    m_recordX = it->x() - static_cast<int>(m_backgroundRect.x() * devicePixelRatioF());
+                    m_recordY = it->y() - static_cast<int>(m_backgroundRect.y() * devicePixelRatioF());
                     m_recordWidth = it->width();
                     m_recordHeight = it->height();
 
