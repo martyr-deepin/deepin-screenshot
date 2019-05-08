@@ -18,15 +18,15 @@
 #ifndef SCREENSHOT_H
 #define SCREENSHOT_H
 
-#include <QMainWindow>
+#include <QObject>
 
 #include "mainwindow.h"
 #include "eventcontainer.h"
 
-class Screenshot : public QMainWindow {
+class Screenshot : public QObject {
     Q_OBJECT
 public:
-    Screenshot(QWidget* parent = 0);
+    Screenshot(QObject* parent = 0);
     ~Screenshot();
 
 public slots:
@@ -36,9 +36,6 @@ public slots:
     void topWindowScreenshot();
     void noNotifyScreenshot();
     void savePathScreenshot(const QString &path);
-
-protected:
-    bool  eventFilter(QObject* watched, QEvent* event) override;
 
 private:
     void initUI();

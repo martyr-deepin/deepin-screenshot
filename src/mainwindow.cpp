@@ -62,7 +62,8 @@ const qreal RESIZEPOINT_WIDTH = 15;
 MainWindow::MainWindow(QWidget *parent)
     : QLabel(parent)
 {
-//     startScreenshot();
+    setAttribute(Qt::WA_TranslucentBackground);
+    setWindowFlags(Qt::X11BypassWindowManagerHint);
 }
 
 MainWindow::~MainWindow()
@@ -513,6 +514,13 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
     }
 
     QLabel::mouseReleaseEvent(ev);
+}
+
+void MainWindow::showEvent(QShowEvent *event)
+{
+    QTimer::singleShot(100, this, &MainWindow::grabKeyboard);
+
+    return QLabel::showEvent(event);
 }
 
 void MainWindow::hideEvent(QHideEvent *event)

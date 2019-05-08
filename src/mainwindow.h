@@ -117,6 +117,7 @@ protected:
     void mousePressEvent(QMouseEvent* ev) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent *event) override;
     void hideEvent(QHideEvent *event) Q_DECL_OVERRIDE;
 
 private:

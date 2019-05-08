@@ -19,8 +19,8 @@
 
 #include "eventcontainer.h"
 
-EventContainer::EventContainer(QWidget *parent)
-    : QWidget(parent) {
+EventContainer::EventContainer(QObject *parent)
+    : QObject(parent) {
 
 }
 

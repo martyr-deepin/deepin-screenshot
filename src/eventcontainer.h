@@ -20,13 +20,13 @@
 #ifndef EVENTCONTAINER_H
 #define EVENTCONTAINER_H
 
-#include <QWidget>
+#include <QObject>
 #include <QEvent>
 
-class EventContainer : public QWidget {
+class EventContainer : public QObject {
     Q_OBJECT
 public:
-    EventContainer(QWidget* parent = 0);
+    EventContainer(QObject* parent = 0);
     ~EventContainer();
 
 public slots:

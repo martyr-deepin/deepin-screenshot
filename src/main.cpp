@@ -78,7 +78,6 @@ int main(int argc, char *argv[])
      cmdParser.process(a);
 
      Screenshot w;
-     w.hide();
 
      DBusScreenshotService dbusService (&w);
      Q_UNUSED(dbusService);
