@@ -1,3 +1,14 @@
+<a name="4.1.11"></a>
+### 4.1.11 (2019-05-09)
+
+
+#### Bug Fixes
+
+*   cannot select window on other screen ([2635aa93](https://github.com/linuxdeepin/deepin-screenshot/commit/2635aa93719b9dc0f50f2ef3fc354bf86237d2d8))
+*   indicator pos error ([cce7ca59](https://github.com/linuxdeepin/deepin-screenshot/commit/cce7ca59091aa9ed8fb838c5ff4a49b7301780e1))
+
+
+
 <a name="4.1.10"></a>
 ### 4.1.10 (2019-04-26)
 
