@@ -145,6 +145,32 @@ QPushButton#ColorBtn:checked {
     border-image: url(:/resources/images/action/colors_checked.png);
 }
 
+
+QPushButton#PinBtn {
+    outline: none;
+    border-image:url(:/resources/images/save/save_normal.png);
+}
+QPushButton#PinBtn:hover {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-image:url(:/resources/images/save/save_hover.png);
+    border: solid 1px transparent;
+    border-radius: 3px;
+}
+QPushButton#PinBtn:checked:hover {
+    outline: none;
+    border-image: url(:/resources/images/save/save_checked.png);
+    border: solid 1px transparent;
+    border-radius: 3px;
+}
+QPushButton#PinBtn:pressed {
+    outline: none;
+    border-image: url(:/resources/images/save/save_checked.png);
+    border: solid 1px transparent;
+    border-radius: 3px;
+}
+
+
 QPushButton#SaveBtn {
     outline: none;
     border-image:url(:/resources/images/save/save_normal.png);

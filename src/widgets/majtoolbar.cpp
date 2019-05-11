@@ -85,6 +85,8 @@ void MajToolBar::initWidgets()
     colorBtn->setObjectName("ColorBtn");
 //    ToolButton* shareBtn = new ToolButton();
 //    shareBtn->setObjectName("ShareBtn");
+    ToolButton* pinBtn = new ToolButton();
+    pinBtn->setObjectName("PinBtn");
     ToolButton* saveBtn = new ToolButton(this);
     saveBtn->setObjectName("SaveBtn");
     saveBtn->setFixedSize(SAVE_BTN);
@@ -134,6 +136,8 @@ void MajToolBar::initWidgets()
         buttonGroup->addButton(toolBtnList[k]);
     }
     m_baseLayout->addWidget(colorBtn);
+    m_baseLayout->addSpacing(BTN_SPACING);
+    m_baseLayout->addWidget(pinBtn);
     m_baseLayout->addSpacing(BTN_SPACING);
     m_baseLayout->addWidget(saveBtn);
     m_baseLayout->addSpacing(1);
@@ -266,6 +270,10 @@ void MajToolBar::initWidgets()
         emit buttonChecked(true, "color");
     });
 
+    connect(pinBtn,  &ToolButton::clicked, this, [=](){
+        qDebug()<<"pin image";
+        emit pinImage();
+    });
     connect(saveBtn,  &ToolButton::clicked, this, [=](){
         emit saveImage();
     });

@@ -36,6 +36,7 @@ signals:
     void buttonChecked(bool checked, QString type);
     void mainColorChanged(QColor currentColor);
     void saveImage();
+    void pinImage();
     void showSaveTooltip(QString tooltips);
     void hideSaveTooltip();
     void shapePressed(QString shape);
