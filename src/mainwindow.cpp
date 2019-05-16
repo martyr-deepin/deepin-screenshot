@@ -1143,7 +1143,7 @@ QPixmap MainWindow::getPixmapofRect(const QRect &rect)
 
     QList<QScreen*> screenList = qApp->screens();
     for (auto it = screenList.constBegin(); it != screenList.constEnd(); ++it) {
-        if (r == (*it)->geometry()) {
+        if ((*it)->geometry().contains(r)) {
             return (*it)->grabWindow(m_swUtil->rootWindowId(), rect.x(), rect.y(), rect.width(), rect.height());
         }
     }
@@ -1206,7 +1206,9 @@ void MainWindow::shotImgWidthEffect()
 //    eventloop.exec();
 
     qDebug() << m_toolBar->isVisible() << m_sizeTips->isVisible();
-    m_resultPixmap = getPixmapofRect(m_shapesWidget->geometry());
+    const qreal ratio = devicePixelRatioF();
+    const QRect rect(m_shapesWidget->geometry().topLeft() * ratio, m_shapesWidget->geometry().size() * ratio);
+    m_resultPixmap = m_backgroundPixmap.copy(rect);
     m_drawNothing = false;
     update();
 }
