@@ -1279,17 +1279,24 @@ bool MainWindow::saveAction(const QPixmap &pix)
     case SaveToSpecificDir: {
         this->hide();
         this->releaseKeyboard();
-        QFileDialog fileDialog;
-        QString  lastFileName;
-        if (m_selectAreaName.isEmpty()) {
-            lastFileName = QString("%1/%2_%3.png").arg(QStandardPaths::writableLocation(
-                                        QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")).arg(currentTime);
-        } else {
-            lastFileName = QString("%1/%2_%3_%4.png").arg(QStandardPaths::writableLocation(
-                                         QStandardPaths::PicturesLocation)).arg(tr("DeepinScreenshot")
-                                                                                                     ).arg(m_selectAreaName).arg(currentTime);
+
+        QString path = ConfigSettings::instance()->value("common", "default_savepath").toString();
+        QString fileName = m_selectAreaName;
+
+        if (path.isEmpty() || !QDir(path).exists()) {
+            path = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
         }
 
+        if (fileName.isEmpty()) {
+            fileName = QString("%1_%2").arg(tr("DeepinScreenshot")).arg(currentTime);
+        }
+        else {
+            fileName = QString("%1_%2_%3").arg(tr("DeepinScreenshot")).arg(m_selectAreaName).arg(currentTime);
+        }
+
+        QString lastFileName = QString("%1/%2.png").arg(path).arg(fileName);
+
+        QFileDialog fileDialog;
         m_saveFileName =  fileDialog.getSaveFileName(this, "Save",  lastFileName,
                                                      tr("PNG (*.png);;JPEG (*.jpg *.jpeg);; BMP (*.bmp);; PGM (*.pgm);;"
                                                         "XBM (*.xbm);;XPM(*.xpm)"));
