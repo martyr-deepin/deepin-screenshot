@@ -19,10 +19,12 @@
 
 #include "menucontroller.h"
 #include "src/utils/configsettings.h"
+#include "src/utils/saveutils.h"
 
 #include <QApplication>
 #include <QStyleFactory>
 #include <QDebug>
+#include <map>
 
 const QSize MENU_ICON_SIZE = QSize(14, 14);
 
@@ -101,22 +103,28 @@ MenuController::MenuController(QObject *parent)
     QAction* saveAct3 = new QAction(tr("Save to specified folder"), this);
     QAction* saveAct4 = new QAction(tr("Copy to clipboard"), this);
     QAction* saveAct5 = new QAction(tr("Autosave and copy to clipboard"), this);
-    QList<QAction*> actionList;
-    actionList.append(saveAct1);
-    actionList.append(saveAct2);
-    actionList.append(saveAct3);
-    actionList.append(saveAct4);
-    actionList.append(saveAct5);
-    for(int k = 0; k < actionList.length(); k++) {
-        saveMenu->addAction(actionList[k]);
-        connect(actionList[k], &QAction::triggered, [=]{
-            emit saveBtnPressed(k);
-        });
-    }
 
-    int saveOptionIndex = ConfigSettings::instance()->value("save", "save_op").toInt();
-    actionList[saveOptionIndex]->setCheckable(true);
-    actionList[saveOptionIndex]->setChecked(true);
+    std::map<SaveAction, QAction*> actionMaps;
+    actionMaps[SaveAction::SaveToDesktop] = saveAct1;
+    actionMaps[SaveAction::AutoSave] = saveAct2;
+    actionMaps[SaveAction::SaveToSpecificDir] = saveAct3;
+    actionMaps[SaveAction::SaveToClipboard] = saveAct4;
+    actionMaps[SaveAction::SaveToAutoClipboard] = saveAct5;
+
+    SaveAction action = ConfigSettings::instance()->value("save", "save_op").value<SaveAction>();
+
+    for (auto it = actionMaps.begin(); it != actionMaps.end(); ++it) {
+        saveMenu->addAction(it->second);
+
+        connect(it->second, &QAction::triggered, this, [=] {
+            emit saveBtnPressed(action);
+        });
+
+        if (action == it->first) {
+            it->second->setCheckable(true);
+            it->second->setChecked(true);
+        }
+    }
 
     QIcon exitIcon;
     exitIcon.addFile(":/image/menu_icons/exit-menu-norml.svg", MENU_ICON_SIZE, QIcon::Normal);

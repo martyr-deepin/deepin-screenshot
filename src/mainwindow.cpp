@@ -256,7 +256,7 @@ void MainWindow::keyPressEvent(QKeyEvent *keyEvent)
             } else if (keyEvent->key() == Qt::Key_Down) {
                 m_shapesWidget->microAdjust("Ctrl+Down");
             } else if (keyEvent->key() == Qt::Key_C) {
-                ConfigSettings::instance()->setValue("save", "save_op", 3);
+                ConfigSettings::instance()->setValue("save", "save_op", SaveAction::SaveToClipboard);
                 saveScreenshot();
             } else if (keyEvent->key() == Qt::Key_S) {
                 expressSaveScreenshot();
@@ -313,7 +313,7 @@ void MainWindow::keyPressEvent(QKeyEvent *keyEvent)
             }
 
             if (keyEvent->key() == Qt::Key_C) {
-                ConfigSettings::instance()->setValue("save", "save_op", 3);
+                ConfigSettings::instance()->setValue("save", "save_op", SaveAction::SaveToClipboard);
                 saveScreenshot();
             }
 
@@ -1244,25 +1244,27 @@ bool MainWindow::saveAction(const QPixmap &pix)
     QStandardPaths::StandardLocation saveOption = QStandardPaths::TempLocation;
     bool copyToClipboard = false;
 
-    if (ConfigSettings::instance()->hasTemporarySaveAction()) {
-        m_saveIndex = ConfigSettings::instance()->getAndResetTemporarySaveAction();
-    } else {
-        m_saveIndex = ConfigSettings::instance()->value("save", "save_op").toInt();
+    std::pair<bool, SaveAction> temporarySaveAction = ConfigSettings::instance()->getTemporarySaveAction();
+    if (temporarySaveAction.first) {
+        m_saveIndex = temporarySaveAction.second;
+    }
+    else {
+        m_saveIndex = ConfigSettings::instance()->value("save", "save_op").value<SaveAction>();
     }
     switch (m_saveIndex) {
-    case 0: {
+    case SaveToDesktop: {
         saveOption = QStandardPaths::DesktopLocation;
         ConfigSettings::instance()->setValue("common", "default_savepath", QStandardPaths::writableLocation(
                                                  QStandardPaths::DesktopLocation));
         break;
     }
-    case 1: {
+    case AutoSave: {
         QString defaultSaveDir = ConfigSettings::instance()->value("common", "default_savepath").toString();
         if (defaultSaveDir.isEmpty()) {
             saveOption = QStandardPaths::DesktopLocation;
         } else if (defaultSaveDir == "clipboard") {
             copyToClipboard = true;
-            m_saveIndex = 3;
+            m_saveIndex = SaveToSpecificDir;
         } else {
             if (m_selectAreaName.isEmpty()) {
                 m_saveFileName = QString("%1/%2_%3.png").arg(defaultSaveDir).arg(tr(
@@ -1274,7 +1276,7 @@ bool MainWindow::saveAction(const QPixmap &pix)
         }
         break;
     }
-    case 2: {
+    case SaveToSpecificDir: {
         this->hide();
         this->releaseKeyboard();
         QFileDialog fileDialog;
@@ -1307,18 +1309,18 @@ bool MainWindow::saveAction(const QPixmap &pix)
                                              QFileInfo(m_saveFileName).dir().absolutePath());
         break;
     }
-    case 3: {
+    case SaveToClipboard: {
         copyToClipboard = true;
         ConfigSettings::instance()->setValue("common", "default_savepath",   "clipboard");
         break;
     }
-    case 4: {
+    case SaveToAutoClipboard: {
         copyToClipboard = true;
         QString defaultSaveDir = ConfigSettings::instance()->value("common", "default_savepath").toString();
         if (defaultSaveDir.isEmpty()) {
             saveOption = QStandardPaths::DesktopLocation;
         } else if (defaultSaveDir == "clipboard") {
-            m_saveIndex = 3;
+            m_saveIndex = SaveToSpecificDir;
         } else  {
             if (m_selectAreaName.isEmpty()) {
                 m_saveFileName = QString("%1/%2_%3.png").arg(defaultSaveDir).arg(tr(
@@ -1348,9 +1350,9 @@ bool MainWindow::saveAction(const QPixmap &pix)
                                                                             Qt::KeepAspectRatio, Qt::FastTransformation);
     }
 
-    if (m_saveIndex == 2 && m_saveFileName.isEmpty()) {
+    if (m_saveIndex == SaveToSpecificDir && m_saveFileName.isEmpty()) {
         return false;
-    } else if (m_saveIndex == 2 || !m_saveFileName.isEmpty()) {
+    } else if (m_saveIndex == SaveToSpecificDir || !m_saveFileName.isEmpty()) {
         if (!screenShotPix.save(m_saveFileName,  QFileInfo(m_saveFileName).suffix().toLocal8Bit()))
             return false;
     } else if (saveOption != QStandardPaths::TempLocation && m_saveFileName.isEmpty()) {
@@ -1382,7 +1384,7 @@ bool MainWindow::saveAction(const QPixmap &pix)
     return true;
 }
 
-void MainWindow::sendNotify(int saveIndex, QString saveFilePath, const bool succeed)
+void MainWindow::sendNotify(SaveAction saveAction, QString saveFilePath, const bool succeed)
 {
     // failed notify
     if (!succeed)
@@ -1420,17 +1422,17 @@ void MainWindow::sendNotify(int saveIndex, QString saveFilePath, const bool succ
     qDebug() << "saveFilePath:" << saveFilePath;
 
     QString summary;
-    if (saveIndex == 3) {
+    if (saveAction == SaveAction::SaveToClipboard) {
         summary = QString(tr("Picture has been saved to clipboard"));
     } else {
         summary = QString(tr("Picture has been saved to %1")).arg(saveFilePath);
     }
 
-    if (saveIndex == 3 && !m_noNotify) {
+    if (saveAction == SaveAction::SaveToClipboard && !m_noNotify) {
         QVariantMap emptyMap;
         m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                     summary,  QStringList(), emptyMap, 0);
-    }  else if ( !m_noNotify &&  !(m_saveIndex == 2 && m_saveFileName.isEmpty())) {
+    }  else if ( !m_noNotify &&  !(m_saveIndex == SaveAction::SaveToSpecificDir && m_saveFileName.isEmpty())) {
         m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                     summary, actions, hints, 0);
     }

@@ -32,6 +32,7 @@
 
 DWIDGET_USE_NAMESPACE
 
+enum SaveAction:unsigned int;
 class ToolBarWidget : public DBlurEffectWidget {
     Q_OBJECT
 public:
@@ -44,7 +45,7 @@ signals:
     void colorChanged(QColor color);
     void saveImage();
     void shapePressed(QString tool);
-    void saveBtnPressed(int index = 0);
+    void saveBtnPressed(SaveAction index);
     void saveSpecifiedPath();
     void closed();
 
@@ -77,7 +78,7 @@ signals:
     void updateColor(QColor color);
     void requestSaveScreenshot();
     void shapePressed(QString tool);
-    void saveBtnPressed(int index = 0);
+    void saveBtnPressed(SaveAction index);
     void saveSpecifiedPath();
     void closed();
 

@@ -23,6 +23,7 @@
 #include "textbutton.h"
 #include "src/utils/baseutils.h"
 #include "src/utils/configsettings.h"
+#include "src/utils/saveutils.h"
 
 #include <dslider.h>
 
@@ -390,35 +391,35 @@ void SubToolBar::updateColor(QColor color)
 
 void SubToolBar::initSaveLabel() {
     //save to...
-    QList<ToolButton*> toolBtnList;
+    std::map<SaveAction, ToolButton*> toolBtnMap;
     ToolButton* saveDesktopBtn = new ToolButton();
     saveDesktopBtn->setFixedSize(SAVEBTN_SIZE);
     saveDesktopBtn->setObjectName("SaveToDesktop");
     saveDesktopBtn->setTips(tr("Save to desktop"));
-    toolBtnList.append(saveDesktopBtn);
+    toolBtnMap[SaveAction::SaveToDesktop] = saveDesktopBtn;
 
     ToolButton* savePicBtn = new ToolButton();
     savePicBtn->setFixedSize(SAVEBTN_SIZE);
     savePicBtn->setObjectName("SaveToPictureDir");
     savePicBtn->setTips(tr("Autosave"));
-    toolBtnList.append(savePicBtn);
+    toolBtnMap[SaveAction::AutoSave] = savePicBtn;
 
     ToolButton* saveSpecificDirBtn = new ToolButton();
     saveSpecificDirBtn->setFixedSize(SAVEBTN_SIZE);
     saveSpecificDirBtn->setObjectName("SaveToSpecificDir");
     saveSpecificDirBtn->setTips(tr("Save to specified folder"));
-    toolBtnList.append(saveSpecificDirBtn);
+    toolBtnMap[SaveAction::SaveToSpecificDir] = saveSpecificDirBtn;
 
     ToolButton* saveClipboardBtn = new ToolButton();
     saveClipboardBtn->setFixedSize(SAVEBTN_SIZE);
     saveClipboardBtn->setObjectName("SaveToClipboard");
     saveClipboardBtn->setTips(tr("Copy to clipboard"));
-    toolBtnList.append(saveClipboardBtn);
+    toolBtnMap[SaveAction::SaveToClipboard] = saveClipboardBtn;
 
     ToolButton* saveAutoClipboardBtn = new ToolButton();
     saveAutoClipboardBtn->setObjectName("SaveToAutoClipboard");
     saveAutoClipboardBtn->setTips(tr("Autosave and copy to clipboard"));
-    toolBtnList.append(saveAutoClipboardBtn);
+    toolBtnMap[SaveAction::SaveToAutoClipboard] = saveAutoClipboardBtn;
 
     QLabel* lowQualityText = new QLabel();
     lowQualityText->setObjectName("LowQualityLabel");
@@ -443,26 +444,38 @@ void SubToolBar::initSaveLabel() {
     saveLayout->setMargin(0);
     saveLayout->setSpacing(0);
     saveLayout->addSpacing(1);
-    foreach (ToolButton* btn, toolBtnList) {
-        saveLayout->addWidget(btn);
-//        saveLayout->addSpacing(1);
-        connect(btn, &ToolButton::clicked, this,  [=]{
-            qDebug() << "saveButtonList:" << toolBtnList.indexOf(btn);
-            setSaveOption(toolBtnList.indexOf(btn));
+
+    SaveAction saveAction = ConfigSettings::instance()->value("save", "save_op").value<SaveAction>();
+
+    for (auto it = toolBtnMap.cbegin(); it != toolBtnMap.cend(); ++it) {
+        SaveAction  action = it->first;
+        ToolButton* button = it->second;
+
+        saveLayout->addWidget(button);
+
+        connect(button, &ToolButton::clicked, this, [=] {
+            setSaveOption(action);
         });
-        connect(btn, &ToolButton::onEnter, this, [=]{
-            emit showSaveTip(btn->getTips());
+
+        connect(button, &ToolButton::onEnter, this, [=] {
+            emit showSaveTip(button->getTips());
         });
-        connect(btn, &ToolButton::onExist, this, [=]{
-            emit hideSaveTip();
-        });
+
+        connect(button, &ToolButton::onExist, this, &SubToolBar::hideSaveTip);
+
+        if (saveAction == action) {
+            button->setChecked(true);
+        }
     }
-    connect(this, &SubToolBar::saveBtnPressed, this, [=](int index){
-        if (index < toolBtnList.length())
-            toolBtnList[index]->click();
+
+    connect(this, &SubToolBar::saveBtnPressed, this, [=](int index) -> void {
+        for (auto it = toolBtnMap.cbegin(); it != toolBtnMap.cend(); ++it) {
+            if (static_cast<SaveAction>(index) == it->first) {
+                return it->second->click();
+            }
+        }
     });
-    int saveOptionIndex = ConfigSettings::instance()->value("save", "save_op").toInt();
-    toolBtnList[saveOptionIndex]->setChecked(true);
+
     saveLayout->addStretch();
     saveLayout->addWidget(lowQualityText);
     saveLayout->addWidget(saveQualitySlider);
@@ -501,12 +514,12 @@ void SubToolBar::switchContent(QString shapeType) {
     qDebug() << "subToolBar shape:" << shapeType;
 }
 
-void SubToolBar::setSaveOption(int saveOption) {
+void SubToolBar::setSaveOption(SaveAction action) {
     if (QGuiApplication::keyboardModifiers().testFlag(Qt::ShiftModifier)) {
         qDebug() << "Shift key holded: temporary action, will not remember the save_op.";
-        ConfigSettings::instance()->setTemporarySaveAction(saveOption);
+        ConfigSettings::instance()->setTemporarySaveAction(std::pair<bool, SaveAction>(true, action));
     } else {
-        ConfigSettings::instance()->setValue("save", "save_op", saveOption);
+        ConfigSettings::instance()->setValue("save", "save_op", action);
     }
 
     emit saveAction();

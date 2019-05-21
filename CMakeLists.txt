@@ -39,6 +39,7 @@ set(SRCS
         "src/utils/shortcut.cpp"
         "src/utils/configsettings.cpp"
         "src/utils/tempfile.cpp"
+        "src/utils/saveutils.h"
 
 # widgets
         "src/widgets/bigcolorbutton.h"

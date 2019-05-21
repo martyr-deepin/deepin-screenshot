@@ -38,6 +38,7 @@
 #include "src/widgets/shapeswidget.h"
 #include "src/utils/baseutils.h"
 #include "src/utils/shortcut.h"
+#include "src/utils/saveutils.h"
 #include "src/utils/configsettings.h"
 #include "controller/menucontroller.h"
 
@@ -97,7 +98,7 @@ public slots:
     void shotImgWidthEffect();
     void saveScreenshot();
     bool saveAction(const QPixmap &pix);
-    void sendNotify(int saveIndex, QString saveFilePath, const bool succeed);
+    void sendNotify(SaveAction saveAction, QString saveFilePath, const bool succeed);
     void reloadImage(QString effect);
     void onViewShortcut();
     void onHelp();
@@ -128,8 +129,7 @@ private:
     QPixmap m_backgroundPixmap;
     QList<QString> m_windowNames;
 
-    //SaveIndex indicate the save option(save to desktop, save to Picture dir,...)
-    int m_saveIndex = 0;
+    SaveAction m_saveIndex;
     //m_saveFileName is the storage path of the screenshot image.
     QString m_saveFileName;
 

@@ -16,6 +16,7 @@
  */
 
 #include "configsettings.h"
+#include "saveutils.h"
 
 #include <QDir>
 #include <QFileInfo>
@@ -45,7 +46,7 @@ ConfigSettings::ConfigSettings(QObject *parent)
         setValue("text", "color_index", 3);
         setValue("text", "fontsize", 12);
 
-        setValue("save", "save_op", 0);
+        setValue("save", "save_op", SaveAction::SaveToDesktop);
         setValue("save", "save_quality", 100);
     }
 
@@ -64,22 +65,10 @@ ConfigSettings* ConfigSettings::instance() {
     return m_configSettings;
 }
 
-void ConfigSettings::setTemporarySaveAction(int save_op)
+// TODO(justforlxz): use qApp to check shift
+void ConfigSettings::setTemporarySaveAction(const std::pair<bool, SaveAction> temporarySaveAction)
 {
-    m_temporary_save_op = save_op;
-}
-
-bool ConfigSettings::hasTemporarySaveAction()
-{
-    return m_temporary_save_op >= 0;
-}
-
-int ConfigSettings::getAndResetTemporarySaveAction()
-{
-    int ret = m_temporary_save_op;
-    m_temporary_save_op = -1;
-
-    return ret;
+    m_temporarySaveOp = temporarySaveAction;
 }
 
 void ConfigSettings::setValue(const QString &group, const QString &key,

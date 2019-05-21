@@ -23,6 +23,7 @@
 #include <QStackedWidget>
 #include <QLabel>
 
+enum SaveAction:unsigned int;
 class SubToolBar : public QStackedWidget{
     Q_OBJECT
 public:
@@ -39,9 +40,9 @@ public:
 
 public slots:
     void switchContent(QString shapeType);
-    void setSaveOption(int saveOption);
+    void setSaveOption(SaveAction action);
     void setSaveQualityIndex(int saveQuality);
-    int    getSaveQualityIndex();
+    int  getSaveQualityIndex();
     void updateColor(QColor color);
 
 signals:
@@ -50,7 +51,7 @@ signals:
     void saveAction();
     void showSaveTip(QString tips);
     void hideSaveTip();
-    void  saveBtnPressed(int index = 0);
+    void saveBtnPressed(SaveAction index);
     void defaultColorIndexChanged(int index);
 
 private:

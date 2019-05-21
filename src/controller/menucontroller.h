@@ -22,6 +22,7 @@
 
 #include <QMenu>
 
+enum SaveAction:unsigned int;
 class MenuController : public QObject {
     Q_OBJECT
 public:
@@ -31,7 +32,7 @@ public:
 signals:
     void shapePressed(QString currentShape);
     void unDoAction();
-    void saveBtnPressed(int index);
+    void saveBtnPressed(SaveAction action);
     void menuNoFocus();
 
 public slots:

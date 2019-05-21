@@ -23,15 +23,16 @@
 #include <QObject>
 #include <QSettings>
 #include <QMutex>
+#include <utility>
 
+enum SaveAction:unsigned int;
 class ConfigSettings : public QObject {
     Q_OBJECT
 public:
     static ConfigSettings *instance();
 
-    void setTemporarySaveAction(int save_op);
-    bool hasTemporarySaveAction();
-    int getAndResetTemporarySaveAction();
+    void setTemporarySaveAction(const std::pair<bool, SaveAction> temporarySaveAction);
+    inline std::pair<bool, SaveAction> getTemporarySaveAction() { return m_temporarySaveOp; }
     void setValue(const QString &group, const QString &key,
                   QVariant val);
     QVariant value(const QString &group, const QString &key,
@@ -48,7 +49,7 @@ private:
     ~ConfigSettings();
 
     static ConfigSettings* m_configSettings;
-    int m_temporary_save_op = -1;
+    std::pair<bool, SaveAction> m_temporarySaveOp;
     QSettings* m_settings;
     QMutex m_mutex;
 };
