@@ -1,3 +1,14 @@
+<a name=""></a>
+##  4.2.0 (2019-05-24)
+
+
+#### Bug Fixes
+
+*   SaveToSpecificDir not select last path ([3c1fef47](https://github.com/linuxdeepin/deepin-screenshot/commit/3c1fef47b0f125c01c57ed7f7199476d260c0e3b))
+* **blur:**  check geometry failed ([f0a82283](https://github.com/linuxdeepin/deepin-screenshot/commit/f0a8228355c34ef5eeb7b43affc96714bd32b149))
+
+
+
 <a name="4.1.11"></a>
 ### 4.1.11 (2019-05-09)
 
