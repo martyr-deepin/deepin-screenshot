@@ -64,6 +64,18 @@ MainWindow::MainWindow(QWidget *parent)
 {
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::X11BypassWindowManagerHint);
+
+    installEventFilter(this);
+
+    connect(this, &MainWindow::releaseEvent, this, [=]{
+        qDebug() << "release event !!!";
+        m_keyboardReleased = true;
+        m_keyboardGrabbed =  windowHandle()->setKeyboardGrabEnabled(false);
+        qDebug() << "keyboardGrabbed:" << m_keyboardGrabbed;
+        removeEventFilter(this);
+    });
+
+    connect(this, &MainWindow::hideScreenshotUI, this, &MainWindow::hide);
 }
 
 MainWindow::~MainWindow()
@@ -516,17 +528,20 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *ev)
     QLabel::mouseReleaseEvent(ev);
 }
 
-void MainWindow::showEvent(QShowEvent *event)
-{
-    QTimer::singleShot(100, this, &MainWindow::grabKeyboard);
-
-    return QLabel::showEvent(event);
-}
-
 void MainWindow::hideEvent(QHideEvent *event)
 {
     qApp->setOverrideCursor(Qt::ArrowCursor);
     QLabel::hideEvent(event);
+}
+
+bool MainWindow::eventFilter(QObject *watched, QEvent *event)
+{
+    if (!m_keyboardGrabbed && this->windowHandle() != NULL) {
+        m_keyboardGrabbed = this->windowHandle()->setKeyboardGrabEnabled(true);
+        qDebug() << "m_keyboardGrabbed:" << m_keyboardGrabbed;
+    }
+
+    return QLabel::eventFilter(watched, event);
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *ev)

@@ -118,8 +118,8 @@ protected:
     void mousePressEvent(QMouseEvent* ev) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
-    void showEvent(QShowEvent *event) override;
     void hideEvent(QHideEvent *event) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject* watched, QEvent* event) override;
 
 private:
     QPixmap getPixmapofRect(const QRect &rect);
@@ -161,6 +161,8 @@ private:
     bool m_isShiftPressed = false;
     bool m_noNotify = false;
     bool m_needSaveScreenshot = false;
+    bool m_keyboardGrabbed = false;
+    bool m_keyboardReleased = false;
 
     QString m_selectAreaName;
     QPixmap m_resizeBigPix;

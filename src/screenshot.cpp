@@ -38,17 +38,6 @@ Screenshot::Screenshot(QObject *parent)
 void Screenshot::initUI() {
     m_eventContainer = new EventContainer(this);
     m_window = new MainWindow;
-
-    connect(m_window, &MainWindow::releaseEvent, this, [=]{
-        qDebug() << "release event !!!";
-        m_keyboardReleased = true;
-        m_keyboardGrabbed =  m_window->windowHandle()->setKeyboardGrabEnabled(false);
-        qDebug() << "keyboardGrabbed:" << m_keyboardGrabbed;
-        removeEventFilter(this);
-    });
-    connect(m_window, &MainWindow::hideScreenshotUI, this, [=]{
-        m_window->hide();
-    });
 }
 
 void Screenshot::startScreenshot()
@@ -108,4 +97,3 @@ void Screenshot::savePathScreenshot(const QString &path)
 }
 
 Screenshot::~Screenshot() {}
-

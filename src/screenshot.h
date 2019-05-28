@@ -41,9 +41,6 @@ private:
     void initUI();
 
     EventContainer* m_eventContainer = nullptr;
-    bool m_keyboardGrabbed = false;
-    bool m_keyboardReleased = false;
-
     MainWindow* m_window = nullptr;
 
 };
