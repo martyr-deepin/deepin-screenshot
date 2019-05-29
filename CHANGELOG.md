@@ -1,3 +1,13 @@
+<a name="4.2.1"></a>
+### 4.2.1 (2019-05-29)
+
+
+#### Bug Fixes
+
+*   cannot input text ([63121fc0](https://github.com/linuxdeepin/deepin-screenshot/commit/63121fc09f8034be86733bc483bc945e756092cf))
+
+
+
 <a name=""></a>
 ##  4.2.0 (2019-05-24)
 
