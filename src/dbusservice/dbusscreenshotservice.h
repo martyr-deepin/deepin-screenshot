@@ -72,6 +72,8 @@ public:
     DBusScreenshotService(Screenshot *parent);
     ~DBusScreenshotService();
 
+    void setSingleInstance(bool instance);
+
     inline Screenshot *parent() const
     { return static_cast<Screenshot *>(QObject::parent()); }
 

@@ -56,6 +56,10 @@ DBusScreenshotService::~DBusScreenshotService()
     // destructor
 }
 
+void DBusScreenshotService::setSingleInstance(bool instance) {
+    m_singleInstance = instance;
+}
+
 void DBusScreenshotService::StartScreenshot() {
     qDebug() << "DBus screenshot service! start screenshot";
     if (!m_singleInstance)
@@ -107,4 +111,3 @@ void DBusScreenshotService::SavePathScreenshot(const QString &in0)
         parent()->savePathScreenshot(in0);
      m_singleInstance = true;
 }
-

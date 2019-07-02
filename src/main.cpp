@@ -96,6 +96,7 @@ int main(int argc, char *argv[])
          qDebug() << "dbus register waiting!";
          return a.exec();
      } else {
+         dbusService.setSingleInstance(true);
          if (cmdParser.isSet(delayOption)) {
              qDebug() << "cmd delay screenshot";
              w.delayScreenshot(cmdParser.value(delayOption).toInt());
