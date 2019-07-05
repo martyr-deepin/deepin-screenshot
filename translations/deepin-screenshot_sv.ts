@@ -30,7 +30,7 @@
         <location filename="../mainwindow.cpp" line="1018"/>
         <location filename="../mainwindow.cpp" line="1386"/>
         <source>Picture has been saved to %1</source>
-        <translation type="unfinished"/>
+        <translation>Bilden har sparats till %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1270"/>
@@ -68,7 +68,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="64"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>Penna</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="72"/>
@@ -78,7 +78,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="80"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Ångra</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="96"/>
@@ -121,7 +121,7 @@
     <message>
         <location filename="../screenshot.cpp" line="78"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Skärmdump startar efter %1 sekunder.</translation>
     </message>
 </context>
 <context>
@@ -165,7 +165,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="38"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>Ångra</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="39"/>
@@ -195,7 +195,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="48"/>
         <source>Pencil</source>
-        <translation type="unfinished"/>
+        <translation>Penna</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="49"/>

@@ -18,7 +18,7 @@
         <location filename="../mainwindow.cpp" line="1337"/>
         <location filename="../mainwindow.cpp" line="1340"/>
         <source>DeepinScreenshot</source>
-        <translation>Deepin Capture-écran</translation>
+        <translation>Capture d&apos;écran Deepin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1004"/>
@@ -113,7 +113,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="124"/>
         <source>Exit</source>
-        <translation>Arrêter</translation>
+        <translation>Quitter</translation>
     </message>
 </context>
 <context>
@@ -121,7 +121,7 @@
     <message>
         <location filename="../screenshot.cpp" line="78"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation>Deepin Capture-écran démarrera après %1 secondes</translation>
+        <translation>Capture d&apos;écran Deepin démarrera après %1 secondes</translation>
     </message>
 </context>
 <context>
@@ -135,7 +135,7 @@
         <location filename="../utils/shortcut.cpp" line="30"/>
         <location filename="../utils/shortcut.cpp" line="41"/>
         <source>Save</source>
-        <translation>Sauvegarder</translation>
+        <translation>Enregistrer</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="31"/>
@@ -155,7 +155,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="36"/>
         <source>Full screenshot</source>
-        <translation>Capture d&apos;écran complète</translation>
+        <translation>Capture plein écran</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="37"/>
@@ -170,7 +170,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="39"/>
         <source>Exit</source>
-        <translation>Arrêter</translation>
+        <translation>Quitter</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="42"/>
@@ -273,7 +273,7 @@
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="420"/>
         <source>Autosave and copy to clipboard</source>
-        <translation>Sauvegarder et copier dans le presse-papiers</translation>
+        <translation>Sauvegarder automatiquement et copier dans le presse-papiers</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="425"/>

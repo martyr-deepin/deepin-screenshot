@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="641"/>
         <source>select-area</source>
-        <translation>одабери-површину</translation>
+        <translation>изабери-површину</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="986"/>
@@ -108,7 +108,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="103"/>
         <source>Autosave and copy to clipboard</source>
-        <translation>Аутоматски сачувај и копирај у бележницу</translation>
+        <translation>Ауто. сачувај и копирај у бележницу</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="124"/>
@@ -145,7 +145,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="32"/>
         <source>Size Adjustment</source>
-        <translation>Прилагођавање Величине</translation>
+        <translation>Прилагођавање величине</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="35"/>
@@ -175,7 +175,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="42"/>
         <source>Copy to clipboard</source>
-        <translation>Налепи у клипборд</translation>
+        <translation>Копирај у бележницу</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="45"/>
@@ -268,12 +268,12 @@
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="415"/>
         <source>Copy to clipboard</source>
-        <translation>Налепи у клипборд</translation>
+        <translation>Копирај у бележницу</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="420"/>
         <source>Autosave and copy to clipboard</source>
-        <translation>Аутоматски сачувај и копирај у бележницу</translation>
+        <translation>Ауто. сачувај и копирај у бележницу</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="425"/>

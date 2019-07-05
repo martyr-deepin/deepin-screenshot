@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="641"/>
         <source>select-area</source>
-        <translation>selecionar área</translation>
+        <translation>Área de Seleção</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="986"/>
@@ -40,12 +40,12 @@
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Save failed. Please save it in your home directory.</source>
-        <translation>Falha ao salvar. Por favor, salve-o em seu diretório pessoal.</translation>
+        <translation>Falha ao salvar. Por favor, salve em seu diretório pessoal.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1384"/>
         <source>Picture has been saved to clipboard</source>
-        <translation>A captura foi copiada para a área de tranferência</translation>
+        <translation>A imagem foi salva na área de tranferência</translation>
     </message>
 </context>
 <context>
@@ -98,7 +98,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="101"/>
         <source>Save to specified folder</source>
-        <translation>Salvar na pasta específica</translation>
+        <translation>Salvar em pasta específica</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="102"/>
@@ -108,7 +108,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="103"/>
         <source>Autosave and copy to clipboard</source>
-        <translation>Salvar automaticamente e copiar para área de transferência </translation>
+        <translation>Salvar e copiar para a área de transferência</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="124"/>
@@ -129,7 +129,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="29"/>
         <source>Start/Screenshot</source>
-        <translation>Iniciar captura de tela</translation>
+        <translation>Iniciar Captura de Tela</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="30"/>
@@ -145,7 +145,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="32"/>
         <source>Size Adjustment</source>
-        <translation>Ajuste de tamanho</translation>
+        <translation>Ajuste de Tamanho</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="35"/>
@@ -155,12 +155,12 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="36"/>
         <source>Full screenshot</source>
-        <translation>Captura de tela cheia</translation>
+        <translation>Captura em tela cheia</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="37"/>
         <source>Delay screenshot</source>
-        <translation>Captura com atraso</translation>
+        <translation>Atraso em captura da tela</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="38"/>
@@ -263,7 +263,7 @@
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="409"/>
         <source>Save to specified folder</source>
-        <translation>Salvar na pasta específica</translation>
+        <translation>Salvar em pasta específica</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="415"/>
@@ -273,7 +273,7 @@
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="420"/>
         <source>Autosave and copy to clipboard</source>
-        <translation>Salvar automaticamente e copiar para área de transferência </translation>
+        <translation>Salvar e copiar para área de transferência</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="425"/>
