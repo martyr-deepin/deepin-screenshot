@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="641"/>
         <source>select-area</source>
-        <translation type="unfinished"/>
+        <translation>Επιλέξτε περιοχή</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="986"/>
@@ -40,7 +40,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Save failed. Please save it in your home directory.</source>
-        <translation type="unfinished"/>
+        <translation>Η αποθήκευση απέτυχε. Παρακαλώ, αποθηκεύστε το στον φάκελο &quot;home&quot;</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1384"/>

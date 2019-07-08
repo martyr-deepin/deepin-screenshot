@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="641"/>
         <source>select-area</source>
-        <translation>select-area</translation>
+        <translation>selecione a área</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="986"/>
@@ -30,7 +30,7 @@
         <location filename="../mainwindow.cpp" line="1018"/>
         <location filename="../mainwindow.cpp" line="1386"/>
         <source>Picture has been saved to %1</source>
-        <translation>A fotografia foi guardada em %1</translation>
+        <translation>A imagem foi guardada em %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1270"/>
@@ -45,7 +45,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1384"/>
         <source>Picture has been saved to clipboard</source>
-        <translation>A imagem foi guardada para o clipboard</translation>
+        <translation>A imagem foi guardada para a área de transferência</translation>
     </message>
 </context>
 <context>
@@ -68,7 +68,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="64"/>
         <source>Pencil</source>
-        <translation>Pincel</translation>
+        <translation>Lápis</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="72"/>
@@ -121,7 +121,7 @@
     <message>
         <location filename="../screenshot.cpp" line="78"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation>O Deepin Screenshot será iniciado em %1 segundos</translation>
+        <translation>Capturar Ecrã será iniciado em %1 segundos</translation>
     </message>
 </context>
 <context>
@@ -195,7 +195,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="48"/>
         <source>Pencil</source>
-        <translation>Pincel</translation>
+        <translation>Lápis</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="49"/>
@@ -210,42 +210,42 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="53"/>
         <source>Increase height up</source>
-        <translation>Aumentar a altura de cima</translation>
+        <translation>Aumentar a altura acima</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="54"/>
         <source>Increase height down</source>
-        <translation>Aumentar a altura de baixo</translation>
+        <translation>Aumentar a altura abaixo</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="55"/>
         <source>Increase width left</source>
-        <translation>Aumentar a largura da esquerda</translation>
+        <translation>Aumentar a largura à esquerda</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="56"/>
         <source>Increase width right</source>
-        <translation>Aumentar a largura da direita</translation>
+        <translation>Aumentar a largura à direita</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="57"/>
         <source>Decrease height up</source>
-        <translation>Diminuir a altura de cima</translation>
+        <translation>Diminuir a altura acima</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="58"/>
         <source>Decrease height down</source>
-        <translation>Diminuir a altura de baixo</translation>
+        <translation>Diminuir a altura abaixo</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="59"/>
         <source>Decrease width left</source>
-        <translation>Diminuir a largura da esquerda</translation>
+        <translation>Diminuir a largura à esquerda</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="60"/>
         <source>Decrease width right</source>
-        <translation>Diminuir a largura da direita</translation>
+        <translation>Diminuir a largura à direita</translation>
     </message>
 </context>
 <context>
@@ -253,7 +253,7 @@
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="397"/>
         <source>Save to desktop</source>
-        <translation>Guardar para o ambiente de trabalho</translation>
+        <translation>Guardar no ambiente de trabalho</translation>
     </message>
     <message>
         <location filename="../widgets/subtoolbar.cpp" line="403"/>

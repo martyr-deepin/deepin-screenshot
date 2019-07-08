@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="641"/>
         <source>select-area</source>
-        <translation type="unfinished"/>
+        <translation>선택 영역</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="986"/>
@@ -40,7 +40,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Save failed. Please save it in your home directory.</source>
-        <translation type="unfinished"/>
+        <translation>저장 실패. 홈 디렉토리에 저장하세요.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1384"/>
@@ -78,7 +78,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="80"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>되돌리기</translation>
     </message>
     <message>
         <location filename="../controller/menucontroller.cpp" line="96"/>
@@ -121,7 +121,7 @@
     <message>
         <location filename="../screenshot.cpp" line="78"/>
         <source>Deepin Screenshot will start after %1 seconds</source>
-        <translation type="unfinished"/>
+        <translation>Deepin 스크린샷이 %1초 후 시작됩니다</translation>
     </message>
 </context>
 <context>
@@ -165,7 +165,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="38"/>
         <source>Undo</source>
-        <translation type="unfinished"/>
+        <translation>되돌리기</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="39"/>

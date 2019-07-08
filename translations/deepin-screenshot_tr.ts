@@ -4,7 +4,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="641"/>
         <source>select-area</source>
-        <translation>alan-seçin</translation>
+        <translation>alan-seç</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="986"/>
@@ -24,7 +24,7 @@
         <location filename="../mainwindow.cpp" line="1004"/>
         <location filename="../mainwindow.cpp" line="1366"/>
         <source>View</source>
-        <translation>Göster</translation>
+        <translation>Görünüm</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1018"/>
@@ -40,7 +40,7 @@
     <message>
         <location filename="../mainwindow.cpp" line="1360"/>
         <source>Save failed. Please save it in your home directory.</source>
-        <translation>Kaydedilemedi. Lütfen ana klasörünüze kaydedin.</translation>
+        <translation>Kayıt başarısız. Lütfen giriş dizinine kaydedin.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1384"/>
@@ -113,7 +113,7 @@
     <message>
         <location filename="../controller/menucontroller.cpp" line="124"/>
         <source>Exit</source>
-        <translation>Çık</translation>
+        <translation>Çıkış</translation>
     </message>
 </context>
 <context>
@@ -170,7 +170,7 @@
     <message>
         <location filename="../utils/shortcut.cpp" line="39"/>
         <source>Exit</source>
-        <translation>Çık</translation>
+        <translation>Çıkış</translation>
     </message>
     <message>
         <location filename="../utils/shortcut.cpp" line="42"/>
