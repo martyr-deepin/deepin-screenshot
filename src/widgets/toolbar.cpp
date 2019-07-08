@@ -73,6 +73,7 @@ ToolBarWidget::ToolBarWidget(QWidget *parent)
 
     connect(m_majToolbar, &MajToolBar::buttonChecked, this, &ToolBarWidget::setExpand);
     connect(m_majToolbar, &MajToolBar::saveImage, this, &ToolBarWidget::saveImage);
+    connect(m_majToolbar, &MajToolBar::pinImage, this, &ToolBarWidget::pinImage);
     connect(m_subToolbar, &SubToolBar::saveAction, this, &ToolBarWidget::saveImage);
 
     connect(m_subToolbar, &SubToolBar::currentColorChanged, this, &ToolBarWidget::colorChanged);
@@ -157,6 +158,7 @@ ToolBar::ToolBar(QWidget *parent)
 //    setGraphicsEffect(shadowEffect);
 
     connect(m_toolbarWidget, &ToolBarWidget::expandChanged, this, &ToolBar::setExpand);
+    connect(m_toolbarWidget, &ToolBarWidget::pinImage, this, &ToolBar::requestPinScreenshot);
     connect(m_toolbarWidget, &ToolBarWidget::saveImage, this, &ToolBar::requestSaveScreenshot);
     connect(m_toolbarWidget, &ToolBarWidget::colorChanged, this, &ToolBar::updateColor);
     connect(this, &ToolBar::shapePressed, m_toolbarWidget, &ToolBarWidget::shapePressed);

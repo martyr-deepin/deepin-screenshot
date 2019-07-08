@@ -96,6 +96,7 @@ public slots:
     void shotFullScreen();
     void shotCurrentImg();
     void shotImgWidthEffect();
+    void pinScreenshot();
     void saveScreenshot();
     bool saveAction(const QPixmap &pix);
     void sendNotify(SaveAction saveAction, QString saveFilePath, const bool succeed);

@@ -46,7 +46,7 @@
 
 #include "src/utils/screenutils.h"
 #include "src/utils/tempfile.h"
-
+#include "widgets/pinwidget.h"
 DWIDGET_USE_NAMESPACE
 
 namespace {
@@ -158,6 +158,8 @@ void MainWindow::initSecondUI()
         }
     });
 
+    connect(m_toolBar, &ToolBar::requestPinScreenshot, this,
+            &MainWindow::pinScreenshot);
     connect(m_toolBar, &ToolBar::requestSaveScreenshot, this,
             &MainWindow::saveScreenshot);
     connect(m_menuController, &MenuController::shapePressed, m_toolBar,
@@ -1226,6 +1228,28 @@ void MainWindow::shotImgWidthEffect()
     m_resultPixmap = m_backgroundPixmap.copy(rect);
     m_drawNothing = false;
     update();
+}
+
+void MainWindow::pinScreenshot() {
+    emit releaseEvent();
+    emit saveActionTriggered();
+
+//    DDesktopServices::playSystemSoundEffect(DDesktopServices::SSE_Screenshot);
+    if (m_hotZoneInterface->isValid())
+        m_hotZoneInterface->asyncCall("EnableZoneDetected",  true);
+    m_needSaveScreenshot = true;
+
+    m_toolBar->setVisible(false);
+    m_sizeTips->setVisible(false);
+
+    shotCurrentImg();
+    // solution for single application
+    // maybe there is another elegant one
+    QDBusConnection conn = QDBusConnection::sessionBus();
+    conn.unregisterService("com.deepin.Screenshot");
+    auto w = new PinWidget(m_resultPixmap);
+    w->show();
+    w->move(m_recordX, m_recordY);
 }
 
 void MainWindow::saveScreenshot()

@@ -43,6 +43,7 @@ signals:
     void buttonChecked(QString shapeType);
     void expandChanged(bool expand,  QString shapeType);
     void colorChanged(QColor color);
+    void pinImage();
     void saveImage();
     void shapePressed(QString tool);
     void saveBtnPressed(SaveAction index);
@@ -76,6 +77,7 @@ signals:
     void heightChanged();
     void buttonChecked(QString shape);
     void updateColor(QColor color);
+    void requestPinScreenshot();
     void requestSaveScreenshot();
     void shapePressed(QString tool);
     void saveBtnPressed(SaveAction index);

@@ -69,6 +69,7 @@ set(SRCS
         "src/widgets/toptips.cpp"
         "src/widgets/shapeswidget.cpp"
         "src/widgets/zoomIndicator.cpp"
+        "src/widgets/pinwidget.cpp"
 
 # controller
         "src/controller/menucontroller.h"
