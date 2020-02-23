@@ -29,12 +29,13 @@ public:
     Screenshot(QObject* parent = 0);
     ~Screenshot();
 
+    void noNotify();
+
 public slots:
     void startScreenshot();
     void delayScreenshot(double num);
     void fullscreenScreenshot();
     void topWindowScreenshot();
-    void noNotifyScreenshot();
     void savePathScreenshot(const QString &path);
 
 private:
@@ -42,7 +43,7 @@ private:
 
     EventContainer* m_eventContainer = nullptr;
     MainWindow* m_window = nullptr;
-
+    bool m_noNotify = false;
 };
 
 #endif // SCREENSHOT_H

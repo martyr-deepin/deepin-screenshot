@@ -80,8 +80,10 @@ void DBusScreenshotService::NoNotifyScreenshot()
 {
      qDebug() << "DBus screenshot service! nonofiy screenshot";
     // handle method call com.deepin.Screenshot.NoNotify
-     if (!m_singleInstance)
-        parent()->noNotifyScreenshot();
+     if (!m_singleInstance) {
+        parent()->noNotify();
+        parent()->startScreenshot();
+     }
      m_singleInstance = true;
 }
 
