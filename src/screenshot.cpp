@@ -38,6 +38,14 @@ Screenshot::Screenshot(QObject *parent)
 void Screenshot::initUI() {
     m_eventContainer = new EventContainer(this);
     m_window = new MainWindow;
+    if (m_noNotify) {
+        m_window->noNotify();
+    }
+}
+
+void Screenshot::noNotify()
+{
+    m_noNotify = true;
 }
 
 void Screenshot::startScreenshot()
@@ -54,7 +62,7 @@ void Screenshot::delayScreenshot(double num)
     QStringList actions = QStringList();
     QVariantMap hints;
     DBusNotify* notifyDBus = new DBusNotify(this);
-    if (num >= 2) {
+    if (num >= 2 && !m_noNotify) {
         notifyDBus->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
                                     summary, actions, hints, 0);
     }
@@ -80,13 +88,6 @@ void Screenshot::topWindowScreenshot()
     initUI();
     m_window->show();
     m_window->topWindow();
-}
-
-void Screenshot::noNotifyScreenshot()
-{
-    initUI();
-    m_window->show();
-    m_window->noNotify();
 }
 
 void Screenshot::savePathScreenshot(const QString &path)

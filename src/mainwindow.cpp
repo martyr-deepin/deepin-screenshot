@@ -1042,8 +1042,9 @@ void MainWindow::saveSpecificedPath(QString path)
 
     QString summary = QString(tr("Picture has been saved to %1")).arg(savePath);
 
-    m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
-                                summary, actions, hints, 0);
+    if (!m_noNotify)
+        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
+                                    summary, actions, hints, 0);
     exitApp();
 }
 
@@ -1073,15 +1074,7 @@ void MainWindow::saveSpecificedPath(QString path)
 
 void MainWindow::noNotify()
 {
-    m_controlCenterDBInterface = new DBusControlCenter(this);
-    m_hotZoneInterface = new DBusZone(this);
-    m_interfaceExist = true;
     m_noNotify = true;
-
-    initOriginUI();
-    this->show();
-    initSecondUI();
-    initShortcut();
 }
 
 void MainWindow::topWindow()
@@ -1414,7 +1407,8 @@ void MainWindow::sendNotify(SaveAction saveAction, QString saveFilePath, const b
     if (!succeed)
     {
         const auto tips = tr("Save failed. Please save it in your home directory.");
-        m_notifyDBInterface->Notify("Deepin Screenshot", 0, "deepin-screenshot", QString(), tips, QStringList(), QVariantMap(), 0);
+        if (!m_noNotify)
+            m_notifyDBInterface->Notify("Deepin Screenshot", 0, "deepin-screenshot", QString(), tips, QStringList(), QVariantMap(), 0);
 
 	exit(0);
     }

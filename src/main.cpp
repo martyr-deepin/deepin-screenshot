@@ -91,6 +91,11 @@ int main(int argc, char *argv[])
          return 0;
      }
 
+     if (cmdParser.isSet(prohibitNotifyOption)) {
+         qDebug() << "screenshot no notify!";
+         w.noNotify();
+     }
+
      if (cmdParser.isSet(dbusOption))
      {
          qDebug() << "dbus register waiting!";
@@ -108,9 +113,6 @@ int main(int argc, char *argv[])
          } else if (cmdParser.isSet(savePathOption)) {
              qDebug() << "cmd savepath screenshot";
              w.savePathScreenshot(cmdParser.value(savePathOption));
-         } else if (cmdParser.isSet(prohibitNotifyOption)) {
-             qDebug() << "screenshot no notify!";
-             w.noNotifyScreenshot();
          } else if (cmdParser.isSet(iconOption)) {
              w.delayScreenshot(0.2);
          }  else {

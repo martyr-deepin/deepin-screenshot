@@ -72,6 +72,7 @@ public:
     void initShapeWidget(QString type);
     void initDBusInterface();
     void initShortcut();
+    void noNotify();
 
 signals:
     void deleteShapes();
@@ -86,7 +87,6 @@ public slots:
     void savePath(const QString &path);
     void saveSpecificedPath(QString path);
 //    void delayScreenshot(int num);
-    void noNotify();
     void topWindow();
     void expressSaveScreenshot();
     //Indicate that this program's started by clicking desktop file.
