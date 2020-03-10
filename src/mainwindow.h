@@ -83,8 +83,8 @@ signals:
 
 public slots:
     void fullScreenshot();
-    void savePath(const QString &path);
-    void saveSpecificedPath(QString path);
+    void savePath(const QString &path, const bool noNotify);
+    void saveSpecificedPath(QString path, const bool noNotify);
 //    void delayScreenshot(int num);
     void noNotify();
     void topWindow();

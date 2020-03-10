@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
              w.topWindowScreenshot();
          } else if (cmdParser.isSet(savePathOption)) {
              qDebug() << "cmd savepath screenshot";
-             w.savePathScreenshot(cmdParser.value(savePathOption));
+             w.savePathScreenshot(cmdParser.value(savePathOption), cmdParser.isSet(prohibitNotifyOption));
          } else if (cmdParser.isSet(prohibitNotifyOption)) {
              qDebug() << "screenshot no notify!";
              w.noNotifyScreenshot();

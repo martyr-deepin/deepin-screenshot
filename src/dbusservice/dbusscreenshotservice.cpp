@@ -103,11 +103,11 @@ void DBusScreenshotService::FullscreenScreenshot()
      m_singleInstance = true;
 }
 
-void DBusScreenshotService::SavePathScreenshot(const QString &in0)
+void DBusScreenshotService::SavePathScreenshot(const QString &in0, const bool noNotify)
 {
      qDebug() << "DBus screenshot service! SavePath screenshot";
     // handle method call com.deepin.Screenshot.SavePath
      if (!m_singleInstance)
-        parent()->savePathScreenshot(in0);
+        parent()->savePathScreenshot(in0, noNotify);
      m_singleInstance = true;
 }

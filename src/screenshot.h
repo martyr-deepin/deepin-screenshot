@@ -35,7 +35,7 @@ public slots:
     void fullscreenScreenshot();
     void topWindowScreenshot();
     void noNotifyScreenshot();
-    void savePathScreenshot(const QString &path);
+    void savePathScreenshot(const QString &path, const bool noNotify);
 
 private:
     void initUI();
