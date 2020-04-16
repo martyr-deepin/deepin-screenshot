@@ -89,11 +89,11 @@ void Screenshot::noNotifyScreenshot()
     m_window->noNotify();
 }
 
-void Screenshot::savePathScreenshot(const QString &path)
+void Screenshot::savePathScreenshot(const QString &path, const bool noNotify)
 {
     initUI();
     m_window->show();
-    m_window->savePath(path);
+    m_window->savePath(path, noNotify);
 }
 
 Screenshot::~Screenshot() {}

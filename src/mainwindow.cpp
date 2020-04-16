@@ -217,7 +217,10 @@ void MainWindow::initShortcut()
 
 void MainWindow::keyPressEvent(QKeyEvent *keyEvent)
 {
-    if (keyEvent->key() == Qt::Key_Escape ) {
+    if (keyEvent->key() == Qt::Key_Return){
+        // Save screenshot on enter
+        expressSaveScreenshot();
+    }else if (keyEvent->key() == Qt::Key_Escape ) {
         if (m_isShapesWidgetExist) {
             if (m_shapesWidget->textEditIsReadOnly()) {
                 return;
@@ -960,7 +963,7 @@ void MainWindow::fullScreenshot()
     sendNotify(m_saveIndex, m_saveFileName, r);
 }
 
-void MainWindow::savePath(const QString &path)
+void MainWindow::savePath(const QString &path, const bool noNotify)
 {
     if (!QFileInfo(path).dir().exists()) {
         exitApp();
@@ -976,11 +979,11 @@ void MainWindow::savePath(const QString &path)
         emit saveActionTriggered();
         m_needSaveScreenshot = true;
         qDebug() << "toolBar" << m_specificedPath;
-        saveSpecificedPath(m_specificedPath);
+        saveSpecificedPath(m_specificedPath, noNotify);
     });
 }
 
-void MainWindow::saveSpecificedPath(QString path)
+void MainWindow::saveSpecificedPath(QString path, const bool noNotify)
 {
     QString savePath;
     QString baseName = QFileInfo(path).baseName();
@@ -1042,8 +1045,10 @@ void MainWindow::saveSpecificedPath(QString path)
 
     QString summary = QString(tr("Picture has been saved to %1")).arg(savePath);
 
-    m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
-                                summary, actions, hints, 0);
+    if (!noNotify) {
+        m_notifyDBInterface->Notify("Deepin Screenshot", 0,  "deepin-screenshot", "",
+                                    summary, actions, hints, 0);
+    }
     exitApp();
 }
 

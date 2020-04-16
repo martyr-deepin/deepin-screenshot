@@ -84,7 +84,7 @@ public Q_SLOTS: // METHODS
     void NoNotifyScreenshot();
     void TopWindowScreenshot();
     void FullscreenScreenshot();
-    void SavePathScreenshot(const QString &in0);
+    void SavePathScreenshot(const QString &in0, const bool noNotify);
 Q_SIGNALS: // SIGNALS
 private:
     bool m_singleInstance;
