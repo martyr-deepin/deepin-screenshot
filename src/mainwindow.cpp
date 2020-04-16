@@ -217,7 +217,10 @@ void MainWindow::initShortcut()
 
 void MainWindow::keyPressEvent(QKeyEvent *keyEvent)
 {
-    if (keyEvent->key() == Qt::Key_Escape ) {
+    if (keyEvent->key() == Qt::Key_Return){
+        // Save screenshot on enter
+        expressSaveScreenshot();
+    }else if (keyEvent->key() == Qt::Key_Escape ) {
         if (m_isShapesWidgetExist) {
             if (m_shapesWidget->textEditIsReadOnly()) {
                 return;
